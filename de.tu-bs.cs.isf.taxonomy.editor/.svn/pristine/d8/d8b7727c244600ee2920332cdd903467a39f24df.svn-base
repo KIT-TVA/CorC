@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypes">
+      <diagramType
+            id="de.tu-bs.cs.isf.taxonomy.graphiti.diagramType"
+            name="Taxonomy Diagram"
+            type="taxonomy">
+      </diagramType>
+   </extension>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypeProviders">
+      <diagramTypeProvider
+            class="de.tu_bs.cs.isf.taxonomy.graphiti.diagram.TaxonomyDiagramTypeProvider"
+            context="org.eclipse.graphiti.ui.diagramEditor"
+            id="de.tu-bs.cs.isf.taxonomy.graphiti.TaxonomyDiagramTypeProvider"
+            name="Taxonomy Diagram Type Provider">
+         <diagramType
+               id="de.tu-bs.cs.isf.taxonomy.graphiti.diagramType">
+         </diagramType>
+      </diagramTypeProvider>
+   </extension>
+   
+	<extension
+    	point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+   		<propertyContributor contributorId="taxonomy.PropertyContributor">
+        	<propertyCategory category="Graphiti">
+        	</propertyCategory>
+   		</propertyContributor>
+	</extension>
+      
+	<extension
+   		point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+   		<propertyTabs
+       		contributorId="taxonomy.PropertyContributor">
+   		<propertyTab
+         	category="Graphiti"
+         	id="graphiti.main.tab"
+        	label="Main">
+    	</propertyTab>
+   		</propertyTabs>
+	</extension>
+    
+	<extension
+  		point="org.eclipse.ui.views.properties.tabbed.propertySections">
+    	<propertySections
+        	contributorId="taxonomy.PropertyContributor">
+        	<propertySection
+        		class="de.tu_bs.cs.isf.taxonomy.property.AlgorithmSection"
+            	filter="de.tu_bs.cs.isf.taxonomy.property.AlgorithmFilter"
+            	id="graphiti.main.tab.algorithm"
+            	tab="graphiti.main.tab">
+      		</propertySection>
+    	</propertySections>
+	</extension>
+    
+	<extension
+  		point="org.eclipse.ui.views.properties.tabbed.propertySections">
+    	<propertySections
+        	contributorId="taxonomy.PropertyContributor">
+        	<propertySection
+        		class="de.tu_bs.cs.isf.taxonomy.property.MethodSection"
+            	filter="de.tu_bs.cs.isf.taxonomy.property.MethodFilter"
+            	id="graphiti.main.tab.method"
+            	tab="graphiti.main.tab">
+      		</propertySection>
+    	</propertySections>
+	</extension>
+ <extension
+       point="org.eclipse.ui.views.properties.tabbed.propertySections">
+    <propertySections
+          contributorId="taxonomy.PropertyContributor">
+       <propertySection
+             class="de.tu_bs.cs.isf.taxonomy.property.DataStructureSection"
+             filter="de.tu_bs.cs.isf.taxonomy.property.DataStructureFilter"
+             id="graphiti.main.tab.dataStructure"
+             tab="graphiti.main.tab">
+       </propertySection>
+    </propertySections>
+ </extension>
+	
+</plugin>

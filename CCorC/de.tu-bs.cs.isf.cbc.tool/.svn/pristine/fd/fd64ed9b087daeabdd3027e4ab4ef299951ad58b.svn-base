@@ -1,0 +1,40 @@
+package de.tu_bs.cs.isf.cbc.tool.features;
+
+import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.ICreateContext;
+import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
+
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+
+/**
+ * Class that creates a new Variable
+ * @author Tobias
+ *
+ */
+public class CreateVariableFeature extends AbstractCreateFeature {
+
+	/**
+	 * Constructor of the class
+	 * @param fp The FeatureProvider
+	 */
+	public CreateVariableFeature(IFeatureProvider fp) {
+		super(fp, "Variable", "Create a new variable.");
+	}
+
+	@Override
+	public boolean canCreate(ICreateContext context) {
+		return getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof JavaVariables;
+	}
+
+	@Override
+	public Object[] create(ICreateContext context) {
+		JavaVariables variables = (JavaVariables) getBusinessObjectForPictogramElement(context.getTargetContainer());
+		JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
+		variable.setName("int a");
+		variables.getVariables().add(variable);
+		updatePictogramElement(context.getTargetContainer());
+		return new Object[] { variable };
+	}
+}

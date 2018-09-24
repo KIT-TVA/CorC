@@ -1,0 +1,131 @@
+package de.tu_bs.cs.isf.newDiagramWizard.corc;
+
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+
+public class chooseDiagramTypePage extends WizardPage {
+	
+	public boolean corctextual = false;
+	public boolean corcdiagram = true;
+	public boolean canCreate = false;
+	public Text path;
+	public Text name;
+	
+	protected chooseDiagramTypePage() {
+		super("new CorC file");
+		setTitle("CorC file wizard");
+		setDescription("with this wizard you can create a new CorC file");
+	}
+
+	@Override
+	public void createControl(Composite parent) {
+		Composite composite = new Composite(parent, SWT.None);
+		//page Layout:
+		GridLayout layout = new GridLayout();
+		int columns = 2;
+		layout.numColumns = columns;
+		composite.setLayout(layout);
+		
+		//line that lets you choose the layout type:
+		new Label (composite, SWT.None).setText("file type:");
+		Combo combo = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
+		String[] diagramTypes = new String[] {"CorC diagram", "CorC textual"};
+		combo.setItems(diagramTypes);
+		combo.setText("CorC diagram"); //standard value, if nothing was selected yet
+		//layout for the combo:
+		GridData comboData = new GridData();
+		comboData.horizontalAlignment = GridData.FILL;
+		comboData.grabExcessHorizontalSpace = true;
+		combo.setLayoutData(comboData);
+		//listener that sets boolean to check which type is selected
+		combo.addSelectionListener(new SelectionAdapter() {
+			 
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                int idx = combo.getSelectionIndex();
+                String diagramType = combo.getItem(idx);
+                if (diagramType.equals("CorC diagram")) {
+                	corcdiagram = true;
+                	corctextual = false;
+                } else if (diagramType.equals("CorC textual")) {
+                	corcdiagram = false;
+                	corctextual = true;
+                }
+            }
+        });
+		
+		//line that lets you choose the diagram name:
+		new Label (composite, SWT.None).setText("diagram name:"); 
+		name = new Text(composite, SWT.BORDER | SWT.SINGLE);
+		GridData nameData = new GridData();
+		nameData.horizontalAlignment = GridData.FILL;
+		nameData.grabExcessHorizontalSpace = true;
+		name.setLayoutData(nameData); //lets text fill the whole line
+		name.setText("newDiagram");
+		
+		//line that lets you choose the creation path:
+		new Label (composite, SWT.None).setText("selected path:");
+		path = new Text (composite, SWT.BORDER | SWT.SINGLE );
+		GridData pathData = new GridData();
+		pathData.horizontalAlignment = GridData.FILL;
+		pathData.grabExcessHorizontalSpace = true;
+		path.setLayoutData(pathData); //lets text fill the whole line
+		
+		//the current selection (selected by the user)
+		IWorkbench wb = PlatformUI.getWorkbench();
+		IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+		IWorkbenchPage page = win.getActivePage();
+		ISelection selected = page.getSelection();
+		
+		//cutting the toString from selection so it can be used as a path:
+		String selection = selected.toString();
+		selection = selection.substring(2, selection.length() - 1); //cuts first two and the last character
+		String currentPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
+		if (!selection.equals("mpty selection")) {
+			currentPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + selection; //TODO: add current selected path
+		}
+	    path.setText(currentPath);
+	    
+	    
+		
+		//SEPERATOR LINE:
+		Label separator = new Label(composite, SWT.HORIZONTAL | SWT.SEPARATOR);
+		GridData sepData = new GridData(GridData.FILL_HORIZONTAL);
+		sepData.horizontalSpan = columns;
+		separator.setLayoutData(sepData);
+		
+		//field that calls errors:
+		Label error = new Label(composite, SWT.None);
+		GridData errorData = new GridData(GridData.FILL_HORIZONTAL);
+		errorData.horizontalSpan = columns;
+		error.setLayoutData(errorData);
+		//check if the creation path is valid and if the project creates:
+	    String temp = selected.toString();
+	    char type = temp.charAt(1);
+	    if (type != 'F') {
+	    	System.out.println("please select a folder as a path");
+	    	error.setText("Error: [path] please select a folder and restart the wizard");
+	    }
+	    // [F --> folder is selected: create File there
+	    if (type == 'F') {
+	    	canCreate = true;
+	    }
+		
+		setControl(composite);
+	}
+	
+}

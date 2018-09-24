@@ -1,0 +1,38 @@
+package de.tu_bs.cs.isf.cbc.tool.features;
+
+import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.IReason;
+import org.eclipse.graphiti.features.context.IUpdateContext;
+import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
+import org.eclipse.graphiti.features.impl.Reason;
+import org.eclipse.graphiti.mm.algorithms.Text;
+
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
+
+public class UpdateVariableFeature extends AbstractUpdateFeature {
+		 
+	public UpdateVariableFeature(IFeatureProvider fp) {
+	        super(fp);
+	    }
+	 
+    public boolean canUpdate(IUpdateContext context) {
+        Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+        return (bo instanceof JavaVariable);
+    }
+ 
+    public IReason updateNeeded(IUpdateContext context) {
+		Text nameText = (Text) context.getPictogramElement().getGraphicsAlgorithm();
+		JavaVariable domainObject = (JavaVariable) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		if (domainObject.getName() == null || !domainObject.getName().equals(nameText.getValue())) {
+			return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getName() + "'");
+		}
+		return Reason.createFalseReason();
+    }
+ 
+    public boolean update(IUpdateContext context) {
+    	Text nameText = (Text) context.getPictogramElement().getGraphicsAlgorithm();
+		JavaVariable domainObject = (JavaVariable) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		nameText.setValue(domainObject.getName());
+		return true;
+    }
+}

@@ -1,0 +1,2833 @@
+<?xml version="1.0" encoding="ASCII"?>
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="taxonomy" name="DFAMin" snapToGrid="true" pictogramLinks="//@children.0/@link //@children.0/@children.0/@link //@children.0/@children.2/@link //@children.0/@children.3/@link //@children.0/@children.4/@link //@children.0/@children.5/@link //@children.0/@children.7/@link //@children.0/@children.9/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.3/@link //@children.1/@children.4/@link //@children.1/@children.5/@link //@children.1/@children.7/@link //@children.1/@children.9/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.3/@link //@children.2/@children.4/@link //@children.2/@children.5/@link //@children.2/@children.7/@link //@children.2/@children.9/@link //@children.3/@link //@children.3/@children.0/@link //@children.3/@children.2/@link //@children.3/@children.3/@link //@children.3/@children.4/@link //@children.3/@children.5/@link //@children.3/@children.7/@link //@children.3/@children.9/@link //@children.4/@link //@children.4/@children.0/@link //@children.4/@children.2/@link //@children.4/@children.3/@link //@children.4/@children.4/@link //@children.4/@children.5/@link //@children.4/@children.7/@link //@children.4/@children.9/@link //@children.5/@link //@children.5/@children.0/@link //@children.5/@children.2/@link //@children.5/@children.3/@link //@children.5/@children.4/@link //@children.5/@children.5/@link //@children.5/@children.7/@link //@children.5/@children.9/@link //@children.6/@link //@children.6/@children.0/@link //@children.6/@children.2/@link //@children.6/@children.3/@link //@children.6/@children.4/@link //@children.6/@children.5/@link //@children.6/@children.7/@link //@children.6/@children.9/@link //@children.7/@link //@children.7/@children.0/@link //@children.7/@children.2/@link //@children.7/@children.3/@link //@children.7/@children.4/@link //@children.7/@children.5/@link //@children.7/@children.7/@link //@children.7/@children.9/@link //@children.8/@link //@children.8/@children.0/@link //@children.8/@children.2/@link //@children.8/@children.3/@link //@children.8/@children.4/@link //@children.8/@children.5/@link //@children.8/@children.7/@link //@children.8/@children.9/@link //@children.9/@link //@children.9/@children.0/@link //@children.9/@children.2/@link //@children.9/@children.3/@link //@children.9/@children.4/@link //@children.9/@children.5/@link //@children.9/@children.7/@link //@children.9/@children.9/@link //@children.10/@link //@children.10/@children.0/@link //@children.10/@children.2/@link //@children.10/@children.3/@link //@children.10/@children.4/@link //@children.10/@children.5/@link //@children.10/@children.7/@link //@children.10/@children.9/@link //@children.11/@link //@children.11/@children.0/@link //@children.11/@children.2/@link //@children.11/@children.3/@link //@children.11/@children.4/@link //@children.11/@children.5/@link //@children.11/@children.7/@link //@children.11/@children.9/@link //@children.12/@link //@children.12/@children.0/@link //@children.12/@children.2/@link //@children.12/@children.3/@link //@children.12/@children.4/@link //@children.12/@children.5/@link //@children.12/@children.7/@link //@children.12/@children.9/@link //@children.13/@link //@children.13/@children.0/@link //@children.13/@children.2/@link //@children.13/@children.3/@link //@children.13/@children.4/@link //@children.13/@children.5/@link //@children.13/@children.7/@link //@children.13/@children.9/@link //@children.14/@link //@children.14/@children.0/@link //@children.14/@children.2/@link //@children.14/@children.3/@link //@children.14/@children.4/@link //@children.14/@children.5/@link //@children.14/@children.7/@link //@children.14/@children.9/@link //@children.15/@link //@children.15/@children.0/@link //@children.15/@children.2/@link //@children.15/@children.3/@link //@children.15/@children.4/@link //@children.15/@children.5/@link //@children.15/@children.7/@link //@children.15/@children.9/@link //@children.1/@children.5/@children.1/@link //@children.1/@children.5/@children.0/@link //@children.6/@children.5/@children.1/@link //@children.6/@children.5/@children.0/@link //@children.8/@children.5/@children.1/@link //@children.8/@children.5/@children.0/@link //@children.7/@children.5/@children.1/@link //@children.7/@children.5/@children.0/@link //@children.11/@children.5/@children.1/@link //@children.11/@children.5/@children.0/@link //@children.12/@children.5/@children.1/@link //@children.12/@children.5/@children.0/@link //@children.12/@children.9/@children.1/@link //@children.12/@children.9/@children.2/@link //@children.12/@children.9/@children.3/@link //@children.12/@children.9/@children.0/@link //@children.2/@children.5/@children.1/@link //@children.2/@children.5/@children.0/@link //@children.2/@children.9/@children.1/@link //@children.2/@children.9/@children.2/@link //@children.2/@children.9/@children.3/@link //@children.2/@children.9/@children.0/@link //@children.4/@children.5/@children.1/@link //@children.4/@children.5/@children.0/@link //@children.4/@children.7/@children.0/@link //@children.4/@children.7/@children.1/@link //@children.4/@children.9/@children.1/@link //@children.4/@children.9/@children.2/@link //@children.4/@children.9/@children.3/@link //@children.4/@children.9/@children.0/@link //@children.10/@children.5/@children.1/@link //@children.10/@children.5/@children.0/@link //@children.14/@children.5/@children.1/@link //@children.14/@children.5/@children.0/@link //@children.14/@children.9/@children.1/@link //@children.14/@children.9/@children.2/@link //@children.14/@children.9/@children.3/@link //@children.14/@children.9/@children.0/@link //@children.3/@children.5/@children.1/@link //@children.3/@children.5/@children.0/@link //@children.3/@children.7/@children.0/@link //@children.3/@children.7/@children.1/@link //@children.3/@children.9/@children.1/@link //@children.3/@children.9/@children.2/@link //@children.3/@children.9/@children.3/@link //@children.3/@children.9/@children.0/@link //@children.9/@children.5/@children.1/@link //@children.9/@children.5/@children.0/@link //@children.9/@children.7/@children.0/@link //@children.9/@children.7/@children.1/@link //@children.15/@children.5/@children.1/@link //@children.15/@children.5/@children.0/@link //@children.15/@children.9/@children.1/@link //@children.15/@children.9/@children.2/@link //@children.15/@children.9/@children.3/@link //@children.15/@children.9/@children.0/@link //@children.13/@children.5/@children.1/@link //@children.13/@children.5/@children.0/@link //@children.13/@children.9/@children.1/@link //@children.13/@children.9/@children.2/@link //@children.13/@children.9/@children.3/@link //@children.13/@children.9/@children.0/@link //@children.5/@children.5/@children.1/@link //@children.5/@children.5/@children.0/@link //@children.5/@children.9/@children.1/@link //@children.5/@children.9/@children.2/@link //@children.5/@children.9/@children.3/@link //@children.5/@children.9/@children.0/@link //@children.15/@children.7/@children.0/@link //@children.15/@children.7/@children.1/@link //@children.13/@children.7/@children.0/@link //@children.13/@children.7/@children.1/@link //@children.0/@children.5/@children.1/@link //@children.0/@children.5/@children.0/@link //@children.0/@children.7/@children.0/@link //@children.0/@children.7/@children.1/@link //@children.0/@children.9/@children.1/@link //@children.0/@children.9/@children.2/@link //@children.0/@children.9/@children.0/@link" version="0.13.0">
+  <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="682" height="150" x="460" y="50" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="light-gray" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="245" green="245" blue="237"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="245" green="245" blue="237"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="214" green="214" blue="208"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="214" green="214" blue="208"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="229" green="229" blue="223"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="229" green="229" blue="223"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.0"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.0 //@connections.1"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="682" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="AbstractMinimization">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.0"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="682" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="672" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.0"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="672" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.0"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="672" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.0"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="682" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.0"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="333" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.0/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="338" height="20" x="338" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.0/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="682" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="682" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.0"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="445" height="20" x="5" y="110" value="M">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.0/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="225" height="20" x="450" y="110" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.0/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="682" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="682" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.0"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="333" height="20" x="5" y="130" value="merge(M,H)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.0/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="169" height="20" x="338" y="130" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.0/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="169" height="20" x="507" y="130" value="Set&lt;Pair&lt;State,State>>">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.0/@methods.1/@dataTypes.1"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="150" x="360" y="310" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="light-gray" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="245" green="245" blue="237"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="245" green="245" blue="237"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="214" green="214" blue="208"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="214" green="214" blue="208"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="229" green="229" blue="223"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="229" green="229" blue="223"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.1"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.4 //@connections.5" incomingConnections="//@connections.0"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="EquivalenceRelation">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.1"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="200" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.1"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.1"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.1"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.1"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="92" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.1/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="97" height="20" x="97" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.1/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="200" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.1"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="200" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.1"/>
+      </link>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="691" height="150" x="920" y="280" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.2"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.2" incomingConnections="//@connections.1"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="691" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="Pointwise">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.2"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="691" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="681" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.2"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="681" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.2"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="681" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.2"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="691" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.2"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="338" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.2/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="343" height="20" x="343" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.2/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="691" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="691" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.2"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="691" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="691" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.2"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="338" height="20" x="5" y="130" value="equiv(p,q,S)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.2/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="114" height="20" x="342" y="130" value="State">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.2/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="114" height="20" x="456" y="130" value="State">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.2/@methods.1/@dataTypes.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="114" height="20" x="570" y="130" value="Set&lt;Pair&lt;State,State>>">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.2/@methods.1/@dataTypes.2"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="691" height="150" x="920" y="490" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.3"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.3" incomingConnections="//@connections.2"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="691" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="PointwiseImperative">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.3"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="691" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="681" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.3"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="681" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.3"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="681" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.3"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="691" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.3"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="338" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.3/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="343" height="20" x="343" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.3/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="691" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="691" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.3"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="451" height="20" x="5" y="110" value="EqPairs">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.3/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="228" height="20" x="456" y="110" value="Set&lt;Pair&lt;State,State>>">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.3/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="691" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="691" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.3"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="338" height="20" x="5" y="130" value="equiv(p,q,k)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.3/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="114" height="20" x="342" y="130" value="State">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.3/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="114" height="20" x="456" y="130" value="State">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.3/@methods.1/@dataTypes.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="114" height="20" x="570" y="130" value="int">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.3/@methods.1/@dataTypes.2"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="641" height="150" x="990" y="680" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.4"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.3"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="641" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="PointwiseMemoization">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.4"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="641" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="631" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.4"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="631" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.4"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="631" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.4"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="641" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.4"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="313" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.4/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="318" height="20" x="318" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.4/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="641" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="641" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.4"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="419" height="20" x="5" y="110" value="EqPairs">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.4/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="212" height="20" x="424" y="110" value="Set&lt;Pair&lt;State,State>>">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.4/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="641" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="641" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.4"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="313" height="20" x="5" y="130" value="equiv(p,q,k)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.4/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="106" height="20" x="318" y="130" value="State">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.4/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="106" height="20" x="424" y="130" value="State">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.4/@methods.1/@dataTypes.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="106" height="20" x="530" y="130" value="int">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.4/@methods.1/@dataTypes.2"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="351" height="150" x="490" y="500" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.5"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.4"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="351" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="EqRelFromBelow">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.5"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="351" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="341" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.5"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="341" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.5"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="341" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.5"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="351" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.5"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="168" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.5/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="173" height="20" x="173" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.5/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="351" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="351" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.5"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="351" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="351" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.5"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="168" height="20" x="5" y="130" value="equiv(p,q,k)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.5/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="57" height="20" x="171" y="130" value="State">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.5/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="57" height="20" x="228" y="130" value="State">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.5/@methods.1/@dataTypes.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="57" height="20" x="285" y="130" value="int">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.5/@methods.1/@dataTypes.2"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="150" x="130" y="500" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="light-gray" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="245" green="245" blue="237"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="245" green="245" blue="237"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="214" green="214" blue="208"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="214" green="214" blue="208"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="229" green="229" blue="223"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="229" green="229" blue="223"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.6"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.6 //@connections.7 //@connections.8" incomingConnections="//@connections.5"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="EqRelFromAbove">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.6"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="200" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.6"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.6"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.6"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.6"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="92" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.6/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="97" height="20" x="97" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.6/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="200" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.6"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="200" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.6"/>
+      </link>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="150" x="-69" y="730" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.7"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.6"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="EqRelLayerwise">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.7"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="200" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.7"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.7"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.7"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.7"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="92" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.7/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="97" height="20" x="97" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.7/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="200" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.7"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="200" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.7"/>
+      </link>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="150" x="200" y="739" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="light-gray" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="245" green="245" blue="237"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="245" green="245" blue="237"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="214" green="214" blue="208"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="214" green="214" blue="208"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="229" green="229" blue="223"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="229" green="229" blue="223"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.8"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.9 //@connections.12" incomingConnections="//@connections.7"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="EqRelUnordered">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.8"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="200" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.8"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.8"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.8"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.8"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="92" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.8/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="97" height="20" x="97" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.8/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="200" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.8"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="200" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.8"/>
+      </link>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="511" height="150" x="460" y="739" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.9"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.8"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="511" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="Hopcroft-Ullman">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.9"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="511" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="501" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.9"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="501" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.9"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="501" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.9"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="511" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.9"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="248" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.9/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="253" height="20" x="253" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.9/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="511" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="511" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.9"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="331" height="20" x="5" y="110" value="associatedPairs">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.9/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="168" height="20" x="336" y="110" value="Set&lt;Pair&lt;State,State>>">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.9/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="511" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="511" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.9"/>
+      </link>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="150" x="-10" y="960" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.10"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.10" incomingConnections="//@connections.9"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="EqRelNaive">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.10"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="200" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.10"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.10"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.10"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.10"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="92" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.10/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="97" height="20" x="97" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.10/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="200" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.10"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="200" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.10"/>
+      </link>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="150" x="340" y="960" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.11"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.11" incomingConnections="//@connections.12"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="EqRelImproved">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.11"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="200" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.11"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.11"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.11"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.11"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="92" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.11/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="97" height="20" x="97" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.11/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="200" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.11"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="200" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.11"/>
+      </link>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="321" height="150" x="-30" y="1150" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.12"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.10"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="321" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="ASU">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.12"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="321" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="311" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.12"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="311" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.12"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="311" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.12"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="321" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.12"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="153" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.12/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="158" height="20" x="158" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.12/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="321" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="321" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.12"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="321" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="321" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.12"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="153" height="20" x="5" y="130" value="Splittable(Q0,Q1,a)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.12/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="52" height="20" x="156" y="130" value="EqClass">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.12/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="52" height="20" x="208" y="130" value="EqClass">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.12/@methods.1/@dataTypes.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="52" height="20" x="260" y="130" value="Char">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.12/@methods.1/@dataTypes.2"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="532" height="150" x="340" y="1530" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.13"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.14"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="532" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="Hopcroft">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.13"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="532" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="522" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.13"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="522" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.13"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="522" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.13"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="532" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.13"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="258" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.13/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="263" height="20" x="263" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.13/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="532" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="532" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.13"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="345" height="20" x="5" y="110" value="toSplit">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.13/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="175" height="20" x="350" y="110" value="Set&lt;Pair&lt;EqClass,Char>>">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.13/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="532" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="532" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.13"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="258" height="20" x="5" y="130" value="Splittable(Q0,Q1,a)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.13/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="87" height="20" x="261" y="130" value="EqClass">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.13/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="87" height="20" x="348" y="130" value="EqClass">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.13/@methods.1/@dataTypes.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="87" height="20" x="435" y="130" value="Char">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.13/@methods.1/@dataTypes.2"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="351" height="150" x="340" y="1160" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.14"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.13" incomingConnections="//@connections.11"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="351" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="EqClasses">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.14"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="351" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="341" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.14"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="341" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.14"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="341" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.14"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="351" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.14"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="168" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.14/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="173" height="20" x="173" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.14/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="351" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="351" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.14"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="351" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="351" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.14"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="168" height="20" x="5" y="130" value="Splittable(Q0,Q1,a)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.14/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="57" height="20" x="171" y="130" value="EqClass">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.14/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="57" height="20" x="228" y="130" value="EqClass">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.14/@methods.1/@dataTypes.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="57" height="20" x="285" y="130" value="Char">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.14/@methods.1/@dataTypes.2"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="532" height="150" x="340" y="1340" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="DFAMin.taxonomy#//@Algorithms.15"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.14" incomingConnections="//@connections.13"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="532" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="EqClassesWithLists">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.15"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="532" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="522" height="20" x="5" y="30" value="M=Aut(Q,V,T,0,S,F) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.15"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="522" height="20" x="5" y="50" value="Min(M) &amp; Useful(M)">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.15"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="522" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.15"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="532" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.15"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="258" height="20" x="5" y="90" value="minimize(M)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.15/@methods.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="263" height="20" x="263" y="90" value="Aut">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.15/@methods.0/@dataTypes.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="532" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="532" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.15"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="345" height="20" x="5" y="110" value="toSplit">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.15/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="175" height="20" x="350" y="110" value="Set&lt;Pair&lt;EqClass,Char>>">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.15/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="532" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="532" height="20" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="DFAMin.taxonomy#//@Algorithms.15"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="258" height="20" x="5" y="130" value="Splittable(Q0,Q1,a)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.15/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="87" height="20" x="261" y="130" value="EqClass">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.15/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="87" height="20" x="348" y="130" value="EqClass">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.15/@methods.1/@dataTypes.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="87" height="20" x="435" y="130" value="Char">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="DFAMin.taxonomy#//@Algorithms.15/@methods.1/@dataTypes.2"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.1/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.2/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="-50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.2/@anchors.0" end="//@children.3/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="-50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.3/@anchors.0" end="//@children.4/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="-50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.1/@anchors.0" end="//@children.5/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="-50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.1/@anchors.0" end="//@children.6/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.6/@anchors.0" end="//@children.7/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.6/@anchors.0" end="//@children.8/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="-50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.6/@anchors.0" end="//@children.9/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="-50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.8/@anchors.0" end="//@children.10/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.10/@anchors.0" end="//@children.12/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.11/@anchors.0" end="//@children.14/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="-50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.8/@anchors.0" end="//@children.11/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="-50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.14/@anchors.0" end="//@children.15/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="-50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.15/@anchors.0" end="//@children.13/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="-50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <colors red="227" green="238" blue="249"/>
+  <colors red="255" green="255" blue="255"/>
+  <colors/>
+</pi:Diagram>

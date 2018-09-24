@@ -8,6 +8,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 
 /**
  * Class that creates a new DataStructure in the diagram
@@ -44,6 +45,9 @@ public class CreateExtraSelectionFeature extends AbstractCreateFeature {
 		statement.setPostCondition(post);
 		selectionStatement.getCommands().add(statement);
 		selectionStatement.getGuards().add(guard);
+		if (selectionStatement.getParent() != null) {
+			UpdateConditionsOfChildren.updateRefinedStatement(selectionStatement.getParent(), selectionStatement);
+		}
 		updatePictogramElement(context.getTargetContainer());
 		return new Object[] { statement, guard };
 	}

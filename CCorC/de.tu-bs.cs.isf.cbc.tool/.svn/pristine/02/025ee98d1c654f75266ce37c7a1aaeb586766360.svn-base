@@ -1,0 +1,1 @@
+\javaSource "test/";\programVariables { Person p; int a; } \problem { \forall int x; {a := x} (p != null & x >=0 -> \<{p.age = a; p.birthday(); p.birthday(); p.age = p.age-1;}\> p.age > x & a = x)}

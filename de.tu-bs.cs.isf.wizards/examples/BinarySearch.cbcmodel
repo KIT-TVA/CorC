@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="int[] A"/>
+    <variables name="int x"/>
+    <variables name="int l"/>
+    <variables name="int h"/>
+    <variables name="int i"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:Renaming>
+    <rename type="pred" function="app" newName="app"/>
+    <rename type="pred" function="sort" newName="sorted"/>
+  </cbcmodel:Renaming>
+  <cbcmodel:GlobalConditions>
+    <conditions name="A!=null"/>
+    <conditions name="A.length &lt; 8"/>
+    <conditions name="l>=0 &amp; l&lt;A.length"/>
+    <conditions name="h>0 &amp; h&lt;=A.length"/>
+    <conditions name="A.length >= 0"/>
+    <conditions name="(app(A, x, l ,h) -> app(A, x, 0, A.length))"/>
+  </cbcmodel:GlobalConditions>
+  <cbcmodel:CbCFormula name="BinarySearch">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+        <firstStatement name="statement1">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+            <firstStatement name="statement1">
+              <refinement name="l=0; h=A.length;">
+                <postCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) "/>
+                <preCondition name="sorted(A)"/>
+              </refinement>
+              <postCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) "/>
+              <preCondition name="sorted(A)"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement">
+                <postCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) &#xD;&#xA;&amp; (h &lt;= l+1) "/>
+                <preCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) "/>
+                <loopStatement name="loop">
+                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
+                    <guards name="x&lt;A[(l+h)/2]"/>
+                    <guards name="x = A[(l+h)/2]"/>
+                    <guards name="x>A[(l+h)/2]"/>
+                    <commands name="statement">
+                      <refinement name="h = (l+h)/2;">
+                        <postCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))"/>
+                        <preCondition name="((sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))) &amp; (h > l+1)) &amp; (x&lt;A[(l+h)/2])"/>
+                      </refinement>
+                      <postCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))"/>
+                      <preCondition name="((sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))) &amp; (h > l+1)) &amp; (x&lt;A[(l+h)/2])"/>
+                    </commands>
+                    <commands name="statement">
+                      <refinement name="l = (l+h)/2; h = (l+h)/2 + 1;" proven="true">
+                        <postCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))"/>
+                        <preCondition name="((sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))) &amp; (h > l+1)) &amp; (x = A[(l+h)/2])"/>
+                      </refinement>
+                      <postCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))"/>
+                      <preCondition name="((sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))) &amp; (h > l+1)) &amp; (x = A[(l+h)/2])"/>
+                    </commands>
+                    <commands name="statement">
+                      <refinement name="l = (l+h)/2;">
+                        <postCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))"/>
+                        <preCondition name="((sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))) &amp; (h > l+1)) &amp; (x>A[(l+h)/2])"/>
+                      </refinement>
+                      <postCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))"/>
+                      <preCondition name="((sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))) &amp; (h > l+1)) &amp; (x>A[(l+h)/2])"/>
+                    </commands>
+                  </refinement>
+                  <postCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))"/>
+                  <preCondition name="(sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))) &amp; (h > l+1)"/>
+                </loopStatement>
+                <variant name="h - l"/>
+                <invariant name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h))"/>
+                <guard name="h > l+1"/>
+              </refinement>
+              <postCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) &#xD;&#xA;&amp; (h &lt;= l+1) "/>
+              <preCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) "/>
+            </secondStatement>
+            <intermediateCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) "/>
+          </refinement>
+          <postCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) &#xD;&#xA;&amp; (h &lt;= l+1) "/>
+          <preCondition name="sorted(A)"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
+            <guards name="h=l+1"/>
+            <guards name="h&lt;l+1"/>
+            <commands name="statement">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
+                <guards name="A[l]=x"/>
+                <guards name="A[l]!=x"/>
+                <commands name="statement">
+                  <refinement name="i=l;">
+                    <postCondition name="(app(A, x , 0, A.length) &#xD;&#xA;&amp; A[i]=x) | (!app(A, x, 0, A.length) &amp; i=-1)"/>
+                    <preCondition name="((sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) &#xD;&#xA;&amp; (h &lt;= l+1) ) &amp; (h=l+1)) &amp; (A[l]=x)"/>
+                  </refinement>
+                  <postCondition name="(app(A, x , 0, A.length) &#xD;&#xA;&amp; A[i]=x) | (!app(A, x, 0, A.length) &amp; i=-1)"/>
+                  <preCondition name="((sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) &#xD;&#xA;&amp; (h &lt;= l+1) ) &amp; (h=l+1)) &amp; (A[l]=x)"/>
+                </commands>
+                <commands name="statement">
+                  <refinement name="i=-1;">
+                    <postCondition name="(app(A, x , 0, A.length) &#xD;&#xA;&amp; A[i]=x) | (!app(A, x, 0, A.length) &amp; i=-1)"/>
+                    <preCondition name="((sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) &#xD;&#xA;&amp; (h &lt;= l+1) ) &amp; (h=l+1)) &amp; (A[l]!=x)"/>
+                  </refinement>
+                  <postCondition name="(app(A, x , 0, A.length) &#xD;&#xA;&amp; A[i]=x) | (!app(A, x, 0, A.length) &amp; i=-1)"/>
+                  <preCondition name="((sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) &#xD;&#xA;&amp; (h &lt;= l+1) ) &amp; (h=l+1)) &amp; (A[l]!=x)"/>
+                </commands>
+              </refinement>
+              <postCondition name="(app(A, x , 0, A.length) &#xD;&#xA;&amp; A[i]=x) | (!app(A, x, 0, A.length) &amp; i=-1)"/>
+              <preCondition name="(sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) &#xD;&#xA;&amp; (h &lt;= l+1) ) &amp; (h=l+1)"/>
+            </commands>
+            <commands name="statement">
+              <refinement name="i=-1;">
+                <postCondition name="(app(A, x , 0, A.length) &#xD;&#xA;&amp; A[i]=x) | (!app(A, x, 0, A.length) &amp; i=-1)"/>
+                <preCondition name="(sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) &#xD;&#xA;&amp; (h &lt;= l+1) ) &amp; (h&lt;l+1)"/>
+              </refinement>
+              <postCondition name="(app(A, x , 0, A.length) &#xD;&#xA;&amp; A[i]=x) | (!app(A, x, 0, A.length) &amp; i=-1)"/>
+              <preCondition name="(sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) &#xD;&#xA;&amp; (h &lt;= l+1) ) &amp; (h&lt;l+1)"/>
+            </commands>
+          </refinement>
+          <postCondition name="(app(A, x , 0, A.length) &#xD;&#xA;&amp; A[i]=x) | (!app(A, x, 0, A.length) &amp; i=-1)"/>
+          <preCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) &#xD;&#xA;&amp; (h &lt;= l+1) "/>
+        </secondStatement>
+        <intermediateCondition name="sorted(A) &amp; (app(A, x, 0, A.length) ->&#xD;&#xA;app(A, x, l, h)) &#xD;&#xA;&amp; (h &lt;= l+1) "/>
+      </refinement>
+      <postCondition name="(app(A, x , 0, A.length) &#xD;&#xA;&amp; A[i]=x) | (!app(A, x, 0, A.length) &amp; i=-1)"/>
+      <preCondition name="sorted(A)"/>
+    </statement>
+  </cbcmodel:CbCFormula>
+</xmi:XMI>

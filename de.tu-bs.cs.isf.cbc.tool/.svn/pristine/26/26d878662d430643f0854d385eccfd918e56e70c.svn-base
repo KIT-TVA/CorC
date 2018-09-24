@@ -1,0 +1,292 @@
+package de.tu_bs.cs.isf.cbc.tool.patterns;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.graphiti.features.IReason;
+import org.eclipse.graphiti.features.context.IAddContext;
+import org.eclipse.graphiti.features.context.ICreateContext;
+import org.eclipse.graphiti.features.impl.Reason;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
+import org.eclipse.graphiti.mm.algorithms.MultiText;
+import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
+import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.pattern.IPattern;
+import org.eclipse.graphiti.pattern.id.IdLayoutContext;
+import org.eclipse.graphiti.pattern.id.IdPattern;
+import org.eclipse.graphiti.pattern.id.IdUpdateContext;
+import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.services.IGaService;
+import org.eclipse.graphiti.services.IPeCreateService;
+import org.eclipse.graphiti.services.IPeService;
+import org.eclipse.graphiti.util.ColorConstant;
+import org.eclipse.graphiti.util.IColorConstant;
+
+import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+
+/**
+ * Class that creates the graphical representation of Conditions
+ * @author Tobias
+ *
+ */
+public class CompositionPattern extends IdPattern implements IPattern {
+
+	private static final String ID_ST1_TEXT = "statement1NameText";
+	private static final String ID_CONDITION_TEXT = "conditionText";
+	private static final String ID_ST2_TEXT = "statement2NameText";
+	private static final String ID_MAIN_RECTANGLE = "mainRectangle";
+	private static final String ID_NAME_TEXT = "nameText";
+	private static final String ID_PRE1_TEXT = "pre1NameText";
+	private static final String ID_POST2_TEXT = "post2NameText";
+
+
+	/**
+	 * Constructor of the class
+	 */
+	public CompositionPattern() {
+		super();
+	}
+	
+	@Override
+	public String getCreateName() {
+		return "CompositionStatement";
+	}
+	
+	@Override
+	public String getCreateDescription() {
+		return "Create a CompositionStatement.";
+	}
+
+	@Override
+	public boolean isMainBusinessObjectApplicable(Object mainBusinessObject) {
+		return mainBusinessObject instanceof CompositionStatement;
+	}
+
+	@Override
+	public boolean canCreate(ICreateContext context) {
+		return context.getTargetContainer() instanceof Diagram;
+	}
+	
+	@Override
+	public Object[] create(ICreateContext context) {
+		CompositionStatement compoStatement = CbcmodelFactory.eINSTANCE.createCompositionStatement();
+		compoStatement.setName("compositionStatement");
+		AbstractStatement statement1 = CbcmodelFactory.eINSTANCE.createAbstractStatement();
+		statement1.setName("statement1");
+		compoStatement.setFirstStatement(statement1);
+		Condition pre1 = CbcmodelFactory.eINSTANCE.createCondition();
+		pre1.setName("{}");
+		statement1.setPreCondition(pre1);
+		Condition post1 = CbcmodelFactory.eINSTANCE.createCondition();
+		post1.setName("{}");
+		statement1.setPostCondition(post1);
+		
+		Condition condition = CbcmodelFactory.eINSTANCE.createCondition();
+		condition.setName("intermediateCond");
+		compoStatement.setIntermediateCondition(condition);
+		AbstractStatement statement2 = CbcmodelFactory.eINSTANCE.createAbstractStatement();
+		statement2.setName("statement2");
+		compoStatement.setSecondStatement(statement2);
+		Condition pre2 = CbcmodelFactory.eINSTANCE.createCondition();
+		pre2.setName("{}");
+		statement2.setPreCondition(pre2);
+		Condition post2 = CbcmodelFactory.eINSTANCE.createCondition();
+		post2.setName("{}");
+		statement2.setPostCondition(post2);
+		
+		addGraphicalRepresentation(context, compoStatement);
+		return new Object[] { compoStatement };
+	}
+
+	@Override
+	public boolean canAdd(IAddContext context) {
+		return super.canAdd(context) && context.getTargetContainer() instanceof Diagram;
+	}
+
+	@Override
+	public PictogramElement doAdd(IAddContext context) {
+		
+		Diagram targetDiagram = (Diagram) context.getTargetContainer();
+		CompositionStatement addedStatement = (CompositionStatement) context.getNewObject();
+		IPeCreateService peCreateService = Graphiti.getPeCreateService();
+		IGaService gaService = Graphiti.getGaService();
+
+		int width = context.getWidth() <= 0 ? 300 : context.getWidth();
+        int height = context.getHeight() <= 0 ? 200 : context.getHeight();
+        
+		// Main contents area
+		ContainerShape outerContainerShape = peCreateService.createContainerShape(targetDiagram, true);
+		RoundedRectangle mainRectangle = gaService.createRoundedRectangle(outerContainerShape, 20, 20);
+		mainRectangle.setFilled(true);
+		mainRectangle.setBackground(manageColor(new ColorConstant(255, 150, 150)));
+		setId(mainRectangle, ID_MAIN_RECTANGLE);
+		gaService.setLocationAndSize(mainRectangle,
+	            context.getX(), context.getY(), width, height);
+
+        // create link and wire it
+        link(outerContainerShape, addedStatement);
+
+		// Statement name
+        Shape textShapeStatement1 = peCreateService.createShape(outerContainerShape, true);
+		MultiText statement1Text = gaService.createMultiText(textShapeStatement1, "");
+		setId(statement1Text, ID_ST1_TEXT);
+		statement1Text.setValue(addedStatement.getFirstStatement().getName());
+		statement1Text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		statement1Text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+        
+		Shape textShapeCondition = peCreateService.createShape(outerContainerShape, false);
+		MultiText conditionText = gaService.createMultiText(textShapeCondition, "");
+		setId(conditionText, ID_CONDITION_TEXT);
+		conditionText.setValue(addedStatement.getIntermediateCondition().getName());
+		conditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		conditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		
+		Shape textShapeStatement2 = peCreateService.createShape(outerContainerShape, true);
+		MultiText statement2Text = gaService.createMultiText(textShapeStatement2, "");
+		setId(statement2Text, ID_ST2_TEXT);
+		statement2Text.setValue(addedStatement.getSecondStatement().getName());
+		statement2Text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		statement2Text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		
+		Shape textShapeName = peCreateService.createShape(outerContainerShape, false);
+		MultiText nameText = gaService.createMultiText(textShapeName, "Composition");
+		setId(nameText, ID_NAME_TEXT);
+		nameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		nameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		
+		Shape pre1Shape = peCreateService.createShape(outerContainerShape, false);
+		MultiText pre1NameText = gaService.createMultiText(pre1Shape, "{" + addedStatement.getFirstStatement().getPreCondition().getName()+ "}");
+		setId(pre1NameText, ID_PRE1_TEXT);
+		pre1NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		pre1NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		
+		Shape post2Shape = peCreateService.createShape(outerContainerShape, false);
+		MultiText post2NameText = gaService.createMultiText(post2Shape, "{" + addedStatement.getSecondStatement().getPostCondition().getName()+ "}");
+		setId(post2NameText, ID_POST2_TEXT);
+		post2NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		post2NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+
+		peCreateService.createChopboxAnchor(textShapeStatement1);
+		peCreateService.createChopboxAnchor(textShapeStatement2);
+		peCreateService.createChopboxAnchor(outerContainerShape);
+
+		link(outerContainerShape, addedStatement);
+		link(textShapeCondition, addedStatement.getIntermediateCondition());
+		link(textShapeStatement1, addedStatement.getFirstStatement());
+		link(textShapeStatement2, addedStatement.getSecondStatement());
+		link(pre1Shape, addedStatement.getFirstStatement().getPreCondition());
+		link(post2Shape, addedStatement.getSecondStatement().getPostCondition());
+		
+
+		return outerContainerShape;
+	}
+
+	@Override
+	protected boolean layout(IdLayoutContext context, String id) {
+		boolean changesDone = false;
+		
+		GraphicsAlgorithm mainRectangle = context.getRootPictogramElement().getGraphicsAlgorithm();
+		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
+		int thirdWidth = mainRectangle.getWidth() / 3;
+		int halfHeight = mainRectangle.getHeight() / 2;
+		
+		if (id.equals(ID_NAME_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth, 0, thirdWidth, halfHeight);
+			changesDone = true;
+		} else if (id.equals(ID_ST1_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 0, halfHeight, thirdWidth, halfHeight);
+			changesDone = true;
+		} else if (id.equals(ID_CONDITION_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth, halfHeight, thirdWidth, halfHeight);
+			changesDone = true;
+		} else if (id.equals(ID_ST2_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, halfHeight, thirdWidth, halfHeight);
+			changesDone = true;
+		} else if (id.equals(ID_PRE1_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 0, 0, thirdWidth, halfHeight);
+			changesDone = true;
+		}  else if (id.equals(ID_POST2_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, 0, thirdWidth, halfHeight);
+			changesDone = true;
+		} 
+
+		return changesDone;
+	}
+	
+	@Override
+	protected IReason updateNeeded(IdUpdateContext context, String id) {
+		if (id.equals(ID_MAIN_RECTANGLE)) {
+			RoundedRectangle rectangle = (RoundedRectangle) context.getGraphicsAlgorithm();
+			CompositionStatement domainObject = (CompositionStatement) context.getDomainObject();
+			if (checkIsProven(domainObject) &&
+					((rectangle.getBackground() != null && !rectangle.getBackground().equals(manageColor(IColorConstant.LIGHT_GREEN))) 
+							|| rectangle.getBackground() == null)) {
+				return Reason.createTrueReason("Statement is proven. Expected green color.");
+			} else if (!checkIsProven(domainObject) && 
+					((rectangle.getBackground() != null && rectangle.getBackground().equals(manageColor(IColorConstant.LIGHT_GREEN))) 
+							|| rectangle.getBackground() == null)) {
+				return Reason.createTrueReason("Statement is not proven. Expected red color.");
+			}  
+		}
+		return Reason.createFalseReason();
+	}
+
+	@Override
+	protected boolean update(IdUpdateContext context, String id) {
+		if (id.equals(ID_MAIN_RECTANGLE)) {
+			RoundedRectangle rectangle = (RoundedRectangle) context.getGraphicsAlgorithm();
+			CompositionStatement domainObject = (CompositionStatement) context.getDomainObject();
+			if (checkIsProven(domainObject)) {
+				domainObject.setProven(true);
+				rectangle.setBackground(manageColor(IColorConstant.LIGHT_GREEN));
+				updateParent(domainObject);
+			} else {
+				domainObject.setProven(false);
+				rectangle.setBackground(manageColor(new ColorConstant(255, 150, 150)));
+				updateParent(domainObject);
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean checkIsProven(CompositionStatement statement) {
+		AbstractStatement firstStatement = statement.getFirstStatement();
+		AbstractStatement secondStatement = statement.getSecondStatement();
+		AbstractStatement firstStatementToCheck = null;
+		AbstractStatement secondStatementToCheck = null;
+		if (firstStatement.getRefinement() != null) {
+			firstStatementToCheck = firstStatement.getRefinement();
+		} else {
+			firstStatementToCheck = firstStatement;
+		}
+		if (secondStatement.getRefinement() != null) {
+			secondStatementToCheck = secondStatement.getRefinement();
+		} else {
+			secondStatementToCheck = secondStatement;
+		}
+		if (firstStatementToCheck.isProven() && secondStatementToCheck.isProven()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private void updateParent(AbstractStatement statement) {
+		if(statement.getParent()!= null) {
+			IPeService pe = Graphiti.getPeService();
+			EObject[] objArray = {statement.getParent()};
+			Object[] obj =  pe.getLinkedPictogramElements(objArray, getDiagram());
+			if (obj.length > 0) {
+				Shape pElement = (Shape) obj[0];
+				if (pElement.getContainer() != null) updatePictogramElement(pElement.getContainer());
+			}
+		}
+	}
+}
+

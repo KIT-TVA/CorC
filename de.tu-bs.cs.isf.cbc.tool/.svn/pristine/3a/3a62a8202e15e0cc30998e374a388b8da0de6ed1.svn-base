@@ -1,0 +1,302 @@
+package de.tu_bs.cs.isf.cbc.tool.patterns;
+
+import org.eclipse.graphiti.features.IReason;
+import org.eclipse.graphiti.features.context.IAddContext;
+import org.eclipse.graphiti.features.context.ICreateContext;
+import org.eclipse.graphiti.features.impl.Reason;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
+import org.eclipse.graphiti.mm.algorithms.MultiText;
+import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
+import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.pattern.IPattern;
+import org.eclipse.graphiti.pattern.id.IdLayoutContext;
+import org.eclipse.graphiti.pattern.id.IdPattern;
+import org.eclipse.graphiti.pattern.id.IdUpdateContext;
+import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.services.IGaService;
+import org.eclipse.graphiti.services.IPeCreateService;
+import org.eclipse.graphiti.util.PredefinedColoredAreas;
+
+import de.tu_bs.cs.isf.cbc.model.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.model.cbcmodel.CbcmodelFactory;
+import de.tu_bs.cs.isf.cbc.model.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.model.cbcmodel.RepetitionStatement;
+import de.tu_bs.cs.isf.cbc.model.cbcmodel.Variant;
+
+/**
+ * Class that creates the graphical representation of Conditions
+ * @author Tobias
+ *
+ */
+public class RepetitionPattern extends IdPattern implements IPattern {
+
+	private static final String ID_STATEMENT1_TEXT = "statement1RepNameText";
+	private static final String ID_STATEMENT2_TEXT = "statement2RepNameText";
+	private static final String ID_STATEMENT3_TEXT = "statement3RepNameText";
+	private static final String ID_CONDITION_TEXT = "conditionRepText";
+	private static final String ID_VARIANT_TEXT = "variantRepText";
+	private static final String ID_INVARIANT_TEXT = "invariantRepText";
+	private static final String ID_MAIN_RECTANGLE = "mainRectangle";
+	private static final String ID_NAME_TEXT = "nameText";
+
+
+	/**
+	 * Constructor of the class
+	 */
+	public RepetitionPattern() {
+		super();
+	}
+	
+	@Override
+	public String getCreateName() {
+		return "RepetitionStatement";
+	}
+	
+	@Override
+	public String getCreateDescription() {
+		return "Create a RepetitionStatement.";
+	}
+
+	@Override
+	public boolean isMainBusinessObjectApplicable(Object mainBusinessObject) {
+		return mainBusinessObject instanceof RepetitionStatement;
+	}
+
+	@Override
+	public boolean canCreate(ICreateContext context) {
+		return context.getTargetContainer() instanceof Diagram;
+	}
+	
+	@Override
+	public Object[] create(ICreateContext context) {
+		RepetitionStatement repetitionStatement = CbcmodelFactory.eINSTANCE.createRepetitionStatement();
+		repetitionStatement.setName("repetitionStatement");
+		AbstractStatement statement1 = CbcmodelFactory.eINSTANCE.createAbstractStatement();
+		statement1.setName("start");
+		repetitionStatement.setStartStatement(statement1);
+		AbstractStatement statement2 = CbcmodelFactory.eINSTANCE.createAbstractStatement();
+		statement2.setName("loop");
+		repetitionStatement.setLoopStatement(statement2);
+		AbstractStatement statement3 = CbcmodelFactory.eINSTANCE.createAbstractStatement();
+		statement3.setName("end");
+		repetitionStatement.setEndStatement(statement3);
+		Condition condition = CbcmodelFactory.eINSTANCE.createCondition();
+		condition.setName("guard");
+		repetitionStatement.setGuard(condition);
+		Condition invariant = CbcmodelFactory.eINSTANCE.createCondition();
+		invariant.setName("invariant");
+		repetitionStatement.setInvariant(invariant);
+		Variant variant = CbcmodelFactory.eINSTANCE.createVariant();
+		variant.setName("variant");
+		repetitionStatement.setVariant(variant);
+		
+		addGraphicalRepresentation(context, repetitionStatement);
+		return new Object[] { repetitionStatement };
+	}
+
+	@Override
+	public boolean canAdd(IAddContext context) {
+		return super.canAdd(context) && context.getTargetContainer() instanceof Diagram;
+	}
+
+	@Override
+	public PictogramElement doAdd(IAddContext context) {
+		
+		Diagram targetDiagram = (Diagram) context.getTargetContainer();
+		RepetitionStatement addedStatement = (RepetitionStatement) context.getNewObject();
+		IPeCreateService peCreateService = Graphiti.getPeCreateService();
+		IGaService gaService = Graphiti.getGaService();
+
+		int width = context.getWidth() <= 0 ? 300 : context.getWidth();
+        int height = context.getHeight() <= 0 ? 200 : context.getHeight();
+        
+		// Main contents area
+		ContainerShape outerContainerShape = peCreateService.createContainerShape(targetDiagram, true);
+		RoundedRectangle mainRectangle = gaService.createRoundedRectangle(outerContainerShape, 20, 20);
+		mainRectangle.setFilled(true);
+		gaService.setRenderingStyle(mainRectangle, PredefinedColoredAreas.getBlueWhiteAdaptions());
+		setId(mainRectangle, ID_MAIN_RECTANGLE);
+		gaService.setLocationAndSize(mainRectangle,
+	            context.getX(), context.getY(), width, height);
+
+        // create link and wire it
+        link(outerContainerShape, addedStatement);
+
+		// Statement name
+        Shape textShapeStatement1 = peCreateService.createShape(outerContainerShape, true);
+		MultiText statement1Text = gaService.createMultiText(textShapeStatement1, "");
+		setId(statement1Text, ID_STATEMENT1_TEXT);
+		statement1Text.setValue(addedStatement.getStartStatement().getName());
+		statement1Text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		statement1Text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		
+		Shape textShapeStatement2 = peCreateService.createShape(outerContainerShape, true);
+		MultiText statement2Text = gaService.createMultiText(textShapeStatement2, "");
+		setId(statement2Text, ID_STATEMENT2_TEXT);
+		statement2Text.setValue(addedStatement.getLoopStatement().getName());
+		statement2Text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		statement2Text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		
+		Shape textShapeStatement3 = peCreateService.createShape(outerContainerShape, true);
+		MultiText statement3Text = gaService.createMultiText(textShapeStatement3, "");
+		setId(statement3Text, ID_STATEMENT3_TEXT);
+		statement3Text.setValue(addedStatement.getEndStatement().getName());
+		statement3Text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		statement3Text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+        
+		Shape textShapeCondition = peCreateService.createShape(outerContainerShape, false);
+		MultiText conditionText = gaService.createMultiText(textShapeCondition, "");
+		setId(conditionText, ID_CONDITION_TEXT);
+		conditionText.setValue(addedStatement.getGuard().getName());
+		conditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		conditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		
+		Shape textShapeInvariant = peCreateService.createShape(outerContainerShape, false);
+		MultiText invariantText = gaService.createMultiText(textShapeInvariant, "");
+		setId(invariantText, ID_INVARIANT_TEXT);
+		invariantText.setValue(addedStatement.getInvariant().getName());
+		invariantText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		invariantText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		
+		Shape textShapeVariant = peCreateService.createShape(outerContainerShape, false);
+		MultiText variantText = gaService.createMultiText(textShapeVariant, "");
+		setId(variantText, ID_VARIANT_TEXT);
+		variantText.setValue(addedStatement.getVariant().getName());
+		variantText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		variantText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		
+		Shape textShapeName = peCreateService.createShape(outerContainerShape, false);
+		MultiText nameText = gaService.createMultiText(textShapeName, "RepetitionStatement DO...OD");
+		setId(nameText, ID_NAME_TEXT);
+		nameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		nameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+
+		peCreateService.createChopboxAnchor(textShapeStatement1);
+		peCreateService.createChopboxAnchor(textShapeStatement2);
+		peCreateService.createChopboxAnchor(textShapeStatement3);
+		peCreateService.createChopboxAnchor(outerContainerShape);
+
+		link(outerContainerShape, addedStatement);
+		link(textShapeCondition, addedStatement.getGuard());
+		link(textShapeStatement1, addedStatement.getStartStatement());
+		link(textShapeStatement2, addedStatement.getLoopStatement());
+		link(textShapeStatement3, addedStatement.getEndStatement());
+		link(textShapeVariant, addedStatement.getVariant());
+		link(textShapeInvariant, addedStatement.getInvariant());
+
+		return outerContainerShape;
+	}
+
+	@Override
+	protected boolean layout(IdLayoutContext context, String id) {
+		boolean changesDone = false;
+		
+		GraphicsAlgorithm mainRectangle = context.getRootPictogramElement().getGraphicsAlgorithm();
+		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
+		int thirdWidth = mainRectangle.getWidth() / 3;
+		int thirdHeight = mainRectangle.getHeight() / 3;
+		
+		if (id.equals(ID_NAME_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 0, 0, mainRectangle.getWidth(), thirdHeight);
+			changesDone = true;
+		} else if (id.equals(ID_CONDITION_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 0, thirdHeight, thirdWidth, thirdHeight);
+			changesDone = true;
+		} else if (id.equals(ID_INVARIANT_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth, thirdHeight, thirdWidth, thirdHeight);
+			changesDone = true;
+		} else if (id.equals(ID_VARIANT_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, thirdHeight, thirdWidth, thirdHeight);
+			changesDone = true;
+		} else if (id.equals(ID_STATEMENT1_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 0, thirdHeight * 2, thirdWidth, thirdHeight);
+			changesDone = true;
+		} else if (id.equals(ID_STATEMENT2_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth, thirdHeight * 2, thirdWidth, thirdHeight);
+			changesDone = true;
+		} else if (id.equals(ID_STATEMENT3_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, thirdHeight * 2, thirdWidth, thirdHeight);
+			changesDone = true;
+		}
+
+		return changesDone;
+	}
+	
+	@Override
+	protected IReason updateNeeded(IdUpdateContext context, String id) {
+		if (id.equals(ID_VARIANT_TEXT)) {
+		MultiText nameText = (MultiText) context.getGraphicsAlgorithm();
+		Variant domainObject = (Variant) context.getDomainObject();
+		if (domainObject.getName() == null || !domainObject.getName().equals(nameText.getValue())) {
+			return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getName() + "'");
+		}
+	}
+//		if (id.equals(ID_MAIN_RECTANGLE)) {
+//			ContainerShape containerShape = (ContainerShape) context.getPictogramElement();
+//			RepetitionStatement statement = (RepetitionStatement) context.getDomainObject();
+//			if (containerShape.getChildren().size() != statement.getCommands().size() * 2 + 1) {
+//				return Reason.createTrueReason("Number of Commands and Guards differ. Expected: " + statement.getCommands().size());
+//			}
+//		}
+		return Reason.createFalseReason();
+	}
+
+	@Override
+	protected boolean update(IdUpdateContext context, String id) {
+		if (id.equals(ID_VARIANT_TEXT)) {
+			MultiText nameText = (MultiText) context.getGraphicsAlgorithm();
+			Variant domainObject = (Variant) context.getDomainObject();
+			nameText.setValue(domainObject.getName());
+			return true;
+		}
+//		if (id.equals(ID_MAIN_RECTANGLE)) {
+//		EList<Shape> children = ((ContainerShape) context.getPictogramElement()).getChildren();
+//		Shape[] toDelete = children.toArray(new Shape[children.size()]);
+//		for (Shape shape : toDelete) {
+//			EcoreUtil.delete(shape, true);
+//		}
+//		EList<AbstractStatement> childStatements = ((RepetitionStatement) context.getDomainObject()).getCommands();
+//		int index = 0;
+//		for (AbstractStatement childStatement : childStatements) {
+//			Shape shapeText = Graphiti.getPeCreateService().createShape((ContainerShape) context.getPictogramElement(), true);
+//			MultiText statementNameText = Graphiti.getGaService().createMultiText(shapeText, childStatement.getName());
+//			setId(statementNameText, ID_STATEMENT_TEXT);
+//			setIndex(statementNameText, index);
+//			statementNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+//			statementNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+//			IPeCreateService peCreateService = Graphiti.getPeCreateService();
+//			peCreateService.createChopboxAnchor(shapeText);
+//			link(shapeText, childStatement);
+//			index++;
+//		}
+//		
+//		EList<Condition> childConditions = ((RepetitionStatement) context.getDomainObject()).getGuard();
+//		index = 0;
+//		for (Condition childCondition : childConditions) {
+//			Shape shapeText = Graphiti.getPeCreateService().createShape((ContainerShape) context.getPictogramElement(), false);
+//			MultiText conditionNameText = Graphiti.getGaService().createMultiText(shapeText, childCondition.getName());
+//			setId(conditionNameText, ID_CONDITION_TEXT);
+//			setIndex(conditionNameText, index);
+//			conditionNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+//			conditionNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+//			link(shapeText, childCondition);
+//			index++;
+//		}
+//		
+//		Variant childVariant = ((RepetitionStatement) context.getDomainObject()).getVariant();
+//		Shape shapeText = Graphiti.getPeCreateService().createShape((ContainerShape) context.getPictogramElement(), false);
+//		MultiText variantNameText = Graphiti.getGaService().createMultiText(shapeText, childVariant.getName());
+//		setId(variantNameText, ID_VARIANT_TEXT);
+//		variantNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+//		variantNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+//		link(shapeText, childVariant);
+//		return true;
+//	}
+		return false;
+	}
+}
+

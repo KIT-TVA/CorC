@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="maxElement" proven="true">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:RepetitionStatement" name="repetitionStatement" proven="true" variantProven="true">
+        <guard name="j != A.length"/>
+        <invariant name="max(A, 0, j, i)"/>
+        <startStatement name="start">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+            <firstStatement name="statement1">
+              <refinement name="i = 0;" proven="true">
+                <postCondition name="i = 0"/>
+                <preCondition name="A.length > 0"/>
+              </refinement>
+              <postCondition name="i = 0"/>
+              <preCondition name="A.length > 0"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement name="j = 1;" proven="true">
+                <postCondition name="max(A, 0, j, i)"/>
+                <preCondition name="i = 0"/>
+              </refinement>
+              <postCondition name="max(A, 0, j, i)"/>
+              <preCondition name="i = 0"/>
+            </secondStatement>
+            <intermediateCondition name="i = 0"/>
+          </refinement>
+          <postCondition name="max(A, 0, j, i)"/>
+          <preCondition name="A.length > 0"/>
+        </startStatement>
+        <variant name="A.length - j"/>
+        <loopStatement name="loop">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true">
+                <guards name="A[j] > A[i]"/>
+                <guards name="A[j] &lt;= A[i]"/>
+                <commands name="statement">
+                  <refinement name="i = j;" proven="true">
+                    <postCondition name="max(A, 0, j+1, i)"/>
+                    <preCondition name="((max(A, 0, j, i)) &amp; (j != A.length)) &amp; (A[j] > A[i])"/>
+                  </refinement>
+                  <postCondition name="max(A, 0, j+1, i)"/>
+                  <preCondition name="((max(A, 0, j, i)) &amp; (j != A.length)) &amp; (A[j] > A[i])"/>
+                </commands>
+                <commands name="statement">
+                  <refinement name=";" proven="true">
+                    <postCondition name="max(A, 0, j+1, i)"/>
+                    <preCondition name="((max(A, 0, j, i)) &amp; (j != A.length)) &amp; (A[j] &lt;= A[i])"/>
+                  </refinement>
+                  <postCondition name="max(A, 0, j+1, i)"/>
+                  <preCondition name="((max(A, 0, j, i)) &amp; (j != A.length)) &amp; (A[j] &lt;= A[i])"/>
+                </commands>
+              </refinement>
+              <postCondition name="max(A, 0, j+1, i)"/>
+              <preCondition name="(max(A, 0, j, i)) &amp; (j != A.length)"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement name="j = j + 1;" proven="true">
+                <postCondition name="max(A, 0, j, i)"/>
+                <preCondition name="max(A, 0, j+1, i)"/>
+              </refinement>
+              <postCondition name="max(A, 0, j, i)"/>
+              <preCondition name="max(A, 0, j+1, i)"/>
+            </secondStatement>
+            <intermediateCondition name="max(A, 0, j+1, i)"/>
+          </refinement>
+          <postCondition name="max(A, 0, j, i)"/>
+          <preCondition name="(max(A, 0, j, i)) &amp; (j != A.length)"/>
+        </loopStatement>
+        <endStatement name="end">
+          <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true">
+            <postCondition name="max(A, 0, A.length, i)"/>
+            <preCondition name="(max(A, 0, j, i)) &amp; !(j != A.length)"/>
+          </refinement>
+          <postCondition name="max(A, 0, A.length, i)"/>
+          <preCondition name="(max(A, 0, j, i)) &amp; !(j != A.length)"/>
+        </endStatement>
+      </refinement>
+      <postCondition name="max(A, 0, A.length, i)"/>
+      <preCondition name="A.length > 0"/>
+    </statement>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:Renaming>
+    <rename type="int" function="maxi" newName="max"/>
+  </cbcmodel:Renaming>
+  <cbcmodel:GlobalConditions>
+    <conditions name="A!=null"/>
+    <conditions name="A.length > 0"/>
+    <conditions name="A.length &lt; 10"/>
+    <conditions name="i>=0 &amp; i&lt;A.length"/>
+    <conditions name="j>=0 &amp; j&lt;=A.length"/>
+  </cbcmodel:GlobalConditions>
+  <cbcmodel:JavaVariables>
+    <variables name="int i"/>
+    <variables name="int j"/>
+    <variables name="int[] A"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

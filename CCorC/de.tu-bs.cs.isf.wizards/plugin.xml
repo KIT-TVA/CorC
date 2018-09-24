@@ -1,0 +1,46 @@
+<plugin>
+	<!-- Examples: CBC TOOL-->
+	<extension point = "org.eclipse.ui.newWizards">
+		<category
+	   		id = "org.eclipse.ui.examples.corc.wizard"
+	   		name = "CorC">
+		</category>
+		<wizard
+        category="org.eclipse.ui.examples.corc.wizard"
+        class="de.tu_bs.cs.isf.exampleWizard.corc.CorCWizard"
+        icon="icons/corclogo.png"
+        id="de.tu-bs.cs.isf.corc.wizard"
+        name="CorC Examples">
+       		<description>this wizard will create a new project in your workspace that contains CorC example diagrams</description>
+	   		<selection class="org.eclipse.core.resources.IResource"/>
+		</wizard>
+	</extension>
+	 <!-- Examples: TAXONOMY TOOL-->
+	<extension point = "org.eclipse.ui.newWizards">
+		<category
+	   		id = "org.eclipse.ui.examples.taxonomy.tool"
+	   		name = "Taxonomy">
+		</category>
+		<wizard
+		class="de.tu_bs.cs.isf.exampleWizard.taxonomy.TaxWizard"
+        category="org.eclipse.ui.examples.taxonomy.tool"
+        icon="icons/taxlogov2.png"
+        id="de.tu-bs.cs.isf.cbc.helper.TaxonomyWizard"
+        name="Taxonomy Examples">
+       		<description>this wizard will create a new project in your workspace that contains example diagrams from the taxonomy tool</description>
+	   		<selection class="org.eclipse.core.resources.IResource"/>
+		</wizard>
+	</extension>
+	<!-- newDiagram: -->
+	<extension point = "org.eclipse.ui.newWizards">
+		<wizard
+		class="de.tu_bs.cs.isf.newDiagramWizard.corc.NewCorCFileWizard"
+        category="org.eclipse.ui.examples.corc.wizard"
+        icon="icons/corclogo.png"
+        id="de.tu-bs.cs.isf.newDiagram.corc.wizard"
+        name="new CorC File">
+       		<description>this wizard will let you create a new CorC diagram or textual</description>
+	   		<selection class="org.eclipse.core.resources.IResource"/>
+		</wizard>
+	</extension>
+</plugin>
