@@ -88,7 +88,7 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	@Override
 	public ICreateFeature[] getCreateFeatures() {
 		ICreateFeature[] oldArray = super.getCreateFeatures();
-		ICreateFeature[] array = new ICreateFeature[oldArray.length + 1];
+		ICreateFeature[] array = new ICreateFeature[oldArray.length];
 		for (int i = 0; i < oldArray.length; i++) {
 			array[i] = oldArray[i];
 		}

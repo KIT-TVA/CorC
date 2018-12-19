@@ -13,5 +13,6 @@ Require-Bundle: de.tu-bs.cs.isf.cbc.model;bundle-version="0.1.0",
  org.eclipse.core.filesystem,
  org.eclipse.ui,
  org.eclipse.ui.console,
- de.tu-bs.cs.isf.taxonomy.model;bundle-version="0.1.0"
+ de.tu-bs.cs.isf.taxonomy.model;bundle-version="0.1.0",
+ org.key_project.ui;bundle-version="1.0.0"
 Export-Package: de.tu_bs.cs.isf.cbc.util

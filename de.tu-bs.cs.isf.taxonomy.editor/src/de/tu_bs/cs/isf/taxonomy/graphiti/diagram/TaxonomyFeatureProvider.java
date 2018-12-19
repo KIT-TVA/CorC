@@ -49,6 +49,7 @@ import de.tu_bs.cs.isf.taxonomy.graphiti.features.PasteAlgorithmFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.ReconnectionFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.ResizeFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.RunToolkitGenerationFeature;
+import de.tu_bs.cs.isf.taxonomy.graphiti.features.ImplementMethodinCorcFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.VerifyPostImplPost;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.VerifyPreImplPre;
 import de.tu_bs.cs.isf.taxonomy.graphiti.patterns.AlgorithmPattern;
@@ -173,7 +174,8 @@ public class TaxonomyFeatureProvider extends DefaultFeatureProviderWithPatterns 
 	    		new AddImportsToAlgorithmFeature(this),
 	    		new AddInitialValueToDataStructuresFeature(this),
 	    		new VerifyPreImplPre(this),
-	    		new VerifyPostImplPost(this)};
+	    		new VerifyPostImplPost(this),
+	    		new ImplementMethodinCorcFeature(this)};
 	} 
 	
 	@Override

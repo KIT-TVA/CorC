@@ -7,7 +7,7 @@ import "http://www.example.org/cbcmodel"
 CbCProblem returns CbCProblem:
 		cbcformula=CbCFormula 
 		& (globalcondition=GlobalConditions)? 
-		& (javaVariable=JavaVariables)? 
+		& javaVariable=JavaVariables
 		& (renaming=Renaming)?;
 
 CbCFormula returns CbCFormula:

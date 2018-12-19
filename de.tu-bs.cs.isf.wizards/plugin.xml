@@ -7,7 +7,7 @@
 		</category>
 		<wizard
         category="org.eclipse.ui.examples.corc.wizard"
-        class="de.tu_bs.cs.isf.exampleWizard.corc.CorCWizard"
+        class="de.tu_bs.cs.isf.corc.exampleWizard.CorCWizard"
         icon="icons/corclogo.png"
         id="de.tu-bs.cs.isf.corc.wizard"
         name="CorC Examples">
@@ -22,7 +22,7 @@
 	   		name = "Taxonomy">
 		</category>
 		<wizard
-		class="de.tu_bs.cs.isf.exampleWizard.taxonomy.TaxWizard"
+		class="de.tu_bs.cs.isf.taxonomy.exampleWizard.TaxWizard"
         category="org.eclipse.ui.examples.taxonomy.tool"
         icon="icons/taxlogov2.png"
         id="de.tu-bs.cs.isf.cbc.helper.TaxonomyWizard"
@@ -34,7 +34,7 @@
 	<!-- newDiagram: CorC-->
 	<extension point = "org.eclipse.ui.newWizards">
 		<wizard	
-		class="de.tu_bs.cs.isf.newDiagramWizard.corc.NewCorCFileWizard"
+		class="de.tu_bs.cs.isf.corc.newFileWizard.NewCorCFileWizard"
         category="org.eclipse.ui.examples.corc.wizard"
         icon="icons/corclogo.png"
         id="de.tu-bs.cs.isf.newDiagram.corc.wizard"
@@ -47,7 +47,7 @@
 	<!-- newDiagram: TAX-->
 	<extension point = "org.eclipse.ui.newWizards">
 		<wizard	
-		class="de.tu_bs.cs.isf.newDiagramWizard.taxonomy.NewTaxFileWizard"
+		class="de.tu_bs.cs.isf.taxonomy.newFileWizard.NewTaxFileWizard"
         category="org.eclipse.ui.examples.taxonomy.tool"
         icon="icons/taxlogo.png"
         id="de.tu-bs.cs.isf.newDiagram.taxonomy.wizard"

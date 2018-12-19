@@ -28,6 +28,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.uka.ilkd.key.control.KeYEnvironment;
+import de.uka.ilkd.key.gui.MainWindow;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.io.ProblemLoaderException;
@@ -38,7 +39,8 @@ import de.uka.ilkd.key.util.MiscTools;
 
 public class ProveWithKey {
 
-	
+private static int proofCounter = 0;
+
 	public static boolean proveStatementWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, URI uri, IProgressMonitor monitor) {
 		File location = createProveStatementWithKey(statement, vars, conds, renaming, uri, 0, true);
 		Console.println("Verify Pre -> {Statement} Post");
@@ -144,6 +146,10 @@ public class ProveWithKey {
 			// Show proof result
 			boolean closed = proof.openGoals().isEmpty();
 			Console.println("Proof is closed: " + closed);
+			if(!closed) {
+				MainWindow.getInstance().loadProblem(location);
+				MainWindow.getInstance().setVisible(true);
+			}
 			return closed;
 		}
 		return false;
@@ -797,7 +803,7 @@ public class ProveWithKey {
 			} else {
 				env.getUi().getProofControl().startAndWaitForAutoMode(proof);
 			}
-			
+			Console.println("Proofcounter: " + ++proofCounter);
 			// Show proof result
 			try {
 				proof.saveToFile(location);

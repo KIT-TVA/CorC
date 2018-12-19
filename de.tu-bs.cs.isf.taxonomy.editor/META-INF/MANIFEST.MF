@@ -17,3 +17,4 @@ Require-Bundle: org.eclipse.graphiti,
  de.tu-bs.cs.isf.taxonomy.model;bundle-version="0.1.0",
  de.tu-bs.cs.isf.cbc.model;bundle-version="0.1.0"
 Export-Package: de.tu_bs.cs.isf.taxonomy.graphiti.features
+Import-Package: de.tu_bs.cs.isf.corc.newFileWizard
