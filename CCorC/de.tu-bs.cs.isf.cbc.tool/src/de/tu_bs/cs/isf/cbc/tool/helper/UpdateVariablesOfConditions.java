@@ -40,7 +40,6 @@ public class UpdateVariablesOfConditions {
 					} else {
 						if (!statement.getName().contains("declassify")) {
 							for (String rightVariable : variablesInStatement.get(leftVariable)) {
-								System.out.println(leftVariable);
 								if (preVariables != null && preVariables.contains(rightVariable) || declaredVariables.contains(leftVariable)) {
 									addHighVariable(statement.getPostCondition(), leftVariable);
 									break;
@@ -229,7 +228,7 @@ public class UpdateVariablesOfConditions {
 		} else {
 			variables = "high(" + variable + ")";
 		}
-		condition.setName(variables + ";" + conditionString);
+		condition.setName(variables + "; " + conditionString);
 	}
 	
 	private static void copyHighVariables(Condition preCondition, Condition postCondition) {
@@ -256,9 +255,11 @@ public class UpdateVariablesOfConditions {
 					variables = (JavaVariables) object;
 				}
 			}
-			for (JavaVariable variable : variables.getVariables()) {
-				if (variable.getConfidentiality().equals(Confidentiality.HIGH)) {
-					variablesAsList.add(variable.getName());
+			if (variables != null) {
+				for (JavaVariable variable : variables.getVariables()) {
+					if (variable.getConfidentiality().equals(Confidentiality.HIGH)) {
+						variablesAsList.add(variable.getName());
+					}
 				}
 			}
 		}

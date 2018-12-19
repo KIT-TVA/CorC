@@ -100,9 +100,9 @@ public class ConstructCodeBlock {
 		}
 		String parameters = "";
 		if (vars != null && !vars.getVariables().isEmpty()) {
-			parameters += vars.getVariables().get(0).getName();
+			parameters += vars.getVariables().get(0).getType() + " " + vars.getVariables().get(0).getName();
 			for (int i = 1; i < vars.getVariables().size(); i++) {
-				parameters += ", " + vars.getVariables().get(i).getName();
+				parameters += ", " + vars.getVariables().get(i).getType() + " " + vars.getVariables().get(i).getName();
 			}
 		}
 		StringBuffer code = new StringBuffer();

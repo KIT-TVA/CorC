@@ -19,6 +19,7 @@ import de.tu_bs.cs.isf.cbc.tool.features.DrillDownFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.DrillUpFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.EditCommentFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.GenerateIntermediateConditionFeature2;
+import de.tu_bs.cs.isf.cbc.tool.features.GenerateTextualRepresentation;
 import de.tu_bs.cs.isf.cbc.tool.features.LayoutFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.PrintFormulaFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.ReconnectionFeature;
@@ -84,7 +85,7 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	@Override
 	public ICreateFeature[] getCreateFeatures() {
 		ICreateFeature[] oldArray = super.getCreateFeatures();
-		ICreateFeature[] array = new ICreateFeature[oldArray.length + 1];
+		ICreateFeature[] array = new ICreateFeature[oldArray.length];
 		for (int i = 0; i < oldArray.length; i++) {
 			array[i] = oldArray[i];
 		}
@@ -140,6 +141,7 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	    		new RenameRenamingFeature(this),
 	    		new LayoutFeature(this),
 	    		new VerifyCompleteRepetition(this),
-	    		new GenerateIntermediateConditionFeature2(this)};
+	    		new GenerateIntermediateConditionFeature2(this),
+	    		new GenerateTextualRepresentation(this)};
 	}
 }

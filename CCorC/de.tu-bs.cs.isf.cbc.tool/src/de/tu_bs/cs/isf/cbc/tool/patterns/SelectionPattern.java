@@ -35,6 +35,7 @@ import org.eclipse.graphiti.util.PredefinedColoredAreas;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Confidentiality;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
 
@@ -52,6 +53,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 	private static final String ID_PRE_TEXT = "preText";
 	private static final String ID_POST_TEXT = "postText";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
+	private static final String ID_IMAGE_CONTEXT = "imageContext";
 	//HEADERS:
 	private static final String ID_GUARD_HEADER = "guardHeader";
 	private static final String ID_PRE_HEADER = "preHeader";
@@ -140,7 +142,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		IGaService gaService = Graphiti.getGaService();
 
-		int width = context.getWidth() <= 0 ? 200 : context.getWidth();
+		int width = context.getWidth() <= 0 ? 250 : context.getWidth();
         int height = context.getHeight() <= 0 ? 300 : context.getHeight();
         //font:
         Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
@@ -200,6 +202,10 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
 		setId(image, ID_IMAGE_PROVEN);
 		
+		Shape contextShape = peCreateService.createShape(outerContainerShape, false);
+		Image imageContext = gaService.createImage(contextShape, CbCImageProvider.IMG_LOW);
+		setId(imageContext, ID_IMAGE_CONTEXT);
+		
 		//HEADERS:
 
 		Shape guardHeaderShape = peCreateService.createShape(outerContainerShape, false);
@@ -228,7 +234,8 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		setId(postHeader, ID_POST_HEADER);
 		postHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		postHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		postHeader.setFont(headerFont);	
+		postHeader.setFont(headerFont);
+		link(contextShape, addedStatement);
 		
 		//LINES:
 		
@@ -312,6 +319,9 @@ public class SelectionPattern extends IdPattern implements IPattern {
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
+			changesDone = true;
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 20, 10, 15, 15);
 			changesDone = true;
 		//Header:
 		} else if (id.equals(ID_POST_TEXT)) {
@@ -448,7 +458,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		if (id.equals(ID_MAIN_RECTANGLE)) {
 			ContainerShape containerShape = (ContainerShape) context.getPictogramElement();
 			SelectionStatement statement = (SelectionStatement) context.getDomainObject();
-			if (containerShape.getChildren().size() - 14 != statement.getCommands().size() * 8) {
+			if (containerShape.getChildren().size() - 15 != statement.getCommands().size() * 8) {
 				return Reason.createTrueReason("Number of Commands and Guards differ. Expected: " + statement.getCommands().size() 
 						+ " " + containerShape.getChildren().size());
 			}
@@ -470,6 +480,14 @@ public class SelectionPattern extends IdPattern implements IPattern {
 			} else if (!checkIsProven(domainObject) && image.getId().equals(CbCImageProvider.IMG_PROVEN)) {
 				return Reason.createTrueReason("Statement is not proven. Expected red color.");
 			} 
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			AbstractStatement domainObject = (AbstractStatement) context.getDomainObject();
+			 Image image = (Image) context.getGraphicsAlgorithm();
+			if (domainObject.getContext().equals(Confidentiality.HIGH) && image.getId().equals(CbCImageProvider.IMG_LOW)) {
+				return Reason.createTrueReason("Statement is in high context.");
+			} else if (domainObject.getContext().equals(Confidentiality.LOW) && image.getId().equals(CbCImageProvider.IMG_HIGH)) {
+				return Reason.createTrueReason("Statement is in low context.");
+			} 
 		}
 		return Reason.createFalseReason();
 	}
@@ -480,11 +498,11 @@ public class SelectionPattern extends IdPattern implements IPattern {
 			ContainerShape containerShape = (ContainerShape) context.getPictogramElement();
 			SelectionStatement statement = (SelectionStatement) context.getDomainObject();
 			// 8 = number of graphics elements in update (vertical lines + blocks)
-			// 14 = number of graphics in doAdd (horizontal lines + header + name)
-			while (containerShape.getChildren().size() - 14 != statement.getCommands().size() * 8) { 
+			// 15 = number of graphics in doAdd (horizontal lines + header + name)
+			while (containerShape.getChildren().size() - 15 != statement.getCommands().size() * 8) { 
 //			if (containerShape.getChildren().size() - 1 != statement.getCommands().size() * 4) {
 				EList<AbstractStatement> childStatements = ((SelectionStatement) context.getDomainObject()).getCommands();
-				int newIndex = (containerShape.getChildren().size() - 14) / 8;
+				int newIndex = (containerShape.getChildren().size() - 15) / 8;
 //				int newIndex = childStatements.size() - 1;
 				AbstractStatement childStatement = childStatements.get(newIndex);
 				Shape shapeText = Graphiti.getPeCreateService().createShape((ContainerShape) context.getPictogramElement(), true);
@@ -563,6 +581,14 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				image.setId(CbCImageProvider.IMG_PROVEN);
 			} else {
 				image.setId(CbCImageProvider.IMG_UNPROVEN);
+			} 
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			AbstractStatement domainObject = (AbstractStatement) context.getDomainObject();
+			 Image image = (Image) context.getGraphicsAlgorithm();
+			if (domainObject.getContext().equals(Confidentiality.HIGH)) {
+				image.setId(CbCImageProvider.IMG_HIGH);
+			} else {
+				image.setId(CbCImageProvider.IMG_LOW);
 			} 
 		}
 			return false;

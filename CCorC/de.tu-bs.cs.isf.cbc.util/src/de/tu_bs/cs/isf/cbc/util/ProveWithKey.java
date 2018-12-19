@@ -47,20 +47,6 @@ public class ProveWithKey {
 	
 	public static File createProveStatementWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, URI uri, int numberFile, boolean override) {
 		
-//		try {
-//			Parser.cleanParser();
-//			Parser.parseAbstractStatement(statement);
-//			Parser.parseCondition(pre);
-//			Parser.parseCondition(post);
-//		} catch (ParserException exc) {
-//			exc.printStackTrace();
-//		}
-//		Set<String> programVariables = new HashSet<String>();
-//		
-//		addVariablesToListCondition(pre, programVariables);
-//		addVariablesToListStatement(statement, programVariables);
-//		addVariablesToListCondition(post, programVariables);
-		
 		String programVariablesString = "";
 		if (vars != null) {
 			for (JavaVariable var : vars.getVariables()) {
@@ -204,54 +190,6 @@ public class ProveWithKey {
 		}
 		return toRename;
 	}
-
-//	private static void addVariablesToListStatement(AbstractStatement statement, Set<String> programVariables) {
-//		MultiAssignmentStatement multiStatement = statement.getStatement();
-//		for (Assignment assignment : multiStatement.getAssignments()) {
-//			AbstractVariable variable = assignment.getVariable();
-//			if (variable.getType().equals(Type.INT)) {
-//				programVariables.add("int " + variable.getName());
-//			} else if (variable.getType().equals(Type.STRING)) {
-//				programVariables.add("String " + variable.getName());
-//			}
-//		}
-//	}
-//
-//	private static void addVariablesToListCondition(Condition condition, Set<String> programVariables) {
-//		MultiRelation multiRelation = condition.getRelation();
-//		addVariablesToListMultiRelation(multiRelation, programVariables);
-//	}
-//	
-//	private static void addVariablesToListMultiRelation(MultiRelation multiRelation, Set<String> programVariables) {
-//		for (MultiRelation multiRelationChild : multiRelation.getMultiRelations()) {
-//			addVariablesToListMultiRelation(multiRelationChild, programVariables);
-//		}
-//		for (Relation relation : multiRelation.getAtomicRelations()) {
-//			if (relation instanceof TwoVariableRelation) {
-//				TwoVariableRelation twoVar = (TwoVariableRelation) relation;
-//				AbstractVariable variable = twoVar.getFirstVariable();
-//				if (variable.getType().equals(Type.INT)) {
-//					programVariables.add("int " + variable.getName());
-//				} else if (variable.getType().equals(Type.STRING)) {
-//					programVariables.add("String " + variable.getName());
-//				}
-//				variable = twoVar.getSecondVariable();
-//				if (variable.getType().equals(Type.INT)) {
-//					programVariables.add("int " + variable.getName());
-//				} else if (variable.getType().equals(Type.STRING)) {
-//					programVariables.add("String " + variable.getName());
-//				}
-//			} else if (relation instanceof VariableStatementRelation) {
-//				VariableStatementRelation varSt = (VariableStatementRelation) relation;
-//				AbstractVariable variable = varSt.getVariable();
-//				if (variable.getType().equals(Type.INT)) {
-//					programVariables.add("int " + variable.getName());
-//				} else if (variable.getType().equals(Type.STRING)) {
-//					programVariables.add("String " + variable.getName());
-//				}
-//			}
-//		}
-//	}
 
 	public static boolean provePreWithKey(Condition invariant, Condition preCondition, JavaVariables vars,
 			GlobalConditions conds, Renaming renaming, URI uri, IProgressMonitor monitor) {

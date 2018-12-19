@@ -142,11 +142,11 @@ public class UpdateConditionsOfChildren {
 				refinedStatement.setProven(false);
 				childRep.setVariantProven(false);
 			}
-			if (!loopStatement.getPostCondition().getName().equals(childRep.getInvariant().getName()) || !childRep.getPreCondition().getName().equals(preParent)
+			if (!loopStatement.getPostCondition().getName().equals(childRep.getInvariant().getName()) || !childRep.getPreCondition().getName().equals(preParent.getName())
 					) {
 				childRep.setPreProven(false);
 			}
-			if (!loopStatement.getPreCondition().getName().equals(preHighVars + "(" + childRep.getInvariant().getName() + ") & (" + childRep.getGuard().getName() + ")") || !childRep.getPostCondition().getName().equals(postParent)
+			if (!loopStatement.getPreCondition().getName().equals(preHighVars + "(" + childRep.getInvariant().getName() + ") & (" + childRep.getGuard().getName() + ")") || !childRep.getPostCondition().getName().equals(postParent.getName())
 					) {
 				childRep.setPostProven(false);
 			}

@@ -35,6 +35,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Confidentiality;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
 
 /**
@@ -52,6 +53,7 @@ public class CompositionPattern extends IdPattern implements IPattern {
 	private static final String ID_PRE1_TEXT = "pre1NameText";
 	private static final String ID_POST2_TEXT = "post2NameText";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
+	private static final String ID_IMAGE_CONTEXT = "imageContext";
 	//Header:
 	private static final String ID_PRE_HEADER = "preHeader";
 	private static final String ID_POST_HEADER = "postHeader";
@@ -207,6 +209,10 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
 		setId(image, ID_IMAGE_PROVEN);
+		
+		Shape contextShape = peCreateService.createShape(outerContainerShape, false);
+		Image imageContext = gaService.createImage(contextShape, CbCImageProvider.IMG_LOW);
+		setId(imageContext, ID_IMAGE_CONTEXT);
 
 		//Header:
 		Shape preHeaderShape = peCreateService.createShape(outerContainerShape, false);
@@ -283,6 +289,7 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		link(pre1Shape, addedStatement.getFirstStatement().getPreCondition());
 		link(post2Shape, addedStatement.getSecondStatement().getPostCondition());
 		link(proveShape, addedStatement);
+		link(contextShape, addedStatement);
 		
 
 		return outerContainerShape;
@@ -324,6 +331,9 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
 			changesDone = true;
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+				Graphiti.getGaService().setLocationAndSize(ga, 20, 10, 15, 15);
+				changesDone = true;
 			
 		//HEADER:
 		} else if (id.equals(ID_PRE_HEADER)) {
@@ -419,6 +429,14 @@ public class CompositionPattern extends IdPattern implements IPattern {
 			} else if (!checkIsProven(domainObject) && image.getId().equals(CbCImageProvider.IMG_PROVEN)) {
 				return Reason.createTrueReason("Statement is not proven. Expected red color.");
 			} 
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			CompositionStatement domainObject = (CompositionStatement) context.getDomainObject();
+			 Image image = (Image) context.getGraphicsAlgorithm();
+			if (domainObject.getContext().equals(Confidentiality.HIGH) && image.getId().equals(CbCImageProvider.IMG_LOW)) {
+				return Reason.createTrueReason("Statement is in high context.");
+			} else if (domainObject.getContext().equals(Confidentiality.LOW) && image.getId().equals(CbCImageProvider.IMG_HIGH)) {
+				return Reason.createTrueReason("Statement is in low context.");
+			} 
 		}
 		return Reason.createFalseReason();
 	}
@@ -446,6 +464,14 @@ public class CompositionPattern extends IdPattern implements IPattern {
 				image.setId(CbCImageProvider.IMG_PROVEN);
 			} else {
 				image.setId(CbCImageProvider.IMG_UNPROVEN);
+			} 
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			CompositionStatement domainObject = (CompositionStatement) context.getDomainObject();
+			 Image image = (Image) context.getGraphicsAlgorithm();
+			if (domainObject.getContext().equals(Confidentiality.HIGH)) {
+				image.setId(CbCImageProvider.IMG_HIGH);
+			} else {
+				image.setId(CbCImageProvider.IMG_LOW);
 			} 
 		}
 		return false;

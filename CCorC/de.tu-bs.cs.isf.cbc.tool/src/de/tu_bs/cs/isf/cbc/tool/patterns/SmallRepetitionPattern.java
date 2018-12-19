@@ -34,6 +34,7 @@ import org.eclipse.graphiti.util.PredefinedColoredAreas;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Confidentiality;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
@@ -54,6 +55,7 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 	private static final String ID_PRE_TEXT = "preNameText";
 	private static final String ID_POST_TEXT = "postNameText";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
+	private static final String ID_IMAGE_CONTEXT = "imageContext";
 	//Headers:
 	private static final String ID_VARIANT_HEADER = "variantHeader";
 	private static final String ID_INVARIANT_HEADER = "invariantHeader";
@@ -216,6 +218,11 @@ manageColor(IColorConstant.DARK_GREEN);
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
 		setId(image, ID_IMAGE_PROVEN);
+		
+		Shape contextShape = peCreateService.createShape(outerContainerShape, false);
+		Image imageContext = gaService.createImage(contextShape, CbCImageProvider.IMG_LOW);
+		setId(imageContext, ID_IMAGE_CONTEXT);
+		
 		//HEADER:
 		Shape variantHeader = peCreateService.createShape(outerContainerShape, false);
 		Text variantNameHeader = gaService.createText(variantHeader, "variant");
@@ -294,6 +301,7 @@ manageColor(IColorConstant.DARK_GREEN);
 		link(pre1Shape, addedStatement.getLoopStatement().getPreCondition());
 		link(post1Shape, addedStatement.getLoopStatement().getPostCondition());
 		link(proveShape, addedStatement);
+		link(contextShape, addedStatement);
 
 		return outerContainerShape;
 	}
@@ -334,6 +342,9 @@ manageColor(IColorConstant.DARK_GREEN);
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
+			changesDone = true;
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 20, 10, 15, 15);
 			changesDone = true;
 		//HEADERS:
 		} else if (id.equals(ID_VARIANT_HEADER)) {
@@ -430,6 +441,14 @@ manageColor(IColorConstant.DARK_GREEN);
 			} else if (!checkIsProven(domainObject) && image.getId().equals(CbCImageProvider.IMG_PROVEN)) {
 				return Reason.createTrueReason("Statement is not proven. Expected red color.");
 			} 
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			AbstractStatement domainObject = (AbstractStatement) context.getDomainObject();
+			 Image image = (Image) context.getGraphicsAlgorithm();
+			if (domainObject.getContext().equals(Confidentiality.HIGH) && image.getId().equals(CbCImageProvider.IMG_LOW)) {
+				return Reason.createTrueReason("Statement is in high context.");
+			} else if (domainObject.getContext().equals(Confidentiality.LOW) && image.getId().equals(CbCImageProvider.IMG_HIGH)) {
+				return Reason.createTrueReason("Statement is in low context.");
+			} 
 		}
 		return Reason.createFalseReason();
 	}
@@ -462,6 +481,14 @@ manageColor(IColorConstant.DARK_GREEN);
 				image.setId(CbCImageProvider.IMG_PROVEN);
 			} else {
 				image.setId(CbCImageProvider.IMG_UNPROVEN);
+			} 
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			AbstractStatement domainObject = (AbstractStatement) context.getDomainObject();
+			 Image image = (Image) context.getGraphicsAlgorithm();
+			if (domainObject.getContext().equals(Confidentiality.HIGH)) {
+				image.setId(CbCImageProvider.IMG_HIGH);
+			} else {
+				image.setId(CbCImageProvider.IMG_LOW);
 			} 
 		}
 		return false;
