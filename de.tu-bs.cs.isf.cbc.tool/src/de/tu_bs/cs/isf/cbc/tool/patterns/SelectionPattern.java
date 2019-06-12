@@ -103,10 +103,10 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		SelectionStatement selectionStatement = CbcmodelFactory.eINSTANCE.createSelectionStatement();
 		selectionStatement.setName("selectionStatement");
 		AbstractStatement statement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
-		statement.setName("statement");
+		statement.setName("statement1");
 		selectionStatement.getCommands().add(statement);
 		Condition condition = CbcmodelFactory.eINSTANCE.createCondition();
-		condition.setName("guard");
+		condition.setName("guard1");
 		selectionStatement.getGuards().add(condition);
 		Condition pre = CbcmodelFactory.eINSTANCE.createCondition();
 		pre.setName("");
@@ -114,6 +114,19 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		Condition post = CbcmodelFactory.eINSTANCE.createCondition();
 		post.setName("");
 		statement.setPostCondition(post);
+		
+		AbstractStatement statement2 = CbcmodelFactory.eINSTANCE.createAbstractStatement();
+		statement2.setName("statement2");
+		selectionStatement.getCommands().add(statement2);
+		Condition condition2 = CbcmodelFactory.eINSTANCE.createCondition();
+		condition2.setName("guard2");
+		selectionStatement.getGuards().add(condition2);
+		Condition pre2 = CbcmodelFactory.eINSTANCE.createCondition();
+		pre2.setName("");
+		statement2.setPreCondition(pre2);
+		Condition post2 = CbcmodelFactory.eINSTANCE.createCondition();
+		post2.setName("");
+		statement2.setPostCondition(post2);
 		
 		addGraphicalRepresentation(context, selectionStatement);
 		return new Object[] { selectionStatement };
@@ -462,6 +475,8 @@ public class SelectionPattern extends IdPattern implements IPattern {
 			// 13 = number of graphics in doAdd (horizontal lines + header + name)
 			while (containerShape.getChildren().size() - 14 != statement.getCommands().size() * 7) { 
 //			if (containerShape.getChildren().size() - 1 != statement.getCommands().size() * 4) {
+				Font uneditableFont = Graphiti.getGaService().manageFont(getDiagram(), "Arial", 9, true, false);
+				
 				EList<AbstractStatement> childStatements = ((SelectionStatement) context.getDomainObject()).getCommands();
 				int newIndex = (containerShape.getChildren().size() - 14) / 7;
 //				int newIndex = childStatements.size() - 1;
@@ -472,6 +487,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				setIndex(statementNameText, newIndex);
 				statementNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 				statementNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+				statementNameText.setFont(uneditableFont);
 				IPeCreateService peCreateService = Graphiti.getPeCreateService();
 				peCreateService.createChopboxAnchor(shapeText);
 				link(shapeText, childStatement);
@@ -482,6 +498,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				setIndex(preNameText, newIndex);
 				preNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 				preNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+				preNameText.setFont(uneditableFont);
 				link(shapeTextPre, childStatement.getPreCondition());
 				
 				Shape shapeTextPost = Graphiti.getPeCreateService().createShape((ContainerShape) context.getPictogramElement(), false);
@@ -490,6 +507,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				setIndex(postNameText, newIndex);
 				postNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 				postNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+				postNameText.setFont(uneditableFont);
 				link(shapeTextPost, childStatement.getPostCondition());
 				
 				//vertical lines, that need to be added, when ExtraSelection is used:

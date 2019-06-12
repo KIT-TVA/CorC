@@ -22,6 +22,7 @@ import de.tu_bs.cs.isf.cbc.tool.features.GenerateIntermediateConditionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.GenerateIntermediateConditionFeature2;
 import de.tu_bs.cs.isf.cbc.tool.features.GenerateTextualRepresentation;
 import de.tu_bs.cs.isf.cbc.tool.features.LayoutFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.OpenTaxFileFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.PrintFormulaFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.ReconnectionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameConditionFeature;
@@ -29,7 +30,6 @@ import de.tu_bs.cs.isf.cbc.tool.features.RenameRenamingFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameStatementFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameVariableFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameVariantFeature;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyCompleteRepetition;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyMethodStatementAndSubFormula;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyPostRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyPreRepetitionStatement;
@@ -37,18 +37,19 @@ import de.tu_bs.cs.isf.cbc.tool.features.VerifyPreSelectionStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStrengthWeakCorrect;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyVariant2;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyVariant3;
-import de.tu_bs.cs.isf.cbc.tool.patterns.Composition3Pattern;
+import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveCompositionFirstFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveCompositionSecondFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveRepetitionFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveSelectionFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.intermediate.BelowImplementationFeature;
 import de.tu_bs.cs.isf.cbc.tool.patterns.CompositionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConditionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConnectionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.FormulaPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.GlobalConditionsPattern;
-import de.tu_bs.cs.isf.cbc.tool.patterns.MethodPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.MethodStatementPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.RenamePattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.RenamingPattern;
-import de.tu_bs.cs.isf.cbc.tool.patterns.RepetitionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ReturnPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.SelectionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.SkipStatementPattern;
@@ -65,16 +66,16 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
         super(dtp);
         addPattern(new FormulaPattern());
         addPattern(new CompositionPattern());
-        addPattern(new Composition3Pattern());
+//        addPattern(new Composition3Pattern());
         addPattern(new SelectionPattern());
-        addPattern(new RepetitionPattern());
+//        addPattern(new RepetitionPattern());
         addPattern(new SmallRepetitionPattern());
         addPattern(new SkipStatementPattern());
         addPattern(new MethodStatementPattern());
         addPattern(new ReturnPattern());
         addPattern(new StrengthWeakStatementPattern());
         addPattern(new StatementPattern());
-        addPattern(new MethodPattern());
+//        addPattern(new MethodPattern());
         addPattern(new GlobalConditionsPattern());
         addPattern(new ConditionPattern());
         addPattern(new VariablesPattern());
@@ -132,7 +133,7 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	    		new VerifyStrengthWeakCorrect(this),
 //	    		new VerifyVariant(this),
 	    		new VerifyVariant2(this),
-	    		new VerifyVariant3(this),
+//	    		new VerifyVariant3(this),
 	    		new EditCommentFeature(this),
 	    		new DrillDownFeature(this),
 	    		new DrillUpFeature(this),
@@ -144,8 +145,14 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	    		new RenameVariableFeature(this),
 	    		new RenameRenamingFeature(this),
 	    		new LayoutFeature(this),
-	    		new VerifyCompleteRepetition(this),
+//	    		new VerifyCompleteRepetition(this),
 	    		new GenerateIntermediateConditionFeature(this),
-	    		new GenerateIntermediateConditionFeature2(this)};
+	    		new GenerateIntermediateConditionFeature2(this),
+	    		new AboveCompositionFirstFeature(this),
+	    		new AboveCompositionSecondFeature(this),
+	    		new AboveSelectionFeature(this),
+	    		new AboveRepetitionFeature(this),
+	    		new BelowImplementationFeature(this),
+	    		new OpenTaxFileFeature(this)};
 	}
 }

@@ -49,6 +49,11 @@
             id="de.tu_bs.cs.isf.commands.toolbar.command1"
             name="GenerateGraphical">
       </command>
+      <command
+            defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.VerifyWithKeYHandler"
+            id="de.tu_bs.cs.isf.commands.toolbar.command2"
+            name="VerifyWithKeY">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -67,6 +72,12 @@
                   commandId="de.tu_bs.cs.isf.commands.toolbar.command1"
                   icon="icons/diagram.gif"
                   label="Generate Graphical Representation"
+                  style="push">
+            </command>
+            <command
+                  commandId="de.tu_bs.cs.isf.commands.toolbar.command2"
+                  icon="icons/green.GIF"
+                  label="Verify with KeY"
                   style="push">
             </command>
          </toolbar>

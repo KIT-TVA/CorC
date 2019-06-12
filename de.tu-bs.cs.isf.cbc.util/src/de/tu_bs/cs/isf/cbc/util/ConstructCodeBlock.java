@@ -106,7 +106,6 @@ public class ConstructCodeBlock {
 			}
 		}
 		StringBuffer code = new StringBuffer();
-		System.out.println(System.getProperties());
 		code.append("public class Debug {\n"
 	    +"/*@\n"
 	    +"@ normal_behavior\n"

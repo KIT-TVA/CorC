@@ -84,7 +84,12 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 					}
 				}
 				boolean prove = false;
-
+//				try {
+//					getDiagram().eResource().save(Collections.EMPTY_MAP);
+//					statement.eResource().save(Collections.EMPTY_MAP);
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 					prove = ProveWithKey.proveStatementWithKey(statement, vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
 				} else {

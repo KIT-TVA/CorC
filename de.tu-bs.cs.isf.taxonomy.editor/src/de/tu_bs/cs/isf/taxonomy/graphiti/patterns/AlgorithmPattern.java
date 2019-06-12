@@ -110,6 +110,7 @@ public class AlgorithmPattern extends IdPattern implements IPattern {
 		mainMethod.setName("mainMethod()");
 		mainMethod.setPreCondition("");
 		mainMethod.setPostCondition("");
+		mainMethod.setCorCImpl(mainMethod.getName());
 		newAlgorithm.getMethods().add(mainMethod);
 
 		

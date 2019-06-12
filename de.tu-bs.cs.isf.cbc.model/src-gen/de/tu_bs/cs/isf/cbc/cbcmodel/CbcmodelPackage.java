@@ -121,13 +121,22 @@ public interface CbcmodelPackage extends EPackage {
 	int CB_CFORMULA__COMMENT = 5;
 
 	/**
+	 * The feature id for the '<em><b>Tax Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CB_CFORMULA__TAX_METHOD = 6;
+
+	/**
 	 * The number of structural features of the '<em>Cb CFormula</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CFORMULA_FEATURE_COUNT = 6;
+	int CB_CFORMULA_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>Cb CFormula</em>' class.
@@ -1748,6 +1757,17 @@ public interface CbcmodelPackage extends EPackage {
 	EAttribute getCbCFormula_Comment();
 
 	/**
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getTaxMethod <em>Tax Method</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Tax Method</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getTaxMethod()
+	 * @see #getCbCFormula()
+	 * @generated
+	 */
+	EAttribute getCbCFormula_TaxMethod();
+
+	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Condition <em>Condition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2545,6 +2565,14 @@ public interface CbcmodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CB_CFORMULA__COMMENT = eINSTANCE.getCbCFormula_Comment();
+
+		/**
+		 * The meta object literal for the '<em><b>Tax Method</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CB_CFORMULA__TAX_METHOD = eINSTANCE.getCbCFormula_TaxMethod();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.ConditionImpl <em>Condition</em>}' class.

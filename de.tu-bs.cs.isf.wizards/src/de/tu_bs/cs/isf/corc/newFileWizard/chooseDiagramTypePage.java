@@ -120,19 +120,8 @@ public class chooseDiagramTypePage extends WizardPage {
 				browsedPath = dialog.open();
 				if (browsedPath != null) {
 					path.setText(browsedPath);
-					//check if browsedPath is in the eclipse workspace (have to cut / and \, because format differs)
-					String temp = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString().replace("/", "");
-					browsedPath = browsedPath.replace("\\", "");
-					if (browsedPath.contains(temp)) {
-						if (browsedPath.equals(temp)) {
-							error.setText("Error: [workspace root] you can't select the workspace root as your destination");
-						} else {
-							setPageComplete(true);
-							error.setText("");
-						}
-					}  else {
-						error.setText("Error: [not in workspace] you have to choose a folder in your eclipse workspace");
-					}
+					setPageComplete(true);
+					error.setText("");
 				}
 			}			
 		});
@@ -147,14 +136,8 @@ public class chooseDiagramTypePage extends WizardPage {
 		String oldselection = selected.toString();
 		String selection = oldselection.substring(2, oldselection.length() - 1); //cuts first two and the last character [X, ]
 		String currentPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
-		if (oldselection.charAt(1) == 'L') {
-			error.setText("Error: [selected a file] please select a folder");
-			path.setText(currentPath + selection);
-		} else if (oldselection.equals("<empty selection>")) {
-			error.setText("please use the browse function to select a path");
-			path.setText("");
-		} else if (!selection.contains("/")) { //that happens i.e. in java projects 
-			error.setText("Error: [project type] can't use current selection - please use the browse function to select your path");
+		if (oldselection.charAt(1) == 'L' || oldselection.equals("<empty selection>") || !selection.contains("/")) {
+			error.setText("use the browse function to select a path");
 			path.setText("");
 		} else {
 			currentPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + selection;

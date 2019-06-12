@@ -15,7 +15,6 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
@@ -25,6 +24,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.corc.newFileWizard.NewCorCFileWizard;
 import de.tu_bs.cs.isf.corc.newFileWizard.chooseDiagramTypePage;
 import de.tu_bs.cs.isf.taxonomy.model.taxonomy.Method;
+import de.tu_bs.isf.taxonomy.graphiti.helper.CustomInputDialog;
 
 /**
  * Feature that lets you implement a new corc diagram to a selected method
@@ -33,6 +33,7 @@ import de.tu_bs.cs.isf.taxonomy.model.taxonomy.Method;
 public class ImplementMethodinCorcFeature extends AbstractCustomFeature {
 	 
 	private Method selectedMethod;
+	
     public ImplementMethodinCorcFeature(IFeatureProvider fp) {
         super(fp);
     }
@@ -69,14 +70,15 @@ public class ImplementMethodinCorcFeature extends AbstractCustomFeature {
      */
     @Override
     public void execute(ICustomContext context) {
-    	Shell shell = new Shell(Display.getCurrent());
+    	//Shell shell = new Shell(Display.getCurrent());
 		NewCorCFileWizard wizard = new NewCorCFileWizard();
-		WizardDialog dialog = new WizardDialog(shell, wizard);
+		WizardDialog dialog = new WizardDialog(new Shell(), wizard);
 		chooseDiagramTypePage page = (chooseDiagramTypePage) wizard.getFirstPage();
 		
 		dialog.create();
 		
 		//set name and path in the dialog:
+		
 		page.name.setText(selectedMethod.getName());
 		String path = selectedMethod.eResource().getURI().trimSegments(1).toString();
 		path = path.replace("platform:/resource", "");
@@ -85,13 +87,13 @@ public class ImplementMethodinCorcFeature extends AbstractCustomFeature {
 		page.error.setText("");
 		page.setPageComplete(true);
 		dialog.open();
-		
+
 		Diagram diagram = wizard.getCreatedDiagram();
 		Resource modelResource = wizard.getCreatedModelResource();
 		Resource diagramResource = wizard.getCreatedDiagramResource();
 		if (diagram != null && modelResource != null) {
 			CbCFormula formula = createFormula(diagram, selectedMethod); //create formula
-			modelResource.getContents().add(formula); //add formula to resource
+			modelResource.getContents().add(formula); //add formula to resources
 			
 			AddContext addContext = new AddContext();
 			addContext.setLocation(550, 150);
@@ -112,12 +114,10 @@ public class ImplementMethodinCorcFeature extends AbstractCustomFeature {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-		}
+		}		
     }
     
     /**
-	 * creates the formula in the new diagram
 	 */
 	private CbCFormula createFormula(Diagram diagram, Method method) {
 		//creates formula and sets names etc.
@@ -132,6 +132,19 @@ public class ImplementMethodinCorcFeature extends AbstractCustomFeature {
 		Condition postCondition = CbcmodelFactory.eINSTANCE.createCondition();
 		postCondition.setName(method.getPostCondition());
 		statement.setPostCondition(postCondition);
+		
+		//link selected Method to the corcimpl, so drilldown can open it:
+		if (method.getCorCImpl() != null && !method.getCorCImpl().isEmpty()) {
+			formula.setTaxMethod(method.getCorCImpl());
+		} else {
+			//when method dont got any corc impl, it asks the user to set a name for it
+			String message = "please select a identifier so that the corc diagram and method can be linked";
+			String title = "implementing in corc";
+			CustomInputDialog dialog = new CustomInputDialog(new Shell(), message, title);
+			dialog.open();
+			formula.setTaxMethod(dialog.getInput());
+			method.setCorCImpl(dialog.getInput());
+		}
 		return formula;
 		
 	}

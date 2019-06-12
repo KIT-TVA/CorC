@@ -31,6 +31,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies;
 
 /**
  * Class that creates the graphical representation of Conditions
@@ -225,9 +226,9 @@ public class ConditionPattern extends IdPattern implements IPattern {
 		if (value.length() > 0 && (value.contains("forall") || value.contains("exists"))) {
 			return null;
 		} 
-//		else if (value.length() > 0 && !CompareMethodBodies.readAndTestAssertWithJaMoPP(value.replaceAll("<->", "&").replaceAll("->", "&"))) {
-//			return "Condition has not the correct syntax.";
-//		}
+		else if (value.length() > 0 && !CompareMethodBodies.readAndTestAssertWithJaMoPP(value.replaceAll("<->", "&").replaceAll("->", "&"))) {
+			return "Condition has not the correct syntax.";
+		}
 		return null;
 	}
 

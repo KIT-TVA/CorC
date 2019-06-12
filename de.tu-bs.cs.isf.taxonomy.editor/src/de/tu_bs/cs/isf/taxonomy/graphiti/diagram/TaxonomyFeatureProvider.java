@@ -37,19 +37,21 @@ import de.tu_bs.cs.isf.taxonomy.graphiti.features.CreateMethodFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.DeleteConnectionFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.DeleteDataTypeFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.DeleteMethodFeature;
+import de.tu_bs.cs.isf.taxonomy.graphiti.features.DrillDownFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.EditDataStructureFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.EditDataTypeFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.EditInvariantFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.EditMethodFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.EditPostConditionFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.EditPreConditionFeature;
+import de.tu_bs.cs.isf.taxonomy.graphiti.features.ImplementMethodinCorcFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.LayoutConnectionFeature;
+import de.tu_bs.cs.isf.taxonomy.graphiti.features.LinkCorCDiagramFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.MoveFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.PasteAlgorithmFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.ReconnectionFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.ResizeFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.RunToolkitGenerationFeature;
-import de.tu_bs.cs.isf.taxonomy.graphiti.features.ImplementMethodinCorcFeature;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.VerifyPostImplPost;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.VerifyPreImplPre;
 import de.tu_bs.cs.isf.taxonomy.graphiti.patterns.AlgorithmPattern;
@@ -175,6 +177,8 @@ public class TaxonomyFeatureProvider extends DefaultFeatureProviderWithPatterns 
 	    		new AddInitialValueToDataStructuresFeature(this),
 	    		new VerifyPreImplPre(this),
 	    		new VerifyPostImplPost(this),
+	    		new DrillDownFeature(this),
+	    		new LinkCorCDiagramFeature(this),
 	    		new ImplementMethodinCorcFeature(this)};
 	} 
 	
@@ -187,5 +191,5 @@ public class TaxonomyFeatureProvider extends DefaultFeatureProviderWithPatterns 
 	public IPasteFeature getPasteFeature(IPasteContext context) {
 	    return new PasteAlgorithmFeature(this);
 	}
-
+	
 }

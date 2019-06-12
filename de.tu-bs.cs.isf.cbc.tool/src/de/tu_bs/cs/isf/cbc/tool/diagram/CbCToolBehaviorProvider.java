@@ -27,7 +27,10 @@ import org.eclipse.graphiti.tb.IToolBehaviorProvider;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.features.AddPseudoCodeToMethodFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameConditionFeature;
@@ -64,7 +67,15 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 					if (!(statement.eContainer() instanceof SelectionStatement)) {
 						notDelete = true;
 					}
+				} else if (object instanceof Variant) {
+					notDelete = true;
+				} else if (object instanceof Condition) {
+					EObject parent = object.eContainer();
+					if (parent instanceof SelectionStatement || parent instanceof SmallRepetitionStatement || parent.eContainer() instanceof CbCFormula) {
+						notDelete = true;
+					}
 				}
+				
 			}
 		}
 		if (notDelete) {
@@ -117,18 +128,36 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 	    // display sub-menu hierarchical or flat
 	    subMenuVerify.setSubmenu(true);
 	    
+	    ContextMenuEntry subMenuOpen = new ContextMenuEntry(null, context);
+	    subMenuOpen.setText("Open");
+	    subMenuOpen.setDescription("Open features submenu");
+	    subMenuOpen.setSubmenu(true);
+	    
 	    ContextMenuEntry subMenuPrint = new ContextMenuEntry(null, context);
 	    subMenuPrint.setText("Edit");
-	    subMenuPrint.setDescription("Generate features submenu");
-	    // display sub-menu hierarchical or flat
+	    subMenuPrint.setDescription("Edit features submenu");
 	    subMenuPrint.setSubmenu(true);
+	    
+	    ContextMenuEntry subMenuAdd = new ContextMenuEntry(null, context);
+	    subMenuAdd.setText("Add");
+	    subMenuAdd.setDescription("Add features submenu");
+	    // display sub-menu hierarchical or flat
+	    subMenuAdd.setSubmenu(true);
 
 	    // create a menu-entry in the sub-menu for each custom feature
 	    ICustomFeature[] customFeatures = getFeatureProvider().getCustomFeatures(context);
 	    for (int i = 0; i < customFeatures.length; i++) {
 	         ICustomFeature customFeature = customFeatures[i];
 	         if (customFeature.canExecute(context)) {
-	        	 if (!customFeature.getName().contains("Generate") 
+	        	 if (customFeature.getName().contains("above") 
+	        			 || customFeature.getName().contains("below")) {
+	        		 ContextMenuEntry menuEntry = new ContextMenuEntry(customFeature, context);
+		             subMenuAdd.add(menuEntry); 
+	        	 } else if (customFeature.getName().equals("Open associated Taxonomy")) {
+	        		 ContextMenuEntry menuEntry = new ContextMenuEntry(customFeature, context);
+	        		 subMenuOpen.add(menuEntry);
+	        	 }
+	        	 else if (!customFeature.getName().contains("Generate") 
 	        			 && !customFeature.getName().contains("Extract")
 	        			 && !customFeature.getName().contains("Edit")
 	        			 && !customFeature.getName().contains("Layout")
@@ -141,8 +170,8 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 	        	 }
 	         }
 	     }
+	     IContextMenuEntry ret[] = new IContextMenuEntry[] { subMenuVerify, subMenuPrint, subMenuAdd, subMenuOpen };
 
-	     IContextMenuEntry ret[] = new IContextMenuEntry[] { subMenuVerify, subMenuPrint };
 	     return ret;
 	}
 	
