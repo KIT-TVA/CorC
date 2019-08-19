@@ -26,6 +26,7 @@ public class ConstructCodeBlock {
 	private static boolean handleInnerLoops = true;
 	private static boolean withInvariants = false;
 	private static Renaming renaming = null;
+	private static int positionIndex = 0;
 	
 	public static String constructCodeBlockAndVerify(AbstractStatement statement) {
 		handleInnerLoops = true;
@@ -107,26 +108,49 @@ public class ConstructCodeBlock {
 		}
 		StringBuffer code = new StringBuffer();
 		code.append("public class Debug {\n"
-	    +"/*@\n"
-	    +"@ normal_behavior\n"
-	    +"@ requires " + pre.replaceAll(System.getProperty("line.separator"), "") + ";\n"
-	    +"@ ensures " + post.replaceAll(System.getProperty("line.separator"), "") + ";\n"
-	    +"@*/\n"
-	    +"public static void " + formula.getName()+ "(" + parameters + ") {\n");
+	    +"\t/*@\n"
+	    +"\t@ normal_behavior\n"
+	    +"\t@ requires " + pre.replaceAll(System.getProperty("line.separator"), "") + ";\n"
+	    +"\t@ ensures " + post.replaceAll(System.getProperty("line.separator"), "") + ";\n"
+	    +"\t@*/\n"
+	    +"\tpublic static void " + formula.getName()+ "(" + parameters + ") {\n");
+		positionIndex = 2;
+		for (int i = 0; i < positionIndex; i++) {
+			code.append("\t");
+		}
 	    if (formula.getStatement().getRefinement() != null) {
     		code.append(constructCodeBlockOfChildStatement(formula.getStatement().getRefinement()));
     	} else {
     		code.append(constructCodeBlockOfChildStatement(formula.getStatement()));
     	}
-    	code.append("}}");
+    	code.append("\n\t}\n}");
     	return code.toString();
 	}
     
     private static String constructCodeBlockOfChildStatement(AbstractStatement refinement) {
     	if (refinement.getClass().equals(AbstractStatementImpl.class)) {
-    		return refinement.getName()  + "\n";
+    		String allStatements =  refinement.getName().replace("\r\n", "");
+    		allStatements = allStatements.replace(" ", "");
+    		allStatements = allStatements.replace("=", " = ");
+
+    		String abstractStatementSplit[] = allStatements.split(";");
+    		String statements;
+    		if (abstractStatementSplit.length > 1) {
+				statements = abstractStatementSplit[0] + ";\n";
+				for (int i = 1; i < abstractStatementSplit.length; i++) {
+					for (int j = 0; j < positionIndex; j++) {
+						statements = statements + "\t";
+					}
+					statements = statements + (abstractStatementSplit[i] + ";\n");
+				}
+    		} else {
+    			statements = allStatements + "\n";
+    		}
+    		//return statements;
+    		return statements;
+    		//return refinement.getName()  + "\n";
     	} else if (refinement.getClass().equals(SkipStatementImpl.class)) {
-    		return "; \n";
+    		return ";\n";
     	} else if (refinement.getClass().equals(ReturnStatementImpl.class)) {
     		return "return " + refinement.getName()  + "\n";
     	} else if (refinement.getClass().equals(MethodStatementImpl.class)) {
@@ -151,31 +175,69 @@ public class ConstructCodeBlock {
 		return null;
 	}
 
-    
 
 	private static String constructSelection(SelectionStatement statement) {
 		StringBuffer buffer = new StringBuffer();
 		if (!statement.getCommands().isEmpty()) {
 			String guard = statement.getGuards().get(0).getName();
-			guard = guard.replaceAll("\\s=\\s", "==");
-			buffer.append("if (" + guard +"){\n");
+			//guard = guard.replaceAll("\\s=\\s", "==");
+			guard = rewriteGuardToJavaCode(guard);
+			buffer.append("if (" + guard +") {\n");
+			positionIndex++;
 			if (statement.getCommands().get(0).getRefinement() != null) {
-	    		buffer.append(constructCodeBlockOfChildStatement(statement.getCommands().get(0).getRefinement()) + "}");
+				for (int i = 0; i < positionIndex; i++) {
+					buffer.append("\t");
+				}
+	    		buffer.append(constructCodeBlockOfChildStatement(statement.getCommands().get(0).getRefinement()));
+	    		positionIndex--;
+	    		for (int i = 0; i < positionIndex; i++) {
+					buffer.append("\t");
+				}
+	    		buffer.append("}");
 	    	} else {
-	    		buffer.append(constructCodeBlockOfChildStatement(statement.getCommands().get(0)) + "}");
+	    		for (int i = 0; i < positionIndex; i++) {
+					buffer.append("\t");
+				}
+	    		buffer.append(constructCodeBlockOfChildStatement(statement.getCommands().get(0)));
+	    		positionIndex--;
+	    		for (int i = 0; i < positionIndex; i++) {
+					buffer.append("\t");
+				}
+	    		buffer.append("}");
+	    	}
+		}
+		
+		for (int i = 1; i < statement.getCommands().size(); i++) {
+			String guard = statement.getGuards().get(i).getName();
+			//guard = guard.replaceAll("\\s=\\s", "==");
+			guard = rewriteGuardToJavaCode(guard);
+			buffer.append(" else if (" + guard +") {\n");
+			positionIndex++;
+			if (statement.getCommands().get(i).getRefinement() != null) {
+				for (int j = 0; j < positionIndex; j++) {
+					buffer.append("\t");
+				}
+	    		buffer.append(constructCodeBlockOfChildStatement(statement.getCommands().get(i).getRefinement()));
+	    		positionIndex--;
+	    		for (int j = 0; j < positionIndex; j++) {
+					buffer.append("\t");
+				}
+	    		buffer.append("}");
+	    	} else {
+	    		for (int j = 0; j < positionIndex; j++) {
+					buffer.append("\t");
+				}
+	    		buffer.append(constructCodeBlockOfChildStatement(statement.getCommands().get(i)) + "}");
+	    		positionIndex--;
+	    		for (int j = 0; j < positionIndex; j++) {
+					buffer.append("\t");
+				}
+	    		buffer.append("}");
 	    	}
 			
 		}
-		for (int i = 1; i < statement.getCommands().size(); i++) {
-			String guard = statement.getGuards().get(i).getName();
-			guard = guard.replaceAll("\\s=\\s", "==");
-			buffer.append("else if (" + guard +"){\n");
-			if (statement.getCommands().get(i).getRefinement() != null) {
-	    		buffer.append(constructCodeBlockOfChildStatement(statement.getCommands().get(i).getRefinement()) + "}");
-	    	} else {
-	    		buffer.append(constructCodeBlockOfChildStatement(statement.getCommands().get(i)) + "}");
-	    	}
-		}
+		
+		buffer.append("\n");
 		return buffer.toString();
 	}
 	
@@ -186,6 +248,10 @@ public class ConstructCodeBlock {
     	} else {
     		buffer.append(constructCodeBlockOfChildStatement(statement.getFirstStatement()));
     	}
+		
+		for (int i = 0; i < positionIndex; i++) {
+			buffer.append("\t");
+		}
 		if (statement.getSecondStatement().getRefinement() != null) {
     		buffer.append(constructCodeBlockOfChildStatement(statement.getSecondStatement().getRefinement()));
     	} else {
@@ -201,11 +267,17 @@ public class ConstructCodeBlock {
     	} else {
     		buffer.append(constructCodeBlockOfChildStatement(statement.getFirstStatement()));
     	}
+		for (int i = 0; i < positionIndex; i++) {
+			buffer.append("\t");
+		}
 		if (statement.getSecondStatement().getRefinement() != null) {
     		buffer.append(constructCodeBlockOfChildStatement(statement.getSecondStatement().getRefinement()));
     	} else {
     		buffer.append(constructCodeBlockOfChildStatement(statement.getSecondStatement()));
     	}
+		for (int i = 0; i < positionIndex; i++) {
+			buffer.append("\t");
+		}
 		if (statement.getThirdStatement().getRefinement() != null) {
     		buffer.append(constructCodeBlockOfChildStatement(statement.getThirdStatement().getRefinement()));
     	} else {
@@ -226,18 +298,40 @@ public class ConstructCodeBlock {
 				String invariant = statement.getInvariant().getName();
 				invariant = rewriteConditionToJML(invariant);
 				invariant = useRenamingCondition(invariant);
+				for (int i = 0; i < positionIndex; i++) {
+					buffer.append("\t");
+				}
 				buffer.append("//@ loop_invariant " + invariant.replaceAll("\\r\\n", "") + ";\n");
+				for (int i = 0; i < positionIndex; i++) {
+					buffer.append("\t");
+				}
 				buffer.append("//@ decreases " + statement.getVariant().getName() + ";\n");
 			}
 			String guard = statement.getGuard().getName();
-			guard = guard.replaceAll("\\s=\\s", "==");
-			buffer.append("while(" + guard + "){\n");
+			 
+			//guard = guard.replaceAll("\\s=\\s", "==");
+			guard = rewriteGuardToJavaCode(guard);
+			for (int i = 0; i < positionIndex; i++) {
+				buffer.append("\t");
+			}
+			buffer.append("while (" + guard + "){\n");
+			positionIndex++;
+			for (int i = 0; i < positionIndex; i++) {
+				buffer.append("\t");
+			}
 			if (statement.getLoopStatement().getRefinement() != null) {
 				buffer.append(constructCodeBlockOfChildStatement(statement.getLoopStatement().getRefinement()));
 	    	} else {
 	    		buffer.append(constructCodeBlockOfChildStatement(statement.getLoopStatement()));
 	    	}
+			positionIndex--;
+			for (int i = 0; i < positionIndex; i++) {
+				buffer.append("\t");
+			}
 			buffer.append("}\n");
+			for (int i = 0; i < positionIndex; i++) {
+				buffer.append("\t");
+			}
 			if (statement.getEndStatement().getRefinement() != null) {
 				buffer.append(constructCodeBlockOfChildStatement(statement.getEndStatement().getRefinement()));
 	    	} else {
@@ -255,15 +349,30 @@ public class ConstructCodeBlock {
 				invariant = rewriteConditionToJML(invariant);
 				invariant = useRenamingCondition(invariant);
 				buffer.append("//@ loop_invariant " + invariant.replaceAll("\\r\\n", "") + ";\n");
+				for (int i = 0; i < positionIndex; i++) {
+					buffer.append("\t");
+				}
 				buffer.append("//@ decreases " + statement.getVariant().getName() + ";\n");
 			}
 			String guard = statement.getGuard().getName();
-			guard = guard.replaceAll("\\s=\\s", "==");
-			buffer.append("while(" + guard + "){\n");
+			//guard = guard.replaceAll("\\s=\\s", "==");
+			guard = rewriteGuardToJavaCode(guard);
+			for (int i = 0; i < positionIndex; i++) {
+				buffer.append("\t");
+			}
+			buffer.append("while (" + guard + ") {\n");
+			positionIndex++;
+			for (int i = 0; i < positionIndex; i++) {
+				buffer.append("\t");
+			}
 			if (statement.getLoopStatement().getRefinement() != null) {
 				buffer.append(constructCodeBlockOfChildStatement(statement.getLoopStatement().getRefinement()));
 			} else {
 				buffer.append(constructCodeBlockOfChildStatement(statement.getLoopStatement()));
+			}
+			positionIndex--;
+			for (int i = 0; i < positionIndex; i++) {
+				buffer.append("\t");
 			}
 			buffer.append("}\n");
 		}
@@ -271,11 +380,30 @@ public class ConstructCodeBlock {
     }
 	
 	private static String rewriteConditionToJML(String condition) {
-		condition = condition.replaceAll("->", "==>");
-		condition = condition.replaceAll("<->", "<==>");
-		condition = condition.replaceAll("\\s=\\s", "==");
+		condition = condition.replaceAll("(?<!<|>|!|=)(\\s*=\\s*)(?!<|>|=)", " == ");
+		condition = condition.replace("->", "==>");
+		condition = condition.replace("<->", "<==>");
+		condition = condition.replace("&", "&&");
+		condition = condition.replace("|", "||");
 		return condition;
     }
+	
+	private static String rewriteGuardToJavaCode(String guard) {
+		guard = guard.replaceAll("(?<!<|>|!|=)(\\s*=\\s*)(?!<|>|=)", " == ");
+		guard = guard.replace("&", "&&");
+		guard = guard.replace("|", "||");
+		return guard;
+	}
+	
+//	private static Boolean isEqualityComparison(String condition) {
+//		boolean result = false;
+//		Pattern pat = Pattern.compile("(?<!<|>|!|=)(\\s*=\\s*)(?!<|>|=)");
+//		Matcher mat = pat.matcher(condition);
+//		if (mat.find()) {
+//            result = true;
+//        } 
+//		return result;
+//	}
 	
 	private static String useRenamingCondition(String toRename) {
 		if (renaming != null) {

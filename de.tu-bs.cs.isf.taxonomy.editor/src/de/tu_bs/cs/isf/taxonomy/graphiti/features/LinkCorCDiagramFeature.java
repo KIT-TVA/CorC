@@ -1,7 +1,8 @@
 package de.tu_bs.cs.isf.taxonomy.graphiti.features;
 
 
-import java.util.Map;
+import java.io.IOException;
+import java.util.Collections;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
@@ -9,17 +10,17 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.taxonomy.model.taxonomy.Method;
 import de.tu_bs.isf.taxonomy.graphiti.helper.CustomInputDialog;
 
@@ -71,39 +72,53 @@ public class LinkCorCDiagramFeature extends AbstractCustomFeature {
 		dialog.setFilterExtensions(new String[] {"*.diagram"});
 		
 		String selectedInput = dialog.open();
-		System.out.println("Input: " + selectedInput);
 		if (selectedInput != null) {
+			//transform InputString, so that createPlatformResourceURI can use it
+			selectedInput = selectedInput.replaceAll("\\\\", "/"); //replaces all \ with / in the path
+			selectedInput = selectedInput.replaceAll(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "/", "");
+			String selectedInputModel = selectedInput.replace(".diagram", ".cbcmodel");
+		
 			
-			//MAGIC:
-			CbcmodelPackage.eINSTANCE.eClass();
-			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-			Map<String, Object> m = reg.getExtensionToFactoryMap();
-			m.put("cbcmodel", new XMIResourceFactoryImpl());
-			//END MAGIC
-			
-			//from Resource to CbcFormula
+			//from the Resource, get the CbcFormula
 			ResourceSet resourceSet = new ResourceSetImpl();
-			System.out.println(URI.createPlatformResourceURI("Userstudy/src/diagrams/BankAccountUpdate.diagram",false));
-			Resource selectedResource = resourceSet.getResource(URI.createPlatformResourceURI("Userstudy/src/diagrams/BankAccountUpdate.diagram",true), true); //returns null, needs to be fixed
-			System.out.println("Resource: " + selectedResource);
-			for (EObject object : selectedResource.getContents()) {
-				System.out.println(selectedResource.getContents());
-				if (object instanceof CbCFormula) {
-					CbCFormula formula = (CbCFormula) object;
-					if (selectedMethod.getCorCImpl() != null) {
-						//if method already got a tax method set, just link formula
-						formula.setTaxMethod(selectedMethod.getCorCImpl());
-					} else {
-						//if method does not got a method set already, user has to select one using the custom dialog
-						String message = "please select a identifier so that the corc diagram and method can be linked";
-						String title = "implementing in corc";
-						CustomInputDialog implDialog = new CustomInputDialog(new Shell(), message, title);
-						dialog.open();
-						formula.setTaxMethod(implDialog.getMessage());
-						selectedMethod.setCorCImpl(implDialog.getMessage());
+			URI modelUri = URI.createPlatformResourceURI(selectedInputModel, true);
+			URI diagramUri = URI.createPlatformResourceURI(selectedInput, true);
+					
+			Resource modelResource = resourceSet.getResource(modelUri, true);
+			Resource diagramResource = resourceSet.getResource(diagramUri, true);
+			
+			for (EObject object : diagramResource.getContents()) {
+				if (object instanceof Diagram) {
+					Diagram diagram = (Diagram) object;
+					for (Shape shape : diagram.getChildren()) {
+						Object obj = getBusinessObjectForPictogramElement(shape);
+						if (obj instanceof CbCFormula) {
+							CbCFormula formula = (CbCFormula) obj;
+							//Diagram diagram = (Diagram) object;
+							if (selectedMethod.getCorCImpl() != null) {
+								//if method already got a tax method set, just link formula
+								formula.setTaxMethod(selectedMethod.getCorCImpl());
+							} else {
+								//if method does not got a method set already, user has to select one using the custom dialog
+								String message = "please select a identifier so that the corc diagram and method can be linked";
+								String title = "linking to corc";
+								CustomInputDialog implDialog = new CustomInputDialog(new Shell(), message, title);
+								implDialog.open();
+								formula.setTaxMethod(implDialog.getInput());
+								selectedMethod.setCorCImpl(implDialog.getInput());
+							}
+							
+							try {
+								modelResource.save(Collections.emptyMap());
+								diagramResource.save(Collections.emptyMap());
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
 					}
 				}
 			}
+			
 		}
 	}
 }

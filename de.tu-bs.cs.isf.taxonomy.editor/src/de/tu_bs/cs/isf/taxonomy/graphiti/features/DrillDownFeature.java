@@ -6,7 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
@@ -54,19 +56,27 @@ public class DrillDownFeature extends AbstractDrillDownFeature {
     }
 	
 	/**
-	 * searches for all diagrams in the eclipse workspace and returns them in a collection
-	 * (example implementation only searches for diagrams in one project)
+	 * searches for diagrams only in the same project from the currently selected diagram
+	 * note: searching for all diagrams in the project workspace got a really bad performance in bigger workspaces
 	 */
 	@Override
 	protected Collection<Diagram> getDiagrams() {
 		List<Diagram> result = new ArrayList<Diagram>();
-		//gets all projects in workspace
-		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		//gets diagrams for every project
-		for (IProject p : projects) {
-			List<Diagram> diagrams = (List<Diagram>) GetDiagramUtil.getDiagrams(p);
-			for (int i = 0; i < diagrams.size(); i++) {
-				result.add(diagrams.get(i));
+		//gets the current project of the diagram:
+		URI projectURI = getDiagram().eResource().getURI().trimFragment();
+		if (projectURI.isPlatformResource()) {
+			String platformString = projectURI.toPlatformString(true);
+			IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(platformString);
+			if (resource != null) {
+				IProject currentProject = resource.getProject();
+				//gets all diagrams in the current project
+				result.addAll(GetDiagramUtil.getDiagrams(currentProject));
+				//removes all diagram that are not of the right type: (right type is "cbc")
+				for (int i = 0; i < result.size(); i++) {
+					if (!result.get(i).getDiagramTypeId().equals("cbc")) {
+						result.remove(i);
+					}
+				}
 			}
 		}
 		return result;

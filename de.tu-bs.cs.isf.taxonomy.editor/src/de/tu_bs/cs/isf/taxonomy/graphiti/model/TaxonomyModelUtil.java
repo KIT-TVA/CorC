@@ -51,7 +51,6 @@ public class TaxonomyModelUtil {
 		uri = uri.trimFragment();
 		uri = uri.trimFileExtension();
 		uri = uri.appendFileExtension("taxonomy");
-		System.out.println(uri);
 		ResourceSet rSet = d.eResource().getResourceSet();
 		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
