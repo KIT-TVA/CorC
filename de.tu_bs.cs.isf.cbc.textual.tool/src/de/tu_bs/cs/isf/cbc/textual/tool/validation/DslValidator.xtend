@@ -19,6 +19,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable
 
 /**
  * This class contains custom validation rules. 
@@ -44,7 +45,7 @@ class DslValidator extends AbstractDslValidator {
 	}
 	
 	@Check
-	def checkSyntaxOfRetunrStatement(ReturnStatement statement) {
+	def checkSyntaxOfReturnStatement(ReturnStatement statement) {
 		if (statement.class.equals(ReturnStatementImpl)) {
 			if (statement.name != null && !statement.name.isEmpty) {
 				if (!CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.name)) {
@@ -59,7 +60,7 @@ class DslValidator extends AbstractDslValidator {
 	@Check
 	def checkSyntaxOfCondition(Condition condition) {
 		if (condition.name != null && !condition.name.isEmpty && !condition.name.contains("forall") && !condition.name.contains("exists")) {
-			if (!CompareMethodBodies.readAndTestAssertWithJaMoPP(condition.name.replaceAll("->", "&"))) {
+			if (!CompareMethodBodies.readAndTestAssertWithJaMoPP(condition.nameSplit.replaceAll("->", "&"))) {
 				warning('Condition has not the correct syntax.', 
 					CbcmodelPackage.Literals.CONDITION__NAME,
 					INVALID_NAME)
@@ -194,6 +195,25 @@ class DslValidator extends AbstractDslValidator {
 			info('PreCondition of SelectionStatement is not proved.', 
 					CbcmodelPackage.Literals.SELECTION_STATEMENT__PRE_PROVE,
 					NOT_PROVED)
+		}
+	}
+	
+	@Check
+	def checkSyntaxOfVariable(JavaVariable variable) {
+		if (variable.name != null && !variable.name.isEmpty 
+			&& variable.type != null && !variable.type.isEmpty 
+			&& variable.confidentiality != null) {
+			
+			if (!variable.type.matches("[a-zA-Z]\\w*(\\[\\])?")) {
+				warning('Type must be set.', 
+					CbcmodelPackage.Literals.JAVA_VARIABLE__TYPE,
+					INVALID_NAME)
+			}
+			if (!variable.confidentiality.getName().toLowerCase.matches("(high|low)")) {
+				warning('TrustLevel must be high/low.', 
+					CbcmodelPackage.Literals.JAVA_VARIABLE__CONFIDENTIALITY,
+					INVALID_NAME)
+			}
 		}
 	}
 }

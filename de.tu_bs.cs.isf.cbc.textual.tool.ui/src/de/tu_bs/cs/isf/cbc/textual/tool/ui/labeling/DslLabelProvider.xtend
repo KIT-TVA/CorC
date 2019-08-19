@@ -17,6 +17,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider
 import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable
 
 /**
  * Provides labels for EObjects.
@@ -87,6 +88,10 @@ class DslLabelProvider extends DefaultEObjectLabelProvider {
 	
 	def text(CbCFormula formula) {
 		'Formula: ' + formula.name 
+	}
+	
+	def text(JavaVariable variable) {
+		variable.confidentiality.getName.toLowerCase + ' ' + variable.type + ' ' + variable.name
 	}
 //
 //	def image(Greeting ele) {

@@ -7,6 +7,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
+import org.eclipse.graphiti.features.context.impl.CustomContext;
+import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Image;
@@ -109,6 +111,13 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		Condition postCondition = CbcmodelFactory.eINSTANCE.createCondition();
 		postCondition.setName("post");
 		statement.setPostCondition(postCondition);
+		//Create Lattice
+		ICustomFeature[] features = getFeatureProvider().getCustomFeatures(new CustomContext());
+		for (ICustomFeature feature : features) {
+			if (feature.getName().equals("Create Lattice")) {
+				feature.execute(new CustomContext());
+			}
+		}
 	
 //		Use the following instead of the above line to store the model
 //				data in a seperate file parallel to the diagram file

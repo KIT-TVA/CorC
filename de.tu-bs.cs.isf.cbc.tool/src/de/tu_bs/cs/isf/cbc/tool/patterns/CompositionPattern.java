@@ -52,6 +52,7 @@ public class CompositionPattern extends IdPattern implements IPattern {
 	private static final String ID_PRE1_TEXT = "pre1NameText";
 	private static final String ID_POST2_TEXT = "post2NameText";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
+	private static final String ID_IMAGE_CONTEXT = "imageContext";
 	//Header:
 	private static final String ID_PRE_HEADER = "preHeader";
 	private static final String ID_POST_HEADER = "postHeader";
@@ -99,6 +100,13 @@ public class CompositionPattern extends IdPattern implements IPattern {
 	public Object[] create(ICreateContext context) {
 		CompositionStatement compoStatement = CbcmodelFactory.eINSTANCE.createCompositionStatement();
 		compoStatement.setName("compositionStatement");
+		Condition pre = CbcmodelFactory.eINSTANCE.createCondition();
+		pre.setName("");
+		compoStatement.setPreCondition(pre);
+		Condition post = CbcmodelFactory.eINSTANCE.createCondition();
+		post.setName("");
+		compoStatement.setPostCondition(post);
+		
 		AbstractStatement statement1 = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 		statement1.setName("statement1");
 		compoStatement.setFirstStatement(statement1);
@@ -142,7 +150,6 @@ public class CompositionPattern extends IdPattern implements IPattern {
         int height = context.getHeight() <= 0 ? 300 : context.getHeight();
         //font:
         Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
-        Font uneditableFont = gaService.manageFont(getDiagram(), "Arial", 9, true, false);
         
 		// Main contents area
 		ContainerShape outerContainerShape = peCreateService.createContainerShape(targetDiagram, true);
@@ -165,7 +172,6 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		statement1Text.setValue(addedStatement.getFirstStatement().getName());
 		statement1Text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		statement1Text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		statement1Text.setFont(uneditableFont);
 		
 		Shape textShapeCondition = peCreateService.createShape(outerContainerShape, true);
 		MultiText conditionText = gaService.createMultiText(textShapeCondition, "{" + addedStatement.getIntermediateCondition().getName() + "}");
@@ -179,7 +185,6 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		statement2Text.setValue(addedStatement.getSecondStatement().getName());
 		statement2Text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		statement2Text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		statement2Text.setFont(uneditableFont);
 		
 		Shape textShapeName = peCreateService.createShape(outerContainerShape, false);
 		MultiText nameText = gaService.createMultiText(textShapeName, "Composition");
@@ -193,18 +198,20 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		setId(pre1NameText, ID_PRE1_TEXT);
 		pre1NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		pre1NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		pre1NameText.setFont(uneditableFont);
 		
 		Shape post2Shape = peCreateService.createShape(outerContainerShape, false);
 		MultiText post2NameText = gaService.createMultiText(post2Shape, "{" + addedStatement.getSecondStatement().getPostCondition().getName()+ "}");
 		setId(post2NameText, ID_POST2_TEXT);
 		post2NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		post2NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		post2NameText.setFont(uneditableFont);
 		
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
 		setId(image, ID_IMAGE_PROVEN);
+		
+		Shape contextShape = peCreateService.createShape(outerContainerShape, false);
+		Image imageContext = gaService.createImage(contextShape, CbCImageProvider.IMG_LOW);
+		setId(imageContext, ID_IMAGE_CONTEXT);
 
 		//Header:
 		Shape preHeaderShape = peCreateService.createShape(outerContainerShape, false);
@@ -281,6 +288,7 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		link(pre1Shape, addedStatement.getFirstStatement().getPreCondition());
 		link(post2Shape, addedStatement.getSecondStatement().getPostCondition());
 		link(proveShape, addedStatement);
+		link(contextShape, addedStatement);
 		
 
 		return outerContainerShape;
@@ -322,6 +330,9 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
 			changesDone = true;
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+				Graphiti.getGaService().setLocationAndSize(ga, 20, 10, 15, 15);
+				changesDone = true;
 			
 		//HEADER:
 		} else if (id.equals(ID_PRE_HEADER)) {
@@ -417,6 +428,14 @@ public class CompositionPattern extends IdPattern implements IPattern {
 			} else if (!checkIsProven(domainObject) && image.getId().equals(CbCImageProvider.IMG_PROVEN)) {
 				return Reason.createTrueReason("Statement is not proven. Expected red color.");
 			} 
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			CompositionStatement domainObject = (CompositionStatement) context.getDomainObject();
+			 Image image = (Image) context.getGraphicsAlgorithm();
+//			if (domainObject.getContext().equals(Confidentiality.HIGH) && image.getId().equals(CbCImageProvider.IMG_LOW)) {
+//				return Reason.createTrueReason("Statement is in high context.");
+//			} else if (domainObject.getContext().equals(Confidentiality.LOW) && image.getId().equals(CbCImageProvider.IMG_HIGH)) {
+//				return Reason.createTrueReason("Statement is in low context.");
+//			} 
 		}
 		return Reason.createFalseReason();
 	}
@@ -445,6 +464,14 @@ public class CompositionPattern extends IdPattern implements IPattern {
 			} else {
 				image.setId(CbCImageProvider.IMG_UNPROVEN);
 			} 
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			CompositionStatement domainObject = (CompositionStatement) context.getDomainObject();
+			 Image image = (Image) context.getGraphicsAlgorithm();
+//			if (domainObject.getContext().equals(Confidentiality.HIGH)) {
+//				image.setId(CbCImageProvider.IMG_HIGH);
+//			} else {
+//				image.setId(CbCImageProvider.IMG_LOW);
+//			} 
 		}
 		return false;
 	}

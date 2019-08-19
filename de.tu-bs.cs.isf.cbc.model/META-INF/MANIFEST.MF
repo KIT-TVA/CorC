@@ -11,5 +11,6 @@ Export-Package: de.tu_bs.cs.isf.cbc.cbcmodel,
  de.tu_bs.cs.isf.cbc.cbcmodel.impl,
  de.tu_bs.cs.isf.cbc.cbcmodel.util
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport
+ org.eclipse.emf.ecore;visibility:=reexport,
+ de.tu_bs.cs.isf.lattice;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy

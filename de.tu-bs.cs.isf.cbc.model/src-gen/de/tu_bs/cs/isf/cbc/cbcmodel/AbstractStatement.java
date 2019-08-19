@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getPreCondition <em>Pre Condition</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#isProven <em>Proven</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getComment <em>Comment</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getContext <em>Context</em>}</li>
  * </ul>
  *
  * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getAbstractStatement()
@@ -212,5 +213,31 @@ public interface AbstractStatement extends EObject {
 	 * @generated
 	 */
 	void setComment(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Context</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Context</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Context</em>' attribute.
+	 * @see #setContext(String)
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getAbstractStatement_Context()
+	 * @model
+	 * @generated
+	 */
+	String getContext();
+
+	/**
+	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getContext <em>Context</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Context</em>' attribute.
+	 * @see #getContext()
+	 * @generated
+	 */
+	void setContext(String value);
 
 } // AbstractStatement

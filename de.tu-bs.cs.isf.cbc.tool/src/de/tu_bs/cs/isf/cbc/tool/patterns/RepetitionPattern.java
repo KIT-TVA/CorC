@@ -94,7 +94,7 @@ public class RepetitionPattern extends IdPattern implements IPattern {
 	
 	@Override
 	public String getCreateName() {
-		return "RepetitionStatement (big)";
+		return "RepetitionStatement";
 	}
 	
 	@Override

@@ -1,11 +1,14 @@
 package de.tu_bs.cs.isf.cbc.util;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 
 public class Parser {
@@ -28,9 +31,9 @@ public class Parser {
 		}
 	}
 	
-	public Map<String,Set<String>> findAllVariables(AbstractStatement abstractStatement) throws ParserException {
+	public static Map<String,Set<String>> findAllVariables(AbstractStatement abstractStatement) throws ParserException {
 		String input = abstractStatement.getName().trim();
-		Map<String,Set<String>> variableMap = new HashMap<String,Set<String>>();
+		Map<String,Set<String>> variableMap = new LinkedHashMap<String,Set<String>>();
 		if (input.charAt(input.length() - 1) != ';') {
 			throw new ParserException("Statement must end with ';'. " + input);
 		}
@@ -47,10 +50,9 @@ public class Parser {
 		return variableMap;
 	}
 	
-	private Set<String> parseRightVariables(String statement) {
+	public static Set<String> parseRightVariables(String statement) {
 		Set<String> rightVariables = new HashSet<String>();
-		String[] inputTokens = statement.split("[\\+\\-\\*/\\(\\),]");
-		
+		String[] inputTokens = statement.split("[\\+\\-\\*/\\[\\]\\(\\),(<=)(>=)<>\\|\\&(!=)=]");
 		for (String inputToken : inputTokens) {
 			inputToken = inputToken.trim();
 			
@@ -154,35 +156,44 @@ public class Parser {
 		return input;
 	}
 	
-	public  String parseVariable(String input) throws ParserException {
+	public static String parseVariable(String input) throws ParserException {
 		String[] inputTokens = input.split(" ");
 		if (inputTokens.length == 2) {
-			return inputTokens[1].trim();
+			if (inputTokens[1].contains("[")) {
+				return inputTokens[1].trim().substring(0, inputTokens[1].indexOf("["));
+			} else {
+				return inputTokens[1].trim();
+			}
 		} else if (inputTokens.length == 1) {
-			return inputTokens[0].trim();
+			if (inputTokens[0].contains("[")) {
+				return inputTokens[0].trim().substring(0, inputTokens[0].indexOf("["));
+			} else {
+				return inputTokens[0].trim();
+			}
 		} else {
 			throw new ParserException("Variable not in format \"<type> <name>\"." + input);
 		}
 	}
 	
-//	public static void main(String[] args) {
-//		
-//		AbstractStatement st = CbcmodelFactory.eINSTANCE.createAbstractStatement();
-//		Condition con =  CbcmodelFactory.eINSTANCE.createCondition();
-//		String s = "int i = 5 + 2; do(x); int y = x(f(ff),g+1,h); int z = 7 - 4; int u = 8 / 5;";
-//		String c = "x & y | x";
-//		st.setName(s);
-//		con.setName(c);
-//		try {
-//			Parser p = new Parser();
-//			System.out.println(p.findAllVariables(st));
+	public static void main(String[] args) {
+		
+		AbstractStatement st = CbcmodelFactory.eINSTANCE.createAbstractStatement();
+		Condition con =  CbcmodelFactory.eINSTANCE.createCondition();
+		String s = "int i = 5 + 2; do(x); int y = x(f(ff),g+1,h); int z = 7 - 4; int u = 8 / 5;";
+		s = "a<=b-1 & b>c";
+		String c = "x & y | x";
+		st.setName(s);
+		con.setName(c);
+		try {
+			Parser p = new Parser();
+			System.out.println(p.parseRightVariables(s));
 //			p.addVariableStatementPairs(st);
 //			p.destructConditionAndReplace(con);
 //			System.out.println(p.destructConditionAndReplace(con));
 //			System.out.println(con);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		System.out.println("ende");
-//	}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("ende");
+	}
 }

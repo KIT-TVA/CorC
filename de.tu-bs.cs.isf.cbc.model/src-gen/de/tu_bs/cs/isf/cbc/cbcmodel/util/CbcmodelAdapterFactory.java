@@ -4,11 +4,14 @@ package de.tu_bs.cs.isf.cbc.cbcmodel.util;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.*;
 
+import java.util.Map;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -146,6 +149,10 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseStrengthWeakStatement(StrengthWeakStatement object) {
 				return createStrengthWeakStatementAdapter();
+			}
+			@Override
+			public Adapter caseConfToVarsMap(Map.Entry<String, EList<String>> object) {
+				return createConfToVarsMapAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -444,6 +451,20 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createStrengthWeakStatementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Conf To Vars Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see java.util.Map.Entry
+	 * @generated
+	 */
+	public Adapter createConfToVarsMapAdapter() {
 		return null;
 	}
 

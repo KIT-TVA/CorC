@@ -6,7 +6,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -30,7 +29,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getPostCondition <em>Post Condition</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#isProven <em>Proven</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getComment <em>Comment</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getTaxMethod <em>Tax Method</em>}</li>
  * </ul>
  *
  * @generated
@@ -125,26 +123,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * @ordered
 	 */
 	protected String comment = COMMENT_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getTaxMethod() <em>Tax Method</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTaxMethod()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String TAX_METHOD_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getTaxMethod() <em>Tax Method</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTaxMethod()
-	 * @generated
-	 * @ordered
-	 */
-	protected String taxMethod = TAX_METHOD_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -362,27 +340,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getTaxMethod() {
-		return taxMethod;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTaxMethod(String newTaxMethod) {
-		String oldTaxMethod = taxMethod;
-		taxMethod = newTaxMethod;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CFORMULA__TAX_METHOD, oldTaxMethod, taxMethod));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -416,8 +373,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 				return isProven();
 			case CbcmodelPackage.CB_CFORMULA__COMMENT:
 				return getComment();
-			case CbcmodelPackage.CB_CFORMULA__TAX_METHOD:
-				return getTaxMethod();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -447,9 +402,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 				return;
 			case CbcmodelPackage.CB_CFORMULA__COMMENT:
 				setComment((String)newValue);
-				return;
-			case CbcmodelPackage.CB_CFORMULA__TAX_METHOD:
-				setTaxMethod((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -481,9 +433,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 			case CbcmodelPackage.CB_CFORMULA__COMMENT:
 				setComment(COMMENT_EDEFAULT);
 				return;
-			case CbcmodelPackage.CB_CFORMULA__TAX_METHOD:
-				setTaxMethod(TAX_METHOD_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -508,8 +457,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 				return proven != PROVEN_EDEFAULT;
 			case CbcmodelPackage.CB_CFORMULA__COMMENT:
 				return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
-			case CbcmodelPackage.CB_CFORMULA__TAX_METHOD:
-				return TAX_METHOD_EDEFAULT == null ? taxMethod != null : !TAX_METHOD_EDEFAULT.equals(taxMethod);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -530,8 +477,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 		result.append(proven);
 		result.append(", comment: ");
 		result.append(comment);
-		result.append(", TaxMethod: ");
-		result.append(taxMethod);
 		result.append(')');
 		return result.toString();
 	}

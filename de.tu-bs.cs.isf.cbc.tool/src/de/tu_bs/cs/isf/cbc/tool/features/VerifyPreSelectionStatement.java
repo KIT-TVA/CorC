@@ -78,12 +78,6 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 						renaming = (Renaming) obj;
 					}
 				}
-//				try {
-//					getDiagram().eResource().save(Collections.EMPTY_MAP);
-//					statement.eResource().save(Collections.EMPTY_MAP);
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
 				boolean prove = false;
 				prove = ProveWithKey.provePreSelWithKey(statement.getGuards(), parent.getPreCondition(), vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
 				if (prove) {

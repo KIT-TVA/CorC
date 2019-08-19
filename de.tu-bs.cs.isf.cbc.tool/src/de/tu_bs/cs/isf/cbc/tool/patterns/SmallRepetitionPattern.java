@@ -54,6 +54,7 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 	private static final String ID_PRE_TEXT = "preNameText";
 	private static final String ID_POST_TEXT = "postNameText";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
+	private static final String ID_IMAGE_CONTEXT = "imageContext";
 	//Headers:
 	private static final String ID_VARIANT_HEADER = "variantHeader";
 	private static final String ID_INVARIANT_HEADER = "invariantHeader";
@@ -79,7 +80,7 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 	
 	@Override
 	public String getCreateName() {
-		return "RepetitionStatement";
+		return "SmallRepetitionStatement";
 	}
 	
 	@Override
@@ -150,7 +151,6 @@ manageColor(IColorConstant.DARK_GREEN);
         int height = context.getHeight() <= 0 ? 300 : context.getHeight();
         //Font:
         Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
-        Font uneditableFont = gaService.manageFont(getDiagram(), "Arial", 9, true, false);
         
 		// Main contents area
 		ContainerShape outerContainerShape = peCreateService.createContainerShape(targetDiagram, true);
@@ -173,7 +173,6 @@ manageColor(IColorConstant.DARK_GREEN);
 		statement1Text.setValue(addedStatement.getLoopStatement().getName());
 		statement1Text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		statement1Text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		statement1Text.setFont(uneditableFont);
 		
 		Shape textShapeCondition = peCreateService.createShape(outerContainerShape, true);
 		MultiText conditionText = gaService.createMultiText(textShapeCondition, "");
@@ -208,18 +207,21 @@ manageColor(IColorConstant.DARK_GREEN);
 		setId(pre1NameText, ID_PRE_TEXT);
 		pre1NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		pre1NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		pre1NameText.setFont(uneditableFont);
 		
 		Shape post1Shape = peCreateService.createShape(outerContainerShape, false);
 		MultiText post1NameText = gaService.createMultiText(post1Shape, "{" + addedStatement.getLoopStatement().getPostCondition().getName() + "}");
 		setId(post1NameText, ID_POST_TEXT);
 		post1NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		post1NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		post1NameText.setFont(uneditableFont);
 		
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
 		setId(image, ID_IMAGE_PROVEN);
+		
+		Shape contextShape = peCreateService.createShape(outerContainerShape, false);
+		Image imageContext = gaService.createImage(contextShape, CbCImageProvider.IMG_LOW);
+		setId(imageContext, ID_IMAGE_CONTEXT);
+		
 		//HEADER:
 		Shape variantHeader = peCreateService.createShape(outerContainerShape, false);
 		Text variantNameHeader = gaService.createText(variantHeader, "variant");
@@ -298,6 +300,7 @@ manageColor(IColorConstant.DARK_GREEN);
 		link(pre1Shape, addedStatement.getLoopStatement().getPreCondition());
 		link(post1Shape, addedStatement.getLoopStatement().getPostCondition());
 		link(proveShape, addedStatement);
+		link(contextShape, addedStatement);
 
 		return outerContainerShape;
 	}
@@ -338,6 +341,9 @@ manageColor(IColorConstant.DARK_GREEN);
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
+			changesDone = true;
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 20, 10, 15, 15);
 			changesDone = true;
 		//HEADERS:
 		} else if (id.equals(ID_VARIANT_HEADER)) {
@@ -434,6 +440,14 @@ manageColor(IColorConstant.DARK_GREEN);
 			} else if (!checkIsProven(domainObject) && image.getId().equals(CbCImageProvider.IMG_PROVEN)) {
 				return Reason.createTrueReason("Statement is not proven. Expected red color.");
 			} 
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			AbstractStatement domainObject = (AbstractStatement) context.getDomainObject();
+			 Image image = (Image) context.getGraphicsAlgorithm();
+//			if (domainObject.getContext().equals(Confidentiality.HIGH) && image.getId().equals(CbCImageProvider.IMG_LOW)) {
+//				return Reason.createTrueReason("Statement is in high context.");
+//			} else if (domainObject.getContext().equals(Confidentiality.LOW) && image.getId().equals(CbCImageProvider.IMG_HIGH)) {
+//				return Reason.createTrueReason("Statement is in low context.");
+//			} 
 		}
 		return Reason.createFalseReason();
 	}
@@ -467,6 +481,14 @@ manageColor(IColorConstant.DARK_GREEN);
 			} else {
 				image.setId(CbCImageProvider.IMG_UNPROVEN);
 			} 
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			AbstractStatement domainObject = (AbstractStatement) context.getDomainObject();
+			 Image image = (Image) context.getGraphicsAlgorithm();
+//			if (domainObject.getContext().equals(Confidentiality.HIGH)) {
+//				image.setId(CbCImageProvider.IMG_HIGH);
+//			} else {
+//				image.setId(CbCImageProvider.IMG_LOW);
+//			} 
 		}
 		return false;
 	}

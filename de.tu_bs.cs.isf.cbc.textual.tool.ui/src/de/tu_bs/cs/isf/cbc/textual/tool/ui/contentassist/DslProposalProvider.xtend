@@ -79,7 +79,7 @@ class DslProposalProvider extends AbstractDslProposalProvider {
 		super.complete_JavaVariables(model, ruleCall, context, acceptor)
 		// compute the plain proposal
 			val String proposal = "JavaVariables\n"
-			+ "\tvariables {\"<variable>\", \"<variable>\"}\n";
+			+ "\tvariables {\"<confidentiality> <type> <variable>\", \"<...>\"}\n";
 
 		acceptor.accept(createCompletionProposal(proposal, context))
     }

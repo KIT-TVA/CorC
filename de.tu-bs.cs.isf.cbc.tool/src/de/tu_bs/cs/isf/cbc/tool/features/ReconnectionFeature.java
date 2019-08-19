@@ -7,12 +7,15 @@ import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateVariablesOfConditions;
+import de.tu_bs.cs.isf.lattice.calculation.LeastUpperBound;
 
 /**
  * Class thats does reconnections
@@ -106,6 +109,13 @@ public class ReconnectionFeature extends DefaultReconnectionFeature {
 		
 		sourceObject.setRefinement(targetObject);
 		UpdateConditionsOfChildren.updateRefinedStatement(sourceObject, targetObject);
+		for (Shape shape : getDiagram().getChildren()) {
+			Object obj = getBusinessObjectForPictogramElement(shape);
+			if (obj instanceof CbCFormula) {
+				CbCFormula formula = (CbCFormula) obj;
+				UpdateVariablesOfConditions.updateConfidentiality(formula.getStatement(), LeastUpperBound.getLattice().getBottom().getName());
+			}
+		}
 	}
 
 	/**

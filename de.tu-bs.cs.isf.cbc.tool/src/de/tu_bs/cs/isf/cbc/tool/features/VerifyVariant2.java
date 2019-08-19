@@ -16,9 +16,11 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.RepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
+import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyAbstractAsynchronousCustomFeature;
+import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies;
 
 /**
  * Class that changes the abstract value of algorithms
@@ -40,7 +42,7 @@ public class VerifyVariant2 extends MyAbstractAsynchronousCustomFeature {
 
 	@Override
 	public String getName() {
-		return "Verify the variant";
+		return "Verify the variant (splitted)";
 	}
 
 	@Override
@@ -99,17 +101,11 @@ public class VerifyVariant2 extends MyAbstractAsynchronousCustomFeature {
 					variant = repStatement.getVariant();
 
 				}
-//				try {
-//					getDiagram().eResource().save(Collections.EMPTY_MAP);
-//					statement.eResource().save(Collections.EMPTY_MAP);
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(code)) {
+				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(code)) {
 					prove = ProveWithKey.proveVariant2WithKey(code, invariant, guard, variant, vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
-//				} else {
-//					Console.println("Statement is not in correct format.");
-//				}
+				} else {
+					Console.println("Statement is not in correct format.");
+				}
 				if (prove) {
 					if (statement instanceof RepetitionStatement) {
 						RepetitionStatement repStatement = (RepetitionStatement) statement;

@@ -354,11 +354,11 @@ public class GenerateTextualRepresentation extends MyAbstractAsynchronousCustomF
     	StringBuffer buffer = new StringBuffer();
     	buffer.append("JavaVariables\n\tvariables {");
     	if (!variables.getVariables().isEmpty()) {
-    		buffer.append("\"" + variables.getVariables().get(0).getName() + "\"");
+    		buffer.append(variables.getVariables().get(0).getConfidentiality().toLowerCase() + " " + variables.getVariables().get(0).getType() + " " + variables.getVariables().get(0).getName());
     	}
     	for (int i = 1; i < variables.getVariables().size(); i++) {
     		JavaVariable variable = variables.getVariables().get(i);
-    		buffer.append(", \"" + variable.getName() + "\"");
+    		buffer.append(", " + variable.getConfidentiality().toLowerCase() + " " + variable.getType() + " " + variable.getName());
     	}
     	buffer.append("}\n\n");
     	return buffer.toString();

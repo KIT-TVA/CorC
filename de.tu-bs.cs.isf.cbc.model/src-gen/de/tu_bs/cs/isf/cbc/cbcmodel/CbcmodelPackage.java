@@ -4,6 +4,7 @@ package de.tu_bs.cs.isf.cbc.cbcmodel;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -121,22 +122,13 @@ public interface CbcmodelPackage extends EPackage {
 	int CB_CFORMULA__COMMENT = 5;
 
 	/**
-	 * The feature id for the '<em><b>Tax Method</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CB_CFORMULA__TAX_METHOD = 6;
-
-	/**
 	 * The number of structural features of the '<em>Cb CFormula</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CFORMULA_FEATURE_COUNT = 7;
+	int CB_CFORMULA_FEATURE_COUNT = 6;
 
 	/**
 	 * The number of operations of the '<em>Cb CFormula</em>' class.
@@ -167,13 +159,22 @@ public interface CbcmodelPackage extends EPackage {
 	int CONDITION__NAME = 0;
 
 	/**
+	 * The feature id for the '<em><b>Conf To Vars Map</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITION__CONF_TO_VARS_MAP = 1;
+
+	/**
 	 * The number of structural features of the '<em>Condition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITION_FEATURE_COUNT = 1;
+	int CONDITION_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Condition</em>' class.
@@ -258,13 +259,22 @@ public interface CbcmodelPackage extends EPackage {
 	int ABSTRACT_STATEMENT__COMMENT = 6;
 
 	/**
+	 * The feature id for the '<em><b>Context</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_STATEMENT__CONTEXT = 7;
+
+	/**
 	 * The number of structural features of the '<em>Abstract Statement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_STATEMENT_FEATURE_COUNT = 7;
+	int ABSTRACT_STATEMENT_FEATURE_COUNT = 8;
 
 	/**
 	 * The number of operations of the '<em>Abstract Statement</em>' class.
@@ -347,6 +357,15 @@ public interface CbcmodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int SKIP_STATEMENT__COMMENT = ABSTRACT_STATEMENT__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Context</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SKIP_STATEMENT__CONTEXT = ABSTRACT_STATEMENT__CONTEXT;
 
 	/**
 	 * The number of structural features of the '<em>Skip Statement</em>' class.
@@ -438,6 +457,15 @@ public interface CbcmodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMPOSITION_STATEMENT__COMMENT = ABSTRACT_STATEMENT__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Context</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPOSITION_STATEMENT__CONTEXT = ABSTRACT_STATEMENT__CONTEXT;
 
 	/**
 	 * The feature id for the '<em><b>First Statement</b></em>' containment reference.
@@ -558,6 +586,15 @@ public interface CbcmodelPackage extends EPackage {
 	int SELECTION_STATEMENT__COMMENT = ABSTRACT_STATEMENT__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Context</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SELECTION_STATEMENT__CONTEXT = ABSTRACT_STATEMENT__CONTEXT;
+
+	/**
 	 * The feature id for the '<em><b>Guards</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -674,6 +711,15 @@ public interface CbcmodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int REPETITION_STATEMENT__COMMENT = ABSTRACT_STATEMENT__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Context</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REPETITION_STATEMENT__CONTEXT = ABSTRACT_STATEMENT__CONTEXT;
 
 	/**
 	 * The feature id for the '<em><b>Guard</b></em>' containment reference.
@@ -830,6 +876,15 @@ public interface CbcmodelPackage extends EPackage {
 	int METHOD_STATEMENT__COMMENT = ABSTRACT_STATEMENT__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Context</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_STATEMENT__CONTEXT = ABSTRACT_STATEMENT__CONTEXT;
+
+	/**
 	 * The number of structural features of the '<em>Method Statement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -956,6 +1011,15 @@ public interface CbcmodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int RETURN_STATEMENT__COMMENT = ABSTRACT_STATEMENT__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Context</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETURN_STATEMENT__CONTEXT = ABSTRACT_STATEMENT__CONTEXT;
 
 	/**
 	 * The number of structural features of the '<em>Return Statement</em>' class.
@@ -1095,6 +1159,15 @@ public interface CbcmodelPackage extends EPackage {
 	int COMPOSITION3_STATEMENT__COMMENT = ABSTRACT_STATEMENT__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Context</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPOSITION3_STATEMENT__CONTEXT = ABSTRACT_STATEMENT__CONTEXT;
+
+	/**
 	 * The feature id for the '<em><b>Third Statement</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1229,6 +1302,15 @@ public interface CbcmodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int SMALL_REPETITION_STATEMENT__COMMENT = ABSTRACT_STATEMENT__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Context</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SMALL_REPETITION_STATEMENT__CONTEXT = ABSTRACT_STATEMENT__CONTEXT;
 
 	/**
 	 * The feature id for the '<em><b>Loop Statement</b></em>' containment reference.
@@ -1368,13 +1450,31 @@ public interface CbcmodelPackage extends EPackage {
 	int JAVA_VARIABLE__NAME = 0;
 
 	/**
+	 * The feature id for the '<em><b>Confidentiality</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_VARIABLE__CONFIDENTIALITY = 1;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_VARIABLE__TYPE = 2;
+
+	/**
 	 * The number of structural features of the '<em>Java Variable</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int JAVA_VARIABLE_FEATURE_COUNT = 1;
+	int JAVA_VARIABLE_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Java Variable</em>' class.
@@ -1587,7 +1687,6 @@ public interface CbcmodelPackage extends EPackage {
 	 */
 	int CB_CPROBLEM_OPERATION_COUNT = 0;
 
-
 	/**
 	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl <em>Strength Weak Statement</em>}' class.
 	 * <!-- begin-user-doc -->
@@ -1662,6 +1761,15 @@ public interface CbcmodelPackage extends EPackage {
 	int STRENGTH_WEAK_STATEMENT__COMMENT = ABSTRACT_STATEMENT__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Context</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRENGTH_WEAK_STATEMENT__CONTEXT = ABSTRACT_STATEMENT__CONTEXT;
+
+	/**
 	 * The number of structural features of the '<em>Strength Weak Statement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1679,6 +1787,61 @@ public interface CbcmodelPackage extends EPackage {
 	 */
 	int STRENGTH_WEAK_STATEMENT_OPERATION_COUNT = ABSTRACT_STATEMENT_OPERATION_COUNT + 0;
 
+	/**
+	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.ConfToVarsMapImpl <em>Conf To Vars Map</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.ConfToVarsMapImpl
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getConfToVarsMap()
+	 * @generated
+	 */
+	int CONF_TO_VARS_MAP = 20;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONF_TO_VARS_MAP__KEY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONF_TO_VARS_MAP__VALUE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Conf To Vars Map</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONF_TO_VARS_MAP_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Conf To Vars Map</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONF_TO_VARS_MAP_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '<em>Lattice</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.tu_bs.cs.isf.lattice.Lattice
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getLattice()
+	 * @generated
+	 */
+	int LATTICE = 21;
 
 	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula <em>Cb CFormula</em>}'.
@@ -1757,17 +1920,6 @@ public interface CbcmodelPackage extends EPackage {
 	EAttribute getCbCFormula_Comment();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getTaxMethod <em>Tax Method</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Tax Method</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getTaxMethod()
-	 * @see #getCbCFormula()
-	 * @generated
-	 */
-	EAttribute getCbCFormula_TaxMethod();
-
-	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Condition <em>Condition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1787,6 +1939,17 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCondition_Name();
+
+	/**
+	 * Returns the meta object for the map '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Condition#getConfToVarsMap <em>Conf To Vars Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the map '<em>Conf To Vars Map</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Condition#getConfToVarsMap()
+	 * @see #getCondition()
+	 * @generated
+	 */
+	EReference getCondition_ConfToVarsMap();
 
 	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement <em>Abstract Statement</em>}'.
@@ -1874,6 +2037,17 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getAbstractStatement_Comment();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getContext <em>Context</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Context</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getContext()
+	 * @see #getAbstractStatement()
+	 * @generated
+	 */
+	EAttribute getAbstractStatement_Context();
 
 	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement <em>Skip Statement</em>}'.
@@ -2326,6 +2500,28 @@ public interface CbcmodelPackage extends EPackage {
 	EAttribute getJavaVariable_Name();
 
 	/**
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable#getConfidentiality <em>Confidentiality</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Confidentiality</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable#getConfidentiality()
+	 * @see #getJavaVariable()
+	 * @generated
+	 */
+	EAttribute getJavaVariable_Confidentiality();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable#getType()
+	 * @see #getJavaVariable()
+	 * @generated
+	 */
+	EAttribute getJavaVariable_Type();
+
+	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions <em>Global Conditions</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2486,6 +2682,51 @@ public interface CbcmodelPackage extends EPackage {
 	EClass getStrengthWeakStatement();
 
 	/**
+	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Conf To Vars Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Conf To Vars Map</em>'.
+	 * @see java.util.Map.Entry
+	 * @model keyDataType="org.eclipse.emf.ecore.EString"
+	 *        valueDataType="org.eclipse.emf.ecore.EString" valueMany="true"
+	 * @generated
+	 */
+	EClass getConfToVarsMap();
+
+	/**
+	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Key</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getConfToVarsMap()
+	 * @generated
+	 */
+	EAttribute getConfToVarsMap_Key();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Value</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getConfToVarsMap()
+	 * @generated
+	 */
+	EAttribute getConfToVarsMap_Value();
+
+	/**
+	 * Returns the meta object for data type '{@link de.tu_bs.cs.isf.lattice.Lattice <em>Lattice</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Lattice</em>'.
+	 * @see de.tu_bs.cs.isf.lattice.Lattice
+	 * @model instanceClass="de.tu_bs.cs.isf.lattice.Lattice"
+	 * @generated
+	 */
+	EDataType getLattice();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2567,14 +2808,6 @@ public interface CbcmodelPackage extends EPackage {
 		EAttribute CB_CFORMULA__COMMENT = eINSTANCE.getCbCFormula_Comment();
 
 		/**
-		 * The meta object literal for the '<em><b>Tax Method</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CB_CFORMULA__TAX_METHOD = eINSTANCE.getCbCFormula_TaxMethod();
-
-		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.ConditionImpl <em>Condition</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2591,6 +2824,14 @@ public interface CbcmodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CONDITION__NAME = eINSTANCE.getCondition_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Conf To Vars Map</b></em>' map feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CONDITION__CONF_TO_VARS_MAP = eINSTANCE.getCondition_ConfToVarsMap();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl <em>Abstract Statement</em>}' class.
@@ -2657,6 +2898,14 @@ public interface CbcmodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ABSTRACT_STATEMENT__COMMENT = eINSTANCE.getAbstractStatement_Comment();
+
+		/**
+		 * The meta object literal for the '<em><b>Context</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ABSTRACT_STATEMENT__CONTEXT = eINSTANCE.getAbstractStatement_Context();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl <em>Skip Statement</em>}' class.
@@ -3019,6 +3268,22 @@ public interface CbcmodelPackage extends EPackage {
 		EAttribute JAVA_VARIABLE__NAME = eINSTANCE.getJavaVariable_Name();
 
 		/**
+		 * The meta object literal for the '<em><b>Confidentiality</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute JAVA_VARIABLE__CONFIDENTIALITY = eINSTANCE.getJavaVariable_Confidentiality();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute JAVA_VARIABLE__TYPE = eINSTANCE.getJavaVariable_Type();
+
+		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.GlobalConditionsImpl <em>Global Conditions</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3147,6 +3412,42 @@ public interface CbcmodelPackage extends EPackage {
 		 * @generated
 		 */
 		EClass STRENGTH_WEAK_STATEMENT = eINSTANCE.getStrengthWeakStatement();
+
+		/**
+		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.ConfToVarsMapImpl <em>Conf To Vars Map</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.ConfToVarsMapImpl
+		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getConfToVarsMap()
+		 * @generated
+		 */
+		EClass CONF_TO_VARS_MAP = eINSTANCE.getConfToVarsMap();
+
+		/**
+		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONF_TO_VARS_MAP__KEY = eINSTANCE.getConfToVarsMap_Key();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONF_TO_VARS_MAP__VALUE = eINSTANCE.getConfToVarsMap_Value();
+
+		/**
+		 * The meta object literal for the '<em>Lattice</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.tu_bs.cs.isf.lattice.Lattice
+		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getLattice()
+		 * @generated
+		 */
+		EDataType LATTICE = eINSTANCE.getLattice();
 
 	}
 

@@ -136,7 +136,15 @@ JavaVariables returns JavaVariables:
 
 JavaVariable returns JavaVariable:
 	{JavaVariable}
-	name=EString;
+	confidentiality=Confidentiality
+	type=TypeString
+	name=ID;
+	
+TypeString returns ecore::EString:
+	ID '[]'?;
+
+enum Confidentiality returns Confidentiality:
+				HIGH = 'high' | LOW = 'low';
 	
 GlobalConditions returns GlobalConditions:
 	{GlobalConditions}

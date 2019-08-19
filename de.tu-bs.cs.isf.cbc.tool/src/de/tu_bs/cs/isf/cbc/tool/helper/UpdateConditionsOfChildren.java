@@ -57,6 +57,7 @@ public class UpdateConditionsOfChildren {
 				refinedStatement.setProven(false);
 			}
 			
+			childCompo.getPreCondition().setName(preParent.getName());
 			firstStatement.getPreCondition().setName(preParent.getName());
 			firstStatement.getPostCondition().setName(childCompo.getIntermediateCondition().getName());
 			secondStatement.getPreCondition().setName(childCompo.getIntermediateCondition().getName());
@@ -132,7 +133,11 @@ public class UpdateConditionsOfChildren {
 			SmallRepetitionStatement childRep = (SmallRepetitionStatement) refinedStatement;
 			AbstractStatement loopStatement = childRep.getLoopStatement();
 
-			if (!loopStatement.getPreCondition().getName().equals("(" + childRep.getInvariant().getName() + ") & (" + childRep.getGuard().getName() + ")") || !loopStatement.getPostCondition().getName().equals(childRep.getInvariant().getName())
+			String preHighVars = "";
+			if (preParent.getName().split(";").length > 1) {
+				preHighVars = preParent.getName().split(";")[0] + "; ";
+			}
+			if (!loopStatement.getPreCondition().getName().equals(preHighVars + "(" + childRep.getInvariant().getName() + ") & (" + childRep.getGuard().getName() + ")") || !loopStatement.getPostCondition().getName().equals(childRep.getInvariant().getName())
 					) {
 				refinedStatement.setProven(false);
 				childRep.setVariantProven(false);
@@ -141,14 +146,14 @@ public class UpdateConditionsOfChildren {
 					) {
 				childRep.setPreProven(false);
 			}
-			if (!loopStatement.getPreCondition().getName().equals("(" + childRep.getInvariant().getName() + ") & (" + childRep.getGuard().getName() + ")") || !childRep.getPostCondition().getName().equals(postParent.getName())
+			if (!loopStatement.getPreCondition().getName().equals(preHighVars + "(" + childRep.getInvariant().getName() + ") & (" + childRep.getGuard().getName() + ")") || !childRep.getPostCondition().getName().equals(postParent.getName())
 					) {
 				childRep.setPostProven(false);
 			}
 			
 			childRep.getPreCondition().setName(preParent.getName());
 			childRep.getPostCondition().setName(postParent.getName());
-			loopStatement.getPreCondition().setName("(" + childRep.getInvariant().getName() + ") & (" + childRep.getGuard().getName() + ")");
+			loopStatement.getPreCondition().setName(preHighVars + "(" + childRep.getInvariant().getName() + ") & (" + childRep.getGuard().getName() + ")");
 			loopStatement.getPostCondition().setName(childRep.getInvariant().getName());
 			
 			if (loopStatement.getRefinement() != null) {
@@ -158,20 +163,28 @@ public class UpdateConditionsOfChildren {
 		} else if (refinedStatement instanceof SelectionStatement) {
 			SelectionStatement childSel = (SelectionStatement) refinedStatement;
 			
+			childSel.getPreCondition().setName(preParent.getName());
+			childSel.getPostCondition().setName(postParent.getName());
+			
+			String preHighVars = "";
+			if (preParent.getName().split(";").length > 1) {
+				preHighVars = preParent.getName().split(";")[0] + "; ";
+			}
+			
 			for (int i = 0; i < childSel.getCommands().size(); i++) {
 				AbstractStatement childStatement = childSel.getCommands().get(i);
 				Condition childGuard = childSel.getGuards().get(i);
 				
-				if (!childStatement.getPreCondition().getName().equals("(" + preParent.getName() + ") & (" + childGuard.getName() + ")") || !childStatement.getPostCondition().getName().equals(postParent.getName())
+				if (!childStatement.getPreCondition().getName().equals(preHighVars + "(" + preParent.getNameSplit() + ") & (" + childGuard.getName() + ")") || !childStatement.getPostCondition().getName().equals(postParent.getName())
 						) {
 					refinedStatement.setProven(false);
 				}
-				if (!childStatement.getPreCondition().getName().equals("(" + preParent.getName() + ") & (" + childGuard.getName() + ")")
+				if (!childStatement.getPreCondition().getName().equals(preHighVars + "(" + preParent.getName() + ") & (" + childGuard.getName() + ")")
 						) {
 					childSel.setPreProve(false);
 				}
 				
-				childStatement.getPreCondition().setName("(" + preParent.getName() + ") & (" + childGuard.getName() + ")");
+				childStatement.getPreCondition().setName(preHighVars + "(" + preParent.getNameSplit() + ") & (" + childGuard.getName() + ")");
 				childStatement.getPostCondition().setName(postParent.getName());
 				
 				if (childStatement.getRefinement() != null) {
@@ -182,23 +195,23 @@ public class UpdateConditionsOfChildren {
 		} else if (refinedStatement instanceof MethodStatement) {
 			MethodStatement childAbstract = (MethodStatement) refinedStatement;
 			
-			if (!childAbstract.getPreCondition().getName().equals(preParent.getName()) || !childAbstract.getPostCondition().getName().equals(postParent.getName())) {
+			if (!childAbstract.getPreCondition().getName().equals(preParent.getName()) || !childAbstract.getPostCondition().getNameSplit().equals(postParent.getNameSplit())) {
 				refinedStatement.setProven(false);
 			}
 			
 			childAbstract.getPreCondition().setName(preParent.getName());
-			childAbstract.getPostCondition().setName(postParent.getName());
+			childAbstract.getPostCondition().setNameSplit(postParent.getNameSplit());
 			
 		} else if (refinedStatement instanceof ReturnStatement) {
 			ReturnStatement childReturn = (ReturnStatement) refinedStatement;
 			CbCFormula formula = getFormula(parentStatement);
 			if (formula != null) {
-				if (!childReturn.getPreCondition().getName().equals(preParent.getName()) || !childReturn.getPostCondition().getName().equals(formula.getStatement().getPostCondition().getName())) {
+				if (!childReturn.getPreCondition().getName().equals(preParent.getName()) || !childReturn.getPostCondition().getNameSplit().equals(formula.getStatement().getPostCondition().getNameSplit())) {
 					refinedStatement.setProven(false);
 				}
 				
 				childReturn.getPreCondition().setName(preParent.getName());
-				childReturn.getPostCondition().setName(formula.getStatement().getPostCondition().getName());
+				childReturn.getPostCondition().setNameSplit(formula.getStatement().getPostCondition().getNameSplit());
 			}
 		
 		} else if (refinedStatement instanceof StrengthWeakStatement) {
@@ -212,7 +225,7 @@ public class UpdateConditionsOfChildren {
 		} else if (refinedStatement instanceof AbstractStatement) {
 			AbstractStatement childAbstract = (AbstractStatement) refinedStatement;
 			
-			if (!childAbstract.getPreCondition().getName().equals(preParent.getName()) || !childAbstract.getPostCondition().getName().equals(postParent.getName())) {
+			if (!childAbstract.getPreCondition().getName().equals(preParent.getName()) || !childAbstract.getPostCondition().getNameSplit().equals(postParent.getNameSplit())) {
 				refinedStatement.setProven(false);
 			}
 			

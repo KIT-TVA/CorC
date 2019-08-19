@@ -9,6 +9,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
@@ -59,7 +60,7 @@ public class DslValidator extends AbstractDslValidator {
   }
   
   @Check
-  public void checkSyntaxOfRetunrStatement(final ReturnStatement statement) {
+  public void checkSyntaxOfReturnStatement(final ReturnStatement statement) {
     Class<? extends ReturnStatement> _class = statement.getClass();
     boolean _equals = _class.equals(ReturnStatementImpl.class);
     if (_equals) {
@@ -79,8 +80,8 @@ public class DslValidator extends AbstractDslValidator {
   @Check
   public void checkSyntaxOfCondition(final Condition condition) {
     if (((((!Objects.equal(condition.getName(), null)) && (!condition.getName().isEmpty())) && (!condition.getName().contains("forall"))) && (!condition.getName().contains("exists")))) {
-      String _name = condition.getName();
-      String _replaceAll = _name.replaceAll("->", "&");
+      String _nameSplit = condition.getNameSplit();
+      String _replaceAll = _nameSplit.replaceAll("->", "&");
       boolean _readAndTestAssertWithJaMoPP = CompareMethodBodies.readAndTestAssertWithJaMoPP(_replaceAll);
       boolean _not = (!_readAndTestAssertWithJaMoPP);
       if (_not) {
@@ -266,5 +267,14 @@ public class DslValidator extends AbstractDslValidator {
         CbcmodelPackage.Literals.SELECTION_STATEMENT__PRE_PROVE, 
         DslValidator.NOT_PROVED);
     }
+  }
+  
+  @Check
+  public void checkSyntaxOfVariable(final JavaVariable variable) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method getName() is undefined for the type String"
+      + "\ntoLowerCase cannot be resolved"
+      + "\nmatches cannot be resolved"
+      + "\n! cannot be resolved");
   }
 }

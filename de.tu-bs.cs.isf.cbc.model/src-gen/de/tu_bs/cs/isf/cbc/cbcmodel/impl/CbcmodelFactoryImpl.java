@@ -4,7 +4,12 @@ package de.tu_bs.cs.isf.cbc.cbcmodel.impl;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.*;
 
+import de.tu_bs.cs.isf.lattice.Lattice;
+import java.util.Map;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -76,8 +81,39 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 			case CbcmodelPackage.RENAME: return createRename();
 			case CbcmodelPackage.CB_CPROBLEM: return createCbCProblem();
 			case CbcmodelPackage.STRENGTH_WEAK_STATEMENT: return createStrengthWeakStatement();
+			case CbcmodelPackage.CONF_TO_VARS_MAP: return (EObject)createConfToVarsMap();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case CbcmodelPackage.LATTICE:
+				return createLatticeFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case CbcmodelPackage.LATTICE:
+				return convertLatticeToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -279,6 +315,34 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	public StrengthWeakStatement createStrengthWeakStatement() {
 		StrengthWeakStatementImpl strengthWeakStatement = new StrengthWeakStatementImpl();
 		return strengthWeakStatement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry<String, EList<String>> createConfToVarsMap() {
+		ConfToVarsMapImpl confToVarsMap = new ConfToVarsMapImpl();
+		return confToVarsMap;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Lattice createLatticeFromString(EDataType eDataType, String initialValue) {
+		return (Lattice)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertLatticeToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
 	}
 
 	/**

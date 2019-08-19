@@ -4,6 +4,9 @@ package de.tu_bs.cs.isf.cbc.cbcmodel.util;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.*;
 
+import java.util.Map;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -192,6 +195,12 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 				StrengthWeakStatement strengthWeakStatement = (StrengthWeakStatement)theEObject;
 				T result = caseStrengthWeakStatement(strengthWeakStatement);
 				if (result == null) result = caseAbstractStatement(strengthWeakStatement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CbcmodelPackage.CONF_TO_VARS_MAP: {
+				@SuppressWarnings("unchecked") Map.Entry<String, EList<String>> confToVarsMap = (Map.Entry<String, EList<String>>)theEObject;
+				T result = caseConfToVarsMap(confToVarsMap);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -496,6 +505,21 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseStrengthWeakStatement(StrengthWeakStatement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Conf To Vars Map</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Conf To Vars Map</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseConfToVarsMap(Map.Entry<String, EList<String>> object) {
 		return null;
 	}
 

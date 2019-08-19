@@ -53,6 +53,7 @@ public class StrengthWeakStatementPattern extends IdPattern implements IPattern 
 	private static final String ID_POST_TEXT = "postText";
 	private static final String ID_MAIN_RECTANGLE = "mainRectangle";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
+	private static final String ID_IMAGE_CONTEXT = "imageContext";
 	//Headers:
 	private static final String ID_PRE_HEADER = "preHeader";
 	private static final String ID_POST_HEADER = "postHeader";
@@ -160,6 +161,10 @@ public class StrengthWeakStatementPattern extends IdPattern implements IPattern 
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
 		setId(image, ID_IMAGE_PROVEN);
 		
+		Shape contextShape = peCreateService.createShape(outerContainerShape, false);
+		Image imageContext = gaService.createImage(contextShape, CbCImageProvider.IMG_LOW);
+		setId(imageContext, ID_IMAGE_CONTEXT);
+		
 		//Header:---------------
 		Shape textHeader = peCreateService.createShape(outerContainerShape, false);
 		Text statementNameHeader = gaService.createText(textHeader, "Statement");
@@ -203,6 +208,7 @@ public class StrengthWeakStatementPattern extends IdPattern implements IPattern 
 		link(preShape, addedStatement.getPreCondition());
 		link(postShape, addedStatement.getPostCondition());
 		link(proveShape, addedStatement);
+		link(contextShape, addedStatement);
 
 		return outerContainerShape;
 	}
@@ -226,6 +232,9 @@ public class StrengthWeakStatementPattern extends IdPattern implements IPattern 
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
+			changesDone = true;
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 20, 10, 15, 15);
 			changesDone = true;
 		//Header:
 		} else if (id.equals(ID_NAME_HEADER)) {
@@ -293,6 +302,14 @@ public class StrengthWeakStatementPattern extends IdPattern implements IPattern 
 			} else if (!domainObject.isProven() && image.getId().equals(CbCImageProvider.IMG_PROVEN)) {
 				return Reason.createTrueReason("Statement is not proven. Expected red color.");
 			} 
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			AbstractStatement domainObject = (AbstractStatement) context.getDomainObject();
+			 Image image = (Image) context.getGraphicsAlgorithm();
+//			if (domainObject.getContext().equals(Confidentiality.HIGH) && image.getId().equals(CbCImageProvider.IMG_LOW)) {
+//				return Reason.createTrueReason("Statement is in high context.");
+//			} else if (domainObject.getContext().equals(Confidentiality.LOW) && image.getId().equals(CbCImageProvider.IMG_HIGH)) {
+//				return Reason.createTrueReason("Statement is in low context.");
+//			} 
 		}
 
 		return Reason.createFalseReason();
@@ -341,6 +358,14 @@ public class StrengthWeakStatementPattern extends IdPattern implements IPattern 
 			} else {
 				image.setId(CbCImageProvider.IMG_UNPROVEN);
 			} 
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			AbstractStatement domainObject = (AbstractStatement) context.getDomainObject();
+			 Image image = (Image) context.getGraphicsAlgorithm();
+//			if (domainObject.getContext().equals(Confidentiality.HIGH)) {
+//				image.setId(CbCImageProvider.IMG_HIGH);
+//			} else {
+//				image.setId(CbCImageProvider.IMG_LOW);
+//			} 
 		}
 		return false;
 	}

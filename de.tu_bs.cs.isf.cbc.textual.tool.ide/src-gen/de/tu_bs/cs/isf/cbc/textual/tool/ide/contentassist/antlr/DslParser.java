@@ -45,6 +45,7 @@ public class DslParser extends AbstractContentAssistParser {
 					put(grammarAccess.getVariableStringAccess().getAlternatives_2_0_0_1_1_1(), "rule__VariableString__Alternatives_2_0_0_1_1_1");
 					put(grammarAccess.getVariableStringAccess().getAlternatives_2_1_0_1(), "rule__VariableString__Alternatives_2_1_0_1");
 					put(grammarAccess.getOperationAccess().getAlternatives(), "rule__Operation__Alternatives");
+					put(grammarAccess.getConfidentialityAccess().getAlternatives(), "rule__Confidentiality__Alternatives");
 					put(grammarAccess.getCbCFormulaAccess().getGroup(), "rule__CbCFormula__Group__0");
 					put(grammarAccess.getCodeStringAccess().getGroup(), "rule__CodeString__Group__0");
 					put(grammarAccess.getCodeStringAccess().getGroup_1(), "rule__CodeString__Group_1__0");
@@ -79,6 +80,7 @@ public class DslParser extends AbstractContentAssistParser {
 					put(grammarAccess.getJavaVariablesAccess().getGroup_2(), "rule__JavaVariables__Group_2__0");
 					put(grammarAccess.getJavaVariablesAccess().getGroup_2_3(), "rule__JavaVariables__Group_2_3__0");
 					put(grammarAccess.getJavaVariableAccess().getGroup(), "rule__JavaVariable__Group__0");
+					put(grammarAccess.getTypeStringAccess().getGroup(), "rule__TypeString__Group__0");
 					put(grammarAccess.getGlobalConditionsAccess().getGroup(), "rule__GlobalConditions__Group__0");
 					put(grammarAccess.getGlobalConditionsAccess().getGroup_2(), "rule__GlobalConditions__Group_2__0");
 					put(grammarAccess.getGlobalConditionsAccess().getGroup_2_3(), "rule__GlobalConditions__Group_2_3__0");
@@ -115,7 +117,9 @@ public class DslParser extends AbstractContentAssistParser {
 					put(grammarAccess.getVariantAccess().getNameAssignment_1(), "rule__Variant__NameAssignment_1");
 					put(grammarAccess.getJavaVariablesAccess().getVariablesAssignment_2_2(), "rule__JavaVariables__VariablesAssignment_2_2");
 					put(grammarAccess.getJavaVariablesAccess().getVariablesAssignment_2_3_1(), "rule__JavaVariables__VariablesAssignment_2_3_1");
-					put(grammarAccess.getJavaVariableAccess().getNameAssignment_1(), "rule__JavaVariable__NameAssignment_1");
+					put(grammarAccess.getJavaVariableAccess().getConfidentialityAssignment_1(), "rule__JavaVariable__ConfidentialityAssignment_1");
+					put(grammarAccess.getJavaVariableAccess().getTypeAssignment_2(), "rule__JavaVariable__TypeAssignment_2");
+					put(grammarAccess.getJavaVariableAccess().getNameAssignment_3(), "rule__JavaVariable__NameAssignment_3");
 					put(grammarAccess.getGlobalConditionsAccess().getConditionsAssignment_2_2(), "rule__GlobalConditions__ConditionsAssignment_2_2");
 					put(grammarAccess.getGlobalConditionsAccess().getConditionsAssignment_2_3_1(), "rule__GlobalConditions__ConditionsAssignment_2_3_1");
 					put(grammarAccess.getRenamingAccess().getRenameAssignment_2_2(), "rule__Renaming__RenameAssignment_2_2");

@@ -6,9 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -20,7 +18,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.key_project.util.collection.ImmutableSet;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
@@ -31,24 +28,17 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.uka.ilkd.key.control.KeYEnvironment;
-import de.uka.ilkd.key.gui.MainWindow;
-import de.uka.ilkd.key.java.abstraction.KeYJavaType;
-import de.uka.ilkd.key.logic.op.IObserverFunction;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
-import de.uka.ilkd.key.proof.init.ProofInputException;
 import de.uka.ilkd.key.proof.io.ProblemLoaderException;
 import de.uka.ilkd.key.settings.ChoiceSettings;
 import de.uka.ilkd.key.settings.ProofSettings;
-import de.uka.ilkd.key.speclang.Contract;
 import de.uka.ilkd.key.strategy.StrategyProperties;
-import de.uka.ilkd.key.util.KeYTypeUtil;
 import de.uka.ilkd.key.util.MiscTools;
 
 public class ProveWithKey {
 
-//private static int proofCounter = 0;
-
+	
 	public static boolean proveStatementWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, URI uri, IProgressMonitor monitor) {
 		File location = createProveStatementWithKey(statement, vars, conds, renaming, uri, 0, true);
 		Console.println("Verify Pre -> {Statement} Post");
@@ -56,10 +46,11 @@ public class ProveWithKey {
 	}
 	
 	public static File createProveStatementWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, URI uri, int numberFile, boolean override) {
+		
 		String programVariablesString = "";
 		if (vars != null) {
 			for (JavaVariable var : vars.getVariables()) {
-				programVariablesString += var.getName() + "; ";
+				programVariablesString += var.getType() + " " + var.getName() + "; ";
 			}
 		}
 		
@@ -91,11 +82,12 @@ public class ProveWithKey {
 			post = useRenamingCondition(renaming, post);
 			stat = useRenamingStatement(renaming, stat);
 		}
+
 		
 		String problem = "\\javaSource \"" + thisProject.getLocation() + "/\";"
 				+ "\\include \"helper.key\";"
-				+ "\\programVariables {" + programVariablesString + " Heap heapAtPre;}"
-				+ "\\problem {(" + pre + " " + globalConditionsString + ") -> {heapAtPre := heap} \\<{" + stat + "}\\> (" + post + globalConditionsString + ")}";
+				+ "\\programVariables {" + programVariablesString + "}"
+				+ "\\problem {(" + pre + " " + globalConditionsString + ") -> \\<{" + stat + "}\\> (" + post + ")}";
 
 		String location = thisProject.getLocation() + "/src/prove" + uri.trimFileExtension().lastSegment();
 		File keyFile = writeFile(problem, location, numberFile, override);
@@ -105,6 +97,7 @@ public class ProveWithKey {
 	public static IProject getProject(URI uri) {
 		uri = uri.trimFragment();
 		String uriPath = uri.toPlatformString(true);
+		
 		uriPath = uriPath.substring(1, uriPath.length());
 		int positionOfSlash = uriPath.indexOf('/') + 1;
 		uriPath = uriPath.substring(positionOfSlash, uriPath.length());
@@ -114,26 +107,6 @@ public class ProveWithKey {
 				thisProject = p;
 			}
 		}
-//		if (thisProject.getName().contains("Userstudy")) {
-//			File diagramFile = new File(thisProject.getLocation() + "/" + uriPath);
-//			File diagramFileCopy = new File(thisProject.getLocation() + "/src/saved/ExDia" + proofCounter +  ".diagram");
-//			File cbcFile = new File(thisProject.getLocation() + "/" + uriPath.substring(0, uriPath.indexOf(".")) + ".cbcmodel");
-//			File cbcFileCopy = new File(thisProject.getLocation() + "/src/saved/ExDia" + proofCounter +  ".cbcmodel");
-//			proofCounter++;
-//			try {
-//				IWorkspace workspace = ResourcesPlugin.getWorkspace();
-//				Files.copy(diagramFile.toPath(), diagramFileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);
-//				Files.copy(cbcFile.toPath(), cbcFileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);  
-//				IPath iLocation = Path.fromOSString(diagramFileCopy.getAbsolutePath()); 
-//				IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-//				ifile.refreshLocal(0, null);
-//				iLocation = Path.fromOSString(cbcFileCopy.getAbsolutePath()); 
-//				ifile = workspace.getRoot().getFileForLocation(iLocation);
-//				ifile.refreshLocal(0, null);
-//			} catch (IOException | CoreException e) {
-//				e.printStackTrace();
-//			}
-//		}
 		return thisProject;
 	}
 	
@@ -173,10 +146,6 @@ public class ProveWithKey {
 			// Show proof result
 			boolean closed = proof.openGoals().isEmpty();
 			Console.println("Proof is closed: " + closed);
-			if(!closed) {
-				MainWindow.getInstance().loadProblem(location);
-				MainWindow.getInstance().setVisible(true);
-			}
 			return closed;
 		}
 		return false;
@@ -217,7 +186,7 @@ public class ProveWithKey {
 	
 	private static String useRenamingStatement(Renaming renaming, String toRename) {
 		for (Rename rename : renaming.getRename()) {
-			toRename = toRename.replaceAll(rename.getNewName(), rename.getFunction());
+			toRename = toRename.replaceAll(rename.getNewName() + "\\(", rename.getFunction() + "(");
 		}
 		return toRename;
 	}
@@ -235,7 +204,7 @@ public class ProveWithKey {
 		String programVariablesString = "";
 		if (vars != null) {
 			for (JavaVariable var : vars.getVariables()) {
-				programVariablesString += var.getName() + "; ";
+				programVariablesString += var.getType() + " " + var.getName() + "; ";
 			}
 		}
 		
@@ -268,8 +237,8 @@ public class ProveWithKey {
 		
 		String problem = "\\javaSource \"" + thisProject.getLocation() + "/\";"
 				+ "\\include \"helper.key\";"
-				+ "\\programVariables {" + programVariablesString + " Heap heapAtPre;}"
-				+ "\\problem {(" + preString + " " + globalConditionsString + ") -> {heapAtPre := heap} (" + invariantString + globalConditionsString +  ")}";
+				+ "\\programVariables {" + programVariablesString + "}"
+				+ "\\problem {(" + preString + " " + globalConditionsString + ") -> (" + invariantString + ")}";
 
 		String location = thisProject.getLocation() + "/src/prove" + uri.trimFileExtension().lastSegment();
 		File keyFile = writeFile(problem, location, numberFile, override);
@@ -288,7 +257,7 @@ public class ProveWithKey {
 		String programVariablesString = "";
 		if (vars != null) {
 			for (JavaVariable var : vars.getVariables()) {
-				programVariablesString += var.getName() + "; ";
+				programVariablesString += var.getType() + " " + var.getName() + "; ";
 			}
 		}
 		
@@ -320,14 +289,15 @@ public class ProveWithKey {
 		if(renaming != null) {
 			globalConditionsString = useRenamingCondition(renaming, globalConditionsString);
 			postString = useRenamingCondition(renaming, postString);
+			guardString = useRenamingCondition(renaming, guardString);
 			invariantString = useRenamingCondition(renaming, invariantString);
 		}
 
 		
 		String problem = "\\javaSource \"" + thisProject.getLocation() + "/\";"
 				+ "\\include \"helper.key\";"
-				+ "\\programVariables {" + programVariablesString + " Heap heapAtPre;}"
-				+ "\\problem {(" + invariantString + " & !(" + guardString + ") " + globalConditionsString + ") -> {heapAtPre := heap} (" + postString + globalConditionsString + ")}";
+				+ "\\programVariables {" + programVariablesString + "}"
+				+ "\\problem {(" + invariantString + " & !(" + guardString + ") " + globalConditionsString + ") -> (" + postString + ")}";
 
 		String location = thisProject.getLocation() + "/src/prove" + uri.trimFileExtension().lastSegment();
 		File keyFile = writeFile(problem, location, numberFile, override);
@@ -342,10 +312,11 @@ public class ProveWithKey {
 	}
 	public static File createProvePreSelWithKey(EList<Condition> guards, Condition preCondition, JavaVariables vars,
 			GlobalConditions conds, Renaming renaming, URI uri, int numberFile, boolean override) {
+
 		String programVariablesString = "";
 		if (vars != null) {
 			for (JavaVariable var : vars.getVariables()) {
-				programVariablesString += var.getName() + "; ";
+				programVariablesString += var.getType() + " " + var.getName() + "; ";
 			}
 		}
 		
@@ -362,6 +333,7 @@ public class ProveWithKey {
 		
 		String preString = preCondition.getName();
 		String guardString;
+				
 		if (guards != null && guards.get(0) != null) {
 			guardString = "((" + guards.get(0).getName() + ")";
 			for (int i = 1; i < guards.size(); i++) {
@@ -387,7 +359,7 @@ public class ProveWithKey {
 		String problem = "\\javaSource \"" + thisProject.getLocation() + "/\";"
 				+ "\\include \"helper.key\";"
 				+ "\\programVariables {" + programVariablesString + "}"
-				+ "\\problem {(" + preString + globalConditionsString + ") -> (" + guardString + globalConditionsString + ")}";
+				+ "\\problem {(" + preString + globalConditionsString + ") -> (" + guardString + ")}";
 
 		String location = thisProject.getLocation() + "/src/prove" + uri.trimFileExtension().lastSegment();
 		File keyFile = writeFile(problem, location, numberFile, override);
@@ -403,10 +375,11 @@ public class ProveWithKey {
 	
 	public static File createProveVariantWithKey(String code, Condition invariant, JavaVariables vars, GlobalConditions conds,
 			Renaming renaming, URI uri, int numberFile, boolean override) {
+
 		String programVariablesString = "";
 		if (vars != null) {
 			for (JavaVariable var : vars.getVariables()) {
-				programVariablesString += var.getName() + "; ";
+				programVariablesString += var.getType() + " " + var.getName() + "; ";
 			}
 		}
 		
@@ -422,7 +395,7 @@ public class ProveWithKey {
 		IProject thisProject = getProject(uri);
 		
 		String invariantString = invariant.getName();
-		
+
 		if (invariantString == null || invariantString.length() == 0) {
 			invariantString = "true";
 		}
@@ -435,8 +408,8 @@ public class ProveWithKey {
 		
 		String problem = "\\javaSource \"" + thisProject.getLocation() + "/\";"
 				+ "\\include \"helper.key\";"
-				+ "\\programVariables {" + programVariablesString + " Heap heapAtPre;}"
-				+ "\\problem {(" + invariantString + globalConditionsString + ") -> {heapAtPre := heap} \\<{" + code + "}\\> (true)}";
+				+ "\\programVariables {" + programVariablesString + "}"
+				+ "\\problem {(" + invariantString + globalConditionsString + ") -> \\<{" + code + "}\\> (true)}";
 		
 		String location = thisProject.getLocation() + "/src/prove" + uri.trimFileExtension().lastSegment();
 		File keyFile = writeFile(problem, location, numberFile, override);
@@ -452,12 +425,14 @@ public class ProveWithKey {
 	
 	public static File createProveVariant2WithKey(String code, Condition invariant, Condition guard, Variant variant, JavaVariables vars, GlobalConditions conds,
 			Renaming renaming, URI uri, int numberFile, boolean override) {
+		
 		String programVariablesString = "";
 		if (vars != null) {
 			for (JavaVariable var : vars.getVariables()) {
-				programVariablesString += var.getName() + "; ";
+				programVariablesString += var.getType() + " " + var.getName() + "; ";
 			}
 		}
+		
 		programVariablesString += "int variant;";
 		
 		String globalConditionsString = "";
@@ -472,7 +447,7 @@ public class ProveWithKey {
 		IProject thisProject = getProject(uri);
 		
 		String invariantString = invariant.getName();
-		
+
 		if (invariantString == null || invariantString.length() == 0) {
 			invariantString = "true";
 		}
@@ -487,15 +462,16 @@ public class ProveWithKey {
 			globalConditionsString = useRenamingCondition(renaming, globalConditionsString);
 			invariantString = useRenamingCondition(renaming, invariantString);
 			guardString = useRenamingCondition(renaming, guardString);
+			code = useRenamingCondition(renaming, code);
 		}
 		
 		String variantString = variant.getName();
 		
 		String problem = "\\javaSource \"" + thisProject.getLocation() + "/\";"
 				+ "\\include \"helper.key\";"
-				+ "\\programVariables {" + programVariablesString + " Heap heapAtPre;}"
-				+ "\\problem {(" + invariantString + " & " +  guardString + globalConditionsString + ") ->{variant := " + variantString + " || heapAtPre := heap} \\<{" + code + "}\\> (("
-				+ variantString + ") <variant & " + variantString +  ">=0"  + globalConditionsString + ")}";
+				+ "\\programVariables {" + programVariablesString + "}"
+				+ "\\problem {(" + invariantString + " & " +  guardString + globalConditionsString + ") ->{variant := " + variantString + "} \\<{" + code + "}\\> (("
+				+ variantString + ") <variant & " + variantString +  ">=0)}";
 		
 		String location = thisProject.getLocation() + "/src/prove" + uri.trimFileExtension().lastSegment();
 		File keyFile = writeFile(problem, location, numberFile, override);
@@ -522,7 +498,7 @@ public class ProveWithKey {
 		String programVariablesString = "";
 		if (vars != null) {
 			for (JavaVariable var : vars.getVariables()) {
-				programVariablesString += var.getName() + "; ";
+				programVariablesString += var.getType() + " " + var.getName() + "; ";
 			}
 		}
 		
@@ -554,8 +530,8 @@ public class ProveWithKey {
 		}
 		
 		String problem = "\\javaSource \"" + thisProject.getLocation() + "/\";"
-				+ "\\programVariables {" + programVariablesString + " Heap heapAtPre;}"
-				+ "\\problem {(" + preParentString + " " + globalConditionsString + ") -> {heapAtPre := heap} (" + preChildString + globalConditionsString + ")}";
+				+ "\\programVariables {" + programVariablesString + "}"
+				+ "\\problem {(" + preParentString + " " + globalConditionsString + ") -> (" + preChildString + ")}";
 
 		String location = thisProject.getLocation() + "/src/prove" + uri.trimFileExtension().lastSegment();
 		File keyFile = writeFile(problem, location, numberFile, override);
@@ -606,7 +582,7 @@ public class ProveWithKey {
 		
 		String problem = "\\javaSource \"" + thisProject.getLocation() + "/\";"
 				+ "\\programVariables {" + programVariablesString + "}"
-				+ "\\problem {(" + preParent + " " + globalConditionsString + ") -> (" + preChild + globalConditionsString + ")}";
+				+ "\\problem {(" + preParent + " " + globalConditionsString + ") -> (" + preChild + ")}";
 
 		String location = thisProject.getLocation() + "/src/prove" + uri.trimFileExtension().lastSegment();
 		File keyFile = writeFile(problem, location, numberFile, override);
@@ -643,7 +619,7 @@ public class ProveWithKey {
 		String programVariablesString = "";
 		if (vars != null) {
 			for (JavaVariable var : vars) {
-				programVariablesString += var.getName() + "; ";
+				programVariablesString += var.getType() + " " + var.getName() + "; ";
 			}
 		}
 		
@@ -660,7 +636,7 @@ public class ProveWithKey {
 		
 		String firstString = first.getName();
 		String secondString = second.getName();
-		
+
 		if (firstString == null || firstString.length() == 0) {
 			firstString = "true";
 		}
@@ -676,8 +652,8 @@ public class ProveWithKey {
 		
 		String problem = "\\javaSource \"" + thisProject.getLocation() + "/\";"
 				+ "\\include \"helper.key\";"
-				+ "\\programVariables {" + programVariablesString + " Heap heapAtPre;}"
-				+ "\\problem {(" + firstString + " " + globalConditionsString + ") -> {heapAtPre := heap} (" + secondString + globalConditionsString + ")}";
+				+ "\\programVariables {" + programVariablesString + "}"
+				+ "\\problem {(" + firstString + " " + globalConditionsString + ") -> (" + secondString + ")}";
 
 		String location = thisProject.getLocation() + "/src/prove" + uri.trimFileExtension().lastSegment();
 		File keyFile = writeFile(problem, location, numberFile, override);
@@ -693,10 +669,11 @@ public class ProveWithKey {
 
 	private static File createProveUseWeakestPreWithKey(AbstractStatement statement, JavaVariables vars,
 			GlobalConditions conds, Renaming renaming, URI uri, int numberFile, boolean override) {
+
 		String programVariablesString = "";
 		if (vars != null) {
 			for (JavaVariable var : vars.getVariables()) {
-				programVariablesString += var.getName() + "; ";
+				programVariablesString += var.getType() + " " + var.getName() + "; ";
 			}
 		}
 		
@@ -713,7 +690,7 @@ public class ProveWithKey {
 		
 		String post = statement.getPostCondition().getName();
 		String stat = statement.getName();
-		
+
 		if (post == null || post.length() == 0) {
 			post = "true";
 		}
@@ -809,7 +786,7 @@ public class ProveWithKey {
 			sp.setProperty(StrategyProperties.DEP_OPTIONS_KEY, StrategyProperties.DEP_ON);
 			sp.setProperty(StrategyProperties.QUERY_OPTIONS_KEY, StrategyProperties.QUERY_RESTRICTED);// StrategyProperties.QUERY_ON
 			sp.setProperty(StrategyProperties.NON_LIN_ARITH_OPTIONS_KEY, StrategyProperties.NON_LIN_ARITH_DEF_OPS);
-			sp.setProperty(StrategyProperties.STOPMODE_OPTIONS_KEY, StrategyProperties.STOPMODE_DEFAULT);
+			sp.setProperty(StrategyProperties.STOPMODE_OPTIONS_KEY, StrategyProperties.STOPMODE_NONCLOSE);
 			proof.getSettings().getStrategySettings().setActiveStrategyProperties(sp);
 			// Make sure that the new options are used
 			int maxSteps = 20000;
@@ -830,7 +807,7 @@ public class ProveWithKey {
 			} else {
 				env.getUi().getProofControl().startAndWaitForAutoMode(proof);
 			}
-//			Console.println("Proofcounter: " + ++proofCounter);
+			
 			// Show proof result
 			try {
 				proof.saveToFile(location);
@@ -842,104 +819,5 @@ public class ProveWithKey {
 			e.printStackTrace();
 		}
 		return proof;
-	}
-	
-	public static void createKeyProofUserstudy(File location, int proofCounter) {
-		File keyFile = null;
-		List<File> classPaths = null; // Optionally: Additional specifications
-										// for API classes
-		File bootClassPath = null; // Optionally: Different default
-									// specifications for Java API
-		List<File> includes = null; // Optionally: Additional includes to
-									// consider
-		try {
-			// Ensure that Taclets are parsed
-			if (!ProofSettings.isChoiceSettingInitialised()) {
-				KeYEnvironment<?> env = KeYEnvironment.load(location, classPaths, bootClassPath, includes);
-				env.dispose();
-			}
-			// Set Taclet options
-			ChoiceSettings choiceSettings = ProofSettings.DEFAULT_SETTINGS.getChoiceSettings();
-			HashMap<String, String> oldSettings = choiceSettings.getDefaultChoices();
-			HashMap<String, String> newSettings = new HashMap<String, String>(oldSettings);
-			newSettings.putAll(MiscTools.getDefaultTacletOptions());
-			newSettings.put("runtimeExceptions", "runtimeExceptions:ban");
-			choiceSettings.setDefaultChoices(newSettings);
-			// Load source code
-			KeYEnvironment<?> env = KeYEnvironment.load(location, classPaths, bootClassPath, includes);
-			// proof = env.getLoadedProof();
-			try {
-				// List all specifications of all types in the source location
-				// (not classPaths and bootClassPath)
-				final List<Contract> proofContracts = new LinkedList<Contract>();
-				Set<KeYJavaType> kjts = env.getJavaInfo().getAllKeYJavaTypes();
-				for (KeYJavaType type : kjts) {
-					if (!KeYTypeUtil.isLibraryClass(type)) {
-						ImmutableSet<IObserverFunction> targets = env.getSpecificationRepository().getContractTargets(type);
-						for (IObserverFunction target : targets) {
-							ImmutableSet<Contract> contracts = env.getSpecificationRepository().getContracts(type, target);
-							for (Contract contract : contracts) {
-								proofContracts.add(contract);
-							}
-						}
-					}
-				}
-				// Perform proofs
-				Contract contract = proofContracts.get(0);
-				Proof proof = null;
-				try {
-					// Create proof
-					proof = env.createProof(contract.createProofObl(env.getInitConfig(), contract));
-					// Set proof strategy options
-					StrategyProperties sp = proof.getSettings().getStrategySettings().getActiveStrategyProperties();
-					sp.setProperty(StrategyProperties.METHOD_OPTIONS_KEY, StrategyProperties.METHOD_EXPAND);
-					sp.setProperty(StrategyProperties.LOOP_OPTIONS_KEY, StrategyProperties.LOOP_INVARIANT);
-					sp.setProperty(StrategyProperties.DEP_OPTIONS_KEY, StrategyProperties.DEP_ON);
-					sp.setProperty(StrategyProperties.QUERY_OPTIONS_KEY, StrategyProperties.QUERY_RESTRICTED);// StrategyProperties.QUERY_ON
-					sp.setProperty(StrategyProperties.NON_LIN_ARITH_OPTIONS_KEY, StrategyProperties.NON_LIN_ARITH_DEF_OPS);
-					sp.setProperty(StrategyProperties.STOPMODE_OPTIONS_KEY, StrategyProperties.STOPMODE_DEFAULT);
-					proof.getSettings().getStrategySettings().setActiveStrategyProperties(sp);
-					// Make sure that the new options are used
-					int maxSteps = 5000;
-					ProofSettings.DEFAULT_SETTINGS.getStrategySettings().setMaxSteps(maxSteps);
-					ProofSettings.DEFAULT_SETTINGS.getStrategySettings().setActiveStrategyProperties(sp);
-					proof.getSettings().getStrategySettings().setMaxSteps(maxSteps);
-					proof.setActiveStrategy(proof.getServices().getProfile().getDefaultStrategyFactory().create(proof, sp));
-					// Start auto mode
-//						MainWindow.getInstance().setVisible(true);
-					env.getUi().getProofControl().startAndWaitForAutoMode(proof);
-					// Show proof result
-					Console.println("Proof is closed: " + proof.openGoals().isEmpty());
-	                try {
-	                	String locationWithoutFileEnding = location.toString().substring(0, location.toString().indexOf("."));
-	                	keyFile = new File(locationWithoutFileEnding + ".proof");
-	    				proof.saveToFile(keyFile);
-	    				IWorkspace workspace = ResourcesPlugin.getWorkspace();    
-	    				IPath iLocation = Path.fromOSString(keyFile.getAbsolutePath()); 
-	    				IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-	    				ifile.refreshLocal(0, null);
-	    			} catch (IOException | CoreException e) {
-	    				e.printStackTrace();
-	    			}
-				} catch (ProofInputException e) {
-					Console.println(
-							"Exception at '" + contract.getDisplayName() + "' of " + contract.getTarget() + ":");
-					e.printStackTrace();
-				} finally {
-					if (proof != null) {
-						proof.dispose(); // Ensure always that all instances
-											// of Proof are disposed
-					}
-				}
-			} finally {
-				env.dispose(); // Ensure always that all instances of
-								// KeYEnvironment are disposed
-			}
-			MainWindow.getInstance().loadProblem(keyFile);
-			MainWindow.getInstance().setVisible(true);
-		} catch (ProblemLoaderException e) {
-			Console.println("Exception at '" + e.getCause() + "'");
-			e.printStackTrace();
-		}
 	}
 }

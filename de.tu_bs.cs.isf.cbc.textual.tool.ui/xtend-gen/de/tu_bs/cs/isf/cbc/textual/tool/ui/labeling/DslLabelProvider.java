@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
@@ -168,5 +169,15 @@ public class DslLabelProvider extends DefaultEObjectLabelProvider {
   public String text(final CbCFormula formula) {
     String _name = formula.getName();
     return ("Formula: " + _name);
+  }
+  
+  public Object text(final JavaVariable variable) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field getName is undefined for the type String"
+      + "\ntoLowerCase cannot be resolved"
+      + "\n+ cannot be resolved"
+      + "\n+ cannot be resolved"
+      + "\n+ cannot be resolved"
+      + "\n+ cannot be resolved");
   }
 }

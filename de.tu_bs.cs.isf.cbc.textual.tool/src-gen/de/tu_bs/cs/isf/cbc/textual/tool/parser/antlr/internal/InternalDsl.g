@@ -23,6 +23,7 @@ import org.eclipse.xtext.parser.*;
 import org.eclipse.xtext.parser.impl.*;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.xtext.parser.antlr.AbstractInternalAntlrParser;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
@@ -1785,22 +1786,92 @@ ruleJavaVariable returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getJavaVariableAccess().getNameEStringParserRuleCall_1_0());
+					newCompositeNode(grammarAccess.getJavaVariableAccess().getConfidentialityConfidentialityEnumRuleCall_1_0());
 				}
-				lv_name_1_0=ruleEString
+				lv_confidentiality_1_0=ruleConfidentiality
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getJavaVariableRule());
 					}
 					set(
 						$current,
-						"name",
-						lv_name_1_0,
-						"de.tu_bs.cs.isf.cbc.textual.tool.Dsl.EString");
+						"confidentiality",
+						lv_confidentiality_1_0,
+						"de.tu_bs.cs.isf.cbc.textual.tool.Dsl.Confidentiality");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getJavaVariableAccess().getTypeTypeStringParserRuleCall_2_0());
+				}
+				lv_type_2_0=ruleTypeString
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getJavaVariableRule());
+					}
+					set(
+						$current,
+						"type",
+						lv_type_2_0,
+						"de.tu_bs.cs.isf.cbc.textual.tool.Dsl.TypeString");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		(
+			(
+				lv_name_3_0=RULE_ID
+				{
+					newLeafNode(lv_name_3_0, grammarAccess.getJavaVariableAccess().getNameIDTerminalRuleCall_3_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getJavaVariableRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"name",
+						lv_name_3_0,
+						"org.eclipse.xtext.common.Terminals.ID");
+				}
+			)
+		)
+	)
+;
+
+// Entry rule entryRuleTypeString
+entryRuleTypeString returns [String current=null]:
+	{ newCompositeNode(grammarAccess.getTypeStringRule()); }
+	iv_ruleTypeString=ruleTypeString
+	{ $current=$iv_ruleTypeString.current.getText(); }
+	EOF;
+
+// Rule TypeString
+ruleTypeString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		this_ID_0=RULE_ID
+		{
+			$current.merge(this_ID_0);
+		}
+		{
+			newLeafNode(this_ID_0, grammarAccess.getTypeStringAccess().getIDTerminalRuleCall_0());
+		}
+		(
+			kw='[]'
+			{
+				$current.merge(kw);
+				newLeafNode(kw, grammarAccess.getTypeStringAccess().getLeftSquareBracketRightSquareBracketKeyword_1());
+			}
+		)?
 	)
 ;
 
@@ -2074,6 +2145,33 @@ ruleRename returns [EObject current=null]
 		{
 			newLeafNode(otherlv_8, grammarAccess.getRenameAccess().getRightCurlyBracketKeyword_8());
 		}
+	)
+;
+
+// Rule Confidentiality
+ruleConfidentiality returns [Enumerator current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			enumLiteral_0='high'
+			{
+				$current = grammarAccess.getConfidentialityAccess().getHIGHEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_0, grammarAccess.getConfidentialityAccess().getHIGHEnumLiteralDeclaration_0());
+			}
+		)
+		    |
+		(
+			enumLiteral_1='low'
+			{
+				$current = grammarAccess.getConfidentialityAccess().getLOWEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_1, grammarAccess.getConfidentialityAccess().getLOWEnumLiteralDeclaration_1());
+			}
+		)
 	)
 ;
 

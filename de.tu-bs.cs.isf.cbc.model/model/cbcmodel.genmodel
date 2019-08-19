@@ -8,6 +8,7 @@
   <foreignModel>cbcmodel.ecore</foreignModel>
   <genPackages prefix="Cbcmodel" basePackage="de.tu_bs.cs.isf.cbc" disposableProviderFactory="true"
       ecorePackage="cbcmodel.ecore#/">
+    <genDataTypes ecoreDataType="cbcmodel.ecore#//Lattice"/>
     <genClasses ecoreClass="cbcmodel.ecore#//CbCFormula">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCFormula/statement"/>
@@ -15,10 +16,10 @@
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCFormula/postCondition"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/proven"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/comment"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/TaxMethod"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//Condition">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Condition/confToVarsMap"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//AbstractStatement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/name"/>
@@ -28,6 +29,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//AbstractStatement/preCondition"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/proven"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/comment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/context"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//SkipStatement"/>
     <genClasses ecoreClass="cbcmodel.ecore#//CompositionStatement">
@@ -79,6 +81,8 @@
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//JavaVariable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/confidentiality"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/type"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//GlobalConditions">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//GlobalConditions/conditions"/>
@@ -99,5 +103,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/renaming"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//StrengthWeakStatement"/>
+    <genClasses ecoreClass="cbcmodel.ecore#//ConfToVarsMap">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//ConfToVarsMap/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//ConfToVarsMap/value"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

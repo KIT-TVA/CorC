@@ -31,7 +31,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
-import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateVariablesOfConditions;
+import de.tu_bs.cs.isf.lattice.calculation.LeastUpperBound;
 
 /**
  * Class that creates the graphical representation of Conditions
@@ -223,11 +224,17 @@ public class ConditionPattern extends IdPattern implements IPattern {
 		if (value == null) {
 			return "Condition must not be empty";
 		}
-		if (value.length() > 0 && (value.contains("forall") || value.contains("exists"))) {
-			return null;
-		} 
-		else if (value.length() > 0 && !CompareMethodBodies.readAndTestAssertWithJaMoPP(value.replaceAll("<->", "&").replaceAll("->", "&"))) {
-			return "Condition has not the correct syntax.";
+		if (value.length() > 0) {
+//			String[] valueSplitted = value.split(";");
+//			if (valueSplitted.length>1 && !valueSplitted[0].trim().matches("high\\(\\w+(,\\w+)*\\)")) {
+//				return "high variables must be defined as: high(x,y,z,...);";
+//			}
+			if ((value.contains("forall") || value.contains("exists"))) {
+				return null;
+			} 
+//			else if (value.length() > 0 && !CompareMethodBodies.readAndTestAssertWithJaMoPP(value.replaceAll("<->", "&").replaceAll("->", "&"))) {
+//				return "Condition has not the correct syntax.";
+//			}
 		}
 		return null;
 	}
@@ -238,6 +245,13 @@ public class ConditionPattern extends IdPattern implements IPattern {
 		condition.setName(value.trim());
 		if (!(condition.eContainer() instanceof GlobalConditions)) {
 			UpdateConditionsOfChildren.updateConditionsofChildren(condition);
+			for (Shape shape : getDiagram().getChildren()) {
+				Object obj = getBusinessObjectForPictogramElement(shape);
+				if (obj instanceof CbCFormula) {
+					CbCFormula formula = (CbCFormula) obj;
+					UpdateVariablesOfConditions.updateConfidentiality(formula.getStatement(), LeastUpperBound.getLattice().getBottom().getName());
+				}
+			}
 		} else if (condition.eContainer() instanceof GlobalConditions) {
 			CbCFormula formula = null;
 			for (Shape shape : getDiagram().getChildren()) {
@@ -245,7 +259,7 @@ public class ConditionPattern extends IdPattern implements IPattern {
 				if (obj instanceof CbCFormula) {
 					formula = (CbCFormula) obj;
 					formula.setProven(false);
-					UpdateConditionsOfChildren.setAllStatementsUnproven(formula.getStatement());
+//					UpdateConditionsOfChildren.setAllStatementsUnproven(formula.getStatement());
 				}
 			}
 		}

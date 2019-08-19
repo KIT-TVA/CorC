@@ -25,6 +25,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateVariablesOfConditions;
+import de.tu_bs.cs.isf.lattice.calculation.LeastUpperBound;
 
 /**
  * Class that creates the graphical representation of the parent hierarchy between Algorithms
@@ -183,6 +185,13 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 		
 		sourceObject.setRefinement(targetObject);
 		UpdateConditionsOfChildren.updateRefinedStatement(sourceObject, targetObject);
+		for (Shape shape : getDiagram().getChildren()) {
+			Object obj = getBusinessObjectForPictogramElement(shape);
+			if (obj instanceof CbCFormula) {
+				CbCFormula formula = (CbCFormula) obj;
+				UpdateVariablesOfConditions.updateConfidentiality(formula.getStatement(), LeastUpperBound.getLattice().getBottom().getName());
+			}
+		}
 		
 		AddConnectionContext addContext = new AddConnectionContext(sourceAnchor, targetAnchor);
 		Connection connection = (Connection) getFeatureProvider().addIfPossible(addContext);

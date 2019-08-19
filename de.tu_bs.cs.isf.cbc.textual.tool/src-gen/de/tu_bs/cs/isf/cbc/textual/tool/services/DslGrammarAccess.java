@@ -9,6 +9,8 @@ import java.util.List;
 import org.eclipse.xtext.Action;
 import org.eclipse.xtext.Alternatives;
 import org.eclipse.xtext.Assignment;
+import org.eclipse.xtext.EnumLiteralDeclaration;
+import org.eclipse.xtext.EnumRule;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.Group;
@@ -18,6 +20,7 @@ import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.TerminalRule;
 import org.eclipse.xtext.UnorderedGroup;
 import org.eclipse.xtext.common.services.TerminalsGrammarAccess;
+import org.eclipse.xtext.service.AbstractElementFinder.AbstractEnumRuleElementFinder;
 import org.eclipse.xtext.service.AbstractElementFinder.AbstractGrammarElementFinder;
 import org.eclipse.xtext.service.GrammarProvider;
 
@@ -1126,24 +1129,61 @@ public class DslGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "de.tu_bs.cs.isf.cbc.textual.tool.Dsl.JavaVariable");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cJavaVariableAction_0 = (Action)cGroup.eContents().get(0);
-		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cNameEStringParserRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final Assignment cConfidentialityAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cConfidentialityConfidentialityEnumRuleCall_1_0 = (RuleCall)cConfidentialityAssignment_1.eContents().get(0);
+		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cTypeTypeStringParserRuleCall_2_0 = (RuleCall)cTypeAssignment_2.eContents().get(0);
+		private final Assignment cNameAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cNameIDTerminalRuleCall_3_0 = (RuleCall)cNameAssignment_3.eContents().get(0);
 		
 		//JavaVariable:
-		//	{JavaVariable} name=EString;
+		//	{JavaVariable} confidentiality=Confidentiality
+		//	type=TypeString
+		//	name=ID;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{JavaVariable} name=EString
+		//{JavaVariable} confidentiality=Confidentiality type=TypeString name=ID
 		public Group getGroup() { return cGroup; }
 		
 		//{JavaVariable}
 		public Action getJavaVariableAction_0() { return cJavaVariableAction_0; }
 		
-		//name=EString
-		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
+		//confidentiality=Confidentiality
+		public Assignment getConfidentialityAssignment_1() { return cConfidentialityAssignment_1; }
 		
-		//EString
-		public RuleCall getNameEStringParserRuleCall_1_0() { return cNameEStringParserRuleCall_1_0; }
+		//Confidentiality
+		public RuleCall getConfidentialityConfidentialityEnumRuleCall_1_0() { return cConfidentialityConfidentialityEnumRuleCall_1_0; }
+		
+		//type=TypeString
+		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
+		
+		//TypeString
+		public RuleCall getTypeTypeStringParserRuleCall_2_0() { return cTypeTypeStringParserRuleCall_2_0; }
+		
+		//name=ID
+		public Assignment getNameAssignment_3() { return cNameAssignment_3; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_3_0() { return cNameIDTerminalRuleCall_3_0; }
+	}
+	public class TypeStringElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "de.tu_bs.cs.isf.cbc.textual.tool.Dsl.TypeString");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cIDTerminalRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final Keyword cLeftSquareBracketRightSquareBracketKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		
+		//TypeString:
+		//	ID '[]'?;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//ID '[]'?
+		public Group getGroup() { return cGroup; }
+		
+		//ID
+		public RuleCall getIDTerminalRuleCall_0() { return cIDTerminalRuleCall_0; }
+		
+		//'[]'?
+		public Keyword getLeftSquareBracketRightSquareBracketKeyword_1() { return cLeftSquareBracketRightSquareBracketKeyword_1; }
 	}
 	public class GlobalConditionsElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "de.tu_bs.cs.isf.cbc.textual.tool.Dsl.GlobalConditions");
@@ -1322,6 +1362,33 @@ public class DslGrammarAccess extends AbstractGrammarElementFinder {
 		public Keyword getRightCurlyBracketKeyword_8() { return cRightCurlyBracketKeyword_8; }
 	}
 	
+	public class ConfidentialityElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "de.tu_bs.cs.isf.cbc.textual.tool.Dsl.Confidentiality");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cHIGHEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cHIGHHighKeyword_0_0 = (Keyword)cHIGHEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cLOWEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cLOWLowKeyword_1_0 = (Keyword)cLOWEnumLiteralDeclaration_1.eContents().get(0);
+		
+		//enum Confidentiality:
+		//	HIGH='high' | LOW='low';
+		public EnumRule getRule() { return rule; }
+		
+		//HIGH='high' | LOW='low'
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//HIGH='high'
+		public EnumLiteralDeclaration getHIGHEnumLiteralDeclaration_0() { return cHIGHEnumLiteralDeclaration_0; }
+		
+		//'high'
+		public Keyword getHIGHHighKeyword_0_0() { return cHIGHHighKeyword_0_0; }
+		
+		//LOW='low'
+		public EnumLiteralDeclaration getLOWEnumLiteralDeclaration_1() { return cLOWEnumLiteralDeclaration_1; }
+		
+		//'low'
+		public Keyword getLOWLowKeyword_1_0() { return cLOWLowKeyword_1_0; }
+	}
 	
 	private final CbCProblemElements pCbCProblem;
 	private final CbCFormulaElements pCbCFormula;
@@ -1343,6 +1410,8 @@ public class DslGrammarAccess extends AbstractGrammarElementFinder {
 	private final VariantElements pVariant;
 	private final JavaVariablesElements pJavaVariables;
 	private final JavaVariableElements pJavaVariable;
+	private final TypeStringElements pTypeString;
+	private final ConfidentialityElements eConfidentiality;
 	private final GlobalConditionsElements pGlobalConditions;
 	private final RenamingElements pRenaming;
 	private final RenameElements pRename;
@@ -1376,6 +1445,8 @@ public class DslGrammarAccess extends AbstractGrammarElementFinder {
 		this.pVariant = new VariantElements();
 		this.pJavaVariables = new JavaVariablesElements();
 		this.pJavaVariable = new JavaVariableElements();
+		this.pTypeString = new TypeStringElements();
+		this.eConfidentiality = new ConfidentialityElements();
 		this.pGlobalConditions = new GlobalConditionsElements();
 		this.pRenaming = new RenamingElements();
 		this.pRename = new RenameElements();
@@ -1652,13 +1723,35 @@ public class DslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//JavaVariable:
-	//	{JavaVariable} name=EString;
+	//	{JavaVariable} confidentiality=Confidentiality
+	//	type=TypeString
+	//	name=ID;
 	public JavaVariableElements getJavaVariableAccess() {
 		return pJavaVariable;
 	}
 	
 	public ParserRule getJavaVariableRule() {
 		return getJavaVariableAccess().getRule();
+	}
+	
+	//TypeString:
+	//	ID '[]'?;
+	public TypeStringElements getTypeStringAccess() {
+		return pTypeString;
+	}
+	
+	public ParserRule getTypeStringRule() {
+		return getTypeStringAccess().getRule();
+	}
+	
+	//enum Confidentiality:
+	//	HIGH='high' | LOW='low';
+	public ConfidentialityElements getConfidentialityAccess() {
+		return eConfidentiality;
+	}
+	
+	public EnumRule getConfidentialityRule() {
+		return getConfidentialityAccess().getRule();
 	}
 	
 	//GlobalConditions:

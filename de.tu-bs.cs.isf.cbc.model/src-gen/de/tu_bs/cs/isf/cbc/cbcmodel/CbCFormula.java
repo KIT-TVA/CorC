@@ -19,7 +19,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getPostCondition <em>Post Condition</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#isProven <em>Proven</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getComment <em>Comment</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getTaxMethod <em>Tax Method</em>}</li>
  * </ul>
  *
  * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getCbCFormula()
@@ -182,31 +181,5 @@ public interface CbCFormula extends EObject {
 	 * @generated
 	 */
 	void setComment(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Tax Method</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Tax Method</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Tax Method</em>' attribute.
-	 * @see #setTaxMethod(String)
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getCbCFormula_TaxMethod()
-	 * @model unique="false"
-	 * @generated
-	 */
-	String getTaxMethod();
-
-	/**
-	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getTaxMethod <em>Tax Method</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Tax Method</em>' attribute.
-	 * @see #getTaxMethod()
-	 * @generated
-	 */
-	void setTaxMethod(String value);
 
 } // CbCFormula

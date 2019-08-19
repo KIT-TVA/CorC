@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.JavaVariableImpl#getName <em>Name</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.JavaVariableImpl#getConfidentiality <em>Confidentiality</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.JavaVariableImpl#getType <em>Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -45,6 +47,46 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getConfidentiality() <em>Confidentiality</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConfidentiality()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String CONFIDENTIALITY_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getConfidentiality() <em>Confidentiality</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConfidentiality()
+	 * @generated
+	 * @ordered
+	 */
+	protected String confidentiality = CONFIDENTIALITY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TYPE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String type = TYPE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -91,11 +133,57 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getConfidentiality() {
+		return confidentiality;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConfidentiality(String newConfidentiality) {
+		String oldConfidentiality = confidentiality;
+		confidentiality = newConfidentiality;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.JAVA_VARIABLE__CONFIDENTIALITY, oldConfidentiality, confidentiality));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType(String newType) {
+		String oldType = type;
+		type = newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.JAVA_VARIABLE__TYPE, oldType, type));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case CbcmodelPackage.JAVA_VARIABLE__NAME:
 				return getName();
+			case CbcmodelPackage.JAVA_VARIABLE__CONFIDENTIALITY:
+				return getConfidentiality();
+			case CbcmodelPackage.JAVA_VARIABLE__TYPE:
+				return getType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -110,6 +198,12 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 		switch (featureID) {
 			case CbcmodelPackage.JAVA_VARIABLE__NAME:
 				setName((String)newValue);
+				return;
+			case CbcmodelPackage.JAVA_VARIABLE__CONFIDENTIALITY:
+				setConfidentiality((String)newValue);
+				return;
+			case CbcmodelPackage.JAVA_VARIABLE__TYPE:
+				setType((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -126,6 +220,12 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 			case CbcmodelPackage.JAVA_VARIABLE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case CbcmodelPackage.JAVA_VARIABLE__CONFIDENTIALITY:
+				setConfidentiality(CONFIDENTIALITY_EDEFAULT);
+				return;
+			case CbcmodelPackage.JAVA_VARIABLE__TYPE:
+				setType(TYPE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -140,6 +240,10 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 		switch (featureID) {
 			case CbcmodelPackage.JAVA_VARIABLE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case CbcmodelPackage.JAVA_VARIABLE__CONFIDENTIALITY:
+				return CONFIDENTIALITY_EDEFAULT == null ? confidentiality != null : !CONFIDENTIALITY_EDEFAULT.equals(confidentiality);
+			case CbcmodelPackage.JAVA_VARIABLE__TYPE:
+				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -156,6 +260,10 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", confidentiality: ");
+		result.append(confidentiality);
+		result.append(", type: ");
+		result.append(type);
 		result.append(')');
 		return result.toString();
 	}

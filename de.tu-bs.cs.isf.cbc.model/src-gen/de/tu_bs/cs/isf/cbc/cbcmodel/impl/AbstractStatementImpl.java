@@ -5,16 +5,13 @@ package de.tu_bs.cs.isf.cbc.cbcmodel.impl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -32,6 +29,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl#getPreCondition <em>Pre Condition</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl#isProven <em>Proven</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl#getComment <em>Comment</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl#getContext <em>Context</em>}</li>
  * </ul>
  *
  * @generated
@@ -126,6 +124,26 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * @ordered
 	 */
 	protected String comment = COMMENT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getContext() <em>Context</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getContext()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String CONTEXT_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getContext() <em>Context</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getContext()
+	 * @generated
+	 * @ordered
+	 */
+	protected String context = CONTEXT_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -384,6 +402,27 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getContext() {
+		return context;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setContext(String newContext) {
+		String oldContext = context;
+		context = newContext;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.ABSTRACT_STATEMENT__CONTEXT, oldContext, context));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -455,6 +494,8 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 				return isProven();
 			case CbcmodelPackage.ABSTRACT_STATEMENT__COMMENT:
 				return getComment();
+			case CbcmodelPackage.ABSTRACT_STATEMENT__CONTEXT:
+				return getContext();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -487,6 +528,9 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 				return;
 			case CbcmodelPackage.ABSTRACT_STATEMENT__COMMENT:
 				setComment((String)newValue);
+				return;
+			case CbcmodelPackage.ABSTRACT_STATEMENT__CONTEXT:
+				setContext((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -521,6 +565,9 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 			case CbcmodelPackage.ABSTRACT_STATEMENT__COMMENT:
 				setComment(COMMENT_EDEFAULT);
 				return;
+			case CbcmodelPackage.ABSTRACT_STATEMENT__CONTEXT:
+				setContext(CONTEXT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -547,6 +594,8 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 				return proven != PROVEN_EDEFAULT;
 			case CbcmodelPackage.ABSTRACT_STATEMENT__COMMENT:
 				return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
+			case CbcmodelPackage.ABSTRACT_STATEMENT__CONTEXT:
+				return CONTEXT_EDEFAULT == null ? context != null : !CONTEXT_EDEFAULT.equals(context);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -567,6 +616,8 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 		result.append(proven);
 		result.append(", comment: ");
 		result.append(comment);
+		result.append(", context: ");
+		result.append(context);
 		result.append(')');
 		return result.toString();
 	}

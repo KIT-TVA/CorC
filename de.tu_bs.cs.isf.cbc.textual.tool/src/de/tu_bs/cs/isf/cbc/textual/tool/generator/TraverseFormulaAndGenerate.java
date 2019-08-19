@@ -19,6 +19,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Confidentiality;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
@@ -63,6 +64,7 @@ public class TraverseFormulaAndGenerate {
 		statement.setPostCondition(factory.createCondition());
 		statement.getPostCondition().setName(formula.getPostCondition().getName());
 		castStatementAndTraverse(statement);
+		UpdateVariablesOfConditions.updateConfidentiality(statement, Confidentiality.LOW);
 		return formula;
 	}
 
@@ -112,7 +114,7 @@ public class TraverseFormulaAndGenerate {
 		loopStatement.getPostCondition().setName(repetitionStatement.getInvariant().getName());
 		ProveWithKey.createProvePreWithKey(repetitionStatement.getInvariant(), repetitionStatement.getPreCondition(), vars, conds, renaming, uri, numberFile++, false);
 		ProveWithKey.createProvePostWithKey(repetitionStatement.getInvariant(), repetitionStatement.getGuard(), repetitionStatement.getPostCondition(), vars, conds, renaming, uri, numberFile++, false);
-		String code = ConstructCodeBlock.constructCodeBlockAndVerify3(repetitionStatement);
+		String code = ConstructCodeBlock.constructCodeBlockAndVerify2(repetitionStatement);
 		ProveWithKey.createProveVariant2WithKey(code, repetitionStatement.getInvariant(), repetitionStatement.getGuard(), repetitionStatement.getVariant(), vars, conds, renaming, uri, numberFile++, false);
 		
 		castStatementAndTraverse(loopStatement);

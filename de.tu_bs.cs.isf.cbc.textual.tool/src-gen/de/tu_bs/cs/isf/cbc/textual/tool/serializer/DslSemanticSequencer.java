@@ -222,15 +222,21 @@ public class DslSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     JavaVariable returns JavaVariable
 	 *
 	 * Constraint:
-	 *     name=EString
+	 *     (confidentiality=Confidentiality type=TypeString name=ID)
 	 */
 	protected void sequence_JavaVariable(ISerializationContext context, JavaVariable semanticObject) {
 		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, CbcmodelPackage.Literals.JAVA_VARIABLE__CONFIDENTIALITY) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, CbcmodelPackage.Literals.JAVA_VARIABLE__CONFIDENTIALITY));
+			if (transientValues.isValueTransient(semanticObject, CbcmodelPackage.Literals.JAVA_VARIABLE__TYPE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, CbcmodelPackage.Literals.JAVA_VARIABLE__TYPE));
 			if (transientValues.isValueTransient(semanticObject, CbcmodelPackage.Literals.JAVA_VARIABLE__NAME) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, CbcmodelPackage.Literals.JAVA_VARIABLE__NAME));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getJavaVariableAccess().getNameEStringParserRuleCall_1_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getJavaVariableAccess().getConfidentialityConfidentialityEnumRuleCall_1_0(), semanticObject.getConfidentiality());
+		feeder.accept(grammarAccess.getJavaVariableAccess().getTypeTypeStringParserRuleCall_2_0(), semanticObject.getType());
+		feeder.accept(grammarAccess.getJavaVariableAccess().getNameIDTerminalRuleCall_3_0(), semanticObject.getName());
 		feeder.finish();
 	}
 	

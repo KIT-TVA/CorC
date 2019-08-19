@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.tu_bs.cs.isf.taxonomy.model.taxonomy.Method#getPseudoCode <em>Pseudo Code</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.taxonomy.model.taxonomy.Method#getPreCondition <em>Pre Condition</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.taxonomy.model.taxonomy.Method#getPostCondition <em>Post Condition</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.taxonomy.model.taxonomy.Method#getCorCImpl <em>Cor CImpl</em>}</li>
  * </ul>
  *
  * @see de.tu_bs.cs.isf.taxonomy.model.taxonomy.TaxonomyPackage#getMethod()
@@ -147,31 +146,5 @@ public interface Method extends EObject {
 	 * @generated
 	 */
 	void setPostCondition(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Cor CImpl</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Cor CImpl</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Cor CImpl</em>' attribute.
-	 * @see #setCorCImpl(String)
-	 * @see de.tu_bs.cs.isf.taxonomy.model.taxonomy.TaxonomyPackage#getMethod_CorCImpl()
-	 * @model
-	 * @generated
-	 */
-	String getCorCImpl();
-
-	/**
-	 * Sets the value of the '{@link de.tu_bs.cs.isf.taxonomy.model.taxonomy.Method#getCorCImpl <em>Cor CImpl</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Cor CImpl</em>' attribute.
-	 * @see #getCorCImpl()
-	 * @generated
-	 */
-	void setCorCImpl(String value);
 
 } // Method

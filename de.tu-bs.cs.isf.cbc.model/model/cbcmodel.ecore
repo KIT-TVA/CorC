@@ -11,11 +11,11 @@
         eType="#//Condition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="proven" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="TaxMethod" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Condition">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="confToVarsMap" upperBound="-1"
+        eType="#//ConfToVarsMap" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbstractStatement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -29,6 +29,7 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="proven" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="context" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SkipStatement" eSuperTypes="#//AbstractStatement"/>
   <eClassifiers xsi:type="ecore:EClass" name="CompositionStatement" eSuperTypes="#//AbstractStatement">
@@ -101,6 +102,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavaVariable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="confidentiality" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GlobalConditions">
     <eStructuralFeatures xsi:type="ecore:EReference" name="conditions" upperBound="-1"
@@ -128,4 +131,10 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StrengthWeakStatement" eSuperTypes="#//AbstractStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConfToVarsMap" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Lattice" instanceClassName="de.tu_bs.cs.isf.lattice.Lattice"/>
 </ecore:EPackage>

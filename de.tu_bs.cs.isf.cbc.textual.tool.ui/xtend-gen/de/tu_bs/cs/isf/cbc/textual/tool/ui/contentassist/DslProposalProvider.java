@@ -59,7 +59,7 @@ public class DslProposalProvider extends AbstractDslProposalProvider {
   @Override
   public void complete_JavaVariables(final EObject model, final RuleCall ruleCall, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
     super.complete_JavaVariables(model, ruleCall, context, acceptor);
-    final String proposal = ("JavaVariables\n" + "\tvariables {\"<variable>\", \"<variable>\"}\n");
+    final String proposal = ("JavaVariables\n" + "\tvariables {\"<confidentiality> <type> <variable>\", \"<...>\"}\n");
     ICompletionProposal _createCompletionProposal = this.createCompletionProposal(proposal, context);
     acceptor.accept(_createCompletionProposal);
   }

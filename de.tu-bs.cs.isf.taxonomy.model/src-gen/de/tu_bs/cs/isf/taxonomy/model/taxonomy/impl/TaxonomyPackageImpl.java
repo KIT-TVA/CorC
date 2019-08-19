@@ -389,15 +389,6 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMethod_CorCImpl() {
-		return (EAttribute)methodEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getDataType() {
 		return dataTypeEClass;
 	}
@@ -592,7 +583,6 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 		createEAttribute(methodEClass, METHOD__PSEUDO_CODE);
 		createEAttribute(methodEClass, METHOD__PRE_CONDITION);
 		createEAttribute(methodEClass, METHOD__POST_CONDITION);
-		createEAttribute(methodEClass, METHOD__COR_CIMPL);
 
 		dataTypeEClass = createEClass(DATA_TYPE);
 		createEAttribute(dataTypeEClass, DATA_TYPE__NAME);
@@ -675,7 +665,6 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 		initEAttribute(getMethod_PseudoCode(), ecorePackage.getEString(), "pseudoCode", null, 0, 1, Method.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMethod_PreCondition(), ecorePackage.getEString(), "preCondition", null, 0, 1, Method.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMethod_PostCondition(), ecorePackage.getEString(), "postCondition", null, 0, 1, Method.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMethod_CorCImpl(), ecorePackage.getEString(), "CorCImpl", null, 0, 1, Method.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dataTypeEClass, DataType.class, "DataType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDataType_Name(), ecorePackage.getEString(), "name", "int", 0, 1, DataType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

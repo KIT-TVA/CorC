@@ -331,22 +331,13 @@ public interface TaxonomyPackage extends EPackage {
 	int METHOD__POST_CONDITION = 4;
 
 	/**
-	 * The feature id for the '<em><b>Cor CImpl</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD__COR_CIMPL = 5;
-
-	/**
 	 * The number of structural features of the '<em>Method</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METHOD_FEATURE_COUNT = 6;
+	int METHOD_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Method</em>' class.
@@ -897,17 +888,6 @@ public interface TaxonomyPackage extends EPackage {
 	EAttribute getMethod_PostCondition();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.taxonomy.model.taxonomy.Method#getCorCImpl <em>Cor CImpl</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Cor CImpl</em>'.
-	 * @see de.tu_bs.cs.isf.taxonomy.model.taxonomy.Method#getCorCImpl()
-	 * @see #getMethod()
-	 * @generated
-	 */
-	EAttribute getMethod_CorCImpl();
-
-	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.taxonomy.model.taxonomy.DataType <em>Data Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1298,14 +1278,6 @@ public interface TaxonomyPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute METHOD__POST_CONDITION = eINSTANCE.getMethod_PostCondition();
-
-		/**
-		 * The meta object literal for the '<em><b>Cor CImpl</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute METHOD__COR_CIMPL = eINSTANCE.getMethod_CorCImpl();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.taxonomy.model.taxonomy.impl.DataTypeImpl <em>Data Type</em>}' class.

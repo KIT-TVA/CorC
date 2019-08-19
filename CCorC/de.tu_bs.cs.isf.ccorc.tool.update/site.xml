@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <feature url="features/de.tu_bs.cs.cbc.tool.feature_1.0.0.201812191104.jar" id="de.tu_bs.cs.cbc.tool.feature" version="1.0.0.201812191104"/>
-   <feature url="features/de.tu_bs.cs.isf.cbc.tooldependencies.feature_1.0.0.201812191104.jar" id="de.tu_bs.cs.isf.cbc.tooldependencies.feature" version="1.0.0.201812191104"/>
-</site>

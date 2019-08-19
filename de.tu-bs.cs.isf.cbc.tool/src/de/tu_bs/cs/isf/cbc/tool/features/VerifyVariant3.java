@@ -40,7 +40,7 @@ public class VerifyVariant3 extends MyAbstractAsynchronousCustomFeature {
 
 	@Override
 	public String getName() {
-		return "Verify the variant without inner loops";
+		return "Verify the variant without inner loops (splitted)";
 	}
 
 	@Override
@@ -99,12 +99,6 @@ public class VerifyVariant3 extends MyAbstractAsynchronousCustomFeature {
 					variant = repStatement.getVariant();
 
 				}
-//				try {
-//					getDiagram().eResource().save(Collections.EMPTY_MAP);
-//					statement.eResource().save(Collections.EMPTY_MAP);
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
 //				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(code)) {
 					prove = ProveWithKey.proveVariant2WithKey(code, invariant, guard, variant, vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
 //				} else {
