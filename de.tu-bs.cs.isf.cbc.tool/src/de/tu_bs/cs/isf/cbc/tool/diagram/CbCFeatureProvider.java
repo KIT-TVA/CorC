@@ -12,6 +12,8 @@ import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.pattern.DefaultFeatureProviderWithPatterns;
 
 import de.tu_bs.cs.isf.cbc.tool.features.AddPseudoCodeToMethodFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.ChangeNameOfAssociatedClassFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.ChangeNameOfAssociatedMethodFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.ChangeNameOfFormulaFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.CreateExtraSelectionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.DeleteConnectionFeature;
@@ -139,6 +141,8 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	    		new DrillDownFeature(this),
 	    		new DrillUpFeature(this),
 	    		new ChangeNameOfFormulaFeature(this),
+	    		new ChangeNameOfAssociatedClassFeature(this),
+	    		new ChangeNameOfAssociatedMethodFeature(this),
 	    		new VerifyMethodStatementAndSubFormula(this),
 	    		new RenameStatementFeature(this),
 	    		new RenameConditionFeature(this),

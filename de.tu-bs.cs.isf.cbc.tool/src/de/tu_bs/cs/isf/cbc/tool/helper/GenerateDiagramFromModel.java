@@ -1,7 +1,9 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
@@ -25,6 +27,7 @@ import org.eclipse.graphiti.mm.Property;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.PictogramLink;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
@@ -132,7 +135,7 @@ public class GenerateDiagramFromModel {
 			if (statement instanceof SmallRepetitionStatement) {
 				SmallRepetitionStatement repetitionStatement = (SmallRepetitionStatement) statement;
 				if (repetitionStatement.getLoopStatement().getRefinement() != null) {
-					Shape repPe = (Shape) featureProvider.getPictogramElementForBusinessObject(repetitionStatement.getLoopStatement());
+					Shape repPe = (Shape) findPictogramElementForBusinessObject(diagram, repetitionStatement.getLoopStatement());
 					addNextElement(featureProvider, repetitionStatement.getLoopStatement().getRefinement(), diagram, x, y + 350, repPe);
 				}
 			} else if (statement instanceof SelectionStatement) {
@@ -141,25 +144,27 @@ public class GenerateDiagramFromModel {
 				y = y + 250;
 				for (AbstractStatement childStatement : selectionStatement.getCommands()) {
 					if (childStatement.getRefinement() != null) {
-						Shape selPe = (Shape) featureProvider.getPictogramElementForBusinessObject(childStatement);
+						Shape selPe = (Shape) findPictogramElementForBusinessObject(diagram, childStatement);
 						addNextElement(featureProvider, childStatement.getRefinement(), diagram, x, y, selPe);
 						x = x + 400;
 					}
 				}
 			}  else if (statement instanceof CompositionStatement) {
 				CompositionStatement compositionStatement = (CompositionStatement) statement;
-				if (compositionStatement.getFirstStatement().getRefinement() != null) {
-					Shape st1Pe = (Shape) featureProvider.getPictogramElementForBusinessObject(compositionStatement.getFirstStatement());
+				
+				if (compositionStatement.getFirstStatement().getRefinement() != null) {			
+					Shape st1Pe = (Shape)findPictogramElementForBusinessObject(diagram, compositionStatement.getFirstStatement());
+					//Shape st1Pe = (Shape) featureProvider.getPictogramElementForBusinessObject(compositionStatement.getFirstStatement());
 					addNextElement(featureProvider, compositionStatement.getFirstStatement().getRefinement(), diagram, x - 100, y + 350, st1Pe);
 				}
 				if (compositionStatement.getSecondStatement().getRefinement() != null) {
-					Shape st2Pe = (Shape) featureProvider.getPictogramElementForBusinessObject(compositionStatement.getSecondStatement());
+					Shape st2Pe = (Shape) findPictogramElementForBusinessObject(diagram, compositionStatement.getSecondStatement());
 					addNextElement(featureProvider, compositionStatement.getSecondStatement().getRefinement(), diagram, x + 300, y + 350, st2Pe);
 				}
 			} else if (statement instanceof StrengthWeakStatement) {
 				StrengthWeakStatement strengthWeakStatement = (StrengthWeakStatement) statement;
 				if (strengthWeakStatement.getRefinement() != null) {
-					Shape stPe = (Shape) featureProvider.getPictogramElementForBusinessObject(strengthWeakStatement);
+					Shape stPe = (Shape) findPictogramElementForBusinessObject(diagram, strengthWeakStatement);
 					ContainerShape container = (ContainerShape) stPe;
 					for (Shape childShape : container.getChildren()) {
 						for (Property property : childShape.getGraphicsAlgorithm().getProperties()) {
@@ -172,6 +177,29 @@ public class GenerateDiagramFromModel {
 				}
 			}
 		}
+	}
+
+	/**
+	 * (this method replaces the previously used
+	 * 'featureProvider.getPictogramElementForBusinessObject(statement)' ) returns
+	 * the pictogram element which represents the given statement
+	 * 
+	 * @param diagram
+	 * @param statement
+	 * @return
+	 */
+	private PictogramElement findPictogramElementForBusinessObject(Diagram diagram, AbstractStatement statement) {
+		PictogramElement pe = null;
+		Collection<PictogramLink> pictogramLinks = diagram.getPictogramLinks();
+		for (PictogramLink pictogramLink : pictogramLinks) {
+			List<EObject> businessObjects = pictogramLink.getBusinessObjects();
+			for (EObject obj : businessObjects) {
+				if (obj.toString().equals(statement.toString())) {
+					pe = pictogramLink.getPictogramElement();
+				}
+			}
+		}
+		return pe;
 	}
 
 	private void addElement(IFeatureProvider featureProvider, EObject object, Diagram diagram, int x, int y) {

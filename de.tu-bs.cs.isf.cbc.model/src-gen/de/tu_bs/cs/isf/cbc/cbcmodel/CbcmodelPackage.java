@@ -130,13 +130,31 @@ public interface CbcmodelPackage extends EPackage {
 	int CB_CFORMULA__TAX_METHOD = 6;
 
 	/**
+	 * The feature id for the '<em><b>Class Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CB_CFORMULA__CLASS_NAME = 7;
+
+	/**
+	 * The feature id for the '<em><b>Method Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CB_CFORMULA__METHOD_NAME = 8;
+
+	/**
 	 * The number of structural features of the '<em>Cb CFormula</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CFORMULA_FEATURE_COUNT = 7;
+	int CB_CFORMULA_FEATURE_COUNT = 9;
 
 	/**
 	 * The number of operations of the '<em>Cb CFormula</em>' class.
@@ -1768,6 +1786,28 @@ public interface CbcmodelPackage extends EPackage {
 	EAttribute getCbCFormula_TaxMethod();
 
 	/**
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getClassName <em>Class Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Class Name</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getClassName()
+	 * @see #getCbCFormula()
+	 * @generated
+	 */
+	EAttribute getCbCFormula_ClassName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getMethodName <em>Method Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Method Name</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getMethodName()
+	 * @see #getCbCFormula()
+	 * @generated
+	 */
+	EAttribute getCbCFormula_MethodName();
+
+	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Condition <em>Condition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2573,6 +2613,22 @@ public interface CbcmodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CB_CFORMULA__TAX_METHOD = eINSTANCE.getCbCFormula_TaxMethod();
+
+		/**
+		 * The meta object literal for the '<em><b>Class Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CB_CFORMULA__CLASS_NAME = eINSTANCE.getCbCFormula_ClassName();
+
+		/**
+		 * The meta object literal for the '<em><b>Method Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CB_CFORMULA__METHOD_NAME = eINSTANCE.getCbCFormula_MethodName();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.ConditionImpl <em>Condition</em>}' class.

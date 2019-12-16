@@ -32,21 +32,23 @@ public class VerifyWithKeYHandler extends AbstractHandler implements IHandler {
 				project = p;
 			}
 		}
-		String location = project.getLocation() + "/src/";
-		File javaFile = new File(location + "FirstExercise.java");
-		if (!javaFile.exists()) {
-			javaFile = new File(location + "SecondExercise.java");
-		}
-		try {
-			File javaFileCopy = new File(location + "saved/Ex" + counter +  ".txt");
-			Files.copy(javaFile.toPath(), javaFileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);  
-			IPath iLocation = Path.fromOSString(javaFileCopy.getAbsolutePath()); 
-			IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-			ifile.refreshLocal(0, null);
-			ProveWithKey.createKeyProofUserstudy(javaFile, counter);
-			counter++;
-		} catch (IOException | CoreException e1) {
-			e1.printStackTrace();
+		if (project != null) {
+			String location = project.getLocation() + "/src/";
+			File javaFile = new File(location + "FirstExercise.java");
+			if (!javaFile.exists()) {
+				javaFile = new File(location + "SecondExercise.java");
+			}
+			try {
+				File javaFileCopy = new File(location + "saved/Ex" + counter +  ".txt");
+				Files.copy(javaFile.toPath(), javaFileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);  
+				IPath iLocation = Path.fromOSString(javaFileCopy.getAbsolutePath()); 
+				IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
+				ifile.refreshLocal(0, null);
+				ProveWithKey.createKeyProofUserstudy(javaFile, counter);
+				counter++;
+			} catch (IOException | CoreException e1) {
+				e1.printStackTrace();
+			}
 		}
 		return null;
 	}
