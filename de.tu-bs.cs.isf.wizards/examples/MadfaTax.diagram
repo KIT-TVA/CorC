@@ -1,0 +1,1706 @@
+<?xml version="1.0" encoding="ASCII"?>
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="taxonomy" name="MadfaTax" snapToGrid="true" pictogramLinks="//@children.0/@link //@children.0/@children.0/@link //@children.0/@children.2/@link //@children.0/@children.3/@link //@children.0/@children.4/@link //@children.0/@children.5/@link //@children.0/@children.7/@link //@children.0/@children.9/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.3/@link //@children.1/@children.4/@link //@children.1/@children.5/@link //@children.1/@children.7/@link //@children.1/@children.9/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.3/@link //@children.2/@children.4/@link //@children.2/@children.5/@link //@children.2/@children.7/@link //@children.2/@children.9/@link //@children.3/@link //@children.3/@children.0/@link //@children.3/@children.2/@link //@children.3/@children.3/@link //@children.3/@children.4/@link //@children.3/@children.5/@link //@children.3/@children.7/@link //@children.3/@children.9/@link //@children.4/@link //@children.4/@children.0/@link //@children.4/@children.2/@link //@children.4/@children.3/@link //@children.4/@children.4/@link //@children.4/@children.5/@link //@children.4/@children.7/@link //@children.4/@children.9/@link //@children.5/@link //@children.5/@children.0/@link //@children.5/@children.2/@link //@children.5/@children.3/@link //@children.5/@children.4/@link //@children.5/@children.5/@link //@children.5/@children.7/@link //@children.5/@children.9/@link //@children.6/@link //@children.6/@children.0/@link //@children.6/@children.2/@link //@children.6/@children.3/@link //@children.6/@children.4/@link //@children.6/@children.5/@link //@children.6/@children.7/@link //@children.6/@children.9/@link //@children.7/@link //@children.7/@children.0/@link //@children.7/@children.2/@link //@children.7/@children.3/@link //@children.7/@children.4/@link //@children.7/@children.5/@link //@children.7/@children.7/@link //@children.7/@children.9/@link //@children.0/@children.5/@children.0/@link //@children.0/@children.7/@children.0/@link //@children.0/@children.7/@children.1/@link //@children.0/@children.9/@children.1/@link //@children.0/@children.9/@children.0/@link //@children.0/@children.9/@children.2/@link //@children.1/@children.5/@children.0/@link //@children.1/@children.7/@children.0/@link //@children.1/@children.7/@children.1/@link //@children.1/@children.9/@children.1/@link //@children.1/@children.9/@children.0/@link //@children.1/@children.9/@children.2/@link //@children.2/@children.5/@children.0/@link //@children.2/@children.7/@children.0/@link //@children.2/@children.7/@children.1/@link //@children.2/@children.9/@children.1/@link //@children.2/@children.9/@children.0/@link //@children.2/@children.9/@children.2/@link //@children.4/@children.5/@children.0/@link //@children.4/@children.7/@children.0/@link //@children.4/@children.7/@children.1/@link //@children.4/@children.9/@children.1/@link //@children.4/@children.9/@children.0/@link //@children.4/@children.9/@children.2/@link //@children.4/@children.9/@children.4/@link //@children.4/@children.9/@children.5/@link //@children.4/@children.9/@children.3/@link //@children.4/@children.9/@children.7/@link //@children.4/@children.9/@children.8/@link //@children.4/@children.9/@children.6/@link //@children.3/@children.5/@children.0/@link //@children.3/@children.7/@children.0/@link //@children.3/@children.7/@children.1/@link //@children.3/@children.9/@children.1/@link //@children.3/@children.9/@children.0/@link //@children.3/@children.9/@children.2/@link //@children.3/@children.9/@children.4/@link //@children.3/@children.9/@children.5/@link //@children.3/@children.9/@children.6/@link //@children.3/@children.9/@children.3/@link //@children.6/@children.5/@children.0/@link //@children.6/@children.7/@children.0/@link //@children.6/@children.7/@children.1/@link //@children.6/@children.7/@children.2/@link //@children.6/@children.7/@children.3/@link //@children.6/@children.9/@children.1/@link //@children.6/@children.9/@children.0/@link //@children.6/@children.9/@children.2/@link //@children.6/@children.9/@children.4/@link //@children.6/@children.9/@children.5/@link //@children.6/@children.9/@children.3/@link //@children.7/@children.5/@children.0/@link //@children.7/@children.7/@children.0/@link //@children.7/@children.7/@children.1/@link //@children.7/@children.9/@children.1/@link //@children.7/@children.9/@children.0/@link //@children.7/@children.9/@children.2/@link //@children.7/@children.9/@children.4/@link //@children.7/@children.9/@children.5/@link //@children.7/@children.9/@children.3/@link //@children.5/@children.5/@children.0/@link //@children.5/@children.7/@children.0/@link //@children.5/@children.7/@children.1/@link //@children.5/@children.7/@children.2/@link //@children.5/@children.7/@children.3/@link //@children.5/@children.9/@children.1/@link //@children.5/@children.9/@children.0/@link //@children.5/@children.9/@children.2/@link //@children.5/@children.9/@children.4/@link //@children.5/@children.9/@children.5/@link //@children.5/@children.9/@children.6/@link //@children.5/@children.9/@children.3/@link" version="0.13.0">
+  <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="210" height="170" x="786" y="-30" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="light-gray" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="245" green="245" blue="237"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="245" green="245" blue="237"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="214" green="214" blue="208"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="214" green="214" blue="208"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="229" green="229" blue="223"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="229" green="229" blue="223"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.0"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="210" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="AlgorithmSkeleton">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="210" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" x="5" y="30" value="pre condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" x="5" y="50" value="post condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="210" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" x="5" y="90" value="createMadfa(words)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0/@methods.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="210" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="210" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="131" height="20" x="5" y="110" value="automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="68" height="20" x="136" y="110" value="Automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="210" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="210" height="40" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="97" height="20" x="5" y="130" value="addWord(word)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="102" height="20" x="102" y="130" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" x="5" y="150" value="cleanup()">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.0/@methods.2"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="210" height="171" x="786" y="170" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.1 //@connections.2 //@connections.3 //@connections.4 //@connections.5" incomingConnections="//@connections.0"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="210" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="Algorithm Trie">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="210" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" x="5" y="30" value="pre condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" x="5" y="50" value="post condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="210" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" x="5" y="90" value="createMadfa(words)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1/@methods.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="210" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="210" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="131" height="20" x="5" y="110" value="automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="68" height="20" x="136" y="110" value="Automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="210" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="210" height="41" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="97" height="20" x="5" y="130" value="addWord(word)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="102" height="20" x="102" y="130" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" x="5" y="150" value="cleanup()">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.1/@methods.2"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="171" x="130" y="411" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.6" incomingConnections="//@connections.1"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="Algorithm General">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="200" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="30" value="pre condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="50" value="post condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="90" value="createMadfa(words)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2/@methods.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="200" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="125" height="20" x="5" y="110" value="automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="65" height="20" x="130" y="110" value="Automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="200" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="41" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="92" height="20" x="5" y="130" value="addWord(word)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="97" height="20" x="97" y="130" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="150" value="cleanup()">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.2/@methods.2"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="296" height="191" x="82" y="640" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.6"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="296" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="Algorithm Incremental">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="296" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="286" height="20" x="5" y="30" value="pre condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="286" height="20" x="5" y="50" value="post condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="286" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="296" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="286" height="20" x="5" y="90" value="createMadfa(words)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3/@methods.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="296" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="296" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="189" height="20" x="5" y="110" value="automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="97" height="20" x="194" y="110" value="Automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="296" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="296" height="61" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="140" height="20" x="5" y="130" value="addWord(word)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="145" height="20" x="145" y="130" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="286" height="20" x="5" y="150" value="cleanup()">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3/@methods.2"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="140" height="20" x="5" y="170" value="visitMin(state,left,right)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3/@methods.3"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="48" height="20" x="144" y="170" value="State">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="200"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3/@methods.3/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="48" height="20" x="192" y="170" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="201"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3/@methods.3/@dataTypes.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="48" height="20" x="240" y="170" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="202"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.3/@methods.3/@dataTypes.2"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="341" height="211" x="350" y="410" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.2"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="341" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="Algorithm Reverse">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="341" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="331" height="20" x="5" y="30" value="pre condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="331" height="20" x="5" y="50" value="post condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="331" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="341" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="331" height="20" x="5" y="90" value="createMadfa(words)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4/@methods.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="341" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="341" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="219" height="20" x="5" y="110" value="automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="112" height="20" x="224" y="110" value="Automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="341" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="341" height="81" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="163" height="20" x="5" y="130" value="addWord(word)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="168" height="20" x="168" y="130" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="331" height="20" x="5" y="150" value="cleanup()">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4/@methods.2"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="163" height="20" x="5" y="170" value="compareStateId(first,second)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4/@methods.3"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="84" height="20" x="168" y="170" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="200"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4/@methods.3/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="84" height="20" x="252" y="170" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="201"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4/@methods.3/@dataTypes.1"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="163" height="20" x="5" y="190" value="getStateForStateId(id,registry)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="3"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4/@methods.4"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="84" height="20" x="168" y="190" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="300"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4/@methods.4/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="84" height="20" x="252" y="190" value="List&lt;State>">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="301"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.4/@methods.4/@dataTypes.1"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="301" height="210" x="710" y="411" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.3"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="301" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="Algorithm Sorted">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="301" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="291" height="20" x="5" y="30" value="pre condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="291" height="20" x="5" y="50" value="post condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="291" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="301" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="291" height="20" x="5" y="90" value="createMadfa(words)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5/@methods.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="301" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="301" height="40" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="191" height="20" x="5" y="110" value="automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="98" height="20" x="196" y="110" value="Automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="191" height="20" x="5" y="130" value="lexGreatestWord">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5/@dataStructures.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="98" height="20" x="196" y="130" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5/@dataStructures.1/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="150"/>
+        <points x="301" y="150"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="301" height="60" y="150">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="143" height="20" x="5" y="150" value="addWord(word)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="148" height="20" x="148" y="150" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="291" height="20" x="5" y="170" value="cleanup()">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5/@methods.2"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="143" height="20" x="5" y="190" value="visitMin(left,right,word)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5/@methods.3"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="49" height="20" x="147" y="190" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="200"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5/@methods.3/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="49" height="20" x="196" y="190" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="201"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5/@methods.3/@dataTypes.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="49" height="20" x="245" y="190" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="202"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.5/@methods.3/@dataTypes.2"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="211" x="1030" y="410" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.4"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="Algorithm Depth_Layered">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="200" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="30" value="pre condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="50" value="post condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="90" value="createMadfa(words)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6/@methods.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="200" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="40" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="125" height="20" x="5" y="110" value="automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="65" height="20" x="130" y="110" value="Automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="125" height="20" x="5" y="130" value="minLength">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6/@dataStructures.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="65" height="20" x="130" y="130" value="int">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6/@dataStructures.1/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="150"/>
+        <points x="200" y="150"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="61" y="150">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="92" height="20" x="5" y="150" value="addWord(word)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="97" height="20" x="97" y="150" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="190" height="20" x="5" y="170" value="cleanup()">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6/@methods.2"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="92" height="20" x="5" y="190" value="depthMin(i,j)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6/@methods.3"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="48" height="20" x="96" y="190" value="int">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="200"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6/@methods.3/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="48" height="20" x="144" y="190" value="int">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="201"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.6/@methods.3/@dataTypes.1"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="301" height="190" x="1250" y="411" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.5"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="301" height="20" y="10" horizontalAlignment="ALIGNMENT_CENTER" value="Algorithm Semi_Incremental">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="algorithmNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameSeparator"/>
+        <points y="30"/>
+        <points x="301" y="30"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="291" height="20" x="5" y="30" value="pre condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="291" height="20" x="5" y="50" value="post condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="291" height="20" x="5" y="70" value="invariant">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="invariantNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7"/>
+      </link>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="301" height="20" y="90">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="291" height="20" x="5" y="90" value="createMadfa(words)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="mainMethodNameText"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7/@methods.0"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSeparator"/>
+        <points y="110"/>
+        <points x="301" y="110"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="301" height="20" y="110">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="191" height="20" x="5" y="110" value="automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7/@dataStructures.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="98" height="20" x="196" y="110" value="Automaton">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="dataStructureType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7/@dataStructures.0/@dataType"/>
+        </link>
+      </children>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodSeparator"/>
+        <points y="130"/>
+        <points x="301" y="130"/>
+      </graphicsAlgorithm>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true">
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="301" height="60" y="130">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNamesRectangle"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7"/>
+      </link>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="143" height="20" x="5" y="130" value="addWord(word)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7/@methods.1"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="148" height="20" x="148" y="130" value="String">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7/@methods.1/@dataTypes.0"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="291" height="20" x="5" y="150" value="cleanup()">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7/@methods.2"/>
+        </link>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="143" height="20" x="5" y="170" value="semiMin(p,listOfStatesU)">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodNameText"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7/@methods.3"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="74" height="20" x="148" y="170" value="State">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="200"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7/@methods.3/@dataTypes.0"/>
+        </link>
+      </children>
+      <children visible="true" active="true">
+        <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="74" height="20" x="222" y="170" value="Set&lt;State>">
+          <properties key="org.eclipse.graphiti.pattern.id.id" value="methodType"/>
+          <properties key="org.eclipse.graphiti.pattern.id.index" value="201"/>
+        </graphicsAlgorithm>
+        <link>
+          <businessObjects href="MadfaTax.taxonomy#//@Algorithms.7/@methods.3/@dataTypes.1"/>
+        </link>
+      </children>
+    </children>
+  </children>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.1/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="-50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.1/@anchors.0" end="//@children.2/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.1/@anchors.0" end="//@children.4/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.1/@anchors.0" end="//@children.5/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.1/@anchors.0" end="//@children.6/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="-50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.1/@anchors.0" end="//@children.7/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="-50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <connections xsi:type="pi:CurvedConnection" visible="true" active="true" start="//@children.2/@anchors.0" end="//@children.3/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+    <controlPoints/>
+    <controlPoints x="0.5" y="50.0"/>
+    <controlPoints x="1.0"/>
+  </connections>
+  <colors red="227" green="238" blue="249"/>
+  <colors red="255" green="255" blue="255"/>
+  <colors/>
+</pi:Diagram>

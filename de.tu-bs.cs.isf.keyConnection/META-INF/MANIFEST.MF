@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: de.tu-bs.cs.isf.keyConnection
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.key_project.monkey.help;bundle-version="1.0.0",
+ org.key_project.monkey.product.ui;bundle-version="1.0.0",
+ org.key_project.core;bundle-version="1.0.0",
+ org.key_project.util;bundle-version="1.0.0",
+ org.eclipse.core.runtime;bundle-version="3.12.0",
+ org.eclipse.swt;bundle-version="3.105.3",
+ org.eclipse.jface;bundle-version="3.12.2",
+ org.key_project.ui;bundle-version="1.0.0"
+Export-Package: de.tubs.carsten.robot.monkey,
+ de.tubs.carsten.robot.util
