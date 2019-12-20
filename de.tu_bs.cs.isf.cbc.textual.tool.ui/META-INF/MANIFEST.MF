@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: de.tu_bs.cs.isf.cbc.textual.tool.ui
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: de.tu_bs.cs.isf.cbc.textual.tool.ui; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: de.tu_bs.cs.isf.cbc.textual.tool,
+ de.tu_bs.cs.isf.cbc.textual.tool.ide,
+ de.tu-bs.cs.isf.cbc.model,
+ org.eclipse.xtext.ui,
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.xtext.ui.codetemplates.ui,
+ org.eclipse.ui.editors;bundle-version="3.5.0",
+ org.eclipse.ui.ide;bundle-version="3.5.0",
+ org.eclipse.ui,
+ org.eclipse.compare,
+ org.eclipse.xtext.builder,
+ org.eclipse.xtend.lib;resolution:=optional,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtext.common.types.ui,
+ org.eclipse.xtext.xbase.ui,
+ org.eclipse.jdt.debug.ui
+Import-Package: org.apache.log4j
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: de.tu_bs.cs.isf.cbc.textual.tool.ui.contentassist,
+ de.tu_bs.cs.isf.cbc.textual.tool.ui.internal,
+ de.tu_bs.cs.isf.cbc.textual.tool.ui.quickfix
+Bundle-Activator: de.tu_bs.cs.isf.cbc.textual.tool.ui.internal.ToolActivator

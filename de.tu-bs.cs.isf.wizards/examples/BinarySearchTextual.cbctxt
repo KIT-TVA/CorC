@@ -1,0 +1,18 @@
+Formula "BinarySearch"
+pre: {"pre"}
+{
+"	statement"
+	}
+post: {"post"}
+
+GlobalConditions
+	conditions {"A!=null", "A.length < 8", "l>=0 & l<A.length", "h>0 & h<=A.length", "A.length >= 0", "(app(A, x, l ,h) -> app(A, x, 0, A.length))"}
+
+JavaVariables
+	variables {"int[] A", "int x", "int l", "int h", "int i"}
+
+Renaming
+	renames {
+		{type "boolean" function "Example.example" newName "exp"}
+	}
+
