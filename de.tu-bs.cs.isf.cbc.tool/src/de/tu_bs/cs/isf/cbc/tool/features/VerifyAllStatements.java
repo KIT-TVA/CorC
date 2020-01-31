@@ -14,6 +14,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
@@ -181,10 +182,12 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		return (prove1 && prove2 && prove3 && true);
     }
 
-	private static boolean proveAbstractStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, URI uri, IProgressMonitor monitor) {
+	private static boolean proveAbstractStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, 
+			Renaming renaming, URI uri, IProgressMonitor monitor) {
 		if (!statement.isProven()) {
 			boolean prove = false;
-			prove = ProveWithKey.proveStatementWithKey(statement, vars, conds, renaming, uri, monitor);
+			EList<ProductVariant> variants = null;
+			prove = ProveWithKey.proveStatementWithKey(statement, vars, conds, renaming, variants, uri, monitor);
 			if (prove) {
 				statement.setProven(true);
 			} else {

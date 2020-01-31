@@ -15,7 +15,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CompositionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
@@ -41,15 +40,13 @@ public class DslLabelProvider extends DefaultEObjectLabelProvider {
         EObject _eContainer_1 = condition.eContainer();
         SmallRepetitionStatement statement = ((SmallRepetitionStatement) _eContainer_1);
         String _xifexpression_1 = null;
-        Condition _invariant = statement.getInvariant();
-        boolean _equals = _invariant.equals(condition);
+        boolean _equals = statement.getInvariant().equals(condition);
         if (_equals) {
           String _name = condition.getName();
           _xifexpression_1 = ("invariant: " + _name);
         } else {
           String _xifexpression_2 = null;
-          Condition _guard = statement.getGuard();
-          boolean _equals_1 = _guard.equals(condition);
+          boolean _equals_1 = statement.getGuard().equals(condition);
           if (_equals_1) {
             String _name_1 = condition.getName();
             _xifexpression_2 = ("guard: " + _name_1);
@@ -68,8 +65,7 @@ public class DslLabelProvider extends DefaultEObjectLabelProvider {
           EObject _eContainer_2 = condition.eContainer();
           CompositionStatement statement = ((CompositionStatement) _eContainer_2);
           String _xifexpression_2 = null;
-          Condition _intermediateCondition = statement.getIntermediateCondition();
-          boolean _equals = _intermediateCondition.equals(condition);
+          boolean _equals = statement.getIntermediateCondition().equals(condition);
           if (_equals) {
             String _name = condition.getName();
             _xifexpression_2 = ("intm: " + _name);
@@ -86,13 +82,11 @@ public class DslLabelProvider extends DefaultEObjectLabelProvider {
             EObject _eContainer_3 = condition.eContainer();
             SelectionStatement statement = ((SelectionStatement) _eContainer_3);
             String _xifexpression_3 = null;
-            EList<Condition> _guards = statement.getGuards();
-            boolean _contains = _guards.contains(condition);
+            boolean _contains = statement.getGuards().contains(condition);
             if (_contains) {
               String _xblockexpression_3 = null;
               {
-                EList<Condition> _guards_1 = statement.getGuards();
-                int i = _guards_1.indexOf(condition);
+                int i = statement.getGuards().indexOf(condition);
                 String _name = condition.getName();
                 _xblockexpression_3 = ((("guard" + Integer.valueOf(i)) + ": ") + _name);
               }
@@ -110,15 +104,13 @@ public class DslLabelProvider extends DefaultEObjectLabelProvider {
               EObject _eContainer_4 = condition.eContainer();
               CbCFormula formula = ((CbCFormula) _eContainer_4);
               String _xifexpression_4 = null;
-              Condition _preCondition = formula.getPreCondition();
-              boolean _equals = _preCondition.equals(condition);
+              boolean _equals = formula.getPreCondition().equals(condition);
               if (_equals) {
                 String _name = condition.getName();
                 _xifexpression_4 = ("pre: " + _name);
               } else {
                 String _xifexpression_5 = null;
-                Condition _postCondition = formula.getPostCondition();
-                boolean _equals_1 = _postCondition.equals(condition);
+                boolean _equals_1 = formula.getPostCondition().equals(condition);
                 if (_equals_1) {
                   String _name_1 = condition.getName();
                   _xifexpression_5 = ("post: " + _name_1);

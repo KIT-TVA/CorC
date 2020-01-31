@@ -121,7 +121,6 @@ public class MethodStatementPattern extends IdPattern implements IPattern {
         int height = context.getHeight() <= 0 ? 100 : context.getHeight();
         //Font:
         Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
-        Font uneditableFont = gaService.manageFont(getDiagram(), "Arial", 9, true, false);
         
 		// Main contents area
 		ContainerShape outerContainerShape = peCreateService.createContainerShape(targetDiagram, true);
@@ -149,14 +148,12 @@ public class MethodStatementPattern extends IdPattern implements IPattern {
 		setId(preNameText, ID_PRE_TEXT);
 		preNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		preNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		preNameText.setFont(uneditableFont);
 		
 		Shape postShape = peCreateService.createShape(outerContainerShape, false);
 		MultiText postNameText = gaService.createMultiText(postShape, "{" + addedStatement.getPostCondition().getName() + "}");
 		setId(postNameText, ID_POST_TEXT);
 		postNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		postNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		postNameText.setFont(uneditableFont);
 
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);

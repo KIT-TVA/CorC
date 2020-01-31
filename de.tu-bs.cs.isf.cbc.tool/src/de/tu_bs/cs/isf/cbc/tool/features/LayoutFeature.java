@@ -61,11 +61,12 @@ public class LayoutFeature extends AbstractCustomFeature {
 	/**
 	 * Minimal distance between nodes.
 	 */
-	private final int PADDING = 30;
+	private static final int PADDING = 30;
 	private final IUiLayoutService uiL = GraphitiUi.getUiLayoutService();
 	private Font font;
 	private final IFeatureProvider featureProvider = getFeatureProvider();
 	private final IGaService gaService = Graphiti.getGaService();
+
 
 	public LayoutFeature(IFeatureProvider fp) {
 		super(fp);
@@ -88,7 +89,6 @@ public class LayoutFeature extends AbstractCustomFeature {
 
 	@Override
 	public void execute(ICustomContext context) {
-		font = GraphitiUi.getGaService().manageFont(getDiagram(), "Arial", 10, false, false);
 		final CompoundDirectedGraph graph = mapDiagramToGraph();
 		graph.setDefaultPadding(new Insets(PADDING));
 		new CompoundDirectedGraphLayout().visit(graph);
@@ -121,7 +121,6 @@ public class LayoutFeature extends AbstractCustomFeature {
 		for (Shape shape : children) {
 			Node node = new Node();
 			GraphicsAlgorithm ga = shape.getGraphicsAlgorithm();
-			resizeGraphicsAlgo(ga);
 			node.x = ga.getX();
 			node.y = ga.getY();
 			node.width = ga.getWidth();
@@ -142,6 +141,7 @@ public class LayoutFeature extends AbstractCustomFeature {
 		dg.edges = edgeList;
 		return dg;
 	}
+
 
 	private void resizeGraphicsAlgo(GraphicsAlgorithm ga) {
 		Object businessObject = getBusinessObjectForPictogramElement(ga.getPictogramElement());

@@ -1,6 +1,7 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -10,6 +11,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
+import de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
@@ -53,7 +56,8 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
-			if (bo != null && (bo.getClass().equals(AbstractStatementImpl.class) || bo instanceof SkipStatement || bo instanceof ReturnStatement)) {
+			if (bo != null && (bo.getClass().equals(AbstractStatementImpl.class) || bo instanceof SkipStatement
+					|| bo instanceof ReturnStatement)) {
 				AbstractStatement statement = (AbstractStatement) bo;
 				if (statement.getRefinement() == null) {
 					ret = true;
@@ -74,6 +78,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				JavaVariables vars = null;
 				GlobalConditions conds = null;
 				Renaming renaming = null;
+				EList<ProductVariant> variants = null;
 				CbCFormula formula = null;
 				for (Shape shape : getDiagram().getChildren()) {
 					Object obj = getBusinessObjectForPictogramElement(shape);
@@ -83,19 +88,18 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 						conds = (GlobalConditions) obj;
 					} else if (obj instanceof Renaming) {
 						renaming = (Renaming) obj;
+					} else if (obj instanceof MethodRefinements) {
+						MethodRefinements methodRef = (MethodRefinements) obj;
+						variants = methodRef.getProductvariants();
 					} else if (obj instanceof CbCFormula) {
 						formula = (CbCFormula) obj;
 					}
 				}
 				boolean prove = false;
-//				try {
-//					getDiagram().eResource().save(Collections.EMPTY_MAP);
-//					statement.eResource().save(Collections.EMPTY_MAP);
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
+
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-					prove = ProveWithKey.proveStatementWithKey2(formula.getClassName(), statement, vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
+					prove = ProveWithKey.proveStatementWithKey(statement, vars, conds, renaming, variants,
+							getDiagram().eResource().getURI(), monitor);
 				} else {
 					Console.println("Statement is not in correct format.");
 				}
@@ -104,7 +108,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				} else {
 					statement.setProven(false);
 				}
-				updatePictogramElement(((Shape)pes[0]).getContainer());
+				updatePictogramElement(((Shape) pes[0]).getContainer());
 			}
 		}
 		monitor.done();

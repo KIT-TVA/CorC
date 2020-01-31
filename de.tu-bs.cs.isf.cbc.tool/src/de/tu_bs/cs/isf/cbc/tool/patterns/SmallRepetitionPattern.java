@@ -79,7 +79,7 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 	
 	@Override
 	public String getCreateName() {
-		return "RepetitionStatement";
+		return "SmallRepetitionStatement";
 	}
 	
 	@Override
@@ -150,7 +150,6 @@ manageColor(IColorConstant.DARK_GREEN);
         int height = context.getHeight() <= 0 ? 300 : context.getHeight();
         //Font:
         Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
-        Font uneditableFont = gaService.manageFont(getDiagram(), "Arial", 9, true, false);
         
 		// Main contents area
 		ContainerShape outerContainerShape = peCreateService.createContainerShape(targetDiagram, true);
@@ -173,7 +172,6 @@ manageColor(IColorConstant.DARK_GREEN);
 		statement1Text.setValue(addedStatement.getLoopStatement().getName());
 		statement1Text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		statement1Text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		statement1Text.setFont(uneditableFont);
 		
 		Shape textShapeCondition = peCreateService.createShape(outerContainerShape, true);
 		MultiText conditionText = gaService.createMultiText(textShapeCondition, "");
@@ -208,14 +206,12 @@ manageColor(IColorConstant.DARK_GREEN);
 		setId(pre1NameText, ID_PRE_TEXT);
 		pre1NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		pre1NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		pre1NameText.setFont(uneditableFont);
 		
 		Shape post1Shape = peCreateService.createShape(outerContainerShape, false);
 		MultiText post1NameText = gaService.createMultiText(post1Shape, "{" + addedStatement.getLoopStatement().getPostCondition().getName() + "}");
 		setId(post1NameText, ID_POST_TEXT);
 		post1NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		post1NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		post1NameText.setFont(uneditableFont);
 		
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);

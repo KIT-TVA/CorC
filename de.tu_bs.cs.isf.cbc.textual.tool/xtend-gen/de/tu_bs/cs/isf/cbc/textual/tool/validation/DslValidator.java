@@ -21,11 +21,6 @@ import de.tu_bs.cs.isf.cbc.textual.tool.validation.AbstractDslValidator;
 import de.tu_bs.cs.isf.cbc.textual.tool.validation.TraverseFormula;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies;
-import java.util.Iterator;
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckType;
 
@@ -36,18 +31,16 @@ import org.eclipse.xtext.validation.CheckType;
  */
 @SuppressWarnings("all")
 public class DslValidator extends AbstractDslValidator {
-  public final static String INVALID_NAME = "invalidName";
+  public static final String INVALID_NAME = "invalidName";
   
-  public final static String NOT_PROVED = "notProved";
+  public static final String NOT_PROVED = "notProved";
   
   @Check
   public void checkSyntaxOfStatement(final AbstractStatement statement) {
-    Class<? extends AbstractStatement> _class = statement.getClass();
-    boolean _equals = _class.equals(AbstractStatementImpl.class);
+    boolean _equals = statement.getClass().equals(AbstractStatementImpl.class);
     if (_equals) {
       if (((!Objects.equal(statement.getName(), null)) && (!statement.getName().isEmpty()))) {
-        String _name = statement.getName();
-        boolean _readAndTestMethodBodyWithJaMoPP2 = CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(_name);
+        boolean _readAndTestMethodBodyWithJaMoPP2 = CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName());
         boolean _not = (!_readAndTestMethodBodyWithJaMoPP2);
         if (_not) {
           this.warning("Statement has not the correct syntax.", 
@@ -60,12 +53,10 @@ public class DslValidator extends AbstractDslValidator {
   
   @Check
   public void checkSyntaxOfRetunrStatement(final ReturnStatement statement) {
-    Class<? extends ReturnStatement> _class = statement.getClass();
-    boolean _equals = _class.equals(ReturnStatementImpl.class);
+    boolean _equals = statement.getClass().equals(ReturnStatementImpl.class);
     if (_equals) {
       if (((!Objects.equal(statement.getName(), null)) && (!statement.getName().isEmpty()))) {
-        String _name = statement.getName();
-        boolean _readAndTestMethodBodyWithJaMoPP2 = CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(_name);
+        boolean _readAndTestMethodBodyWithJaMoPP2 = CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName());
         boolean _not = (!_readAndTestMethodBodyWithJaMoPP2);
         if (_not) {
           this.warning("Statement has not the correct syntax.", 
@@ -79,9 +70,7 @@ public class DslValidator extends AbstractDslValidator {
   @Check
   public void checkSyntaxOfCondition(final Condition condition) {
     if (((((!Objects.equal(condition.getName(), null)) && (!condition.getName().isEmpty())) && (!condition.getName().contains("forall"))) && (!condition.getName().contains("exists")))) {
-      String _name = condition.getName();
-      String _replaceAll = _name.replaceAll("->", "&");
-      boolean _readAndTestAssertWithJaMoPP = CompareMethodBodies.readAndTestAssertWithJaMoPP(_replaceAll);
+      boolean _readAndTestAssertWithJaMoPP = CompareMethodBodies.readAndTestAssertWithJaMoPP(condition.getName().replaceAll("->", "&"));
       boolean _not = (!_readAndTestAssertWithJaMoPP);
       if (_not) {
         this.warning("Condition has not the correct syntax.", 
@@ -93,19 +82,13 @@ public class DslValidator extends AbstractDslValidator {
   
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfStatement(final AbstractStatement statement) {
-    Class<? extends AbstractStatement> _class = statement.getClass();
-    boolean _equals = _class.equals(AbstractStatementImpl.class);
+    boolean _equals = statement.getClass().equals(AbstractStatementImpl.class);
     if (_equals) {
-      Resource _eResource = statement.eResource();
-      TreeIterator<EObject> _allContents = _eResource.getAllContents();
-      Iterator<CbCFormula> _filter = Iterators.<CbCFormula>filter(_allContents, CbCFormula.class);
-      CbCFormula formula = _filter.next();
+      CbCFormula formula = Iterators.<CbCFormula>filter(statement.eResource().getAllContents(), CbCFormula.class).next();
       TraverseFormula traverser = new TraverseFormula();
       traverser.traverseFormula(formula, statement);
       int numberFile = traverser.foundFile;
-      Resource _eResource_1 = statement.eResource();
-      URI _uRI = _eResource_1.getURI();
-      final boolean closed = ProveWithKey.checkFileIsProved(_uRI, numberFile);
+      final boolean closed = ProveWithKey.checkFileIsProven(statement.eResource().getURI(), numberFile);
       if ((!closed)) {
         this.info("Statement is not proved.", 
           CbcmodelPackage.Literals.ABSTRACT_STATEMENT__PROVEN, 
@@ -116,16 +99,11 @@ public class DslValidator extends AbstractDslValidator {
   
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfReturnStatement(final ReturnStatement statement) {
-    Resource _eResource = statement.eResource();
-    TreeIterator<EObject> _allContents = _eResource.getAllContents();
-    Iterator<CbCFormula> _filter = Iterators.<CbCFormula>filter(_allContents, CbCFormula.class);
-    CbCFormula formula = _filter.next();
+    CbCFormula formula = Iterators.<CbCFormula>filter(statement.eResource().getAllContents(), CbCFormula.class).next();
     TraverseFormula traverser = new TraverseFormula();
     traverser.traverseFormula(formula, statement);
     int numberFile = traverser.foundFile;
-    Resource _eResource_1 = statement.eResource();
-    URI _uRI = _eResource_1.getURI();
-    final boolean closed = ProveWithKey.checkFileIsProved(_uRI, numberFile);
+    final boolean closed = ProveWithKey.checkFileIsProven(statement.eResource().getURI(), numberFile);
     if ((!closed)) {
       this.info("ReturnStatement is not proved.", 
         CbcmodelPackage.Literals.ABSTRACT_STATEMENT__PROVEN, 
@@ -135,22 +113,13 @@ public class DslValidator extends AbstractDslValidator {
   
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfStrengthWeakStatement(final StrengthWeakStatement statement) {
-    Resource _eResource = statement.eResource();
-    TreeIterator<EObject> _allContents = _eResource.getAllContents();
-    Iterator<CbCFormula> _filter = Iterators.<CbCFormula>filter(_allContents, CbCFormula.class);
-    CbCFormula formula = _filter.next();
+    CbCFormula formula = Iterators.<CbCFormula>filter(statement.eResource().getAllContents(), CbCFormula.class).next();
     TraverseFormula traverser = new TraverseFormula();
     traverser.traverseFormula(formula, statement);
     int numberFile = traverser.foundFile;
-    Resource _eResource_1 = statement.eResource();
-    URI _uRI = _eResource_1.getURI();
-    final boolean closedPre = ProveWithKey.checkFileIsProved(_uRI, numberFile);
-    Resource _eResource_2 = statement.eResource();
-    URI _uRI_1 = _eResource_2.getURI();
-    final boolean closedPost = ProveWithKey.checkFileIsProved(_uRI_1, (numberFile + 1));
-    Resource _eResource_3 = statement.eResource();
-    URI _uRI_2 = _eResource_3.getURI();
-    final boolean closedStd = ProveWithKey.checkFileIsProved(_uRI_2, (numberFile + 2));
+    final boolean closedPre = ProveWithKey.checkFileIsProven(statement.eResource().getURI(), numberFile);
+    final boolean closedPost = ProveWithKey.checkFileIsProven(statement.eResource().getURI(), (numberFile + 1));
+    final boolean closedStd = ProveWithKey.checkFileIsProven(statement.eResource().getURI(), (numberFile + 2));
     if ((!closedPre)) {
       this.info("PreCondition of Statement is not proved.", 
         CbcmodelPackage.Literals.ABSTRACT_STATEMENT__PROVEN, 
@@ -170,19 +139,12 @@ public class DslValidator extends AbstractDslValidator {
   
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfMethodStatement(final MethodStatement statement) {
-    Resource _eResource = statement.eResource();
-    TreeIterator<EObject> _allContents = _eResource.getAllContents();
-    Iterator<CbCFormula> _filter = Iterators.<CbCFormula>filter(_allContents, CbCFormula.class);
-    CbCFormula formula = _filter.next();
+    CbCFormula formula = Iterators.<CbCFormula>filter(statement.eResource().getAllContents(), CbCFormula.class).next();
     TraverseFormula traverser = new TraverseFormula();
     traverser.traverseFormula(formula, statement);
     int numberFile = traverser.foundFile;
-    Resource _eResource_1 = statement.eResource();
-    URI _uRI = _eResource_1.getURI();
-    final boolean closedPre = ProveWithKey.checkFileIsProved(_uRI, numberFile);
-    Resource _eResource_2 = statement.eResource();
-    URI _uRI_1 = _eResource_2.getURI();
-    final boolean closedPost = ProveWithKey.checkFileIsProved(_uRI_1, (numberFile + 1));
+    final boolean closedPre = ProveWithKey.checkFileIsProven(statement.eResource().getURI(), numberFile);
+    final boolean closedPost = ProveWithKey.checkFileIsProven(statement.eResource().getURI(), (numberFile + 1));
     if ((!closedPre)) {
       this.info("PreCondition of MethodStatement is not proved.", 
         CbcmodelPackage.Literals.ABSTRACT_STATEMENT__PROVEN, 
@@ -197,16 +159,11 @@ public class DslValidator extends AbstractDslValidator {
   
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfSkipStatement(final SkipStatement statement) {
-    Resource _eResource = statement.eResource();
-    TreeIterator<EObject> _allContents = _eResource.getAllContents();
-    Iterator<CbCFormula> _filter = Iterators.<CbCFormula>filter(_allContents, CbCFormula.class);
-    CbCFormula formula = _filter.next();
+    CbCFormula formula = Iterators.<CbCFormula>filter(statement.eResource().getAllContents(), CbCFormula.class).next();
     TraverseFormula traverser = new TraverseFormula();
     traverser.traverseFormula(formula, statement);
     int numberFile = traverser.foundFile;
-    Resource _eResource_1 = statement.eResource();
-    URI _uRI = _eResource_1.getURI();
-    final boolean closed = ProveWithKey.checkFileIsProved(_uRI, numberFile);
+    final boolean closed = ProveWithKey.checkFileIsProven(statement.eResource().getURI(), numberFile);
     if ((!closed)) {
       this.info("SkipStatement is not proved.", 
         CbcmodelPackage.Literals.ABSTRACT_STATEMENT__PROVEN, 
@@ -216,22 +173,13 @@ public class DslValidator extends AbstractDslValidator {
   
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfRepetitionStatement(final SmallRepetitionStatement statement) {
-    Resource _eResource = statement.eResource();
-    TreeIterator<EObject> _allContents = _eResource.getAllContents();
-    Iterator<CbCFormula> _filter = Iterators.<CbCFormula>filter(_allContents, CbCFormula.class);
-    CbCFormula formula = _filter.next();
+    CbCFormula formula = Iterators.<CbCFormula>filter(statement.eResource().getAllContents(), CbCFormula.class).next();
     TraverseFormula traverser = new TraverseFormula();
     traverser.traverseFormula(formula, statement);
     int numberFile = traverser.foundFile;
-    Resource _eResource_1 = statement.eResource();
-    URI _uRI = _eResource_1.getURI();
-    boolean closedPre = ProveWithKey.checkFileIsProved(_uRI, numberFile);
-    Resource _eResource_2 = statement.eResource();
-    URI _uRI_1 = _eResource_2.getURI();
-    boolean closedPost = ProveWithKey.checkFileIsProved(_uRI_1, (numberFile + 1));
-    Resource _eResource_3 = statement.eResource();
-    URI _uRI_2 = _eResource_3.getURI();
-    boolean closedVariant = ProveWithKey.checkFileIsProved(_uRI_2, (numberFile + 2));
+    boolean closedPre = ProveWithKey.checkFileIsProven(statement.eResource().getURI(), numberFile);
+    boolean closedPost = ProveWithKey.checkFileIsProven(statement.eResource().getURI(), (numberFile + 1));
+    boolean closedVariant = ProveWithKey.checkFileIsProven(statement.eResource().getURI(), (numberFile + 2));
     if ((!closedPre)) {
       this.info("PreCondition of RepetitionStatement is not proved.", 
         CbcmodelPackage.Literals.SMALL_REPETITION_STATEMENT__PRE_PROVEN, 
@@ -251,16 +199,11 @@ public class DslValidator extends AbstractDslValidator {
   
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfSelectionStatement(final SelectionStatement statement) {
-    Resource _eResource = statement.eResource();
-    TreeIterator<EObject> _allContents = _eResource.getAllContents();
-    Iterator<CbCFormula> _filter = Iterators.<CbCFormula>filter(_allContents, CbCFormula.class);
-    CbCFormula formula = _filter.next();
+    CbCFormula formula = Iterators.<CbCFormula>filter(statement.eResource().getAllContents(), CbCFormula.class).next();
     TraverseFormula traverser = new TraverseFormula();
     traverser.traverseFormula(formula, statement);
     int numberFile = traverser.foundFile;
-    Resource _eResource_1 = statement.eResource();
-    URI _uRI = _eResource_1.getURI();
-    boolean closed = ProveWithKey.checkFileIsProved(_uRI, numberFile);
+    boolean closed = ProveWithKey.checkFileIsProven(statement.eResource().getURI(), numberFile);
     if ((!closed)) {
       this.info("PreCondition of SelectionStatement is not proved.", 
         CbcmodelPackage.Literals.SELECTION_STATEMENT__PRE_PROVE, 

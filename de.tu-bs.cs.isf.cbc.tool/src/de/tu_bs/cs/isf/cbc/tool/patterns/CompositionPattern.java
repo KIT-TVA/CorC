@@ -142,7 +142,6 @@ public class CompositionPattern extends IdPattern implements IPattern {
         int height = context.getHeight() <= 0 ? 300 : context.getHeight();
         //font:
         Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
-        Font uneditableFont = gaService.manageFont(getDiagram(), "Arial", 9, true, false);
         
 		// Main contents area
 		ContainerShape outerContainerShape = peCreateService.createContainerShape(targetDiagram, true);
@@ -165,7 +164,6 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		statement1Text.setValue(addedStatement.getFirstStatement().getName());
 		statement1Text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		statement1Text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		statement1Text.setFont(uneditableFont);
 		
 		Shape textShapeCondition = peCreateService.createShape(outerContainerShape, true);
 		MultiText conditionText = gaService.createMultiText(textShapeCondition, "{" + addedStatement.getIntermediateCondition().getName() + "}");
@@ -179,7 +177,6 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		statement2Text.setValue(addedStatement.getSecondStatement().getName());
 		statement2Text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		statement2Text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		statement2Text.setFont(uneditableFont);
 		
 		Shape textShapeName = peCreateService.createShape(outerContainerShape, false);
 		MultiText nameText = gaService.createMultiText(textShapeName, "Composition");
@@ -193,14 +190,12 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		setId(pre1NameText, ID_PRE1_TEXT);
 		pre1NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		pre1NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		pre1NameText.setFont(uneditableFont);
 		
 		Shape post2Shape = peCreateService.createShape(outerContainerShape, false);
 		MultiText post2NameText = gaService.createMultiText(post2Shape, "{" + addedStatement.getSecondStatement().getPostCondition().getName()+ "}");
 		setId(post2NameText, ID_POST2_TEXT);
 		post2NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		post2NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		post2NameText.setFont(uneditableFont);
 		
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);

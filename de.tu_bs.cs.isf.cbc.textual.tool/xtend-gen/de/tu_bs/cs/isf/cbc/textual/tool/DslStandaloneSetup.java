@@ -11,7 +11,6 @@ import de.tu_bs.cs.isf.cbc.textual.tool.DslStandaloneSetupGenerated;
 @SuppressWarnings("all")
 public class DslStandaloneSetup extends DslStandaloneSetupGenerated {
   public static void doSetup() {
-    DslStandaloneSetup _dslStandaloneSetup = new DslStandaloneSetup();
-    _dslStandaloneSetup.createInjectorAndDoEMFRegistration();
+    new DslStandaloneSetup().createInjectorAndDoEMFRegistration();
   }
 }

@@ -71,6 +71,7 @@ public class DrillDownFeature extends AbstractDrillDownFeature {
     
     protected Collection<Diagram> getLinkedDiagrams(PictogramElement pe) {
 		final Collection<Diagram> ret = new HashSet<Diagram>();
+
 		final Object businessObjectsForPictogramElement = getBusinessObjectForPictogramElement(pe);
 		final MethodStatement statement = (MethodStatement) businessObjectsForPictogramElement;
 		final Collection<Diagram> allDiagrams = getDiagrams();

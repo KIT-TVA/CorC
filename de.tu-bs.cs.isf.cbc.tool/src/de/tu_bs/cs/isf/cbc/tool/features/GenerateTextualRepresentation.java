@@ -45,6 +45,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyAbstractAsynchronousCustomFeature;
 
 /**
@@ -115,7 +116,9 @@ public class GenerateTextualRepresentation extends MyAbstractAsynchronousCustomF
         if (renaming != null)
         	content += generateContentOfRenames(renaming);
         	content = replaceSlashesInConditions(content);
+        	
         String workspace = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
+//        String workspace = FileUtil.getProject(uriTextFile).getLocation() + "";
         File textFile = new File(workspace + uriTextFile.toPlatformString(true));
         writeFile(content, textFile);
 		monitor.done();

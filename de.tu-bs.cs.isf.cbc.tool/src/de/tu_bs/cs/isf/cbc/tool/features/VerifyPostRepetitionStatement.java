@@ -1,8 +1,5 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
-import java.io.IOException;
-import java.util.Collections;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
@@ -80,12 +77,6 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 					} else if (obj instanceof Renaming) {
 						renaming = (Renaming) obj;
 					}
-				}
-				try {
-					getDiagram().eResource().save(Collections.EMPTY_MAP);
-					statement.eResource().save(Collections.EMPTY_MAP);
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
 				boolean prove = false;
 				prove = ProveWithKey.provePostWithKey(statement.getInvariant(), statement.getGuard(), parent.getPostCondition(), vars, conds, renaming, getDiagram().eResource().getURI(), monitor);

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="nextDayInterest" proven="true" compositionTechnique="EXPLICIT_CONTRACTING">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+        <firstStatement name="statement1">
+          <refinement name="tmp=original(a);" proven="true">
+            <postCondition name="(tmp=TRUE -> a.withdraw = 0)"/>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="(tmp=TRUE -> a.withdraw = 0)"/>
+          <preCondition name="true"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement name="a.interest+=a.calculateInterest();" proven="true">
+            <postCondition name="(a.balance >= 0 -> a.interest >= old_interest) &amp; (a.balance&lt;=0 -> a.interest &lt;= old_interest) &amp; &#xD;&#xA;(tmp=TRUE -> a.withdraw = 0)"/>
+            <preCondition name="(tmp=TRUE -> a.withdraw = 0)"/>
+          </refinement>
+          <postCondition name="(a.balance >= 0 -> a.interest >= old_interest) &amp; (a.balance&lt;=0 -> a.interest &lt;= old_interest) &amp; &#xD;&#xA;(tmp=TRUE -> a.withdraw = 0)"/>
+          <preCondition name="(tmp=TRUE -> a.withdraw = 0)"/>
+        </secondStatement>
+        <intermediateCondition name="(tmp=TRUE -> a.withdraw = 0)"/>
+      </refinement>
+      <postCondition name="(a.balance >= 0 -> a.interest >= old_interest) &amp; (a.balance&lt;=0 -> a.interest &lt;= old_interest) &amp; &#xD;&#xA;(tmp=TRUE -> a.withdraw = 0)"/>
+      <preCondition name="true"/>
+    </statement>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="Account a" displayedName="Account a"/>
+    <variables name="int old_interest" displayedName="int old_interest"/>
+    <variables name="boolean tmp" kind="RETURN" displayedName="RETURN boolean tmp"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:MethodRefinements>
+    <productvariants refinementChain="ApplicationContracts.nextDay_Daily,app.nextDay_BankAccount"/>
+    <productvariants refinementChain="ApplicationContracts.nextDay_BankAccount"/>
+  </cbcmodel:MethodRefinements>
+  <cbcmodel:GlobalConditions>
+    <conditions name="a != null"/>
+    <conditions name="a.&lt;created>=TRUE"/>
+    <conditions name="old_interest = a.interest"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

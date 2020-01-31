@@ -8,6 +8,16 @@
   <foreignModel>cbcmodel.ecore</foreignModel>
   <genPackages prefix="Cbcmodel" basePackage="de.tu_bs.cs.isf.cbc" disposableProviderFactory="true"
       ecorePackage="cbcmodel.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="cbcmodel.ecore#//VariableKind">
+      <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/LOCAL"/>
+      <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/PARAM"/>
+      <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/RETURN"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="cbcmodel.ecore#//CompositionTechnique">
+      <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//CompositionTechnique/CONTRACT_OVERRIDING"/>
+      <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//CompositionTechnique/EXPLICIT_CONTRACTING"/>
+      <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//CompositionTechnique/CONJUNCTIVE_CONTRACTING"/>
+    </genEnums>
     <genClasses ecoreClass="cbcmodel.ecore#//CbCFormula">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCFormula/statement"/>
@@ -15,7 +25,10 @@
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCFormula/postCondition"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/proven"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/comment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/compositionTechnique"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/TaxMethod"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/className"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/methodName"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//Condition">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/name"/>
@@ -79,6 +92,8 @@
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//JavaVariable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/displayedName"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//GlobalConditions">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//GlobalConditions/conditions"/>
@@ -97,7 +112,14 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/cbcformula"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/javaVariable"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/renaming"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/refinements"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//StrengthWeakStatement"/>
+    <genClasses ecoreClass="cbcmodel.ecore#//MethodRefinements">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//MethodRefinements/productvariants"/>
+    </genClasses>
+    <genClasses ecoreClass="cbcmodel.ecore#//ProductVariant">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//ProductVariant/refinementChain"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
