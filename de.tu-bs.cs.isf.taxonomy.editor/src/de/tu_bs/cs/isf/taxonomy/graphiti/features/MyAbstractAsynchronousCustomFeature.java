@@ -14,6 +14,8 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractAsynchronousCustomFeature;
 
+import de.tu_bs.cs.isf.toolkit.support.output.Console;
+
 
 /**
  * Extended class to override the initializeJob method

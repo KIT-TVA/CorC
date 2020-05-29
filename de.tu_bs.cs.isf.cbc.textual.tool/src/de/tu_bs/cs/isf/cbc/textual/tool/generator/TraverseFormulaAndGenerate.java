@@ -69,7 +69,7 @@ public class TraverseFormulaAndGenerate {
 
 	private void castStatementAndTraverse(AbstractStatement statement) {
 		if (statement.getClass().equals(AbstractStatementImpl.class)) {
-			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, uri, numberFile++, false);
+			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, uri, numberFile++, false, "", "");
 		} else if (statement instanceof SmallRepetitionStatement) {
 			SmallRepetitionStatement repetitionStatement = (SmallRepetitionStatement) statement;
 			traverseRepetitionStatement(repetitionStatement);
@@ -97,16 +97,16 @@ public class TraverseFormulaAndGenerate {
 						vars, conds, renaming, uri, numberFile++, false);
 			}
 		} else if (statement instanceof SkipStatement) {
-			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, uri, numberFile++, false);
+			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, uri, numberFile++, false, "", "");
 		} else if (statement instanceof ReturnStatement) {
-			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, uri, numberFile++, false);
+			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, uri, numberFile++, false, "", "");
 		} else if (statement instanceof StrengthWeakStatement) {
 			ProveWithKey.createProvePreImplPreWithKey(((AbstractStatement) statement.eContainer()).getPreCondition(),
 					statement.getPreCondition(), vars, conds, renaming, uri, numberFile++, false);
 			ProveWithKey.createProvePreImplPreWithKey(statement.getPostCondition(),
 					((AbstractStatement) statement.eContainer()).getPostCondition(), vars, conds, renaming, uri,
 					numberFile++, false);
-			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, uri, numberFile++, false);
+			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, uri, numberFile++, false, "", "");
 		}
 	}
 

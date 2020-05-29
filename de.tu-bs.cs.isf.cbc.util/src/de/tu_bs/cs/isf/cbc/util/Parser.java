@@ -250,27 +250,26 @@ public class Parser {
 		}
 	}
 
-	public static CompositionTechnique getCompositionTechniqueForMethod(IFile classFile, String methodName,
-			String keyword) {
-		List<String> linesOfFile = FileUtil.readFileInList(classFile.getLocation().toOSString());
-		boolean methodFound = false;
-		for (int i = linesOfFile.size() - 1; i >= 0; i--) {
-			if (!methodFound) {
-				if (linesOfFile.get(i).contains(methodName + "(")) {
-					methodFound = true;
-				}
-			} else {
-				String currLine = linesOfFile.get(i);
-				if (currLine.contains(keyword)) {
-					if (currLine.contains(ProveWithKey.REGEX_ORIGINAL)) {
-						return CompositionTechnique.EXPLICIT_CONTRACTING;
-					} else if (currLine.contains("conjunctive_contract")) {
-						return CompositionTechnique.CONJUNCTIVE_CONTRACTING;
-					}
-				}
-			}
-
+	public static CompositionTechnique getCompositionTechniqueForMethod(IFile classFile, String feature,
+			String keyword, String callingMethod) {
+		String path = classFile.getLocation().toOSString();
+		String pathParts[] = path.split("\\\\");
+		String location = "";
+		for (int i = 0; i < pathParts.length - 2; i++) {
+			location += pathParts[i] + "\\";
 		}
+		location += "features\\" + feature.substring(0, 1).toUpperCase() + feature.substring(1) + "\\diagram\\" + callingMethod + ".cbcmodel";
+		List<String> linesOfFile = FileUtil.readFileInList(location);
+		for (int i = 0; i < linesOfFile.size(); i++) {
+			String currLine = linesOfFile.get(i);
+			if (currLine.contains("EXPLICIT_CONTRACTING")) {
+				return CompositionTechnique.EXPLICIT_CONTRACTING;
+			} else if (currLine.contains("CONJUNCTIVE_CONTRACTING")) {
+				return CompositionTechnique.CONJUNCTIVE_CONTRACTING;
+			}
+			
+			}
+		
 		return CompositionTechnique.CONTRACT_OVERRIDING;
 	}
 
@@ -315,7 +314,7 @@ public class Parser {
 	}
 
 	public static String getModifieableVarsFromCondition(String condition) {
-		String variables = "\\\\everything;";
+		String variables = "\\everything";
 		if (condition.contains("modifiable(") && condition.split(";").length > 1) {
 			variables = condition.split(";")[0];
 			if (variables != null) {
@@ -362,11 +361,11 @@ public class Parser {
 				if (!methodFound) {
 					if (currLine.contains(methodName + "(")) {
 						methodFound = true;
-						methodStub = currLine;
-						braketCounter++;
+						methodStub = currLine; 
+						//braketCounter++;
 					}
 				} else {
-					methodStub += currLine;
+					//methodStub += currLine + "\n";
 					if (currLine.contains("{")) {
 						braketCounter++;
 					}

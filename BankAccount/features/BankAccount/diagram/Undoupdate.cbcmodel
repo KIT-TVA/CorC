@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="int OVERDRAFT_LIMIT" displayedName="int OVERDRAFT_LIMIT"/>
+    <variables name="int newBalance" displayedName="int newBalance"/>
+    <variables name="boolean result" kind="RETURN" displayedName="RETURN boolean result"/>
+    <variables name="int x" kind="PARAM" displayedName="PARAM int x"/>
+    <variables name="Account a" kind="PARAM" displayedName="PARAM Account a"/>
+    <variables name="Account old_a" kind="PARAM" displayedName="PARAM Account old_a"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:CbCFormula name="Undoupdate" proven="true">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+        <firstStatement name="statement1">
+          <refinement name="old_a.balance = a.balance; newBalance = a.balance - x;" proven="true">
+            <postCondition name="modifiable(newBalance);&#xD;&#xA;old_a.balance = a.balance&#xD;&#xA; &amp; newBalance = a.balance - x"/>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="modifiable(newBalance);&#xD;&#xA;old_a.balance = a.balance&#xD;&#xA; &amp; newBalance = a.balance - x"/>
+          <preCondition name="true"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+            <guards name="newBalance &lt; OVERDRAFT_LIMIT"/>
+            <guards name="newBalance >= OVERDRAFT_LIMIT"/>
+            <commands name="statement">
+              <refinement name="result = false;" proven="true">
+                <postCondition name="modifiable(a.balance,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; a.balance = old_a.balance)&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; a.balance = old_a.balance - x)"/>
+                <preCondition name="modifiable(newBalance);(old_a.balance = a.balance&#xD;&#xA; &amp; newBalance = a.balance - x) &amp; (newBalance &lt; OVERDRAFT_LIMIT)"/>
+              </refinement>
+              <postCondition name="modifiable(a.balance,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; a.balance = old_a.balance)&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; a.balance = old_a.balance - x)"/>
+              <preCondition name="modifiable(newBalance);(old_a.balance = a.balance&#xD;&#xA; &amp; newBalance = a.balance - x) &amp; (newBalance &lt; OVERDRAFT_LIMIT)"/>
+            </commands>
+            <commands name="statement">
+              <refinement name="a.balance = newBalance; result = true;" proven="true">
+                <postCondition name="modifiable(a.balance,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; a.balance = old_a.balance)&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; a.balance = old_a.balance - x)"/>
+                <preCondition name="modifiable(newBalance);(old_a.balance = a.balance&#xD;&#xA; &amp; newBalance = a.balance - x) &amp; (newBalance >= OVERDRAFT_LIMIT)"/>
+              </refinement>
+              <postCondition name="modifiable(a.balance,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; a.balance = old_a.balance)&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; a.balance = old_a.balance - x)"/>
+              <preCondition name="modifiable(newBalance);(old_a.balance = a.balance&#xD;&#xA; &amp; newBalance = a.balance - x) &amp; (newBalance >= OVERDRAFT_LIMIT)"/>
+            </commands>
+          </refinement>
+          <postCondition name="modifiable(a.balance,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; a.balance = old_a.balance)&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; a.balance = old_a.balance - x)"/>
+          <preCondition name="modifiable(newBalance);&#xD;&#xA;old_a.balance = a.balance&#xD;&#xA; &amp; newBalance = a.balance - x"/>
+        </secondStatement>
+        <intermediateCondition name="modifiable(newBalance);&#xD;&#xA;old_a.balance = a.balance&#xD;&#xA; &amp; newBalance = a.balance - x"/>
+      </refinement>
+      <postCondition name="modifiable(a.balance,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; a.balance = old_a.balance)&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; a.balance = old_a.balance - x)"/>
+      <preCondition name="true"/>
+    </statement>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:GlobalConditions>
+    <conditions name="OVERDRAFT_LIMIT = 0"/>
+    <conditions name="a != null"/>
+    <conditions name="old_a != null"/>
+    <conditions name="a.&lt;created> = TRUE"/>
+    <conditions name="old_a.&lt;created> = TRUE"/>
+    <conditions name="old_a.balance = a.balance"/>
+    <conditions name="old_a != a"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

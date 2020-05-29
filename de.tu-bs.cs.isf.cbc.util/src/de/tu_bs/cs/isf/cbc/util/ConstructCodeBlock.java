@@ -1,5 +1,7 @@
 package de.tu_bs.cs.isf.cbc.util;
 
+import org.eclipse.emf.common.util.URI;
+
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement;
@@ -21,6 +23,10 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
+
+
+import org.eclipse.core.resources.IProject;
+
 
 public class ConstructCodeBlock {
 
@@ -123,12 +129,23 @@ public class ConstructCodeBlock {
 		return code.toString();
 	}
 
-	public static String constructMethodStubsForExport(CbCFormula formula, Renaming renaming, JavaVariables vars) {
+	public static String constructMethodStubsForExport(CbCFormula formula, Renaming renaming, JavaVariables vars, String feature, String project) {
 		handleInnerLoops = true;
 		withInvariants = false;
-
+		
 		String modifiableVariables = Parser
 				.getModifieableVarsFromCondition(formula.getStatement().getPostCondition().getName());
+		if (vars != null) {
+			for (JavaVariable actVar: vars.getVariables()) {
+				if (actVar.getKind().getName() != "PARAM") {
+					String splitName[] = actVar.getName().split(" ");
+					modifiableVariables = modifiableVariables.replaceAll("," + splitName[splitName.length-1],"");
+					modifiableVariables = modifiableVariables.replaceAll(splitName[splitName.length-1] + ";",";");
+					modifiableVariables = modifiableVariables.replaceAll(splitName[splitName.length-1] + ",","");
+				}
+			}
+		}
+		
 		String postCondition = Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName());
 
 		String pre = createConditionJMLString(formula.getStatement().getPreCondition().getName(), renaming,
@@ -154,24 +171,37 @@ public class ConstructCodeBlock {
 				String returnValueName = splitNameAndType[1];
 				post = post.replaceAll("(?<=\\W)" + returnValueName + "(?=\\W)", "\\\\result");
 				break;
+			case RETURNPARAM:
+				String[] splitNameAndType2 = var.getName().split(" ");
+				// get type of variable not whole name
+				returnValueType = splitNameAndType2[0];
+				// get only the name
+				String returnValueName2 = splitNameAndType2[1];
+				post = post.replaceAll("(?<=\\W)" + returnValueName2 + "(?=\\W)", "\\\\result");
+				if (parameters.equals("")) {
+					parameters += var.getName();
+				} else {
+					parameters += ", " + var.getName();
+				}
+				break;
 			default:
 				break;
 			}
-		}
+		}		
+		
 		StringBuffer code = new StringBuffer();
 		System.out.println(System.getProperties());
-		code.append("public class MethodStubs {\n/*@\n@ normal_behavior\n" + pre + post + "@assignable "
-				+ modifiableVariables + ";\n" + "@*/\n" + "public static " + returnValueType + " " + formula.getName()
-				+ "(" + parameters + ") {\n" + "}");
+		code.append("    /*@\n    @ normal_behavior\n" + pre + post + "    @ assignable "
+				+ modifiableVariables + ";\n" + "    @*/\n" + "    public static " + returnValueType + " " + feature.toLowerCase()
+				+ "(" + parameters + ") {\n    }");
 
 		// traverse through tree and add stubs for called methods to the String
-		if (formula.getStatement() != null) {
+		/*if (formula.getStatement() != null) {
 			code.append(constructMethodStubOfChildStatement(formula.getStatement().getRefinement()));
 		} else {
 			code.append(constructMethodStubOfChildStatement(formula.getStatement()));
-		}
+		}*/
 
-		code.append("\n}");
 		return code.toString();
 	}
 
@@ -440,7 +470,7 @@ public class ConstructCodeBlock {
 				jmlCondition = useRenamingCondition(jmlCondition);
 			}
 			jmlCondition = jmlCondition.replaceAll(System.getProperty("line.separator"), "");
-			jmlCondition = "@ " + postOrPre + " " + jmlCondition + ";\n";
+			jmlCondition = "    @ " + postOrPre + " " + jmlCondition + ";\n";
 			return jmlCondition;
 		}
 

@@ -46,7 +46,17 @@ public enum VariableKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	RETURN(2, "RETURN", "RETURN");
+	RETURN(2, "RETURN", "RETURN"),
+	
+	/**
+	 * The '<em><b>RETURN</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #RETURNPARAM_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	RETURNPARAM(3, "RETURNPARAM", "RETURNPARAM");
 
 	/**
 	 * The '<em><b>LOCAL</b></em>' literal value.
@@ -80,6 +90,17 @@ public enum VariableKind implements Enumerator {
 	 * @ordered
 	 */
 	public static final int RETURN_VALUE = 2;
+	
+	/**
+	 * The '<em><b>RETURN</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #RETURN
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int RETURNPARAM_VALUE = 3;
 
 	/**
 	 * An array of all the '<em><b>Variable Kind</b></em>' enumerators.
@@ -92,6 +113,7 @@ public enum VariableKind implements Enumerator {
 			LOCAL,
 			PARAM,
 			RETURN,
+			RETURNPARAM,
 		};
 
 	/**
@@ -151,6 +173,7 @@ public enum VariableKind implements Enumerator {
 			case LOCAL_VALUE: return LOCAL;
 			case PARAM_VALUE: return PARAM;
 			case RETURN_VALUE: return RETURN;
+			case RETURNPARAM_VALUE: return RETURNPARAM;
 		}
 		return null;
 	}
