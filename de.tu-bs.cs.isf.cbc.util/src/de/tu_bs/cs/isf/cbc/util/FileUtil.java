@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 
 public class FileUtil {
@@ -131,54 +132,77 @@ public class FileUtil {
 		return thisProject;
 	}
 
-	public static String generateComposedClass(IProject project, List<String> refinements, JavaVariables vars) {
+	public static String generateComposedClass(IProject project, List<String> refinements, JavaVariables vars, String callingMethod) {
 		String[] splittedRefinement = refinements.get(0).split("\\.");
 		String className = "Original" + splittedRefinement[0];
-		String composedClassName = splittedRefinement[0];
+		String composedClassName = "Generated_" + splittedRefinement[0];
 		String methodName = splittedRefinement[1];
 		IFile file = getClassFile(className);
 		if (file == null) {
-			className = splittedRefinement[0];
+			className = "Generated_" + splittedRefinement[0];
 			file = getClassFile(className);
 		}
 		String methodStub = Parser.getMethodStubFromFile(className, methodName);
-		methodStub = methodStub.replaceFirst("(\\w*)\\(", "generated_$1(");
-		String methodPreCondition = ProveWithKey.composeContractForCalledOriginal(refinements, Parser.KEYWORD_JML_PRE);
+		methodStub = methodStub.replaceAll("\n", "");
+		boolean alreadyGenerated = false;
+		if (!methodStub.contains("generated_")) {
+			methodStub = methodStub.replaceFirst("(\\w*)\\(", "generated_$1(");
+		} else {
+			alreadyGenerated = true;
+		}
+		String methodPreCondition = ProveWithKey.composeContractForCalledOriginal(refinements, Parser.KEYWORD_JML_PRE, callingMethod);
 		String methodPostCondition = ProveWithKey.composeContractForCalledOriginal(refinements,
-				Parser.KEYWORD_JML_POST);
+				Parser.KEYWORD_JML_POST, callingMethod);
 		List<String> assignables = ProveWithKey.composeModifiables(refinements, new ArrayList<String>(), null, vars,
-				false);
+				false, callingMethod);
 		String assignableString = "";
 		if (!assignables.isEmpty()) {
-			assignableString = "\n@assignable " + String.join(",", assignables) + ";";
+			assignableString = "@ assignable " + String.join(",", assignables) + ";";
+		}
+		if (vars != null) {
+			for (JavaVariable actVar: vars.getVariables()) {
+				if ((actVar.getKind().getName() != "PARAM")) {
+					String splitName[] = actVar.getName().split(" ");
+					assignableString = assignableString.replaceAll("," + splitName[splitName.length-1],"");
+					assignableString = assignableString.replaceAll(splitName[splitName.length-1] + ";",";");
+					assignableString = assignableString.replaceAll(splitName[splitName.length-1] + ",","");
+				}
+			}
 		}
 
 		List<String> lines = readFileInList(file.getLocation().toOSString());
 		String contentOriginal = "";
 
 		String content = "";
-		for (String line : lines) {
-			if (line.contains(" class ")) {
-				if (className == composedClassName) {
-					content += line + "\n\n /*@\n@ public normal_behavior\n@requires " + methodPreCondition
-							+ ";\n@ensures " + methodPostCondition + ";" + assignableString + "\n" + "@*/\n"
-							+ methodStub + "\n";
-					contentOriginal += line.replaceFirst(composedClassName, "Original" + composedClassName);
-				} else {
-					content += line.replaceFirst(className, composedClassName)
-							+ "\n\n /*@\n@ public normal_behavior\n@requires " + methodPreCondition + ";\n@ensures "
-							+ methodPostCondition + ";" + assignableString + "\n" + "@*/\n" + methodStub + "\n";
-					contentOriginal += line + "\n";
+		Collections.reverse(lines);
+		for (int i = 0; i < lines.size(); i++) {
+			String line = lines.get(i) + "";
+			if (alreadyGenerated && line.contains("generated_" + methodName + "(")) {
+				int index = lines.indexOf(line);
+				while (!lines.get(index+1).contains("/*@")) {
+					lines.remove(index+1);
 				}
-
+				content = "\n    @ public normal_behavior\n    @ requires " + methodPreCondition
+						+ ";\n    @ ensures " + methodPostCondition + ";\n    " + assignableString + "\n" + "    @*/\n"
+						+ methodStub + "\n" + content;
+				contentOriginal = line + "\n" + contentOriginal;
+			} else if (!alreadyGenerated && line.contains(" class ") && className == composedClassName) {
+				content = line + "\n\n    /*@\n    @ public normal_behavior\n    @ requires " + methodPreCondition
+						+ ";\n    @ ensures " + methodPostCondition + ";\n    " + assignableString + "\n" + "    @*/\n"
+						+ methodStub + "  }\n" + content;
+			} else if (!alreadyGenerated && line.contains(" class ") && className != composedClassName) {
+				content = line.replaceFirst(className, composedClassName)
+						+ "\n\n    /*@\n    @ public normal_behavior\n    @ requires " + methodPreCondition + ";\n    @ ensures "
+						+ methodPostCondition + ";\n    " + assignableString + "\n" + "    @*/\n" + methodStub + "  }\n" + content;	
 			} else {
-				content += line + "\n";
-				contentOriginal += line + "\n";
-			}
+				content = line + "\n" + content;
+				contentOriginal = line + "\n" + contentOriginal;
+			}				
 		}
-		File generatedClass = new File(project.getLocation().toOSString() + "/src/" + composedClassName + ".java");
+		
+		File generatedClass = new File(project.getLocation().toOSString() + "/src_gen/" + composedClassName + ".java");
 		File originalClass = new File(project.getLocation().toOSString() + "/src-orig/" + className + ".java");
-		if (className != composedClassName) {
+		if (!className.contentEquals(composedClassName)) {
 			createFile(originalClass, contentOriginal);
 		}
 		File generatedFile = createFile(generatedClass, content);

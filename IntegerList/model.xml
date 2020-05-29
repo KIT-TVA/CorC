@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<featureModel>
+	<properties>
+		<graphics key="showhiddenfeatures" value="true"/>
+		<graphics key="legendposition" value="552,239"/>
+		<graphics key="legendautolayout" value="false"/>
+		<graphics key="showshortnames" value="false"/>
+		<graphics key="layout" value="horizontal"/>
+		<graphics key="showcollapsedconstraints" value="true"/>
+		<graphics key="legendhidden" value="false"/>
+		<graphics key="layoutalgorithm" value="0"/>
+	</properties>
+	<struct>
+		<and abstract="true" mandatory="true" name="Root">
+			<graphics key="position" value="422,239"/>
+			<feature mandatory="true" name="Base">
+				<graphics key="position" value="377,289"/>
+			</feature>
+			<feature name="Cons">
+				<graphics key="position" value="418,289"/>
+			</feature>
+			<alt name="Sorted">
+				<graphics key="position" value="459,289"/>
+				<feature name="Increasing">
+					<graphics key="position" value="414,339"/>
+				</feature>
+				<feature name="Decreasing">
+					<graphics key="position" value="480,339"/>
+				</feature>
+			</alt>
+		</and>
+	</struct>
+</featureModel>

@@ -29,6 +29,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 public class VariablePattern extends IdPattern implements IPattern {
 	public static final String VARIABLE_KIND_PARAMETER = "param";
 	public static final String VARIABLE_KIND_RETURN = "return";
+	public static final String VARIABLE_KIND_RETURNPARAM = "returnparam";
 	
 
 	/**
@@ -131,7 +132,7 @@ public class VariablePattern extends IdPattern implements IPattern {
 	public String checkValueValid(String value, IDirectEditingContext context) {
 		if (value == null || value.length() == 0) {
 			return "Variable must not be empty";
-		} else if (value.length() > 0 && !value.matches("("+VARIABLE_KIND_PARAMETER+"|"+VARIABLE_KIND_RETURN+")?\\s?(int|char|float|long|boolean|byte|short|double|([A-Z]\\w*))(\\[\\])?\\s[a-zA-Z]\\w*")) {
+		} else if (value.length() > 0 && !value.matches("("+VARIABLE_KIND_PARAMETER+"|"+VARIABLE_KIND_RETURN+"|"+VARIABLE_KIND_RETURNPARAM+")?\\s?(int|char|float|long|boolean|byte|short|double|([A-Z]\\w*))(\\[\\])?\\s[a-zA-Z]\\w*")) {
 			return "Variable must contain a kind, a type and a name";
 		}
 		return null;
@@ -161,6 +162,9 @@ public class VariablePattern extends IdPattern implements IPattern {
 			break;
 		case VARIABLE_KIND_RETURN:
 			kind = VariableKind.RETURN;
+			break;
+		case VARIABLE_KIND_RETURNPARAM:
+			kind = VariableKind.RETURNPARAM;
 			break;
 		}
 		return kind;

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="Push" proven="true" compositionTechnique="CONJUNCTIVE_CONTRACTING">
+    <statement name="statement">
+      <refinement name="data=original(data,old_data,newTop);" proven="true">
+        <postCondition name="modifiable(data);  &#xD;&#xA; data[data.length - 1] = newTop"/>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="modifiable(data);&#xD;&#xA;data[data.length - 1] = newTop"/>
+      <preCondition name="true"/>
+    </statement>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int[] data" kind="RETURNPARAM" displayedName="RETURNPARAM int[] data"/>
+    <variables name="int[] old_data" kind="PARAM" displayedName="PARAM int[] old_data"/>
+    <variables name="int newTop" kind="PARAM" displayedName="PARAM int newTop"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="data!=null"/>
+    <conditions name="data.length >= 0"/>
+    <conditions name="old_data = data"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>
