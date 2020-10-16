@@ -135,7 +135,7 @@ public class MethodPattern extends IdPattern implements IPattern {
 		methodNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		
 		Shape textShapeMethod = peCreateService.createShape(outerContainerShape, false);
-		Text nameTextMethod = gaService.createText(textShapeMethod, "Method");
+		Text nameTextMethod = gaService.createText(textShapeMethod, "Methoda");
 		setId(nameTextMethod, ID_METHOD_TEXT);
 		nameTextMethod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		nameTextMethod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);

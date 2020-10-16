@@ -44,10 +44,8 @@ public class VerifyFeatures {
 	private static FeatureModelFormula featureModel;
 	private static IFeatureModel featModel;
 	private static Configuration configuration;
-	private static ConfigurationAnalyzer configurationAnalyzer;
 	
-	//calculates feature-configurations
-	public static String[][] verifyConfig(URI uri_new, String method, boolean original) {
+	public static String[][] calculateFeatureConfigs(URI uri_new, String method, boolean original) {
 		uri = uri_new;
 		thisProject = FileUtil.getProject(uri);
 		path = Paths.get(thisProject.getLocation() + "/model.xml");
@@ -292,7 +290,7 @@ public class VerifyFeatures {
 		if (!fh.getLastProblems().containsError()) {
 			featureModel = new FeatureModelFormula(fh.getObject());
 			configuration = new Configuration(featureModel);
-			configurationAnalyzer = new ConfigurationAnalyzer(featureModel, configuration);
+			new ConfigurationAnalyzer(featureModel, configuration);
 		} else {
 			throw new IOException("Feature model could not be loaded");
 		}

@@ -173,6 +173,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTaxonomy() {
 		return taxonomyEClass;
 	}
@@ -182,6 +183,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTaxonomy_Algorithms() {
 		return (EReference)taxonomyEClass.getEStructuralFeatures().get(0);
 	}
@@ -191,6 +193,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getTaxonomy_Name() {
 		return (EAttribute)taxonomyEClass.getEStructuralFeatures().get(1);
 	}
@@ -200,6 +203,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAlgorithm() {
 		return algorithmEClass;
 	}
@@ -209,6 +213,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAlgorithm_Name() {
 		return (EAttribute)algorithmEClass.getEStructuralFeatures().get(0);
 	}
@@ -218,6 +223,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAlgorithm_Abstract() {
 		return (EAttribute)algorithmEClass.getEStructuralFeatures().get(1);
 	}
@@ -227,6 +233,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAlgorithm_DataStructures() {
 		return (EReference)algorithmEClass.getEStructuralFeatures().get(2);
 	}
@@ -236,6 +243,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAlgorithm_Methods() {
 		return (EReference)algorithmEClass.getEStructuralFeatures().get(3);
 	}
@@ -245,6 +253,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAlgorithm_ChildAlgorithms() {
 		return (EReference)algorithmEClass.getEStructuralFeatures().get(4);
 	}
@@ -254,6 +263,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAlgorithm_ParentAlgorithms() {
 		return (EReference)algorithmEClass.getEStructuralFeatures().get(5);
 	}
@@ -263,6 +273,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAlgorithm_PreCondition() {
 		return (EAttribute)algorithmEClass.getEStructuralFeatures().get(6);
 	}
@@ -272,6 +283,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAlgorithm_PostCondition() {
 		return (EAttribute)algorithmEClass.getEStructuralFeatures().get(7);
 	}
@@ -281,6 +293,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAlgorithm_Invariant() {
 		return (EAttribute)algorithmEClass.getEStructuralFeatures().get(8);
 	}
@@ -290,6 +303,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAlgorithm_Imports() {
 		return (EAttribute)algorithmEClass.getEStructuralFeatures().get(9);
 	}
@@ -299,6 +313,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getDataStructure() {
 		return dataStructureEClass;
 	}
@@ -308,6 +323,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getDataStructure_Name() {
 		return (EAttribute)dataStructureEClass.getEStructuralFeatures().get(0);
 	}
@@ -317,6 +333,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getDataStructure_DataType() {
 		return (EReference)dataStructureEClass.getEStructuralFeatures().get(1);
 	}
@@ -326,6 +343,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getDataStructure_InitialValue() {
 		return (EAttribute)dataStructureEClass.getEStructuralFeatures().get(2);
 	}
@@ -335,6 +353,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMethod() {
 		return methodEClass;
 	}
@@ -344,6 +363,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMethod_Name() {
 		return (EAttribute)methodEClass.getEStructuralFeatures().get(0);
 	}
@@ -353,6 +373,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMethod_DataTypes() {
 		return (EReference)methodEClass.getEStructuralFeatures().get(1);
 	}
@@ -362,6 +383,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMethod_PseudoCode() {
 		return (EAttribute)methodEClass.getEStructuralFeatures().get(2);
 	}
@@ -371,6 +393,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMethod_PreCondition() {
 		return (EAttribute)methodEClass.getEStructuralFeatures().get(3);
 	}
@@ -380,6 +403,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMethod_PostCondition() {
 		return (EAttribute)methodEClass.getEStructuralFeatures().get(4);
 	}
@@ -389,6 +413,17 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EAttribute getMethod_CorCImpl() {
+		return (EAttribute)methodEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getDataType() {
 		return dataTypeEClass;
 	}
@@ -398,6 +433,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getDataType_Name() {
 		return (EAttribute)dataTypeEClass.getEStructuralFeatures().get(0);
 	}
@@ -407,6 +443,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getGlobalConditions() {
 		return globalConditionsEClass;
 	}
@@ -416,6 +453,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getGlobalConditions_Conditions() {
 		return (EReference)globalConditionsEClass.getEStructuralFeatures().get(0);
 	}
@@ -425,6 +463,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCondition() {
 		return conditionEClass;
 	}
@@ -434,6 +473,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCondition_Name() {
 		return (EAttribute)conditionEClass.getEStructuralFeatures().get(0);
 	}
@@ -443,6 +483,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getJavaVariables() {
 		return javaVariablesEClass;
 	}
@@ -452,6 +493,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getJavaVariables_Variables() {
 		return (EReference)javaVariablesEClass.getEStructuralFeatures().get(0);
 	}
@@ -461,6 +503,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getJavaVariable() {
 		return javaVariableEClass;
 	}
@@ -470,6 +513,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getJavaVariable_Name() {
 		return (EAttribute)javaVariableEClass.getEStructuralFeatures().get(0);
 	}
@@ -479,6 +523,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRenaming() {
 		return renamingEClass;
 	}
@@ -488,6 +533,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRenaming_Renames() {
 		return (EReference)renamingEClass.getEStructuralFeatures().get(0);
 	}
@@ -497,6 +543,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRename() {
 		return renameEClass;
 	}
@@ -506,6 +553,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRename_Type() {
 		return (EAttribute)renameEClass.getEStructuralFeatures().get(0);
 	}
@@ -515,6 +563,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRename_Function() {
 		return (EAttribute)renameEClass.getEStructuralFeatures().get(1);
 	}
@@ -524,6 +573,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRename_NewName() {
 		return (EAttribute)renameEClass.getEStructuralFeatures().get(2);
 	}
@@ -533,6 +583,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TaxonomyFactory getTaxonomyFactory() {
 		return (TaxonomyFactory)getEFactoryInstance();
 	}
@@ -583,6 +634,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 		createEAttribute(methodEClass, METHOD__PSEUDO_CODE);
 		createEAttribute(methodEClass, METHOD__PRE_CONDITION);
 		createEAttribute(methodEClass, METHOD__POST_CONDITION);
+		createEAttribute(methodEClass, METHOD__COR_CIMPL);
 
 		dataTypeEClass = createEClass(DATA_TYPE);
 		createEAttribute(dataTypeEClass, DATA_TYPE__NAME);
@@ -665,6 +717,7 @@ public class TaxonomyPackageImpl extends EPackageImpl implements TaxonomyPackage
 		initEAttribute(getMethod_PseudoCode(), ecorePackage.getEString(), "pseudoCode", null, 0, 1, Method.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMethod_PreCondition(), ecorePackage.getEString(), "preCondition", null, 0, 1, Method.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMethod_PostCondition(), ecorePackage.getEString(), "postCondition", null, 0, 1, Method.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMethod_CorCImpl(), ecorePackage.getEString(), "CorCImpl", null, 0, 1, Method.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dataTypeEClass, DataType.class, "DataType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDataType_Name(), ecorePackage.getEString(), "name", "int", 0, 1, DataType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

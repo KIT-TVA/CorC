@@ -49,14 +49,30 @@ public enum VariableKind implements Enumerator {
 	RETURN(2, "RETURN", "RETURN"),
 	
 	/**
-	 * The '<em><b>RETURN</b></em>' literal object.
+	 * The '<em><b>GLOBAL</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #GLOBAL_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	GLOBAL(3, "GLOBAL", "GLOBAL"), /**
+	 * The '<em><b>GLOBAL PARAM</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #GLOBAL_PARAM_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	GLOBAL_PARAM(4, "GLOBAL_PARAM", "GLOBAL_PARAM"), /**
+	 * The '<em><b>RETURNPARAM</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #RETURNPARAM_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	RETURNPARAM(3, "RETURNPARAM", "RETURNPARAM");
+	RETURNPARAM(5, "RETURNPARAM", "RETURNPARAM");
 
 	/**
 	 * The '<em><b>LOCAL</b></em>' literal value.
@@ -92,15 +108,45 @@ public enum VariableKind implements Enumerator {
 	public static final int RETURN_VALUE = 2;
 	
 	/**
-	 * The '<em><b>RETURN</b></em>' literal value.
+	 * The '<em><b>GLOBAL</b></em>' literal value.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>GLOBAL</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #RETURN
+	 * @see #GLOBAL
 	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int RETURNPARAM_VALUE = 3;
+	public static final int GLOBAL_VALUE = 3;
+
+	/**
+	 * The '<em><b>GLOBAL PARAM</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>GLOBAL PARAM</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #GLOBAL_PARAM
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int GLOBAL_PARAM_VALUE = 4;
+
+	/**
+	 * The '<em><b>RETURNPARAM</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #RETURNPARAM
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int RETURNPARAM_VALUE = 5;
 
 	/**
 	 * An array of all the '<em><b>Variable Kind</b></em>' enumerators.
@@ -113,6 +159,8 @@ public enum VariableKind implements Enumerator {
 			LOCAL,
 			PARAM,
 			RETURN,
+			GLOBAL,
+			GLOBAL_PARAM,
 			RETURNPARAM,
 		};
 
@@ -173,6 +221,8 @@ public enum VariableKind implements Enumerator {
 			case LOCAL_VALUE: return LOCAL;
 			case PARAM_VALUE: return PARAM;
 			case RETURN_VALUE: return RETURN;
+			case GLOBAL_VALUE: return GLOBAL;
+			case GLOBAL_PARAM_VALUE: return GLOBAL_PARAM;
 			case RETURNPARAM_VALUE: return RETURNPARAM;
 		}
 		return null;

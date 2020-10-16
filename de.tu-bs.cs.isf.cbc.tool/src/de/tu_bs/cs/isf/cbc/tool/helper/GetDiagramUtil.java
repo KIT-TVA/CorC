@@ -18,6 +18,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
+import de.tu_bs.cs.isf.cbc.util.Console;
+
 public class GetDiagramUtil {
  
     public static Collection<Diagram> getDiagrams(IProject p) {
@@ -50,6 +52,10 @@ public class GetDiagramUtil {
        } catch (final CoreException e) {
                 e.printStackTrace();
        }
+		/*Console.println("Utilllllllllllllllllllllll");
+		Console.println(ret.size());
+		ret.forEach(e -> Console.println(e.getName()));
+		Console.println("==========================");*/
        return ret;
     }
  

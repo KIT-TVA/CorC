@@ -35,6 +35,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute taxonomy.ecore#//Method/pseudoCode"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute taxonomy.ecore#//Method/preCondition"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute taxonomy.ecore#//Method/postCondition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute taxonomy.ecore#//Method/CorCImpl"/>
     </genClasses>
     <genClasses ecoreClass="taxonomy.ecore#//DataType">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute taxonomy.ecore#//DataType/name"/>

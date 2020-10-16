@@ -29,6 +29,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 public class VariablePattern extends IdPattern implements IPattern {
 	public static final String VARIABLE_KIND_PARAMETER = "param";
 	public static final String VARIABLE_KIND_RETURN = "return";
+	public static final String VARIABLE_KIND_GLOBAL = "global";
+	public static final String VARIABLE_KIND_GLOBAL_PARAM = "global param";
 	public static final String VARIABLE_KIND_RETURNPARAM = "returnparam";
 	
 
@@ -132,7 +134,9 @@ public class VariablePattern extends IdPattern implements IPattern {
 	public String checkValueValid(String value, IDirectEditingContext context) {
 		if (value == null || value.length() == 0) {
 			return "Variable must not be empty";
-		} else if (value.length() > 0 && !value.matches("("+VARIABLE_KIND_PARAMETER+"|"+VARIABLE_KIND_RETURN+"|"+VARIABLE_KIND_RETURNPARAM+")?\\s?(int|char|float|long|boolean|byte|short|double|([A-Z]\\w*))(\\[\\])?\\s[a-zA-Z]\\w*")) {
+		} else if (value.length() > 0 && !value.matches(
+				"("+VARIABLE_KIND_PARAMETER + "\\s"+"|"+VARIABLE_KIND_GLOBAL_PARAM+ "|"+ VARIABLE_KIND_RETURNPARAM + "\\s"+"|"+VARIABLE_KIND_RETURN+ "\\s"+"|"+VARIABLE_KIND_GLOBAL + "\\s"+ "(static\\s)?"
+				+")?(int|char|float|long|boolean|byte|short|double|([A-Za-z]\\w*))(\\[\\])?\\s[a-zA-Z]\\w*")) {
 			return "Variable must contain a kind, a type and a name";
 		}
 		return null;
@@ -141,14 +145,19 @@ public class VariablePattern extends IdPattern implements IPattern {
 	@Override
 	public void setValue(String value, IDirectEditingContext context) {
 		JavaVariable variable = (JavaVariable) getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if(value.length() - value.replaceAll(" ","").length() == 1) {
+		if(value.trim().length() - value.trim().replaceAll(" ","").length() == 1 /*|| !value.contains("static")*/) {
 			variable.setKind(VariableKind.LOCAL);
 			variable.setName(value);
 			variable.setDisplayedName(value);
-		}else {
-			
-			variable.setKind(translateIntoVariableKind(value.substring(0, value.indexOf(" "))));
-			variable.setName(value.substring(value.indexOf(" ")+1));
+		}else {			
+			if(value.contains("global param")) {
+				variable.setKind(VariableKind.GLOBAL_PARAM);
+				variable.setName(value.replaceFirst("global param ", ""));
+			} else {
+				variable.setKind(translateIntoVariableKind(value.substring(0, value.indexOf(" "))));
+				variable.setName(value.substring(value.indexOf(" ")+1));
+			}
+
 			variable.setDisplayedName(variable.getKind() + " " + variable.getName());
 		}
 		updatePictogramElement(((Shape) context.getPictogramElement()));
@@ -163,6 +172,12 @@ public class VariablePattern extends IdPattern implements IPattern {
 		case VARIABLE_KIND_RETURN:
 			kind = VariableKind.RETURN;
 			break;
+		case VARIABLE_KIND_GLOBAL:
+			kind = VariableKind.GLOBAL;
+			break;
+//		case VARIABLE_KIND_GLOBAL_PARAM:
+//			kind = VariableKind.GLOBAL_PARAM;
+//			break;
 		case VARIABLE_KIND_RETURNPARAM:
 			kind = VariableKind.RETURNPARAM;
 			break;

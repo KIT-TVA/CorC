@@ -220,6 +220,24 @@ public interface CbcmodelFactory extends EFactory {
 	ProductVariant createProductVariant();
 
 	/**
+	 * Returns a new object of class '<em>Method Signature</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Method Signature</em>'.
+	 * @generated
+	 */
+	MethodSignature createMethodSignature();
+
+	/**
+	 * Returns a new object of class '<em>Method Class</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Method Class</em>'.
+	 * @generated
+	 */
+	MethodClass createMethodClass();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

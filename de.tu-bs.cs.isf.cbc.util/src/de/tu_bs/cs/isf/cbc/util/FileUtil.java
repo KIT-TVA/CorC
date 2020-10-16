@@ -208,6 +208,8 @@ public class FileUtil {
 		File generatedFile = createFile(generatedClass, content);
 		return generatedFile.getName().substring(0, generatedFile.getName().indexOf("."));
 	}
+	
+	
 
 	private static File createFile(File file, String content) {
 		try {

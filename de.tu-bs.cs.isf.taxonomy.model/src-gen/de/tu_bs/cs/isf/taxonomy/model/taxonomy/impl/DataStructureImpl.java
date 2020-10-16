@@ -105,6 +105,7 @@ public class DataStructureImpl extends MinimalEObjectImpl.Container implements D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -114,6 +115,7 @@ public class DataStructureImpl extends MinimalEObjectImpl.Container implements D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -126,6 +128,7 @@ public class DataStructureImpl extends MinimalEObjectImpl.Container implements D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public DataType getDataType() {
 		return dataType;
 	}
@@ -150,6 +153,7 @@ public class DataStructureImpl extends MinimalEObjectImpl.Container implements D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDataType(DataType newDataType) {
 		if (newDataType != dataType) {
 			NotificationChain msgs = null;
@@ -169,6 +173,7 @@ public class DataStructureImpl extends MinimalEObjectImpl.Container implements D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getInitialValue() {
 		return initialValue;
 	}
@@ -178,6 +183,7 @@ public class DataStructureImpl extends MinimalEObjectImpl.Container implements D
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInitialValue(String newInitialValue) {
 		String oldInitialValue = initialValue;
 		initialValue = newInitialValue;

@@ -61,8 +61,9 @@ public class ExtractMethodStubsFeature extends MyAbstractAsynchronousCustomFeatu
 			}
 		}
 		URI uri = getDiagram().eResource().getURI();
-		String location = FileUtil.getProject(uri).getLocation() + "/src_gen/MethodStubs.java";
-		String code = ConstructCodeBlock.constructMethodStubsForExport(formula, renaming, vars, "feature", "class");
+		//TODO: naming MethodStubs.java
+		String location = FileUtil.getProject(uri).getLocation() + "/src/MethodStubs.java";
+		String code = ConstructCodeBlock.constructMethodStubsForExport(formula, renaming, vars);
 		writeFile(location, code);
 	}
 

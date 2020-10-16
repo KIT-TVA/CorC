@@ -15,5 +15,6 @@ Require-Bundle: org.eclipse.graphiti,
  org.eclipse.emf.transaction;bundle-version="1.9.0",
  de.tu-bs.cs.isf.cbc.util,
  de.tu-bs.cs.isf.taxonomy.model;bundle-version="0.1.0",
+  de.tu-bs.cs.isf.wizards;bundle-version="1.0.0",
  de.tu-bs.cs.isf.cbc.model;bundle-version="0.1.0"
 Export-Package: de.tu_bs.cs.isf.taxonomy.graphiti.features

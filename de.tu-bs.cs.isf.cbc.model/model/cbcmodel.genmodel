@@ -12,6 +12,9 @@
       <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/LOCAL"/>
       <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/PARAM"/>
       <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/RETURN"/>
+      <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/GLOBAL"/>
+      <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/GLOBAL_PARAM"/>
+      <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/RETURNPARAM"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="cbcmodel.ecore#//CompositionTechnique">
       <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//CompositionTechnique/CONTRACT_OVERRIDING"/>
@@ -26,6 +29,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/proven"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/comment"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/compositionTechnique"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/TaxMethod"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/className"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/methodName"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//Condition">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/name"/>
@@ -110,6 +116,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/javaVariable"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/renaming"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/refinements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/methodsignature"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/methodClass"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//StrengthWeakStatement"/>
     <genClasses ecoreClass="cbcmodel.ecore#//MethodRefinements">
@@ -117,6 +125,12 @@
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//ProductVariant">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//ProductVariant/refinementChain"/>
+    </genClasses>
+    <genClasses ecoreClass="cbcmodel.ecore#//MethodSignature">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//MethodSignature/methodSignature"/>
+    </genClasses>
+    <genClasses ecoreClass="cbcmodel.ecore#//MethodClass">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//MethodClass/methodClass"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

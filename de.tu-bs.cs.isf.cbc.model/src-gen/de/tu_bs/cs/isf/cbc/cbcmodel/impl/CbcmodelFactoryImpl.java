@@ -79,6 +79,8 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 			case CbcmodelPackage.STRENGTH_WEAK_STATEMENT: return createStrengthWeakStatement();
 			case CbcmodelPackage.METHOD_REFINEMENTS: return createMethodRefinements();
 			case CbcmodelPackage.PRODUCT_VARIANT: return createProductVariant();
+			case CbcmodelPackage.METHOD_SIGNATURE: return createMethodSignature();
+			case CbcmodelPackage.METHOD_CLASS: return createMethodClass();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -358,6 +360,28 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	public ProductVariant createProductVariant() {
 		ProductVariantImpl productVariant = new ProductVariantImpl();
 		return productVariant;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public MethodSignature createMethodSignature() {
+		MethodSignatureImpl methodSignature = new MethodSignatureImpl();
+		return methodSignature;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public MethodClass createMethodClass() {
+		MethodClassImpl methodClass = new MethodClassImpl();
+		return methodClass;
 	}
 
 	/**

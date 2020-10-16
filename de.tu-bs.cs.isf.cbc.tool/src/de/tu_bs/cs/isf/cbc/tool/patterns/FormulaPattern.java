@@ -37,6 +37,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
 
 /**
  * Class that creates the graphical representation of Conditions
@@ -112,6 +113,38 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		postCondition.setName("post");
 		statement.setPostCondition(postCondition);
 
+
+
+
+		
+		MethodSignature signature = null;
+		for (Shape shape : getDiagram().getChildren()) {
+			Object obj = getBusinessObjectForPictogramElement(shape); 
+		    if (obj instanceof MethodSignature) {
+				signature = (MethodSignature) obj;
+			} 
+		}
+		if(signature != null) {
+			String value = signature.getMethodSignature();
+			value = value.replace("public", "");
+		    value = value.replace("static", "");
+		    value = value.trim().split(" ", 2)[1];
+		    if(!value.contains("()")) {
+		    	String s2 = value.substring(value.indexOf('(') + 1, value.lastIndexOf(')'));
+		    	String[] variableTypes = s2.split(",");
+		    	s2 = variableTypes[0].trim().split(" ")[0];
+		    	for(int i = 1; i < variableTypes.length; i++) {
+		    		if(variableTypes[i].trim().split(" ")[0].equals("float"))
+		    			s2 = s2 + ",double";
+		    		else
+		    			s2 = s2 + "," + variableTypes[i].trim().split(" ")[0];
+		    	}
+		    	value = value.substring(0, value.indexOf('(') + 1);
+		    	value = value + s2 + ")";
+		    }
+			formula.setMethodName(value);
+		}
+		
 		// Use the following instead of the above line to store the model
 		// data in a seperate file parallel to the diagram file
 		try {
@@ -119,7 +152,6 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		} catch (CoreException | IOException e) {
 			e.printStackTrace();
 		}
-
 		addGraphicalRepresentation(context, formula);
 		return new Object[] { formula };
 	}

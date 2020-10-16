@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link de.tu_bs.cs.isf.taxonomy.model.taxonomy.impl.MethodImpl#getPseudoCode <em>Pseudo Code</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.taxonomy.model.taxonomy.impl.MethodImpl#getPreCondition <em>Pre Condition</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.taxonomy.model.taxonomy.impl.MethodImpl#getPostCondition <em>Post Condition</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.taxonomy.model.taxonomy.impl.MethodImpl#getCorCImpl <em>Cor CImpl</em>}</li>
  * </ul>
  *
  * @generated
@@ -131,6 +132,26 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	protected String postCondition = POST_CONDITION_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getCorCImpl() <em>Cor CImpl</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCorCImpl()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String COR_CIMPL_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getCorCImpl() <em>Cor CImpl</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCorCImpl()
+	 * @generated
+	 * @ordered
+	 */
+	protected String corCImpl = COR_CIMPL_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -154,6 +175,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -163,6 +185,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -175,6 +198,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<DataType> getDataTypes() {
 		if (dataTypes == null) {
 			dataTypes = new EObjectContainmentEList<DataType>(DataType.class, this, TaxonomyPackage.METHOD__DATA_TYPES);
@@ -187,6 +211,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPseudoCode() {
 		return pseudoCode;
 	}
@@ -196,6 +221,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPseudoCode(String newPseudoCode) {
 		String oldPseudoCode = pseudoCode;
 		pseudoCode = newPseudoCode;
@@ -208,6 +234,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPreCondition() {
 		return preCondition;
 	}
@@ -217,6 +244,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPreCondition(String newPreCondition) {
 		String oldPreCondition = preCondition;
 		preCondition = newPreCondition;
@@ -229,6 +257,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPostCondition() {
 		return postCondition;
 	}
@@ -238,11 +267,35 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPostCondition(String newPostCondition) {
 		String oldPostCondition = postCondition;
 		postCondition = newPostCondition;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TaxonomyPackage.METHOD__POST_CONDITION, oldPostCondition, postCondition));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getCorCImpl() {
+		return corCImpl;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setCorCImpl(String newCorCImpl) {
+		String oldCorCImpl = corCImpl;
+		corCImpl = newCorCImpl;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TaxonomyPackage.METHOD__COR_CIMPL, oldCorCImpl, corCImpl));
 	}
 
 	/**
@@ -277,6 +330,8 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 				return getPreCondition();
 			case TaxonomyPackage.METHOD__POST_CONDITION:
 				return getPostCondition();
+			case TaxonomyPackage.METHOD__COR_CIMPL:
+				return getCorCImpl();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -306,6 +361,9 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 			case TaxonomyPackage.METHOD__POST_CONDITION:
 				setPostCondition((String)newValue);
 				return;
+			case TaxonomyPackage.METHOD__COR_CIMPL:
+				setCorCImpl((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -333,6 +391,9 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 			case TaxonomyPackage.METHOD__POST_CONDITION:
 				setPostCondition(POST_CONDITION_EDEFAULT);
 				return;
+			case TaxonomyPackage.METHOD__COR_CIMPL:
+				setCorCImpl(COR_CIMPL_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -355,6 +416,8 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 				return PRE_CONDITION_EDEFAULT == null ? preCondition != null : !PRE_CONDITION_EDEFAULT.equals(preCondition);
 			case TaxonomyPackage.METHOD__POST_CONDITION:
 				return POST_CONDITION_EDEFAULT == null ? postCondition != null : !POST_CONDITION_EDEFAULT.equals(postCondition);
+			case TaxonomyPackage.METHOD__COR_CIMPL:
+				return COR_CIMPL_EDEFAULT == null ? corCImpl != null : !COR_CIMPL_EDEFAULT.equals(corCImpl);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -377,6 +440,8 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		result.append(preCondition);
 		result.append(", postCondition: ");
 		result.append(postCondition);
+		result.append(", CorCImpl: ");
+		result.append(corCImpl);
 		result.append(')');
 		return result.toString();
 	}

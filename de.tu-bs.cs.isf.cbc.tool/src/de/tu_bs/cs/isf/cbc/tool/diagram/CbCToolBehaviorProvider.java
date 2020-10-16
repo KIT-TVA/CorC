@@ -31,6 +31,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.features.AddPseudoCodeToMethodFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameConditionFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.RenameMethodClassFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.RenameMethodSignatureFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameRenamingFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameStatementFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameVariableFeature;
@@ -106,7 +108,14 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 		if (customFeature.canExecute(context)) {
 			return customFeature;
 		}
-
+		customFeature = new RenameMethodClassFeature(getFeatureProvider());
+		if(customFeature.canExecute(context)) {
+			return customFeature;
+		}
+		customFeature = new RenameMethodSignatureFeature(getFeatureProvider());
+		if(customFeature.canExecute(context)) {
+			return customFeature;
+		}
 		return super.getDoubleClickFeature(context);
 	}
 
@@ -130,9 +139,10 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 		for (int i = 0; i < customFeatures.length; i++) {
 			ICustomFeature customFeature = customFeatures[i];
 			if (customFeature.canExecute(context)) {
-				if (!customFeature.getName().contains("Generate") && !customFeature.getName().contains("Extract")
-						&& !customFeature.getName().contains("Edit") && !customFeature.getName().contains("Layout")
-						&& !customFeature.getName().contains("Open")) {
+//				if (!customFeature.getName().contains("Generate") && !customFeature.getName().contains("Extract")
+//						&& !customFeature.getName().contains("Edit") && !customFeature.getName().contains("Layout")
+//						&& !customFeature.getName().contains("Open")) {
+				if (customFeature.getName().contains("Verify")) {
 					ContextMenuEntry menuEntry = new ContextMenuEntry(customFeature, context);
 					subMenuVerify.add(menuEntry);
 				} else {
@@ -172,9 +182,13 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 		for (ICreateFeature cf : createFeatures) {
 			ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry(cf.getCreateName(),
 					cf.getCreateDescription(), cf.getCreateImageId(), cf.getCreateLargeImageId(), cf);
-			if (cf.getCreateName().equals("Method") || cf.getCreateName().contains("Variable")
+			/*if (cf.getCreateName().contains("Method") || cf.getCreateName().contains("Variable")
 					|| cf.getCreateName().contains("Condition") || cf.getCreateName().contains("Renam")
-					|| cf.getCreateName().equals("MethodRefinements") || cf.getCreateName().equals("ProductVariant")) {
+					|| cf.getCreateName().equals("MethodRefinements") || cf.getCreateName().equals("ProductVariant")
+					|| cf.getCreateName().contains("Method Class"))*/ 
+			if (cf.getCreateName().contains("Method") || cf.getCreateName().contains("Variable")
+					|| cf.getCreateName().contains("Condition") || cf.getCreateName().contains("Renam")
+					|| cf.getCreateName().equals("ProductVariant")){
 				compartmentOtherEntry.addToolEntry(objectCreationToolEntry);
 			} else if (!cf.getCreateName().contentEquals("RefinementList")) {
 				compartmentStatementEntry.addToolEntry(objectCreationToolEntry);

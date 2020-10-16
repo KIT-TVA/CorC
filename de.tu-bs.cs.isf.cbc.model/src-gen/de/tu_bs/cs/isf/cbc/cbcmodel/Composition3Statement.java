@@ -27,6 +27,10 @@ public interface Composition3Statement extends AbstractStatement {
 	/**
 	 * Returns the value of the '<em><b>Third Statement</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Third Statement</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Third Statement</em>' containment reference.
 	 * @see #setThirdStatement(AbstractStatement)
@@ -49,6 +53,10 @@ public interface Composition3Statement extends AbstractStatement {
 	/**
 	 * Returns the value of the '<em><b>Second Statement</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Second Statement</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Second Statement</em>' containment reference.
 	 * @see #setSecondStatement(AbstractStatement)
@@ -71,6 +79,10 @@ public interface Composition3Statement extends AbstractStatement {
 	/**
 	 * Returns the value of the '<em><b>First Statement</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>First Statement</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>First Statement</em>' containment reference.
 	 * @see #setFirstStatement(AbstractStatement)
@@ -93,6 +105,10 @@ public interface Composition3Statement extends AbstractStatement {
 	/**
 	 * Returns the value of the '<em><b>Second Intermediate Condition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Second Intermediate Condition</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Second Intermediate Condition</em>' containment reference.
 	 * @see #setSecondIntermediateCondition(Condition)
@@ -115,6 +131,10 @@ public interface Composition3Statement extends AbstractStatement {
 	/**
 	 * Returns the value of the '<em><b>First Intermediate Condition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>First Intermediate Condition</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>First Intermediate Condition</em>' containment reference.
 	 * @see #setFirstIntermediateCondition(Condition)
