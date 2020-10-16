@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getJavaVariable <em>Java Variable</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getRenaming <em>Renaming</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getRefinements <em>Refinements</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethodsignature <em>Methodsignature</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethodClass <em>Method Class</em>}</li>
  * </ul>
  *
  * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getCbCProblem()
@@ -29,6 +31,10 @@ public interface CbCProblem extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Method</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Method</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Method</em>' containment reference.
 	 * @see #setMethod(Method)
@@ -51,6 +57,10 @@ public interface CbCProblem extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Globalcondition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Globalcondition</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Globalcondition</em>' containment reference.
 	 * @see #setGlobalcondition(GlobalConditions)
@@ -73,6 +83,10 @@ public interface CbCProblem extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Cbcformula</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Cbcformula</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Cbcformula</em>' containment reference.
 	 * @see #setCbcformula(CbCFormula)
@@ -95,6 +109,10 @@ public interface CbCProblem extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Java Variable</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Java Variable</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Java Variable</em>' containment reference.
 	 * @see #setJavaVariable(JavaVariables)
@@ -117,6 +135,10 @@ public interface CbCProblem extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Renaming</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Renaming</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Renaming</em>' containment reference.
 	 * @see #setRenaming(Renaming)
@@ -139,6 +161,10 @@ public interface CbCProblem extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Refinements</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Refinements</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Refinements</em>' containment reference.
 	 * @see #setRefinements(MethodRefinements)
@@ -157,5 +183,57 @@ public interface CbCProblem extends EObject {
 	 * @generated
 	 */
 	void setRefinements(MethodRefinements value);
+
+	/**
+	 * Returns the value of the '<em><b>Methodsignature</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Methodsignature</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Methodsignature</em>' containment reference.
+	 * @see #setMethodsignature(MethodSignature)
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getCbCProblem_Methodsignature()
+	 * @model containment="true"
+	 * @generated
+	 */
+	MethodSignature getMethodsignature();
+
+	/**
+	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethodsignature <em>Methodsignature</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Methodsignature</em>' containment reference.
+	 * @see #getMethodsignature()
+	 * @generated
+	 */
+	void setMethodsignature(MethodSignature value);
+
+	/**
+	 * Returns the value of the '<em><b>Method Class</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Method Class</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Method Class</em>' containment reference.
+	 * @see #setMethodClass(MethodClass)
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getCbCProblem_MethodClass()
+	 * @model containment="true"
+	 * @generated
+	 */
+	MethodClass getMethodClass();
+
+	/**
+	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethodClass <em>Method Class</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Method Class</em>' containment reference.
+	 * @see #getMethodClass()
+	 * @generated
+	 */
+	void setMethodClass(MethodClass value);
 
 } // CbCProblem

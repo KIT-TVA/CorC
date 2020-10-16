@@ -68,6 +68,7 @@ public class RenamingImpl extends MinimalEObjectImpl.Container implements Renami
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Rename> getRenames() {
 		if (renames == null) {
 			renames = new EObjectContainmentEList<Rename>(Rename.class, this, TaxonomyPackage.RENAMING__RENAMES);

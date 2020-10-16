@@ -35,8 +35,11 @@ import org.eclipse.graphiti.util.PredefinedColoredAreas;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateModifiableOfConditions;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies;
 
 
@@ -99,6 +102,8 @@ public class ReturnPattern extends IdPattern implements IPattern {
 		Condition post = CbcmodelFactory.eINSTANCE.createCondition();
 		post.setName("");
 		statement.setPostCondition(post);
+		
+		statement.setComment("returnStatement");
 		
 		addGraphicalRepresentation(context, statement);
 		return new Object[] { statement };
@@ -300,9 +305,9 @@ public class ReturnPattern extends IdPattern implements IPattern {
 
 	@Override
 	protected boolean update(IdUpdateContext context, String id) {
-		if(context.getGraphicsAlgorithm() instanceof MultiText && context.getDomainObject() instanceof ReturnStatement) {
+		if(context.getGraphicsAlgorithm() instanceof MultiText && context.getDomainObject() instanceof AbstractStatement) {
 			MultiText nameText = (MultiText) context.getGraphicsAlgorithm();
-			ReturnStatement domainObject = (ReturnStatement) context.getDomainObject();
+			AbstractStatement domainObject = (AbstractStatement) context.getDomainObject();
 			nameText.setValue(domainObject.getName());
 			return true;
 		} 
@@ -332,7 +337,7 @@ public class ReturnPattern extends IdPattern implements IPattern {
 			}
 			return true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
-			ReturnStatement domainObject = (ReturnStatement) context.getDomainObject();
+			AbstractStatement domainObject = (AbstractStatement) context.getDomainObject();
 			 Image image = (Image) context.getGraphicsAlgorithm();
 			if (domainObject.isProven()) {
 				image.setId(CbCImageProvider.IMG_PROVEN);
@@ -352,7 +357,7 @@ public class ReturnPattern extends IdPattern implements IPattern {
 	public boolean canDirectEdit(IDirectEditingContext context) {
 		Object domainObject = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
-		if (domainObject instanceof ReturnStatement && ga instanceof MultiText) {
+		if (domainObject instanceof AbstractStatement && ga instanceof MultiText) {
 			return true;
 		}
 		return false;
@@ -360,7 +365,7 @@ public class ReturnPattern extends IdPattern implements IPattern {
 
 	@Override
 	public String getInitialValue(IDirectEditingContext context) {
-		ReturnStatement statement = (ReturnStatement) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		AbstractStatement statement = (AbstractStatement) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		return statement.getName();
 	}
 
@@ -380,6 +385,16 @@ public class ReturnPattern extends IdPattern implements IPattern {
 		AbstractStatement statement = (AbstractStatement) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		statement.setName(value);
 		statement.setProven(false);
+		JavaVariables vars = null;
+		for (Shape shape : getDiagram().getChildren()) {
+			Object obj = getBusinessObjectForPictogramElement(shape); 
+			if (obj instanceof JavaVariables) {
+				vars = (JavaVariables) obj;
+			}
+		}
+		UpdateModifiableOfConditions.setVars(vars);
+		FileUtil.setApplicationUri(getDiagram().eResource().getURI());
+		UpdateModifiableOfConditions.updateAssignmentStatement(statement);
 		updatePictogramElement(context.getPictogramElement());
 	}
 }

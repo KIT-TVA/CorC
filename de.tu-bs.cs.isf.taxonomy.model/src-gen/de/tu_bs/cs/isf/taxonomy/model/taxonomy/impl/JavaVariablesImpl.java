@@ -68,6 +68,7 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<JavaVariable> getVariables() {
 		if (variables == null) {
 			variables = new EObjectContainmentEList<JavaVariable>(JavaVariable.class, this, TaxonomyPackage.JAVA_VARIABLES__VARIABLES);

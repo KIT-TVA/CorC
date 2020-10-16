@@ -15,7 +15,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Method;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
@@ -203,6 +205,20 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass methodSignatureEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass methodClassEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum variableKindEEnum = null;
 
 	/**
@@ -351,6 +367,36 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	@Override
 	public EAttribute getCbCFormula_CompositionTechnique() {
 		return (EAttribute)cbCFormulaEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCbCFormula_TaxMethod() {
+		return (EAttribute)cbCFormulaEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCbCFormula_ClassName() {
+		return (EAttribute)cbCFormulaEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCbCFormula_MethodName() {
+		return (EAttribute)cbCFormulaEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -1049,6 +1095,26 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * @generated
 	 */
 	@Override
+	public EReference getCbCProblem_Methodsignature() {
+		return (EReference)cbCProblemEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getCbCProblem_MethodClass() {
+		return (EReference)cbCProblemEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getStrengthWeakStatement() {
 		return strengthWeakStatementEClass;
 	}
@@ -1091,6 +1157,46 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	@Override
 	public EAttribute getProductVariant_RefinementChain() {
 		return (EAttribute)productVariantEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getMethodSignature() {
+		return methodSignatureEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getMethodSignature_MethodSignature() {
+		return (EAttribute)methodSignatureEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getMethodClass() {
+		return methodClassEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getMethodClass_MethodClass() {
+		return (EAttribute)methodClassEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1150,6 +1256,9 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		createEAttribute(cbCFormulaEClass, CB_CFORMULA__PROVEN);
 		createEAttribute(cbCFormulaEClass, CB_CFORMULA__COMMENT);
 		createEAttribute(cbCFormulaEClass, CB_CFORMULA__COMPOSITION_TECHNIQUE);
+		createEAttribute(cbCFormulaEClass, CB_CFORMULA__TAX_METHOD);
+		createEAttribute(cbCFormulaEClass, CB_CFORMULA__CLASS_NAME);
+		createEAttribute(cbCFormulaEClass, CB_CFORMULA__METHOD_NAME);
 
 		conditionEClass = createEClass(CONDITION);
 		createEAttribute(conditionEClass, CONDITION__NAME);
@@ -1237,6 +1346,8 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		createEReference(cbCProblemEClass, CB_CPROBLEM__JAVA_VARIABLE);
 		createEReference(cbCProblemEClass, CB_CPROBLEM__RENAMING);
 		createEReference(cbCProblemEClass, CB_CPROBLEM__REFINEMENTS);
+		createEReference(cbCProblemEClass, CB_CPROBLEM__METHODSIGNATURE);
+		createEReference(cbCProblemEClass, CB_CPROBLEM__METHOD_CLASS);
 
 		strengthWeakStatementEClass = createEClass(STRENGTH_WEAK_STATEMENT);
 
@@ -1245,6 +1356,12 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 
 		productVariantEClass = createEClass(PRODUCT_VARIANT);
 		createEAttribute(productVariantEClass, PRODUCT_VARIANT__REFINEMENT_CHAIN);
+
+		methodSignatureEClass = createEClass(METHOD_SIGNATURE);
+		createEAttribute(methodSignatureEClass, METHOD_SIGNATURE__METHOD_SIGNATURE);
+
+		methodClassEClass = createEClass(METHOD_CLASS);
+		createEAttribute(methodClassEClass, METHOD_CLASS__METHOD_CLASS);
 
 		// Create enums
 		variableKindEEnum = createEEnum(VARIABLE_KIND);
@@ -1298,6 +1415,9 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		initEAttribute(getCbCFormula_Proven(), ecorePackage.getEBoolean(), "proven", null, 0, 1, CbCFormula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCbCFormula_Comment(), ecorePackage.getEString(), "comment", null, 0, 1, CbCFormula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCbCFormula_CompositionTechnique(), this.getCompositionTechnique(), "compositionTechnique", "CONTRACT_OVERRIDING", 0, 1, CbCFormula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCbCFormula_TaxMethod(), ecorePackage.getEString(), "TaxMethod", null, 0, 1, CbCFormula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCbCFormula_ClassName(), ecorePackage.getEString(), "className", "", 0, 1, CbCFormula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCbCFormula_MethodName(), ecorePackage.getEString(), "methodName", "", 0, 1, CbCFormula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(conditionEClass, Condition.class, "Condition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCondition_Name(), ecorePackage.getEString(), "name", null, 0, 1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1385,6 +1505,8 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		initEReference(getCbCProblem_JavaVariable(), this.getJavaVariables(), null, "javaVariable", null, 0, 1, CbCProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCbCProblem_Renaming(), this.getRenaming(), null, "renaming", null, 0, 1, CbCProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCbCProblem_Refinements(), this.getMethodRefinements(), null, "refinements", null, 0, 1, CbCProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCbCProblem_Methodsignature(), this.getMethodSignature(), null, "methodsignature", null, 0, 1, CbCProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCbCProblem_MethodClass(), this.getMethodClass(), null, "methodClass", null, 0, 1, CbCProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(strengthWeakStatementEClass, StrengthWeakStatement.class, "StrengthWeakStatement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1394,11 +1516,20 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		initEClass(productVariantEClass, ProductVariant.class, "ProductVariant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getProductVariant_RefinementChain(), ecorePackage.getEString(), "refinementChain", null, 0, 1, ProductVariant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(methodSignatureEClass, MethodSignature.class, "MethodSignature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMethodSignature_MethodSignature(), ecorePackage.getEString(), "methodSignature", null, 0, 1, MethodSignature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(methodClassEClass, MethodClass.class, "MethodClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMethodClass_MethodClass(), ecorePackage.getEString(), "methodClass", null, 0, 1, MethodClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Initialize enums and add enum literals
 		initEEnum(variableKindEEnum, VariableKind.class, "VariableKind");
 		addEEnumLiteral(variableKindEEnum, VariableKind.LOCAL);
 		addEEnumLiteral(variableKindEEnum, VariableKind.PARAM);
 		addEEnumLiteral(variableKindEEnum, VariableKind.RETURN);
+		addEEnumLiteral(variableKindEEnum, VariableKind.GLOBAL);
+		addEEnumLiteral(variableKindEEnum, VariableKind.GLOBAL_PARAM);
+		addEEnumLiteral(variableKindEEnum, VariableKind.RETURNPARAM);
 
 		initEEnum(compositionTechniqueEEnum, CompositionTechnique.class, "CompositionTechnique");
 		addEEnumLiteral(compositionTechniqueEEnum, CompositionTechnique.CONTRACT_OVERRIDING);

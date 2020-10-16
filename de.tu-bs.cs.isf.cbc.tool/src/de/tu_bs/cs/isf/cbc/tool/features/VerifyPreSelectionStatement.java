@@ -9,6 +9,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
@@ -68,6 +69,7 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 				JavaVariables vars = null;
 				GlobalConditions conds = null;
 				Renaming renaming = null;
+				MethodClass javaClass = null;
 				for (Shape shape : getDiagram().getChildren()) {
 					Object obj = getBusinessObjectForPictogramElement(shape);
 					if (obj instanceof JavaVariables) {
@@ -76,10 +78,12 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 						conds = (GlobalConditions) obj;
 					} else if (obj instanceof Renaming) {
 						renaming = (Renaming) obj;
+					} else if (obj instanceof MethodClass) {
+						javaClass = (MethodClass) obj;
 					}
 				}
 				boolean prove = false;
-				prove = ProveWithKey.provePreSelWithKey(statement.getGuards(), parent.getPreCondition(), vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
+				prove = ProveWithKey.provePreSelWithKey(statement.getGuards(), parent.getPreCondition(), vars, javaClass, conds, renaming, getDiagram().eResource().getURI(), monitor);
 				if (prove) {
 					statement.setPreProve(true);
 				} else {

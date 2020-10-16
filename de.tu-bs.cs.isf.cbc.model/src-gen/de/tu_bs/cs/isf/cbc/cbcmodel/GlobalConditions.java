@@ -27,6 +27,10 @@ public interface GlobalConditions extends EObject {
 	 * Returns the value of the '<em><b>Conditions</b></em>' containment reference list.
 	 * The list contents are of type {@link de.tu_bs.cs.isf.cbc.cbcmodel.Condition}.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Conditions</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Conditions</em>' containment reference list.
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getGlobalConditions_Conditions()

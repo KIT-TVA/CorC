@@ -27,6 +27,10 @@ public interface JavaVariable extends EObject {
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * The default value is <code>"int a"</code>.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -51,6 +55,10 @@ public interface JavaVariable extends EObject {
 	 * The default value is <code>"LOCAL"</code>.
 	 * The literals are from the enumeration {@link de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind}.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Kind</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Kind</em>' attribute.
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind
@@ -76,6 +84,10 @@ public interface JavaVariable extends EObject {
 	 * Returns the value of the '<em><b>Displayed Name</b></em>' attribute.
 	 * The default value is <code>"int a"</code>.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Displayed Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Displayed Name</em>' attribute.
 	 * @see #setDisplayedName(String)

@@ -19,16 +19,21 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
+import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
+import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
+import de.tu_bs.cs.isf.cbc.util.Parser;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyAbstractAsynchronousCustomFeature;
 
@@ -66,7 +71,7 @@ public class VerifyMethodStatementAndSubFormula extends MyAbstractAsynchronousCu
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
-			if (bo != null && bo.getClass().equals(MethodStatementImpl.class)) {
+			if (bo != null && (bo.getClass().equals(MethodStatementImpl.class))) {
 				ret = true;
 			}
 		}
@@ -79,7 +84,7 @@ public class VerifyMethodStatementAndSubFormula extends MyAbstractAsynchronousCu
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
-			if (bo instanceof MethodStatement) {
+			if (bo instanceof MethodStatement || bo instanceof AbstractStatement) {
 				MethodStatement statement = (MethodStatement) bo;
 				Collection<Diagram> diagrams = getLinkedDiagrams(statement);
 				if (diagrams.size() == 1) {
@@ -101,6 +106,7 @@ public class VerifyMethodStatementAndSubFormula extends MyAbstractAsynchronousCu
 					JavaVariables varsFormula = null;
 					GlobalConditions condsFormula = null;
 					Renaming renamingFormula = null;
+					MethodClass javaClass = null;
 					for (Shape shape : diagrams.iterator().next().getChildren()) {
 						Object obj = getBusinessObjectForPictogramElement(shape);
 						if (obj instanceof JavaVariables) {
@@ -111,6 +117,8 @@ public class VerifyMethodStatementAndSubFormula extends MyAbstractAsynchronousCu
 							renamingFormula = (Renaming) obj;
 						} else if (obj instanceof CbCFormula) {
 							formula = (CbCFormula) obj;
+						} else if (obj instanceof MethodClass) {
+							javaClass = (MethodClass) obj;
 						}
 					}
 					
@@ -118,9 +126,11 @@ public class VerifyMethodStatementAndSubFormula extends MyAbstractAsynchronousCu
 					List<JavaVariable> vars = mergeJavaVariables(varsMethod, varsFormula);
 					List<Condition> conds = mergeGlobalConditions(condsMethod, condsFormula);
 					List<Rename> renaming = mergeRenaming(renamingMethod, renamingFormula);
-					prove = ProveWithKey.proveMethodFormulaWithKey(formula.getStatement().getPreCondition(), statement.getPreCondition(), vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
+//					String javaClass = statement.getName().substring(0, statement.getName().indexOf('.'));
+					
+					prove = ProveWithKey.proveMethodFormulaWithKey(formula.getStatement().getPreCondition(), statement.getPreCondition(), javaClass.getMethodClass(), vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
 					if (prove) {
-						prove = ProveWithKey.proveMethodFormulaWithKey(statement.getPostCondition(), formula.getStatement().getPostCondition(), vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
+						prove = ProveWithKey.proveMethodFormulaWithKey(statement.getPostCondition(), formula.getStatement().getPostCondition(), javaClass.getMethodClass(), vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
 					}
 					if (prove) {
 						statement.setProven(true);
@@ -213,7 +223,14 @@ public class VerifyMethodStatementAndSubFormula extends MyAbstractAsynchronousCu
 	
 	private Collection<Diagram> getLinkedDiagrams(MethodStatement statement) {
 		final Collection<Diagram> ret = new HashSet<Diagram>();
-
+		JavaVariables vars = null;
+		for (Shape shape : getDiagram().getChildren()) {
+			Object obj = getBusinessObjectForPictogramElement(shape);
+			if (obj instanceof JavaVariables) {
+				vars = (JavaVariables) obj;
+			} 
+		}
+		String s = getSignature(statement.getName(), vars);
 		final Collection<Diagram> allDiagrams = getDiagrams();
 		for (final Diagram d : allDiagrams) {
 			final Diagram currentDiagram = getDiagram();
@@ -224,8 +241,9 @@ public class VerifyMethodStatementAndSubFormula extends MyAbstractAsynchronousCu
 				for (Object businessObjectForDiagram : businessObjectsForDiagram) {
 					if (businessObjectForDiagram instanceof CbCFormula) {
 						final CbCFormula formula = (CbCFormula) businessObjectForDiagram;
-						if (formula != null && formula.getName().equals(statement.getName())) {
-							ret.add(d);
+						if (formula != null && formula.getMethodName() != null) {
+							if(formula.getMethodName().equals(s))
+								ret.add(d);
 						}
 					}
 				}
@@ -250,5 +268,50 @@ public class VerifyMethodStatementAndSubFormula extends MyAbstractAsynchronousCu
            }
        }
        return result;
+	}
+	
+	private String getSignature(String methodName, JavaVariables vars) {
+		if(methodName.matches("(\\(.+\\))")) {//first indexof ( = indexof)+1
+			String[] methodVariables = methodName.substring(methodName.indexOf('(') + 1, methodName.lastIndexOf(')')).split(",");
+			for(int j = 0; j < methodVariables.length; j++) {
+				if(methodVariables[j].contains("(")) {//Cast
+					methodVariables[j] = methodVariables[j].substring(methodVariables[j].indexOf('(') + 1, methodVariables[j].indexOf(')'));
+				} else if(methodVariables[j].trim().startsWith("\"")) {
+					methodVariables[j] = "String";
+				} else if(methodVariables[j].trim().startsWith("\'")) {
+					methodVariables[j] = "char";
+				} else if(methodVariables[j].trim().matches("(\\-)?(\\d+)")) {
+					try {
+			             int i = Integer.parseInt(methodVariables[j].trim());
+			             methodVariables[j] = "int";
+			        }
+			        catch (NumberFormatException e)
+			        {
+			             long l = Long.valueOf(methodVariables[j]);
+			             methodVariables[j] = "long";
+			        }
+				} else if(methodVariables[j].trim().matches("(\\-)?(\\d+\\.\\d+)")) {
+					methodVariables[j] = "double";
+				} else if(methodVariables[j].trim().equals("true") || methodVariables[j].trim().equals("false") ) {
+					methodVariables[j] = "boolean";
+				} else {
+					methodVariables[j] = Parser.getTypeOfVariable(methodVariables[j], vars);							
+				} 
+			}
+			methodName = methodName.substring(0, methodName.indexOf('(') + 1);
+			if(methodVariables.length == 1) {
+				methodName  = methodName + methodVariables[0];
+			} else {
+				for(int j = 0; j < methodVariables.length - 1; j++) {
+					methodName = methodName + methodVariables[j] + ",";
+				}
+				methodName = methodName + methodVariables[methodVariables.length - 1];
+			}
+		    methodName = methodName + ")";
+		} 
+	    methodName = methodName.replaceFirst("\\w+.", "");	
+	    methodName = methodName.replaceFirst(";", "");
+	    methodName = methodName.replaceAll("\\r\\n*|\\n+", "");
+		return methodName;
 	}
 }

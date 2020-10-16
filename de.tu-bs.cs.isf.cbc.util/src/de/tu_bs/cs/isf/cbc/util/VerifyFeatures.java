@@ -46,7 +46,6 @@ public class VerifyFeatures {
 	private static FeatureModelFormula featureModel;
 	private static IFeatureModel featModel;
 	private static Configuration configuration;
-
 	private static ConfigurationAnalyzer configurationAnalyzer;
 	
 	public static String[][] verifyConfig(IProject project, URI uri_new, String method, boolean original, String callingClass, boolean cleanFromIrrelevant, String methodOriginal) {
@@ -82,7 +81,6 @@ public class VerifyFeatures {
 		}
 		checkConfigs(method, methodOriginal != null ? true : original, callingClass, cleanFromIrrelevant, methodOriginal);
 		return configurations;
-		
 	}
 
 	// calculates feature-configurations

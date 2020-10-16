@@ -8,7 +8,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Method;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -34,6 +36,8 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getJavaVariable <em>Java Variable</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getRenaming <em>Renaming</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getRefinements <em>Refinements</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getMethodsignature <em>Methodsignature</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getMethodClass <em>Method Class</em>}</li>
  * </ul>
  *
  * @generated
@@ -98,6 +102,26 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * @ordered
 	 */
 	protected MethodRefinements refinements;
+
+	/**
+	 * The cached value of the '{@link #getMethodsignature() <em>Methodsignature</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMethodsignature()
+	 * @generated
+	 * @ordered
+	 */
+	protected MethodSignature methodsignature;
+
+	/**
+	 * The cached value of the '{@link #getMethodClass() <em>Method Class</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMethodClass()
+	 * @generated
+	 * @ordered
+	 */
+	protected MethodClass methodClass;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -394,6 +418,96 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * @generated
 	 */
 	@Override
+	public MethodSignature getMethodsignature() {
+		return methodsignature;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetMethodsignature(MethodSignature newMethodsignature, NotificationChain msgs) {
+		MethodSignature oldMethodsignature = methodsignature;
+		methodsignature = newMethodsignature;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE, oldMethodsignature, newMethodsignature);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setMethodsignature(MethodSignature newMethodsignature) {
+		if (newMethodsignature != methodsignature) {
+			NotificationChain msgs = null;
+			if (methodsignature != null)
+				msgs = ((InternalEObject)methodsignature).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE, null, msgs);
+			if (newMethodsignature != null)
+				msgs = ((InternalEObject)newMethodsignature).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE, null, msgs);
+			msgs = basicSetMethodsignature(newMethodsignature, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE, newMethodsignature, newMethodsignature));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public MethodClass getMethodClass() {
+		return methodClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetMethodClass(MethodClass newMethodClass, NotificationChain msgs) {
+		MethodClass oldMethodClass = methodClass;
+		methodClass = newMethodClass;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CPROBLEM__METHOD_CLASS, oldMethodClass, newMethodClass);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setMethodClass(MethodClass newMethodClass) {
+		if (newMethodClass != methodClass) {
+			NotificationChain msgs = null;
+			if (methodClass != null)
+				msgs = ((InternalEObject)methodClass).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - CbcmodelPackage.CB_CPROBLEM__METHOD_CLASS, null, msgs);
+			if (newMethodClass != null)
+				msgs = ((InternalEObject)newMethodClass).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - CbcmodelPackage.CB_CPROBLEM__METHOD_CLASS, null, msgs);
+			msgs = basicSetMethodClass(newMethodClass, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CPROBLEM__METHOD_CLASS, newMethodClass, newMethodClass));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case CbcmodelPackage.CB_CPROBLEM__METHOD:
@@ -408,6 +522,10 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 				return basicSetRenaming(null, msgs);
 			case CbcmodelPackage.CB_CPROBLEM__REFINEMENTS:
 				return basicSetRefinements(null, msgs);
+			case CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE:
+				return basicSetMethodsignature(null, msgs);
+			case CbcmodelPackage.CB_CPROBLEM__METHOD_CLASS:
+				return basicSetMethodClass(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -432,6 +550,10 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 				return getRenaming();
 			case CbcmodelPackage.CB_CPROBLEM__REFINEMENTS:
 				return getRefinements();
+			case CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE:
+				return getMethodsignature();
+			case CbcmodelPackage.CB_CPROBLEM__METHOD_CLASS:
+				return getMethodClass();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -461,6 +583,12 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 				return;
 			case CbcmodelPackage.CB_CPROBLEM__REFINEMENTS:
 				setRefinements((MethodRefinements)newValue);
+				return;
+			case CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE:
+				setMethodsignature((MethodSignature)newValue);
+				return;
+			case CbcmodelPackage.CB_CPROBLEM__METHOD_CLASS:
+				setMethodClass((MethodClass)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -492,6 +620,12 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 			case CbcmodelPackage.CB_CPROBLEM__REFINEMENTS:
 				setRefinements((MethodRefinements)null);
 				return;
+			case CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE:
+				setMethodsignature((MethodSignature)null);
+				return;
+			case CbcmodelPackage.CB_CPROBLEM__METHOD_CLASS:
+				setMethodClass((MethodClass)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -516,6 +650,10 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 				return renaming != null;
 			case CbcmodelPackage.CB_CPROBLEM__REFINEMENTS:
 				return refinements != null;
+			case CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE:
+				return methodsignature != null;
+			case CbcmodelPackage.CB_CPROBLEM__METHOD_CLASS:
+				return methodClass != null;
 		}
 		return super.eIsSet(featureID);
 	}

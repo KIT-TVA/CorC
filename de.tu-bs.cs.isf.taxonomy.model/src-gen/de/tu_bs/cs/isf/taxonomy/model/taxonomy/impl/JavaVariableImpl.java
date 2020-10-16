@@ -70,6 +70,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -79,6 +80,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;

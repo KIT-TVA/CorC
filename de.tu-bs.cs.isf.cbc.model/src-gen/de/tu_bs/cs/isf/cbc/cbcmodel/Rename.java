@@ -26,6 +26,10 @@ public interface Rename extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type</em>' attribute.
 	 * @see #setType(String)
@@ -48,6 +52,10 @@ public interface Rename extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Function</b></em>' attribute.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Function</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Function</em>' attribute.
 	 * @see #setFunction(String)
@@ -70,6 +78,10 @@ public interface Rename extends EObject {
 	/**
 	 * Returns the value of the '<em><b>New Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>New Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>New Name</em>' attribute.
 	 * @see #setNewName(String)

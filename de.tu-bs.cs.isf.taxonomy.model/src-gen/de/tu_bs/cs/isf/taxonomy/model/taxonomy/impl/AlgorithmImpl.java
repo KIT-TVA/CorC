@@ -231,6 +231,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -240,6 +241,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -252,6 +254,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isAbstract() {
 		return abstract_;
 	}
@@ -261,6 +264,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAbstract(boolean newAbstract) {
 		boolean oldAbstract = abstract_;
 		abstract_ = newAbstract;
@@ -273,6 +277,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<DataStructure> getDataStructures() {
 		if (dataStructures == null) {
 			dataStructures = new EObjectContainmentEList<DataStructure>(DataStructure.class, this, TaxonomyPackage.ALGORITHM__DATA_STRUCTURES);
@@ -285,6 +290,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Method> getMethods() {
 		if (methods == null) {
 			methods = new EObjectContainmentEList<Method>(Method.class, this, TaxonomyPackage.ALGORITHM__METHODS);
@@ -297,6 +303,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Algorithm> getChildAlgorithms() {
 		if (childAlgorithms == null) {
 			childAlgorithms = new EObjectWithInverseResolvingEList.ManyInverse<Algorithm>(Algorithm.class, this, TaxonomyPackage.ALGORITHM__CHILD_ALGORITHMS, TaxonomyPackage.ALGORITHM__PARENT_ALGORITHMS);
@@ -309,6 +316,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Algorithm> getParentAlgorithms() {
 		if (parentAlgorithms == null) {
 			parentAlgorithms = new EObjectWithInverseResolvingEList.ManyInverse<Algorithm>(Algorithm.class, this, TaxonomyPackage.ALGORITHM__PARENT_ALGORITHMS, TaxonomyPackage.ALGORITHM__CHILD_ALGORITHMS);
@@ -321,6 +329,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPreCondition() {
 		return preCondition;
 	}
@@ -330,6 +339,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPreCondition(String newPreCondition) {
 		String oldPreCondition = preCondition;
 		preCondition = newPreCondition;
@@ -342,6 +352,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPostCondition() {
 		return postCondition;
 	}
@@ -351,6 +362,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPostCondition(String newPostCondition) {
 		String oldPostCondition = postCondition;
 		postCondition = newPostCondition;
@@ -363,6 +375,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getInvariant() {
 		return invariant;
 	}
@@ -372,6 +385,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInvariant(String newInvariant) {
 		String oldInvariant = invariant;
 		invariant = newInvariant;
@@ -384,6 +398,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getImports() {
 		return imports;
 	}
@@ -393,6 +408,7 @@ public class AlgorithmImpl extends MinimalEObjectImpl.Container implements Algor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setImports(String newImports) {
 		String oldImports = imports;
 		imports = newImports;

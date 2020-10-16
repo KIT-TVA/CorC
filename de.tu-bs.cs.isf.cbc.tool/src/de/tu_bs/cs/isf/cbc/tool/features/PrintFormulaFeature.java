@@ -4,8 +4,15 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Set;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -13,14 +20,26 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
+import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyAbstractAsynchronousCustomFeature;
 
@@ -54,41 +73,246 @@ public class PrintFormulaFeature extends MyAbstractAsynchronousCustomFeature {
 
 	@Override
 	public boolean canExecute(ICustomContext context) {
+		MethodClass javaClass = null;
+		MethodSignature signature = null;
+		JavaVariables vars = null;
+		for (Shape shape : getDiagram().getChildren()) {
+			Object obj = getBusinessObjectForPictogramElement(shape); 
+			if(obj instanceof MethodClass) {
+				javaClass = (MethodClass) obj;
+			} else if(obj instanceof MethodSignature) {
+				signature = (MethodSignature) obj;
+			} else if(obj instanceof JavaVariables) {
+				vars = (JavaVariables) obj;
+			}
+		}
+		if(javaClass == null || signature == null || vars == null)
+			return false;
 		return true;
 	}
-
+	
 	@Override
-	public void execute(ICustomContext context, IProgressMonitor monitor) {
-		// printFormula(formula);
-		JavaVariables vars = null;
+	public void execute(ICustomContext context, IProgressMonitor monitor) { 
+		
+		JavaVariables vars = null; 
 		Renaming renaming = null;
+		MethodClass javaClass = null;
+		MethodSignature signature = null;
 		CbCFormula formula = null;
 		for (Shape shape : getDiagram().getChildren()) {
-			Object obj = getBusinessObjectForPictogramElement(shape);
+			Object obj = getBusinessObjectForPictogramElement(shape); 
 			if (obj instanceof JavaVariables) {
 				vars = (JavaVariables) obj;
 			} else if (obj instanceof Renaming) {
 				renaming = (Renaming) obj;
 			} else if (obj instanceof CbCFormula) {
 				formula = (CbCFormula) obj;
+			} else if(obj instanceof MethodClass) {
+				javaClass = (MethodClass) obj;
+			} else if(obj instanceof MethodSignature) {
+				signature = (MethodSignature) obj;
 			}
 		}
-		URI uri = getDiagram().eResource().getURI();
-		String location = FileUtil.getProject(uri).getLocation() + "/src/Debug.java";
-		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, renaming, vars);
-		writeFile(location, code);
-	}
 
-	private void writeFile(String location, String code) {
+		String parameters = signature.getMethodSignature().substring(signature.getMethodSignature().indexOf('(') + 1, signature.getMethodSignature().indexOf(')'));
+			
+		Set<String> hs1 = new HashSet<String>();
+		if(!parameters.isEmpty()) {
+			String[] splitParameters = parameters.split(",", 0);
+			for(int i = 0; i < splitParameters.length; i++) {
+				hs1.add(splitParameters[i].trim());
+			}
+		}
+		
+		Set<String> hs2 = new HashSet<String>();
+		LinkedList<String> localVariables = new LinkedList<String>();
+		JavaVariable returnVariable = null;
+		int counter = 0;
+		for(int i = 0; i < vars.getVariables().size(); i++) {
+			JavaVariable currentVariable = vars.getVariables().get(i);
+			if(currentVariable.getKind() == VariableKind.PARAM) {
+				hs2.add(currentVariable.getName());	
+			} else if(currentVariable.getKind() == VariableKind.LOCAL) {
+				localVariables.add(currentVariable.getName());
+			} else if(currentVariable.getKind() == VariableKind.GLOBAL_PARAM) {
+				hs2.add(currentVariable.getName());
+			} else if(currentVariable.getKind() == VariableKind.RETURN) {
+				counter++;
+				if(!signature.getMethodSignature().substring(0, signature.getMethodSignature().indexOf('(')).contains(currentVariable.getName().trim().split(" ")[0])) {
+					Console.println("Method return type and variable type does not match.");
+					return;
+				}
+				if(counter > 1) {
+					Console.println("Too much variables of kind RETURN.");
+					return;
+				}
+				returnVariable = currentVariable;
+			}
+		}
+		
+		if(counter == 0 && !signature.getMethodSignature().contains("void")) {//void must have no return variables
+			Console.println("Variable of kind RETURN is missing.");
+			return;
+		}
+		
+	    if(!hs1.equals(hs2)) {
+	    	Console.println("Method parameters are not known");
+			return;
+	    }
+	    
+		Display.getDefault().asyncExec(() -> { // oder: getDiagramBehavior().getDiagramContainer().doSave(monitor);			
+			/*try {				
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}			*/
+			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			IEditorPart editor = page.getActiveEditor();
+			Console.println("start saving");
+			page.saveEditor(editor, true);	
+			Console.println("saved");
+		});
+		
+		LinkedList<String> globalVariablesList = getVariables(javaClass.getMethodClass());
+	    
+		if(returnVariable != null) {//check if return variable is also as local, param or global implemented
+			JavaVariable j =  returnVariable;
+			if(!globalVariablesList.contains(returnVariable.getName()) && !globalVariablesList.contains("static " + returnVariable.getName())
+					&& vars.getVariables().stream().filter(e -> e.getName().equals(j.getName()) || e.getName().equals("static " + j.getName())).count() < 2) {
+				localVariables.add(j.getName());
+			}
+		}
+		
+		StringBuffer globalVariables = new StringBuffer();
+		globalVariablesList.forEach(e -> {globalVariables.append("\tprivate " + e + ";\n");});
+
+		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, renaming, localVariables, returnVariable, signature);
+		
+		URI uri = getDiagram().eResource().getURI(); 
+		String location = FileUtil.getProject(uri).getLocation() + "/src/" + javaClass.getMethodClass() + ".java";
+		writeFile(location, code, signature, javaClass.getMethodClass(), globalVariables.toString());
+	}
+	
+	protected Collection<Diagram> getDiagrams() {
+        Collection<Diagram> result = Collections.emptyList();
+        Resource resource = getDiagram().eResource();
+        URI uri = resource.getURI();
+        URI uriTrimmed = uri.trimFragment();
+        if (uriTrimmed.isPlatformResource()){
+            String platformString = uriTrimmed.toPlatformString(true);
+            IResource fileResource = ResourcesPlugin.getWorkspace()
+              .getRoot().findMember(platformString);
+            if (fileResource != null){
+                IProject project = fileResource.getProject();
+                result = GetDiagramUtil.getDiagrams(project);
+            }
+        }
+        return result;
+	}
+	
+	public LinkedList<String> getVariables(String javaClass){		
+		boolean addVars = false;
+		LinkedList<String> vars = new LinkedList<String>();
+		final Collection<Diagram> allDiagrams = getDiagrams();
+		for (final Diagram d : allDiagrams) {
+			final Diagram currentDiagram = getDiagram();
+			if (!currentDiagram.getName().equals(d.getName())) {//!EcoreUtil.equals(currentDiagram, d) doesnt work here!
+				for (Shape shape : d.getChildren()) {
+					Object obj = getBusinessObjectForPictogramElement(shape);
+					if(obj instanceof MethodClass) {
+						if(((MethodClass) obj).getMethodClass().equals(javaClass)) {
+							addVars = true;
+						} 
+					}
+				}
+//			}
+//			if (!currentDiagram.getName().equals(d.getName())) {//!EcoreUtil.equals(currentDiagram, d) doesnt work here!
+				for (Shape shape : d.getChildren()) {
+					Object obj = getBusinessObjectForPictogramElement(shape);
+					if (obj instanceof JavaVariables && addVars) {
+						Iterator<JavaVariable> itr = ((JavaVariables) obj).getVariables().iterator();
+						while(itr.hasNext()) {
+							JavaVariable var = itr.next();
+							boolean b = false;
+							if(var.getKind() == VariableKind.GLOBAL || var.getKind() == VariableKind.GLOBAL_PARAM) {
+								for(int i = 0; i < vars.size() ; i++) {
+									if(var.getName().substring(var.getName().trim().lastIndexOf(' ')).equals(vars.get(i).substring(vars.get(i).trim().lastIndexOf(' ')))) /*|| ("static " + var.getName()).equals(vars.get(i)))*/ {
+										b = true;
+									}							
+								}
+							} else
+								b = true;
+							if(!b)
+								vars.add(var.getName());
+							b = false;
+						}
+					}
+				}
+				addVars = false;
+			}
+		}
+		
+		JavaVariables jv = null;
+		for (Shape shape : getDiagram().getChildren()) {
+			Object obj = getBusinessObjectForPictogramElement(shape); 
+			if (obj instanceof JavaVariables) {
+				jv = (JavaVariables) obj;
+			} 
+		}
+		
+		Iterator<JavaVariable> itr = jv.getVariables().iterator();
+		while(itr.hasNext()) {
+			JavaVariable variable = itr.next();
+			boolean b = false;
+			if(variable.getKind() == VariableKind.GLOBAL || variable.getKind() == VariableKind.GLOBAL_PARAM) {
+				for(int i = 0; i < vars.size() ; i++) {
+					if(variable.getName().substring(variable.getName().trim().lastIndexOf(' ')).equals(vars.get(i).substring(vars.get(i).trim().lastIndexOf(' ')))) {// || ("static " + variable.getName()).equals(vars.get(i))) {
+						b = true;										
+					}							
+				}
+			} else
+				b = true;
+			if(!b)
+				vars.add(variable.getName());
+			b = false;
+		}
+		
+		//StringBuffer globalVariables = new StringBuffer();
+		//vars.forEach(e -> {globalVariables.append("\tprivate " + e + ";\n");});
+		//return globalVariables.toString();
+		return vars;
+	}
+	
+	private void writeFile(String location, String code, MethodSignature signature, String className, String globalVariables) {
+		
+		//StringBuffer globalVariables = new StringBuffer();
+		//globalVariables.forEach(e -> {globalVariables.append("\tprivate " + e + ";\n");});
+		// globalVariables.toString();
+		StringBuffer newCode = new StringBuffer();
+		newCode.setLength(0);
 		File javaFile = new File(location);
 		try {
 			if (!javaFile.exists()) {
 				javaFile.createNewFile();
+			} else {
+				newCode = ConstructCodeBlock.editCodeBlockForExport(code, javaFile, signature, globalVariables);
 			}
+			
 			FileWriter fw = new FileWriter(javaFile);
 			BufferedWriter bw = new BufferedWriter(fw);
-
-			bw.write(code);
+			
+			if(newCode.length() == 0) {
+				if(globalVariables.isEmpty())
+					bw.write("public class " + className + "{\n\n" + code + "\n}"); 
+				else {
+					bw.write("public class " + className + "{\n\n" + globalVariables + "\n" + code + "\n}");
+				}
+			}
+			else {
+				newCode.append("\n}");
+				bw.write(newCode.toString());
+			}
+			
 			bw.close();
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
 			IPath iLocation = Path.fromOSString(javaFile.getAbsolutePath());
@@ -98,7 +322,7 @@ public class PrintFormulaFeature extends MyAbstractAsynchronousCustomFeature {
 			e.printStackTrace();
 		} catch (CoreException e) {
 			e.printStackTrace();
-		}
+		} 	
 	}
 
 	// private void printFormula(CbCFormula formula) {

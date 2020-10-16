@@ -10,6 +10,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
@@ -74,6 +75,7 @@ public class VerifyVariant2 extends MyAbstractAsynchronousCustomFeature {
 				JavaVariables vars = null;
 				GlobalConditions conds = null;
 				Renaming renaming = null;
+				MethodClass javaClass = null;
 				for (Shape shape : getDiagram().getChildren()) {
 					Object obj = getBusinessObjectForPictogramElement(shape);
 					if (obj instanceof JavaVariables) {
@@ -82,6 +84,8 @@ public class VerifyVariant2 extends MyAbstractAsynchronousCustomFeature {
 						conds = (GlobalConditions) obj;
 					} else if (obj instanceof Renaming) {
 						renaming = (Renaming) obj;
+					} else if (obj instanceof MethodClass) {
+						javaClass = (MethodClass) obj;
 					}
 				}
 				boolean prove = false;
@@ -102,7 +106,7 @@ public class VerifyVariant2 extends MyAbstractAsynchronousCustomFeature {
 
 				}
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(code)) {
-					prove = ProveWithKey.proveVariant2WithKey(code, invariant, guard, variant, vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
+					prove = ProveWithKey.proveVariant2WithKey(code, invariant, guard, variant, javaClass, vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
 				} else {
 					Console.println("Statement is not in correct format.");
 				}

@@ -29,6 +29,10 @@ public interface RepetitionStatement extends AbstractStatement {
 	/**
 	 * Returns the value of the '<em><b>Guard</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Guard</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Guard</em>' containment reference.
 	 * @see #setGuard(Condition)
@@ -51,6 +55,10 @@ public interface RepetitionStatement extends AbstractStatement {
 	/**
 	 * Returns the value of the '<em><b>Invariant</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Invariant</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Invariant</em>' containment reference.
 	 * @see #setInvariant(Condition)
@@ -73,6 +81,10 @@ public interface RepetitionStatement extends AbstractStatement {
 	/**
 	 * Returns the value of the '<em><b>Start Statement</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Start Statement</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Start Statement</em>' containment reference.
 	 * @see #setStartStatement(AbstractStatement)
@@ -95,6 +107,10 @@ public interface RepetitionStatement extends AbstractStatement {
 	/**
 	 * Returns the value of the '<em><b>Variant</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Variant</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Variant</em>' containment reference.
 	 * @see #setVariant(Variant)
@@ -117,6 +133,10 @@ public interface RepetitionStatement extends AbstractStatement {
 	/**
 	 * Returns the value of the '<em><b>Loop Statement</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Loop Statement</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Loop Statement</em>' containment reference.
 	 * @see #setLoopStatement(AbstractStatement)
@@ -139,6 +159,10 @@ public interface RepetitionStatement extends AbstractStatement {
 	/**
 	 * Returns the value of the '<em><b>End Statement</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>End Statement</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>End Statement</em>' containment reference.
 	 * @see #setEndStatement(AbstractStatement)
@@ -161,6 +185,10 @@ public interface RepetitionStatement extends AbstractStatement {
 	/**
 	 * Returns the value of the '<em><b>Variant Proven</b></em>' attribute.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Variant Proven</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Variant Proven</em>' attribute.
 	 * @see #setVariantProven(boolean)

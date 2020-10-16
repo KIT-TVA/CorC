@@ -13,6 +13,12 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="compositionTechnique" eType="#//CompositionTechnique"
         defaultValueLiteral="CONTRACT_OVERRIDING"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="TaxMethod" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Condition">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -133,6 +139,10 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="refinements" eType="#//MethodRefinements"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodsignature" eType="#//MethodSignature"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodClass" eType="#//MethodClass"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StrengthWeakStatement" eSuperTypes="#//AbstractStatement"/>
   <eClassifiers xsi:type="ecore:EClass" name="MethodRefinements">
@@ -143,6 +153,9 @@
     <eLiterals name="LOCAL" literal="LOCAL"/>
     <eLiterals name="PARAM" value="1" literal="PARAM"/>
     <eLiterals name="RETURN" value="2" literal="RETURN"/>
+    <eLiterals name="GLOBAL" value="3"/>
+    <eLiterals name="GLOBAL_PARAM" value="4" literal="GLOBAL_PARAM"/>
+    <eLiterals name="RETURNPARAM" value="5"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="CompositionTechnique">
     <eLiterals name="CONTRACT_OVERRIDING"/>
@@ -151,5 +164,11 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ProductVariant">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="refinementChain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodSignature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodSignature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodClass">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodClass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>
