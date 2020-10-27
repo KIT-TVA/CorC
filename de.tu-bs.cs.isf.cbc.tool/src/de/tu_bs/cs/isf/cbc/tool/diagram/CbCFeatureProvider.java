@@ -87,16 +87,16 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 		addPattern(new RenamePattern());
 		addPattern(new MethodRefinementsPattern());
 		addPattern(new ProductVariantPattern());
-		addPattern(new VariantPattern());
 		addPattern(new ClassPattern());
 		addPattern(new MethodSignaturePattern());
+		addPattern(new VariantPattern()); //this one is remove by getCreateFeatures() below
 		addConnectionPattern(new ConnectionPattern());
 	}
 
 	@Override
 	public ICreateFeature[] getCreateFeatures() {
 		ICreateFeature[] oldArray = super.getCreateFeatures();
-		ICreateFeature[] array = new ICreateFeature[oldArray.length + 1];
+		ICreateFeature[] array = new ICreateFeature[oldArray.length];
 		for (int i = 0; i < oldArray.length; i++) {
 			array[i] = oldArray[i];
 		}
