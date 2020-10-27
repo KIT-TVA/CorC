@@ -36,7 +36,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
-import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyAbstractAsynchronousCustomFeature;
 
 
 /**

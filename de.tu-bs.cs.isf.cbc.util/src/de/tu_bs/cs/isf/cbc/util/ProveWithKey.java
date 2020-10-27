@@ -588,18 +588,6 @@ public class ProveWithKey {
 		return toRename;
 	}
 
-	private static String useRenamingCondition(de.tu_bs.cs.isf.taxonomy.model.taxonomy.Renaming renaming,
-			String toRename) {
-		for (de.tu_bs.cs.isf.taxonomy.model.taxonomy.Rename rename : renaming.getRenames()) {
-			if (rename.getType().equalsIgnoreCase("boolean")) {
-				toRename = toRename.replaceAll(rename.getNewName(), "TRUE=" + rename.getFunction());
-			} else {
-				toRename = toRename.replaceAll(rename.getNewName(), rename.getFunction());
-			}
-		}
-		return toRename;
-	}
-
 	private static String useRenamingStatement(Renaming renaming, String toRename) {
 		for (Rename rename : renaming.getRename()) {
 			toRename = toRename.replaceAll(rename.getNewName(), rename.getFunction());
@@ -977,62 +965,6 @@ public class ProveWithKey {
 		String problem = "\\javaSource \"" + thisProject.getLocation() + "/\";" + "\\programVariables {"
 				+ programVariablesString + " Heap heapAtPre;}" + "\\problem {(" + preParentString + " "
 				+ globalConditionsString + ") -> {heapAtPre := heap} (" + preChildString + ")}";
-
-		String location = thisProject.getLocation() + "/features/" + uri.segment(uri.segmentCount()-3) + "/prove" + uri.trimFileExtension().lastSegment();
-		File keyFile = FileUtil.writeFile(problem, location, numberFile, override);
-		return keyFile;
-	}
-
-	public static boolean provePreImplPreWithKey(String preParent, String preChild,
-			de.tu_bs.cs.isf.taxonomy.model.taxonomy.JavaVariables vars,
-			de.tu_bs.cs.isf.taxonomy.model.taxonomy.GlobalConditions conds,
-			de.tu_bs.cs.isf.taxonomy.model.taxonomy.Renaming renaming, URI uri, IProgressMonitor monitor) {
-		File location = createProvePreImplPreWithKey(preParent, preChild, vars, conds, renaming, uri, 0, true);
-		Console.println("  Verify PreParent -> PreChild");
-		return proveWithKey(location, monitor, false);
-	}
-
-	public static boolean provePostImplPostWithKey(String postParent, String postChild,
-			de.tu_bs.cs.isf.taxonomy.model.taxonomy.JavaVariables vars,
-			de.tu_bs.cs.isf.taxonomy.model.taxonomy.GlobalConditions conds,
-			de.tu_bs.cs.isf.taxonomy.model.taxonomy.Renaming renaming, URI uri, IProgressMonitor monitor) {
-		File location = createProvePreImplPreWithKey(postChild, postParent, vars, conds, renaming, uri, 0, true);
-		Console.println("  Verify PostChild -> PostParent");
-		return proveWithKey(location, monitor, false);
-	}
-
-	public static File createProvePreImplPreWithKey(String preParent, String preChild,
-			de.tu_bs.cs.isf.taxonomy.model.taxonomy.JavaVariables vars,
-			de.tu_bs.cs.isf.taxonomy.model.taxonomy.GlobalConditions conds,
-			de.tu_bs.cs.isf.taxonomy.model.taxonomy.Renaming renaming, URI uri, int numberFile, boolean override) {
-
-		String programVariablesString = "";
-		if (vars != null) {
-			for (de.tu_bs.cs.isf.taxonomy.model.taxonomy.JavaVariable var : vars.getVariables()) {
-				programVariablesString += var.getName() + "; ";
-			}
-		}
-
-		String globalConditionsString = "";
-		if (conds != null) {
-			for (de.tu_bs.cs.isf.taxonomy.model.taxonomy.Condition cond : conds.getConditions()) {
-				if (!cond.getName().isEmpty()) {
-					globalConditionsString += " & " + cond.getName();
-				}
-			}
-		}
-
-		IProject thisProject = FileUtil.getProject(uri);
-
-		if (renaming != null) {
-			globalConditionsString = useRenamingCondition(renaming, globalConditionsString);
-			preParent = useRenamingCondition(renaming, preParent);
-			preChild = useRenamingCondition(renaming, preChild);
-		}
-
-		String problem = "\\javaSource \"" + thisProject.getLocation() + "/\";" + "\\programVariables {"
-				+ programVariablesString + "}" + "\\problem {(" + preParent + " " + globalConditionsString + ") -> ("
-				+ preChild + ")}";
 
 		String location = thisProject.getLocation() + "/features/" + uri.segment(uri.segmentCount()-3) + "/prove" + uri.trimFileExtension().lastSegment();
 		File keyFile = FileUtil.writeFile(problem, location, numberFile, override);

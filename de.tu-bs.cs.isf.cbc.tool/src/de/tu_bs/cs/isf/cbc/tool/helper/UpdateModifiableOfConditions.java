@@ -16,9 +16,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
+import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Parser;
 import de.tu_bs.cs.isf.cbc.util.ParserException;
-import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies;
 
 public class UpdateModifiableOfConditions {
 	private static Condition currentPost = null;

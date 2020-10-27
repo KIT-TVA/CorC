@@ -9,7 +9,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyInputDialog;
 
 /**
  * @author Tobias

@@ -1,15 +1,11 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -20,8 +16,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -34,24 +28,19 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
-import de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
+import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import de.tu_bs.cs.isf.cbc.util.Parser;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
-import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyAbstractAsynchronousCustomFeature;
-import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies;
 
 public class VerifyStatementInlining extends MyAbstractAsynchronousCustomFeature{
 

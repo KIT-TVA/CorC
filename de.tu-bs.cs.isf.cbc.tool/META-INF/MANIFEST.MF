@@ -20,10 +20,7 @@ Require-Bundle: org.eclipse.graphiti,
  org.eclipse.emf.common,
  org.eclipse.draw2d;bundle-version="3.10.100",
  org.emftext.language.java,
- org.eclipse.jdt.core,
- de.tu-bs.cs.isf.taxonomy.model
-Import-Package: de.tu_bs.cs.isf.taxonomy.graphiti.features,
- de.tu_bs.cs.isf.toolkit.support.compare,
- org.eclipse.jdt.core.dom,
+ org.eclipse.jdt.core
+Import-Package: org.eclipse.jdt.core.dom,
  org.emftext.language.java.resource.java.util
 Export-Package: de.tu_bs.cs.isf.cbc.tool.helper
