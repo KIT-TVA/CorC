@@ -11,14 +11,11 @@ import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.pattern.DefaultFeatureProviderWithPatterns;
 
-import de.tu_bs.cs.isf.cbc.tool.features.AddPseudoCodeToMethodFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.ChangeNameOfAssociatedClassFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.ChangeNameOfAssociatedMethodFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.ChangeNameOfFormulaFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.CreateExtraSelectionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.DeleteConnectionFeature;
-import de.tu_bs.cs.isf.cbc.tool.features.DrillDownFeature;
-import de.tu_bs.cs.isf.cbc.tool.features.DrillUpFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.EditCommentFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.EditCompositionTechniqueOfFormula;
 import de.tu_bs.cs.isf.cbc.tool.features.ExtractMethodStubsFeature;
@@ -36,8 +33,6 @@ import de.tu_bs.cs.isf.cbc.tool.features.RenameStatementFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameVariableFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameVariantFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyAllStatements;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyCompleteRepetition;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyMethodStatementAndSubFormula;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyPostRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyPreRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyPreSelectionStatement;
@@ -52,20 +47,16 @@ import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveRepetitionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveSelectionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.intermediate.BelowImplementationFeature;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ClassPattern;
-import de.tu_bs.cs.isf.cbc.tool.patterns.Composition3Pattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.CompositionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConditionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConnectionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.FormulaPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.GlobalConditionsPattern;
-import de.tu_bs.cs.isf.cbc.tool.patterns.MethodPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.MethodRefinementsPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.MethodSignaturePattern;
-import de.tu_bs.cs.isf.cbc.tool.patterns.MethodStatementPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ProductVariantPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.RenamePattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.RenamingPattern;
-import de.tu_bs.cs.isf.cbc.tool.patterns.RepetitionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ReturnPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.SelectionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.SkipStatementPattern;
@@ -82,16 +73,12 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 		super(dtp);
 		addPattern(new FormulaPattern());
 		addPattern(new CompositionPattern());
-		addPattern(new Composition3Pattern());
 		addPattern(new SelectionPattern());
-		addPattern(new RepetitionPattern());
 		addPattern(new SmallRepetitionPattern());
 		addPattern(new SkipStatementPattern());
-		addPattern(new MethodStatementPattern());
 		addPattern(new ReturnPattern());
 		addPattern(new StrengthWeakStatementPattern());
 		addPattern(new StatementPattern());
-		addPattern(new MethodPattern());
 		addPattern(new GlobalConditionsPattern());
 		addPattern(new ConditionPattern());
 		addPattern(new VariablesPattern());
@@ -143,7 +130,6 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	@Override
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
 		return new ICustomFeature[] { 
-				new AddPseudoCodeToMethodFeature(this), 
 				new PrintFormulaFeature(this),
 				new ExtractMethodStubsFeature(this), //!
 				new GenerateTextualRepresentation(this), 
@@ -157,10 +143,7 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 				new VerifyVariant3(this), //!
 				new EditCommentFeature(this),
 				new EditCompositionTechniqueOfFormula(this), //!
-				new DrillDownFeature(this), 
-				new DrillUpFeature(this),
 				new ChangeNameOfFormulaFeature(this), 
-				new VerifyMethodStatementAndSubFormula(this),
 				new RenameStatementFeature(this), 
 				new RenameConditionFeature(this), 
 				new RenameVariantFeature(this),
@@ -169,7 +152,6 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 				new RenameMethodClassFeature(this),
 				new RenameMethodSignatureFeature(this),
 				new LayoutFeature(this), 
-				new VerifyCompleteRepetition(this), //!
 				new GenerateIntermediateConditionFeature(this), 
 				new GenerateIntermediateConditionFeature2(this),
 	    		new ChangeNameOfAssociatedClassFeature(this),

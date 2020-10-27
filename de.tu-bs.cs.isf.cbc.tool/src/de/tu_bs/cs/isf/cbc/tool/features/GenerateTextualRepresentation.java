@@ -19,33 +19,26 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
-import de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.Composition3StatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CompositionStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.RepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
-import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 /**
  * Class that changes the abstract value of algorithms
@@ -169,46 +162,6 @@ public class GenerateTextualRepresentation extends MyAbstractAsynchronousCustomF
     		return "\"" + statement.getName() + "\"";
     }
     
-    private String printRepetitionStatement(String tabs, RepetitionStatement statement) {
-    	StringBuffer buffer = new StringBuffer();
-    	buffer.append("{\n" + tabs + "\t");
-    	if (statement.getStartStatement().getRefinement() != null) {
-    		buffer.append(chooseStatement(tabs + "\t", statement.getStartStatement()));
-    	} else {
-    		buffer.append("\"" + statement.getStartStatement().getName() + "\"");
-    	}
-    	buffer.append("\n" + tabs + "}\n");
-    	
-    	buffer.append(tabs + "intm: [\"" + statement.getInvariant().getName() + "\"]\n");
-    	
-    	buffer.append(tabs + "{\n" + tabs + "\t");
-    	buffer.append("{\n" + tabs + "\t\t");
-		buffer.append("while (\"" + statement.getGuard().getName() + "\") do\n");
-		buffer.append(tabs + "\t\t" + "inv: [\"" + statement.getInvariant().getName() + "\"]");
-		buffer.append(" var: [\"" + statement.getVariant().getName() + "\"]\n");
-		buffer.append(tabs + "\t\t" + "{\n"+ tabs + "\t\t\t");
-		if (statement.getLoopStatement().getRefinement() != null) {
-			buffer.append(chooseStatement(tabs + "\t\t\t", statement.getLoopStatement()));
-    	} else {
-    		buffer.append("\"" + statement.getLoopStatement().getName() + "\"");
-    	}
-    	buffer.append("\n" + tabs + "\t\t" + "} od");
-    	buffer.append("\n" + tabs + "\t" + "}\n");
-    	
-    	buffer.append(tabs + "\t" + "intm: [\"(" + statement.getInvariant().getName() + ") & !(" + statement.getGuard().getName() + ")\"]\n");
-    	
-    	buffer.append(tabs + "\t" + "{\n" + tabs + "\t\t");
-    	if (statement.getEndStatement().getRefinement() != null) {
-    		buffer.append(chooseStatement(tabs + "\t\t", statement.getEndStatement()));
-    	} else {
-    		buffer.append("\"" + statement.getEndStatement().getName() + "\"");
-    	}
-    	buffer.append("\n" + tabs + "\t" + "}");
-    	buffer.append("\n" + tabs + "}");
-    	return buffer.toString();
-    	
-    }
-    
     private String printSmallRepetitionStatement(String tabs, SmallRepetitionStatement statement) {
     	StringBuffer buffer = new StringBuffer();
 		buffer.append("while (\"" + statement.getGuard().getName() + "\") do\n");
@@ -291,60 +244,20 @@ public class GenerateTextualRepresentation extends MyAbstractAsynchronousCustomF
     	return buffer.toString();
 	}
     
-    private String printComposition3Statement(String tabs, Composition3Statement statement) {
-    	StringBuffer buffer = new StringBuffer();
-    	buffer.append("{\n" + tabs + "\t");
-    	if (statement.getFirstStatement().getRefinement() != null) {
-    		buffer.append(chooseStatement(tabs + "\t", statement.getFirstStatement()));
-    	} else {
-    		buffer.append("\"" + statement.getFirstStatement().getName() + "\"");
-    	}
-    	buffer.append("\n" + tabs + "}\n");
-    	buffer.append(tabs + "intm: [\"" + statement.getFirstIntermediateCondition().getName() + "\"]\n");
-    	
-    	buffer.append(tabs + "{\n" + tabs + "\t");
-    	buffer.append("{\n" + tabs + "\t\t");
-    	if (statement.getSecondStatement().getRefinement() != null) {
-    		buffer.append(chooseStatement(tabs + "\t\t", statement.getSecondStatement()));
-    	} else {
-    		buffer.append("\"" + statement.getSecondStatement().getName() + "\"");
-    	}
-    	buffer.append("\n" + tabs + "\t" + "}\n");
-    	
-    	buffer.append(tabs +"\t" + "intm: [\"" + statement.getFirstIntermediateCondition().getName() + "\"]\n");
-    	
-    	buffer.append(tabs + "\t" + "{\n" + tabs + "\t\t");
-    	if (statement.getThirdStatement().getRefinement() != null) {
-    		buffer.append(chooseStatement(tabs + "\t\t", statement.getThirdStatement()));
-    	} else {
-    		buffer.append("\"" + statement.getThirdStatement().getName() + "\"");
-    	}
-    	buffer.append("\n" + tabs + "\t" + "}");
-    	buffer.append("\n" + tabs + "}");
-    	return buffer.toString();
-    }
-    
-    
     private String chooseStatement(String tabs, AbstractStatement statement) {
     	statement = statement.getRefinement();
     	if (statement.getClass().equals(AbstractStatementImpl.class)) {
     		return printAbstractStatement(tabs, statement);
     	} else if (statement.getClass().equals(SkipStatementImpl.class)) {
     		return printSkipStatement(tabs, (SkipStatement) statement);
-    	} else if (statement.getClass().equals(MethodStatementImpl.class)) {
-    		return printMethodStatement(tabs, (MethodStatement) statement);
     	} else if (statement.getClass().equals(ReturnStatementImpl.class)) {
     		return printReturnStatement(tabs, (ReturnStatement) statement);
     	} else if (statement.getClass().equals(SelectionStatementImpl.class)) {
     		return printSelectionStatement(tabs, (SelectionStatement) statement);
     	} else if (statement.getClass().equals(CompositionStatementImpl.class)) {
     		return printCompositionStatement(tabs, (CompositionStatement) statement);
-    	} else if (statement.getClass().equals(RepetitionStatementImpl.class)) {
-    		return printRepetitionStatement(tabs, (RepetitionStatement) statement);
     	} else if (statement.getClass().equals(SmallRepetitionStatementImpl.class)) {
     		return printSmallRepetitionStatement(tabs, (SmallRepetitionStatement) statement);
-    	} else if (statement.getClass().equals(Composition3StatementImpl.class)) {
-    		return printComposition3Statement(tabs, (Composition3Statement) statement);
     	} else if (statement.getClass().equals(StrengthWeakStatementImpl.class)) {
     		return printStrengthWeakStatement(tabs, (StrengthWeakStatement) statement);
     	} else {

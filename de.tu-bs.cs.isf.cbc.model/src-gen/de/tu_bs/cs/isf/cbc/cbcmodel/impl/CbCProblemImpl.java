@@ -7,7 +7,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Method;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
@@ -30,7 +29,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getMethod <em>Method</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getGlobalcondition <em>Globalcondition</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getCbcformula <em>Cbcformula</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getJavaVariable <em>Java Variable</em>}</li>
@@ -43,16 +41,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * @generated
  */
 public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCProblem {
-	/**
-	 * The cached value of the '{@link #getMethod() <em>Method</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMethod()
-	 * @generated
-	 * @ordered
-	 */
-	protected Method method;
-
 	/**
 	 * The cached value of the '{@link #getGlobalcondition() <em>Globalcondition</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -147,52 +135,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public Method getMethod() {
-		return method;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetMethod(Method newMethod, NotificationChain msgs) {
-		Method oldMethod = method;
-		method = newMethod;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CPROBLEM__METHOD, oldMethod, newMethod);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setMethod(Method newMethod) {
-		if (newMethod != method) {
-			NotificationChain msgs = null;
-			if (method != null)
-				msgs = ((InternalEObject)method).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - CbcmodelPackage.CB_CPROBLEM__METHOD, null, msgs);
-			if (newMethod != null)
-				msgs = ((InternalEObject)newMethod).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - CbcmodelPackage.CB_CPROBLEM__METHOD, null, msgs);
-			msgs = basicSetMethod(newMethod, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CPROBLEM__METHOD, newMethod, newMethod));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public GlobalConditions getGlobalcondition() {
 		return globalcondition;
 	}
@@ -217,7 +159,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setGlobalcondition(GlobalConditions newGlobalcondition) {
 		if (newGlobalcondition != globalcondition) {
 			NotificationChain msgs = null;
@@ -237,7 +178,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public CbCFormula getCbcformula() {
 		return cbcformula;
 	}
@@ -262,7 +202,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setCbcformula(CbCFormula newCbcformula) {
 		if (newCbcformula != cbcformula) {
 			NotificationChain msgs = null;
@@ -282,7 +221,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public JavaVariables getJavaVariable() {
 		return javaVariable;
 	}
@@ -307,7 +245,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setJavaVariable(JavaVariables newJavaVariable) {
 		if (newJavaVariable != javaVariable) {
 			NotificationChain msgs = null;
@@ -327,7 +264,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Renaming getRenaming() {
 		return renaming;
 	}
@@ -352,7 +288,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setRenaming(Renaming newRenaming) {
 		if (newRenaming != renaming) {
 			NotificationChain msgs = null;
@@ -372,7 +307,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public MethodRefinements getRefinements() {
 		return refinements;
 	}
@@ -397,7 +331,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setRefinements(MethodRefinements newRefinements) {
 		if (newRefinements != refinements) {
 			NotificationChain msgs = null;
@@ -417,7 +350,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public MethodSignature getMethodsignature() {
 		return methodsignature;
 	}
@@ -442,7 +374,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setMethodsignature(MethodSignature newMethodsignature) {
 		if (newMethodsignature != methodsignature) {
 			NotificationChain msgs = null;
@@ -462,7 +393,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public MethodClass getMethodClass() {
 		return methodClass;
 	}
@@ -487,7 +417,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setMethodClass(MethodClass newMethodClass) {
 		if (newMethodClass != methodClass) {
 			NotificationChain msgs = null;
@@ -510,8 +439,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case CbcmodelPackage.CB_CPROBLEM__METHOD:
-				return basicSetMethod(null, msgs);
 			case CbcmodelPackage.CB_CPROBLEM__GLOBALCONDITION:
 				return basicSetGlobalcondition(null, msgs);
 			case CbcmodelPackage.CB_CPROBLEM__CBCFORMULA:
@@ -538,8 +465,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case CbcmodelPackage.CB_CPROBLEM__METHOD:
-				return getMethod();
 			case CbcmodelPackage.CB_CPROBLEM__GLOBALCONDITION:
 				return getGlobalcondition();
 			case CbcmodelPackage.CB_CPROBLEM__CBCFORMULA:
@@ -566,9 +491,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case CbcmodelPackage.CB_CPROBLEM__METHOD:
-				setMethod((Method)newValue);
-				return;
 			case CbcmodelPackage.CB_CPROBLEM__GLOBALCONDITION:
 				setGlobalcondition((GlobalConditions)newValue);
 				return;
@@ -602,9 +524,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case CbcmodelPackage.CB_CPROBLEM__METHOD:
-				setMethod((Method)null);
-				return;
 			case CbcmodelPackage.CB_CPROBLEM__GLOBALCONDITION:
 				setGlobalcondition((GlobalConditions)null);
 				return;
@@ -638,8 +557,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case CbcmodelPackage.CB_CPROBLEM__METHOD:
-				return method != null;
 			case CbcmodelPackage.CB_CPROBLEM__GLOBALCONDITION:
 				return globalcondition != null;
 			case CbcmodelPackage.CB_CPROBLEM__CBCFORMULA:

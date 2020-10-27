@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethod <em>Method</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getGlobalcondition <em>Globalcondition</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getCbcformula <em>Cbcformula</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getJavaVariable <em>Java Variable</em>}</li>
@@ -28,32 +27,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface CbCProblem extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Method</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Method</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Method</em>' containment reference.
-	 * @see #setMethod(Method)
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getCbCProblem_Method()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Method getMethod();
-
-	/**
-	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethod <em>Method</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Method</em>' containment reference.
-	 * @see #getMethod()
-	 * @generated
-	 */
-	void setMethod(Method value);
-
 	/**
 	 * Returns the value of the '<em><b>Globalcondition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

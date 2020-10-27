@@ -105,20 +105,6 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CbcmodelPackage.REPETITION_STATEMENT: {
-				RepetitionStatement repetitionStatement = (RepetitionStatement)theEObject;
-				T result = caseRepetitionStatement(repetitionStatement);
-				if (result == null) result = caseAbstractStatement(repetitionStatement);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case CbcmodelPackage.METHOD_STATEMENT: {
-				MethodStatement methodStatement = (MethodStatement)theEObject;
-				T result = caseMethodStatement(methodStatement);
-				if (result == null) result = caseAbstractStatement(methodStatement);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case CbcmodelPackage.VARIANT: {
 				Variant variant = (Variant)theEObject;
 				T result = caseVariant(variant);
@@ -129,19 +115,6 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 				ReturnStatement returnStatement = (ReturnStatement)theEObject;
 				T result = caseReturnStatement(returnStatement);
 				if (result == null) result = caseAbstractStatement(returnStatement);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case CbcmodelPackage.METHOD: {
-				Method method = (Method)theEObject;
-				T result = caseMethod(method);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case CbcmodelPackage.COMPOSITION3_STATEMENT: {
-				Composition3Statement composition3Statement = (Composition3Statement)theEObject;
-				T result = caseComposition3Statement(composition3Statement);
-				if (result == null) result = caseAbstractStatement(composition3Statement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -314,36 +287,6 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Repetition Statement</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Repetition Statement</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseRepetitionStatement(RepetitionStatement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Method Statement</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Method Statement</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseMethodStatement(MethodStatement object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Variant</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -370,36 +313,6 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseReturnStatement(ReturnStatement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Method</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Method</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseMethod(Method object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Composition3 Statement</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Composition3 Statement</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseComposition3Statement(Composition3Statement object) {
 		return null;
 	}
 

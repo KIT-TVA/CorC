@@ -27,6 +27,10 @@ public interface MethodRefinements extends EObject {
 	 * Returns the value of the '<em><b>Productvariants</b></em>' containment reference list.
 	 * The list contents are of type {@link de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant}.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Productvariants</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Productvariants</em>' containment reference list.
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getMethodRefinements_Productvariants()

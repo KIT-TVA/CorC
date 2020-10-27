@@ -8,29 +8,21 @@ import java.util.LinkedList;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
-import de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.Composition3StatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CompositionStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.RepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
-
-
-import org.eclipse.core.resources.IProject;
 
 
 public class ConstructCodeBlock {
@@ -48,9 +40,7 @@ public class ConstructCodeBlock {
 		withInvariants = false;
 		StringBuffer code = new StringBuffer();
 
-		if (statement instanceof RepetitionStatement) {
-			code.append(constructRepetition((RepetitionStatement) statement));
-		} else if (statement instanceof SmallRepetitionStatement) {
+		if (statement instanceof SmallRepetitionStatement) {
 			code.append(constructSmallRepetition((SmallRepetitionStatement) statement));
 		}
 		return code.toString();
@@ -61,14 +51,7 @@ public class ConstructCodeBlock {
 		withInvariants = false;
 		StringBuffer code = new StringBuffer();
 
-		if (statement instanceof RepetitionStatement) {
-			RepetitionStatement repStatement = (RepetitionStatement) statement;
-			if (repStatement.getLoopStatement().getRefinement() != null) {
-				code.append(constructCodeBlockOfChildStatement(repStatement.getLoopStatement().getRefinement()));
-			} else {
-				code.append(constructCodeBlockOfChildStatement(repStatement.getLoopStatement()));
-			}
-		} else if (statement instanceof SmallRepetitionStatement) {
+		if (statement instanceof SmallRepetitionStatement) {
 			SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;
 			if (repStatement.getLoopStatement().getRefinement() != null) {
 				code.append(constructCodeBlockOfChildStatement(repStatement.getLoopStatement().getRefinement()));
@@ -85,14 +68,7 @@ public class ConstructCodeBlock {
 		withInvariants = false;
 		StringBuffer code = new StringBuffer();
 
-		if (statement instanceof RepetitionStatement) {
-			RepetitionStatement repStatement = (RepetitionStatement) statement;
-			if (repStatement.getLoopStatement().getRefinement() != null) {
-				code.append(constructCodeBlockOfChildStatement(repStatement.getLoopStatement().getRefinement()));
-			} else {
-				code.append(constructCodeBlockOfChildStatement(repStatement.getLoopStatement()));
-			}
-		} else if (statement instanceof SmallRepetitionStatement) {
+		if (statement instanceof SmallRepetitionStatement) {
 			SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;
 			if (repStatement.getLoopStatement().getRefinement() != null) {
 				code.append(constructCodeBlockOfChildStatement(repStatement.getLoopStatement().getRefinement()));
@@ -361,17 +337,12 @@ public class ConstructCodeBlock {
 		if (refinement.getClass().equals(AbstractStatementImpl.class)) {
 			return extractMethodNameFromStatement(refinement.getName());
 		} else if (refinement.getClass().equals(SkipStatementImpl.class)
-				|| refinement.getClass().equals(ReturnStatementImpl.class)
-				|| refinement.getClass().equals(MethodStatementImpl.class)) {
+				|| refinement.getClass().equals(ReturnStatementImpl.class)) {
 			return "";
 		} else if (refinement.getClass().equals(SelectionStatementImpl.class)) {
 			return traverseSelection((SelectionStatement) refinement);
 		} else if (refinement.getClass().equals(CompositionStatementImpl.class)) {
 			return traverseComposition((CompositionStatement) refinement);
-		} else if (refinement.getClass().equals(Composition3StatementImpl.class)) {
-			return traverseComposition3((Composition3Statement) refinement);
-		} else if (refinement.getClass().equals(RepetitionStatementImpl.class)) {
-			return traverseRepetition((RepetitionStatement) refinement);
 		} else if (refinement.getClass().equals(SmallRepetitionStatementImpl.class)) {
 			return traverseSmallRepetition((SmallRepetitionStatement) refinement);
 		} else if (refinement.getClass().equals(StrengthWeakStatementImpl.class)) {
@@ -506,16 +477,10 @@ public class ConstructCodeBlock {
 				return returnString; 
 			}
 			return "return " + refinement.getName() + "\n";
-		} else if (refinement.getClass().equals(MethodStatementImpl.class)) {
-			return refinement.getName() + "\n";
 		} else if (refinement.getClass().equals(SelectionStatementImpl.class)) {
 			return constructSelection((SelectionStatement) refinement);
 		} else if (refinement.getClass().equals(CompositionStatementImpl.class)) {
 			return constructComposition((CompositionStatement) refinement);
-		} else if (refinement.getClass().equals(Composition3StatementImpl.class)) {
-			return constructComposition3((Composition3Statement) refinement);
-		} else if (refinement.getClass().equals(RepetitionStatementImpl.class)) {
-			return constructRepetition((RepetitionStatement) refinement);
 		} else if (refinement.getClass().equals(SmallRepetitionStatementImpl.class)) {
 			return constructSmallRepetition((SmallRepetitionStatement) refinement);
 		} else if (refinement.getClass().equals(StrengthWeakStatementImpl.class)) {
@@ -678,157 +643,7 @@ public class ConstructCodeBlock {
 		}
 		return buffer.toString();
 	}
-
-	private static String constructComposition3(Composition3Statement statement) {
-		StringBuffer buffer = new StringBuffer();
-		
-		if (statement.getFirstStatement().getRefinement() != null) {
-			buffer.append(constructCodeBlockOfChildStatement(statement.getFirstStatement().getRefinement()));
-		} else {
-			buffer.append(constructCodeBlockOfChildStatement(statement.getFirstStatement()));
-		}
-		
-		for (int i = 0; i < positionIndex; i++) {
-			buffer.append("\t");
-		}
-		
-		if (statement.getSecondStatement().getRefinement() != null) {
-			buffer.append(constructCodeBlockOfChildStatement(statement.getSecondStatement().getRefinement()));
-		} else {
-			buffer.append(constructCodeBlockOfChildStatement(statement.getSecondStatement()));
-		}
-		
-		for (int i = 0; i < positionIndex; i++) {
-			buffer.append("\t");
-		}
-		
-		if (statement.getThirdStatement().getRefinement() != null) {
-			buffer.append(constructCodeBlockOfChildStatement(statement.getThirdStatement().getRefinement()));
-		} else {
-			buffer.append(constructCodeBlockOfChildStatement(statement.getThirdStatement()));
-		}
-		
-		return buffer.toString();
-	}
-
-	private static String traverseComposition3(Composition3Statement statement) {
-		StringBuffer buffer = new StringBuffer();
-		if (statement.getFirstStatement().getRefinement() != null) {
-			buffer.append(constructMethodStubOfChildStatement(statement.getFirstStatement().getRefinement()));
-		} else {
-			buffer.append(constructMethodStubOfChildStatement(statement.getFirstStatement()));
-		}
-		if (statement.getSecondStatement().getRefinement() != null) {
-			buffer.append(constructMethodStubOfChildStatement(statement.getSecondStatement().getRefinement()));
-		} else {
-			buffer.append(constructMethodStubOfChildStatement(statement.getSecondStatement()));
-		}
-		if (statement.getThirdStatement().getRefinement() != null) {
-			buffer.append(constructMethodStubOfChildStatement(statement.getThirdStatement().getRefinement()));
-		} else {
-			buffer.append(constructMethodStubOfChildStatement(statement.getThirdStatement()));
-		}
-		return buffer.toString();
-	}
-
-	private static String constructRepetition(RepetitionStatement statement) {
-		StringBuffer buffer = new StringBuffer();
-		
-		if (handleInnerLoops) {
-			
-			if (statement.getStartStatement().getRefinement() != null) {
-				buffer.append(constructCodeBlockOfChildStatement(statement.getStartStatement().getRefinement()));
-			} else {
-				buffer.append(constructCodeBlockOfChildStatement(statement.getStartStatement()));
-			}
-			
-			if (withInvariants) {
-				String invariant = statement.getInvariant().getName();
-				invariant = Parser.rewriteConditionToJML(invariant);
-				//invariant = useRenamingCondition(invariant);
-				
-				for (int i = 0; i < positionIndex; i++) {
-					buffer.append("\t");
-				}
-				buffer.append("//@ loop_invariant " + invariant.replaceAll("\\r\\n", "") + ";\n");
-				
-				for (int i = 0; i < positionIndex; i++) {
-					buffer.append("\t");
-				}
-				buffer.append("//@ decreases " + statement.getVariant().getName() + ";\n");
-			}
-			
-			String guard = statement.getGuard().getName();
-
-			// guard = guard.replaceAll("\\s=\\s", "==");
-			guard = rewriteGuardToJavaCode(guard);
-			
-			for (int i = 0; i < positionIndex; i++) {
-				buffer.append("\t");
-			}
-			
-			if(guard.trim().equals("TRUE"))
-				guard = "true";
-			if(guard.trim().equals("FALSE"))
-				guard = "false";
-			
-			buffer.append("while (" + guard + "){\n");
-			
-			positionIndex++;
-			for (int i = 0; i < positionIndex; i++) {
-				buffer.append("\t");
-			}
-			
-			if (statement.getLoopStatement().getRefinement() != null) {
-				buffer.append(constructCodeBlockOfChildStatement(statement.getLoopStatement().getRefinement()));
-			} else {
-				buffer.append(constructCodeBlockOfChildStatement(statement.getLoopStatement()));
-			}
-			
-			positionIndex--;
-			for (int i = 0; i < positionIndex; i++) {
-				buffer.append("\t");
-			}
-			buffer.append("}\n");
-			
-			for (int i = 0; i < positionIndex; i++) {
-				buffer.append("\t");
-			}
-			
-			if (statement.getEndStatement().getRefinement() != null) {
-				buffer.append(constructCodeBlockOfChildStatement(statement.getEndStatement().getRefinement()));
-			} else {
-				buffer.append(constructCodeBlockOfChildStatement(statement.getEndStatement()));
-			}
-			
-		}
-		
-		return buffer.toString();
-	}
-
-	private static String traverseRepetition(RepetitionStatement statement) {
-		StringBuffer buffer = new StringBuffer();
-		if (handleInnerLoops) {
-			if (statement.getStartStatement().getRefinement() != null) {
-				buffer.append(constructMethodStubOfChildStatement(statement.getStartStatement().getRefinement()));
-			} else {
-				buffer.append(constructMethodStubOfChildStatement(statement.getStartStatement()));
-			}
-
-			if (statement.getLoopStatement().getRefinement() != null) {
-				buffer.append(constructMethodStubOfChildStatement(statement.getLoopStatement().getRefinement()));
-			} else {
-				buffer.append(constructMethodStubOfChildStatement(statement.getLoopStatement()));
-			}
-			if (statement.getEndStatement().getRefinement() != null) {
-				buffer.append(constructMethodStubOfChildStatement(statement.getEndStatement().getRefinement()));
-			} else {
-				buffer.append(constructMethodStubOfChildStatement(statement.getEndStatement()));
-			}
-		}
-		return buffer.toString();
-	}
-
+	
 	private static String constructSmallRepetition(SmallRepetitionStatement statement) {
 		StringBuffer buffer = new StringBuffer();
 		if (handleInnerLoops) {

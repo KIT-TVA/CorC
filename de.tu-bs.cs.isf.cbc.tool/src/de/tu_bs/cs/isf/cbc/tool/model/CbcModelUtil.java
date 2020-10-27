@@ -18,12 +18,11 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Method;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 
 public class CbcModelUtil {
@@ -31,11 +30,6 @@ public class CbcModelUtil {
 	public static void saveFormulaToModelFile(final CbCFormula formula, final Diagram d) throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(formula);
-	}
-	
-	public static void saveMethodToModelFile(final Method method, final Diagram d) throws CoreException, IOException {
-		Resource resource = getResource(d);
-		resource.getContents().add(method);
 	}
 	
 	public static void saveVariablesToModelFile(final JavaVariables variables, final Diagram d) throws CoreException, IOException {

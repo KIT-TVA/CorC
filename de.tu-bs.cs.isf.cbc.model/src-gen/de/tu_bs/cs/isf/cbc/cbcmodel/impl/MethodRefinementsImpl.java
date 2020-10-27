@@ -68,7 +68,6 @@ public class MethodRefinementsImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EList<ProductVariant> getProductvariants() {
 		if (productvariants == null) {
 			productvariants = new EObjectContainmentEList<ProductVariant>(ProductVariant.class, this, CbcmodelPackage.METHOD_REFINEMENTS__PRODUCTVARIANTS);
