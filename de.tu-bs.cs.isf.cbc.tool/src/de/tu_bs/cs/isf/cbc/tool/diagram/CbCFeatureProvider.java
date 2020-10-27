@@ -52,9 +52,7 @@ import de.tu_bs.cs.isf.cbc.tool.patterns.ConditionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConnectionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.FormulaPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.GlobalConditionsPattern;
-import de.tu_bs.cs.isf.cbc.tool.patterns.MethodRefinementsPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.MethodSignaturePattern;
-import de.tu_bs.cs.isf.cbc.tool.patterns.ProductVariantPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.RenamePattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.RenamingPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ReturnPattern;
@@ -85,8 +83,6 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 		addPattern(new VariablePattern());
 		addPattern(new RenamingPattern());
 		addPattern(new RenamePattern());
-		addPattern(new MethodRefinementsPattern());
-		addPattern(new ProductVariantPattern());
 		addPattern(new ClassPattern());
 		addPattern(new MethodSignaturePattern());
 		addPattern(new VariantPattern()); //this one is remove by getCreateFeatures() below

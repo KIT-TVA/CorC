@@ -132,14 +132,6 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 				return createStrengthWeakStatementAdapter();
 			}
 			@Override
-			public Adapter caseMethodRefinements(MethodRefinements object) {
-				return createMethodRefinementsAdapter();
-			}
-			@Override
-			public Adapter caseProductVariant(ProductVariant object) {
-				return createProductVariantAdapter();
-			}
-			@Override
 			public Adapter caseMethodSignature(MethodSignature object) {
 				return createMethodSignatureAdapter();
 			}
@@ -388,34 +380,6 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createStrengthWeakStatementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements <em>Method Refinements</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements
-	 * @generated
-	 */
-	public Adapter createMethodRefinementsAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant <em>Product Variant</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant
-	 * @generated
-	 */
-	public Adapter createProductVariantAdapter() {
 		return null;
 	}
 

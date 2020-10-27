@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getCbcformula <em>Cbcformula</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getJavaVariable <em>Java Variable</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getRenaming <em>Renaming</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getRefinements <em>Refinements</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethodsignature <em>Methodsignature</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethodClass <em>Method Class</em>}</li>
  * </ul>
@@ -130,32 +129,6 @@ public interface CbCProblem extends EObject {
 	 * @generated
 	 */
 	void setRenaming(Renaming value);
-
-	/**
-	 * Returns the value of the '<em><b>Refinements</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Refinements</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Refinements</em>' containment reference.
-	 * @see #setRefinements(MethodRefinements)
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getCbCProblem_Refinements()
-	 * @model containment="true"
-	 * @generated
-	 */
-	MethodRefinements getRefinements();
-
-	/**
-	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getRefinements <em>Refinements</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Refinements</em>' containment reference.
-	 * @see #getRefinements()
-	 * @generated
-	 */
-	void setRefinements(MethodRefinements value);
 
 	/**
 	 * Returns the value of the '<em><b>Methodsignature</b></em>' containment reference.
