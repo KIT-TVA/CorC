@@ -26,7 +26,6 @@ import de.tu_bs.cs.isf.cbc.tool.features.GenerateIntermediateConditionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.GenerateIntermediateConditionFeature2;
 import de.tu_bs.cs.isf.cbc.tool.features.GenerateTextualRepresentation;
 import de.tu_bs.cs.isf.cbc.tool.features.LayoutFeature;
-import de.tu_bs.cs.isf.cbc.tool.features.OpenTaxFileFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.PrintFormulaFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.ReconnectionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameConditionFeature;
@@ -180,7 +179,6 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	    		new AboveSelectionFeature(this),
 	    		new AboveRepetitionFeature(this),
 	    		new BelowImplementationFeature(this),
-	    		new OpenTaxFileFeature(this),
 	    		new VerifyAllStatements(this),
 				new VerifyStatementInlining(this)};
 	}

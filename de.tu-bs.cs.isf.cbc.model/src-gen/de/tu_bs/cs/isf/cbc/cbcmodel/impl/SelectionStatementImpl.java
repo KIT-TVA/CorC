@@ -252,7 +252,7 @@ public class SelectionStatementImpl extends AbstractStatementImpl implements Sel
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (preProve: ");
 		result.append(preProve);
 		result.append(')');

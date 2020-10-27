@@ -51,8 +51,41 @@
    
    
    
+    <extension point="org.eclipse.ui.commands">
+     <category id="de.tu_bs.cs.isf.commands.toolbar.category1" name="DropDown Examples">
+     </category>
+     <command categoryId="de.tu_bs.cs.isf.commands.toolbar.category1" defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateModelAndDiagramHandler"  
+              id="de.tu_bs.cs.isf.commands.toolbar.command2" name="Drop">
+        <commandParameter id="de.tu_bs.cs.isf.commands.toolbar.msg" name="Message" optional="true">
+        </commandParameter>
+     </command>
+  </extension>
   
+     <extension point="org.eclipse.ui.menus">
+     <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+        <toolbar id="de.tu_bs.cs.isf.commands.toolbar.toolbar">
+           <command commandId="de.tu_bs.cs.isf.commands.toolbar.command2" id="de.tu_bs.cs.isf.commands.toolbar.command2" style="pulldown" 
+                    icon="icons/GenerateDiagramAndModel2.png"
+                    tooltip="Generate model and diagram">
+           </command>
+        </toolbar>
+     </menuContribution>
+  </extension>
   
+  <extension point="org.eclipse.ui.menus">
+     <menuContribution locationURI="menu:de.tu_bs.cs.isf.commands.toolbar.command2">
+        <command commandId="de.tu_bs.cs.isf.commands.toolbar.command2" label="With contract" style="push">
+           <parameter name="de.tu_bs.cs.isf.commands.toolbar.msg" value="Contract">
+           </parameter>
+        </command>
+        <separator name="additions" visible="false">
+        </separator>
+        <command commandId="de.tu_bs.cs.isf.commands.toolbar.command2" label="Without contract" style="push">
+           <parameter name="de.tu_bs.cs.isf.commands.toolbar.msg" value="NoContract">
+           </parameter>
+        </command>
+     </menuContribution>
+  </extension>
   
   
 

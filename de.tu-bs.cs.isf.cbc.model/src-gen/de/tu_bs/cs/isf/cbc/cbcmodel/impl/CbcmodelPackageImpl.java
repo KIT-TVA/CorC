@@ -256,7 +256,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 *
+	 * 
 	 * <p>This method is used to initialize {@link CbcmodelPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -270,8 +270,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		if (isInited) return (CbcmodelPackage)EPackage.Registry.INSTANCE.getEPackage(CbcmodelPackage.eNS_URI);
 
 		// Obtain or create and register package
-		Object registeredCbcmodelPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
-		CbcmodelPackageImpl theCbcmodelPackage = registeredCbcmodelPackage instanceof CbcmodelPackageImpl ? (CbcmodelPackageImpl)registeredCbcmodelPackage : new CbcmodelPackageImpl();
+		CbcmodelPackageImpl theCbcmodelPackage = (CbcmodelPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof CbcmodelPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new CbcmodelPackageImpl());
 
 		isInited = true;
 
@@ -284,6 +283,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		// Mark meta-data to indicate it can't be changed
 		theCbcmodelPackage.freeze();
 
+  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(CbcmodelPackage.eNS_URI, theCbcmodelPackage);
 		return theCbcmodelPackage;
