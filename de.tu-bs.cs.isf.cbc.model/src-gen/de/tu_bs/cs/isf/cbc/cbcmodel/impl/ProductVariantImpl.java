@@ -70,7 +70,6 @@ public class ProductVariantImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getRefinementChain() {
 		return refinementChain;
 	}
@@ -80,7 +79,6 @@ public class ProductVariantImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setRefinementChain(String newRefinementChain) {
 		String oldRefinementChain = refinementChain;
 		refinementChain = newRefinementChain;

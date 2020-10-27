@@ -160,7 +160,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public AbstractStatement getLoopStatement() {
 		return loopStatement;
 	}
@@ -185,7 +184,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setLoopStatement(AbstractStatement newLoopStatement) {
 		if (newLoopStatement != loopStatement) {
 			NotificationChain msgs = null;
@@ -205,7 +203,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Variant getVariant() {
 		return variant;
 	}
@@ -230,7 +227,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setVariant(Variant newVariant) {
 		if (newVariant != variant) {
 			NotificationChain msgs = null;
@@ -250,7 +246,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Condition getInvariant() {
 		return invariant;
 	}
@@ -275,7 +270,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setInvariant(Condition newInvariant) {
 		if (newInvariant != invariant) {
 			NotificationChain msgs = null;
@@ -295,7 +289,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Condition getGuard() {
 		return guard;
 	}
@@ -320,7 +313,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setGuard(Condition newGuard) {
 		if (newGuard != guard) {
 			NotificationChain msgs = null;
@@ -340,7 +332,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public boolean isVariantProven() {
 		return variantProven;
 	}
@@ -350,7 +341,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setVariantProven(boolean newVariantProven) {
 		boolean oldVariantProven = variantProven;
 		variantProven = newVariantProven;
@@ -363,7 +353,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public boolean isPreProven() {
 		return preProven;
 	}
@@ -373,7 +362,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setPreProven(boolean newPreProven) {
 		boolean oldPreProven = preProven;
 		preProven = newPreProven;
@@ -386,7 +374,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public boolean isPostProven() {
 		return postProven;
 	}
@@ -396,7 +383,6 @@ public class SmallRepetitionStatementImpl extends AbstractStatementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setPostProven(boolean newPostProven) {
 		boolean oldPostProven = postProven;
 		postProven = newPostProven;

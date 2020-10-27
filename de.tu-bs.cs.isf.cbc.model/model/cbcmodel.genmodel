@@ -56,31 +56,10 @@
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//SelectionStatement/commands"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//SelectionStatement/preProve"/>
     </genClasses>
-    <genClasses ecoreClass="cbcmodel.ecore#//RepetitionStatement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//RepetitionStatement/guard"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//RepetitionStatement/invariant"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//RepetitionStatement/startStatement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//RepetitionStatement/variant"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//RepetitionStatement/loopStatement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//RepetitionStatement/endStatement"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//RepetitionStatement/variantProven"/>
-    </genClasses>
-    <genClasses ecoreClass="cbcmodel.ecore#//MethodStatement"/>
     <genClasses ecoreClass="cbcmodel.ecore#//Variant">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Variant/name"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//ReturnStatement"/>
-    <genClasses ecoreClass="cbcmodel.ecore#//Method">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Method/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Method/code"/>
-    </genClasses>
-    <genClasses ecoreClass="cbcmodel.ecore#//Composition3Statement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Composition3Statement/thirdStatement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Composition3Statement/secondStatement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Composition3Statement/firstStatement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Composition3Statement/secondIntermediateCondition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Composition3Statement/firstIntermediateCondition"/>
-    </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//SmallRepetitionStatement">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//SmallRepetitionStatement/loopStatement"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//SmallRepetitionStatement/variant"/>
@@ -110,7 +89,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Rename/newName"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//CbCProblem">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/method"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/globalcondition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/cbcformula"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/javaVariable"/>

@@ -21,12 +21,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.Composition3StatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CompositionStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
@@ -168,10 +165,8 @@ public class ConditionPattern extends IdPattern implements IPattern {
 			if (domainObject.eContainer().getClass().equals(AbstractStatementImpl.class)
 					|| domainObject.eContainer().getClass().equals(SkipStatementImpl.class)
 					|| domainObject.eContainer().getClass().equals(ReturnStatementImpl.class)
-					|| domainObject.eContainer().getClass().equals(MethodStatementImpl.class)
 					|| domainObject.eContainer().getClass().equals(StrengthWeakStatementImpl.class)
-					|| domainObject.eContainer().getClass().equals(CompositionStatementImpl.class)
-					|| domainObject.eContainer().getClass().equals(Composition3StatementImpl.class)) {
+					|| domainObject.eContainer().getClass().equals(CompositionStatementImpl.class)) {
 				nameText.setValue("{" + domainObject.getName() + "}");
 			} else {
 				nameText.setValue(domainObject.getName());
@@ -192,14 +187,7 @@ public class ConditionPattern extends IdPattern implements IPattern {
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		if (domainObject instanceof Condition && ga instanceof MultiText) {
 			Condition condition = ((Condition) domainObject);
-			if (condition.eContainer() instanceof MethodStatement) {
-				MethodStatement statement = (MethodStatement) condition.eContainer();
-				if (statement.getParent() == null) {
-					return true;
-				} else {
-					return false;
-				}
-			} else if (condition.eContainer() instanceof AbstractStatement) {
+			if (condition.eContainer() instanceof AbstractStatement) {
 				AbstractStatement statement = (AbstractStatement) condition.eContainer();
 				if (statement.eContainer() instanceof CbCFormula || statement instanceof StrengthWeakStatement) {
 					return true;

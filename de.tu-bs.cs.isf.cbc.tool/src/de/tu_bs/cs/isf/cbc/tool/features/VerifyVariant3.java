@@ -12,10 +12,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
-import de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.RepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
@@ -54,7 +52,7 @@ public class VerifyVariant3 extends MyAbstractAsynchronousCustomFeature {
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
-			if (bo != null && (bo.getClass().equals(RepetitionStatementImpl.class) || bo.getClass().equals(SmallRepetitionStatementImpl.class))) {
+			if (bo != null && (bo.getClass().equals(SmallRepetitionStatementImpl.class))) {
 				ret = true;
 			}
 		}
@@ -90,12 +88,7 @@ public class VerifyVariant3 extends MyAbstractAsynchronousCustomFeature {
 				Condition invariant = null;
 				Condition guard = null;
 				Variant variant = null;
-				if (statement instanceof RepetitionStatement) {
-					RepetitionStatement repStatement = (RepetitionStatement) statement;
-					invariant = repStatement.getInvariant();
-					guard = repStatement.getGuard();
-					variant = repStatement.getVariant();
-				} else if (statement instanceof SmallRepetitionStatement) {
+				if (statement instanceof SmallRepetitionStatement) {
 					SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;
 					invariant = repStatement.getInvariant();
 					guard = repStatement.getGuard();
@@ -108,18 +101,12 @@ public class VerifyVariant3 extends MyAbstractAsynchronousCustomFeature {
 //					Console.println("Statement is not in correct format.");
 //				}
 				if (prove) {
-					if (statement instanceof RepetitionStatement) {
-						RepetitionStatement repStatement = (RepetitionStatement) statement;
-						repStatement.setVariantProven(true);
-					} else if (statement instanceof SmallRepetitionStatement) {
+					if (statement instanceof SmallRepetitionStatement) {
 						SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;
 						repStatement.setVariantProven(true);
 					}
 				} else {
-					if (statement instanceof RepetitionStatement) {
-						RepetitionStatement repStatement = (RepetitionStatement) statement;
-						repStatement.setVariantProven(false);
-					} else if (statement instanceof SmallRepetitionStatement) {
+					if (statement instanceof SmallRepetitionStatement) {
 						SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;
 						repStatement.setVariantProven(false);
 					}

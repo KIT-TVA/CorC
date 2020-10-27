@@ -29,7 +29,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
@@ -65,7 +64,7 @@ public class VerifyStatementInlining extends MyAbstractAsynchronousCustomFeature
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
 			if (bo != null && (bo.getClass().equals(AbstractStatementImpl.class) || bo instanceof SkipStatement
-					|| bo instanceof ReturnStatement || bo instanceof MethodStatement)) {
+					|| bo instanceof ReturnStatement)) {
 				AbstractStatement statement = (AbstractStatement) bo;
 				if (statement.getRefinement() == null) {										
 					ret = true;

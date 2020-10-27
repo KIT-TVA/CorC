@@ -234,7 +234,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -244,7 +243,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -257,7 +255,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public AbstractStatement getStatement() {
 		return statement;
 	}
@@ -282,7 +279,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setStatement(AbstractStatement newStatement) {
 		if (newStatement != statement) {
 			NotificationChain msgs = null;
@@ -302,7 +298,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Condition getPreCondition() {
 		return preCondition;
 	}
@@ -327,7 +322,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setPreCondition(Condition newPreCondition) {
 		if (newPreCondition != preCondition) {
 			NotificationChain msgs = null;
@@ -347,7 +341,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Condition getPostCondition() {
 		return postCondition;
 	}
@@ -372,7 +365,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setPostCondition(Condition newPostCondition) {
 		if (newPostCondition != postCondition) {
 			NotificationChain msgs = null;
@@ -392,7 +384,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public boolean isProven() {
 		return proven;
 	}
@@ -402,7 +393,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setProven(boolean newProven) {
 		boolean oldProven = proven;
 		proven = newProven;
@@ -415,7 +405,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getComment() {
 		return comment;
 	}
@@ -425,7 +414,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setComment(String newComment) {
 		String oldComment = comment;
 		comment = newComment;
@@ -438,7 +426,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public CompositionTechnique getCompositionTechnique() {
 		return compositionTechnique;
 	}
@@ -448,7 +435,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setCompositionTechnique(CompositionTechnique newCompositionTechnique) {
 		CompositionTechnique oldCompositionTechnique = compositionTechnique;
 		compositionTechnique = newCompositionTechnique == null ? COMPOSITION_TECHNIQUE_EDEFAULT : newCompositionTechnique;
@@ -461,7 +447,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getTaxMethod() {
 		return taxMethod;
 	}
@@ -471,7 +456,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setTaxMethod(String newTaxMethod) {
 		String oldTaxMethod = taxMethod;
 		taxMethod = newTaxMethod;
@@ -484,7 +468,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getClassName() {
 		return className;
 	}
@@ -494,7 +477,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setClassName(String newClassName) {
 		String oldClassName = className;
 		className = newClassName;
@@ -507,7 +489,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getMethodName() {
 		return methodName;
 	}
@@ -517,7 +498,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setMethodName(String newMethodName) {
 		String oldMethodName = methodName;
 		methodName = newMethodName;

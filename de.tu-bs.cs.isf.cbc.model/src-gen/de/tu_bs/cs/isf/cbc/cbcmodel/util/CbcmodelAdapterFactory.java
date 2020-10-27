@@ -92,28 +92,12 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 				return createSelectionStatementAdapter();
 			}
 			@Override
-			public Adapter caseRepetitionStatement(RepetitionStatement object) {
-				return createRepetitionStatementAdapter();
-			}
-			@Override
-			public Adapter caseMethodStatement(MethodStatement object) {
-				return createMethodStatementAdapter();
-			}
-			@Override
 			public Adapter caseVariant(Variant object) {
 				return createVariantAdapter();
 			}
 			@Override
 			public Adapter caseReturnStatement(ReturnStatement object) {
 				return createReturnStatementAdapter();
-			}
-			@Override
-			public Adapter caseMethod(Method object) {
-				return createMethodAdapter();
-			}
-			@Override
-			public Adapter caseComposition3Statement(Composition3Statement object) {
-				return createComposition3StatementAdapter();
 			}
 			@Override
 			public Adapter caseSmallRepetitionStatement(SmallRepetitionStatement object) {
@@ -268,34 +252,6 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement <em>Repetition Statement</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement
-	 * @generated
-	 */
-	public Adapter createRepetitionStatementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement <em>Method Statement</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement
-	 * @generated
-	 */
-	public Adapter createMethodStatementAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Variant <em>Variant</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -320,34 +276,6 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createReturnStatementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Method <em>Method</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Method
-	 * @generated
-	 */
-	public Adapter createMethodAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement <em>Composition3 Statement</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement
-	 * @generated
-	 */
-	public Adapter createComposition3StatementAdapter() {
 		return null;
 	}
 

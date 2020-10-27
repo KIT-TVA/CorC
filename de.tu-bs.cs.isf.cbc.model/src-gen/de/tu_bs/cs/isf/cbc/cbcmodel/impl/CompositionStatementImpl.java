@@ -85,7 +85,6 @@ public class CompositionStatementImpl extends AbstractStatementImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public AbstractStatement getFirstStatement() {
 		return firstStatement;
 	}
@@ -110,7 +109,6 @@ public class CompositionStatementImpl extends AbstractStatementImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setFirstStatement(AbstractStatement newFirstStatement) {
 		if (newFirstStatement != firstStatement) {
 			NotificationChain msgs = null;
@@ -130,7 +128,6 @@ public class CompositionStatementImpl extends AbstractStatementImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public AbstractStatement getSecondStatement() {
 		return secondStatement;
 	}
@@ -155,7 +152,6 @@ public class CompositionStatementImpl extends AbstractStatementImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setSecondStatement(AbstractStatement newSecondStatement) {
 		if (newSecondStatement != secondStatement) {
 			NotificationChain msgs = null;
@@ -175,7 +171,6 @@ public class CompositionStatementImpl extends AbstractStatementImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Condition getIntermediateCondition() {
 		return intermediateCondition;
 	}
@@ -200,7 +195,6 @@ public class CompositionStatementImpl extends AbstractStatementImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setIntermediateCondition(Condition newIntermediateCondition) {
 		if (newIntermediateCondition != intermediateCondition) {
 			NotificationChain msgs = null;

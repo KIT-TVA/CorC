@@ -4,11 +4,8 @@ import org.eclipse.emf.ecore.EObject;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
@@ -20,8 +17,8 @@ public class UpdateConditionsOfChildren {
 
 	public static void updateConditionsofChildren(Condition condition) {
 		AbstractStatement statement = (AbstractStatement) condition.eContainer();
-		if (statement instanceof CompositionStatement || statement instanceof Composition3Statement
-				|| statement instanceof RepetitionStatement || statement instanceof SmallRepetitionStatement
+		if (statement instanceof CompositionStatement
+				|| statement instanceof SmallRepetitionStatement
 				|| statement instanceof SelectionStatement) {
 			if (statement.getParent() != null) {
 				updateRefinedStatement(statement.getParent(), statement);
@@ -72,80 +69,7 @@ public class UpdateConditionsOfChildren {
 			if (secondStatement.getRefinement() != null) {
 				updateRefinedStatement(secondStatement, secondStatement.getRefinement());
 			}
-
-		} else if (refinedStatement instanceof Composition3Statement) {
-			Composition3Statement childCompo = (Composition3Statement) refinedStatement;
-			AbstractStatement firstStatement = childCompo.getFirstStatement();
-			AbstractStatement secondStatement = childCompo.getSecondStatement();
-			AbstractStatement thirdStatement = childCompo.getThirdStatement();
-
-			if (!firstStatement.getPreCondition().getName().equals(preParent.getName())
-					|| !firstStatement.getPostCondition().getName()
-							.equals(childCompo.getFirstIntermediateCondition().getName())
-					|| !secondStatement.getPreCondition().getName()
-							.equals(childCompo.getFirstIntermediateCondition().getName())
-					|| !secondStatement.getPostCondition().getName()
-							.equals(childCompo.getSecondIntermediateCondition().getName())
-					|| !thirdStatement.getPreCondition().getName()
-							.equals(childCompo.getSecondIntermediateCondition().getName())
-					|| !thirdStatement.getPostCondition().getName().equals(postParent.getName())) {
-				refinedStatement.setProven(false);
-			}
-
-			firstStatement.getPreCondition().setName(preParent.getName());
-			firstStatement.getPostCondition().setName(childCompo.getFirstIntermediateCondition().getName());
-			secondStatement.getPreCondition().setName(childCompo.getFirstIntermediateCondition().getName());
-			secondStatement.getPostCondition().setName(childCompo.getSecondIntermediateCondition().getName());
-			thirdStatement.getPreCondition().setName(childCompo.getSecondIntermediateCondition().getName());
-			thirdStatement.getPostCondition().setName(postParent.getName());
-
-			if (firstStatement.getRefinement() != null) {
-				updateRefinedStatement(firstStatement, firstStatement.getRefinement());
-			}
-			if (secondStatement.getRefinement() != null) {
-				updateRefinedStatement(secondStatement, secondStatement.getRefinement());
-			}
-			if (thirdStatement.getRefinement() != null) {
-				updateRefinedStatement(thirdStatement, thirdStatement.getRefinement());
-			}
-
-		} else if (refinedStatement instanceof RepetitionStatement) {
-			RepetitionStatement childRep = (RepetitionStatement) refinedStatement;
-			AbstractStatement startStatement = childRep.getStartStatement();
-			AbstractStatement loopStatement = childRep.getLoopStatement();
-			AbstractStatement endStatement = childRep.getEndStatement();
-
-			if (!startStatement.getPreCondition().getName().equals(preParent.getName())
-					|| !startStatement.getPostCondition().getName().equals(childRep.getInvariant().getName())
-					|| !loopStatement.getPreCondition().getName().equals(
-							"(" + childRep.getInvariant().getName() + ") & (" + childRep.getGuard().getName() + ")")
-					|| !loopStatement.getPostCondition().getName().equals(childRep.getInvariant().getName())
-					|| !endStatement.getPreCondition().getName().equals(
-							"(" + childRep.getInvariant().getName() + ") & !(" + childRep.getGuard().getName() + ")")
-					|| !endStatement.getPostCondition().getName().equals(postParent.getName())) {
-				refinedStatement.setProven(false);
-				childRep.setVariantProven(false);
-			}
-
-			startStatement.getPreCondition().setName(preParent.getName());
-			startStatement.getPostCondition().setName(childRep.getInvariant().getName());
-			loopStatement.getPreCondition()
-					.setName("(" + childRep.getInvariant().getName() + ") & (" + childRep.getGuard().getName() + ")");
-			loopStatement.getPostCondition().setName(childRep.getInvariant().getName());
-			endStatement.getPreCondition()
-					.setName("(" + childRep.getInvariant().getName() + ") & !(" + childRep.getGuard().getName() + ")");
-			endStatement.getPostCondition().setName(postParent.getName());
-
-			if (startStatement.getRefinement() != null) {
-				updateRefinedStatement(startStatement, startStatement.getRefinement());
-			}
-			if (loopStatement.getRefinement() != null) {
-				updateRefinedStatement(loopStatement, loopStatement.getRefinement());
-			}
-			if (endStatement.getRefinement() != null) {
-				updateRefinedStatement(endStatement, endStatement.getRefinement());
-			}
-
+			
 		} else if (refinedStatement instanceof SmallRepetitionStatement) {
 			SmallRepetitionStatement childRep = (SmallRepetitionStatement) refinedStatement;
 			AbstractStatement loopStatement = childRep.getLoopStatement();
@@ -207,17 +131,6 @@ public class UpdateConditionsOfChildren {
 					updateRefinedStatement(childStatement, childStatement.getRefinement());
 				}
 			}
-
-		} else if (refinedStatement instanceof MethodStatement) {
-			MethodStatement childAbstract = (MethodStatement) refinedStatement;
-
-			if (!childAbstract.getPreCondition().getName().equals(preParent.getName())
-					|| !childAbstract.getPostCondition().getName().equals(postParent.getName())) {
-				refinedStatement.setProven(false);
-			}
-
-			childAbstract.getPreCondition().setName(preParent.getName());
-			childAbstract.getPostCondition().setName(postParent.getName());
 
 		} else if (refinedStatement instanceof ReturnStatement) {
 			ReturnStatement childReturn = (ReturnStatement) refinedStatement;
@@ -281,45 +194,6 @@ public class UpdateConditionsOfChildren {
 			secondStatement.setProven(false);
 			if (secondStatement.getRefinement() != null) {
 				setAllStatementsUnproven(secondStatement.getRefinement());
-			}
-
-		} else if (statement instanceof Composition3Statement) {
-			Composition3Statement childCompo = (Composition3Statement) statement;
-			AbstractStatement firstStatement = childCompo.getFirstStatement();
-			AbstractStatement secondStatement = childCompo.getSecondStatement();
-			AbstractStatement thirdStatement = childCompo.getThirdStatement();
-
-			firstStatement.setProven(false);
-			if (firstStatement.getRefinement() != null) {
-				setAllStatementsUnproven(firstStatement.getRefinement());
-			}
-			secondStatement.setProven(false);
-			if (secondStatement.getRefinement() != null) {
-				setAllStatementsUnproven(secondStatement.getRefinement());
-			}
-			thirdStatement.setProven(false);
-			if (thirdStatement.getRefinement() != null) {
-				setAllStatementsUnproven(thirdStatement.getRefinement());
-			}
-
-		} else if (statement instanceof RepetitionStatement) {
-			RepetitionStatement childRep = (RepetitionStatement) statement;
-			AbstractStatement startStatement = childRep.getStartStatement();
-			AbstractStatement loopStatement = childRep.getLoopStatement();
-			AbstractStatement endStatement = childRep.getEndStatement();
-
-			childRep.setVariantProven(false);
-			startStatement.setProven(false);
-			if (startStatement.getRefinement() != null) {
-				setAllStatementsUnproven(startStatement.getRefinement());
-			}
-			loopStatement.setProven(false);
-			if (loopStatement.getRefinement() != null) {
-				setAllStatementsUnproven(loopStatement.getRefinement());
-			}
-			endStatement.setProven(false);
-			if (endStatement.getRefinement() != null) {
-				setAllStatementsUnproven(endStatement.getRefinement());
 			}
 
 		} else if (statement instanceof SmallRepetitionStatement) {

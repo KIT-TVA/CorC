@@ -631,251 +631,6 @@ public interface CbcmodelPackage extends EPackage {
 	int SELECTION_STATEMENT_OPERATION_COUNT = ABSTRACT_STATEMENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.RepetitionStatementImpl <em>Repetition Statement</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.RepetitionStatementImpl
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getRepetitionStatement()
-	 * @generated
-	 */
-	int REPETITION_STATEMENT = 6;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__NAME = ABSTRACT_STATEMENT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Refinement</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__REFINEMENT = ABSTRACT_STATEMENT__REFINEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__PARENT = ABSTRACT_STATEMENT__PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Post Condition</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__POST_CONDITION = ABSTRACT_STATEMENT__POST_CONDITION;
-
-	/**
-	 * The feature id for the '<em><b>Pre Condition</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__PRE_CONDITION = ABSTRACT_STATEMENT__PRE_CONDITION;
-
-	/**
-	 * The feature id for the '<em><b>Proven</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__PROVEN = ABSTRACT_STATEMENT__PROVEN;
-
-	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__COMMENT = ABSTRACT_STATEMENT__COMMENT;
-
-	/**
-	 * The feature id for the '<em><b>Guard</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__GUARD = ABSTRACT_STATEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Invariant</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__INVARIANT = ABSTRACT_STATEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Start Statement</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__START_STATEMENT = ABSTRACT_STATEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Variant</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__VARIANT = ABSTRACT_STATEMENT_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Loop Statement</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__LOOP_STATEMENT = ABSTRACT_STATEMENT_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>End Statement</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__END_STATEMENT = ABSTRACT_STATEMENT_FEATURE_COUNT + 5;
-
-	/**
-	 * The feature id for the '<em><b>Variant Proven</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT__VARIANT_PROVEN = ABSTRACT_STATEMENT_FEATURE_COUNT + 6;
-
-	/**
-	 * The number of structural features of the '<em>Repetition Statement</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT_FEATURE_COUNT = ABSTRACT_STATEMENT_FEATURE_COUNT + 7;
-
-	/**
-	 * The number of operations of the '<em>Repetition Statement</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPETITION_STATEMENT_OPERATION_COUNT = ABSTRACT_STATEMENT_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl <em>Method Statement</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethodStatement()
-	 * @generated
-	 */
-	int METHOD_STATEMENT = 7;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_STATEMENT__NAME = ABSTRACT_STATEMENT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Refinement</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_STATEMENT__REFINEMENT = ABSTRACT_STATEMENT__REFINEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_STATEMENT__PARENT = ABSTRACT_STATEMENT__PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Post Condition</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_STATEMENT__POST_CONDITION = ABSTRACT_STATEMENT__POST_CONDITION;
-
-	/**
-	 * The feature id for the '<em><b>Pre Condition</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_STATEMENT__PRE_CONDITION = ABSTRACT_STATEMENT__PRE_CONDITION;
-
-	/**
-	 * The feature id for the '<em><b>Proven</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_STATEMENT__PROVEN = ABSTRACT_STATEMENT__PROVEN;
-
-	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_STATEMENT__COMMENT = ABSTRACT_STATEMENT__COMMENT;
-
-	/**
-	 * The number of structural features of the '<em>Method Statement</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_STATEMENT_FEATURE_COUNT = ABSTRACT_STATEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Method Statement</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_STATEMENT_OPERATION_COUNT = ABSTRACT_STATEMENT_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.VariantImpl <em>Variant</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -883,7 +638,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getVariant()
 	 * @generated
 	 */
-	int VARIANT = 8;
+	int VARIANT = 6;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -920,7 +675,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getReturnStatement()
 	 * @generated
 	 */
-	int RETURN_STATEMENT = 9;
+	int RETURN_STATEMENT = 7;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1004,188 +759,6 @@ public interface CbcmodelPackage extends EPackage {
 	int RETURN_STATEMENT_OPERATION_COUNT = ABSTRACT_STATEMENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodImpl <em>Method</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodImpl
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethod()
-	 * @generated
-	 */
-	int METHOD = 10;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD__NAME = 0;
-
-	/**
-	 * The feature id for the '<em><b>Code</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD__CODE = 1;
-
-	/**
-	 * The number of structural features of the '<em>Method</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_FEATURE_COUNT = 2;
-
-	/**
-	 * The number of operations of the '<em>Method</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_OPERATION_COUNT = 0;
-
-	/**
-	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.Composition3StatementImpl <em>Composition3 Statement</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.Composition3StatementImpl
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getComposition3Statement()
-	 * @generated
-	 */
-	int COMPOSITION3_STATEMENT = 11;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT__NAME = ABSTRACT_STATEMENT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Refinement</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT__REFINEMENT = ABSTRACT_STATEMENT__REFINEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT__PARENT = ABSTRACT_STATEMENT__PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Post Condition</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT__POST_CONDITION = ABSTRACT_STATEMENT__POST_CONDITION;
-
-	/**
-	 * The feature id for the '<em><b>Pre Condition</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT__PRE_CONDITION = ABSTRACT_STATEMENT__PRE_CONDITION;
-
-	/**
-	 * The feature id for the '<em><b>Proven</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT__PROVEN = ABSTRACT_STATEMENT__PROVEN;
-
-	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT__COMMENT = ABSTRACT_STATEMENT__COMMENT;
-
-	/**
-	 * The feature id for the '<em><b>Third Statement</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT__THIRD_STATEMENT = ABSTRACT_STATEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Second Statement</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT__SECOND_STATEMENT = ABSTRACT_STATEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>First Statement</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT__FIRST_STATEMENT = ABSTRACT_STATEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Second Intermediate Condition</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT__SECOND_INTERMEDIATE_CONDITION = ABSTRACT_STATEMENT_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>First Intermediate Condition</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT__FIRST_INTERMEDIATE_CONDITION = ABSTRACT_STATEMENT_FEATURE_COUNT + 4;
-
-	/**
-	 * The number of structural features of the '<em>Composition3 Statement</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT_FEATURE_COUNT = ABSTRACT_STATEMENT_FEATURE_COUNT + 5;
-
-	/**
-	 * The number of operations of the '<em>Composition3 Statement</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITION3_STATEMENT_OPERATION_COUNT = ABSTRACT_STATEMENT_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl <em>Small Repetition Statement</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1193,7 +766,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getSmallRepetitionStatement()
 	 * @generated
 	 */
-	int SMALL_REPETITION_STATEMENT = 12;
+	int SMALL_REPETITION_STATEMENT = 8;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1347,7 +920,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getJavaVariables()
 	 * @generated
 	 */
-	int JAVA_VARIABLES = 13;
+	int JAVA_VARIABLES = 9;
 
 	/**
 	 * The feature id for the '<em><b>Variables</b></em>' containment reference list.
@@ -1384,7 +957,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getJavaVariable()
 	 * @generated
 	 */
-	int JAVA_VARIABLE = 14;
+	int JAVA_VARIABLE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1439,7 +1012,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getGlobalConditions()
 	 * @generated
 	 */
-	int GLOBAL_CONDITIONS = 15;
+	int GLOBAL_CONDITIONS = 11;
 
 	/**
 	 * The feature id for the '<em><b>Conditions</b></em>' containment reference list.
@@ -1476,7 +1049,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getRenaming()
 	 * @generated
 	 */
-	int RENAMING = 16;
+	int RENAMING = 12;
 
 	/**
 	 * The feature id for the '<em><b>Rename</b></em>' containment reference list.
@@ -1513,7 +1086,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getRename()
 	 * @generated
 	 */
-	int RENAME = 17;
+	int RENAME = 13;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -1568,16 +1141,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getCbCProblem()
 	 * @generated
 	 */
-	int CB_CPROBLEM = 18;
-
-	/**
-	 * The feature id for the '<em><b>Method</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CB_CPROBLEM__METHOD = 0;
+	int CB_CPROBLEM = 14;
 
 	/**
 	 * The feature id for the '<em><b>Globalcondition</b></em>' containment reference.
@@ -1586,7 +1150,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CPROBLEM__GLOBALCONDITION = 1;
+	int CB_CPROBLEM__GLOBALCONDITION = 0;
 
 	/**
 	 * The feature id for the '<em><b>Cbcformula</b></em>' containment reference.
@@ -1595,7 +1159,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CPROBLEM__CBCFORMULA = 2;
+	int CB_CPROBLEM__CBCFORMULA = 1;
 
 	/**
 	 * The feature id for the '<em><b>Java Variable</b></em>' containment reference.
@@ -1604,7 +1168,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CPROBLEM__JAVA_VARIABLE = 3;
+	int CB_CPROBLEM__JAVA_VARIABLE = 2;
 
 	/**
 	 * The feature id for the '<em><b>Renaming</b></em>' containment reference.
@@ -1613,7 +1177,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CPROBLEM__RENAMING = 4;
+	int CB_CPROBLEM__RENAMING = 3;
 
 	/**
 	 * The feature id for the '<em><b>Refinements</b></em>' containment reference.
@@ -1622,7 +1186,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CPROBLEM__REFINEMENTS = 5;
+	int CB_CPROBLEM__REFINEMENTS = 4;
 
 	/**
 	 * The feature id for the '<em><b>Methodsignature</b></em>' containment reference.
@@ -1631,7 +1195,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CPROBLEM__METHODSIGNATURE = 6;
+	int CB_CPROBLEM__METHODSIGNATURE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Method Class</b></em>' containment reference.
@@ -1640,7 +1204,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CPROBLEM__METHOD_CLASS = 7;
+	int CB_CPROBLEM__METHOD_CLASS = 6;
 
 	/**
 	 * The number of structural features of the '<em>Cb CProblem</em>' class.
@@ -1649,7 +1213,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CPROBLEM_FEATURE_COUNT = 8;
+	int CB_CPROBLEM_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>Cb CProblem</em>' class.
@@ -1668,7 +1232,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getStrengthWeakStatement()
 	 * @generated
 	 */
-	int STRENGTH_WEAK_STATEMENT = 19;
+	int STRENGTH_WEAK_STATEMENT = 15;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1759,7 +1323,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethodRefinements()
 	 * @generated
 	 */
-	int METHOD_REFINEMENTS = 20;
+	int METHOD_REFINEMENTS = 16;
 
 	/**
 	 * The feature id for the '<em><b>Productvariants</b></em>' containment reference list.
@@ -1796,7 +1360,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getProductVariant()
 	 * @generated
 	 */
-	int PRODUCT_VARIANT = 21;
+	int PRODUCT_VARIANT = 17;
 
 	/**
 	 * The feature id for the '<em><b>Refinement Chain</b></em>' attribute.
@@ -1833,7 +1397,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethodSignature()
 	 * @generated
 	 */
-	int METHOD_SIGNATURE = 22;
+	int METHOD_SIGNATURE = 18;
 
 	/**
 	 * The feature id for the '<em><b>Method Signature</b></em>' attribute.
@@ -1870,7 +1434,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethodClass()
 	 * @generated
 	 */
-	int METHOD_CLASS = 23;
+	int METHOD_CLASS = 19;
 
 	/**
 	 * The feature id for the '<em><b>Method Class</b></em>' attribute.
@@ -1907,7 +1471,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getVariableKind()
 	 * @generated
 	 */
-	int VARIABLE_KIND = 24;
+	int VARIABLE_KIND = 20;
 
 	/**
 	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique <em>Composition Technique</em>}' enum.
@@ -1917,7 +1481,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getCompositionTechnique()
 	 * @generated
 	 */
-	int COMPOSITION_TECHNIQUE = 25;
+	int COMPOSITION_TECHNIQUE = 21;
 
 
 	/**
@@ -2245,103 +1809,6 @@ public interface CbcmodelPackage extends EPackage {
 	EAttribute getSelectionStatement_PreProve();
 
 	/**
-	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement <em>Repetition Statement</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Repetition Statement</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement
-	 * @generated
-	 */
-	EClass getRepetitionStatement();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#getGuard <em>Guard</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Guard</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#getGuard()
-	 * @see #getRepetitionStatement()
-	 * @generated
-	 */
-	EReference getRepetitionStatement_Guard();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#getInvariant <em>Invariant</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Invariant</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#getInvariant()
-	 * @see #getRepetitionStatement()
-	 * @generated
-	 */
-	EReference getRepetitionStatement_Invariant();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#getStartStatement <em>Start Statement</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Start Statement</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#getStartStatement()
-	 * @see #getRepetitionStatement()
-	 * @generated
-	 */
-	EReference getRepetitionStatement_StartStatement();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#getVariant <em>Variant</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Variant</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#getVariant()
-	 * @see #getRepetitionStatement()
-	 * @generated
-	 */
-	EReference getRepetitionStatement_Variant();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#getLoopStatement <em>Loop Statement</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Loop Statement</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#getLoopStatement()
-	 * @see #getRepetitionStatement()
-	 * @generated
-	 */
-	EReference getRepetitionStatement_LoopStatement();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#getEndStatement <em>End Statement</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>End Statement</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#getEndStatement()
-	 * @see #getRepetitionStatement()
-	 * @generated
-	 */
-	EReference getRepetitionStatement_EndStatement();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#isVariantProven <em>Variant Proven</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Variant Proven</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement#isVariantProven()
-	 * @see #getRepetitionStatement()
-	 * @generated
-	 */
-	EAttribute getRepetitionStatement_VariantProven();
-
-	/**
-	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement <em>Method Statement</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Method Statement</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement
-	 * @generated
-	 */
-	EClass getMethodStatement();
-
-	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Variant <em>Variant</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2371,103 +1838,6 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getReturnStatement();
-
-	/**
-	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Method <em>Method</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Method</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Method
-	 * @generated
-	 */
-	EClass getMethod();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Method#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Method#getName()
-	 * @see #getMethod()
-	 * @generated
-	 */
-	EAttribute getMethod_Name();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Method#getCode <em>Code</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Code</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Method#getCode()
-	 * @see #getMethod()
-	 * @generated
-	 */
-	EAttribute getMethod_Code();
-
-	/**
-	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement <em>Composition3 Statement</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Composition3 Statement</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement
-	 * @generated
-	 */
-	EClass getComposition3Statement();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement#getThirdStatement <em>Third Statement</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Third Statement</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement#getThirdStatement()
-	 * @see #getComposition3Statement()
-	 * @generated
-	 */
-	EReference getComposition3Statement_ThirdStatement();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement#getSecondStatement <em>Second Statement</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Second Statement</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement#getSecondStatement()
-	 * @see #getComposition3Statement()
-	 * @generated
-	 */
-	EReference getComposition3Statement_SecondStatement();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement#getFirstStatement <em>First Statement</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>First Statement</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement#getFirstStatement()
-	 * @see #getComposition3Statement()
-	 * @generated
-	 */
-	EReference getComposition3Statement_FirstStatement();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement#getSecondIntermediateCondition <em>Second Intermediate Condition</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Second Intermediate Condition</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement#getSecondIntermediateCondition()
-	 * @see #getComposition3Statement()
-	 * @generated
-	 */
-	EReference getComposition3Statement_SecondIntermediateCondition();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement#getFirstIntermediateCondition <em>First Intermediate Condition</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>First Intermediate Condition</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement#getFirstIntermediateCondition()
-	 * @see #getComposition3Statement()
-	 * @generated
-	 */
-	EReference getComposition3Statement_FirstIntermediateCondition();
 
 	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement <em>Small Repetition Statement</em>}'.
@@ -2714,17 +2084,6 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getCbCProblem();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethod <em>Method</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Method</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethod()
-	 * @see #getCbCProblem()
-	 * @generated
-	 */
-	EReference getCbCProblem_Method();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getGlobalcondition <em>Globalcondition</em>}'.
@@ -3193,82 +2552,6 @@ public interface CbcmodelPackage extends EPackage {
 		EAttribute SELECTION_STATEMENT__PRE_PROVE = eINSTANCE.getSelectionStatement_PreProve();
 
 		/**
-		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.RepetitionStatementImpl <em>Repetition Statement</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.RepetitionStatementImpl
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getRepetitionStatement()
-		 * @generated
-		 */
-		EClass REPETITION_STATEMENT = eINSTANCE.getRepetitionStatement();
-
-		/**
-		 * The meta object literal for the '<em><b>Guard</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REPETITION_STATEMENT__GUARD = eINSTANCE.getRepetitionStatement_Guard();
-
-		/**
-		 * The meta object literal for the '<em><b>Invariant</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REPETITION_STATEMENT__INVARIANT = eINSTANCE.getRepetitionStatement_Invariant();
-
-		/**
-		 * The meta object literal for the '<em><b>Start Statement</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REPETITION_STATEMENT__START_STATEMENT = eINSTANCE.getRepetitionStatement_StartStatement();
-
-		/**
-		 * The meta object literal for the '<em><b>Variant</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REPETITION_STATEMENT__VARIANT = eINSTANCE.getRepetitionStatement_Variant();
-
-		/**
-		 * The meta object literal for the '<em><b>Loop Statement</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REPETITION_STATEMENT__LOOP_STATEMENT = eINSTANCE.getRepetitionStatement_LoopStatement();
-
-		/**
-		 * The meta object literal for the '<em><b>End Statement</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REPETITION_STATEMENT__END_STATEMENT = eINSTANCE.getRepetitionStatement_EndStatement();
-
-		/**
-		 * The meta object literal for the '<em><b>Variant Proven</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute REPETITION_STATEMENT__VARIANT_PROVEN = eINSTANCE.getRepetitionStatement_VariantProven();
-
-		/**
-		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl <em>Method Statement</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethodStatement()
-		 * @generated
-		 */
-		EClass METHOD_STATEMENT = eINSTANCE.getMethodStatement();
-
-		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.VariantImpl <em>Variant</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3295,82 +2578,6 @@ public interface CbcmodelPackage extends EPackage {
 		 * @generated
 		 */
 		EClass RETURN_STATEMENT = eINSTANCE.getReturnStatement();
-
-		/**
-		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodImpl <em>Method</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodImpl
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethod()
-		 * @generated
-		 */
-		EClass METHOD = eINSTANCE.getMethod();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute METHOD__NAME = eINSTANCE.getMethod_Name();
-
-		/**
-		 * The meta object literal for the '<em><b>Code</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute METHOD__CODE = eINSTANCE.getMethod_Code();
-
-		/**
-		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.Composition3StatementImpl <em>Composition3 Statement</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.Composition3StatementImpl
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getComposition3Statement()
-		 * @generated
-		 */
-		EClass COMPOSITION3_STATEMENT = eINSTANCE.getComposition3Statement();
-
-		/**
-		 * The meta object literal for the '<em><b>Third Statement</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference COMPOSITION3_STATEMENT__THIRD_STATEMENT = eINSTANCE.getComposition3Statement_ThirdStatement();
-
-		/**
-		 * The meta object literal for the '<em><b>Second Statement</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference COMPOSITION3_STATEMENT__SECOND_STATEMENT = eINSTANCE.getComposition3Statement_SecondStatement();
-
-		/**
-		 * The meta object literal for the '<em><b>First Statement</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference COMPOSITION3_STATEMENT__FIRST_STATEMENT = eINSTANCE.getComposition3Statement_FirstStatement();
-
-		/**
-		 * The meta object literal for the '<em><b>Second Intermediate Condition</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference COMPOSITION3_STATEMENT__SECOND_INTERMEDIATE_CONDITION = eINSTANCE.getComposition3Statement_SecondIntermediateCondition();
-
-		/**
-		 * The meta object literal for the '<em><b>First Intermediate Condition</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference COMPOSITION3_STATEMENT__FIRST_INTERMEDIATE_CONDITION = eINSTANCE.getComposition3Statement_FirstIntermediateCondition();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl <em>Small Repetition Statement</em>}' class.
@@ -3569,14 +2776,6 @@ public interface CbcmodelPackage extends EPackage {
 		 * @generated
 		 */
 		EClass CB_CPROBLEM = eINSTANCE.getCbCProblem();
-
-		/**
-		 * The meta object literal for the '<em><b>Method</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CB_CPROBLEM__METHOD = eINSTANCE.getCbCProblem_Method();
 
 		/**
 		 * The meta object literal for the '<em><b>Globalcondition</b></em>' containment reference feature.

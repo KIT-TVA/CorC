@@ -29,7 +29,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
-import de.tu_bs.cs.isf.cbc.tool.features.AddPseudoCodeToMethodFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameConditionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameMethodClassFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameMethodSignatureFeature;
@@ -83,12 +82,7 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 
 	@Override
 	public ICustomFeature getDoubleClickFeature(IDoubleClickContext context) {
-		ICustomFeature customFeature = new AddPseudoCodeToMethodFeature(getFeatureProvider());
-		// canExecute() tests especially if the context contains a Method
-		if (customFeature.canExecute(context)) {
-			return customFeature;
-		}
-		customFeature = new RenameStatementFeature(getFeatureProvider());
+		ICustomFeature customFeature = new RenameStatementFeature(getFeatureProvider());
 		if (customFeature.canExecute(context)) {
 			return customFeature;
 		}

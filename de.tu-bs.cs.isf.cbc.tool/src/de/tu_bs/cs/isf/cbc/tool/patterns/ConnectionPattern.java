@@ -21,7 +21,6 @@ import org.eclipse.graphiti.util.IColorConstant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
@@ -90,8 +89,7 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 		}
 		if (domainObject != null && (domainObject instanceof AbstractStatement || domainObject instanceof CbCFormula)) {
 			Object parentContainerObject = getBusinessObjectForPictogramElement(((Shape)context.getSourcePictogramElement()).getContainer());
-			if (parentContainerObject != null && (parentContainerObject.getClass().equals(AbstractStatementImpl.class)
-					|| parentContainerObject.getClass().equals(MethodStatementImpl.class))) {
+			if (parentContainerObject != null && (parentContainerObject.getClass().equals(AbstractStatementImpl.class))) {
 				return false;
 			}
 			if (!(context.getSourcePictogramElement() instanceof ContainerShape)) {
