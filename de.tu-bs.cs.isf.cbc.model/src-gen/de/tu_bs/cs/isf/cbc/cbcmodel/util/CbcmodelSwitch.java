@@ -168,18 +168,6 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CbcmodelPackage.METHOD_REFINEMENTS: {
-				MethodRefinements methodRefinements = (MethodRefinements)theEObject;
-				T result = caseMethodRefinements(methodRefinements);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case CbcmodelPackage.PRODUCT_VARIANT: {
-				ProductVariant productVariant = (ProductVariant)theEObject;
-				T result = caseProductVariant(productVariant);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case CbcmodelPackage.METHOD_SIGNATURE: {
 				MethodSignature methodSignature = (MethodSignature)theEObject;
 				T result = caseMethodSignature(methodSignature);
@@ -433,36 +421,6 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseStrengthWeakStatement(StrengthWeakStatement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Method Refinements</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Method Refinements</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseMethodRefinements(MethodRefinements object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Product Variant</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Product Variant</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseProductVariant(ProductVariant object) {
 		return null;
 	}
 

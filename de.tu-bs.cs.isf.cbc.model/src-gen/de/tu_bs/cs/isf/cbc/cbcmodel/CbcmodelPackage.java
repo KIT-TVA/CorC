@@ -1180,22 +1180,13 @@ public interface CbcmodelPackage extends EPackage {
 	int CB_CPROBLEM__RENAMING = 3;
 
 	/**
-	 * The feature id for the '<em><b>Refinements</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CB_CPROBLEM__REFINEMENTS = 4;
-
-	/**
 	 * The feature id for the '<em><b>Methodsignature</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CPROBLEM__METHODSIGNATURE = 5;
+	int CB_CPROBLEM__METHODSIGNATURE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Method Class</b></em>' containment reference.
@@ -1204,7 +1195,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CPROBLEM__METHOD_CLASS = 6;
+	int CB_CPROBLEM__METHOD_CLASS = 5;
 
 	/**
 	 * The number of structural features of the '<em>Cb CProblem</em>' class.
@@ -1213,7 +1204,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CPROBLEM_FEATURE_COUNT = 7;
+	int CB_CPROBLEM_FEATURE_COUNT = 6;
 
 	/**
 	 * The number of operations of the '<em>Cb CProblem</em>' class.
@@ -1316,80 +1307,6 @@ public interface CbcmodelPackage extends EPackage {
 	int STRENGTH_WEAK_STATEMENT_OPERATION_COUNT = ABSTRACT_STATEMENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodRefinementsImpl <em>Method Refinements</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodRefinementsImpl
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethodRefinements()
-	 * @generated
-	 */
-	int METHOD_REFINEMENTS = 16;
-
-	/**
-	 * The feature id for the '<em><b>Productvariants</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_REFINEMENTS__PRODUCTVARIANTS = 0;
-
-	/**
-	 * The number of structural features of the '<em>Method Refinements</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_REFINEMENTS_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>Method Refinements</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_REFINEMENTS_OPERATION_COUNT = 0;
-
-	/**
-	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.ProductVariantImpl <em>Product Variant</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.ProductVariantImpl
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getProductVariant()
-	 * @generated
-	 */
-	int PRODUCT_VARIANT = 17;
-
-	/**
-	 * The feature id for the '<em><b>Refinement Chain</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PRODUCT_VARIANT__REFINEMENT_CHAIN = 0;
-
-	/**
-	 * The number of structural features of the '<em>Product Variant</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PRODUCT_VARIANT_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>Product Variant</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PRODUCT_VARIANT_OPERATION_COUNT = 0;
-
-	/**
 	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodSignatureImpl <em>Method Signature</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1397,7 +1314,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethodSignature()
 	 * @generated
 	 */
-	int METHOD_SIGNATURE = 18;
+	int METHOD_SIGNATURE = 16;
 
 	/**
 	 * The feature id for the '<em><b>Method Signature</b></em>' attribute.
@@ -1434,7 +1351,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethodClass()
 	 * @generated
 	 */
-	int METHOD_CLASS = 19;
+	int METHOD_CLASS = 17;
 
 	/**
 	 * The feature id for the '<em><b>Method Class</b></em>' attribute.
@@ -1471,7 +1388,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getVariableKind()
 	 * @generated
 	 */
-	int VARIABLE_KIND = 20;
+	int VARIABLE_KIND = 18;
 
 	/**
 	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique <em>Composition Technique</em>}' enum.
@@ -1481,7 +1398,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getCompositionTechnique()
 	 * @generated
 	 */
-	int COMPOSITION_TECHNIQUE = 21;
+	int COMPOSITION_TECHNIQUE = 19;
 
 
 	/**
@@ -2130,17 +2047,6 @@ public interface CbcmodelPackage extends EPackage {
 	EReference getCbCProblem_Renaming();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getRefinements <em>Refinements</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Refinements</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getRefinements()
-	 * @see #getCbCProblem()
-	 * @generated
-	 */
-	EReference getCbCProblem_Refinements();
-
-	/**
 	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethodsignature <em>Methodsignature</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2171,48 +2077,6 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getStrengthWeakStatement();
-
-	/**
-	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements <em>Method Refinements</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Method Refinements</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements
-	 * @generated
-	 */
-	EClass getMethodRefinements();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements#getProductvariants <em>Productvariants</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Productvariants</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements#getProductvariants()
-	 * @see #getMethodRefinements()
-	 * @generated
-	 */
-	EReference getMethodRefinements_Productvariants();
-
-	/**
-	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant <em>Product Variant</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Product Variant</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant
-	 * @generated
-	 */
-	EClass getProductVariant();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant#getRefinementChain <em>Refinement Chain</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Refinement Chain</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant#getRefinementChain()
-	 * @see #getProductVariant()
-	 * @generated
-	 */
-	EAttribute getProductVariant_RefinementChain();
 
 	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature <em>Method Signature</em>}'.
@@ -2810,14 +2674,6 @@ public interface CbcmodelPackage extends EPackage {
 		EReference CB_CPROBLEM__RENAMING = eINSTANCE.getCbCProblem_Renaming();
 
 		/**
-		 * The meta object literal for the '<em><b>Refinements</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CB_CPROBLEM__REFINEMENTS = eINSTANCE.getCbCProblem_Refinements();
-
-		/**
 		 * The meta object literal for the '<em><b>Methodsignature</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2842,42 +2698,6 @@ public interface CbcmodelPackage extends EPackage {
 		 * @generated
 		 */
 		EClass STRENGTH_WEAK_STATEMENT = eINSTANCE.getStrengthWeakStatement();
-
-		/**
-		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodRefinementsImpl <em>Method Refinements</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodRefinementsImpl
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethodRefinements()
-		 * @generated
-		 */
-		EClass METHOD_REFINEMENTS = eINSTANCE.getMethodRefinements();
-
-		/**
-		 * The meta object literal for the '<em><b>Productvariants</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference METHOD_REFINEMENTS__PRODUCTVARIANTS = eINSTANCE.getMethodRefinements_Productvariants();
-
-		/**
-		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.ProductVariantImpl <em>Product Variant</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.ProductVariantImpl
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getProductVariant()
-		 * @generated
-		 */
-		EClass PRODUCT_VARIANT = eINSTANCE.getProductVariant();
-
-		/**
-		 * The meta object literal for the '<em><b>Refinement Chain</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute PRODUCT_VARIANT__REFINEMENT_CHAIN = eINSTANCE.getProductVariant_RefinementChain();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodSignatureImpl <em>Method Signature</em>}' class.

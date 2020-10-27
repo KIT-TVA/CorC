@@ -103,18 +103,12 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="renaming" eType="#//Renaming"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refinements" eType="#//MethodRefinements"
-        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="methodsignature" eType="#//MethodSignature"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="methodClass" eType="#//MethodClass"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StrengthWeakStatement" eSuperTypes="#//AbstractStatement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="MethodRefinements">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="productvariants" upperBound="-1"
-        eType="#//ProductVariant" containment="true"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="VariableKind">
     <eLiterals name="LOCAL" literal="LOCAL"/>
     <eLiterals name="PARAM" value="1" literal="PARAM"/>
@@ -127,9 +121,6 @@
     <eLiterals name="CONTRACT_OVERRIDING"/>
     <eLiterals name="EXPLICIT_CONTRACTING" value="1"/>
     <eLiterals name="CONJUNCTIVE_CONTRACTING" value="2" literal="CONJUNCTIVE_CONTRACTING"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ProductVariant">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="refinementChain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MethodSignature">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodSignature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

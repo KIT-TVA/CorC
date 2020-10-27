@@ -8,7 +8,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 
@@ -33,7 +32,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getCbcformula <em>Cbcformula</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getJavaVariable <em>Java Variable</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getRenaming <em>Renaming</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getRefinements <em>Refinements</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getMethodsignature <em>Methodsignature</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCProblemImpl#getMethodClass <em>Method Class</em>}</li>
  * </ul>
@@ -80,16 +78,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * @ordered
 	 */
 	protected Renaming renaming;
-
-	/**
-	 * The cached value of the '{@link #getRefinements() <em>Refinements</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRefinements()
-	 * @generated
-	 * @ordered
-	 */
-	protected MethodRefinements refinements;
 
 	/**
 	 * The cached value of the '{@link #getMethodsignature() <em>Methodsignature</em>}' containment reference.
@@ -307,49 +295,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MethodRefinements getRefinements() {
-		return refinements;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetRefinements(MethodRefinements newRefinements, NotificationChain msgs) {
-		MethodRefinements oldRefinements = refinements;
-		refinements = newRefinements;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CPROBLEM__REFINEMENTS, oldRefinements, newRefinements);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRefinements(MethodRefinements newRefinements) {
-		if (newRefinements != refinements) {
-			NotificationChain msgs = null;
-			if (refinements != null)
-				msgs = ((InternalEObject)refinements).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - CbcmodelPackage.CB_CPROBLEM__REFINEMENTS, null, msgs);
-			if (newRefinements != null)
-				msgs = ((InternalEObject)newRefinements).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - CbcmodelPackage.CB_CPROBLEM__REFINEMENTS, null, msgs);
-			msgs = basicSetRefinements(newRefinements, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CPROBLEM__REFINEMENTS, newRefinements, newRefinements));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public MethodSignature getMethodsignature() {
 		return methodsignature;
 	}
@@ -447,8 +392,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 				return basicSetJavaVariable(null, msgs);
 			case CbcmodelPackage.CB_CPROBLEM__RENAMING:
 				return basicSetRenaming(null, msgs);
-			case CbcmodelPackage.CB_CPROBLEM__REFINEMENTS:
-				return basicSetRefinements(null, msgs);
 			case CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE:
 				return basicSetMethodsignature(null, msgs);
 			case CbcmodelPackage.CB_CPROBLEM__METHOD_CLASS:
@@ -473,8 +416,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 				return getJavaVariable();
 			case CbcmodelPackage.CB_CPROBLEM__RENAMING:
 				return getRenaming();
-			case CbcmodelPackage.CB_CPROBLEM__REFINEMENTS:
-				return getRefinements();
 			case CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE:
 				return getMethodsignature();
 			case CbcmodelPackage.CB_CPROBLEM__METHOD_CLASS:
@@ -502,9 +443,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 				return;
 			case CbcmodelPackage.CB_CPROBLEM__RENAMING:
 				setRenaming((Renaming)newValue);
-				return;
-			case CbcmodelPackage.CB_CPROBLEM__REFINEMENTS:
-				setRefinements((MethodRefinements)newValue);
 				return;
 			case CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE:
 				setMethodsignature((MethodSignature)newValue);
@@ -536,9 +474,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 			case CbcmodelPackage.CB_CPROBLEM__RENAMING:
 				setRenaming((Renaming)null);
 				return;
-			case CbcmodelPackage.CB_CPROBLEM__REFINEMENTS:
-				setRefinements((MethodRefinements)null);
-				return;
 			case CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE:
 				setMethodsignature((MethodSignature)null);
 				return;
@@ -565,8 +500,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 				return javaVariable != null;
 			case CbcmodelPackage.CB_CPROBLEM__RENAMING:
 				return renaming != null;
-			case CbcmodelPackage.CB_CPROBLEM__REFINEMENTS:
-				return refinements != null;
 			case CbcmodelPackage.CB_CPROBLEM__METHODSIGNATURE:
 				return methodsignature != null;
 			case CbcmodelPackage.CB_CPROBLEM__METHOD_CLASS:

@@ -14,9 +14,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
-import de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
@@ -153,20 +151,6 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * @generated
 	 */
 	private EClass strengthWeakStatementEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass methodRefinementsEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass productVariantEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -802,7 +786,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCbCProblem_Refinements() {
+	public EReference getCbCProblem_Methodsignature() {
 		return (EReference)cbCProblemEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -811,17 +795,8 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCbCProblem_Methodsignature() {
-		return (EReference)cbCProblemEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getCbCProblem_MethodClass() {
-		return (EReference)cbCProblemEClass.getEStructuralFeatures().get(6);
+		return (EReference)cbCProblemEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -831,42 +806,6 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 */
 	public EClass getStrengthWeakStatement() {
 		return strengthWeakStatementEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getMethodRefinements() {
-		return methodRefinementsEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getMethodRefinements_Productvariants() {
-		return (EReference)methodRefinementsEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getProductVariant() {
-		return productVariantEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getProductVariant_RefinementChain() {
-		return (EAttribute)productVariantEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1025,17 +964,10 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		createEReference(cbCProblemEClass, CB_CPROBLEM__CBCFORMULA);
 		createEReference(cbCProblemEClass, CB_CPROBLEM__JAVA_VARIABLE);
 		createEReference(cbCProblemEClass, CB_CPROBLEM__RENAMING);
-		createEReference(cbCProblemEClass, CB_CPROBLEM__REFINEMENTS);
 		createEReference(cbCProblemEClass, CB_CPROBLEM__METHODSIGNATURE);
 		createEReference(cbCProblemEClass, CB_CPROBLEM__METHOD_CLASS);
 
 		strengthWeakStatementEClass = createEClass(STRENGTH_WEAK_STATEMENT);
-
-		methodRefinementsEClass = createEClass(METHOD_REFINEMENTS);
-		createEReference(methodRefinementsEClass, METHOD_REFINEMENTS__PRODUCTVARIANTS);
-
-		productVariantEClass = createEClass(PRODUCT_VARIANT);
-		createEAttribute(productVariantEClass, PRODUCT_VARIANT__REFINEMENT_CHAIN);
 
 		methodSignatureEClass = createEClass(METHOD_SIGNATURE);
 		createEAttribute(methodSignatureEClass, METHOD_SIGNATURE__METHOD_SIGNATURE);
@@ -1158,17 +1090,10 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		initEReference(getCbCProblem_Cbcformula(), this.getCbCFormula(), null, "cbcformula", null, 1, 1, CbCProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCbCProblem_JavaVariable(), this.getJavaVariables(), null, "javaVariable", null, 0, 1, CbCProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCbCProblem_Renaming(), this.getRenaming(), null, "renaming", null, 0, 1, CbCProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCbCProblem_Refinements(), this.getMethodRefinements(), null, "refinements", null, 0, 1, CbCProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCbCProblem_Methodsignature(), this.getMethodSignature(), null, "methodsignature", null, 0, 1, CbCProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCbCProblem_MethodClass(), this.getMethodClass(), null, "methodClass", null, 0, 1, CbCProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(strengthWeakStatementEClass, StrengthWeakStatement.class, "StrengthWeakStatement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(methodRefinementsEClass, MethodRefinements.class, "MethodRefinements", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMethodRefinements_Productvariants(), this.getProductVariant(), null, "productvariants", null, 0, -1, MethodRefinements.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(productVariantEClass, ProductVariant.class, "ProductVariant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getProductVariant_RefinementChain(), ecorePackage.getEString(), "refinementChain", null, 0, 1, ProductVariant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(methodSignatureEClass, MethodSignature.class, "MethodSignature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMethodSignature_MethodSignature(), ecorePackage.getEString(), "methodSignature", null, 0, 1, MethodSignature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

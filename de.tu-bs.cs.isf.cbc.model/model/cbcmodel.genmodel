@@ -93,17 +93,10 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/cbcformula"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/javaVariable"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/renaming"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/refinements"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/methodsignature"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/methodClass"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//StrengthWeakStatement"/>
-    <genClasses ecoreClass="cbcmodel.ecore#//MethodRefinements">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//MethodRefinements/productvariants"/>
-    </genClasses>
-    <genClasses ecoreClass="cbcmodel.ecore#//ProductVariant">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//ProductVariant/refinementChain"/>
-    </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//MethodSignature">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//MethodSignature/methodSignature"/>
     </genClasses>

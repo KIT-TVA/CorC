@@ -73,8 +73,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 			case CbcmodelPackage.RENAME: return createRename();
 			case CbcmodelPackage.CB_CPROBLEM: return createCbCProblem();
 			case CbcmodelPackage.STRENGTH_WEAK_STATEMENT: return createStrengthWeakStatement();
-			case CbcmodelPackage.METHOD_REFINEMENTS: return createMethodRefinements();
-			case CbcmodelPackage.PRODUCT_VARIANT: return createProductVariant();
 			case CbcmodelPackage.METHOD_SIGNATURE: return createMethodSignature();
 			case CbcmodelPackage.METHOD_CLASS: return createMethodClass();
 			default:
@@ -274,26 +272,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	public StrengthWeakStatement createStrengthWeakStatement() {
 		StrengthWeakStatementImpl strengthWeakStatement = new StrengthWeakStatementImpl();
 		return strengthWeakStatement;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public MethodRefinements createMethodRefinements() {
-		MethodRefinementsImpl methodRefinements = new MethodRefinementsImpl();
-		return methodRefinements;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ProductVariant createProductVariant() {
-		ProductVariantImpl productVariant = new ProductVariantImpl();
-		return productVariant;
 	}
 
 	/**

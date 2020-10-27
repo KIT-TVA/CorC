@@ -166,24 +166,6 @@ public interface CbcmodelFactory extends EFactory {
 	StrengthWeakStatement createStrengthWeakStatement();
 
 	/**
-	 * Returns a new object of class '<em>Method Refinements</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Method Refinements</em>'.
-	 * @generated
-	 */
-	MethodRefinements createMethodRefinements();
-
-	/**
-	 * Returns a new object of class '<em>Product Variant</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Product Variant</em>'.
-	 * @generated
-	 */
-	ProductVariant createProductVariant();
-
-	/**
 	 * Returns a new object of class '<em>Method Signature</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
