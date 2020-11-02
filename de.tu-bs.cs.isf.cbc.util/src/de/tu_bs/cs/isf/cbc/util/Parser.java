@@ -2,11 +2,9 @@ package de.tu_bs.cs.isf.cbc.util;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +18,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 
 public class Parser {
 	public static final String KEYWORD_JML_PRE = "requires";
@@ -175,23 +172,6 @@ public class Parser {
 		}
 		return "";
 
-	}
-
-	private static Set<String> parseRightVariables(String statement) {
-		Set<String> rightVariables = new HashSet<String>();
-		String[] inputTokens = statement.split("[\\+\\-\\*/\\(\\),]");
-
-		for (String inputToken : inputTokens) {
-			inputToken = inputToken.trim();
-
-			if (inputToken.matches("\\d+") || inputToken.matches("\\s*")) {
-			} else if (inputToken.matches("\\w+.*\\w+")) {
-				rightVariables.add(inputToken.split("\\.")[0].trim());
-			} else {
-				rightVariables.add(inputToken);
-			}
-		}
-		return rightVariables;
 	}
 
 	public String destructConditionAndReplace(Condition condition) throws ParserException {
@@ -396,7 +376,6 @@ public class Parser {
 	
 	public static String rewriteConditionToJML(String condition) {
 		condition = condition.replaceAll("(?<!<|>|!|=)(\\s*=\\s*)(?!<|>|=)", " == ");
-//		condition = condition.replaceAll("(?<![!<>])=", "==");
 		condition = condition.replaceAll("->", "==>");
 		condition = condition.replaceAll("<->", "<==>");
 		condition = condition.replaceAll("&", "&&");
@@ -511,24 +490,4 @@ public class Parser {
 		}
 		return methodName;
 	}
-
-	// AbstractStatement st = CbcmodelFactory.eINSTANCE.createAbstractStatement();
-	// Condition con = CbcmodelFactory.eINSTANCE.createCondition();
-	// String s = "int i = 5 + 2; do(x); int y = x(f(ff),g+1,h); int z = 7 - 4; int
-	// u = 8 / 5;";
-	// String c = "x & y | x";
-	// st.setName(s);
-	// con.setName(c);
-	// try {
-	// Parser p = new Parser();
-	// System.out.println(p.findAllVariables(st));
-	// p.addVariableStatementPairs(st);
-	// p.destructConditionAndReplace(con);
-	// System.out.println(p.destructConditionAndReplace(con));
-	// System.out.println(con);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// System.out.println("ende");
-	// }
 }

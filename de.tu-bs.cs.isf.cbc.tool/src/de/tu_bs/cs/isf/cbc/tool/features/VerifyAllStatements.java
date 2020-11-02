@@ -256,7 +256,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			Condition preCondition = repStatement.getParent().getPreCondition();
 			Condition guard = repStatement.getGuard();
 			Condition postCondition = repStatement.getParent().getPostCondition();
-			String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement);
+			String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, true);
 			Variant variant = repStatement.getVariant();
 			if (!provePre) {
 				provePre = ProveWithKey.provePreWithKey(invariant, preCondition, vars, javaClass, conds, renaming, uri, monitor);
@@ -267,7 +267,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 				repStatement.setPostProven(provePost);
 			}
 			if (!proveVar) {
-				proveVar = ProveWithKey.proveVariant2WithKey(code, invariant, guard, variant, javaClass, vars, conds, renaming, uri, monitor);
+				proveVar = ProveWithKey.proveVariantWithKey(code, invariant, guard, variant, javaClass, vars, conds, renaming, uri, monitor);
 				repStatement.setVariantProven(proveVar);	
 			}
 			if (prove && provePre && provePost && proveVar) {

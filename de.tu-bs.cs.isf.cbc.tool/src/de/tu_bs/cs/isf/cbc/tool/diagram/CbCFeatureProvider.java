@@ -39,8 +39,8 @@ import de.tu_bs.cs.isf.cbc.tool.features.VerifyPreSelectionStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatementInlining;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStrengthWeakCorrect;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyVariant2;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyVariant3;
+import de.tu_bs.cs.isf.cbc.tool.features.VerifyVariantWithInnerLoops;
+import de.tu_bs.cs.isf.cbc.tool.features.VerifyVariantWithoutInnerLoops;
 import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveCompositionFirstFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveCompositionSecondFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveRepetitionFeature;
@@ -135,8 +135,8 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 				new VerifyPreSelectionStatement(this), 
 				new VerifyStrengthWeakCorrect(this),
 				// new VerifyVariant(this),
-				new VerifyVariant2(this), 
-				new VerifyVariant3(this), //!
+				new VerifyVariantWithInnerLoops(this), 
+				new VerifyVariantWithoutInnerLoops(this), //!
 				new EditCommentFeature(this),
 				new EditCompositionTechniqueOfFormula(this), //!
 				new ChangeNameOfFormulaFeature(this), 
