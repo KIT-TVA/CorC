@@ -35,36 +35,8 @@ public class ConstructCodeBlock {
 	private static BufferedReader br;
 	private static JavaVariable returnVariable = null;
 
-	public static String constructCodeBlockAndVerify(AbstractStatement statement) {
-		handleInnerLoops = true;
-		withInvariants = false;
-		StringBuffer code = new StringBuffer();
-
-		if (statement instanceof SmallRepetitionStatement) {
-			code.append(constructSmallRepetition((SmallRepetitionStatement) statement));
-		}
-		return code.toString();
-	}
-
-	public static String constructCodeBlockAndVerify2(AbstractStatement statement) {
-		handleInnerLoops = true;
-		withInvariants = false;
-		StringBuffer code = new StringBuffer();
-
-		if (statement instanceof SmallRepetitionStatement) {
-			SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;
-			if (repStatement.getLoopStatement().getRefinement() != null) {
-				code.append(constructCodeBlockOfChildStatement(repStatement.getLoopStatement().getRefinement()));
-			} else {
-				code.append(constructCodeBlockOfChildStatement(repStatement.getLoopStatement()));
-			}
-		}
-		return code.toString();
-	}
-
-	// tobi
-	public static String constructCodeBlockAndVerify3(AbstractStatement statement) {
-		handleInnerLoops = false;
+	public static String constructCodeBlockAndVerify(AbstractStatement statement, boolean innerLoops) {
+		handleInnerLoops = innerLoops;
 		withInvariants = false;
 		StringBuffer code = new StringBuffer();
 
