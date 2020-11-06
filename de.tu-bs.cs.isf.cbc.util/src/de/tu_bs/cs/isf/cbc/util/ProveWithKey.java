@@ -596,7 +596,7 @@ public class ProveWithKey {
 
 		problem = problem.replace("this.", "self.");
 		
-		String location = thisProject.getLocation() + "/features/" + uri.segment(uri.segmentCount()-3) + "/prove" + uri.trimFileExtension().lastSegment();
+		String location = thisProject.getLocation() + "/" + uri.segment(uri.segmentCount()-3) + "/prove" + uri.trimFileExtension().lastSegment();
 		File keyFile = FileUtil.writeFile(problem, location, numberFile, override);
 		return keyFile;
 	}
