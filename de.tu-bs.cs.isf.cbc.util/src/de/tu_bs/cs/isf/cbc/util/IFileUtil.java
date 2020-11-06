@@ -15,5 +15,5 @@ public interface IFileUtil {
 
 	public String generateComposedClass(String project, String composedClassName, String className, String content, String contentOriginal);
 
-	public String getLastSegment(String uri);
+	public String getLocationString(String uri);
 }

@@ -9,10 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.collect.Lists;
@@ -27,11 +25,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
-import de.uka.ilkd.key.control.KeYEnvironment;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
-import de.uka.ilkd.key.proof.io.ProblemLoaderException;
-import de.uka.ilkd.key.util.ProgressMonitor;
 
 public class ProveWithKey {
 	public static final String REGEX_ORIGINAL = "original";
@@ -106,7 +101,7 @@ public class ProveWithKey {
 		problem = problem.replaceAll("static", "");
 		problem = problem.replaceAll("return", ""); //TODO replace with correct handling of return
 		
-		String location = fileHandler.getProjectLocation(uri) + "/src/prove" + fileHandler.getLastSegment(uri);
+		String location = fileHandler.getLocationString(uri);
 		File keyFile = fileHandler.writeFile(problem, location, numberFile, override);
 		return keyFile;
 	}
@@ -448,7 +443,7 @@ public class ProveWithKey {
 		content.addSelf(javaClass);
 
         //String location = fileHandler.getProjectLocation(uri) + uri.segment(uri.segmentCount()-3) + "/prove" + uri.trimFileExtension().lastSegment();
-		String location = fileHandler.getProjectLocation(uri) + "/src/prove" + fileHandler.getLastSegment(uri);
+		String location = fileHandler.getLocationString(uri);
 		File keyFile = fileHandler.writeFile(content.getKeYCImpliesCContent(), location, numberFile, override);
 		return keyFile;
 	}
@@ -494,7 +489,7 @@ public class ProveWithKey {
 		content.replaceThisWithSelf();
 		content.addSelf(javaClass);
 		
-		String location = fileHandler.getProjectLocation(uri) + "/src/prove" + fileHandler.getLastSegment(uri);
+		String location = fileHandler.getLocationString(uri);
 		File keyFile = fileHandler.writeFile(content.getKeYStatementContent(), location, numberFile, override);
 		return keyFile;
 	}
@@ -514,8 +509,7 @@ public class ProveWithKey {
 
 		content.rename(renaming);
 		
-		String location = fileHandler.getProjectLocation(uri) + "/src/prove" + fileHandler.getLastSegment(uri);
-		//String location = fileHandler.getProjectLocation(uri) + "/features/" + uri.segment(uri.segmentCount()-3) + "/prove" + uri.trimFileExtension().lastSegment();
+		String location = fileHandler.getLocationString(uri);
 		File keyFile = fileHandler.writeFile(content.getKeYWPContent(), location, numberFile, override);
 		return keyFile;
 	}

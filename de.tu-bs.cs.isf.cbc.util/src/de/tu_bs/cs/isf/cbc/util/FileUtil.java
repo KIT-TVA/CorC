@@ -186,8 +186,17 @@ public class FileUtil implements IFileUtil{
 		return generatedFile.getName().substring(0, generatedFile.getName().indexOf("."));
 	}
 
-	@Override
-	public String getLastSegment(String uri) {
+	private String getLastSegment(String uri) {
 		return URI.createURI(uri).trimFileExtension().lastSegment();
+	}
+	
+	private String getSegment(String uriString, int count) {
+		URI uri = URI.createURI(uriString);
+		return uri.segment(uri.segmentCount()-count);
+	}
+	
+
+	public String getLocationString(String uri) {
+		return getProjectLocation(uri) + getSegment(uri, 3) + "/prove" + getLastSegment(uri);
 	}
 }
