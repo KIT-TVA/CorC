@@ -177,7 +177,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 				for (int i = 0; i < variants.length; i++) {
 						Console.println(printConfiguration(featureConfigs, i));
-						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true);, javaClass, new FileUtil(uri.toPlatformString(true);));
+						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true), javaClass, new FileUtil(uri.toPlatformString(true)));
 						if (isInSameClass) {
 							proven = prove.proveStatementWithKey(returnStatement, false, variants[i], i, varMParts[0], varMParts[0]);
 						} else {
