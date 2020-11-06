@@ -16,6 +16,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 
 /**
@@ -83,7 +84,7 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 						javaClass = (MethodClass) obj;
 					}
 				}
-				boolean prove = false;
+				boolean proven = false;
 				String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, false);
 				Condition invariant = null;
 				Condition guard = null;
@@ -96,11 +97,13 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 
 				}
 //				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(code)) {
-					prove = ProveWithKey.proveVariantWithKey(code, invariant, guard, variant, javaClass, vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
+					String uriString = getDiagram().eResource().getURI().toFileString();
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, null, new FileUtil(uriString));					
+					proven = prove.proveVariantWithKey(code, invariant, guard, variant);
 //				} else {
 //					Console.println("Statement is not in correct format.");
 //				}
-				if (prove) {
+				if (proven) {
 					if (statement instanceof SmallRepetitionStatement) {
 						SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;
 						repStatement.setVariantProven(true);

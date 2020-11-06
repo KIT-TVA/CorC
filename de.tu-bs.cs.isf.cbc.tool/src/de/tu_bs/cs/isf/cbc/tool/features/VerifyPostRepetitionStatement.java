@@ -13,6 +13,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 
 /**
@@ -81,9 +82,11 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 						javaClass = (MethodClass) obj;
 					}
 				}
-				boolean prove = false;
-				prove = ProveWithKey.provePostWithKey(statement.getInvariant(), statement.getGuard(), parent.getPostCondition(), javaClass, vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
-				if (prove) {
+				boolean proven = false;
+				String uriString = getDiagram().eResource().getURI().toFileString();
+				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, javaClass, new FileUtil(uriString));
+				proven = prove.provePostRepetitionWithKey(statement.getInvariant(), statement.getGuard(), parent.getPostCondition());
+				if (proven) {
 					statement.setPostProven(true);
 				} else {
 					statement.setPostProven(false);

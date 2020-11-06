@@ -13,6 +13,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 
 /**
@@ -81,10 +82,11 @@ public class VerifyPreRepetitionStatement extends MyAbstractAsynchronousCustomFe
 						javaClass = (MethodClass) obj;
 					}
 				}
-				boolean prove = false;
-				prove = ProveWithKey.provePreWithKey(statement.getInvariant(), parent.getPreCondition(), vars, 
-						javaClass, conds, renaming, getDiagram().eResource().getURI(), monitor);
-				if (prove) {
+				boolean proven = false;
+				String uriString = getDiagram().eResource().getURI().toFileString();
+				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, javaClass, new FileUtil(uriString));
+				proven = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getInvariant());
+				if (proven) {
 					statement.setPreProven(true);
 				} else {
 					statement.setPreProven(false);

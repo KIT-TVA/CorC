@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
+
 import de.ovgu.featureide.fm.core.analysis.cnf.CNF;
 import de.ovgu.featureide.fm.core.analysis.cnf.IVariables;
 import de.ovgu.featureide.fm.core.analysis.cnf.LiteralSet;
@@ -37,7 +37,7 @@ public class VerifyFeatures {
 	private static String[] configLn = new String[0];
 	private static List<String> featureOrder;
 	
-	private static IProject thisProject;
+	private static String thisProject;
 	private static URI uri;
 	private static Path path;
 	
@@ -47,8 +47,8 @@ public class VerifyFeatures {
 	
 	public static String[][] calculateFeatureConfigs(URI uri_new, String method, boolean original) {
 		uri = uri_new;
-		thisProject = FileUtil.getProject(uri);
-		path = Paths.get(thisProject.getLocation() + "/model.xml");
+		thisProject = FileUtil.getProjectLocation(uri);
+		path = Paths.get(thisProject + "/model.xml");
 		try {
 			createEmptyConfiguration(path);
 			featModel = FeatureModelManager.load(path);
@@ -80,7 +80,7 @@ public class VerifyFeatures {
 	public static List<SelectableFeature> removeIrrelevant(List<SelectableFeature> features, String method) {
 		File checkFile;
 		for (int i = 0; i < features.size(); i++) {
-			checkFile = new File(thisProject.getLocation() + "/features/" + features.get(i) + "/diagram/" + method);
+			checkFile = new File(thisProject + "/features/" + features.get(i) + "/diagram/" + method);
 			if (!checkFile.exists() && !(features.get(i) + "").equalsIgnoreCase(callingFeature)) {
 				features.remove(i);
 			}			
@@ -174,7 +174,7 @@ public class VerifyFeatures {
 		File checkFile;
 		for (int i = 0; i < configurations.length; i++) {
 			for (int j = 0; j < configurations[i].length; j++) {
-				checkFile = new File(thisProject.getLocation() + "/features/" + configurations[i][j] + "/diagram/" + method);
+				checkFile = new File(thisProject + "/features/" + configurations[i][j] + "/diagram/" + method);
 				if (!checkFile.exists() && !configurations[i][j].equals(callingFeature)) {
 					configurations[i][j] = "empty";
 				}												

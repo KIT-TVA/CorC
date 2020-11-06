@@ -398,8 +398,7 @@ public class StatementPattern extends IdPattern implements IPattern {
 			}
 		}
 		UpdateModifiableOfConditions.setVars(vars);
-		FileUtil.setApplicationUri(getDiagram().eResource().getURI());
-		UpdateModifiableOfConditions.updateAssignmentStatement(statement);
+		UpdateModifiableOfConditions.updateAssignmentStatement(statement, new FileUtil(getDiagram().eResource().getURI().toFileString()));
 		updatePictogramElement(context.getPictogramElement());
 	}
 

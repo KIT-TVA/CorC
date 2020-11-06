@@ -13,6 +13,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 
 /**
@@ -81,9 +82,11 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 						javaClass = (MethodClass) obj;
 					}
 				}
-				boolean prove = false;
-				prove = ProveWithKey.provePreSelWithKey(statement.getGuards(), parent.getPreCondition(), vars, javaClass, conds, renaming, getDiagram().eResource().getURI(), monitor);
-				if (prove) {
+				boolean proven = false;
+				String uriString = getDiagram().eResource().getURI().toFileString();
+				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, javaClass, new FileUtil(uriString));
+				proven = prove.provePreSelWithKey(statement.getGuards(), parent.getPreCondition());
+				if (proven) {
 					statement.setPreProve(true);
 				} else {
 					statement.setPreProve(false);

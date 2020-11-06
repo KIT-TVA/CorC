@@ -188,7 +188,7 @@ public class PrintFormulaFeature extends MyAbstractAsynchronousCustomFeature {
 		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, renaming, localVariables, returnVariable, signature);
 		
 		URI uri = getDiagram().eResource().getURI(); 
-		String location = FileUtil.getProject(uri).getLocation() + "/src/" + javaClass.getMethodClass() + ".java";
+		String location = FileUtil.getProjectLocation(uri) + "/src/" + javaClass.getMethodClass() + ".java";
 		writeFile(location, code, signature, javaClass.getMethodClass(), globalVariables.toString());
 	}
 	

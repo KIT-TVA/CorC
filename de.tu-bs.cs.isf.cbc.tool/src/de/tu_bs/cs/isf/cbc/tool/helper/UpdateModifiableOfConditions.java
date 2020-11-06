@@ -17,13 +17,21 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
+import de.tu_bs.cs.isf.cbc.util.IFileUtil;
 import de.tu_bs.cs.isf.cbc.util.Parser;
 import de.tu_bs.cs.isf.cbc.util.ParserException;
 
 public class UpdateModifiableOfConditions {
 	private static Condition currentPost = null;
 	private static JavaVariables vars = null;
+	private static IFileUtil fileUtil = null;
 
+	public static void updateAssignmentStatement(AbstractStatement statement, IFileUtil fileHandler) {
+		fileUtil = fileHandler;
+		updateAssignmentStatement(statement);
+		
+	}
+	
 	public static void updateAssignmentStatement(AbstractStatement statement) {
 		copyModifiableVariables(statement.getPreCondition(), statement.getPostCondition());
 		if (statement.getName().contains(";")
@@ -31,7 +39,7 @@ public class UpdateModifiableOfConditions {
 			List<String> modifiableVariables = getModifiableVariables(statement.getPreCondition());
 			
 			try {
-				List<String> variablesInStatement = Parser.findAllVariables(statement, vars);
+				List<String> variablesInStatement = Parser.findAllVariables(statement, vars, fileUtil);
 				if(!modifiableVariables.contains("\\everything")) {
 					for (String var : variablesInStatement) {
 						if (!modifiableVariables.contains(var)) {
@@ -273,14 +281,6 @@ public class UpdateModifiableOfConditions {
 			}
 		}
 
-	}
-
-	private static AbstractStatement getStatementToCopyHighVariables(AbstractStatement statement) {
-		if (statement instanceof CompositionStatement) {
-			return ((CompositionStatement) statement).getSecondStatement();
-
-		}
-		return statement;
 	}
 
 	private static void addModifiableVariablesToStatement(Condition condition, List<String> modifiableVariables) {

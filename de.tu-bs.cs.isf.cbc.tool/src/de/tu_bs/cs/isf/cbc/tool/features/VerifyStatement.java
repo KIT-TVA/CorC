@@ -90,6 +90,10 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
+		verifyStatement(context, monitor, false);
+	}
+
+	void verifyStatement(ICustomContext context, IProgressMonitor monitor, boolean inlining) {
 		monitor.beginTask("Verify statement", IProgressMonitor.UNKNOWN);
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
@@ -173,10 +177,11 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 				for (int i = 0; i < variants.length; i++) {
 						Console.println(printConfiguration(featureConfigs, i));
+						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toFileString(), javaClass, new FileUtil(uri.toFileString()));
 						if (isInSameClass) {
-							proven = ProveWithKey.proveStatementWithKey(statement, vars, conds, returnStatement, false, renaming, javaClass, variants[i], uri, i , monitor, varMParts[0], varMParts[0]);
+							proven = prove.proveStatementWithKey(returnStatement, false, variants[i], i, varMParts[0], varMParts[0]);
 						} else {
-							proven = ProveWithKey.proveStatementWithKey(statement, vars, conds, returnStatement, false, renaming, javaClass, variants[i], uri, i , monitor, callingMethod, varMParts[0]);
+							proven = prove.proveStatementWithKey(returnStatement, false, variants[i], i, callingMethod, varMParts[0]);
 						}
 				}					
 			} else {
@@ -263,8 +268,9 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		boolean proven = false;
 		Console.println("--------------- Triggered verification ---------------");
 		if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-            proven = ProveWithKey.proveStatementWithKey(statement, vars, conds, returnStatement, false, renaming, javaClass,
-                            "", getDiagram().eResource().getURI(), 0, monitor, callingMethod, "");
+			String uri = getDiagram().eResource().getURI().toFileString();
+			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, javaClass, new FileUtil(uri));
+            proven = prove.proveStatementWithKey(returnStatement, false, 0);
 		} else {
             Console.println("Statement is not in correct format.");
 		}

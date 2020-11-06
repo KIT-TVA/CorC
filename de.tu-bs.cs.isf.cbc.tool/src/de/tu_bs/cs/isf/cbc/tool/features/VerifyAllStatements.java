@@ -32,6 +32,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 
 
@@ -90,7 +91,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		}
 		AbstractStatement statement = formula.getStatement();
 		boolean prove = false;
-		prove = proveChildStatement(statement.getRefinement(), vars, conds, renaming, javaClass, getDiagram().eResource().getURI(), null);	
+		String uriString = getDiagram().eResource().getURI().toFileString();
+		prove = proveChildStatement(statement.getRefinement(), vars, conds, renaming, javaClass, uriString, null);	
 		if (prove) {
 			statement.setProven(true);
 		} else {
@@ -99,31 +101,9 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		Console.println("All statements verified");
     }
     
-	private void writeFile(String location, String code) {
-		File javaFile = new File(location);
-		try {
-			if (!javaFile.exists()) {
-				javaFile.createNewFile();
-			}
-			FileWriter fw = new FileWriter(javaFile);
-			BufferedWriter bw = new BufferedWriter(fw);
-
-			bw.write(code);
-			bw.close();
-			IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			IPath iLocation = Path.fromOSString(javaFile.getAbsolutePath());
-			IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-			ifile.refreshLocal(0, null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-	}
-    
     
     private static boolean proveChildStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
-    		MethodClass javaClass, URI uri, IProgressMonitor monitor) {
+    		MethodClass javaClass, String uri, IProgressMonitor monitor) {
 		boolean prove = false;
 		 if (statement instanceof SmallRepetitionStatement) {
 			prove = proveSmallReptitionStatement(statement, vars, conds, renaming, javaClass, uri, monitor);
@@ -175,7 +155,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 //	return null;
     
     private static boolean proveCompositionStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, 
-    		MethodClass javaClass,URI uri, IProgressMonitor monitor) {
+    		MethodClass javaClass, String uri, IProgressMonitor monitor) {
     	boolean prove1, prove2 = false;
     	CompositionStatement compositionStatement = (CompositionStatement) statement;
     	if (compositionStatement.getFirstStatement().getRefinement() != null) {
@@ -196,18 +176,19 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		return (prove1 && prove2 && true);
     }
 	private static boolean proveAbstractStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, boolean returnStatement,
-			Renaming renaming, MethodClass javaClass, URI uri, IProgressMonitor monitor) {
+			Renaming renaming, MethodClass javaClass, String uri, IProgressMonitor monitor) {
 		if (!statement.isProven()) {
-			boolean prove = false;
+			boolean proven = false;
 			String variants = null;
 			//TODO für SPLs anpassen
-			prove = ProveWithKey.proveStatementWithKey(statement, vars, conds, returnStatement, false, renaming, javaClass, variants, uri,0, monitor, "", "");
-			if (prove) {
+			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, null, new FileUtil(uri));
+			proven = prove.proveStatementWithKey(returnStatement, false, 0);
+			if (proven) {
 				statement.setProven(true);
 			} else {
 				statement.setProven(false);//
 			}
-	    	return prove;
+	    	return proven;
 		} else {
 			Console.println("Abstract statement: " + statement.getName() +" already true");
 			return true;
@@ -215,26 +196,27 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     }
     
     private static boolean proveSelectionStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, 
-    		MethodClass javaClass, URI uri, IProgressMonitor monitor) {
-    	boolean prove = true;
+    		MethodClass javaClass, String uri, IProgressMonitor monitor) {
+    	boolean proven = true;
     	SelectionStatement selectionStatement = (SelectionStatement) statement;
 		for (AbstractStatement childStatement : selectionStatement.getCommands()) {
-			prove = (proveChildStatement(childStatement.getRefinement(), vars, conds, renaming, javaClass, uri, monitor) && prove && true);
+			proven = (proveChildStatement(childStatement.getRefinement(), vars, conds, renaming, javaClass, uri, monitor) && proven && true);
 		}
 		boolean provePre = selectionStatement.isPreProve();
 		if (!(selectionStatement.isProven() && provePre && true)) {
 			if (!selectionStatement.isPreProve()) {
 				EList<Condition> guards = selectionStatement.getGuards();
 				Condition preCondition = selectionStatement.getParent().getPreCondition();
-				provePre = ProveWithKey.provePreSelWithKey(guards, preCondition, vars, javaClass, conds, renaming, uri, null);
+				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, null, new FileUtil(uri));
+				provePre = prove.provePreSelWithKey(guards, preCondition);
 				selectionStatement.setPreProve(provePre);
 			}
-			if (provePre && prove && true) {
+			if (provePre && proven && true) {
 				selectionStatement.setProven(true);
 			} else {
 				selectionStatement.setProven(false);//
 			}
-			return (prove && provePre && true);
+			return (proven && provePre && true);
     	} else {
     		Console.println("Selection statement already true");
     		return true;
@@ -242,11 +224,11 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     }
 	
 	private static boolean proveSmallReptitionStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, 
-			MethodClass javaClass, URI uri, IProgressMonitor monitor) {
+			MethodClass javaClass, String uri, IProgressMonitor monitor) {
 		SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;
-		boolean prove = true;
+		boolean proven = true;
 		if (repStatement.getLoopStatement().getRefinement() != null) {
-			prove = (proveChildStatement(repStatement.getLoopStatement().getRefinement(), vars, conds, renaming, javaClass, uri, null) && prove && true);
+			proven = (proveChildStatement(repStatement.getLoopStatement().getRefinement(), vars, conds, renaming, javaClass, uri, null) && proven && true);
 		}
 		boolean provePre = repStatement.isPreProven();
 		boolean provePost = repStatement.isPostProven();
@@ -258,24 +240,25 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			Condition postCondition = repStatement.getParent().getPostCondition();
 			String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, true);
 			Variant variant = repStatement.getVariant();
+			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, null, new FileUtil(uri));
 			if (!provePre) {
-				provePre = ProveWithKey.provePreWithKey(invariant, preCondition, vars, javaClass, conds, renaming, uri, monitor);
+				provePre = prove.proveCImpliesCWithKey(preCondition, invariant);
 				repStatement.setPreProven(provePre);
 			}
 			if (!provePost) {
-				provePost = ProveWithKey.provePostWithKey(invariant, guard, postCondition, javaClass, vars, conds, renaming, uri, monitor);
+				provePost = prove.provePostRepetitionWithKey(invariant, guard, postCondition);
 				repStatement.setPostProven(provePost);
 			}
 			if (!proveVar) {
-				proveVar = ProveWithKey.proveVariantWithKey(code, invariant, guard, variant, javaClass, vars, conds, renaming, uri, monitor);
+				proveVar = prove.proveVariantWithKey(code, invariant, guard, variant);
 				repStatement.setVariantProven(proveVar);	
 			}
-			if (prove && provePre && provePost && proveVar) {
+			if (proven && provePre && provePost && proveVar) {
 				repStatement.setProven(true);
 			} else {
 				repStatement.setProven(false);//
 			} 
-	    	return prove;
+	    	return proven;
 		} else {
 			repStatement.setPreProven(true);
 			repStatement.setPostProven(true);
