@@ -87,6 +87,7 @@ public class ProveWithKey {
 	public File createProveStatementWithKey(List<String> refinements, int numberFile,
 			boolean override, String callingMethod, String varM, boolean returnStatement) {
 		KeYFileContent content = new KeYFileContent();
+		content.setLocation(fileHandler.getProjectLocation(uri));
 		JavaVariable returnVariable = content.readVariables(vars);
 		content.readGlobalConditions(conds);
 		readPrePostModVars(refinements, returnVariable, callingMethod, content);
@@ -438,6 +439,7 @@ public class ProveWithKey {
 
 	public File createProveCImpliesCWithKey(String preCondition, String postCondition, int numberFile, boolean override) {
 		KeYFileContent content = new KeYFileContent();
+		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.readVariables(vars);
 		content.readGlobalConditions(conds);
 
@@ -483,6 +485,7 @@ public class ProveWithKey {
 
 	public File createProveVariantWithKey(String code, Condition invariant, Condition guard, Variant variant, int numberFile, boolean override) {
 		KeYFileContent content = new KeYFileContent();
+		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.readVariables(vars);
 		content.addVariable("int variant");
 		content.readGlobalConditions(conds);
@@ -506,6 +509,7 @@ public class ProveWithKey {
 
 	private File createProveUseWeakestPreWithKey(int numberFile, boolean override) {
 		KeYFileContent content = new KeYFileContent();
+		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.readVariables(vars);
 		content.readGlobalConditions(conds);
 		content.setStatement(statement.getName());

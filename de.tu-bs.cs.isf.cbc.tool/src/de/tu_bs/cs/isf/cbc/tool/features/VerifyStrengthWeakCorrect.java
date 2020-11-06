@@ -80,7 +80,7 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 					}
 					boolean proven1 = false;
 					boolean proven2 = false;
-					String uriString = getDiagram().eResource().getURI().toFileString();
+					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
 					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, null, new FileUtil(uriString));
 					proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition());
 					proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition());
