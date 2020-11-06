@@ -420,7 +420,7 @@ public class ProveWithKey {
 	}
 	
 	public static boolean proveWithKey(File location, IProgressMonitor monitor, boolean inlining) {
-		Proof proof = KeYInteraction.startKeyProof(location, null, inlining);
+		Proof proof = createKeyProof(location, monitor, inlining);
 		if (proof != null) {
 			// Show proof result
 			boolean closed = proof.openGoals().isEmpty();
