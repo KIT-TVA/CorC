@@ -83,7 +83,7 @@ public class VerifyPreRepetitionStatement extends MyAbstractAsynchronousCustomFe
 					}
 				}
 				boolean proven = false;
-				String uriString = getDiagram().eResource().getURI().toFileString();
+				String uriString = getDiagram().eResource().getURI().toPlatformString(true);
 				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, javaClass, new FileUtil(uriString));
 				proven = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getInvariant());
 				if (proven) {

@@ -78,14 +78,10 @@ public class FileUtil implements IFileUtil{
 	}
 	
 	public String getProjectLocation(String uriString) {
-		URI uri = URI.createURI(uriString);
-		return getProjectLocation(uri);
+		return getProjectLocationS(uriString);
 	}
 	
-	public static String getProjectLocation(URI uri) {
-		uri = uri.trimFragment();
-		String uriPath = uri.toPlatformString(true);
-
+	private static String getProjectLocationS(String uriPath) {
 		uriPath = uriPath.substring(1, uriPath.length());
 		int positionOfSlash = uriPath.indexOf('/') + 1;
 		uriPath = uriPath.substring(positionOfSlash, uriPath.length());
@@ -115,7 +111,13 @@ public class FileUtil implements IFileUtil{
 //				e.printStackTrace();
 //			}
 //		}
-		return thisProject.getLocation().toOSString();
+		return thisProject.getLocation().toPortableString();
+	}
+	
+	public static String getProjectLocation(URI uri) {
+		uri = uri.trimFragment();
+		String uriPath = uri.toPlatformString(true);
+		return getProjectLocationS(uriPath);
 	}
 	
 	public static IProject getProject(URI uri) {
@@ -145,8 +147,8 @@ public class FileUtil implements IFileUtil{
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			createFile(keyFile, problem);
 			}
+			return createFile(keyFile, problem);
 		}
 		return null;
 	}
@@ -197,6 +199,6 @@ public class FileUtil implements IFileUtil{
 	
 
 	public String getLocationString(String uri) {
-		return getProjectLocation(uri) + getSegment(uri, 3) + "/prove" + getLastSegment(uri);
+		return getProjectLocation(uri) + "/"+ getSegment(uri, 3) + "/prove" + getLastSegment(uri);
 	}
 }

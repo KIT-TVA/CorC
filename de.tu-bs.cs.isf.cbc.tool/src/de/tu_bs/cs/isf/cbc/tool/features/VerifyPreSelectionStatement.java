@@ -83,7 +83,7 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 					}
 				}
 				boolean proven = false;
-				String uriString = getDiagram().eResource().getURI().toFileString();
+				String uriString = getDiagram().eResource().getURI().toPlatformString(true);
 				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, javaClass, new FileUtil(uriString));
 				proven = prove.provePreSelWithKey(statement.getGuards(), parent.getPreCondition());
 				if (proven) {

@@ -83,7 +83,7 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 					}
 				}
 				boolean proven = false;
-				String uriString = getDiagram().eResource().getURI().toFileString();
+				String uriString = getDiagram().eResource().getURI().toPlatformString(true);
 				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, javaClass, new FileUtil(uriString));
 				proven = prove.provePostRepetitionWithKey(statement.getInvariant(), statement.getGuard(), parent.getPostCondition());
 				if (proven) {

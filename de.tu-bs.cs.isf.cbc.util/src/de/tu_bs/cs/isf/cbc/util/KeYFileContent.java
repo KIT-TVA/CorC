@@ -2,8 +2,6 @@ package de.tu_bs.cs.isf.cbc.util;
 
 import java.util.List;
 
-import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
@@ -12,12 +10,11 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 
 public class KeYFileContent {
 	
 	private String location = "";
-	private String helper = "";
+	private String helper = "helper.key";
 	private String programVariables = "";
 	private String globalConditions = "";
 	private String conditionArraysCreated = "";
@@ -208,7 +205,7 @@ public class KeYFileContent {
 		//	+ ">=0)}";
 	
 	public String keyHeader() {
-		return "\\javaSource \"" + location + "/\";" + "\\include \"" + helper + "\";"
+		return "\\javaSource \"" + location + "\";" + "\\include \"" + helper + "\";"
 				+ "\\programVariables {" + programVariables + self +" Heap heapAtPre;}";
 	}
 	

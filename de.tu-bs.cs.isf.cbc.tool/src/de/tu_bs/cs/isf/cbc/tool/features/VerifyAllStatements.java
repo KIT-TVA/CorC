@@ -91,7 +91,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		}
 		AbstractStatement statement = formula.getStatement();
 		boolean prove = false;
-		String uriString = getDiagram().eResource().getURI().toFileString();
+		String uriString = getDiagram().eResource().getURI().toPlatformString(true);
 		prove = proveChildStatement(statement.getRefinement(), vars, conds, renaming, javaClass, uriString, null);	
 		if (prove) {
 			statement.setProven(true);

@@ -99,7 +99,7 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 
 				}
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(code)) {
-					String uriString = getDiagram().eResource().getURI().toFileString();
+					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
 					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, null, new FileUtil(uriString));					
 					proven = prove.proveVariantWithKey(code, invariant, guard, variant);
 				} else {
