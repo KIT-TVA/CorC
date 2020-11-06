@@ -447,6 +447,7 @@ public class ProveWithKey {
 		content.replaceThisWithSelf();
 		content.addSelf(javaClass);
 
+        //String location = fileHandler.getProjectLocation(uri) + uri.segment(uri.segmentCount()-3) + "/prove" + uri.trimFileExtension().lastSegment();
 		String location = fileHandler.getProjectLocation(uri) + "/src/prove" + fileHandler.getLastSegment(uri);
 		File keyFile = fileHandler.writeFile(content.getKeYCImpliesCContent(), location, numberFile, override);
 		return keyFile;
