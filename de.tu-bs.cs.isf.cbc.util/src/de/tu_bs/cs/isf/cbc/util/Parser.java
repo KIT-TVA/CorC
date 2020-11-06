@@ -1,5 +1,6 @@
 package de.tu_bs.cs.isf.cbc.util;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -8,7 +9,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
 
 import com.google.common.collect.Lists;
@@ -41,7 +41,7 @@ public class Parser {
 		}
 	}
 
-	public static List<String> findAllVariables(AbstractStatement abstractStatement, JavaVariables vars)
+	public static List<String> findAllVariables(AbstractStatement abstractStatement, JavaVariables vars, IFileUtil fileHandler)
 			throws ParserException {
 		String input = abstractStatement.getName().trim();
 		List<String> variableList = new LinkedList<String>();
@@ -98,10 +98,10 @@ public class Parser {
 					String variableName = nextStatementTokens[0];
 					String methodName = nextStatementTokens[1].replaceAll("\\(", "");
 					String variableType = getTypeOfVariable(variableName, vars);
-					IFile javaFile = FileUtil.getClassFile(variableType);
+					File javaFile = fileHandler.getClassFile(variableType);
 					if (javaFile != null) {
 						String assignablesFromMethodCall = getContentFromJML(javaFile, methodName,
-								KEYWORD_JML_MODIFIABLE);
+								KEYWORD_JML_MODIFIABLE, fileHandler);
 						if (!assignablesFromMethodCall.equals("")) {
 							for (String var : assignablesFromMethodCall.split(",")) {
 								/*if(vars.getVariables().stream().filter(e -> e.getName().equals(variableName) && e.getKind() == VariableKind.PARAM).count() > 0) {
@@ -143,9 +143,9 @@ public class Parser {
 		return null;
 	}
 
-	public static String getContentFromJML(IFile javaFile, String methodName, String keyword) {
+	public static String getContentFromJML(File javaFile, String methodName, String keyword, IFileUtil fileHandler) {
 		if (javaFile != null) {
-			List<String> linesOfFile = FileUtil.readFileInList(javaFile.getLocation().toOSString());
+			List<String> linesOfFile = fileHandler.readFileInList(javaFile.getAbsolutePath());
 			boolean methodFound = false;
 			for (int i = linesOfFile.size() - 1; i >= 0; i--) {
 				if (!methodFound) {
@@ -293,16 +293,16 @@ public class Parser {
 		return condition;
 	}
 
-	public static CompositionTechnique getCompositionTechniqueForMethod(IFile classFile, String feature,
-			String keyword, String callingMethod) {
-		String path = classFile.getLocation().toOSString();
+	public static CompositionTechnique getCompositionTechniqueForMethod(File classFile, String feature,
+			String keyword, String callingMethod, IFileUtil fileHandler) {
+		String path = classFile.getAbsolutePath();
 		String pathParts[] = path.split("\\\\");
 		String location = "";
 		for (int i = 0; i < pathParts.length - 2; i++) {
 			location += pathParts[i] + "\\";
 		}
 		location += "features\\" + feature.substring(0, 1).toUpperCase() + feature.substring(1) + "\\diagram\\" + callingMethod + ".cbcmodel";
-		List<String> linesOfFile = FileUtil.readFileInList(location);
+		List<String> linesOfFile = fileHandler.readFileInList(location);
 		for (int i = 0; i < linesOfFile.size(); i++) {
 			String currLine = linesOfFile.get(i);
 			if (currLine.contains("EXPLICIT_CONTRACTING")) {
@@ -386,13 +386,13 @@ public class Parser {
 		return condition;
 	}
 	
-	public static String getMethodStubFromFile(String className, String methodName) {
+	public static String getMethodStubFromFile(String className, String methodName, IFileUtil fileHandler) {
 		String methodStub = "";
-		IFile file = FileUtil.getClassFile(className);
+		File file = fileHandler.getClassFile(className);
 		boolean methodFound = false;
 		int braketCounter = 0;
 		if (file != null) {
-			List<String> linesOfFile = FileUtil.readFileInList(file.getLocation().toOSString());
+			List<String> linesOfFile = fileHandler.readFileInList(file.getAbsolutePath());
 			for (int i = 0; i < linesOfFile.size(); i++) {
 				String currLine = linesOfFile.get(i);
 				if (!methodFound) {

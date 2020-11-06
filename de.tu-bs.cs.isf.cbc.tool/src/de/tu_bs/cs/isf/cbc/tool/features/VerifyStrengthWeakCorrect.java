@@ -11,6 +11,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 
 /**
@@ -77,12 +78,14 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 							renaming = (Renaming) obj;
 						}
 					}
-					boolean prove1 = false;
-					boolean prove2 = false;
-					prove1 = ProveWithKey.provePreImplPreWithKey(parent.getPreCondition(), statement.getPreCondition(), vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
-					prove2 = ProveWithKey.provePostImplPostWithKey(parent.getPostCondition(), statement.getPostCondition(), vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
+					boolean proven1 = false;
+					boolean proven2 = false;
+					String uriString = getDiagram().eResource().getURI().toFileString();
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, null, new FileUtil(uriString));
+					proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition());
+					proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition());
 					
-					if (prove1 && prove2) {
+					if (proven1 && proven2) {
 						statement.setProven(true);
 					} else {
 						statement.setProven(false);

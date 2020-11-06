@@ -1,0 +1,32 @@
+package de.tu_bs.cs.isf.cbc.util;
+
+import java.io.File;
+import java.util.List;
+
+<<<<<<< HEAD
+import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+
+=======
+>>>>>>> 669c3bb0 (Refactored ProveWithKeY)
+public interface IFileUtil {
+
+	public File getClassFile(String className);
+
+	public List<String> readFileInList(String path);
+
+<<<<<<< HEAD
+	public File writeFile(String problem, String location, boolean override, AbstractStatement statement, String subProofName);
+=======
+	public File writeFile(String problem, String location, int numberFile, boolean override);
+>>>>>>> 669c3bb0 (Refactored ProveWithKeY)
+
+	public String getProjectLocation(String uri);
+
+	public String generateComposedClass(String project, String composedClassName, String className, String content, String contentOriginal);
+
+<<<<<<< HEAD
+	public String getLocationString(String uri);
+=======
+	public String getLastSegment(String uri);
+>>>>>>> 669c3bb0 (Refactored ProveWithKeY)
+}
