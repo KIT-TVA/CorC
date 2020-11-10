@@ -83,7 +83,7 @@ public class GetDiagramUtil {
     }
  
     private static URI getFileURI(IFile file, ResourceSet resourceSet) {
-       final String pathName = file.getFullPath().toString();
+       final String pathName = file.getLocation().toPortableString();
        URI resourceURI = URI.createFileURI(pathName);
        resourceURI = resourceSet.getURIConverter().normalize(resourceURI);
        return resourceURI;

@@ -296,10 +296,10 @@ public class Parser {
 	public static CompositionTechnique getCompositionTechniqueForMethod(File classFile, String feature,
 			String keyword, String callingMethod, IFileUtil fileHandler) {
 		String path = classFile.getAbsolutePath();
-		String pathParts[] = path.split("\\\\");
+		String pathParts[] = path.split("\\\\"); //TODO replace with correct delimiter
 		String location = "";
 		for (int i = 0; i < pathParts.length - 2; i++) {
-			location += pathParts[i] + "\\";
+			location += pathParts[i] + "\\"; //TODO replace with correct delimiter
 		}
 		location += "features\\" + feature.substring(0, 1).toUpperCase() + feature.substring(1) + "\\diagram\\" + callingMethod + ".cbcmodel";
 		List<String> linesOfFile = fileHandler.readFileInList(location);
