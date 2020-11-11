@@ -155,9 +155,16 @@ public class Parser {
 				} else {
 					String currLine = linesOfFile.get(i);
 					if (currLine.contains(keyword)) {
-						return currLine
-								.substring(currLine.indexOf(keyword) + keyword.length(), currLine.lastIndexOf(";"))
-								.trim();
+						if (currLine.substring(currLine.length() - 1).contains(";")) {
+							return currLine.substring(currLine.indexOf(keyword) + keyword.length(), currLine.lastIndexOf(";")).trim();
+						} else {
+							while (!linesOfFile.get(i + 1).substring(linesOfFile.get(i + 1).length() - 1).contains(";")) {
+								currLine += linesOfFile.get(i + 1);
+								i++;
+							}
+							currLine += linesOfFile.get(i + 1);
+							return currLine.substring(currLine.indexOf(keyword) + keyword.length(), currLine.lastIndexOf(";")).trim();
+						}
 					} else if (currLine.contains("}")) {
 						if (keyword == KEYWORD_JML_MODIFIABLE) {
 							return "";
