@@ -141,7 +141,7 @@ public class KeYFileContent {
 		statement = statement.replace("this.", "self.");
 		pre = pre.replace("this.", "self.");
 		post = post.replace("this.", "self.");
-		globalConditions = globalConditions.replace("this.", "self.");
+		globalConditions = globalConditions.replace("this.", "self."); //TODO this without dot is not replaced
 	}
 	
 	public void addSelf(MethodClass javaClass) {
