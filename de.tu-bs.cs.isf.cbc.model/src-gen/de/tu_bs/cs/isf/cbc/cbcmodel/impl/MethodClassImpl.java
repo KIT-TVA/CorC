@@ -70,6 +70,7 @@ public class MethodClassImpl extends MinimalEObjectImpl.Container implements Met
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMethodClass() {
 		return methodClass;
 	}
@@ -79,6 +80,7 @@ public class MethodClassImpl extends MinimalEObjectImpl.Container implements Met
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMethodClass(String newMethodClass) {
 		String oldMethodClass = methodClass;
 		methodClass = newMethodClass;
@@ -153,7 +155,7 @@ public class MethodClassImpl extends MinimalEObjectImpl.Container implements Met
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (methodClass: ");
 		result.append(methodClass);
 		result.append(')');

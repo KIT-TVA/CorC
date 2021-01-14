@@ -91,7 +91,6 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 		variable.setName("int a");
 		variable.setKind(VariableKind.LOCAL);
-		variable.setDisplayedName("int a");
 		variables.getVariables().add(variable);
 
 		try {

@@ -68,6 +68,7 @@ public class GlobalConditionsImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Condition> getConditions() {
 		if (conditions == null) {
 			conditions = new EObjectContainmentEList<Condition>(Condition.class, this, CbcmodelPackage.GLOBAL_CONDITIONS__CONDITIONS);

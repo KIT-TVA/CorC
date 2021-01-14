@@ -215,6 +215,6 @@ public class KeYFileContent {
 
 	public void setVariantPost(String variant) {
 		assignment += "|| variant := " + variant;
-		post = "(" + variant + ") <variant & " + variant + ">=0)";
+		post = "(" + variant + ") <variant & " + variant + ">=0";
 	}
 }

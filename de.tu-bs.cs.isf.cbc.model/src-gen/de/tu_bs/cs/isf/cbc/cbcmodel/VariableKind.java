@@ -81,10 +81,6 @@ public enum VariableKind implements Enumerator {
 	/**
 	 * The '<em><b>LOCAL</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>LOCAL</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #LOCAL
 	 * @model
@@ -96,10 +92,6 @@ public enum VariableKind implements Enumerator {
 	/**
 	 * The '<em><b>PARAM</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>PARAM</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PARAM
 	 * @model
@@ -111,10 +103,6 @@ public enum VariableKind implements Enumerator {
 	/**
 	 * The '<em><b>RETURN</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>RETURN</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #RETURN
 	 * @model
@@ -126,10 +114,6 @@ public enum VariableKind implements Enumerator {
 	/**
 	 * The '<em><b>GLOBAL</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>GLOBAL</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #GLOBAL
 	 * @model
@@ -141,10 +125,6 @@ public enum VariableKind implements Enumerator {
 	/**
 	 * The '<em><b>GLOBAL PARAM</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>GLOBAL PARAM</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #GLOBAL_PARAM
 	 * @model
@@ -156,10 +136,6 @@ public enum VariableKind implements Enumerator {
 	/**
 	 * The '<em><b>RETURNPARAM</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>RETURNPARAM</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #RETURNPARAM
 	 * @model
@@ -286,6 +262,7 @@ public enum VariableKind implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -295,6 +272,7 @@ public enum VariableKind implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -304,6 +282,7 @@ public enum VariableKind implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

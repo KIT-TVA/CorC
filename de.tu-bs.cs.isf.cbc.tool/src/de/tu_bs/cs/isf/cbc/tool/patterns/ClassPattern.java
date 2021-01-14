@@ -1,9 +1,19 @@
 package de.tu_bs.cs.isf.cbc.tool.patterns;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -29,9 +39,20 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.PredefinedColoredAreas;
+import org.emftext.language.java.statements.Statement;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
+import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
+import de.tu_bs.cs.isf.cbc.tool.model.CbcClassModelUtil;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
 
 
@@ -80,11 +101,27 @@ public class ClassPattern extends IdPattern implements IPattern{
 	public Object[] create(ICreateContext context) {
 		MethodClass javaClass = CbcmodelFactory.eINSTANCE.createMethodClass();
 		javaClass.setMethodClass("newMethodClass");
+		
+		MethodSignature signature = null;
+		CbCFormula formula = null;
+		JavaVariables vars = null;
+		for (Shape shape : getDiagram().getChildren()) {
+			Object obj = getBusinessObjectForPictogramElement(shape); 
+		    if (obj instanceof MethodSignature) {
+				signature = (MethodSignature) obj;
+			} else if(obj instanceof CbCFormula) {
+				formula =(CbCFormula) obj;
+			}else if(obj instanceof JavaVariables) {
+				vars =(JavaVariables) obj;
+			}
+		}
+		
+/*		CbcClassModelUtil.createCbcClassModel(getDiagram(), javaClass.getMethodClass(), signature, formula, vars);
 		try {
 			CbcModelUtil.saveClassToModelFile(javaClass, getDiagram());
 		} catch (CoreException | IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 
 		addGraphicalRepresentation(context, javaClass);
 		return new Object[] { javaClass };

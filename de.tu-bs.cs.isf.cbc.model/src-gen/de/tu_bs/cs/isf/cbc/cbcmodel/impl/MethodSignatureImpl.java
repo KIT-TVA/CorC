@@ -70,6 +70,7 @@ public class MethodSignatureImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMethodSignature() {
 		return methodSignature;
 	}
@@ -79,6 +80,7 @@ public class MethodSignatureImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMethodSignature(String newMethodSignature) {
 		String oldMethodSignature = methodSignature;
 		methodSignature = newMethodSignature;
@@ -153,7 +155,7 @@ public class MethodSignatureImpl extends MinimalEObjectImpl.Container implements
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (methodSignature: ");
 		result.append(methodSignature);
 		result.append(')');
