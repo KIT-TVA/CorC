@@ -79,7 +79,12 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" unique="false" eType="#//VariableKind"
         defaultValueLiteral="LOCAL"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="displayedName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        defaultValueLiteral="int a"/>
+        changeable="false" volatile="true" transient="true" defaultValueLiteral="name"
+        unsettable="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="return getKind() + &quot; &quot; + getName();"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GlobalConditions">
     <eStructuralFeatures xsi:type="ecore:EReference" name="conditions" upperBound="-1"

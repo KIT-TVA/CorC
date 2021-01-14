@@ -77,17 +77,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String DISPLAYED_NAME_EDEFAULT = "int a";
-
-	/**
-	 * The cached value of the '{@link #getDisplayedName() <em>Displayed Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDisplayedName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String displayedName = DISPLAYED_NAME_EDEFAULT;
+	protected static final String DISPLAYED_NAME_EDEFAULT = "name";
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -113,6 +103,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -122,6 +113,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -134,6 +126,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VariableKind getKind() {
 		return kind;
 	}
@@ -143,6 +136,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setKind(VariableKind newKind) {
 		VariableKind oldKind = kind;
 		kind = newKind == null ? KIND_EDEFAULT : newKind;
@@ -155,8 +149,9 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDisplayedName() {
-		return displayedName;
+		return getKind() + " " + getName();
 	}
 
 	/**
@@ -164,11 +159,10 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setDisplayedName(String newDisplayedName) {
-		String oldDisplayedName = displayedName;
-		displayedName = newDisplayedName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.JAVA_VARIABLE__DISPLAYED_NAME, oldDisplayedName, displayedName));
+	public boolean isSetDisplayedName() {
+		// TODO: implement this method to return whether the 'Displayed Name' attribute is set
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -203,9 +197,6 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 			case CbcmodelPackage.JAVA_VARIABLE__KIND:
 				setKind((VariableKind)newValue);
 				return;
-			case CbcmodelPackage.JAVA_VARIABLE__DISPLAYED_NAME:
-				setDisplayedName((String)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -224,9 +215,6 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 			case CbcmodelPackage.JAVA_VARIABLE__KIND:
 				setKind(KIND_EDEFAULT);
 				return;
-			case CbcmodelPackage.JAVA_VARIABLE__DISPLAYED_NAME:
-				setDisplayedName(DISPLAYED_NAME_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -244,7 +232,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 			case CbcmodelPackage.JAVA_VARIABLE__KIND:
 				return kind != KIND_EDEFAULT;
 			case CbcmodelPackage.JAVA_VARIABLE__DISPLAYED_NAME:
-				return DISPLAYED_NAME_EDEFAULT == null ? displayedName != null : !DISPLAYED_NAME_EDEFAULT.equals(displayedName);
+				return isSetDisplayedName();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -258,13 +246,11 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(", kind: ");
 		result.append(kind);
-		result.append(", displayedName: ");
-		result.append(displayedName);
 		result.append(')');
 		return result.toString();
 	}

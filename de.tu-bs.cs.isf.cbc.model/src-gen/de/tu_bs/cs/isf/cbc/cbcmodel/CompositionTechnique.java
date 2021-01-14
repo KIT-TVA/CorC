@@ -51,10 +51,6 @@ public enum CompositionTechnique implements Enumerator {
 	/**
 	 * The '<em><b>CONTRACT OVERRIDING</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>CONTRACT OVERRIDING</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CONTRACT_OVERRIDING
 	 * @model
@@ -66,10 +62,6 @@ public enum CompositionTechnique implements Enumerator {
 	/**
 	 * The '<em><b>EXPLICIT CONTRACTING</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>EXPLICIT CONTRACTING</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #EXPLICIT_CONTRACTING
 	 * @model
@@ -81,10 +73,6 @@ public enum CompositionTechnique implements Enumerator {
 	/**
 	 * The '<em><b>CONJUNCTIVE CONTRACTING</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>CONJUNCTIVE CONTRACTING</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CONJUNCTIVE_CONTRACTING
 	 * @model
@@ -205,6 +193,7 @@ public enum CompositionTechnique implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -214,6 +203,7 @@ public enum CompositionTechnique implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -223,6 +213,7 @@ public enum CompositionTechnique implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

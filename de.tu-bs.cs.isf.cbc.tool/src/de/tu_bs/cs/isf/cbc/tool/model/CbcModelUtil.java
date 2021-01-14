@@ -62,9 +62,9 @@ public class CbcModelUtil {
 		resource.getContents().add(renaming);
 	}
 	
-	public static void saveClassToModelFile(MethodClass classes, Diagram diagram) throws CoreException, IOException {
+	public static void saveClassToModelFile(MethodClass cbcclass, Diagram diagram) throws CoreException, IOException {
 		Resource resource = getResource(diagram);
-		resource.getContents().add(classes);		
+		resource.getContents().add(cbcclass);		
 	}
 
 	public static void saveSignatureToModelFile(MethodSignature signature, Diagram diagram) throws CoreException, IOException {

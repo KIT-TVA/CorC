@@ -148,7 +148,6 @@ public class VariablePattern extends IdPattern implements IPattern {
 		if(value.trim().length() - value.trim().replaceAll(" ","").length() == 1 /*|| !value.contains("static")*/) {
 			variable.setKind(VariableKind.LOCAL);
 			variable.setName(value);
-			variable.setDisplayedName(value);
 		}else {			
 			if(value.contains("global param")) {
 				variable.setKind(VariableKind.GLOBAL_PARAM);
@@ -158,7 +157,6 @@ public class VariablePattern extends IdPattern implements IPattern {
 				variable.setName(value.substring(value.indexOf(" ")+1));
 			}
 
-			variable.setDisplayedName(variable.getKind() + " " + variable.getName());
 		}
 		updatePictogramElement(((Shape) context.getPictogramElement()));
 	}

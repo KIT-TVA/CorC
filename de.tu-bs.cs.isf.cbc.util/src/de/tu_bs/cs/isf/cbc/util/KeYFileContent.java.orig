@@ -184,7 +184,6 @@ public class KeYFileContent {
 		}
 	}
 	
-<<<<<<< HEAD
 	@Deprecated
 	public void setPreFromCondition(String cond) {
 		cond = Parser.getConditionFromCondition(cond);
@@ -192,13 +191,6 @@ public class KeYFileContent {
 		condition.setName(cond);
 		
 		setPreFromCondition(condition);
-=======
-	public void replaceThisWithSelf() {
-		statement = statement.replace("this.", "self.");
-		pre = pre.replace("this.", "self.");
-		post = post.replace("this.", "self.");
-		globalConditions = globalConditions.replace("this.", "self."); //TODO this without dot is not replaced
->>>>>>> 0e4e98c2 (fix in parser)
 	}
 	
 	public void setPreFromCondition(Condition cond) {
@@ -523,6 +515,7 @@ public class KeYFileContent {
 	}
 	
 	public void setVariantPost(String variant) {
+<<<<<<< HEAD
 		this.variant = variant;
 		setPostFromCondition("(" + variant + ") <variant & " + variant + ">=0");
 	}
@@ -848,5 +841,9 @@ public class KeYFileContent {
 	
 	private boolean isArray(String var) {
 		return var.contains("[]");
+=======
+		assignment += "|| variant := " + variant;
+		post = "(" + variant + ") <variant & " + variant + ">=0";
+>>>>>>> f940ab39 (added ecore model for classes, generation from Java to cbc + class model)
 	}
 }
