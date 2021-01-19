@@ -45,16 +45,12 @@ import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
-<<<<<<< HEAD
 import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.IdAdder;
 import de.tu_bs.cs.isf.cbc.util.Parser;
-=======
-import de.tu_bs.cs.isf.cbc.util.FileUtil;
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.UpdateDiagram;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
@@ -98,13 +94,35 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
  
     @Override
     public void execute(ICustomContext context, IProgressMonitor monitor) {
+<<<<<<< HEAD
     	configName = "";
     	Console.clear();
     	long startTime = System.nanoTime();
 		DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
 		CbCFormula formula = extractor.getFormula();		
+=======
+    	JavaVariables vars = null;
+		Renaming renaming = null;
+		CbCFormula formula = null;
+		GlobalConditions conds = null;
+		MethodClass javaClass = null;
+
+		for (Shape shape : getDiagram().getChildren()) {
+			Object obj = getBusinessObjectForPictogramElement(shape);
+			if (obj instanceof JavaVariables) {
+				vars = (JavaVariables) obj;
+			} else if (obj instanceof Renaming) {
+				renaming = (Renaming) obj;
+			} else if (obj instanceof CbCFormula) {
+				formula = (CbCFormula) obj;
+			} else if (obj instanceof GlobalConditions) {
+				conds = (GlobalConditions) obj;
+			} else if(obj instanceof MethodClass) {
+				javaClass = (MethodClass) obj;
+			}
+		}
+>>>>>>> 9daf8255 (fix in model)
 		AbstractStatement statement = formula.getStatement();
-<<<<<<< HEAD
 		URI uri = getDiagram().eResource().getURI();
 		// delete 'tests' folder if it exists because it will cause reference errors
 		// since key doesn't use TestNG.
@@ -153,22 +171,6 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     }   
     
 	private static boolean proveChildStatement(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor) {
-=======
-		boolean prove = false;
-		String uriString = getDiagram().eResource().getURI().toFileString();
-		prove = proveChildStatement(statement.getRefinement(), vars, conds, renaming, javaClass, uriString, null);	
-		if (prove) {
-			statement.setProven(true);
-		} else {
-			statement.setProven(false);
-		}
-		Console.println("All statements verified");
-    }
-    
-    
-    private static boolean proveChildStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
-    		MethodClass javaClass, String uri, IProgressMonitor monitor) {
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 		boolean prove = false;
 		DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
     	JavaVariables vars = extractor.getVars();
@@ -199,7 +201,6 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		return prove;
 	}
 
-<<<<<<< HEAD
 	private static boolean proveOriginalStatement(AbstractStatement statement, Diagram diagram, boolean returnStatement,
 			IProgressMonitor monitor) {
 		if (!isVariational)
@@ -283,40 +284,6 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 	}
 
 	private static boolean proveCompositionStatement(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor) {
-=======
-//    if (refinement.getClass().equals(AbstractStatementImpl.class)) {
-//		String allStatements =  refinement.getName().replace("\n", "");
-//		}
-//		return statements;
-//		//return refinement.getName()  + "\n";
-//	} else if (refinement.getClass().equals(SkipStatementImpl.class)) {
-//		return ";\n";
-//	} else if (refinement.getClass().equals(ReturnStatementImpl.class)) {
-//		return "return " + refinement.getName()  + "\n";
-//	} else if (refinement.getClass().equals(MethodStatementImpl.class)) {
-//		return refinement.getName()  + "();\n";
-//	}else if (refinement.getClass().equals(SelectionStatementImpl.class)) {
-//		return constructSelection((SelectionStatement) refinement);
-//	} else if (refinement.getClass().equals(CompositionStatementImpl.class)) {
-//		return constructComposition((CompositionStatement) refinement);
-//	} else if (refinement.getClass().equals(Composition3StatementImpl.class)) {
-//		return constructComposition3((Composition3Statement) refinement);
-//	} else if (refinement.getClass().equals(RepetitionStatementImpl.class)) {
-//		return constructRepetition((RepetitionStatement) refinement);
-//	} else if (refinement.getClass().equals(SmallRepetitionStatementImpl.class)) {
-//		return constructSmallRepetition((SmallRepetitionStatement) refinement);
-//	} else if (refinement.getClass().equals(StrengthWeakStatementImpl.class)) {
-//		if (refinement.getRefinement() != null) {
-//			return constructCodeBlockOfChildStatement(refinement.getRefinement());
-//		} else {
-//			return refinement.getName() + ";\n";
-//		}
-//	}
-//	return null;
-    
-    private static boolean proveCompositionStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, 
-    		MethodClass javaClass, String uri, IProgressMonitor monitor) {
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
     	boolean prove1, prove2 = false;
     	CompositionStatement compositionStatement = (CompositionStatement) statement;
     	if (compositionStatement.getFirstStatement().getRefinement() != null) {
@@ -336,7 +303,6 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     	}
 		return (prove1 && prove2 && true);
     }
-<<<<<<< HEAD
 
 	private static boolean proveAbstractStatement(AbstractStatement statement, Diagram diagram, boolean returnStatement, IProgressMonitor monitor) {
 		if (!statement.isProven()) {
@@ -366,65 +332,33 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 				}
 			}
 			if (proven && configs == configNum) {
-=======
-	private static boolean proveAbstractStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, boolean returnStatement,
-			Renaming renaming, MethodClass javaClass, String uri, IProgressMonitor monitor) {
-		if (!statement.isProven()) {
-			boolean proven = false;
-			String variants = null;
-			//TODO für SPLs anpassen
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, null, new FileUtil(uri));
-			proven = prove.proveStatementWithKey(returnStatement, false, 0);
-			if (proven) {
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 				statement.setProven(true);
 			} else {
 				statement.setProven(false);
 			}
-<<<<<<< HEAD
 			return proven;
-=======
-	    	return proven;
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 		} else {
 			Console.println("Abstract statement: " + statement.getName().replaceAll("\n", "").replaceAll("\r", "") + " already true");
 			return true;
 		}
 	}
     
-<<<<<<< HEAD
     private static boolean proveSelectionStatement(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor) {
     	boolean proven = true;
     	SelectionStatement selectionStatement = (SelectionStatement) statement;
 		for (AbstractStatement childStatement : selectionStatement.getCommands()) {
 			proven = (proveChildStatement(childStatement.getRefinement(), diagram, monitor) && proven && true);
-=======
-    private static boolean proveSelectionStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, 
-    		MethodClass javaClass, String uri, IProgressMonitor monitor) {
-    	boolean proven = true;
-    	SelectionStatement selectionStatement = (SelectionStatement) statement;
-		for (AbstractStatement childStatement : selectionStatement.getCommands()) {
-			proven = (proveChildStatement(childStatement.getRefinement(), vars, conds, renaming, javaClass, uri, monitor) && proven && true);
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 		}
 		boolean provePre = selectionStatement.isPreProve();
 		if (!(selectionStatement.isProven() && provePre && true)) {
 			if (!selectionStatement.isPreProve()) {
 				EList<Condition> guards = selectionStatement.getGuards();
 				Condition preCondition = selectionStatement.getParent().getPreCondition();
-<<<<<<< HEAD
 				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(diagram.eResource().getURI().toPlatformString(true)), configName);
 				provePre = prove.provePreSelWithKey(guards, preCondition);
 				if (configs == configNum) selectionStatement.setPreProve(provePre);
 			}
 			if (provePre && proven && true && configs == configNum) {
-=======
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, null, new FileUtil(uri));
-				provePre = prove.provePreSelWithKey(guards, preCondition);
-				selectionStatement.setPreProve(provePre);
-			}
-			if (provePre && proven && true) {
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 				selectionStatement.setProven(true);
 			} else {
 				selectionStatement.setProven(false);//
@@ -436,20 +370,11 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     	}
     }
 	
-<<<<<<< HEAD
 	private static boolean proveSmallReptitionStatement(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor) {
 		SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;
 		boolean proven = true;
 		if (repStatement.getLoopStatement().getRefinement() != null) {
 			proven = (proveChildStatement(repStatement.getLoopStatement().getRefinement(), diagram, null) && proven && true);
-=======
-	private static boolean proveSmallReptitionStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, 
-			MethodClass javaClass, String uri, IProgressMonitor monitor) {
-		SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;
-		boolean proven = true;
-		if (repStatement.getLoopStatement().getRefinement() != null) {
-			proven = (proveChildStatement(repStatement.getLoopStatement().getRefinement(), vars, conds, renaming, javaClass, uri, null) && proven && true);
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 		}
 		boolean provePre = repStatement.isPreProven();
 		boolean provePost = repStatement.isPostProven();
@@ -461,7 +386,6 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			Condition postCondition = repStatement.getParent().getPostCondition();
 			String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, false);
 			Variant variant = repStatement.getVariant();
-<<<<<<< HEAD
 			ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(diagram.eResource().getURI().toPlatformString(true)), configName);
 			if (!provePre) {
 				provePre = prove.proveCImpliesCWithKey(preCondition, invariant);
@@ -476,22 +400,6 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 				if (configs == configNum) repStatement.setVariantProven(proveVar);	
 			}
 			if (proven && provePre && provePost && proveVar && configs == configNum) {
-=======
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, null, new FileUtil(uri));
-			if (!provePre) {
-				provePre = prove.proveCImpliesCWithKey(preCondition, invariant);
-				repStatement.setPreProven(provePre);
-			}
-			if (!provePost) {
-				provePost = prove.provePostRepetitionWithKey(invariant, guard, postCondition);
-				repStatement.setPostProven(provePost);
-			}
-			if (!proveVar) {
-				proveVar = prove.proveVariantWithKey(code, invariant, guard, variant);
-				repStatement.setVariantProven(proveVar);	
-			}
-			if (proven && provePre && provePost && proveVar) {
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 				repStatement.setProven(true);
 			} else {
 				repStatement.setProven(false);//

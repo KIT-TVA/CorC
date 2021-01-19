@@ -14,4 +14,12 @@
             genModel="model/cbcmodel.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated cbcmodel -->
+      <package
+            uri="http://www.example.org/cbcclass"
+            class="cbcclass.CbcclassPackage"
+            genModel="model/cbcmodel.genmodel"/>
+   </extension>
+
 </plugin>

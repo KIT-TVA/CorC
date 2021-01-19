@@ -11,12 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
+
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -79,6 +74,13 @@ import org.emftext.language.java.types.impl.VoidImpl;
 import org.emftext.language.java.variables.LocalVariable;
 import org.emftext.language.java.variables.impl.VariableImpl;
 
+import cbcclass.CbcclassFactory;
+import cbcclass.CbcclassPackage;
+import cbcclass.Field;
+import cbcclass.Method;
+import cbcclass.ModelClass;
+import cbcclass.Visibility;
+
 public class GenerateModelFromCode {
 
 	ArrayList<String> jmlLoopConditions = new ArrayList<String>();
@@ -131,9 +133,9 @@ public class GenerateModelFromCode {
 			ModelClass modelClass =  CbcclassFactory.eINSTANCE.createModelClass();
 			modelClass.setName(className);
 			modelClass.setJavaClassURI(URI.createFileURI(iFile.getProjectRelativePath().toPortableString()).toFileString());
-			EList<de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Condition> invs = new BasicEList<de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Condition>();
+			EList<cbcclass.Condition> invs = new BasicEList<cbcclass.Condition>();
 			for(String i : invariants) {
-				de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Condition inv = CbcclassFactory.eINSTANCE.createCondition();
+				cbcclass.Condition inv = CbcclassFactory.eINSTANCE.createCondition();
 				inv.setName(i);
 				invs.add(inv);
 			}
@@ -229,6 +231,7 @@ public class GenerateModelFromCode {
 						}
 						String signature = buildSignatureString(classMethod, sj.toString(), typeString );
 						method.setSignature(signature);
+
 			
 						
 						// Initialize the cbcmodels
@@ -269,6 +272,7 @@ public class GenerateModelFromCode {
 							CbCFormula formula = createFormula(classMethod.getName());
 							formula.setClassName(className);
 							formula.setMethodName(signature);
+							method.setCbcStartTriple(formula);
 							GlobalConditions conditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
 							JavaVariables variables2 = CbcmodelFactory.eINSTANCE.createJavaVariables();
 							for (JavaVariable jv : variables.getVariables()) {
@@ -309,7 +313,12 @@ public class GenerateModelFromCode {
 
 							try {
 								r2.save(Collections.EMPTY_MAP);
-							} catch (IOException e) {
+								r2.setTrackingModification(true);
+								IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
+								IPath iLocation = Path.fromOSString(r2.getURI().toFileString()); 
+								IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
+								ifile.getParent().refreshLocal(1, null);
+							} catch (IOException | CoreException e) {
 								e.printStackTrace();
 							}
 							GenerateDiagramFromModel gdfm = new GenerateDiagramFromModel();
@@ -408,7 +417,7 @@ public class GenerateModelFromCode {
 		}
 		// delete first &
 		pre = pre.substring(2);
-		de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Condition preCond = CbcclassFactory.eINSTANCE.createCondition();
+		cbcclass.Condition preCond = CbcclassFactory.eINSTANCE.createCondition();
 		preCond.setName(pre);
 		method.setPrecondition(preCond);
 		formula.getPreCondition().setName(pre);
@@ -431,7 +440,7 @@ public class GenerateModelFromCode {
 		}
 		// delete first &
 		post = post.substring(2);
-		de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Condition postCond = CbcclassFactory.eINSTANCE.createCondition();
+		cbcclass.Condition postCond = CbcclassFactory.eINSTANCE.createCondition();
 		postCond.setName(post);
 		method.setPostcondition(postCond);
 		formula.getPostCondition().setName(post);
