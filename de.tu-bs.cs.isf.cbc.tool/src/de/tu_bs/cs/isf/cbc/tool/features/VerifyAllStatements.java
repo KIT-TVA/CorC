@@ -74,7 +74,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		CbCFormula formula = null;
 		GlobalConditions conds = null;
 		MethodClass javaClass = null;
-		
+
 		for (Shape shape : getDiagram().getChildren()) {
 			Object obj = getBusinessObjectForPictogramElement(shape);
 			if (obj instanceof JavaVariables) {
