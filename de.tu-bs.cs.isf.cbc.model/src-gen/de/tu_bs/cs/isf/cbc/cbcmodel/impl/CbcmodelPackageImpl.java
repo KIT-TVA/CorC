@@ -1399,6 +1399,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		addEEnumLiteral(variableKindEEnum, VariableKind.LOCAL);
 		addEEnumLiteral(variableKindEEnum, VariableKind.PARAM);
 		addEEnumLiteral(variableKindEEnum, VariableKind.RETURN);
+		addEEnumLiteral(variableKindEEnum, VariableKind.RETURNPARAM);
 
 		initEEnum(compositionTechniqueEEnum, CompositionTechnique.class, "CompositionTechnique");
 		addEEnumLiteral(compositionTechniqueEEnum, CompositionTechnique.CONTRACT_OVERRIDING);

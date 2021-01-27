@@ -172,11 +172,13 @@ public class FileUtil {
 
 		List<String> lines = readFileInList(file.getLocation().toOSString());
 		String contentOriginal = "";
+		boolean originalFieldExists = false;
 
 		String content = "";
 		Collections.reverse(lines);
 		for (int i = 0; i < lines.size(); i++) {
 			String line = lines.get(i) + "";
+			if(!originalFieldExists) originalFieldExists = line.contains("public static boolean original;");
 			if (alreadyGenerated && line.contains("generated_" + methodName + "(")) {
 				int index = lines.indexOf(line);
 				while (!lines.get(index+1).contains("/*@")) {
@@ -186,14 +188,19 @@ public class FileUtil {
 						+ ";\n    @ ensures " + methodPostCondition + ";\n    " + assignableString + "\n" + "    @*/\n"
 						+ methodStub + "\n" + content;
 				contentOriginal = line + "\n" + contentOriginal;
-			} else if (!alreadyGenerated && line.contains(" class ") && className == composedClassName) {
-				content = line + "\n\n    /*@\n    @ public normal_behavior\n    @ requires " + methodPreCondition
+			} else if (!alreadyGenerated && line.contains(" class ")) {
+				String newContent ="";
+				if(className == composedClassName) {
+					newContent = line;
+				}else {
+					newContent = line.replaceFirst(className, composedClassName);
+				}
+				
+				if(!originalFieldExists) newContent = newContent + "\n\n public static boolean original; \n";
+				
+				content = newContent + "\n\n    /*@\n    @ public normal_behavior\n    @ requires " + methodPreCondition
 						+ ";\n    @ ensures " + methodPostCondition + ";\n    " + assignableString + "\n" + "    @*/\n"
 						+ methodStub + "  }\n" + content;
-			} else if (!alreadyGenerated && line.contains(" class ") && className != composedClassName) {
-				content = line.replaceFirst(className, composedClassName)
-						+ "\n\n    /*@\n    @ public normal_behavior\n    @ requires " + methodPreCondition + ";\n    @ ensures "
-						+ methodPostCondition + ";\n    " + assignableString + "\n" + "    @*/\n" + methodStub + "  }\n" + content;	
 			} else {
 				content = line + "\n" + content;
 				contentOriginal = line + "\n" + contentOriginal;

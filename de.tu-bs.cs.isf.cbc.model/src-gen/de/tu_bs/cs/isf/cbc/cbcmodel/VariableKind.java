@@ -49,7 +49,7 @@ public enum VariableKind implements Enumerator {
 	RETURN(2, "RETURN", "RETURN"),
 	
 	/**
-	 * The '<em><b>RETURN</b></em>' literal object.
+	 * The '<em><b>RETURNPARAM</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #RETURNPARAM_VALUE
@@ -92,10 +92,10 @@ public enum VariableKind implements Enumerator {
 	public static final int RETURN_VALUE = 2;
 	
 	/**
-	 * The '<em><b>RETURN</b></em>' literal value.
+	 * The '<em><b>RETURNPARAM</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #RETURN
+	 * @see #RETURNPARAM
 	 * @model
 	 * @generated
 	 * @ordered

@@ -12,6 +12,7 @@
       <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/LOCAL"/>
       <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/PARAM"/>
       <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/RETURN"/>
+      <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/RETURNPARAM"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="cbcmodel.ecore#//CompositionTechnique">
       <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//CompositionTechnique/CONTRACT_OVERRIDING"/>
