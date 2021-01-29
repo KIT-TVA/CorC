@@ -273,6 +273,7 @@ public class GenerateModelFromCode {
 							formula.setClassName(className);
 							formula.setMethodName(signature);
 							method.setCbcStartTriple(formula);
+							formula.setMethodObj(method);
 							GlobalConditions conditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
 							JavaVariables variables2 = CbcmodelFactory.eINSTANCE.createJavaVariables();
 							for (JavaVariable jv : variables.getVariables()) {

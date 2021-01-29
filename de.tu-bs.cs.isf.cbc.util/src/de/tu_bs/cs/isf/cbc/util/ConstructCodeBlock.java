@@ -123,7 +123,9 @@ public class ConstructCodeBlock {
         
  //       String globalVariables = constructGlobalVariables(vars, signature);
  //       constructGlobalVariables();
-        while(line != null && !line.contains("@")) {
+        while(!line.contains("@")) {
+        	newCode.append(line);
+        	newCode.append("\n\n");
         	line = br.readLine();
         }
         
