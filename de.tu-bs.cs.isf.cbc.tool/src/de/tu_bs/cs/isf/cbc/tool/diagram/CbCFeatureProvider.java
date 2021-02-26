@@ -46,6 +46,7 @@ import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveCompositionSecondFeat
 import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveRepetitionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveSelectionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.intermediate.BelowImplementationFeature;
+import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeFromModel;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ClassPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.CompositionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConditionPattern;
@@ -128,6 +129,7 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 		return new ICustomFeature[] { 
 				new PrintFormulaFeature(this),
 				new ExtractMethodStubsFeature(this), //!
+				new GenerateCodeFromModel(this),
 				new GenerateTextualRepresentation(this), 
 				new VerifyStatement(this),
 				new VerifyPreRepetitionStatement(this), 
