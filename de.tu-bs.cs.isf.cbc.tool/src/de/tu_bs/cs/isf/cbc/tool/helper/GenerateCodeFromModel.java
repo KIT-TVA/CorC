@@ -64,6 +64,7 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 				renaming = (Renaming) obj;
 			} else if (obj instanceof CbCFormula) {
 				formula = (CbCFormula) obj;
+				//hat method object aus cbc class hier method signature
 			} else if(obj instanceof MethodSignature) {
 				signature = (MethodSignature) obj;
 			}
@@ -91,7 +92,12 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 		}
 		String globalVariables ="";
 		URI uri = getDiagram().eResource().getURI();
-		String location = FileUtil.getProjectLocation(uri) + File.separator + uri.segment(2) + File.separator + uri.segment(3) + File.separator + uri.segment(4) + ".java";
+		String location = FileUtil.getProjectLocation(uri);
+		for(int i = 2; i < uri.segments().length; i++) {
+			location += File.separator + uri.segment(i);
+		}
+		location = location.replace(".diagram", ".java");
+//		String location = FileUtil.getProjectLocation(uri) + File.separator + uri.segment(2) + File.separator + uri.segment(3) + File.separator + uri.segment(4) + ".java";
 		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, renaming, localVariables, returnVariable, signature);
 		writeFile(location, code, formula.getClassName(), signature, globalVariables);
 	}

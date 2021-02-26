@@ -31,5 +31,47 @@
             id="de.tu-bs.cs.isf.cbc.tool.imageProvider">
       </imageProvider>
    </extension>
-
+   <extension
+    point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+    <propertyContributor contributorId="cbc.PropertyContributor">
+        <propertyCategory category="Graphiti">
+        </propertyCategory>
+    </propertyContributor>
+</extension>
+      
+<extension
+      point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+   <propertyTabs
+          contributorId="cbc.PropertyContributor">
+    <propertyTab
+         category="Graphiti"
+         id="CodeReader"
+         label="Code Reader">
+    </propertyTab>
+     <propertyTab
+         category="Graphiti"
+         id="Basics"
+         label="Basics">
+    </propertyTab>
+   </propertyTabs>
+</extension>
+<extension
+      point="org.eclipse.ui.views.properties.tabbed.propertySections">
+    <propertySections
+          contributorId="cbc.PropertyContributor">
+        <propertySection
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.BasicsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilter"
+              id="Basics"
+              tab="Basics">
+        </propertySection>
+        <propertySection
+              afterSection="Basics"
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.CodeReaderSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilter"
+              id="CodeReader"
+              tab="CodeReader">
+        </propertySection>
+    </propertySections>
+</extension>
 </plugin>
