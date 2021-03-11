@@ -246,7 +246,9 @@ public class ConstructCodeBlock {
 				s = useRenamingCondition(s);
 			code.append(s); 
 		}
-		
+		if(returnVar != null) {
+			code.append("\t\treturn" + returnVar.getName().substring(returnVar.getName().indexOf(" ")) + ";");
+		}
 		code.append("\n\t}");//}
 
 		returnVariable = null;
