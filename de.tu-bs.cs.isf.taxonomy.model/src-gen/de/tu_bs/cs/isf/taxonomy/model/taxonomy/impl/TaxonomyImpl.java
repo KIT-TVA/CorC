@@ -91,6 +91,7 @@ public class TaxonomyImpl extends MinimalEObjectImpl.Container implements Taxono
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Algorithm> getAlgorithms() {
 		if (algorithms == null) {
 			algorithms = new EObjectContainmentEList<Algorithm>(Algorithm.class, this, TaxonomyPackage.TAXONOMY__ALGORITHMS);
@@ -103,6 +104,7 @@ public class TaxonomyImpl extends MinimalEObjectImpl.Container implements Taxono
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -112,6 +114,7 @@ public class TaxonomyImpl extends MinimalEObjectImpl.Container implements Taxono
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;

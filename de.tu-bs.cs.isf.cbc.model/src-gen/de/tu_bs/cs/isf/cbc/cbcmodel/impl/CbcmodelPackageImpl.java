@@ -17,6 +17,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Method;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
@@ -197,6 +198,13 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * @generated
 	 */
 	private EClass productVariantEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass originalStatementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1099,6 +1107,16 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * @generated
 	 */
 	@Override
+	public EClass getOriginalStatement() {
+		return originalStatementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EEnum getVariableKind() {
 		return variableKindEEnum;
 	}
@@ -1246,6 +1264,8 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		productVariantEClass = createEClass(PRODUCT_VARIANT);
 		createEAttribute(productVariantEClass, PRODUCT_VARIANT__REFINEMENT_CHAIN);
 
+		originalStatementEClass = createEClass(ORIGINAL_STATEMENT);
+
 		// Create enums
 		variableKindEEnum = createEEnum(VARIABLE_KIND);
 		compositionTechniqueEEnum = createEEnum(COMPOSITION_TECHNIQUE);
@@ -1288,6 +1308,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		composition3StatementEClass.getESuperTypes().add(this.getAbstractStatement());
 		smallRepetitionStatementEClass.getESuperTypes().add(this.getAbstractStatement());
 		strengthWeakStatementEClass.getESuperTypes().add(this.getAbstractStatement());
+		originalStatementEClass.getESuperTypes().add(this.getAbstractStatement());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(cbCFormulaEClass, CbCFormula.class, "CbCFormula", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1393,6 +1414,8 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 
 		initEClass(productVariantEClass, ProductVariant.class, "ProductVariant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getProductVariant_RefinementChain(), ecorePackage.getEString(), "refinementChain", null, 0, 1, ProductVariant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(originalStatementEClass, OriginalStatement.class, "OriginalStatement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(variableKindEEnum, VariableKind.class, "VariableKind");

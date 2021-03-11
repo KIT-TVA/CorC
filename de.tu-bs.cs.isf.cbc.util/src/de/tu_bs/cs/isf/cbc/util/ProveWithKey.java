@@ -294,6 +294,7 @@ public class ProveWithKey {
 			IFile nextClassFile = FileUtil.getClassFile("Generated_" + splittedRefinement[0]);
 			if (i != 1) {
 				splittedRefinement = refinements.get(i-1).split("\\.");
+				System.out.println("splittedRefinement: " +splittedRefinement);
 				methodName = splittedRefinement[1];
 				compositionTechnique = Parser.getCompositionTechniqueForMethod(nextClassFile, methodName, keyword, callingMethod);//old version statt methodName
 			}

@@ -77,6 +77,7 @@ public class TaxonomyFactoryImpl extends EFactoryImpl implements TaxonomyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Taxonomy createTaxonomy() {
 		TaxonomyImpl taxonomy = new TaxonomyImpl();
 		return taxonomy;
@@ -87,6 +88,7 @@ public class TaxonomyFactoryImpl extends EFactoryImpl implements TaxonomyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Algorithm createAlgorithm() {
 		AlgorithmImpl algorithm = new AlgorithmImpl();
 		return algorithm;
@@ -97,6 +99,7 @@ public class TaxonomyFactoryImpl extends EFactoryImpl implements TaxonomyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public DataStructure createDataStructure() {
 		DataStructureImpl dataStructure = new DataStructureImpl();
 		return dataStructure;
@@ -107,6 +110,7 @@ public class TaxonomyFactoryImpl extends EFactoryImpl implements TaxonomyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Method createMethod() {
 		MethodImpl method = new MethodImpl();
 		return method;
@@ -117,6 +121,7 @@ public class TaxonomyFactoryImpl extends EFactoryImpl implements TaxonomyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public DataType createDataType() {
 		DataTypeImpl dataType = new DataTypeImpl();
 		return dataType;
@@ -127,6 +132,7 @@ public class TaxonomyFactoryImpl extends EFactoryImpl implements TaxonomyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public GlobalConditions createGlobalConditions() {
 		GlobalConditionsImpl globalConditions = new GlobalConditionsImpl();
 		return globalConditions;
@@ -137,6 +143,7 @@ public class TaxonomyFactoryImpl extends EFactoryImpl implements TaxonomyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Condition createCondition() {
 		ConditionImpl condition = new ConditionImpl();
 		return condition;
@@ -147,6 +154,7 @@ public class TaxonomyFactoryImpl extends EFactoryImpl implements TaxonomyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public JavaVariables createJavaVariables() {
 		JavaVariablesImpl javaVariables = new JavaVariablesImpl();
 		return javaVariables;
@@ -157,6 +165,7 @@ public class TaxonomyFactoryImpl extends EFactoryImpl implements TaxonomyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public JavaVariable createJavaVariable() {
 		JavaVariableImpl javaVariable = new JavaVariableImpl();
 		return javaVariable;
@@ -167,6 +176,7 @@ public class TaxonomyFactoryImpl extends EFactoryImpl implements TaxonomyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Renaming createRenaming() {
 		RenamingImpl renaming = new RenamingImpl();
 		return renaming;
@@ -177,6 +187,7 @@ public class TaxonomyFactoryImpl extends EFactoryImpl implements TaxonomyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Rename createRename() {
 		RenameImpl rename = new RenameImpl();
 		return rename;
@@ -187,6 +198,7 @@ public class TaxonomyFactoryImpl extends EFactoryImpl implements TaxonomyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TaxonomyPackage getTaxonomyPackage() {
 		return (TaxonomyPackage)getEPackage();
 	}

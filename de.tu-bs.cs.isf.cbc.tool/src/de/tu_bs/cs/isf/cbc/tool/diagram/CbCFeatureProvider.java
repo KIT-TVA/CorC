@@ -40,19 +40,15 @@ import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStrengthWeakCorrect;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyVariant2;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyVariant3;
-import de.tu_bs.cs.isf.cbc.tool.patterns.Composition3Pattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.CompositionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConditionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConnectionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.FormulaPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.GlobalConditionsPattern;
-import de.tu_bs.cs.isf.cbc.tool.patterns.MethodPattern;
-import de.tu_bs.cs.isf.cbc.tool.patterns.MethodRefinementsPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.MethodStatementPattern;
-import de.tu_bs.cs.isf.cbc.tool.patterns.ProductVariantPattern;
+import de.tu_bs.cs.isf.cbc.tool.patterns.OriginalStatementPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.RenamePattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.RenamingPattern;
-import de.tu_bs.cs.isf.cbc.tool.patterns.RepetitionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ReturnPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.SelectionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.SkipStatementPattern;
@@ -68,25 +64,26 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	public CbCFeatureProvider(IDiagramTypeProvider dtp) {
 		super(dtp);
 		addPattern(new FormulaPattern());
+		addPattern(new OriginalStatementPattern());
 		addPattern(new CompositionPattern());
-		addPattern(new Composition3Pattern());
+		// addPattern(new Composition3Pattern());
 		addPattern(new SelectionPattern());
-		addPattern(new RepetitionPattern());
+		// addPattern(new RepetitionPattern());
 		addPattern(new SmallRepetitionPattern());
 		addPattern(new SkipStatementPattern());
 		addPattern(new MethodStatementPattern());
 		addPattern(new ReturnPattern());
 		addPattern(new StrengthWeakStatementPattern());
 		addPattern(new StatementPattern());
-		addPattern(new MethodPattern());
+		// addPattern(new MethodPattern());
 		addPattern(new GlobalConditionsPattern());
 		addPattern(new ConditionPattern());
 		addPattern(new VariablesPattern());
 		addPattern(new VariablePattern());
 		addPattern(new RenamingPattern());
 		addPattern(new RenamePattern());
-		addPattern(new MethodRefinementsPattern());
-		addPattern(new ProductVariantPattern());
+		// addPattern(new MethodRefinementsPattern());
+		// addPattern(new ProductVariantPattern());
 		addPattern(new VariantPattern());
 		addConnectionPattern(new ConnectionPattern());
 	}
@@ -136,8 +133,8 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 				new EditCompositionTechniqueOfFormula(this), new DrillDownFeature(this), new DrillUpFeature(this),
 				new ChangeNameOfFormulaFeature(this), new VerifyMethodStatementAndSubFormula(this),
 				new RenameStatementFeature(this), new RenameConditionFeature(this), new RenameVariantFeature(this),
-				new RenameVariableFeature(this), new RenameRenamingFeature(this),
-				new LayoutFeature(this), new VerifyCompleteRepetition(this),
-				new GenerateIntermediateConditionFeature(this), new GenerateIntermediateConditionFeature2(this) };
+				new RenameVariableFeature(this), new RenameRenamingFeature(this), new LayoutFeature(this),
+				new VerifyCompleteRepetition(this), new GenerateIntermediateConditionFeature(this),
+				new GenerateIntermediateConditionFeature2(this) };
 	}
 }

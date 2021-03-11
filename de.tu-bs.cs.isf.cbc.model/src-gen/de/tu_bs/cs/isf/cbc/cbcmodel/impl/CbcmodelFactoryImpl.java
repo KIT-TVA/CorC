@@ -79,6 +79,7 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 			case CbcmodelPackage.STRENGTH_WEAK_STATEMENT: return createStrengthWeakStatement();
 			case CbcmodelPackage.METHOD_REFINEMENTS: return createMethodRefinements();
 			case CbcmodelPackage.PRODUCT_VARIANT: return createProductVariant();
+			case CbcmodelPackage.ORIGINAL_STATEMENT: return createOriginalStatement();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -365,6 +366,17 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public OriginalStatement createOriginalStatement() {
+		OriginalStatementImpl originalStatement = new OriginalStatementImpl();
+		return originalStatement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public VariableKind createVariableKindFromString(EDataType eDataType, String initialValue) {
 		VariableKind result = VariableKind.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -420,5 +432,4 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	public static CbcmodelPackage getPackage() {
 		return CbcmodelPackage.eINSTANCE;
 	}
-
 } //CbcmodelFactoryImpl

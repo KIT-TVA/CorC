@@ -154,6 +154,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -163,6 +164,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -175,6 +177,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<DataType> getDataTypes() {
 		if (dataTypes == null) {
 			dataTypes = new EObjectContainmentEList<DataType>(DataType.class, this, TaxonomyPackage.METHOD__DATA_TYPES);
@@ -187,6 +190,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPseudoCode() {
 		return pseudoCode;
 	}
@@ -196,6 +200,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPseudoCode(String newPseudoCode) {
 		String oldPseudoCode = pseudoCode;
 		pseudoCode = newPseudoCode;
@@ -208,6 +213,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPreCondition() {
 		return preCondition;
 	}
@@ -217,6 +223,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPreCondition(String newPreCondition) {
 		String oldPreCondition = preCondition;
 		preCondition = newPreCondition;
@@ -229,6 +236,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPostCondition() {
 		return postCondition;
 	}
@@ -238,6 +246,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPostCondition(String newPostCondition) {
 		String oldPostCondition = postCondition;
 		postCondition = newPostCondition;

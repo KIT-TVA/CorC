@@ -31,6 +31,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateMethodCallsToProve;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
 
 /**
  * Class that creates the graphical representation of Conditions
@@ -252,6 +255,13 @@ public class ConditionPattern extends IdPattern implements IPattern {
 		Condition condition = (Condition) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		condition.setName(value.trim());
 		if (!(condition.eContainer() instanceof GlobalConditions)) {
+			// TODO: updateOriginalCallsToProve, updateMethodCallsToProve and
+			// updateContractsToProve
+			// needs to be triggered, when the whole diagram is saved and not exiting
+			// code-edit mode
+			UpdateOriginalCallsToProve.updateOriginalCallsToProve(condition);
+			UpdateMethodCallsToProve.updateMethodCallsToProve(condition);
+			UpdateContractsToProve.updateContractsToProve(condition);
 			UpdateConditionsOfChildren.updateConditionsofChildren(condition);
 		} else if (condition.eContainer() instanceof GlobalConditions) {
 			CbCFormula formula = null;

@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
+
 import de.ovgu.featureide.fm.core.analysis.cnf.CNF;
 import de.ovgu.featureide.fm.core.analysis.cnf.IVariables;
 import de.ovgu.featureide.fm.core.analysis.cnf.LiteralSet;
@@ -23,7 +24,7 @@ import de.ovgu.featureide.fm.core.configuration.ConfigurationAnalyzer;
 import de.ovgu.featureide.fm.core.configuration.SelectableFeature;
 import de.ovgu.featureide.fm.core.configuration.Selection;
 import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
-import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager;
+import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager; //Notices changes of model.xml
 import de.ovgu.featureide.fm.core.io.manager.FileHandler;
 import de.ovgu.featureide.fm.core.job.LongRunningWrapper;
 
@@ -31,22 +32,22 @@ public class VerifyFeatures {
 	static {
 		FMCoreLibrary.getInstance().install();
 	}
-	
+
 	private static String[][] configurations;
 	private static String callingFeature;
 	private static String[] configLn = new String[0];
 	private static List<String> featureOrder;
-	
+
 	private static IProject thisProject;
 	private static URI uri;
 	private static Path path;
-	
+
 	private static FeatureModelFormula featureModel;
 	private static IFeatureModel featModel;
 	private static Configuration configuration;
 	private static ConfigurationAnalyzer configurationAnalyzer;
-	
-	//calculates feature-configurations
+
+	// calculates feature-configurations
 	public static String[][] verifyConfig(URI uri_new, String method, boolean original) {
 		uri = uri_new;
 		thisProject = FileUtil.getProject(uri);
@@ -55,91 +56,92 @@ public class VerifyFeatures {
 			createEmptyConfiguration(path);
 			featModel = FeatureModelManager.load(path);
 			featureOrder = featModel.getFeatureOrderList();
-			callingFeature = uri.segment(uri.segmentCount()-3) + "";
+			callingFeature = uri.segment(uri.segmentCount() - 3) + "";
 			configurations = new String[0][];
-			
+
 			IFeatureModel featureModel = FeatureModelManager.load(path);
 			Configuration configuration = new Configuration(new FeatureModelFormula(featureModel));
-		    configuration.setManual(callingFeature, Selection.SELECTED);
-		        
-		    List<Configuration> configList = getCompleteConfigurations(configuration);
-		    for (Configuration config : configList) {
-		     	List<IFeature> selected = config.getSelectedFeatures();
-		       	configLn = new String[selected.size()];
-		       	for (int i = 0; i < selected.size(); i++) {
-		       		configLn[i] = selected.get(i) + "";
-		       	}
-		        writeConfig();
-		    }							
+			configuration.setManual(callingFeature, Selection.SELECTED);
+
+			List<Configuration> configList = getCompleteConfigurations(configuration);
+			for (Configuration config : configList) {
+				List<IFeature> selected = config.getSelectedFeatures();
+				configLn = new String[selected.size()];
+				for (int i = 0; i < selected.size(); i++) {
+					configLn[i] = selected.get(i) + "";
+				}
+				writeConfig();
+			}
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
 		checkConfigs(method, original);
 		return configurations;
 	}
-	
-	//removes features not containing method-refinement from list 
+
+	// removes features not containing method-refinement from list
 	public static List<SelectableFeature> removeIrrelevant(List<SelectableFeature> features, String method) {
 		File checkFile;
 		for (int i = 0; i < features.size(); i++) {
 			checkFile = new File(thisProject.getLocation() + "/features/" + features.get(i) + "/diagram/" + method);
 			if (!checkFile.exists() && !(features.get(i) + "").equalsIgnoreCase(callingFeature)) {
 				features.remove(i);
-			}			
+			}
 		}
 		return features;
 	}
-	
-	//writes actual configurations to configurations-array
+
+	// writes actual configurations to configurations-array
 	public static void writeConfig() {
 		String[][] tmp = new String[configurations.length][];
 		for (int i = 0; i < configurations.length; i++) {
 			tmp[i] = configurations[i];
 		}
-		configurations = new String[tmp.length+1][];
+		configurations = new String[tmp.length + 1][];
 		for (int i = 0; i < tmp.length; i++) {
 			configurations[i] = tmp[i];
 		}
-		configurations[configurations.length-1] = configLn;
+		configurations[configurations.length - 1] = configLn;
 		return;
 	}
-	
-	//calculates all configurations possible
+
+	// calculates all configurations possible
 	public static List<Configuration> getCompleteConfigurations(Configuration partialConfig) {
-        FeatureModelFormula formula = partialConfig.getFeatureModelFormula();
-        CNF cnf = formula.getCNF();
-        IVariables vars = cnf.getVariables();
+		FeatureModelFormula formula = partialConfig.getFeatureModelFormula();
+		CNF cnf = formula.getCNF();
+		IVariables vars = cnf.getVariables();
 
-        // Set assumptions for the SAT solver
-        AdvancedSatSolver solver = new AdvancedSatSolver(cnf);
-        for (SelectableFeature feature : partialConfig.getFeatures()) {
-            if (feature.getSelection() != Selection.UNDEFINED) {
-                solver.assignmentPush(vars.getVariable(feature.getFeature().getName(), feature.getSelection() == Selection.SELECTED));
-            }
-        }
+		// Set assumptions for the SAT solver
+		AdvancedSatSolver solver = new AdvancedSatSolver(cnf);
+		for (SelectableFeature feature : partialConfig.getFeatures()) {
+			if (feature.getSelection() != Selection.UNDEFINED) {
+				solver.assignmentPush(
+						vars.getVariable(feature.getFeature().getName(), feature.getSelection() == Selection.SELECTED));
+			}
+		}
 
-        // Compute complete configurations
-        IConfigurationGenerator generator = new AllConfigurationGenerator(solver, Integer.MAX_VALUE);
-        List<LiteralSet> completeConfigList = LongRunningWrapper.runMethod(generator);
+		// Compute complete configurations
+		IConfigurationGenerator generator = new AllConfigurationGenerator(solver, Integer.MAX_VALUE);
+		List<LiteralSet> completeConfigList = LongRunningWrapper.runMethod(generator);
 
-        // Convert to configuration objects
-        ArrayList<Configuration> configList = new ArrayList<>();
-        for (LiteralSet completeConfiguration : completeConfigList) {
-            Configuration config = new Configuration(partialConfig, formula);
-            for (int literal : completeConfiguration.getLiterals()) {
-                SelectableFeature feature = config.getSelectableFeature(vars.getName(literal));
-                if (feature.getSelection() == Selection.UNDEFINED) {
-                    config.setManual(feature, literal > 0 ? Selection.SELECTED : Selection.UNSELECTED);
-                }
-            }
-            configList.add(config);
-        }
-        return configList;
-    }
+		// Convert to configuration objects
+		ArrayList<Configuration> configList = new ArrayList<>();
+		for (LiteralSet completeConfiguration : completeConfigList) {
+			Configuration config = new Configuration(partialConfig, formula);
+			for (int literal : completeConfiguration.getLiterals()) {
+				SelectableFeature feature = config.getSelectableFeature(vars.getName(literal));
+				if (feature.getSelection() == Selection.UNDEFINED) {
+					config.setManual(feature, literal > 0 ? Selection.SELECTED : Selection.UNSELECTED);
+				}
+			}
+			configList.add(config);
+		}
+		return configList;
+	}
 
-	//removes irrelevant features and configurations from configurations-array
+	// removes irrelevant features and configurations from configurations-array
 	public static void checkConfigs(String method, boolean original) {
-		//bring features to featuremodel-order
+		// bring features to featuremodel-order
 		for (int i = 0; i < configurations.length; i++) {
 			configLn = new String[configurations[i].length];
 			int cursor = 0;
@@ -157,33 +159,35 @@ public class VerifyFeatures {
 				}
 			}
 			configurations[i] = configLn;
-		}		
-		
+		}
+
 		if (original) {
-			//removes all features with order-place behind calling feature
+			// removes all features with order-place behind calling feature
 			for (int i = 0; i < configurations.length; i++) {
 				for (int j = 0; j < configurations[i].length; j++) {
 					if (configurations[i][j].equals(callingFeature)) {
-						for (int k = j+1; k < configurations[i].length; k++) {
+						for (int k = j + 1; k < configurations[i].length; k++) {
 							configurations[i][k] = "empty";
 						}
 					}
 				}
 			}
 		}
-		
-		//remove all features from configurations which are not part of refinement-chain
+
+		// remove all features from configurations which are not part of
+		// refinement-chain
 		File checkFile;
 		for (int i = 0; i < configurations.length; i++) {
 			for (int j = 0; j < configurations[i].length; j++) {
-				checkFile = new File(thisProject.getLocation() + "/features/" + configurations[i][j] + "/diagram/" + method);
+				checkFile = new File(
+						thisProject.getLocation() + "/features/" + configurations[i][j] + "/diagram/" + method);
 				if (!checkFile.exists() && !configurations[i][j].equals(callingFeature)) {
 					configurations[i][j] = "empty";
-				}												
-			}					
+				}
+			}
 		}
-		
-		//remove all duplicate configurations		
+
+		// remove all duplicate configurations
 		String conjConfigs[] = new String[configurations.length];
 		for (int i = 0; i < configurations.length; i++) {
 			for (int j = 0; j < configurations[i].length; j++) {
@@ -204,7 +208,7 @@ public class VerifyFeatures {
 			}
 		}
 
-		//clean configurations from empty features
+		// clean configurations from empty features
 		int counter;
 		for (int i = 0; i < configurations.length; i++) {
 			counter = 0;
@@ -243,8 +247,8 @@ public class VerifyFeatures {
 				counter++;
 			}
 		configurations = temp;
-		
-		//remove empty configurations
+
+		// remove empty configurations
 		conjConfigs = new String[configurations.length];
 		for (int i = 0; i < configurations.length; i++) {
 			for (int j = 0; j < configurations[i].length; j++) {
@@ -264,7 +268,7 @@ public class VerifyFeatures {
 				}
 			}
 		}
-		
+
 		counter = 0;
 		for (int i = 0; i < configurations.length; i++) {
 			if (configurations[i][0] != null) {
@@ -282,11 +286,11 @@ public class VerifyFeatures {
 				temporary[counter] = tmp;
 				counter++;
 			}
-		}		
-		configurations = temporary;		
+		}
+		configurations = temporary;
 		return;
 	}
-	
+
 	private static void createEmptyConfiguration(final Path path) throws IOException {
 		final FileHandler<IFeatureModel> fh = FeatureModelManager.getFileHandler(path);
 		if (!fh.getLastProblems().containsError()) {

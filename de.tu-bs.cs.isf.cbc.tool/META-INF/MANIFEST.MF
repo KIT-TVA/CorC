@@ -18,7 +18,17 @@ Require-Bundle: org.eclipse.graphiti,
  org.eclipse.xtext;bundle-version="2.10.0",
  org.eclipse.xtext.xbase,
  org.eclipse.emf.common,
- org.eclipse.draw2d;bundle-version="3.10.100"
-Import-Package: de.tu_bs.cs.isf.taxonomy.graphiti.features,
- de.tu_bs.cs.isf.toolkit.support.compare
+ org.eclipse.draw2d;bundle-version="3.10.100",
+ org.eclipse.graphiti.mm,
+ org.eclipse.swt,
+ de.ovgu.featureide.fm.core,
+ org.eclipse.mylyn.commons.ui;bundle-version="3.24.2",
+ org.eclipse.ui.workbench
+Import-Package: de.ovgu.featureide.fm.core.base,
+ de.ovgu.featureide.fm.core.io.manager,
+ de.tu_bs.cs.isf.taxonomy.graphiti.features,
+ de.tu_bs.cs.isf.toolkit.support.compare,
+ org.eclipse.compare.internal,
+ org.eclipse.emf.common.ui,
+ org.eclipse.jdt.core
 Export-Package: de.tu_bs.cs.isf.cbc.tool.helper

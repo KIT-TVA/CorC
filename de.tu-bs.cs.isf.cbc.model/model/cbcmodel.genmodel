@@ -119,5 +119,6 @@
     <genClasses ecoreClass="cbcmodel.ecore#//ProductVariant">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//ProductVariant/refinementChain"/>
     </genClasses>
+    <genClasses ecoreClass="cbcmodel.ecore#//OriginalStatement"/>
   </genPackages>
 </genmodel:GenModel>

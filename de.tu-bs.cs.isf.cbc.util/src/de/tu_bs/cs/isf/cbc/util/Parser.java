@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
 
 import com.google.common.collect.Lists;
@@ -107,9 +108,30 @@ public class Parser {
 				} else {
 					String currLine = linesOfFile.get(i);
 					if (currLine.contains(keyword)) {
-						return currLine
-								.substring(currLine.indexOf(keyword) + keyword.length(), currLine.lastIndexOf(";"))
-								.trim();
+						//
+						/*
+						 * return currLine .substring(currLine.indexOf(keyword) + keyword.length(),
+						 * currLine.lastIndexOf(";")) .trim();
+						 */
+						// Changes start
+						// last character of such line must be ";"
+						if (currLine.substring(currLine.length() - 1).contains(";")) {
+							return currLine
+									.substring(currLine.indexOf(keyword) + keyword.length(), currLine.lastIndexOf(";"))
+									.trim();
+						// otherwise take all lines until last character is a ";"
+						} else {
+							while (!linesOfFile.get(i + 1).substring(linesOfFile.get(i + 1).length() - 1)
+									.contains(";")) {
+								currLine += linesOfFile.get(i + 1);
+								i++;
+							}
+							currLine += linesOfFile.get(i + 1);
+							return currLine
+									.substring(currLine.indexOf(keyword) + keyword.length(), currLine.lastIndexOf(";"))
+									.trim();
+							// Changes end
+						}
 					} else if (currLine.contains("}")) {
 						if (keyword == KEYWORD_JML_MODIFIABLE) {
 							return "";
@@ -250,15 +272,26 @@ public class Parser {
 		}
 	}
 
-	public static CompositionTechnique getCompositionTechniqueForMethod(IFile classFile, String feature,
-			String keyword, String callingMethod) {
-		String path = classFile.getLocation().toOSString();
-		String pathParts[] = path.split("\\\\");
-		String location = "";
-		for (int i = 0; i < pathParts.length - 2; i++) {
-			location += pathParts[i] + "\\";
-		}
-		location += "features\\" + feature.substring(0, 1).toUpperCase() + feature.substring(1) + "\\diagram\\" + callingMethod + ".cbcmodel";
+	public static CompositionTechnique getCompositionTechniqueForMethod(IFile classFile, String feature, String keyword,
+			String callingMethod) {
+		//Changes start
+//		String path = classFile.getLocation().toOSString();
+//		String pathParts[] = path.split("\\\\");
+//		String location = "";
+//		for (int i = 0; i < pathParts.length - 2; i++) {
+//			location += pathParts[i] + "\\";
+//		}
+//		location += "features\\" + feature.substring(0, 1).toUpperCase() + feature.substring(1) + "\\diagram\\" + callingMethod + ".cbcmodel";
+		IPath path1 = classFile.getLocation();
+		IPath path2 = path1.removeLastSegments(2);
+		IPath path3 = path2.append("features");
+		IPath path4 = path3.append(feature.substring(0, 1).toUpperCase() + feature.substring(1));
+		IPath path5 = path4.append("diagram");
+		IPath path6 = path5.append(callingMethod + ".cbcmodel");
+		String location = path6.toString();
+		
+		
+		
 		List<String> linesOfFile = FileUtil.readFileInList(location);
 		for (int i = 0; i < linesOfFile.size(); i++) {
 			String currLine = linesOfFile.get(i);
@@ -267,9 +300,9 @@ public class Parser {
 			} else if (currLine.contains("CONJUNCTIVE_CONTRACTING")) {
 				return CompositionTechnique.CONJUNCTIVE_CONTRACTING;
 			}
-			
-			}
-		
+
+		}
+
 		return CompositionTechnique.CONTRACT_OVERRIDING;
 	}
 
@@ -361,11 +394,11 @@ public class Parser {
 				if (!methodFound) {
 					if (currLine.contains(methodName + "(")) {
 						methodFound = true;
-						methodStub = currLine; 
-						//braketCounter++;
+						methodStub = currLine;
+						// braketCounter++;
 					}
 				} else {
-					//methodStub += currLine + "\n";
+					// methodStub += currLine + "\n";
 					if (currLine.contains("{")) {
 						braketCounter++;
 					}

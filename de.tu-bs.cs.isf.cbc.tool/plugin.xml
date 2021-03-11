@@ -31,5 +31,74 @@
             id="de.tu-bs.cs.isf.cbc.tool.imageProvider">
       </imageProvider>
    </extension>
-
+   <extension
+    point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+    <propertyContributor contributorId="cbc.PropertyContributor">
+        <propertyCategory category="Graphiti">
+        </propertyCategory>
+    </propertyContributor>
+	</extension>
+     
+<extension
+      point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+   <propertyTabs
+          contributorId="cbc.PropertyContributor">
+          <propertyTab
+         category="Graphiti"
+         id="Code Reader"
+         label="Code Reader">
+    </propertyTab>
+          <propertyTab
+         category="Graphiti"
+         id="Replacements"
+         label="Replacements">
+    </propertyTab>
+   <propertyTab
+         category="Graphiti"
+         id="Configurations"
+         label="Configurations">
+    </propertyTab>
+   <propertyTab
+         category="Graphiti"
+         id="Basics"
+         label="Basics">
+    </propertyTab>
+   </propertyTabs>
+</extension>
+<extension
+      point="org.eclipse.ui.views.properties.tabbed.propertySections">
+    <propertySections
+          contributorId="cbc.PropertyContributor">
+        <propertySection
+              class="de.tu_bs.cs.isf.cbc.tool.properties_view.BasicsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.properties_view.PictogramFilter"
+              id="Basics"
+              tab="Basics">
+        </propertySection>
+        <propertySection
+              class="de.tu_bs.cs.isf.cbc.tool.properties_view.ConfigurationsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.properties_view.PictogramFilter"
+              id="Configurations"
+              tab="Configurations">
+        </propertySection>
+        <propertySection
+              class="de.tu_bs.cs.isf.cbc.tool.properties_view.ReplacementsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.properties_view.PictogramFilter"
+              id="Replacements"
+              tab="Replacements">
+        </propertySection>
+        <propertySection
+              class="de.tu_bs.cs.isf.cbc.tool.properties_view.CodeReaderSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.properties_view.PictogramFilter"
+              id="Code Reader"
+              tab="Code Reader">
+        </propertySection>
+    </propertySections>
+</extension>
+<extension
+      point="org.eclipse.ui.startup">
+   <startup
+         class="workspace_behavior.Initialize_Listener">
+   </startup>
+</extension>
 </plugin>

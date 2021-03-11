@@ -29,6 +29,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.services.IPeService;
+import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.graphiti.util.PredefinedColoredAreas;
 
@@ -112,7 +113,6 @@ public class StrengthWeakStatementPattern extends IdPattern implements IPattern 
 	@Override
 	public PictogramElement doAdd(IAddContext context) {
 		manageColor(IColorConstant.DARK_GREEN);
-		
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
 		StrengthWeakStatement addedStatement = (StrengthWeakStatement) context.getNewObject();
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
@@ -225,7 +225,10 @@ public class StrengthWeakStatementPattern extends IdPattern implements IPattern 
 			Graphiti.getGaService().setLocationAndSize(ga, third * 2, 40, third, mainRectangle.getHeight() - 40); 
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
-			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
+			//Changes start
+			//Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
+			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 22, 6, 12, 12);
+			//Changes end
 			changesDone = true;
 		//Header:
 		} else if (id.equals(ID_NAME_HEADER)) {
@@ -320,16 +323,17 @@ public class StrengthWeakStatementPattern extends IdPattern implements IPattern 
 					if (pElement.getContainer() != null) updatePictogramElement(pElement.getContainer());
 				}
 			} else {
-				rectangle.setForeground(manageColor(IColorConstant.RED));
-				if(domainObject.getParent()!= null) {
-					IPeService pe = Graphiti.getPeService();
-					EObject[] objArray = {domainObject.getParent()};
-					Object[] obj =  pe.getLinkedPictogramElements(objArray, getDiagram());
-					if (obj.length > 0) {
-						Shape pElement = (Shape) obj[0];
-						if (pElement.getContainer() != null) updatePictogramElement(pElement.getContainer());
-					}
-				}
+//				rectangle.setForeground(manageColor(IColorConstant.RED));
+//				if(domainObject.getParent()!= null) {
+//					IPeService pe = Graphiti.getPeService();
+//					EObject[] objArray = {domainObject.getParent()};
+//					Object[] obj =  pe.getLinkedPictogramElements(objArray, getDiagram());
+//					if (obj.length > 0) {
+//						Shape pElement = (Shape) obj[0];
+//						if (pElement.getContainer() != null) updatePictogramElement(pElement.getContainer());
+//					}
+//				}
+				rectangle.setForeground(manageColor(new ColorConstant(236, 215, 25)));
 			}
 			return true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
@@ -340,6 +344,9 @@ public class StrengthWeakStatementPattern extends IdPattern implements IPattern 
 				image.setId(CbCImageProvider.IMG_PROVEN);
 			} else {
 				image.setId(CbCImageProvider.IMG_UNPROVEN);
+				//Changes start
+				image.setId(CbCImageProvider.IMG_WARNING);
+				//Changes end
 			} 
 		}
 		return false;
@@ -368,6 +375,7 @@ public class StrengthWeakStatementPattern extends IdPattern implements IPattern 
 
 	@Override
 	public String checkValueValid(String value, IDirectEditingContext context) {
+		System.out.println("value in streanghweak: "+value);
 		if (value == null || value.length() == 0) {
 			return "Statement must not be empty";
 		}

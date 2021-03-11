@@ -77,7 +77,10 @@ public class GetDiagramUtil {
     }
  
     private static URI getFileURI(IFile file, ResourceSet resourceSet) {
-       final String pathName = file.getFullPath().toString();
+    	//Changes start
+       //final String pathName = file.getFullPath().toString(); Doesnt work because path is relative to containing workspace
+    	final String pathName = file.getLocation().toString();
+    	//Changes End
        URI resourceURI = URI.createFileURI(pathName);
        resourceURI = resourceSet.getURIConverter().normalize(resourceURI);
        return resourceURI;

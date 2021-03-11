@@ -46,9 +46,7 @@ public enum VariableKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	RETURN(2, "RETURN", "RETURN"),
-	
-	/**
+	RETURN(2, "RETURN", "RETURN"), /**
 	 * The '<em><b>RETURNPARAM</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

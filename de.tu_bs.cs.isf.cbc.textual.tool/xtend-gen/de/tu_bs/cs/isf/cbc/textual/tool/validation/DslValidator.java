@@ -31,9 +31,9 @@ import org.eclipse.xtext.validation.CheckType;
  */
 @SuppressWarnings("all")
 public class DslValidator extends AbstractDslValidator {
-  public final static String INVALID_NAME = "invalidName";
+  public static final String INVALID_NAME = "invalidName";
   
-  public final static String NOT_PROVED = "notProved";
+  public static final String NOT_PROVED = "notProved";
   
   @Check
   public void checkSyntaxOfStatement(final AbstractStatement statement) {

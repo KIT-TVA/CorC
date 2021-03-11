@@ -143,7 +143,7 @@
     <eLiterals name="LOCAL" literal="LOCAL"/>
     <eLiterals name="PARAM" value="1" literal="PARAM"/>
     <eLiterals name="RETURN" value="2" literal="RETURN"/>
-    <eLiterals name="RETURNPARAM" value="3" literal="RETURNPARAM"/>
+    <eLiterals name="RETURNPARAM" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="CompositionTechnique">
     <eLiterals name="CONTRACT_OVERRIDING"/>
@@ -153,4 +153,5 @@
   <eClassifiers xsi:type="ecore:EClass" name="ProductVariant">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="refinementChain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OriginalStatement" eSuperTypes="#//AbstractStatement"/>
 </ecore:EPackage>

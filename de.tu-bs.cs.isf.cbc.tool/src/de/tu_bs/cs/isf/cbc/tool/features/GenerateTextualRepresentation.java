@@ -26,6 +26,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement;
@@ -38,6 +39,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.Composition3StatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CompositionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl;
+import de.tu_bs.cs.isf.cbc.cbcmodel.impl.OriginalStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.RepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
@@ -289,6 +291,20 @@ public class GenerateTextualRepresentation extends MyAbstractAsynchronousCustomF
     	return buffer.toString();
 	}
     
+    private String printOriginalStatement(String tabs, OriginalStatement statement) {
+    	StringBuffer buffer = new StringBuffer();
+    	buffer.append("pre:{\"");
+    	buffer.append(statement.getPreCondition().getName() + "\"}");
+    	buffer.append("\n" + tabs + "{");
+    	if(statement.getRefinement() != null) {
+    		buffer.append(statement.getRefinement().getName());
+    	}
+    	buffer.append("}");
+    	buffer.append("\n" + tabs + "post:{\"");
+    	buffer.append(statement.getPostCondition().getName() + "\"}");
+    	return buffer.toString();
+	}
+    
     private String printComposition3Statement(String tabs, Composition3Statement statement) {
     	StringBuffer buffer = new StringBuffer();
     	buffer.append("{\n" + tabs + "\t");
@@ -345,6 +361,8 @@ public class GenerateTextualRepresentation extends MyAbstractAsynchronousCustomF
     		return printComposition3Statement(tabs, (Composition3Statement) statement);
     	} else if (statement.getClass().equals(StrengthWeakStatementImpl.class)) {
     		return printStrengthWeakStatement(tabs, (StrengthWeakStatement) statement);
+    	} else if (statement.getClass().equals(OriginalStatementImpl.class)) {
+    		return printOriginalStatement(tabs, (OriginalStatementImpl) statement);
     	} else {
     		return "";
     	}

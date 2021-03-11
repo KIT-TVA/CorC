@@ -108,6 +108,7 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 
 	@Override
 	public PictogramElement doAdd(IAddContext context) {
+		System.out.println("skip");
 		manageColor(IColorConstant.DARK_GREEN);
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
 		SkipStatement addedStatement = (SkipStatement) context.getNewObject();

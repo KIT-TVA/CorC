@@ -1781,6 +1781,97 @@ public interface CbcmodelPackage extends EPackage {
 	int PRODUCT_VARIANT_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.OriginalStatementImpl <em>Original Statement</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.OriginalStatementImpl
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getOriginalStatement()
+	 * @generated
+	 */
+	int ORIGINAL_STATEMENT = 22;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORIGINAL_STATEMENT__NAME = ABSTRACT_STATEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Refinement</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORIGINAL_STATEMENT__REFINEMENT = ABSTRACT_STATEMENT__REFINEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORIGINAL_STATEMENT__PARENT = ABSTRACT_STATEMENT__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Post Condition</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORIGINAL_STATEMENT__POST_CONDITION = ABSTRACT_STATEMENT__POST_CONDITION;
+
+	/**
+	 * The feature id for the '<em><b>Pre Condition</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORIGINAL_STATEMENT__PRE_CONDITION = ABSTRACT_STATEMENT__PRE_CONDITION;
+
+	/**
+	 * The feature id for the '<em><b>Proven</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORIGINAL_STATEMENT__PROVEN = ABSTRACT_STATEMENT__PROVEN;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORIGINAL_STATEMENT__COMMENT = ABSTRACT_STATEMENT__COMMENT;
+
+	/**
+	 * The number of structural features of the '<em>Original Statement</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORIGINAL_STATEMENT_FEATURE_COUNT = ABSTRACT_STATEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Original Statement</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORIGINAL_STATEMENT_OPERATION_COUNT = ABSTRACT_STATEMENT_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind <em>Variable Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1788,7 +1879,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getVariableKind()
 	 * @generated
 	 */
-	int VARIABLE_KIND = 22;
+	int VARIABLE_KIND = 23;
 
 	/**
 	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique <em>Composition Technique</em>}' enum.
@@ -1798,7 +1889,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getCompositionTechnique()
 	 * @generated
 	 */
-	int COMPOSITION_TECHNIQUE = 23;
+	int COMPOSITION_TECHNIQUE = 24;
 
 
 	/**
@@ -2638,7 +2729,6 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getStrengthWeakStatement();
-
 	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements <em>Method Refinements</em>}'.
 	 * <!-- begin-user-doc -->
@@ -2680,6 +2770,16 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getProductVariant_RefinementChain();
+
+	/**
+	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement <em>Original Statement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Original Statement</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement
+	 * @generated
+	 */
+	EClass getOriginalStatement();
 
 	/**
 	 * Returns the meta object for enum '{@link de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind <em>Variable Kind</em>}'.
@@ -3425,6 +3525,16 @@ public interface CbcmodelPackage extends EPackage {
 		EAttribute PRODUCT_VARIANT__REFINEMENT_CHAIN = eINSTANCE.getProductVariant_RefinementChain();
 
 		/**
+		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.OriginalStatementImpl <em>Original Statement</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.OriginalStatementImpl
+		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getOriginalStatement()
+		 * @generated
+		 */
+		EClass ORIGINAL_STATEMENT = eINSTANCE.getOriginalStatement();
+
+		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind <em>Variable Kind</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3445,5 +3555,4 @@ public interface CbcmodelPackage extends EPackage {
 		EEnum COMPOSITION_TECHNIQUE = eINSTANCE.getCompositionTechnique();
 
 	}
-
 } //CbcmodelPackage

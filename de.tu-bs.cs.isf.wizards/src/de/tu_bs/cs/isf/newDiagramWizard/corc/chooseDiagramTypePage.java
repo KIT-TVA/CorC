@@ -152,7 +152,6 @@ public class chooseDiagramTypePage extends WizardPage {
 		
 		//cutting the toString from selection so it can be used as a path:
 		String oldselection = selected.toString();
-		System.out.println("old: " + oldselection);
 		String selection = oldselection.substring(2, oldselection.length() - 1); //cuts first two and the last character [X, ]
 		String currentPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
 		System.out.println("new: " + selection);

@@ -133,9 +133,12 @@ public class CompositionPattern extends IdPattern implements IPattern {
 
 	@Override
 	public PictogramElement doAdd(IAddContext context) {
+		System.out.println("context in comp: "+context);
 		manageColor(IColorConstant.DARK_GREEN);
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
+		System.out.println("getTargetContainer in comp:: "+targetDiagram);
 		CompositionStatement addedStatement = (CompositionStatement) context.getNewObject();
+		System.out.println("addedStatement in comp:"+addedStatement);
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		IGaService gaService = Graphiti.getGaService();
 		int width = context.getWidth() <= 0 ? 500 : context.getWidth();

@@ -2,6 +2,7 @@ package de.tu_bs.cs.isf.cbc.tool.patterns;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -119,6 +120,8 @@ public class StatementPattern extends IdPattern implements IPattern {
 		manageColor(IColorConstant.DARK_GREEN);
 
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
+		// System.out.println("contributorID:
+		// "+targetDiagram.getDiagramTypeId()+".PropertyContributor");
 		AbstractStatement addedStatement = (AbstractStatement) context.getNewObject();
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		IGaService gaService = Graphiti.getGaService();
@@ -377,6 +380,11 @@ public class StatementPattern extends IdPattern implements IPattern {
 	public String checkValueValid(String value, IDirectEditingContext context) {
 		if (value == null || value.length() == 0) {
 			return "Statement must not be empty";
+		}
+		if (Pattern.matches(".*original[(].*[)].*", value) == true) {
+			return "Please use an Original-Call Statement for an original-call";
+		} else if (Pattern.matches(".*[a-zA-Z0-9]+[(].*[)].*", value) == true) {
+			return "Please use an Original-Call Statement for an method-call";
 		}
 		if (value.contains(";") && !CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(value)) {
 			return "Statement has not the correct syntax.";

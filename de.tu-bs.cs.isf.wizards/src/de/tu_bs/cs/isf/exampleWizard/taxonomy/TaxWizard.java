@@ -74,7 +74,6 @@ public class TaxWizard extends Wizard implements INewWizard {
 	        	URL sourceURL = FileLocator.find(wizardBundle, sourcePath, null);
 	        	try {
 					pluginPath = (FileLocator.toFileURL(sourceURL).getPath()); //contains path where the plugin (exampleWizard) is installed
-					System.out.println(pluginPath);
 		        	if (namePage.madfa) {   
 		    			pasteDiagram("MadfaTax");    			     	
 		        	}

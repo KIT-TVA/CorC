@@ -8,6 +8,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
@@ -22,7 +23,7 @@ public class UpdateConditionsOfChildren {
 		AbstractStatement statement = (AbstractStatement) condition.eContainer();
 		if (statement instanceof CompositionStatement || statement instanceof Composition3Statement
 				|| statement instanceof RepetitionStatement || statement instanceof SmallRepetitionStatement
-				|| statement instanceof SelectionStatement) {
+				|| statement instanceof SelectionStatement || statement instanceof OriginalStatement) {
 			if (statement.getParent() != null) {
 				updateRefinedStatement(statement.getParent(), statement);
 			}
@@ -241,8 +242,18 @@ public class UpdateConditionsOfChildren {
 			}
 
 		} else if (refinedStatement instanceof AbstractStatement) {
-			AbstractStatement childAbstract = (AbstractStatement) refinedStatement;
+			AbstractStatement childAbstract = refinedStatement;
 
+			if (!childAbstract.getPreCondition().getName().equals(preParent.getName())
+					|| !childAbstract.getPostCondition().getName().equals(postParent.getName())) {
+				refinedStatement.setProven(false);
+			}
+
+			childAbstract.getPreCondition().setName(preParent.getName());
+			childAbstract.getPostCondition().setName(postParent.getName());
+
+		} else if (refinedStatement instanceof OriginalStatement) {
+			OriginalStatement childAbstract = (OriginalStatement) refinedStatement;
 			if (!childAbstract.getPreCondition().getName().equals(preParent.getName())
 					|| !childAbstract.getPostCondition().getName().equals(postParent.getName())) {
 				refinedStatement.setProven(false);
