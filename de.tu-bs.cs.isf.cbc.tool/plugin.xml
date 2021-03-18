@@ -70,26 +70,26 @@
     <propertySections
           contributorId="cbc.PropertyContributor">
         <propertySection
-              class="PropertiesView.BasicsSection"
-              filter="PropertiesView.PictogramFilter"
+              class="de.tu_bs.cs.isf.cbc.tool.properties_view.BasicsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.properties_view.PictogramFilter"
               id="Basics"
               tab="Basics">
         </propertySection>
         <propertySection
-              class="PropertiesView.ConfigurationsSection"
-              filter="PropertiesView.PictogramFilter"
+              class="de.tu_bs.cs.isf.cbc.tool.properties_view.ConfigurationsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.properties_view.PictogramFilter"
               id="Configurations"
               tab="Configurations">
         </propertySection>
         <propertySection
-              class="PropertiesView.ReplacementsSection"
-              filter="PropertiesView.PictogramFilter"
+              class="de.tu_bs.cs.isf.cbc.tool.properties_view.ReplacementsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.properties_view.PictogramFilter"
               id="Replacements"
               tab="Replacements">
         </propertySection>
         <propertySection
-              class="PropertiesView.CodeReaderSection"
-              filter="PropertiesView.PictogramFilter"
+              class="de.tu_bs.cs.isf.cbc.tool.properties_view.CodeReaderSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.properties_view.PictogramFilter"
               id="Code Reader"
               tab="Code Reader">
         </propertySection>

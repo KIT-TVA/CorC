@@ -1,4 +1,4 @@
-package PropertiesView;
+package de.tu_bs.cs.isf.cbc.tool.properties_view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -41,6 +42,16 @@ import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
 public class CodeReaderSection extends GFPropertySection implements ITabbedPropertyConstants {
 
 	final List<Button> buttons = new ArrayList<Button>();
+	// Defining the logical properties
+	private Composite parent;
+	private TabbedPropertySheetPage tabbedPropertySheetPage;
+	private Display display;
+	
+	private Device device = Display.getCurrent ();
+	private Color white = new Color (device, 255, 255, 255);
+
+	private Object bo;
+	
 	// Defining the UI properties
 	private StyledText codeText;
 	private Label codeLabel;
@@ -48,11 +59,6 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 	private Label actionLabel;
 	private Button saveButton;
 
-	private Composite parent;
-	private TabbedPropertySheetPage tabbedPropertySheetPage;
-	private Display display;
-
-	private Object bo;
 
 	@Override
 	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -73,16 +79,19 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 
 		codeLabel = new Label(composite, SWT.PUSH);
 		codeLabel.setText("Code: ");
+		codeLabel.setBackground(white);
 
 		codeText = new StyledText(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
 		GridData outputGridData = new GridData(SWT.WRAP, SWT.WRAP, true, false);
 		outputGridData.widthHint = 800;
 		codeText.setText("Choose a code block");
 		codeText.setLayoutData(outputGridData);
+		codeText.setBackground(white);
 
 		actionLabel = new Label(composite, SWT.PUSH);
 		actionLabel.setText("Action: ");
-
+		actionLabel.setBackground(white);
+		
 		// generateButton
 		saveButton = new Button(composite, SWT.PUSH);
 		saveButton.setText("Save");

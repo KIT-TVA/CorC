@@ -1,4 +1,4 @@
-package PropertiesView;
+package de.tu_bs.cs.isf.cbc.tool.properties_view;
 
 import java.io.File;
 import java.nio.file.Path;

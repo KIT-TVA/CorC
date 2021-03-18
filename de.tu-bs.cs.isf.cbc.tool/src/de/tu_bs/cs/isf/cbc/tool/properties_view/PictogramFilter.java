@@ -1,4 +1,4 @@
-package PropertiesView;
+package de.tu_bs.cs.isf.cbc.tool.properties_view;
 
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;

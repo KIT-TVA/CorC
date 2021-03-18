@@ -32,13 +32,13 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
-import PropertiesView.FeatureModel;
 import de.ovgu.featureide.fm.core.base.IFeatureModel;
 import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.OriginalStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCFeatureProvider;
+import de.tu_bs.cs.isf.cbc.tool.properties_view.FeatureModel;
 
 /**
  * Class for handling originals-calls which could be affect due

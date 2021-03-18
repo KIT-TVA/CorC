@@ -1,9 +1,12 @@
-package PropertiesView;
+package de.tu_bs.cs.isf.cbc.tool.properties_view;
+
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -36,6 +39,9 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 	private String currentFeature;
 	private String currentMethod;
 	private String currentCompositionTechnique;
+	
+	private Device device = Display.getCurrent ();
+	private Color white = new Color (device, 255, 255, 255);
 
 	// Defining the UI properties
 	private Label featureLabel;
@@ -50,6 +56,7 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 	@Override
 	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
+		Device device = Display.getCurrent ();
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 
 		Composite composite = factory.createFlatFormComposite(parent);
@@ -66,33 +73,40 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 
 		// methodLabel
 		methodLabel = new Label(composite, SWT.PUSH);
+		Color white = new Color (device, 255, 255, 255);
+		methodLabel.setBackground(white);
 		methodLabel.setText("Method: ");
 
 		// methodLabelText
-		methodLabelText = new Text(composite, SWT.WRAP | SWT.PUSH);
+		methodLabelText = new Text(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
 		GridData methodLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		methodLabelText.setText(currentMethod);
 		methodLabelText.setLayoutData(methodLabelTextGridData);
+		methodLabelText.setBackground(white);
 
 		// featureLabel
 		featureLabel = new Label(composite, SWT.PUSH);
 		featureLabel.setText("Feature: ");
+		featureLabel.setBackground(white);
 
 		// featureLabelText
-		featureLabelText = new Text(composite, SWT.WRAP | SWT.PUSH);
+		featureLabelText = new Text(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
 		GridData featureLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		featureLabelText.setText(currentFeature);
 		featureLabelText.setLayoutData(featureLabelTextGridData);
+		featureLabelText.setBackground(white);
 
 		// compositionTechniqueLabel
 		compositionTechniqueLabel = new Label(composite, SWT.PUSH);
 		compositionTechniqueLabel.setText("Composition technique: ");
+		compositionTechniqueLabel.setBackground(white);
 
 		// compositionTechniqueLabelText
-		compositionTechniqueLabelText = new Text(composite, SWT.WRAP | SWT.PUSH);
+		compositionTechniqueLabelText = new Text(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
 		GridData compositionTechniqueLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		compositionTechniqueLabelText.setText("");
 		compositionTechniqueLabelText.setLayoutData(compositionTechniqueLabelTextGridData);
+		compositionTechniqueLabelText.setBackground(white);
 
 	}
 

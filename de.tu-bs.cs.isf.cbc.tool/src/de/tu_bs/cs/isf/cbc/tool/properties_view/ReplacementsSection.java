@@ -1,4 +1,4 @@
-package PropertiesView;
+package de.tu_bs.cs.isf.cbc.tool.properties_view;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -8,12 +8,15 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -50,6 +53,9 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 	private String outputFormat = "";
 	private List<String> originalFeatureNames = new ArrayList<String>();
 	private List<String> methodFeatureNames = new ArrayList<String>();
+	
+	private Device device = Display.getCurrent ();
+	private Color white = new Color (device, 255, 255, 255);
 
 	// Defining the UI properties
 	private Label replacementLabel;
@@ -87,16 +93,19 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 		// replacementLabel
 		replacementLabel = new Label(composite, SWT.PUSH);
 		replacementLabel.setText("Replacement type: ");
+		replacementLabel.setBackground(white);
 
 		// replacementText
-		replacementText = new Text(composite, SWT.WRAP | SWT.PUSH);
+		replacementText = new Text(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
 		GridData replacementTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		replacementText.setText("");
 		replacementText.setLayoutData(replacementTextGridData);
+		replacementText.setBackground(white);
 
 		// filterLabel
 		filterLabel = new Label(composite, SWT.PUSH);
 		filterLabel.setText("Filter: ");
+		filterLabel.setBackground(white);
 
 		// buttonGroup
 		buttonGroup = new Group(composite, SWT.PUSH);
@@ -104,10 +113,12 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 		GridLayout buttonGroupLayout = new GridLayout();
 		buttonGroupLayout.numColumns = 6;
 		buttonGroup.setLayout(buttonGroupLayout);
+		buttonGroup.setBackground(white);
 
 		// generationLabel
 		generationLabel = new Label(composite, SWT.PUSH);
 		generationLabel.setText("Generation: ");
+		generationLabel.setBackground(white);
 
 		// buttonImage
 		InputStream input = ConfigurationsSection.class.getResourceAsStream("generate16.png");
@@ -118,16 +129,19 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 		generateButton.setImage(buttonImage);
 		generateButton.setText("Generate");
 		generateButton.setEnabled(false);
+		generateButton.setBackground(white);
 
 		// outputLabel
 		outputLabel = new Label(composite, SWT.PUSH);
 		outputLabel.setText("Output: ");
+		outputLabel.setBackground(white);
 
 		// outputText
-		outputText = new Text(composite, SWT.WRAP | SWT.PUSH);
+		outputText = new Text(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
 		GridData outputGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		outputText.setText("");
 		outputText.setLayoutData(outputGridData);
+		outputText.setBackground(white);
 
 		// Listener for generateButton
 		generateButton.addListener(SWT.Selection, new Listener() {
@@ -186,6 +200,7 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 				for (int i = 0; i < originalFeatureNames.size(); i++) {
 					Button newButton = new Button(buttonGroup, SWT.CHECK);
 					newButton.setText(originalFeatureNames.get(i));
+					newButton.setBackground(white);
 					buttons.add(newButton);
 				}
 			}
