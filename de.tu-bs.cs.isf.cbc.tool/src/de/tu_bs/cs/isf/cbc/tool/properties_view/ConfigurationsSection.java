@@ -58,23 +58,33 @@ public class ConfigurationsSection extends GFPropertySection implements ITabbedP
 
 	private Label outputLabel;
 	private Text outputText;
+	
+	private Label noProductLineLabel;
 
 	@Override
 	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
-		currentFeature = getCurrentFeature();
-		featureModel = new FeatureModel(currentFeature);
-		featureNames = featureModel.getAllFeatureNames();
-
+		
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-
+		
 		Composite composite = factory.createFlatFormComposite(parent);
-
+		
 		// Defining GridLayout for properties-view
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		gridLayout.verticalSpacing = 20;
 		composite.setLayout(gridLayout);
+		
+		currentFeature = getCurrentFeature();
+		if(currentFeature.contentEquals("")) {
+			noProductLineLabel = new Label(composite, SWT.PUSH);
+			noProductLineLabel.setText("This view is only available for diagrams representing a software product line.");
+			noProductLineLabel.setBackground(white);
+			return;
+		}
+		featureModel = new FeatureModel(currentFeature);
+		featureNames = featureModel.getAllFeatureNames();
+
 
 		// filterLabel
 		filterLabel = new Label(composite, SWT.PUSH);

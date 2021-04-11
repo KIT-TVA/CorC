@@ -71,24 +71,33 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 	private Label outputLabel;
 	private Text outputText;
 
+	private Label noProductLineLabel;
+
 	@Override
 	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
 
 		this.parent = parent;
 		this.tabbedPropertySheetPage = tabbedPropertySheetPage;
-		currentFeature = getCurrentFeature();
-		featureModel = new FeatureModel(currentFeature);
-		originalFeatureNames = featureModel.getOriginalFeatureNames(getCurrentMethod());
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-
+		
 		Composite composite = factory.createFlatFormComposite(parent);
-
+		
 		// Defining GridLayout for properties-view
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		gridLayout.verticalSpacing = 20;
 		composite.setLayout(gridLayout);
+		
+		currentFeature = getCurrentFeature();
+		if(currentFeature.contentEquals("")) {
+			noProductLineLabel = new Label(composite, SWT.PUSH);
+			noProductLineLabel.setText("This view is only available for diagrams representing a software product line.");
+			noProductLineLabel.setBackground(white);
+			return;
+		}
+		featureModel = new FeatureModel(currentFeature);
+		originalFeatureNames = featureModel.getOriginalFeatureNames(getCurrentMethod());
 
 		// replacementLabel
 		replacementLabel = new Label(composite, SWT.PUSH);
@@ -181,6 +190,9 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 
 	@Override
 	public void refresh() {
+		if(currentFeature.contentEquals("")) {
+			return;
+		}
 		CbCDiagramTypeProvider test = new CbCDiagramTypeProvider();
 		PictogramElement pe = getSelectedPictogramElement();
 		Object bo = test.getFeatureProvider().getBusinessObjectForPictogramElement(pe);
