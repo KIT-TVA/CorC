@@ -253,6 +253,8 @@ public class GenerateModelFromCode {
 						i++;
 						int counter = 0;
 						int index = 0;
+						r.getContents().add(modelClass);
+						saveResource(r);						
 						do {
 							String currentJmlPart = "";
 							index = jmlAnnotation.indexOf("also");
@@ -310,17 +312,10 @@ public class GenerateModelFromCode {
 								}
 							}
 							methods.add(method);
+							
+							modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Methods(), methods);
 
-							try {
-								r2.save(Collections.EMPTY_MAP);
-								r2.setTrackingModification(true);
-								IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
-								IPath iLocation = Path.fromOSString(r2.getURI().toFileString()); 
-								IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-								ifile.getParent().refreshLocal(1, null);
-							} catch (IOException | CoreException e) {
-								e.printStackTrace();
-							}
+							saveResource(r2);
 							GenerateDiagramFromModel gdfm = new GenerateDiagramFromModel();
 							gdfm.execute(r2);
 
@@ -332,22 +327,23 @@ public class GenerateModelFromCode {
 				}
 				modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_ClassInvariants(), invs);
 				modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Fields(), fields);
-				modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Methods(), methods);
-				r.getContents().add(modelClass);
-				try {
-					r.save(Collections.EMPTY_MAP);
-					r.setTrackingModification(true);
-					IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
-					IPath iLocation = Path.fromOSString(r.getURI().toFileString()); 
-					IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-					ifile.getParent().refreshLocal(1, null);
-				} catch (IOException | CoreException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				saveResource(r);
 		}
 
 		}
+	}
+
+	private void saveResource(Resource r) {
+		try {
+			r.save(Collections.EMPTY_MAP);
+			r.setTrackingModification(true);
+			IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
+			IPath iLocation = Path.fromOSString(r.getURI().toFileString()); 
+			IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
+			ifile.getParent().refreshLocal(1, null);
+		} catch (IOException | CoreException e) {
+			e.printStackTrace();
+		}		
 	}
 
 	private String buildSignatureString(ClassMethod classMethod, String parameters, String typeString) {

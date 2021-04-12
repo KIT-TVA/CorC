@@ -36,6 +36,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/precondition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/postcondition"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/cbcStartTriple"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/parentClass"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Cbcmodel" ecorePackage="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#/">
@@ -63,6 +64,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/TaxMethod"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/className"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/methodName"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/methodObj"/>
     </genClasses>
     <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition/name"/>

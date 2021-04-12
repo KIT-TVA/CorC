@@ -9,7 +9,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="classInvariants" upperBound="-1"
         eType="#//Condition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="methods" upperBound="-1"
-        eType="#//Method" containment="true"/>
+        eType="#//Method" containment="true" eOpposite="#//Method/parentClass"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Visibility">
     <eLiterals name="PUBLIC"/>
@@ -31,6 +31,9 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="postcondition" eType="#//Condition"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="cbcStartTriple" eType="ecore:EClass ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cbcStartTriple" eType="ecore:EClass ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula"
+        eOpposite="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/methodObj"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentClass" eType="#//ModelClass"
+        eOpposite="#//ModelClass/methods"/>
   </eClassifiers>
 </ecore:EPackage>
