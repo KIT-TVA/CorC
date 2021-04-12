@@ -310,7 +310,22 @@ public class GenerateModelFromCode {
 								}
 							}
 							methods.add(method);
-
+							modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_ClassInvariants(), invs);
+							modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Fields(), fields);
+							modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Methods(), methods);
+							r.getContents().add(modelClass);
+							try {
+								r.save(Collections.EMPTY_MAP);
+								r.setTrackingModification(true);
+								IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
+								IPath iLocation = Path.fromOSString(r.getURI().toFileString()); 
+								IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
+								ifile.getParent().refreshLocal(1, null);
+							} catch (IOException | CoreException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
 							try {
 								r2.save(Collections.EMPTY_MAP);
 								r2.setTrackingModification(true);
@@ -330,21 +345,7 @@ public class GenerateModelFromCode {
 					}
 
 				}
-				modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_ClassInvariants(), invs);
-				modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Fields(), fields);
-				modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Methods(), methods);
-				r.getContents().add(modelClass);
-				try {
-					r.save(Collections.EMPTY_MAP);
-					r.setTrackingModification(true);
-					IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
-					IPath iLocation = Path.fromOSString(r.getURI().toFileString()); 
-					IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-					ifile.getParent().refreshLocal(1, null);
-				} catch (IOException | CoreException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
 		}
 
 		}
