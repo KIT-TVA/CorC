@@ -123,7 +123,9 @@ public class ConstructCodeBlock {
         
  //       String globalVariables = constructGlobalVariables(vars, signature);
  //       constructGlobalVariables();
-        while(line != null && !line.contains("@")) {
+        while(!line.contains("@")) {
+        	newCode.append(line);
+        	newCode.append("\n\n");
         	line = br.readLine();
         }
         
@@ -244,7 +246,9 @@ public class ConstructCodeBlock {
 				s = useRenamingCondition(s);
 			code.append(s); 
 		}
-		
+		if(returnVar != null) {
+			code.append("\t\treturn" + returnVar.getName().substring(returnVar.getName().indexOf(" ")) + ";");
+		}
 		code.append("\n\t}");//}
 
 		returnVariable = null;
