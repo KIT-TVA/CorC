@@ -202,15 +202,6 @@ public class GenerateModelFromCode {
 							sj.add(p.getName());
 						}
 						
-						
-						
-						// add global variables to variables
-						for (int j = 0; j < globalVariables.getVariables().size(); j++) {
-							JavaVariable newVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
-							newVariable.setName(globalVariables.getVariables().get(j).getName());
-							newVariable.setKind(VariableKind.GLOBAL);
-							variables.getVariables().add(newVariable);
-						}
 
 						TypeReference type = classMethod.getTypeReference();
 						String typeString = JavaResourceUtil.getText(type);
@@ -253,6 +244,8 @@ public class GenerateModelFromCode {
 						i++;
 						int counter = 0;
 						int index = 0;
+						r.getContents().add(modelClass);
+						saveResource(r);						
 						do {
 							String currentJmlPart = "";
 							index = jmlAnnotation.indexOf("also");
@@ -310,32 +303,10 @@ public class GenerateModelFromCode {
 								}
 							}
 							methods.add(method);
-							modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_ClassInvariants(), invs);
-							modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Fields(), fields);
-							modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Methods(), methods);
-							r.getContents().add(modelClass);
-							try {
-								r.save(Collections.EMPTY_MAP);
-								r.setTrackingModification(true);
-								IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
-								IPath iLocation = Path.fromOSString(r.getURI().toFileString()); 
-								IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-								ifile.getParent().refreshLocal(1, null);
-							} catch (IOException | CoreException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
 							
-							try {
-								r2.save(Collections.EMPTY_MAP);
-								r2.setTrackingModification(true);
-								IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
-								IPath iLocation = Path.fromOSString(r2.getURI().toFileString()); 
-								IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-								ifile.getParent().refreshLocal(1, null);
-							} catch (IOException | CoreException e) {
-								e.printStackTrace();
-							}
+							modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Methods(), methods);
+
+							saveResource(r2);
 							GenerateDiagramFromModel gdfm = new GenerateDiagramFromModel();
 							gdfm.execute(r2);
 
@@ -345,10 +316,25 @@ public class GenerateModelFromCode {
 					}
 
 				}
-				
+				modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_ClassInvariants(), invs);
+				modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Fields(), fields);
+				saveResource(r);
 		}
 
 		}
+	}
+
+	private void saveResource(Resource r) {
+		try {
+			r.save(Collections.EMPTY_MAP);
+			r.setTrackingModification(true);
+			IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
+			IPath iLocation = Path.fromOSString(r.getURI().toFileString()); 
+			IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
+			ifile.getParent().refreshLocal(1, null);
+		} catch (IOException | CoreException e) {
+			e.printStackTrace();
+		}		
 	}
 
 	private String buildSignatureString(ClassMethod classMethod, String parameters, String typeString) {
@@ -408,9 +394,6 @@ public class GenerateModelFromCode {
 		for (String addPre : additionalPre) {
 			pre = pre + " & " + addPre;
 		}
-		for (String invariant : invariants) {
-			pre = pre + " & " + invariant;
-		}
 		while (startPre != -1) {
 			int endPre = findEnd(jmlAnnotation, startPre);
 			pre = pre + " & " + jmlAnnotation.substring(startPre + 9, endPre);
@@ -427,9 +410,6 @@ public class GenerateModelFromCode {
 		// adds post condition
 		int startPost = jmlAnnotation.indexOf("ensures");
 		String post = "";
-		for (String invariant : invariants) {
-			post = post + " & " + invariant;
-		}
 		while (startPost != -1) {
 			int endPost = findEnd(jmlAnnotation, startPost);
 			String currentPost = jmlAnnotation.substring(startPost + 8, endPost);

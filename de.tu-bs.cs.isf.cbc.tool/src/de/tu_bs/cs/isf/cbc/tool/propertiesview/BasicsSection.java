@@ -38,7 +38,6 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
-import cbcclass.Condition;
 import cbcclass.impl.MethodImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl;
@@ -215,12 +214,9 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 				if(((CbCFormulaImpl) bo).getMethodObj() instanceof MethodImpl) {
 					MethodImpl methodObj = (MethodImpl) ((CbCFormulaImpl) bo).getMethodObj();
 					methodSignatureLabelText.setText(methodObj.getSignature());
-					methodLabelText.setText(methodObj.getCbcStartTriple().getName());
+					methodLabelText.setText(methodObj.getCbcStartTriple().getMethodName());
 					classLabelText.setText(methodObj.getCbcStartTriple().getClassName());
-					invariantLabelText.setText("");
-					for(Condition invariant : methodObj.getParentClass().getClassInvariants()) {
-						invariantLabelText.setText(invariantLabelText.getText() + invariant.getName() + "; ");
-					}
+					invariantLabelText.setText(methodObj.getParentClass().getClassInvariants().toString());
 				}
 			}
 		});
