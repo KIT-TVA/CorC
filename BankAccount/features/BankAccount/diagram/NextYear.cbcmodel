@@ -10,5 +10,8 @@
       <preCondition name="true"/>
     </statement>
   </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
+  <cbcmodel:JavaVariables>
+    <variables name="Account a" kind="PARAM" displayedName="PARAM Account a"/>
+    <variables name="Account old_a" kind="PARAM" displayedName="PARAM Account old_a"/>
+  </cbcmodel:JavaVariables>
 </xmi:XMI>

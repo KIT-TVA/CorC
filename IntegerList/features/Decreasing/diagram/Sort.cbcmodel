@@ -6,10 +6,10 @@
         <firstStatement name="statement1">
           <refinement name="i = 0;" proven="true">
             <postCondition name="i = 0"/>
-            <preCondition name="true"/>
+            <preCondition name="data &#xD;&#xA;= old_data"/>
           </refinement>
           <postCondition name="i = 0"/>
-          <preCondition name="true"/>
+          <preCondition name="data &#xD;&#xA;= old_data"/>
         </firstStatement>
         <secondStatement name="statement2">
           <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" variantProven="true" preProven="true" postProven="true">
@@ -105,7 +105,7 @@
         <intermediateCondition name="i = 0"/>
       </refinement>
       <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; old_data.length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = old_data[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] >= data[k+1])))"/>
-      <preCondition name="true"/>
+      <preCondition name="data &#xD;&#xA;= old_data"/>
     </statement>
   </cbcmodel:CbCFormula>
   <cbcmodel:GlobalConditions>

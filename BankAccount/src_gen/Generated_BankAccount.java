@@ -1,28 +1,31 @@
 public class Generated_BankAccount {
 
+ public static boolean original; 
+
+
     /*@
     @ public normal_behavior
     @ requires true;
-    @ ensures true;
-    @ assignable \everything;
+    @ ensures (\result == false ==> a.balance == old_a.balance) && (\result == true ==> a.balance == old_a.balance + x);
+    @ assignable a.balance;
     @*/
-    public static void generated_bankaccount() {  }
+    public static boolean generated_bankaccount(int x, Account a, Account old_a) {  }
 
     /*@
     @ normal_behavior
     @ requires true;
-    @ ensures true;
-    @ assignable \everything;
+    @ ensures (\result == false ==> a.balance == old_a.balance) && (\result == true ==> a.balance == old_a.balance + x);
+    @ assignable a.balance;
     @*/
-    public static void bankaccount() {
+    public static boolean bankaccount(int x, Account a, Account old_a) {
     }
 
     /*@
     @ normal_behavior
     @ requires true;
-    @ ensures a.interest == 0 && a.balance == old_a.balance +old_a.interest;
-    @ assignable \everything;
+    @ ensures (result == false ==> (a.withdraw == old_a.withdraw &&  a.balance == old_a.balance)) && (result == true ==> (a.withdraw >= old_a.withdraw ) &&  a.balance == old_a.balance + x);
+    @ assignable a.withdraw;
     @*/
-    public static void interest(Account a, Account old_a) {
+    public static boolean dailylimit(int x, Account a, Account old_a) {
     }
 }

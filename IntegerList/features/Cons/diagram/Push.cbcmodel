@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="Push" proven="true" compositionTechnique="CONJUNCTIVE_CONTRACTING">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="Push" proven="true" compositionTechnique="EXPLICIT_CONTRACTING">
     <statement name="statement">
-      <refinement name="data=original(data,old_data,newTop);" proven="true">
-        <postCondition name="modifiable(data);  &#xD;&#xA; data[data.length - 1] = newTop"/>
+      <refinement xsi:type="cbcmodel:OriginalStatement" name="data=original(data,old_data,newTop);" proven="true">
+        <postCondition name="original &amp; data[data.length - 1] = newTop"/>
         <preCondition name="true"/>
       </refinement>
-      <postCondition name="modifiable(data);&#xD;&#xA;data[data.length - 1] = newTop"/>
+      <postCondition name="original &amp; data[data.length - 1] = newTop"/>
       <preCondition name="true"/>
     </statement>
   </cbcmodel:CbCFormula>

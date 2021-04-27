@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="Update" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.4/@link //@children.1/@link //@children.1/@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.4/@link //@children.1/@children.5/@link //@children.1/@children.6/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.1/@link //@children.2/@children.2/@link //@children.2/@children.3/@link //@children.3/@link //@children.3/@children.1/@link //@children.3/@children.0/@link //@children.3/@children.2/@link //@children.3/@children.4/@link //@children.3/@children.5/@link //@children.3/@children.6/@link //@children.4/@link //@children.4/@children.1/@link //@children.4/@children.14/@link //@children.4/@children.15/@link //@children.4/@children.16/@link //@children.4/@children.20/@link //@children.4/@children.21/@link //@children.4/@children.22/@link //@children.4/@children.23/@link //@children.4/@children.27/@link //@children.5/@link //@children.5/@children.1/@link //@children.5/@children.0/@link //@children.5/@children.2/@link //@children.5/@children.4/@link //@children.5/@children.5/@link //@children.5/@children.6/@link //@children.6/@link //@children.6/@children.0/@link //@children.6/@children.1/@link //@children.6/@children.2/@link //@children.6/@children.3/@link //@children.7/@link //@children.7/@children.1/@link //@children.7/@children.14/@link //@children.7/@children.15/@link //@children.7/@children.16/@link //@children.7/@children.20/@link //@children.7/@children.21/@link //@children.7/@children.22/@link //@children.7/@children.23/@link //@children.7/@children.27/@link //@children.8/@link //@children.8/@children.0/@link //@children.8/@children.1/@link //@children.8/@children.2/@link //@children.8/@children.3/@link //@children.9/@link //@children.9/@children.0/@link //@children.9/@children.1/@link //@children.9/@children.2/@link //@children.9/@children.3/@link //@children.10/@link //@children.10/@children.1/@link //@children.10/@children.0/@link //@children.10/@children.2/@link //@children.10/@children.4/@link //@children.10/@children.5/@link //@children.10/@children.6/@link //@children.11/@link //@children.11/@children.1/@link //@children.11/@children.14/@link //@children.11/@children.15/@link //@children.11/@children.16/@link //@children.11/@children.20/@link //@children.11/@children.21/@link //@children.11/@children.22/@link //@children.11/@children.23/@link //@children.11/@children.27/@link //@children.12/@link //@children.12/@children.1/@link //@children.12/@children.0/@link //@children.12/@children.2/@link //@children.12/@children.4/@link //@children.12/@children.5/@link //@children.12/@children.6/@link //@children.13/@link //@children.13/@children.0/@link //@children.13/@children.1/@link //@children.13/@children.2/@link //@children.13/@children.3/@link //@children.14/@link //@children.14/@children.0/@link //@children.14/@children.1/@link //@children.14/@children.2/@link //@children.14/@children.3/@link //@children.15/@link //@children.15/@children.0/@link //@children.15/@children.2/@link //@children.15/@children.3/@link //@children.15/@children.4/@link //@children.15/@children.5/@link //@children.15/@children.6/@link //@children.15/@children.7/@link //@children.15/@children.8/@link //@children.15/@children.9/@link //@children.16/@link //@children.16/@children.0/@link //@children.16/@children.2/@link //@children.16/@children.3/@link //@children.16/@children.4/@link //@children.16/@children.5/@link //@children.16/@children.6/@link //@children.16/@children.7/@link //@children.17/@link //@children.17/@children.0/@link //@children.17/@children.1/@link //@children.17/@children.2/@link //@children.17/@children.3/@link //@children.18/@link //@children.18/@children.0/@link //@children.18/@children.1/@link //@children.18/@children.2/@link //@children.18/@children.3/@link //@children.19/@link //@children.19/@children.0/@link //@children.19/@children.1/@link //@children.19/@children.2/@link //@children.19/@children.3/@link //@children.15/@children.10/@link //@children.16/@children.8/@link //@children.16/@children.9/@link //@children.16/@children.10/@link" version="0.15.0">
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="Update" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.4/@link //@children.1/@link //@children.1/@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.4/@link //@children.1/@children.5/@link //@children.1/@children.6/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.1/@link //@children.2/@children.2/@link //@children.2/@children.3/@link //@children.3/@link //@children.3/@children.1/@link //@children.3/@children.0/@link //@children.3/@children.2/@link //@children.3/@children.4/@link //@children.3/@children.5/@link //@children.3/@children.6/@link //@children.4/@link //@children.4/@children.1/@link //@children.4/@children.14/@link //@children.4/@children.15/@link //@children.4/@children.16/@link //@children.4/@children.20/@link //@children.4/@children.21/@link //@children.4/@children.22/@link //@children.4/@children.23/@link //@children.4/@children.27/@link //@children.5/@link //@children.5/@children.1/@link //@children.5/@children.0/@link //@children.5/@children.2/@link //@children.5/@children.4/@link //@children.5/@children.5/@link //@children.5/@children.6/@link //@children.6/@link //@children.6/@children.0/@link //@children.6/@children.1/@link //@children.6/@children.2/@link //@children.6/@children.3/@link //@children.7/@link //@children.7/@children.1/@link //@children.7/@children.14/@link //@children.7/@children.15/@link //@children.7/@children.16/@link //@children.7/@children.20/@link //@children.7/@children.21/@link //@children.7/@children.22/@link //@children.7/@children.23/@link //@children.7/@children.27/@link //@children.8/@link //@children.8/@children.0/@link //@children.8/@children.1/@link //@children.8/@children.2/@link //@children.8/@children.3/@link //@children.9/@link //@children.9/@children.0/@link //@children.9/@children.1/@link //@children.9/@children.2/@link //@children.9/@children.3/@link //@children.10/@link //@children.10/@children.1/@link //@children.10/@children.0/@link //@children.10/@children.2/@link //@children.10/@children.4/@link //@children.10/@children.5/@link //@children.10/@children.6/@link //@children.11/@link //@children.11/@children.1/@link //@children.11/@children.14/@link //@children.11/@children.15/@link //@children.11/@children.16/@link //@children.11/@children.20/@link //@children.11/@children.21/@link //@children.11/@children.22/@link //@children.11/@children.23/@link //@children.11/@children.27/@link //@children.12/@link //@children.12/@children.1/@link //@children.12/@children.0/@link //@children.12/@children.2/@link //@children.12/@children.4/@link //@children.12/@children.5/@link //@children.12/@children.6/@link //@children.13/@link //@children.13/@children.0/@link //@children.13/@children.1/@link //@children.13/@children.2/@link //@children.13/@children.3/@link //@children.14/@link //@children.14/@children.0/@link //@children.14/@children.1/@link //@children.14/@children.2/@link //@children.14/@children.3/@link //@children.15/@link //@children.15/@children.0/@link //@children.15/@children.2/@link //@children.15/@children.3/@link //@children.15/@children.4/@link //@children.15/@children.5/@link //@children.15/@children.6/@link //@children.15/@children.7/@link //@children.15/@children.8/@link //@children.15/@children.9/@link //@children.16/@link //@children.16/@children.0/@link //@children.16/@children.2/@link //@children.16/@children.3/@link //@children.16/@children.4/@link //@children.16/@children.5/@link //@children.16/@children.6/@link //@children.16/@children.7/@link //@children.17/@link //@children.17/@children.0/@link //@children.17/@children.1/@link //@children.17/@children.2/@link //@children.17/@children.3/@link //@children.18/@link //@children.18/@children.0/@link //@children.18/@children.1/@link //@children.18/@children.2/@link //@children.18/@children.3/@link //@children.15/@children.10/@link //@children.16/@children.8/@link //@children.16/@children.9/@link //@children.16/@children.10/@link //@children.19/@link //@children.19/@children.0/@link //@children.19/@children.1/@link //@children.19/@children.2/@link //@children.19/@children.3/@link" version="0.17.0">
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <link>
     <businessObjects href="Update.cbcmodel#/0"/>
@@ -64,7 +64,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.0"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="143" height="181" x="286" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="143" height="181" x="286" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,newWithdraw,result,tmp);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -211,7 +211,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="225" height="105" x="225" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="225" height="105" x="225" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,newWithdraw,result,tmp);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -497,7 +497,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="230" height="105" x="230" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="230" height="105" x="230" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,newWithdraw,result,tmp);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1682,7 +1682,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="120" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="120" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,newWithdraw,result,tmp);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1915,7 +1915,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.14"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="235" height="92" y="175" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp);(a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw &amp; (tmp = TRUE -> old_a.balance + x = a.balance) &amp; (tmp = FALSE -> old_a.balance = a.balance)) &amp; (tmp = FALSE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="235" height="92" y="175" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp);&#xD;&#xA;(a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw &amp; (tmp = TRUE -> old_a.balance + x = a.balance) &amp; (tmp = FALSE -> old_a.balance = a.balance)) &amp; (tmp = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -1924,7 +1924,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="471" height="92" y="399" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="471" height="92" y="399" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -1970,7 +1970,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.11"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="235" height="92" x="235" y="175" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp);(a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw &amp; (tmp = TRUE -> old_a.balance + x = a.balance) &amp; (tmp = FALSE -> old_a.balance = a.balance)) &amp; (tmp = TRUE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="235" height="92" x="235" y="175" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp);&#xD;&#xA;(a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw &amp; (tmp = TRUE -> old_a.balance + x = a.balance) &amp; (tmp = FALSE -> old_a.balance = a.balance)) &amp; (tmp = TRUE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -1979,7 +1979,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -2096,7 +2096,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="278" height="90" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp);(a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw &amp; (tmp = TRUE -> old_a.balance + x = a.balance) &amp; (tmp = FALSE -> old_a.balance = a.balance)) &amp; (tmp = TRUE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="278" height="90" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp);&#xD;&#xA;(a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw &amp; (tmp = TRUE -> old_a.balance + x = a.balance) &amp; (tmp = FALSE -> old_a.balance = a.balance)) &amp; (tmp = TRUE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -2104,7 +2104,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="278" height="90" x="278" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="278" height="90" x="278" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,newWithdraw,result,tmp);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -2247,7 +2247,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="160" height="141" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp);(a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw &amp; (tmp = TRUE -> old_a.balance + x = a.balance) &amp; (tmp = FALSE -> old_a.balance = a.balance)) &amp; (tmp = TRUE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="160" height="141" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp);&#xD;&#xA;(a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw &amp; (tmp = TRUE -> old_a.balance + x = a.balance) &amp; (tmp = FALSE -> old_a.balance = a.balance)) &amp; (tmp = TRUE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -2255,7 +2255,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="160" height="141" x="320" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,newWithdraw,result,tmp);&#xD;&#xA;a.withdraw &#xD;&#xA;>= old_a.withdraw &amp; a.balance = old_a.balance + x}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="160" height="141" x="320" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,newWithdraw,result,tmp); &#xD;&#xA;a.withdraw &#xD;&#xA;>= old_a.withdraw &amp; a.balance = old_a.balance + x}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -2368,7 +2368,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="207" height="141" x="414" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="207" height="141" x="414" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,newWithdraw,result,tmp); &#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -2751,7 +2751,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="93" height="311" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp);(a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw &amp; (tmp = TRUE -> old_a.balance + x = a.balance) &amp; (tmp = FALSE -> old_a.balance = a.balance)) &amp; (tmp = FALSE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="93" height="311" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp);&#xD;&#xA;(a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw &amp; (tmp = TRUE -> old_a.balance + x = a.balance) &amp; (tmp = FALSE -> old_a.balance = a.balance)) &amp; (tmp = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -2759,7 +2759,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="93" height="311" x="186" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw,result);&#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="93" height="311" x="186" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp); &#xD;&#xA;(result = FALSE ->&#xD;&#xA; (a.withdraw = old_a.withdraw &amp;  a.balance = old_a.balance))&#xD;&#xA; &amp; (result = TRUE ->&#xD;&#xA; (a.withdraw >= old_a.withdraw ) &amp;  a.balance = old_a.balance + x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -2926,7 +2926,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="361" height="231" x="780" y="1280" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="191" x="800" y="1290" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -2968,7 +2968,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.16"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="120" height="191" x="120" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="tmp=original(x, a, old_a);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="151" x="100" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="tmp=original(x, a, old_a);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
       </graphicsAlgorithm>
       <link>
@@ -2977,7 +2977,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="120" height="191" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result);&#xD;&#xA;a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="151" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(newWithdraw,result);&#xD;&#xA;a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -2985,7 +2985,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="120" height="191" x="240" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdraw,result,tmp);&#xD;&#xA;a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw &amp; (tmp = TRUE -> old_a.balance + x = a.balance) &amp; (tmp = FALSE -> old_a.balance = a.balance)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="151" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(newWithdraw,result,tmp); &#xD;&#xA;a.withdraw = old_a.withdraw &amp; newWithdraw >= a.withdraw &amp; (tmp = TRUE -> old_a.balance + x = a.balance) &amp; (tmp = FALSE -> old_a.balance = a.balance)">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -2993,7 +2993,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="341" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="280" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -3001,17 +3001,22 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="120" height="20" x="120" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="100" y="5" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Original-Call">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="120" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="100" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Statement">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader2"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="120" height="20" x="240" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="200" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -3019,21 +3024,21 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="headerSeparater"/>
         <points y="40"/>
-        <points x="361" y="40"/>
+        <points x="300" y="40"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preSep"/>
-        <points x="240"/>
-        <points x="240" y="231"/>
+        <points x="200"/>
+        <points x="200" y="191"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postSep"/>
-        <points x="120"/>
-        <points x="120" y="231"/>
+        <points x="100"/>
+        <points x="100" y="191"/>
       </graphicsAlgorithm>
     </children>
   </children>

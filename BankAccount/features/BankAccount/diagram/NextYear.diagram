@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="NextYear" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.4/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.1/@link //@children.1/@children.2/@link //@children.1/@children.3/@link //@children.2/@link //@children.2/@children.0/@link" version="0.15.0">
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="NextYear" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.4/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.1/@link //@children.1/@children.2/@link //@children.1/@children.3/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.3/@link" version="0.17.0">
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <link>
     <businessObjects href="NextYear.cbcmodel#/0"/>
@@ -244,7 +244,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="121" height="41" x="770" y="40" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="201" height="151" x="770" y="40" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -285,7 +285,7 @@
       <businessObjects href="NextYear.cbcmodel#/1"/>
     </link>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="121" height="41" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="201" height="50" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variablesName"/>
       </graphicsAlgorithm>
       <link>
@@ -295,9 +295,27 @@
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
-        <points y="41"/>
-        <points x="121" y="41"/>
+        <points y="50"/>
+        <points x="201" y="50"/>
       </graphicsAlgorithm>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="201" height="50" y="50" horizontalAlignment="ALIGNMENT_CENTER" value="PARAM Account a">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="NextYear.cbcmodel#/1/@variables.0"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="201" height="50" y="100" horizontalAlignment="ALIGNMENT_CENTER" value="PARAM Account old_a">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="NextYear.cbcmodel#/1/@variables.1"/>
+      </link>
     </children>
   </children>
   <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@children.1/@anchors.0" end="//@children.1/@anchors.0">

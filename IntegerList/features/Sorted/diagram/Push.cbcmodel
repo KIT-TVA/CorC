@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="Push" proven="true" compositionTechnique="CONJUNCTIVE_CONTRACTING">
+  <cbcmodel:CbCFormula name="Push" proven="true">
     <statement name="statement">
       <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
         <firstStatement name="statement1">
-          <refinement name="data=original(data,old_data,newTop);" proven="true">
-            <postCondition name="modifiable(data);&#xD;&#xA;(\forall int k; (0 &lt;= k &amp; k &lt; old_data.length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = old_data[k]))))"/>
+          <refinement xsi:type="cbcmodel:OriginalStatement" name="data=original(data,old_data,newTop);" proven="true">
+            <postCondition name="((\exists int z;(0 &lt;= z &amp; z &lt; data.length &amp; data[z] = newTop))&amp;(\forall int k; (0 &lt;= k &amp; k &lt; old_data.length -> (\exists int z; (0 &lt;= z &amp; z &lt; data.length &amp; data[z] = old_data[k])))))"/>
             <preCondition name="(\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] >= data[k+1]))"/>
           </refinement>
-          <postCondition name="modifiable(data);&#xD;&#xA;(\forall int k; (0 &lt;= k &amp; k &lt; old_data.length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = old_data[k]))))"/>
+          <postCondition name="((\exists int z;(0 &lt;= z &amp; z &lt; data.length &amp; data[z] = newTop))&amp;(\forall int k; (0 &lt;= k &amp; k &lt; old_data.length -> (\exists int z; (0 &lt;= z &amp; z &lt; data.length &amp; data[z] = old_data[k])))))"/>
           <preCondition name="(\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] >= data[k+1]))"/>
         </firstStatement>
         <secondStatement name="statement2">
-          <refinement name="data=sort(data,old_data);" proven="true">
-            <postCondition name="modifiable(data);(\exists int u; (0 &lt;= u &amp; u &lt; data.length -> data[u] = newTop)) &amp;&#xD;&#xA;((\forall int k; (0 &lt;= k &amp; k &lt; old_data.length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = old_data[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> (data[k] >= data[k+1]) | (data[k] &lt;= data[k+1]))))"/>
-            <preCondition name="modifiable(data);&#xD;&#xA;(\forall int k; (0 &lt;= k &amp; k &lt; old_data.length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = old_data[k]))))"/>
+          <refinement xsi:type="cbcmodel:MethodStatement" name="data=sort(data,old_data);" proven="true">
+            <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; old_data.length -> (\exists int z; (0 &lt;= z &amp; z &lt; data.length &amp; data[z] = old_data[k]))))&#xD;&#xA;&amp; ((\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> (data[k] >= data[k+1]))) | (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> (data[k] &lt;= data[k+1]))))"/>
+            <preCondition name="((\exists int z;(0 &lt;= z &amp; z &lt; data.length &amp; data[z] = newTop))&amp;(\forall int k; (0 &lt;= k &amp; k &lt; old_data.length -> (\exists int z; (0 &lt;= z &amp; z &lt; data.length &amp; data[z] = old_data[k])))))"/>
           </refinement>
-          <postCondition name="modifiable(data);(\exists int u; (0 &lt;= u &amp; u &lt; data.length -> data[u] = newTop)) &amp;&#xD;&#xA;((\forall int k; (0 &lt;= k &amp; k &lt; old_data.length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = old_data[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> (data[k] >= data[k+1]) | (data[k] &lt;= data[k+1]))))"/>
-          <preCondition name="modifiable(data);&#xD;&#xA;(\forall int k; (0 &lt;= k &amp; k &lt; old_data.length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = old_data[k]))))"/>
+          <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; old_data.length -> (\exists int z; (0 &lt;= z &amp; z &lt; data.length &amp; data[z] = old_data[k]))))&#xD;&#xA;&amp; ((\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> (data[k] >= data[k+1]))) | (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> (data[k] &lt;= data[k+1]))))"/>
+          <preCondition name="((\exists int z;(0 &lt;= z &amp; z &lt; data.length &amp; data[z] = newTop))&amp;(\forall int k; (0 &lt;= k &amp; k &lt; old_data.length -> (\exists int z; (0 &lt;= z &amp; z &lt; data.length &amp; data[z] = old_data[k])))))"/>
         </secondStatement>
-        <intermediateCondition name="modifiable(data);&#xD;&#xA;(\forall int k; (0 &lt;= k &amp; k &lt; old_data.length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = old_data[k]))))"/>
+        <intermediateCondition name="((\exists int z;(0 &lt;= z &amp; z &lt; data.length &amp; data[z] = newTop))&amp;(\forall int k; (0 &lt;= k &amp; k &lt; old_data.length -> (\exists int z; (0 &lt;= z &amp; z &lt; data.length &amp; data[z] = old_data[k])))))"/>
       </refinement>
-      <postCondition name="modifiable(data);(\exists int u; (0 &lt;= u &amp; u &lt; data.length -> data[u] = newTop)) &amp;&#xD;&#xA;((\forall int k; (0 &lt;= k &amp; k &lt; old_data.length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = old_data[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> (data[k] >= data[k+1]) | (data[k] &lt;= data[k+1]))))"/>
+      <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; old_data.length -> (\exists int z; (0 &lt;= z &amp; z &lt; data.length &amp; data[z] = old_data[k]))))&#xD;&#xA;&amp; ((\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> (data[k] >= data[k+1]))) | (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> (data[k] &lt;= data[k+1]))))"/>
       <preCondition name="(\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] >= data[k+1]))"/>
     </statement>
   </cbcmodel:CbCFormula>
