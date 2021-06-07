@@ -5,7 +5,8 @@
     editDirectory="/de.tu_bs.cs.isf.cbc.cbcclass.model.edit/src-gen" editorDirectory="/de.tu_bs.cs.isf.cbc.cbcclass.model.editor/src-gen"
     modelPluginID="de.tu_bs.cs.isf.cbc.cbcclass.model" modelName="Cbcclass" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     codeFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="10.0"
-    copyrightFields="false" operationReflection="true" importOrganizing="true">
+    copyrightFields="false" usedGenPackages="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.genmodel#//cbcmodel"
+    operationReflection="true" importOrganizing="true">
   <foreignModel>cbcclass.ecore</foreignModel>
   <testsDirectory xsi:nil="true"/>
   <genPackages prefix="Cbcclass" basePackage="de.tu_bs.cs.isf.cbc.cbcclass.model"
@@ -13,128 +14,31 @@
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="cbcclass.ecore#//Visibility">
       <genEnumLiterals ecoreEnumLiteral="cbcclass.ecore#//Visibility/PUBLIC"/>
       <genEnumLiterals ecoreEnumLiteral="cbcclass.ecore#//Visibility/PRIVATE"/>
+      <genEnumLiterals ecoreEnumLiteral="cbcclass.ecore#//Visibility/PROTECTED"/>
+      <genEnumLiterals ecoreEnumLiteral="cbcclass.ecore#//Visibility/PACKAGE"/>
     </genEnums>
     <genClasses ecoreClass="cbcclass.ecore#//ModelClass">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//ModelClass/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//ModelClass/javaClassURI"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcclass.ecore#//ModelClass/fields"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcclass.ecore#//ModelClass/classInvariants"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcclass.ecore#//ModelClass/methods"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//ModelClass/classInvariants"/>
     </genClasses>
     <genClasses ecoreClass="cbcclass.ecore#//Field">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Field/visibility"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Field/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Field/name"/>
-    </genClasses>
-    <genClasses ecoreClass="cbcclass.ecore#//Condition">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Condition/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Field/isStatic"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Field/isFinal"/>
     </genClasses>
     <genClasses ecoreClass="cbcclass.ecore#//Method">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/cbcDiagramURI"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/signature"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/assignable"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/precondition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/postcondition"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/cbcStartTriple"/>
-    </genClasses>
-  </genPackages>
-  <genPackages prefix="Cbcmodel" ecorePackage="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//VariableKind">
-      <genEnumLiterals ecoreEnumLiteral="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//VariableKind/LOCAL"/>
-      <genEnumLiterals ecoreEnumLiteral="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//VariableKind/PARAM"/>
-      <genEnumLiterals ecoreEnumLiteral="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//VariableKind/RETURN"/>
-      <genEnumLiterals ecoreEnumLiteral="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//VariableKind/GLOBAL"/>
-      <genEnumLiterals ecoreEnumLiteral="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//VariableKind/GLOBAL_PARAM"/>
-      <genEnumLiterals ecoreEnumLiteral="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//VariableKind/RETURNPARAM"/>
-    </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CompositionTechnique">
-      <genEnumLiterals ecoreEnumLiteral="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CompositionTechnique/CONTRACT_OVERRIDING"/>
-      <genEnumLiterals ecoreEnumLiteral="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CompositionTechnique/EXPLICIT_CONTRACTING"/>
-      <genEnumLiterals ecoreEnumLiteral="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CompositionTechnique/CONJUNCTIVE_CONTRACTING"/>
-    </genEnums>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/statement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/preCondition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/postCondition"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/proven"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/comment"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/compositionTechnique"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/TaxMethod"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/className"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/methodName"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/methodObj"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition/name"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//AbstractStatement">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//AbstractStatement/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//AbstractStatement/refinement"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//AbstractStatement/parent"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//AbstractStatement/postCondition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//AbstractStatement/preCondition"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//AbstractStatement/proven"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//AbstractStatement/comment"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//SkipStatement"/>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CompositionStatement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CompositionStatement/firstStatement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CompositionStatement/secondStatement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CompositionStatement/intermediateCondition"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//SelectionStatement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//SelectionStatement/guards"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//SelectionStatement/commands"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//SelectionStatement/preProve"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Variant">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Variant/name"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//ReturnStatement"/>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//SmallRepetitionStatement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//SmallRepetitionStatement/loopStatement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//SmallRepetitionStatement/variant"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//SmallRepetitionStatement/invariant"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//SmallRepetitionStatement/guard"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//SmallRepetitionStatement/variantProven"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//SmallRepetitionStatement/preProven"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//SmallRepetitionStatement/postProven"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//JavaVariables">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//JavaVariables/variables"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//JavaVariable">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//JavaVariable/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//JavaVariable/kind"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//JavaVariable/displayedName"
-          get="return getKind() + &quot; &quot; + getName();"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//GlobalConditions">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//GlobalConditions/conditions"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Renaming">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Renaming/rename"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Rename">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Rename/type"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Rename/function"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Rename/newName"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCProblem">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCProblem/globalcondition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCProblem/cbcformula"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCProblem/javaVariable"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCProblem/renaming"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCProblem/methodsignature"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCProblem/methodClass"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//StrengthWeakStatement"/>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//MethodSignature">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//MethodSignature/methodSignature"/>
-    </genClasses>
-    <genClasses ecoreClass="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//MethodClass">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//MethodClass/methodClass"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/parentClass"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/precondition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/postcondition"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -11,7 +11,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
 
-
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -74,13 +79,6 @@ import org.emftext.language.java.types.impl.VoidImpl;
 import org.emftext.language.java.variables.LocalVariable;
 import org.emftext.language.java.variables.impl.VariableImpl;
 
-import cbcclass.CbcclassFactory;
-import cbcclass.CbcclassPackage;
-import cbcclass.Field;
-import cbcclass.Method;
-import cbcclass.ModelClass;
-import cbcclass.Visibility;
-
 public class GenerateModelFromCode {
 
 	ArrayList<String> jmlLoopConditions = new ArrayList<String>();
@@ -133,9 +131,9 @@ public class GenerateModelFromCode {
 			ModelClass modelClass =  CbcclassFactory.eINSTANCE.createModelClass();
 			modelClass.setName(className);
 			modelClass.setJavaClassURI(URI.createFileURI(iFile.getProjectRelativePath().toPortableString()).toFileString());
-			EList<cbcclass.Condition> invs = new BasicEList<cbcclass.Condition>();
+			EList<Condition> invs = new BasicEList<Condition>();
 			for(String i : invariants) {
-				cbcclass.Condition inv = CbcclassFactory.eINSTANCE.createCondition();
+				Condition inv = CbcmodelFactory.eINSTANCE.createCondition();
 				inv.setName(i);
 				invs.add(inv);
 			}
@@ -402,7 +400,7 @@ public class GenerateModelFromCode {
 		}
 		// delete first &
 		pre = pre.substring(2);
-		cbcclass.Condition preCond = CbcclassFactory.eINSTANCE.createCondition();
+		Condition preCond = CbcmodelFactory.eINSTANCE.createCondition();
 		preCond.setName(pre);
 		method.setPrecondition(preCond);
 		formula.getPreCondition().setName(pre);
@@ -422,7 +420,7 @@ public class GenerateModelFromCode {
 		}
 		// delete first &
 		post = post.substring(2);
-		cbcclass.Condition postCond = CbcclassFactory.eINSTANCE.createCondition();
+		Condition postCond = CbcmodelFactory.eINSTANCE.createCondition();
 		postCond.setName(post);
 		method.setPostcondition(postCond);
 		formula.getPostCondition().setName(post);

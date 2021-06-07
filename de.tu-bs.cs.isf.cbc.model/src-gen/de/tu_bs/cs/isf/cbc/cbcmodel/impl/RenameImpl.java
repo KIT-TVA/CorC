@@ -112,7 +112,6 @@ public class RenameImpl extends MinimalEObjectImpl.Container implements Rename {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getType() {
 		return type;
 	}
@@ -122,7 +121,6 @@ public class RenameImpl extends MinimalEObjectImpl.Container implements Rename {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setType(String newType) {
 		String oldType = type;
 		type = newType;
@@ -135,7 +133,6 @@ public class RenameImpl extends MinimalEObjectImpl.Container implements Rename {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getFunction() {
 		return function;
 	}
@@ -145,7 +142,6 @@ public class RenameImpl extends MinimalEObjectImpl.Container implements Rename {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setFunction(String newFunction) {
 		String oldFunction = function;
 		function = newFunction;
@@ -158,7 +154,6 @@ public class RenameImpl extends MinimalEObjectImpl.Container implements Rename {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getNewName() {
 		return newName;
 	}
@@ -168,7 +163,6 @@ public class RenameImpl extends MinimalEObjectImpl.Container implements Rename {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setNewName(String newNewName) {
 		String oldNewName = newName;
 		newName = newNewName;
