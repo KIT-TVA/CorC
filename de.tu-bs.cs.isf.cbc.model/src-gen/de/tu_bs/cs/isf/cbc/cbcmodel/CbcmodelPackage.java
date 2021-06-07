@@ -131,22 +131,13 @@ public interface CbcmodelPackage extends EPackage {
 	int CB_CFORMULA__COMPOSITION_TECHNIQUE = 6;
 
 	/**
-	 * The feature id for the '<em><b>Tax Method</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CB_CFORMULA__TAX_METHOD = 7;
-
-	/**
 	 * The feature id for the '<em><b>Class Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CFORMULA__CLASS_NAME = 8;
+	int CB_CFORMULA__CLASS_NAME = 7;
 
 	/**
 	 * The feature id for the '<em><b>Method Name</b></em>' attribute.
@@ -155,7 +146,16 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CFORMULA__METHOD_NAME = 9;
+	int CB_CFORMULA__METHOD_NAME = 8;
+
+	/**
+	 * The feature id for the '<em><b>Method Obj</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CB_CFORMULA__METHOD_OBJ = 9;
 
 	/**
 	 * The number of structural features of the '<em>Cb CFormula</em>' class.
@@ -932,13 +932,22 @@ public interface CbcmodelPackage extends EPackage {
 	int JAVA_VARIABLES__VARIABLES = 0;
 
 	/**
+	 * The feature id for the '<em><b>Fields</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_VARIABLES__FIELDS = 1;
+
+	/**
 	 * The number of structural features of the '<em>Java Variables</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int JAVA_VARIABLES_FEATURE_COUNT = 1;
+	int JAVA_VARIABLES_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Java Variables</em>' class.
@@ -1489,17 +1498,6 @@ public interface CbcmodelPackage extends EPackage {
 	EAttribute getCbCFormula_CompositionTechnique();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getTaxMethod <em>Tax Method</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Tax Method</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getTaxMethod()
-	 * @see #getCbCFormula()
-	 * @generated
-	 */
-	EAttribute getCbCFormula_TaxMethod();
-
-	/**
 	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getClassName <em>Class Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1520,6 +1518,17 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCbCFormula_MethodName();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getMethodObj <em>Method Obj</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Method Obj</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getMethodObj()
+	 * @see #getCbCFormula()
+	 * @generated
+	 */
+	EReference getCbCFormula_MethodObj();
 
 	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Condition <em>Condition</em>}'.
@@ -1863,6 +1872,17 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getJavaVariables_Variables();
+
+	/**
+	 * Returns the meta object for the reference list '{@link de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables#getFields <em>Fields</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Fields</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables#getFields()
+	 * @see #getJavaVariables()
+	 * @generated
+	 */
+	EReference getJavaVariables_Fields();
 
 	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable <em>Java Variable</em>}'.
@@ -2230,14 +2250,6 @@ public interface CbcmodelPackage extends EPackage {
 		EAttribute CB_CFORMULA__COMPOSITION_TECHNIQUE = eINSTANCE.getCbCFormula_CompositionTechnique();
 
 		/**
-		 * The meta object literal for the '<em><b>Tax Method</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CB_CFORMULA__TAX_METHOD = eINSTANCE.getCbCFormula_TaxMethod();
-
-		/**
 		 * The meta object literal for the '<em><b>Class Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2252,6 +2264,14 @@ public interface CbcmodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CB_CFORMULA__METHOD_NAME = eINSTANCE.getCbCFormula_MethodName();
+
+		/**
+		 * The meta object literal for the '<em><b>Method Obj</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CB_CFORMULA__METHOD_OBJ = eINSTANCE.getCbCFormula_MethodObj();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.ConditionImpl <em>Condition</em>}' class.
@@ -2526,6 +2546,14 @@ public interface CbcmodelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference JAVA_VARIABLES__VARIABLES = eINSTANCE.getJavaVariables_Variables();
+
+		/**
+		 * The meta object literal for the '<em><b>Fields</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference JAVA_VARIABLES__FIELDS = eINSTANCE.getJavaVariables_Fields();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.JavaVariableImpl <em>Java Variable</em>}' class.

@@ -14,16 +14,17 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-import cbcclass.CbcclassFactory;
-import cbcclass.CbcclassPackage;
-import cbcclass.Field;
-import cbcclass.Method;
-import cbcclass.ModelClass;
-import cbcclass.Visibility;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
 
 //TODO
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
@@ -58,11 +59,11 @@ public class CbcClassModelUtil {
 				//method.setCbcDiagram(d.eResource().getURI());
 				method.setSignature(signature.getMethodSignature());
 
-				cbcclass.Condition pre = CbcclassFactory.eINSTANCE.createCondition();
+				Condition pre = CbcmodelFactory.eINSTANCE.createCondition();
 				pre.setName(Parser.getConditionFromCondition(startingTriple.getStatement().getPreCondition().getName()));
 				method.setPrecondition(pre);
 				
-				cbcclass.Condition post = CbcclassFactory.eINSTANCE.createCondition();
+				Condition post = CbcmodelFactory.eINSTANCE.createCondition();
 				post.setName(Parser.getConditionFromCondition(startingTriple.getStatement().getPostCondition().getName()));
 				method.setPostcondition(post);
 				

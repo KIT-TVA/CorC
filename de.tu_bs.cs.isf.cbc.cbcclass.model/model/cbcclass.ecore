@@ -6,34 +6,33 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaClassURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
         eType="#//Field" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="classInvariants" upperBound="-1"
-        eType="#//Condition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="methods" upperBound="-1"
         eType="#//Method" containment="true" eOpposite="#//Method/parentClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classInvariants" upperBound="-1"
+        eType="ecore:EClass ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Visibility">
     <eLiterals name="PUBLIC"/>
     <eLiterals name="PRIVATE" value="1"/>
+    <eLiterals name="PROTECTED" value="2"/>
+    <eLiterals name="PACKAGE" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Field">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibility" eType="#//Visibility"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Condition">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isStatic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isFinal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Method">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cbcDiagramURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="signature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="assignable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="precondition" eType="#//Condition"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="postcondition" eType="#//Condition"
-        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="cbcStartTriple" eType="ecore:EClass ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula"
         eOpposite="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/methodObj"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parentClass" eType="#//ModelClass"
         eOpposite="#//ModelClass/methods"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="precondition" eType="ecore:EClass ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postcondition" eType="ecore:EClass ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition"/>
   </eClassifiers>
 </ecore:EPackage>

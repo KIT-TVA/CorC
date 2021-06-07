@@ -2,6 +2,8 @@
  */
 package de.tu_bs.cs.isf.cbc.cbcmodel.impl;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
@@ -32,9 +34,9 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#isProven <em>Proven</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getComment <em>Comment</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getCompositionTechnique <em>Composition Technique</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getTaxMethod <em>Tax Method</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getClassName <em>Class Name</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getMethodName <em>Method Name</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getMethodObj <em>Method Obj</em>}</li>
  * </ul>
  *
  * @generated
@@ -151,26 +153,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	protected CompositionTechnique compositionTechnique = COMPOSITION_TECHNIQUE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getTaxMethod() <em>Tax Method</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTaxMethod()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String TAX_METHOD_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getTaxMethod() <em>Tax Method</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTaxMethod()
-	 * @generated
-	 * @ordered
-	 */
-	protected String taxMethod = TAX_METHOD_EDEFAULT;
-
-	/**
 	 * The default value of the '{@link #getClassName() <em>Class Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -211,6 +193,16 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	protected String methodName = METHOD_NAME_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getMethodObj() <em>Method Obj</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMethodObj()
+	 * @generated
+	 * @ordered
+	 */
+	protected Method methodObj;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -234,7 +226,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -244,7 +235,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -257,7 +247,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public AbstractStatement getStatement() {
 		return statement;
 	}
@@ -282,7 +271,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setStatement(AbstractStatement newStatement) {
 		if (newStatement != statement) {
 			NotificationChain msgs = null;
@@ -302,7 +290,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Condition getPreCondition() {
 		return preCondition;
 	}
@@ -327,7 +314,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setPreCondition(Condition newPreCondition) {
 		if (newPreCondition != preCondition) {
 			NotificationChain msgs = null;
@@ -347,7 +333,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Condition getPostCondition() {
 		return postCondition;
 	}
@@ -372,7 +357,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setPostCondition(Condition newPostCondition) {
 		if (newPostCondition != postCondition) {
 			NotificationChain msgs = null;
@@ -392,7 +376,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public boolean isProven() {
 		return proven;
 	}
@@ -402,7 +385,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setProven(boolean newProven) {
 		boolean oldProven = proven;
 		proven = newProven;
@@ -415,7 +397,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getComment() {
 		return comment;
 	}
@@ -425,7 +406,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setComment(String newComment) {
 		String oldComment = comment;
 		comment = newComment;
@@ -438,7 +418,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public CompositionTechnique getCompositionTechnique() {
 		return compositionTechnique;
 	}
@@ -448,7 +427,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setCompositionTechnique(CompositionTechnique newCompositionTechnique) {
 		CompositionTechnique oldCompositionTechnique = compositionTechnique;
 		compositionTechnique = newCompositionTechnique == null ? COMPOSITION_TECHNIQUE_EDEFAULT : newCompositionTechnique;
@@ -461,30 +439,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public String getTaxMethod() {
-		return taxMethod;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setTaxMethod(String newTaxMethod) {
-		String oldTaxMethod = taxMethod;
-		taxMethod = newTaxMethod;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CFORMULA__TAX_METHOD, oldTaxMethod, taxMethod));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public String getClassName() {
 		return className;
 	}
@@ -494,7 +448,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setClassName(String newClassName) {
 		String oldClassName = className;
 		className = newClassName;
@@ -507,7 +460,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getMethodName() {
 		return methodName;
 	}
@@ -517,12 +469,87 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setMethodName(String newMethodName) {
 		String oldMethodName = methodName;
 		methodName = newMethodName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CFORMULA__METHOD_NAME, oldMethodName, methodName));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Method getMethodObj() {
+		if (methodObj != null && methodObj.eIsProxy()) {
+			InternalEObject oldMethodObj = (InternalEObject)methodObj;
+			methodObj = (Method)eResolveProxy(oldMethodObj);
+			if (methodObj != oldMethodObj) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, CbcmodelPackage.CB_CFORMULA__METHOD_OBJ, oldMethodObj, methodObj));
+			}
+		}
+		return methodObj;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Method basicGetMethodObj() {
+		return methodObj;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetMethodObj(Method newMethodObj, NotificationChain msgs) {
+		Method oldMethodObj = methodObj;
+		methodObj = newMethodObj;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CFORMULA__METHOD_OBJ, oldMethodObj, newMethodObj);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMethodObj(Method newMethodObj) {
+		if (newMethodObj != methodObj) {
+			NotificationChain msgs = null;
+			if (methodObj != null)
+				msgs = ((InternalEObject)methodObj).eInverseRemove(this, CbcclassPackage.METHOD__CBC_START_TRIPLE, Method.class, msgs);
+			if (newMethodObj != null)
+				msgs = ((InternalEObject)newMethodObj).eInverseAdd(this, CbcclassPackage.METHOD__CBC_START_TRIPLE, Method.class, msgs);
+			msgs = basicSetMethodObj(newMethodObj, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CFORMULA__METHOD_OBJ, newMethodObj, newMethodObj));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case CbcmodelPackage.CB_CFORMULA__METHOD_OBJ:
+				if (methodObj != null)
+					msgs = ((InternalEObject)methodObj).eInverseRemove(this, CbcclassPackage.METHOD__CBC_START_TRIPLE, Method.class, msgs);
+				return basicSetMethodObj((Method)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -539,6 +566,8 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 				return basicSetPreCondition(null, msgs);
 			case CbcmodelPackage.CB_CFORMULA__POST_CONDITION:
 				return basicSetPostCondition(null, msgs);
+			case CbcmodelPackage.CB_CFORMULA__METHOD_OBJ:
+				return basicSetMethodObj(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -565,12 +594,13 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 				return getComment();
 			case CbcmodelPackage.CB_CFORMULA__COMPOSITION_TECHNIQUE:
 				return getCompositionTechnique();
-			case CbcmodelPackage.CB_CFORMULA__TAX_METHOD:
-				return getTaxMethod();
 			case CbcmodelPackage.CB_CFORMULA__CLASS_NAME:
 				return getClassName();
 			case CbcmodelPackage.CB_CFORMULA__METHOD_NAME:
 				return getMethodName();
+			case CbcmodelPackage.CB_CFORMULA__METHOD_OBJ:
+				if (resolve) return getMethodObj();
+				return basicGetMethodObj();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -604,14 +634,14 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 			case CbcmodelPackage.CB_CFORMULA__COMPOSITION_TECHNIQUE:
 				setCompositionTechnique((CompositionTechnique)newValue);
 				return;
-			case CbcmodelPackage.CB_CFORMULA__TAX_METHOD:
-				setTaxMethod((String)newValue);
-				return;
 			case CbcmodelPackage.CB_CFORMULA__CLASS_NAME:
 				setClassName((String)newValue);
 				return;
 			case CbcmodelPackage.CB_CFORMULA__METHOD_NAME:
 				setMethodName((String)newValue);
+				return;
+			case CbcmodelPackage.CB_CFORMULA__METHOD_OBJ:
+				setMethodObj((Method)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -646,14 +676,14 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 			case CbcmodelPackage.CB_CFORMULA__COMPOSITION_TECHNIQUE:
 				setCompositionTechnique(COMPOSITION_TECHNIQUE_EDEFAULT);
 				return;
-			case CbcmodelPackage.CB_CFORMULA__TAX_METHOD:
-				setTaxMethod(TAX_METHOD_EDEFAULT);
-				return;
 			case CbcmodelPackage.CB_CFORMULA__CLASS_NAME:
 				setClassName(CLASS_NAME_EDEFAULT);
 				return;
 			case CbcmodelPackage.CB_CFORMULA__METHOD_NAME:
 				setMethodName(METHOD_NAME_EDEFAULT);
+				return;
+			case CbcmodelPackage.CB_CFORMULA__METHOD_OBJ:
+				setMethodObj((Method)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -681,12 +711,12 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 				return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
 			case CbcmodelPackage.CB_CFORMULA__COMPOSITION_TECHNIQUE:
 				return compositionTechnique != COMPOSITION_TECHNIQUE_EDEFAULT;
-			case CbcmodelPackage.CB_CFORMULA__TAX_METHOD:
-				return TAX_METHOD_EDEFAULT == null ? taxMethod != null : !TAX_METHOD_EDEFAULT.equals(taxMethod);
 			case CbcmodelPackage.CB_CFORMULA__CLASS_NAME:
 				return CLASS_NAME_EDEFAULT == null ? className != null : !CLASS_NAME_EDEFAULT.equals(className);
 			case CbcmodelPackage.CB_CFORMULA__METHOD_NAME:
 				return METHOD_NAME_EDEFAULT == null ? methodName != null : !METHOD_NAME_EDEFAULT.equals(methodName);
+			case CbcmodelPackage.CB_CFORMULA__METHOD_OBJ:
+				return methodObj != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -709,8 +739,6 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 		result.append(comment);
 		result.append(", compositionTechnique: ");
 		result.append(compositionTechnique);
-		result.append(", TaxMethod: ");
-		result.append(taxMethod);
 		result.append(", className: ");
 		result.append(className);
 		result.append(", methodName: ");

@@ -77,7 +77,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String DISPLAYED_NAME_EDEFAULT = "name";
+	protected static final String DISPLAYED_NAME_EDEFAULT = "kind + \" \" + name";
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -103,7 +103,6 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -113,7 +112,6 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -126,7 +124,6 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public VariableKind getKind() {
 		return kind;
 	}
@@ -136,7 +133,6 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setKind(VariableKind newKind) {
 		VariableKind oldKind = kind;
 		kind = newKind == null ? KIND_EDEFAULT : newKind;
@@ -149,7 +145,6 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getDisplayedName() {
 		return getKind() + " " + getName();
 	}

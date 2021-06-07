@@ -123,7 +123,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public GlobalConditions getGlobalcondition() {
 		return globalcondition;
 	}
@@ -148,7 +147,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setGlobalcondition(GlobalConditions newGlobalcondition) {
 		if (newGlobalcondition != globalcondition) {
 			NotificationChain msgs = null;
@@ -168,7 +166,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public CbCFormula getCbcformula() {
 		return cbcformula;
 	}
@@ -193,7 +190,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setCbcformula(CbCFormula newCbcformula) {
 		if (newCbcformula != cbcformula) {
 			NotificationChain msgs = null;
@@ -213,7 +209,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public JavaVariables getJavaVariable() {
 		return javaVariable;
 	}
@@ -238,7 +233,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setJavaVariable(JavaVariables newJavaVariable) {
 		if (newJavaVariable != javaVariable) {
 			NotificationChain msgs = null;
@@ -258,7 +252,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Renaming getRenaming() {
 		return renaming;
 	}
@@ -283,7 +276,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setRenaming(Renaming newRenaming) {
 		if (newRenaming != renaming) {
 			NotificationChain msgs = null;
@@ -303,7 +295,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public MethodSignature getMethodsignature() {
 		return methodsignature;
 	}
@@ -328,7 +319,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setMethodsignature(MethodSignature newMethodsignature) {
 		if (newMethodsignature != methodsignature) {
 			NotificationChain msgs = null;
@@ -348,7 +338,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public MethodClass getMethodClass() {
 		return methodClass;
 	}
@@ -373,7 +362,6 @@ public class CbCProblemImpl extends MinimalEObjectImpl.Container implements CbCP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setMethodClass(MethodClass newMethodClass) {
 		if (newMethodClass != methodClass) {
 			NotificationChain msgs = null;

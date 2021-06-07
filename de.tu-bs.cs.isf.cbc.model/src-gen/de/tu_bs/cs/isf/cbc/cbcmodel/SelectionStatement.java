@@ -27,6 +27,10 @@ public interface SelectionStatement extends AbstractStatement {
 	 * Returns the value of the '<em><b>Guards</b></em>' containment reference list.
 	 * The list contents are of type {@link de.tu_bs.cs.isf.cbc.cbcmodel.Condition}.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Guards</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Guards</em>' containment reference list.
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getSelectionStatement_Guards()
@@ -39,6 +43,10 @@ public interface SelectionStatement extends AbstractStatement {
 	 * Returns the value of the '<em><b>Commands</b></em>' containment reference list.
 	 * The list contents are of type {@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement}.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Commands</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Commands</em>' containment reference list.
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getSelectionStatement_Commands()
@@ -50,6 +58,10 @@ public interface SelectionStatement extends AbstractStatement {
 	/**
 	 * Returns the value of the '<em><b>Pre Prove</b></em>' attribute.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Pre Prove</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Pre Prove</em>' attribute.
 	 * @see #setPreProve(boolean)

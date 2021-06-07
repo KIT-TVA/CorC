@@ -70,7 +70,6 @@ public class MethodSignatureImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getMethodSignature() {
 		return methodSignature;
 	}
@@ -80,7 +79,6 @@ public class MethodSignatureImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setMethodSignature(String newMethodSignature) {
 		String oldMethodSignature = methodSignature;
 		methodSignature = newMethodSignature;

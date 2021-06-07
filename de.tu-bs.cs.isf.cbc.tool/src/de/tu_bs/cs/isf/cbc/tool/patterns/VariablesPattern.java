@@ -29,6 +29,7 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.PredefinedColoredAreas;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
@@ -92,6 +93,7 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		variable.setName("int a");
 		variable.setKind(VariableKind.LOCAL);
 		variables.getVariables().add(variable);
+		//TODO fields aus CbCFormula setzen
 
 		try {
 			CbcModelUtil.saveVariablesToModelFile(variables, getDiagram());
@@ -158,10 +160,11 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		GraphicsAlgorithm mainRectangle = context.getRootPictogramElement().getGraphicsAlgorithm();
 		JavaVariables variables = (JavaVariables) getBusinessObjectForPictogramElement(
 				context.getRootPictogramElement());
+		int size =variables.getVariables().size() + variables.getFields().size();
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		int height = mainRectangle.getHeight();
-		if (variables.getVariables().size() >= 1) {
-			height = height / (variables.getVariables().size() + 1);
+		if (size >= 1) {
+			height = height / (size + 1);
 		}
 
 		if (id.equals(ID_NAME_TEXT)) {
@@ -188,9 +191,10 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		if (id.equals(ID_MAIN_RECTANGLE)) {
 			ContainerShape containerShape = (ContainerShape) context.getPictogramElement();
 			JavaVariables variables = (JavaVariables) context.getDomainObject();
-			if (containerShape.getChildren().size() - 2 != variables.getVariables().size()) {
+			int size = variables.getVariables().size() + variables.getFields().size();
+			if (containerShape.getChildren().size() - 2 != size) {
 				return Reason.createTrueReason("Number of Variables differ. Expected: "
-						+ variables.getVariables().size() + " " + (containerShape.getChildren().size() - 2));
+						+ size + " " + (containerShape.getChildren().size() - 2));
 			}
 		}
 		return Reason.createFalseReason();
@@ -200,17 +204,31 @@ public class VariablesPattern extends IdPattern implements IPattern {
 	protected boolean update(IdUpdateContext context, String id) {
 		if (id.equals(ID_MAIN_RECTANGLE)) {
 			EList<JavaVariable> variables = ((JavaVariables) context.getDomainObject()).getVariables();
-			while (((ContainerShape) context.getPictogramElement()).getChildren().size() - 2 < variables.size()) {
+			EList<Field> fields = ((JavaVariables) context.getDomainObject()).getFields();
+			int size = variables.size() + fields.size();
+			while (((ContainerShape) context.getPictogramElement()).getChildren().size() - 2 < size) {
 				int newIndex = ((ContainerShape) context.getPictogramElement()).getChildren().size() - 2;
-				JavaVariable variable = variables.get(newIndex);
-				Shape shapeText = Graphiti.getPeCreateService()
+				if(newIndex < fields.size()) {
+					Field field = fields.get(newIndex);
+					Shape shapeText = Graphiti.getPeCreateService()
+							.createShape((ContainerShape) context.getPictogramElement(), true);
+					Text variableNameText = Graphiti.getGaService().createText(shapeText, field.getName());
+					setId(variableNameText, ID_VARIABLE_TEXT);
+					setIndex(variableNameText, newIndex);
+					variableNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+					variableNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+					link(shapeText, field);
+				}else {
+					JavaVariable variable = variables.get(newIndex - fields.size());
+					Shape shapeText = Graphiti.getPeCreateService()
 						.createShape((ContainerShape) context.getPictogramElement(), true);
-				Text variableNameText = Graphiti.getGaService().createText(shapeText, variable.getDisplayedName());
-				setId(variableNameText, ID_VARIABLE_TEXT);
-				setIndex(variableNameText, newIndex);
-				variableNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-				variableNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-				link(shapeText, variable);
+					Text variableNameText = Graphiti.getGaService().createText(shapeText, variable.getDisplayedName());
+					setId(variableNameText, ID_VARIABLE_TEXT);
+					setIndex(variableNameText, newIndex);
+					variableNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+					variableNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+					link(shapeText, variable);
+				}
 			}
 			return true;
 		}

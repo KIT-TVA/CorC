@@ -2,6 +2,7 @@
  */
 package de.tu_bs.cs.isf.cbc.cbcmodel.impl;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -29,6 +31,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </p>
  * <ul>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.JavaVariablesImpl#getVariables <em>Variables</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.JavaVariablesImpl#getFields <em>Fields</em>}</li>
  * </ul>
  *
  * @generated
@@ -43,6 +46,16 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 * @ordered
 	 */
 	protected EList<JavaVariable> variables;
+
+	/**
+	 * The cached value of the '{@link #getFields() <em>Fields</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFields()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Field> fields;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -68,12 +81,23 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EList<JavaVariable> getVariables() {
 		if (variables == null) {
 			variables = new EObjectContainmentEList<JavaVariable>(JavaVariable.class, this, CbcmodelPackage.JAVA_VARIABLES__VARIABLES);
 		}
 		return variables;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Field> getFields() {
+		if (fields == null) {
+			fields = new EObjectResolvingEList<Field>(Field.class, this, CbcmodelPackage.JAVA_VARIABLES__FIELDS);
+		}
+		return fields;
 	}
 
 	/**
@@ -100,6 +124,8 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 		switch (featureID) {
 			case CbcmodelPackage.JAVA_VARIABLES__VARIABLES:
 				return getVariables();
+			case CbcmodelPackage.JAVA_VARIABLES__FIELDS:
+				return getFields();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -117,6 +143,10 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 				getVariables().clear();
 				getVariables().addAll((Collection<? extends JavaVariable>)newValue);
 				return;
+			case CbcmodelPackage.JAVA_VARIABLES__FIELDS:
+				getFields().clear();
+				getFields().addAll((Collection<? extends Field>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -132,6 +162,9 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 			case CbcmodelPackage.JAVA_VARIABLES__VARIABLES:
 				getVariables().clear();
 				return;
+			case CbcmodelPackage.JAVA_VARIABLES__FIELDS:
+				getFields().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -146,6 +179,8 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 		switch (featureID) {
 			case CbcmodelPackage.JAVA_VARIABLES__VARIABLES:
 				return variables != null && !variables.isEmpty();
+			case CbcmodelPackage.JAVA_VARIABLES__FIELDS:
+				return fields != null && !fields.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

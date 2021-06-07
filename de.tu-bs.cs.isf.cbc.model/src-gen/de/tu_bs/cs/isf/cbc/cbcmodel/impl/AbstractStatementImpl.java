@@ -151,7 +151,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -161,7 +160,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -174,7 +172,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public AbstractStatement getRefinement() {
 		return refinement;
 	}
@@ -199,7 +196,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setRefinement(AbstractStatement newRefinement) {
 		if (newRefinement != refinement) {
 			NotificationChain msgs = null;
@@ -219,7 +215,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public AbstractStatement getParent() {
 		if (eContainerFeatureID() != CbcmodelPackage.ABSTRACT_STATEMENT__PARENT) return null;
 		return (AbstractStatement)eInternalContainer();
@@ -240,7 +235,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setParent(AbstractStatement newParent) {
 		if (newParent != eInternalContainer() || (eContainerFeatureID() != CbcmodelPackage.ABSTRACT_STATEMENT__PARENT && newParent != null)) {
 			if (EcoreUtil.isAncestor(this, newParent))
@@ -262,7 +256,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Condition getPostCondition() {
 		return postCondition;
 	}
@@ -287,7 +280,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setPostCondition(Condition newPostCondition) {
 		if (newPostCondition != postCondition) {
 			NotificationChain msgs = null;
@@ -307,7 +299,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Condition getPreCondition() {
 		return preCondition;
 	}
@@ -332,7 +323,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setPreCondition(Condition newPreCondition) {
 		if (newPreCondition != preCondition) {
 			NotificationChain msgs = null;
@@ -352,7 +342,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public boolean isProven() {
 		return proven;
 	}
@@ -362,7 +351,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setProven(boolean newProven) {
 		boolean oldProven = proven;
 		proven = newProven;
@@ -375,7 +363,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getComment() {
 		return comment;
 	}
@@ -385,7 +372,6 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setComment(String newComment) {
 		String oldComment = comment;
 		comment = newComment;

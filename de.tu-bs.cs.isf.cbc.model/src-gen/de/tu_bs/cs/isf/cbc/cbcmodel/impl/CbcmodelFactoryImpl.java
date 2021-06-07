@@ -119,7 +119,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public CbCFormula createCbCFormula() {
 		CbCFormulaImpl cbCFormula = new CbCFormulaImpl();
 		return cbCFormula;
@@ -130,7 +129,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Condition createCondition() {
 		ConditionImpl condition = new ConditionImpl();
 		return condition;
@@ -141,7 +139,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public AbstractStatement createAbstractStatement() {
 		AbstractStatementImpl abstractStatement = new AbstractStatementImpl();
 		return abstractStatement;
@@ -152,7 +149,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public SkipStatement createSkipStatement() {
 		SkipStatementImpl skipStatement = new SkipStatementImpl();
 		return skipStatement;
@@ -163,7 +159,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public CompositionStatement createCompositionStatement() {
 		CompositionStatementImpl compositionStatement = new CompositionStatementImpl();
 		return compositionStatement;
@@ -174,7 +169,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public SelectionStatement createSelectionStatement() {
 		SelectionStatementImpl selectionStatement = new SelectionStatementImpl();
 		return selectionStatement;
@@ -185,7 +179,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Variant createVariant() {
 		VariantImpl variant = new VariantImpl();
 		return variant;
@@ -196,7 +189,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public ReturnStatement createReturnStatement() {
 		ReturnStatementImpl returnStatement = new ReturnStatementImpl();
 		return returnStatement;
@@ -207,7 +199,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public SmallRepetitionStatement createSmallRepetitionStatement() {
 		SmallRepetitionStatementImpl smallRepetitionStatement = new SmallRepetitionStatementImpl();
 		return smallRepetitionStatement;
@@ -218,7 +209,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public JavaVariables createJavaVariables() {
 		JavaVariablesImpl javaVariables = new JavaVariablesImpl();
 		return javaVariables;
@@ -229,7 +219,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public JavaVariable createJavaVariable() {
 		JavaVariableImpl javaVariable = new JavaVariableImpl();
 		return javaVariable;
@@ -240,7 +229,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public GlobalConditions createGlobalConditions() {
 		GlobalConditionsImpl globalConditions = new GlobalConditionsImpl();
 		return globalConditions;
@@ -251,7 +239,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Renaming createRenaming() {
 		RenamingImpl renaming = new RenamingImpl();
 		return renaming;
@@ -262,7 +249,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Rename createRename() {
 		RenameImpl rename = new RenameImpl();
 		return rename;
@@ -273,7 +259,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public CbCProblem createCbCProblem() {
 		CbCProblemImpl cbCProblem = new CbCProblemImpl();
 		return cbCProblem;
@@ -284,7 +269,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public StrengthWeakStatement createStrengthWeakStatement() {
 		StrengthWeakStatementImpl strengthWeakStatement = new StrengthWeakStatementImpl();
 		return strengthWeakStatement;
@@ -295,7 +279,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public MethodSignature createMethodSignature() {
 		MethodSignatureImpl methodSignature = new MethodSignatureImpl();
 		return methodSignature;
@@ -306,7 +289,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public MethodClass createMethodClass() {
 		MethodClassImpl methodClass = new MethodClassImpl();
 		return methodClass;
@@ -357,7 +339,6 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public CbcmodelPackage getCbcmodelPackage() {
 		return (CbcmodelPackage)getEPackage();
 	}
