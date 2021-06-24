@@ -28,10 +28,16 @@ public class chooseDiagramTypePage extends WizardPage {
 	
 	public boolean corctextual = false;
 	public boolean corcdiagram = true;
+	public boolean corcclass = false;
+	
 	private String browsedPath = "";
 	public Text path;
 	public Text name;
 	public Label error;
+	
+	public static final String CORC_DIAGRAM = "CorC diagram";
+	public static final String CORC_TEXTUAL = "CorC textual";
+	public static final String CORC_CLASS = "CorC class diagram";
 	
 	protected chooseDiagramTypePage() {
 		super("new CorC file");
@@ -67,7 +73,7 @@ public class chooseDiagramTypePage extends WizardPage {
 		error.setForeground(redColor);
 		
 		//line that lets you choose the layout type:	
-		String[] diagramTypes = new String[] {"CorC diagram", "CorC textual"};
+		String[] diagramTypes = new String[] {CORC_DIAGRAM, CORC_TEXTUAL, CORC_CLASS};
 		combo.setItems(diagramTypes);
 		combo.setText("CorC diagram"); //standard value, if nothing was selected yet
 		//layout for the combo:
@@ -83,17 +89,24 @@ public class chooseDiagramTypePage extends WizardPage {
             public void widgetSelected(SelectionEvent e) {
                 int idx = combo.getSelectionIndex();
                 String diagramType = combo.getItem(idx);
-                if (diagramType.equals("CorC diagram")) {
+                if (diagramType.equals(CORC_DIAGRAM)) {
                 	corcdiagram = true;
                 	corctextual = false;
-                } else if (diagramType.equals("CorC textual")) {
+                	corcclass = false;
+                } else if (diagramType.equals(CORC_TEXTUAL)) {
                 	corcdiagram = false;
                 	corctextual = true;
+                	corcclass = false;
+                } else if (diagramType.equals(CORC_CLASS)) {
+                	corcdiagram = false;
+                	corctextual = false;
+                	corcclass = true;
                 }
             }
         });
 		
 		//line that lets you choose the diagram name:
+		// TODO: change constructor 
 		GridData nameData = new GridData();
 		nameData.horizontalAlignment = GridData.FILL;
 		nameData.grabExcessHorizontalSpace = true;
@@ -102,6 +115,7 @@ public class chooseDiagramTypePage extends WizardPage {
 		name.setText("newDiagram");
 		
 		//line that lets you choose the creation path:
+		// TODO: change constructor 
 		GridData pathData = new GridData();
 		pathData.horizontalAlignment = GridData.FILL;
 		pathData.grabExcessHorizontalSpace = true;
