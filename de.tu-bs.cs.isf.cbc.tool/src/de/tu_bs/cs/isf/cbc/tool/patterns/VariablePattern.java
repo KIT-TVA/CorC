@@ -33,6 +33,8 @@ public class VariablePattern extends IdPattern implements IPattern {
 	public static final String VARIABLE_KIND_GLOBAL_PARAM = "global param";
 	public static final String VARIABLE_KIND_RETURNPARAM = "returnparam";
 	
+	public static final String VARIABLE_KIND_LOCAL = "local";
+	
 
 	/**
 	 * Constructor of the class
@@ -130,12 +132,16 @@ public class VariablePattern extends IdPattern implements IPattern {
 		return variable.getDisplayedName();
 	}
 
+	
 	@Override
 	public String checkValueValid(String value, IDirectEditingContext context) {
 		if (value == null || value.length() == 0) {
 			return "Variable must not be empty";
-		} else if (value.length() > 0 && !value.matches(
-				"("+VARIABLE_KIND_PARAMETER + "\\s"+"|"+VARIABLE_KIND_GLOBAL_PARAM+ "|"+ VARIABLE_KIND_RETURNPARAM + "\\s"+"|"+VARIABLE_KIND_RETURN+ "\\s"+"|"+VARIABLE_KIND_GLOBAL + "\\s"+ "(static\\s)?"
+		} 
+		
+		
+		else if (value.length() > 0 && !value.toLowerCase().matches(
+				"("+VARIABLE_KIND_PARAMETER + "\\s"+"|"+VARIABLE_KIND_GLOBAL_PARAM + "\\s" + "|"+ VARIABLE_KIND_LOCAL + "\\s" + "|" + VARIABLE_KIND_RETURNPARAM + "\\s"+"|"+VARIABLE_KIND_RETURN+ "\\s"+"|"+VARIABLE_KIND_GLOBAL + "\\s"+ "(static\\s)?"
 				+")?(int|char|float|long|boolean|byte|short|double|([A-Za-z]\\w*))(\\[\\])?\\s[a-zA-Z]\\w*")) {
 			return "Variable must contain a kind, a type and a name";
 		}
@@ -149,8 +155,9 @@ public class VariablePattern extends IdPattern implements IPattern {
 			variable.setKind(VariableKind.LOCAL);
 			variable.setName(value);
 		}else {			
-			if(value.contains("global param")) {
+			if(value.toLowerCase().contains("global param")) {
 				variable.setKind(VariableKind.GLOBAL_PARAM);
+				value = value.toLowerCase();
 				variable.setName(value.replaceFirst("global param ", ""));
 			} else {
 				variable.setKind(translateIntoVariableKind(value.substring(0, value.indexOf(" "))));
@@ -163,6 +170,7 @@ public class VariablePattern extends IdPattern implements IPattern {
 	
 	private VariableKind translateIntoVariableKind(String kindString) {
 		VariableKind kind = VariableKind.LOCAL;
+		kindString = kindString.toLowerCase();
 		switch(kindString) {
 		case VARIABLE_KIND_PARAMETER:
 			kind = VariableKind.PARAM;
