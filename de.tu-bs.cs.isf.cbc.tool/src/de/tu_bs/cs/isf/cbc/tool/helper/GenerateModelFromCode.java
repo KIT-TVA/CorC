@@ -51,6 +51,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.emftext.commons.layout.LayoutInformation;
 import org.emftext.language.java.arrays.ArrayDimension;
 import org.emftext.language.java.classifiers.impl.ClassImpl;
@@ -115,19 +116,22 @@ public class GenerateModelFromCode {
 				e.printStackTrace();
 			}
 		}
+		// Register Resource Factory for respective Model
+		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+		Map<String, Object> m = reg.getExtensionToFactoryMap();
+		ResourceSet rs = new ResourceSetImpl();
+		Resource r;
 		
-		if(!folder.getFile(className+"+.cbcclass").exists()) {
-			CbcclassPackage.eINSTANCE.eClass();
-			// Register Resource Factory for respective Model
-			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-			Map<String, Object> m = reg.getExtensionToFactoryMap();
+		if(!folder.getFile(className+".cbcclass").exists()) {
+			
 			m.put("cbcclass", new XMIResourceFactoryImpl());
-
-
-			ResourceSet rs = new ResourceSetImpl();
-			// Create Resource and load respective Model Instance
-			Resource r = rs
-					.createResource(URI.createFileURI(folder.getLocation() + "\\" + className + ".cbcclass"));
+			r = rs.createResource(URI.createFileURI(folder.getLocation() + "\\" + className + ".cbcclass"));
+		}else {
+			IFile cbcclassFile = folder.getFile(className+".cbcclass");
+			 r = GetDiagramUtil.getResourceFromFile(cbcclassFile, rs);	
+		}
+			
+			
 			ModelClass modelClass =  CbcclassFactory.eINSTANCE.createModelClass();
 			modelClass.setName(className);
 			modelClass.setJavaClassURI(URI.createFileURI(iFile.getProjectRelativePath().toPortableString()).toFileString());
@@ -138,12 +142,9 @@ public class GenerateModelFromCode {
 				invs.add(inv);
 			}
 			
-			List<String> names = new ArrayList<String>();
 			if (compilationUnit.getClassifiers().get(0) instanceof ClassImpl) {
 				ClassImpl javaClass = (ClassImpl) compilationUnit.getClassifiers().get(0);
-				JavaVariables globalVariables = CbcmodelFactory.eINSTANCE.createJavaVariables();
 				// new cbcmodel is created for each method in class
-				int i = 0;
 				EList<Field> fields = new BasicEList<Field>();
 				EList<Method> methods = new BasicEList<Method>();
 				for (Member member : javaClass.getMembers()) {
@@ -160,7 +161,6 @@ public class GenerateModelFromCode {
 							}
 						}
 						Field field = CbcclassFactory.eINSTANCE.createField();
-						JavaVariable javaVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 						String type;
 						if (globalVariable.getTypeReference().getLayoutInformations().size() > 0) {
 							type = globalVariable.getTypeReference().getLayoutInformations().get(0).getVisibleTokenText();
@@ -172,11 +172,14 @@ public class GenerateModelFromCode {
 						field.setType(type+arrayTokens);
 						if(globalVariable.isPrivate()) {
 							field.setVisibility(Visibility.PRIVATE);
+						}else if(globalVariable.isProtected()) {
+							field.setVisibility(Visibility.PROTECTED);
+						}
+						
+						if(globalVariable.isStatic()) {
+							field.setIsStatic(true);
 						}
 						fields.add(field);
-						javaVariable.setName(type + arrayTokens + " " + globalVariable.getName());
-						javaVariable.setKind(VariableKind.GLOBAL);
-						globalVariables.getVariables().add(javaVariable);
 					}
 					modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Fields(), fields);
 					
@@ -184,7 +187,6 @@ public class GenerateModelFromCode {
 						ClassMethod classMethod = (ClassMethod) member;
 						
 						Method method = CbcclassFactory.eINSTANCE.createMethod();
-						
 						
 
 						JavaVariables variables = CbcmodelFactory.eINSTANCE.createJavaVariables();
@@ -228,8 +230,6 @@ public class GenerateModelFromCode {
 						m.put("cbcmodel", new XMIResourceFactoryImpl());
 
 						String potentialName = classMethod.getName();
-						String name = javaClass.getName() + "_" + findName(names, potentialName);
-						IPath path = iFile.getLocation().removeLastSegments(1);
 						
 						String defaultAnnotation ="	/*@\r\n" + 
 								"	  @ public normal_behavior\r\n" + 
@@ -239,8 +239,6 @@ public class GenerateModelFromCode {
 								"	  @*/";
 						String jmlAnnotation = classMethod.getAnnotationsAndModifiers().get(0).getLayoutInformations().get(0).getHiddenTokenText();
 						if(!jmlAnnotation.contains("/*@")) jmlAnnotation= defaultAnnotation;
-						i++;
-						int counter = 0;
 						int index = 0;
 						r.getContents().add(modelClass);
 						saveResource(r);						
@@ -258,24 +256,32 @@ public class GenerateModelFromCode {
 							// Create Resource and load respective Model Instance
 							URI cbcDiagramUri = URI.createFileURI(folder.getLocation()+ "\\" + potentialName + ".cbcmodel");
 							method.setCbcDiagramURI(cbcDiagramUri.toFileString());
-							Resource r2 = rs
-									.createResource(cbcDiagramUri);
+							Resource r2;
+							
+							if(!folder.getFile(potentialName + ".cbcmodel").exists()) {
+								
+								m.put("cbcmodel", new XMIResourceFactoryImpl());
+								r2 = rs.createResource(URI.createFileURI(folder.getLocation() + "\\" + potentialName + ".cbcmodel"));
+							}else {
+								IFile cbcmodelFile = folder.getFile(potentialName + ".cbcmodel");
+								 r2 = GetDiagramUtil.getResourceFromFile(cbcmodelFile, rs);	
+							}
+							
+							GlobalConditions conditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
+							for(EObject obj :r2.getContents()) {
+								if(obj instanceof GlobalConditions) {
+									conditions= (GlobalConditions) obj;
+								}
+							}
 							CbCFormula formula = createFormula(classMethod.getName());
 							formula.setClassName(className);
 							formula.setMethodName(signature);
 							method.setCbcStartTriple(formula);
 							formula.setMethodObj(method);
-							GlobalConditions conditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
-							JavaVariables variables2 = CbcmodelFactory.eINSTANCE.createJavaVariables();
-							for (JavaVariable jv : variables.getVariables()) {
-								JavaVariable var = CbcmodelFactory.eINSTANCE.createJavaVariable();
-								var.setName(jv.getName());
-								variables2.getVariables().add(var);
-							}
-
-							addConditionsToFormula(formula, currentJmlPart, variables2, method);
+							variables.eSet(CbcmodelPackage.eINSTANCE.getJavaVariables_Fields(), fields);
+							addConditionsToFormula(formula, currentJmlPart, variables, method, conditions);
 							r2.getContents().add(formula);
-							r2.getContents().add(variables2);
+							r2.getContents().add(variables);
 							r2.getContents().add(conditions);
 
 							EList<Statement> listOfStatements = new BasicEList<Statement>();
@@ -286,10 +292,10 @@ public class GenerateModelFromCode {
 							handleListOfStatements(r2, listOfStatements, formula.getStatement());
 
 							// add types to old variables in variable table
-							for (JavaVariable variable : variables2.getVariables()) {
+							for (JavaVariable variable : variables.getVariables()) {
 								if (variable.getName().startsWith("old_")) {
 									String oldVariableName = variable.getName().substring(4);
-									for (JavaVariable variable2 : variables2.getVariables()) {
+									for (JavaVariable variable2 : variables.getVariables()) {
 										int indexName = variable2.getName().indexOf(" " + oldVariableName);
 										if (indexName != -1) {
 											String typeOfVariable = variable2.getName().substring(0, indexName);
@@ -308,8 +314,6 @@ public class GenerateModelFromCode {
 							saveResource(r2);
 							GenerateDiagramFromModel gdfm = new GenerateDiagramFromModel();
 							gdfm.execute(r2);
-
-							counter++;
 						} while (index != -1);
 						
 					}
@@ -320,7 +324,6 @@ public class GenerateModelFromCode {
 				saveResource(r);
 		}
 
-		}
 	}
 
 	private void saveResource(Resource r) {
@@ -360,12 +363,12 @@ public class GenerateModelFromCode {
 	 * @param formula
 	 * @param jmlAnnotation contains pre and post condition for formula
 	 * @param variables
+	 * @param conditions 
 	 */
-	private void addConditionsToFormula(CbCFormula formula, String jmlAnnotation, JavaVariables variables, Method method) {
+	private void addConditionsToFormula(CbCFormula formula, String jmlAnnotation, JavaVariables variables, Method method, GlobalConditions conditions) {
 		jmlAnnotation = replaceSpecialSymbols(jmlAnnotation);
 		int old = jmlAnnotation.indexOf("\\old");
 		String newVariableName = "";
-		ArrayList<String> additionalPre = new ArrayList<String>();
 		// new variable old_name
 		while (old != -1) {
 			int endOld = findEndOfBracket(jmlAnnotation, old + 5);
@@ -381,18 +384,29 @@ public class GenerateModelFromCode {
 			}
 			newVariableName = "old_" + name;
 			jmlAnnotation = jmlAnnotation.replace("\\old" + "(" + oldPart + ")", newVariableName + rest);
-			additionalPre.add(newVariableName + " = " + name);
 			old = jmlAnnotation.indexOf("\\old", endOld + 5);
 			JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 			variable.setName(newVariableName);
 			variables.getVariables().add(variable);
+			boolean conditionAlreadyExists = false;
+			String newCondition= newVariableName + " = " + name;
+			for(Condition c : conditions.getConditions()) {
+				if(c.getName().equals(newCondition)) {
+					conditionAlreadyExists = true;
+				}
+			}
+			if(!conditionAlreadyExists) {
+			Condition cond = CbcmodelFactory.eINSTANCE.createCondition();
+			cond.setName(newCondition);
+			
+			conditions.getConditions().add(cond);
+			}
 		}
+		
 		// adds pre condition
 		int startPre = jmlAnnotation.indexOf("requires");
 		String pre = "";
-		for (String addPre : additionalPre) {
-			pre = pre + " & " + addPre;
-		}
+
 		while (startPre != -1) {
 			int endPre = findEnd(jmlAnnotation, startPre);
 			pre = pre + " & " + jmlAnnotation.substring(startPre + 9, endPre);
@@ -402,7 +416,6 @@ public class GenerateModelFromCode {
 		pre = pre.substring(2);
 		Condition preCond = CbcmodelFactory.eINSTANCE.createCondition();
 		preCond.setName(pre);
-		method.setPrecondition(preCond);
 		formula.getPreCondition().setName(pre);
 		formula.getStatement().getPreCondition().setName(pre);
 
@@ -422,7 +435,6 @@ public class GenerateModelFromCode {
 		post = post.substring(2);
 		Condition postCond = CbcmodelFactory.eINSTANCE.createCondition();
 		postCond.setName(post);
-		method.setPostcondition(postCond);
 		formula.getPostCondition().setName(post);
 		formula.getStatement().getPostCondition().setName(post);
 	}

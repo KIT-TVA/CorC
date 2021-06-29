@@ -9,7 +9,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="methods" upperBound="-1"
         eType="#//Method" containment="true" eOpposite="#//Method/parentClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="classInvariants" upperBound="-1"
-        eType="ecore:EClass ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition"/>
+        eType="ecore:EClass ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Visibility">
     <eLiterals name="PUBLIC"/>
@@ -23,6 +24,12 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isStatic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isFinal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="displayedName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="String staticString = isStatic? &quot;static &quot; : &quot;&quot;; String finalString = isFinal ? &quot;final &quot; : &quot;&quot;; return visibility + &quot; &quot; + staticString + finalString + type + &quot; &quot; + name;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Method">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cbcDiagramURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -32,7 +39,17 @@
         eOpposite="../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//CbCFormula/methodObj"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parentClass" eType="#//ModelClass"
         eOpposite="#//ModelClass/methods"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="precondition" eType="ecore:EClass ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="postcondition" eType="ecore:EClass ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="precondition" eType="ecore:EClass ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition"
+        volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="return cbcStartTriple.getPreCondition();"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postcondition" eType="ecore:EClass ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition"
+        volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="return cbcStartTriple.getPostCondition();"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
 </ecore:EPackage>
