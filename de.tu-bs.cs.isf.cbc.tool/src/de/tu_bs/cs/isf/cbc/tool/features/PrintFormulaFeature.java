@@ -96,7 +96,7 @@ public class PrintFormulaFeature extends MyAbstractAsynchronousCustomFeature {
 		JavaVariables vars = null; 
 		Renaming renaming = null;
 		MethodClass javaClass = null;
-		MethodSignature signature = null;
+		String signature = null;
 		CbCFormula formula = null;
 		for (Shape shape : getDiagram().getChildren()) {
 			Object obj = getBusinessObjectForPictogramElement(shape); 
@@ -106,14 +106,17 @@ public class PrintFormulaFeature extends MyAbstractAsynchronousCustomFeature {
 				renaming = (Renaming) obj;
 			} else if (obj instanceof CbCFormula) {
 				formula = (CbCFormula) obj;
-			} else if(obj instanceof MethodClass) {
+				if(formula.getMethodObj() != null) {
+					signature = formula.getMethodObj().getSignature();
+				}
+			} /*else if(obj instanceof MethodClass) { deprecated
 				javaClass = (MethodClass) obj;
 			} else if(obj instanceof MethodSignature) {
 				signature = (MethodSignature) obj;
-			}
+			}*/
 		}
 
-		String parameters = signature.getMethodSignature().substring(signature.getMethodSignature().indexOf('(') + 1, signature.getMethodSignature().indexOf(')'));
+		String parameters = signature.substring(signature.indexOf('(') + 1, signature.indexOf(')'));
 			
 		Set<String> hs1 = new HashSet<String>();
 		if(!parameters.isEmpty()) {
@@ -137,7 +140,7 @@ public class PrintFormulaFeature extends MyAbstractAsynchronousCustomFeature {
 				hs2.add(currentVariable.getName());
 			} else if(currentVariable.getKind() == VariableKind.RETURN) {
 				counter++;
-				if(!signature.getMethodSignature().substring(0, signature.getMethodSignature().indexOf('(')).contains(currentVariable.getName().trim().split(" ")[0])) {
+				if(!signature.substring(0, signature.indexOf('(')).contains(currentVariable.getName().trim().split(" ")[0])) {
 					Console.println("Method return type and variable type does not match.");
 					return;
 				}
@@ -149,7 +152,8 @@ public class PrintFormulaFeature extends MyAbstractAsynchronousCustomFeature {
 			}
 		}
 		
-		if(counter == 0 && !signature.getMethodSignature().contains("void")) {//void must have no return variables
+		if(counter == 0 && !signature
+				.contains("void")) {//void must have no return variables
 			Console.println("Variable of kind RETURN is missing.");
 			return;
 		}
@@ -282,7 +286,7 @@ public class PrintFormulaFeature extends MyAbstractAsynchronousCustomFeature {
 		return vars;
 	}
 	
-	private void writeFile(String location, String code, MethodSignature signature, String className, String globalVariables) {
+	private void writeFile(String location, String code, String signature, String className, String globalVariables) {
 		
 		//StringBuffer globalVariables = new StringBuffer();
 		//globalVariables.forEach(e -> {globalVariables.append("\tprivate " + e + ";\n");});

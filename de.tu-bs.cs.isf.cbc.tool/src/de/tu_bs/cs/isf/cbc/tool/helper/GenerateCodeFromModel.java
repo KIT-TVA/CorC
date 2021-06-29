@@ -55,7 +55,6 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 		JavaVariables vars = null;
 		Renaming renaming = null;
 		CbCFormula formula = null;
-		MethodSignature signature = null;
 		for (Shape shape : getDiagram().getChildren()) {
 			Object obj = getBusinessObjectForPictogramElement(shape);
 			if (obj instanceof JavaVariables) {
@@ -64,11 +63,10 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 				renaming = (Renaming) obj;
 			} else if (obj instanceof CbCFormula) {
 				formula = (CbCFormula) obj;
-				//hat method object aus cbc class hier method signature
-			} else if(obj instanceof MethodSignature) {
-				signature = (MethodSignature) obj;
 			}
 		} 
+		
+		String signatureString = formula.getMethodObj().getSignature();
 		
 		JavaVariable returnVariable = null;
 		int counter = 0;
@@ -77,7 +75,7 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 			JavaVariable currentVariable = vars.getVariables().get(i);
 		if(currentVariable.getKind() == VariableKind.RETURN) {
 			counter++;
-			if(!signature.getMethodSignature().substring(0, signature.getMethodSignature().indexOf('(')).contains(currentVariable.getName().trim().split(" ")[0])) {
+			if(!signatureString.substring(0, signatureString.indexOf('(')).contains(currentVariable.getName().trim().split(" ")[0])) {
 				Console.println("Method return type and variable type does not match.");
 				return;
 			}
@@ -97,11 +95,11 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 			location += File.separator + uri.segment(i);
 		}
 		location += ".java";
-		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, renaming, localVariables, returnVariable, signature);
-		writeFile(location, code, formula.getClassName(), signature, globalVariables);
+		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, renaming, localVariables, returnVariable, signatureString);
+		writeFile(location, code, formula.getClassName(), signatureString, globalVariables);
 	}
 
-	private void writeFile(String location, String code, String className,  MethodSignature signature, String globalVariables) {
+	private void writeFile(String location, String code, String className,  String signature, String globalVariables) {
 		StringBuffer newCode = new StringBuffer();
 		newCode.setLength(0);
 		File javaFile = new File(location);

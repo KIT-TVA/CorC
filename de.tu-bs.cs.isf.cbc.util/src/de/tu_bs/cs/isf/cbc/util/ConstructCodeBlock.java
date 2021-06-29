@@ -106,7 +106,7 @@ public class ConstructCodeBlock {
 	}
 	
 	public static StringBuffer editCodeBlockForExport(
-			String methodCode, File javaFile, MethodSignature signature, String vars) throws IOException {
+			String methodCode, File javaFile, String signature, String vars) throws IOException {
 		
 		StringBuffer newCode = new StringBuffer();
         StringBuffer jmlCode = new StringBuffer();
@@ -121,11 +121,12 @@ public class ConstructCodeBlock {
 		br.readLine();
         line = br.readLine();
         
+        //TODO: Invarianten & global Vars generieren / updaten
  //       String globalVariables = constructGlobalVariables(vars, signature);
  //       constructGlobalVariables();
-        while(!line.contains("@")) {
+        while(!(line.contains("@") && !line.contains("invariant"))) {
         	newCode.append(line);
-        	newCode.append("\n\n");
+        	newCode.append("\n");
         	line = br.readLine();
         }
         
@@ -136,9 +137,7 @@ public class ConstructCodeBlock {
 		
         while(line != null) {
         	jmlCode = getJmlAnnotations(jmlCode, br);
-        	String s = signature.getMethodSignature();//.replace("static ", "");
-//        	s = s.trim().substring(s.indexOf(' ') + 1);
-	        if(line.contains(s)) {//delete old implementation
+	        if(line.contains(signature)) {//delete old implementation
 				line = br.readLine();
 	        	int counter = 1;
 				while(line != null) {
@@ -183,6 +182,7 @@ public class ConstructCodeBlock {
 	        } else {
 	        	line = br.readLine();
 	        }
+        	
         }
         newCode.append(methodCode);
 		br.close();
@@ -197,7 +197,7 @@ public class ConstructCodeBlock {
 	}
 	
 	public static String constructCodeBlockForExport(
-			CbCFormula formula, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, MethodSignature signature) {
+			CbCFormula formula, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString) {
 		handleInnerLoops = true;
 		withInvariants = true;
 		
@@ -210,6 +210,7 @@ public class ConstructCodeBlock {
 		pre = useRenamingCondition(pre);
 		
 		String post = createConditionJMLString(postCondition, renaming, Parser.KEYWORD_JML_POST);
+		post = translateOldVariablesToJML(post,vars);
 		post = useRenamingCondition(post);
 		
 		if(returnVar != null) {
@@ -223,15 +224,17 @@ public class ConstructCodeBlock {
 		code.append("\t/*@\n" + "\t@ normal_behavior\n" //+ "@ requires "
 				+ pre.replaceAll(System.getProperty("line.separator"), "")// + ";\n" //+ "@ ensures "
 				+ post.replaceAll(System.getProperty("line.separator"), "")/* + ";\n"*/ + "\t@ assignable "
-				+ modifiableVariables + ";\n" + "\t@*/\n" + "\tpublic "+ signature.getMethodSignature() 
+				+ modifiableVariables + ";\n" + "\t@*/\n" + "\t"+ signatureString 
 				+ " {\n");
 
 		positionIndex = 2;//2
 		code = insertTabs(code);
 		
 		for(String var : vars) {//declare variables
-			code.append(var + ";\n");
-			code = insertTabs(code);
+			if(!var.contains("old_")) {
+				code.append(var + ";\n");
+				code = insertTabs(code);
+			}
 		}
 		
 		String s;
@@ -253,6 +256,18 @@ public class ConstructCodeBlock {
 
 		returnVariable = null;
 		return code.toString();
+	}
+
+	private static String translateOldVariablesToJML(String post, LinkedList<String> vars) {
+		for(String var:vars){
+			if(var.contains("old_")) {
+				String varNameWithoutOld = var.substring(var.indexOf("_")+1);
+				String varNameWithoutType = var.substring(var.indexOf(" ") +1);
+				post = post.replaceAll(varNameWithoutType, "\\\\old(" + varNameWithoutOld + ")");
+			}
+
+		}
+		return post;
 	}
 
 	// tabea

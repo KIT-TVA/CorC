@@ -30,6 +30,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Field/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Field/isStatic"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Field/isFinal"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Field/displayedName"
+          get="String staticString = isStatic? &quot;static &quot; : &quot;&quot;; String finalString = isFinal ? &quot;final &quot; : &quot;&quot;; return visibility + &quot; &quot; + staticString + finalString + type + &quot; &quot; + name;"/>
     </genClasses>
     <genClasses ecoreClass="cbcclass.ecore#//Method">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/cbcDiagramURI"/>
@@ -37,8 +39,10 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/assignable"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/cbcStartTriple"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/parentClass"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/precondition"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/postcondition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/precondition"
+          get="return cbcStartTriple.getPreCondition();"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/postcondition"
+          get="return cbcStartTriple.getPostCondition();"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -59,7 +59,7 @@ public class GetDiagramUtil {
        return ret;
     }
  
-    private static Diagram getDiagramFromFile(IFile file,
+    public static Diagram getDiagramFromFile(IFile file,
                                               ResourceSet resourceSet) {
        // Get the URI of the model file.
        final URI resourceURI = getFileURI(file, resourceSet);
@@ -80,6 +80,16 @@ public class GetDiagramUtil {
                 e.printStackTrace();
        }
        return null;
+    }
+    
+    public static Resource getResourceFromFile(IFile file,
+            ResourceSet resourceSet) {
+    	
+    	// Get the URI of the model file.
+        final URI resourceURI = getFileURI(file, resourceSet);
+        // Demand load the resource for this file.
+        Resource resource = resourceSet.getResource(resourceURI, true);
+    	return resource;
     }
  
     private static URI getFileURI(IFile file, ResourceSet resourceSet) {

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -29,11 +31,15 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.PredefinedColoredAreas;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
 
 /**
@@ -93,9 +99,18 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		variable.setName("int a");
 		variable.setKind(VariableKind.LOCAL);
 		variables.getVariables().add(variable);
-		//TODO fields aus CbCFormula setzen
 
 		try {
+			Resource resource = CbcModelUtil.getResource(getDiagram());
+			for(EObject c:resource.getContents()){
+				if(c instanceof CbCFormulaImpl) {
+					CbCFormula formula = (CbCFormula) c;
+					if(formula.getMethodObj()!= null) {
+						EList<Field> fields = formula.getMethodObj().getParentClass().getFields();
+						variables.eSet(CbcmodelPackage.eINSTANCE.getJavaVariables_Fields(), fields);
+					}
+				}
+			}
 			CbcModelUtil.saveVariablesToModelFile(variables, getDiagram());
 		} catch (CoreException | IOException e) {
 			e.printStackTrace();
@@ -212,7 +227,7 @@ public class VariablesPattern extends IdPattern implements IPattern {
 					Field field = fields.get(newIndex);
 					Shape shapeText = Graphiti.getPeCreateService()
 							.createShape((ContainerShape) context.getPictogramElement(), true);
-					Text variableNameText = Graphiti.getGaService().createText(shapeText, field.getName());
+					Text variableNameText = Graphiti.getGaService().createText(shapeText, field.getDisplayedName());
 					setId(variableNameText, ID_VARIABLE_TEXT);
 					setIndex(variableNameText, newIndex);
 					variableNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
