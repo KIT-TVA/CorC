@@ -6,10 +6,12 @@ import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
+import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
+import org.eclipse.graphiti.mm.algorithms.impl.TextImpl;
 import org.eclipse.graphiti.mm.algorithms.styles.Font;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
@@ -17,6 +19,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.mm.pictograms.impl.ShapeImpl;
 import org.eclipse.graphiti.pattern.IPattern;
 import org.eclipse.graphiti.pattern.id.IdLayoutContext;
 import org.eclipse.graphiti.pattern.id.IdPattern;
@@ -30,8 +33,10 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import helper.ModelClassHelper;
 
 public class FieldClassPattern extends IdPattern implements IPattern {
 	
@@ -59,55 +64,7 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 
 	@Override
 	protected PictogramElement doAdd(IAddContext context) {
-		/*
-		Diagram targetDiagram = (Diagram) context.getTargetContainer();
-		Field addedField = (Field) context.getNewObject();
-		
-		IPeCreateService peCreateService = Graphiti.getPeCreateService();
-		IGaService gaService = Graphiti.getGaService();
 
-		int width = context.getWidth() <= 0 ? 200 : context.getWidth();
-		int height = context.getHeight() <= 0 ? 100 : context.getHeight();
-
-		Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
-		
-		// Main contents area
-		ContainerShape outerContainerShape = peCreateService.createContainerShape(targetDiagram, true);
-		RoundedRectangle mainRectangle = gaService.createRoundedRectangle(outerContainerShape, 20, 20);
-		mainRectangle.setFilled(true);
-		gaService.setRenderingStyle(mainRectangle, PredefinedColoredAreas.getBlueWhiteAdaptions());
-		setId(mainRectangle, ID_MAIN_RECTANGLE);
-		gaService.setLocationAndSize(mainRectangle, context.getX(), context.getY(), width, height);
-
-				// create link and wire it
-		link(outerContainerShape, addedField);
-		
-		
-		// method name
-		Shape nameTextShape = peCreateService.createShape(outerContainerShape, true);
-		Text fieldNameText = gaService.createText(nameTextShape, "");
-		setId(fieldNameText, ID_FIELD_TEXT);
-		fieldNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		fieldNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-				
-		Shape textShapeMethod = peCreateService.createShape(outerContainerShape, false);
-		Text nameTextMethod = gaService.createText(textShapeMethod, "ClassField");
-		setId(nameTextMethod, ID_FIELD_TEXT);
-		nameTextMethod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		nameTextMethod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		nameTextMethod.setFont(headerFont);
-				
-		// line:
-		Shape hor1Shape = peCreateService.createShape(outerContainerShape, false);
-		Polyline hor1line = gaService.createPolyline(hor1Shape);
-		setId(hor1line, ID_HOR1_LINE);
-
-		link(outerContainerShape, addedField);
-		link(getDiagram(), addedField);
-		link(nameTextShape, addedField);
-
-		return outerContainerShape;
-		*/
 		return null;
 	}
 	
@@ -118,19 +75,43 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 	}
 	
 	
+	@Override
+	public boolean isMainBusinessObjectApplicable(Object mainBusinessObject) {
+		// TODO Auto-generated method stub
+		return mainBusinessObject instanceof Field;
+	}
+	
+	
 	// Create all elements
 	public Object[] create (ICreateContext context) {
 		ModelClass modelClass = (ModelClass) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		
 		de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field field = CbcclassFactory.eINSTANCE.createField();
-		field.setName("field");
+		field.setName("int[] field");
 		field.setType("int[]");
 		
 		modelClass.getFields().add(field);
+		ModelClassHelper.setObject(field);
+		
 		updatePictogramElement(context.getTargetContainer());
-
 		return new Object[] { field };
 			
+	}
+	
+	
+	@Override
+	public void setValue(String value, IDirectEditingContext context) {
+		
+		Field field = (Field) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		field.setName(value.trim());
+
+		ShapeImpl shape = (ShapeImpl)context.getPictogramElement();
+		TextImpl text = (TextImpl)shape.getGraphicsAlgorithm();
+		text.setValue(field.getName());
+		
+		
+		updatePictogramElement(context.getPictogramElement());
+	
 	}
 	
 	
@@ -143,7 +124,14 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 		return false;
 	}
 		
-		
+	
+	
+	// TODO
+	@Override
+	public String checkValueValid(String value, IDirectEditingContext context) {
+		return null;
+	}
+	
 
 	@Override
 	protected boolean layout(IdLayoutContext context, String id) {
@@ -155,10 +143,12 @@ public class FieldClassPattern extends IdPattern implements IPattern {
         return (bo instanceof Field);
     }
 
+	// TODO:
 	@Override
 	protected IReason updateNeeded(IdUpdateContext context, String id) {
 		// TODO Auto-generated method stub
-		return null;
+		//return null;
+		return Reason.createFalseReason();
 	}
 
 	@Override
@@ -171,28 +161,17 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 		}
 		return false;
 	}
-	
-	/*
+
+	// TODO: change behavior
 	@Override
 	public boolean canDirectEdit(IDirectEditingContext context) {
 		Object domainObject = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
-		if (domainObject instanceof Field && ga instanceof Text) {
+		if ((domainObject instanceof Field || domainObject instanceof JavaVariable) && ga instanceof Text) {
 			return true;
 		}
 		return false;
-	}
-	
-	*/
-	
-	@Override
-	public boolean canDirectEdit(IDirectEditingContext context) {
-		Object domainObject = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
-		if (domainObject instanceof JavaVariable && ga instanceof Text) {
-			return true;
-		}
-		return false;
+
 	}
 	
 	@Override
@@ -201,10 +180,6 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 		return field.getName();
 	}
 
-	@Override
-	public boolean isMainBusinessObjectApplicable(Object mainBusinessObject) {
-		// TODO Auto-generated method stub
-		return mainBusinessObject instanceof Field;
-	}
+
 
 }

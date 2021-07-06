@@ -6,6 +6,7 @@ import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 
 public class RenameVariableFeature extends AbstractCustomFeature {
@@ -39,7 +40,7 @@ public class RenameVariableFeature extends AbstractCustomFeature {
         PictogramElement[] pes = context.getPictogramElements();
         if (pes != null && pes.length == 1) {
             Object bo = getBusinessObjectForPictogramElement(pes[0]);
-            if (bo instanceof JavaVariable) {
+            if (bo instanceof JavaVariable || bo instanceof Field) {
                 ret = true;
             }
         }
@@ -51,7 +52,7 @@ public class RenameVariableFeature extends AbstractCustomFeature {
         PictogramElement[] pes = context.getPictogramElements();
         if (pes != null && pes.length == 1) {
             Object bo = getBusinessObjectForPictogramElement(pes[0]);
-            if (bo instanceof JavaVariable) {
+            if (bo instanceof JavaVariable || bo instanceof Field) {
             	IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
     			directEditingInfo.setMainPictogramElement(pes[0]);
     			directEditingInfo.setPictogramElement(pes[0]);

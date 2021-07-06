@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
+import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Image;
@@ -13,6 +14,7 @@ import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
+import org.eclipse.graphiti.mm.algorithms.impl.TextImpl;
 import org.eclipse.graphiti.mm.algorithms.styles.Font;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
@@ -20,6 +22,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.mm.pictograms.impl.ShapeImpl;
 import org.eclipse.graphiti.pattern.IPattern;
 import org.eclipse.graphiti.pattern.id.IdLayoutContext;
 import org.eclipse.graphiti.pattern.id.IdPattern;
@@ -31,16 +34,19 @@ import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.graphiti.util.PredefinedColoredAreas;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
 import de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassImageProvider;
+import helper.ModelClassHelper;
 
 
 public class MethodClassPattern extends IdPattern implements IPattern {
@@ -63,10 +69,16 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		private static final String ID_VER1_LINE = "ver1Line";
 		private static final String ID_VER2_LINE = "ver2Line";
 	
-	
+		
 	
 	public MethodClassPattern() {
 		super();
+	}
+	
+	
+	@Override
+	public int getEditingType() {
+	    return TYPE_TEXT;
 	}
 	
 	@Override
@@ -82,7 +94,9 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 	@Override
 	public boolean isMainBusinessObjectApplicable(Object mainBusinessObject) {
 		// TODO Auto-generated method stub
-		return mainBusinessObject instanceof MethodClass;
+		//return mainBusinessObject instanceof MethodClass;
+		return mainBusinessObject instanceof Method;
+		
 	}
 	
 	
@@ -163,6 +177,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		method.setPostcondition(postCondition);
 		
 		modelClass.getMethods().add(method);
+		ModelClassHelper.setObject(method);
 		updatePictogramElement(context.getTargetContainer());
 		
 
@@ -185,200 +200,33 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		return super.canAdd(context) && context.getTargetContainer() instanceof Diagram;
 		
 	}
+	
+	
+	// TODO: change behavior
+		@Override
+		public boolean canDirectEdit(IDirectEditingContext context) {
+			Object domainObject = getBusinessObjectForPictogramElement(context.getPictogramElement());
+			GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
+			if ((domainObject instanceof Method) && ga instanceof Text) {
+				return true;
+			}
+			return false;
+
+		}
 
 	@Override
 	protected PictogramElement doAdd(IAddContext context) {
-		
-		/*
-		manageColor(IColorConstant.DARK_GREEN);
-		Diagram targetDiagram = (Diagram) context.getTargetContainer();
-		MethodClass addedMethodClass = (MethodClass) context.getTargetContainer();
-		
-		IPeCreateService peCreateService = Graphiti.getPeCreateService();
-		IGaService gaService = Graphiti.getGaService();
-
-		int width = context.getWidth() <= 0 ? 300 : context.getWidth();
-		int height = context.getHeight() <= 0 ? 150 : context.getHeight();
-		// header font:
-		Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
-
-		// Main contents area
-		ContainerShape outerContainerShape = peCreateService.createContainerShape(targetDiagram, true);
-		RoundedRectangle mainRectangle = gaService.createRoundedRectangle(outerContainerShape, 20, 20);
-		mainRectangle.setFilled(true);
-		gaService.setRenderingStyle(mainRectangle, PredefinedColoredAreas.getBlueWhiteAdaptions());
-		mainRectangle.setForeground(manageColor(IColorConstant.RED));
-		mainRectangle.setLineWidth(2);
-		setId(mainRectangle, ID_MAIN_RECTANGLE);
-		gaService.setLocationAndSize(mainRectangle, context.getX(), context.getY(), width, height);
-
-		// create link and wire it
-		link(outerContainerShape, addedMethodClass);
-
-		// Statement name
-		Shape textShapePreCondition = peCreateService.createShape(outerContainerShape, true);
-		MultiText preConditionText = gaService.createMultiText(textShapePreCondition, "");
-		setId(preConditionText, ID_PRE_TEXT);
-		preConditionText.setValue("{" + addedMethodClass.getMethodClass() + "}");
-		preConditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		preConditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-
-		Shape textShapeStatement = peCreateService.createShape(outerContainerShape, true);
-		MultiText classStatementText = gaService.createMultiText(textShapeStatement, "");
-		setId(classStatementText, ID_STATEMENT_TEXT);
-		classStatementText.setValue(addedMethodClass.getMethodClass());
-		classStatementText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		classStatementText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-
-		Shape textShapePostCondition = peCreateService.createShape(outerContainerShape, true);
-		MultiText postConditionText = gaService.createMultiText(textShapePostCondition, "");
-		postConditionText.setValue("{" + addedMethodClass.getMethodClass() + "}");
-		setId(postConditionText, ID_POST_TEXT);
-		postConditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		postConditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-
-		Shape textShapeName = peCreateService.createShape(outerContainerShape, false);
-		MultiText nameText = gaService.createMultiText(textShapeName, "Class Method");
-		setId(nameText, ID_NAME_TEXT);
-		nameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		nameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		nameText.setFont(headerFont);
-
-		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
-		Image image = gaService.createImage(proveShape, CbCClassImageProvider.IMG_UNPROVEN);
-		setId(image, ID_IMAGE_PROVEN);
-
-		// Header:
-		Shape preHeaderShape = peCreateService.createShape(outerContainerShape, false);
-		Text preHeader = gaService.createText(preHeaderShape, "precondition");
-		setId(preHeader, ID_PRE_HEADER);
-		preHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		preHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		preHeader.setFont(headerFont);
-
-		Shape postHeaderShape = peCreateService.createShape(outerContainerShape, false);
-		Text postHeader = gaService.createText(postHeaderShape, "postcondition");
-		setId(postHeader, ID_POST_HEADER);
-		postHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		postHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		postHeader.setFont(headerFont);
-
-		Shape stHeaderShape = peCreateService.createShape(outerContainerShape, false);
-		Text stHeader = gaService.createText(stHeaderShape, "statement");
-		setId(stHeader, ID_ST_HEADER);
-		stHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		stHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		stHeader.setFont(headerFont);
-		// lines:
-		Shape hor1LineShape = peCreateService.createShape(outerContainerShape, false);
-		Polyline hor1Polyline = gaService.createPolyline(hor1LineShape);
-		setId(hor1Polyline, ID_HOR1_LINE);
-
-		Shape hor2LineShape = peCreateService.createShape(outerContainerShape, false);
-		Polyline hor2Polyline = gaService.createPolyline(hor2LineShape);
-		setId(hor2Polyline, ID_HOR2_LINE);
-
-		Shape ver1LineShape = peCreateService.createShape(outerContainerShape, false);
-		Polyline ver1Polyline = gaService.createPolyline(ver1LineShape);
-		setId(ver1Polyline, ID_VER1_LINE);
-
-		Shape ver2LineShape = peCreateService.createShape(outerContainerShape, false);
-		Polyline ver2Polyline = gaService.createPolyline(ver2LineShape);
-		setId(ver2Polyline, ID_VER2_LINE);
-
-		peCreateService.createChopboxAnchor(textShapeStatement);
-
-		link(outerContainerShape, addedMethodClass);
-		link(getDiagram(), addedMethodClass);
-		link(textShapePreCondition, addedMethodClass.getMethodClass());
-		link(textShapeStatement, addedMethodClass.getMethodClass());
-		link(textShapePostCondition, addedMethodClass.getMethodClass());
-		link(proveShape, addedMethodClass.getMethodClass());
-
-		return outerContainerShape;
-		
-		*/
 		return null;
 	}
 
 	@Override
 	protected boolean layout(IdLayoutContext context, String id) {
-		/*
-		boolean changesDone = false;
-
-		GraphicsAlgorithm mainRectangle = context.getRootPictogramElement().getGraphicsAlgorithm();
-		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
-		int third = mainRectangle.getWidth() / 3;
-		// stable sizes from Name and Header save space when the diagram gets big!
-		int sizeName = 30; // size from Formular block
-		int sizeHeader = 20; // size from the Header
-		int positionHeader = 40; // position where the Header is
-		int sizeText = mainRectangle.getHeight() - positionHeader - sizeHeader; // size from the blocks (pre, statement,
-																				// post)
-		int positionText = positionHeader + sizeHeader; // position from the blocks (pre, statement, post)
-
-		if (id.equals(ID_NAME_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, 0, 5, mainRectangle.getWidth(), sizeName);
-			changesDone = true;
-		} else if (id.equals(ID_PRE_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, 0, positionText, third, sizeText);
-			changesDone = true;
-		} else if (id.equals(ID_STATEMENT_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, third, positionText, third, sizeText);
-			changesDone = true;
-		} else if (id.equals(ID_POST_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, third * 2, positionText, third, sizeText);
-			changesDone = true;
-		} else if (id.equals(ID_IMAGE_PROVEN)) {
-			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
-			changesDone = true;
-		} else if (id.equals(ID_PRE_HEADER)) {
-			Graphiti.getGaService().setLocationAndSize(ga, 0, positionHeader, third, sizeHeader);
-			changesDone = true;
-		} else if (id.equals(ID_ST_HEADER)) {
-			Graphiti.getGaService().setLocationAndSize(ga, third, positionHeader, third, sizeHeader);
-			changesDone = true;
-		} else if (id.equals(ID_POST_HEADER)) {
-			Graphiti.getGaService().setLocationAndSize(ga, third * 2, positionHeader, third, sizeHeader);
-			changesDone = true;
-		} else if (id.equals(ID_HOR1_LINE)) {
-			Polyline polyline = (Polyline) ga;
-			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { 0, positionHeader, mainRectangle.getWidth(), positionHeader });
-			polyline.getPoints().addAll(pointList);
-			changesDone = true;
-		} else if (id.equals(ID_HOR2_LINE)) {
-			Polyline polyline = (Polyline) ga;
-			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService().createPointList(new int[] { 0, positionHeader + sizeHeader,
-					mainRectangle.getWidth(), positionHeader + sizeHeader });
-			polyline.getPoints().addAll(pointList);
-			changesDone = true;
-		} else if (id.equals(ID_VER1_LINE)) {
-			Polyline polyline = (Polyline) ga;
-			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { third, positionHeader, third, mainRectangle.getHeight() });
-			polyline.getPoints().addAll(pointList);
-			changesDone = true;
-		} else if (id.equals(ID_VER2_LINE)) {
-			Polyline polyline = (Polyline) ga;
-			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { third * 2, positionHeader, third * 2, mainRectangle.getHeight() });
-			polyline.getPoints().addAll(pointList);
-			changesDone = true;
-		}
-
-		return changesDone;
-		*/
 		return false;
 	}
 
 	@Override
 	protected IReason updateNeeded(IdUpdateContext context, String id) {
-		if (id.equals(ID_MAIN_RECTANGLE)) {
+		/*if (id.equals(ID_MAIN_RECTANGLE)) {
 			RoundedRectangle rectangle = (RoundedRectangle) context.getGraphicsAlgorithm();
 			CbCFormula domainObject = (CbCFormula) context.getDomainObject();
 			AbstractStatement statement = domainObject.getStatement();
@@ -413,9 +261,15 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 				return Reason.createTrueReason("Statement is not proven. Expected red color.");
 			}
 		}
-		
+		*/
 		return Reason.createFalseReason();
 	}
+	
+	
+	public boolean canUpdate(IdUpdateContext context) {
+        Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+        return (bo instanceof Method);
+    }
 
 	@Override
 	protected boolean update(IdUpdateContext context, String id) {
@@ -457,7 +311,25 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		}
 		return false;
 	}
+	
+	
+	@Override
+	public void setValue(String value, IDirectEditingContext context) {
+		Method method = (Method) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		method.setSignature(value.trim());
 
-
-
+		ShapeImpl shape = (ShapeImpl)context.getPictogramElement();
+		TextImpl text = (TextImpl)shape.getGraphicsAlgorithm();
+		text.setValue(method.getSignature());
+			
+		updatePictogramElement(context.getPictogramElement());
+	
+	}
+	
+	
+	@Override
+	public String getInitialValue(IDirectEditingContext context) {
+		Method method = (Method) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		return method.getSignature();
+	}
 }

@@ -7,6 +7,7 @@ import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.pattern.DefaultFeatureProviderWithPatterns;
 
 import de.tu_bs.cs.isf.cbcclass.tool.features.RenameConditionFeature;
+import de.tu_bs.cs.isf.cbcclass.tool.features.RenameMethodClassFeature;
 import de.tu_bs.cs.isf.cbcclass.tool.features.RenameStatementFeature;
 import de.tu_bs.cs.isf.cbcclass.tool.features.RenameVariableFeature;
 import de.tu_bs.cs.isf.cbcclass.tool.patterns.InvariantClassPattern;
@@ -44,7 +45,8 @@ public class CbCClassFeatureProvider extends DefaultFeatureProviderWithPatterns 
 					
 				new RenameConditionFeature(this),
 				new RenameStatementFeature(this),
-				new RenameVariableFeature(this)};
+				new RenameVariableFeature(this),
+				new RenameMethodClassFeature(this)};
 		}
 		
 }

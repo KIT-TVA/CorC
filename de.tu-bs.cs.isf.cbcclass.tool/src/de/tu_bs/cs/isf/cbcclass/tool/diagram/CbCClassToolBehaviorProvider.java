@@ -7,6 +7,7 @@ import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IToolBehaviorProvider;
 
 import de.tu_bs.cs.isf.cbcclass.tool.features.RenameConditionFeature;
+import de.tu_bs.cs.isf.cbcclass.tool.features.RenameMethodClassFeature;
 import de.tu_bs.cs.isf.cbcclass.tool.features.RenameStatementFeature;
 import de.tu_bs.cs.isf.cbcclass.tool.features.RenameVariableFeature;
 
@@ -21,6 +22,7 @@ public class CbCClassToolBehaviorProvider extends DefaultToolBehaviorProvider im
 	
 	@Override
 	public ICustomFeature getDoubleClickFeature(IDoubleClickContext context) {
+	
 		
 		ICustomFeature customFeature = new RenameStatementFeature(getFeatureProvider());
 		if (customFeature.canExecute(context)) {
@@ -34,6 +36,12 @@ public class CbCClassToolBehaviorProvider extends DefaultToolBehaviorProvider im
 		if (customFeature.canExecute(context)) {
 			return customFeature;
 		}
+		customFeature = new RenameMethodClassFeature(getFeatureProvider());
+		if (customFeature.canExecute(context)) {
+			return customFeature;
+		}
+
+		
 		return super.getDoubleClickFeature(context);
 	}
 
