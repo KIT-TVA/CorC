@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypes">
+      <diagramType
+            id="de.tu-bs.cs.isf.cbcclass.tool.diagramType"
+            name="CbC Class Diagram"
+            type="cbcclass">
+      </diagramType>
+   </extension>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypeProviders">
+      <diagramTypeProvider
+            class="de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassDiagramTypeProvider"
+            context="org.eclipse.graphiti.ui.diagramEditor"
+            id="de.tu-bs.cs.isf.cbcclass.tool.CbCClassDiagramTypeProvider"
+            name="CbC Class Diagram Type Provider">
+         <diagramType
+               id="de.tu-bs.cs.isf.cbcclass.tool.diagramType">
+         </diagramType>
+         <imageProvider
+               id="de.tu-bs.cs.isf.cbcclass.tool.imageProvider">
+         </imageProvider>
+      </diagramTypeProvider>
+   </extension>
+   <extension
+         point="org.eclipse.graphiti.ui.imageProviders">
+      <imageProvider
+            class="de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassImageProvider"
+            id="de.tu-bs.cs.isf.cbcclass.tool.imageProvider">
+      </imageProvider>
+   </extension>
+
+</plugin>

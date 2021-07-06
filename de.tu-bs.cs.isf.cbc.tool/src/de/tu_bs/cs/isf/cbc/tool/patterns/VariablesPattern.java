@@ -175,7 +175,7 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		GraphicsAlgorithm mainRectangle = context.getRootPictogramElement().getGraphicsAlgorithm();
 		JavaVariables variables = (JavaVariables) getBusinessObjectForPictogramElement(
 				context.getRootPictogramElement());
-		int size =variables.getVariables().size() + variables.getFields().size();
+		int size = variables.getVariables().size() + variables.getFields().size();
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		int height = mainRectangle.getHeight();
 		if (size >= 1) {
@@ -250,3 +250,5 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		return false;
 	}
 }
+
+

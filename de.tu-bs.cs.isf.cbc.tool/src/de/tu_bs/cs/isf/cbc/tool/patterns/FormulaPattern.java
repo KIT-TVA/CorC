@@ -62,7 +62,7 @@ public class FormulaPattern extends IdPattern implements IPattern {
 	private static final String ID_HOR2_LINE = "hor2Line";
 	private static final String ID_VER1_LINE = "ver1Line";
 	private static final String ID_VER2_LINE = "ver2Line";
-
+	
 	/**
 	 * Constructor of the class
 	 */
@@ -113,10 +113,6 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		postCondition.setName("post");
 		statement.setPostCondition(postCondition);
 
-
-
-
-		
 		MethodSignature signature = null;
 		for (Shape shape : getDiagram().getChildren()) {
 			Object obj = getBusinessObjectForPictogramElement(shape); 

@@ -1,9 +1,12 @@
 package de.tu_bs.cs.isf.cbc.tool.propertiesview;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -15,10 +18,13 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -42,6 +48,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodSignatureImpl;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
@@ -58,6 +65,7 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 
 	private Label invariantLabel;
 	private StyledText invariantLabelText;
+	private List invariantList;
 	private boolean invariantLabelChanged = false;
 	
 	private Label methodSignatureLabel;
@@ -126,22 +134,41 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 		
 		// invariantLabel
 		invariantLabel = new Label(composite, SWT.PUSH);
-		invariantLabel.setText("Invariant: ");
+		invariantLabel.setText("Invariants: ");
 		invariantLabel.setBackground(white);
 
 		// invariantLabelText
-		invariantLabelText = new StyledText(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
-		GridData invariantLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		invariantLabelText.setLayoutData(invariantLabelTextGridData);
-		invariantLabelText.setBackground(white);
+		 invariantList = new List(composite, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
+
+	     invariantList.setItems();
+	     int listHeight = invariantList.getItemHeight() * 5;
+
+	     Rectangle trim = invariantList.computeTrim(0, 0, 0, listHeight);
+	     GridData invariantLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+	     invariantLabelTextGridData.heightHint = trim.height;
+	     invariantList.setLayoutData(invariantLabelTextGridData);
+	     invariantList.setBackground(white);
+	       
+//		invariantLabelText = new StyledText(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
+//		GridData invariantLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+//		invariantLabelText.setLayoutData(invariantLabelTextGridData);
+//		invariantLabelText.setBackground(white);
 		
-		invariantLabelText.addModifyListener(new ModifyListener() {
-			
+		invariantList.addSelectionListener(new SelectionListener() {
+
 			@Override
-			public void modifyText(ModifyEvent e) {
-				invariantLabelChanged = true;
-				saveButton.setEnabled(true);
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+
 		});
 		
 		// generateButton
@@ -223,7 +250,13 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 					Method methodObj = (Method) ((CbCFormulaImpl) bo).getMethodObj();
 					methodSignatureLabelText.setText(methodObj.getSignature());
 					classLabelText.setText(methodObj.getParentClass().getName());
-					invariantLabelText.setText(methodObj.getParentClass().getClassInvariants().toString());
+					EList<Condition> classInvariants = methodObj.getParentClass().getClassInvariants();
+					String[] invariants = new String[classInvariants.size()];
+					for(int i = 0; i<invariants.length; i++){
+						invariants[i] = classInvariants.get(i).getName();
+					}
+					
+					invariantList.setItems(invariants);
 				}
 			}
 		});

@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ClassTool
+Bundle-SymbolicName: de.tu-bs.cs.isf.cbcclass.tool; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: de.tu.bs.cs.isf.cbcclass.tool
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.graphiti,
+ org.eclipse.graphiti.ui,
+ de.tu_bs.cs.isf.cbc.cbcclass.model,
+ de.tu-bs.cs.isf.cbc.model,
+ org.eclipse.emf.common
+Import-Package: org.eclipse.graphiti.pattern;version="0.13.2",
+ org.eclipse.graphiti.pattern.id
