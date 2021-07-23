@@ -46,6 +46,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -62,6 +63,7 @@ import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.impl.FieldImpl;
 import org.emftext.language.java.modifiers.Modifier;
 import org.emftext.language.java.parameters.Parameter;
+import org.emftext.language.java.parameters.Parametrizable;
 import org.emftext.language.java.resource.java.util.JavaResourceUtil;
 import org.emftext.language.java.statements.ForLoop;
 import org.emftext.language.java.statements.LocalVariableStatement;
@@ -81,10 +83,24 @@ import org.emftext.language.java.variables.LocalVariable;
 import org.emftext.language.java.variables.impl.VariableImpl;
 
 public class GenerateModelFromCode {
-
+	// Content of Class
 	ArrayList<String> jmlLoopConditions = new ArrayList<String>();
-	ArrayList<String> invariants = new ArrayList<String>();
+	EList<Condition> invariants = new BasicEList<Condition>();
+	EList<Field> fields = new BasicEList<Field>();
+	EList<Method> methods = new BasicEList<Method>();
+
 	int position = 0;
+
+	// Stuff to change and create corc diagrams
+	Resource cbcclassResource;
+	List<Resource> cbcmodelResources = new ArrayList<Resource>();
+	ResourceSet rs = new ResourceSetImpl();
+	Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+	Map<String, Object> m = reg.getExtensionToFactoryMap();
+
+	// Info of java file
+	private String className;
+	private IFolder folder;
 
 	public GenerateModelFromCode() {
 	}
@@ -92,23 +108,218 @@ public class GenerateModelFromCode {
 	public void execute(IFile iFile) {
 		ArrayList<String> jmlMethodConditions = new ArrayList<String>();
 
-		String file = readFileToString(iFile.getLocation().toPortableString());
+		String javaFileContent = readFileToString(iFile.getLocation().toPortableString());
 
-		String javaFile = file;
-		readJMLAnnotations(file, jmlMethodConditions);
+		readJMLAnnotations(javaFileContent, jmlMethodConditions);
 
-		EObject abstractSyntaxTreeRoot = JavaResourceUtil.getResourceContent(javaFile);
+		EObject abstractSyntaxTreeRoot = JavaResourceUtil.getResourceContent(javaFileContent);
 		CompilationUnit compilationUnit = (CompilationUnit) abstractSyntaxTreeRoot;
 
-		if (compilationUnit.getClassifiers().isEmpty()) {
+		if (compilationUnit.getClassifiers().isEmpty()
+				|| compilationUnit.getClassifiers().get(0).getMembers().isEmpty()) {
 			return;
 		}
-		if (compilationUnit.getClassifiers().get(0).getMembers().isEmpty()) {
-			return;
+
+		setupProjectStructure(iFile);
+		
+		ModelClass modelClass = instantiateModelClass();
+		modelClass.setJavaClassURI(URI.createFileURI(iFile.getProjectRelativePath().toPortableString()).toFileString());
+
+		if (compilationUnit.getClassifiers().get(0) instanceof ClassImpl) {
+			ClassImpl javaClass = (ClassImpl) compilationUnit.getClassifiers().get(0);
+
+			for (Member member : javaClass.getMembers()) {
+				if (member instanceof FieldImpl) {
+					addFieldToList((FieldImpl) member);
+				}
+
+				if (member instanceof ClassMethod) {
+					ClassMethod classMethod = (ClassMethod) member;
+					String methodName = classMethod.getName();
+					
+					Method method = CbcclassFactory.eINSTANCE.createMethod();
+					
+					Resource cbcmodelResource = setupProjectForCbCModel(method, methodName);
+
+					JavaVariables variables = CbcmodelFactory.eINSTANCE.createJavaVariables();
+					fillVariableList(variables, classMethod);
+
+					String signature = buildSignatureString(classMethod, variables);
+					method.setSignature(signature);
+
+					// get global conditions from existing diagram
+					GlobalConditions conditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
+					for (EObject obj : cbcmodelResource.getContents()) {
+						if (obj instanceof GlobalConditions) {
+							conditions = (GlobalConditions) obj;
+						}
+					}
+
+					CbCFormula formula = createFormula(classMethod.getName());
+					formula.setClassName(className);
+					formula.setMethodName(signature);
+					method.setCbcStartTriple(formula);
+					formula.setMethodObj(method);
+					variables.eSet(CbcmodelPackage.eINSTANCE.getJavaVariables_Fields(), fields);
+					
+					//parse JML contract to pre- and postconditions of cbcFormula
+					String defaultAnnotation = "	/*@\r\n" + "	  @ public normal_behavior\r\n"
+							+ "	  @ requires true;\r\n" + "	  @ ensures true;\r\n" + "	  @ assignable \nothing;\r\n"
+							+ "	  @*/";
+					String jmlAnnotation = classMethod.getAnnotationsAndModifiers().get(0).getLayoutInformations()
+							.get(0).getHiddenTokenText();
+					if (!jmlAnnotation.contains("/*@"))
+						jmlAnnotation = defaultAnnotation;
+					int index = 0;
+
+					do {
+						String currentJmlPart = "";
+						index = jmlAnnotation.indexOf("also");
+						if (index != -1) {
+							currentJmlPart = jmlAnnotation.substring(0, index);
+						} else {
+							currentJmlPart = jmlAnnotation;
+						}
+						jmlAnnotation = jmlAnnotation.substring(index + 4);
+
+						addConditionsToFormula(formula, currentJmlPart, variables, method, conditions);
+
+					} while (index != -1);
+					
+					cbcmodelResource.getContents().clear();
+					cbcmodelResource.getContents().add(formula);
+					cbcmodelResource.getContents().add(variables);
+					cbcmodelResource.getContents().add(conditions);
+					methods.add(method);
+
+					EList<Statement> listOfStatements = new BasicEList<Statement>();
+					for (int j = 0; j < classMethod.getStatements().size(); j++) {
+						listOfStatements.add(null);
+					}
+					Collections.copy(listOfStatements, classMethod.getStatements());
+					handleListOfStatements(cbcmodelResource, listOfStatements, formula.getStatement());					
+					
+					cbcmodelResources.add(cbcmodelResource);
+				}
+			}
+			modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Methods(), methods);
+			modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Fields(), fields);
+			modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_ClassInvariants(), invariants);
+			cbcclassResource.getContents().add(modelClass);
+			saveResource(cbcclassResource);
+			// TODO: generate class diagram from model
+			
+			for(Resource cbcmodelResource: cbcmodelResources) {
+				saveResource(cbcmodelResource);
+				GenerateDiagramFromModel gdfm = new GenerateDiagramFromModel();
+				gdfm.execute(cbcmodelResource);
+			}
+			
+			
 		}
-		String className = iFile.getName().split("\\.")[0];
-		IFolder folder = iFile.getProject().getFolder(iFile.getParent().getProjectRelativePath().append("\\"+className));
-		if(!folder.exists()) {
+
+	}
+
+	private ModelClass instantiateModelClass() {
+		ModelClass modelClass = null;
+		for (EObject obj : cbcclassResource.getContents()) {
+			if(obj instanceof ModelClass) {
+				modelClass = (ModelClass) obj;
+				modelClass.getMethods().clear();
+				modelClass.getClassInvariants().clear();
+				modelClass.getFields();
+			}
+		}
+		
+		if(modelClass == null) {
+			modelClass = CbcclassFactory.eINSTANCE.createModelClass();
+			modelClass.setName(className);
+		}
+		return modelClass;
+	}
+
+	private Resource setupProjectForCbCModel(Method method, String methodName) {
+		Resource cbcmodelResource;
+
+		URI cbcDiagramUri = URI.createFileURI(folder.getLocation() + "\\" + methodName + ".cbcmodel");
+		
+
+		if (!folder.getFile(methodName + ".cbcmodel").exists()) {
+
+			m.put("cbcmodel", new XMIResourceFactoryImpl());
+			cbcmodelResource = rs
+					.createResource(URI.createFileURI(folder.getLocation() + "\\" + methodName + ".cbcmodel"));
+			method.setCbcDiagramURI(cbcDiagramUri.toFileString());
+		} else {
+			IFile cbcmodelFile = folder.getFile(methodName + ".cbcmodel");
+			cbcmodelResource = GetDiagramUtil.getResourceFromFile(cbcmodelFile, rs);
+		}
+		return cbcmodelResource;
+	}
+
+	private void fillVariableList(JavaVariables variables, ClassMethod classMethod) {
+		// add parameters to variables
+		for (Parameter p : classMethod.getParameters()) {
+			addToVariables((VariableImpl) p, variables, VariableKind.PARAM);
+		}
+
+		TypeReference type = classMethod.getTypeReference();
+		String typeString = JavaResourceUtil.getText(type);
+		if (!(type instanceof VoidImpl)) {
+			String arrayDimensions = "";
+			if (classMethod.getArrayDimensionsBefore() != null) {
+				for (ArrayDimension ad : classMethod.getArrayDimensionsBefore()) {
+					for (LayoutInformation li : ad.getLayoutInformations()) {
+						arrayDimensions = arrayDimensions + li.getVisibleTokenText();
+					}
+				}
+			}
+			JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
+			typeString = JavaResourceUtil.getText(type) + arrayDimensions;
+			variable.setName(typeString + " result");
+			variable.setKind(VariableKind.RETURN);
+			variables.getVariables().add(variable);
+		}
+
+	}
+
+	private void addFieldToList(FieldImpl fieldImpl) {
+		String arrayTokens = "";
+		if (fieldImpl.getArrayDimensionsBefore().size() > 0) {
+			for (int k = 0; k < fieldImpl.getArrayDimensionsBefore().size(); k++) {
+				for (int j = 0; j < fieldImpl.getArrayDimensionsBefore().get(k).getLayoutInformations().size(); j++) {
+					arrayTokens = arrayTokens + fieldImpl.getArrayDimensionsBefore().get(k).getLayoutInformations()
+							.get(j).getVisibleTokenText();
+				}
+			}
+		}
+		Field field = CbcclassFactory.eINSTANCE.createField();
+		String type;
+		if (fieldImpl.getTypeReference().getLayoutInformations().size() > 0) {
+			type = fieldImpl.getTypeReference().getLayoutInformations().get(0).getVisibleTokenText();
+		} else {
+			type = fieldImpl.getTypeReference().getPureClassifierReference().getLayoutInformations().get(0)
+					.getVisibleTokenText();
+		}
+		field.setName(fieldImpl.getName());
+		field.setType(type + arrayTokens);
+		if (fieldImpl.isPrivate()) {
+			field.setVisibility(Visibility.PRIVATE);
+		} else if (fieldImpl.isProtected()) {
+			field.setVisibility(Visibility.PROTECTED);
+		}
+
+		if (fieldImpl.isStatic()) {
+			field.setIsStatic(true);
+		}
+		fields.add(field);
+
+	}
+
+	private void setupProjectStructure(IFile iFile) {
+		className = iFile.getName().split("\\.")[0];
+		folder = iFile.getProject().getFolder(iFile.getParent().getProjectRelativePath().append("\\" + className));
+		if (!folder.exists()) {
 			try {
 				folder.create(true, true, null);
 			} catch (CoreException e) {
@@ -116,212 +327,15 @@ public class GenerateModelFromCode {
 				e.printStackTrace();
 			}
 		}
-		// Register Resource Factory for respective Model
-		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-		Map<String, Object> m = reg.getExtensionToFactoryMap();
-		ResourceSet rs = new ResourceSetImpl();
-		Resource r;
-		
-		if(!folder.getFile(className+".cbcclass").exists()) {
-			
+
+		if (!folder.getFile(className + ".cbcclass").exists()) {
+
 			m.put("cbcclass", new XMIResourceFactoryImpl());
-			r = rs.createResource(URI.createFileURI(folder.getLocation() + "\\" + className + ".cbcclass"));
-		}else {
-			IFile cbcclassFile = folder.getFile(className+".cbcclass");
-			 r = GetDiagramUtil.getResourceFromFile(cbcclassFile, rs);	
-		}
-			
-			
-			ModelClass modelClass =  CbcclassFactory.eINSTANCE.createModelClass();
-			modelClass.setName(className);
-			modelClass.setJavaClassURI(URI.createFileURI(iFile.getProjectRelativePath().toPortableString()).toFileString());
-			EList<Condition> invs = new BasicEList<Condition>();
-			for(String i : invariants) {
-				Condition inv = CbcmodelFactory.eINSTANCE.createCondition();
-				inv.setName(i);
-				invs.add(inv);
-			}
-			
-			if (compilationUnit.getClassifiers().get(0) instanceof ClassImpl) {
-				ClassImpl javaClass = (ClassImpl) compilationUnit.getClassifiers().get(0);
-				// new cbcmodel is created for each method in class
-				EList<Field> fields = new BasicEList<Field>();
-				EList<Method> methods = new BasicEList<Method>();
-				for (Member member : javaClass.getMembers()) {
-					if (member instanceof FieldImpl) {
-						FieldImpl globalVariable = (FieldImpl) member;
-						String arrayTokens = "";
-						if (globalVariable.getArrayDimensionsBefore().size() > 0) {
-							for (int k = 0; k < globalVariable.getArrayDimensionsBefore().size(); k++) {
-								for (int j = 0; j < globalVariable.getArrayDimensionsBefore().get(k).getLayoutInformations()
-										.size(); j++) {
-									arrayTokens = arrayTokens + globalVariable.getArrayDimensionsBefore().get(k)
-											.getLayoutInformations().get(j).getVisibleTokenText();
-								}
-							}
-						}
-						Field field = CbcclassFactory.eINSTANCE.createField();
-						String type;
-						if (globalVariable.getTypeReference().getLayoutInformations().size() > 0) {
-							type = globalVariable.getTypeReference().getLayoutInformations().get(0).getVisibleTokenText();
-						} else {
-							type = globalVariable.getTypeReference().getPureClassifierReference().getLayoutInformations()
-									.get(0).getVisibleTokenText();
-						}
-						field.setName(globalVariable.getName());
-						field.setType(type+arrayTokens);
-						if(globalVariable.isPrivate()) {
-							field.setVisibility(Visibility.PRIVATE);
-						}else if(globalVariable.isProtected()) {
-							field.setVisibility(Visibility.PROTECTED);
-						}
-						
-						if(globalVariable.isStatic()) {
-							field.setIsStatic(true);
-						}
-						fields.add(field);
-					}
-					modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Fields(), fields);
-					
-					if (member instanceof ClassMethod) {
-						ClassMethod classMethod = (ClassMethod) member;
-						
-						Method method = CbcclassFactory.eINSTANCE.createMethod();
-						
-
-						JavaVariables variables = CbcmodelFactory.eINSTANCE.createJavaVariables();
-
-						// add parameters to variables
-						for (Parameter p : classMethod.getParameters()) {
-							addToVariables((VariableImpl) p, variables, VariableKind.PARAM);
-						}
-						
-						StringJoiner sj = new StringJoiner(", ");
-						
-						for(JavaVariable p : variables.getVariables()) {
-							sj.add(p.getName());
-						}
-						
-
-						TypeReference type = classMethod.getTypeReference();
-						String typeString = JavaResourceUtil.getText(type);
-						if (!(type instanceof VoidImpl)) {
-							String arrayDimensions = "";
-							if (classMethod.getArrayDimensionsBefore() != null) {
-								for (ArrayDimension ad : classMethod.getArrayDimensionsBefore()) {
-									for (LayoutInformation li : ad.getLayoutInformations()) {
-										arrayDimensions = arrayDimensions + li.getVisibleTokenText();
-									}
-								}
-							}
-							JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
-							typeString = JavaResourceUtil.getText(type) + arrayDimensions;
-							variable.setName(typeString + " result");
-							variable.setKind(VariableKind.RETURN);
-							variables.getVariables().add(variable);
-						}
-						String signature = buildSignatureString(classMethod, sj.toString(), typeString );
-						method.setSignature(signature);
-
-			
-						
-						// Initialize the cbcmodels
-						CbcmodelPackage.eINSTANCE.eClass();
-						m.put("cbcmodel", new XMIResourceFactoryImpl());
-
-						String potentialName = classMethod.getName();
-						
-						String defaultAnnotation ="	/*@\r\n" + 
-								"	  @ public normal_behavior\r\n" + 
-								"	  @ requires true;\r\n" + 
-								"	  @ ensures true;\r\n" + 
-								"	  @ assignable \nothing;\r\n" + 
-								"	  @*/";
-						String jmlAnnotation = classMethod.getAnnotationsAndModifiers().get(0).getLayoutInformations().get(0).getHiddenTokenText();
-						if(!jmlAnnotation.contains("/*@")) jmlAnnotation= defaultAnnotation;
-						int index = 0;
-						r.getContents().add(modelClass);
-						saveResource(r);						
-						do {
-							String currentJmlPart = "";
-							index = jmlAnnotation.indexOf("also");
-							if (index != -1) {
-								currentJmlPart = jmlAnnotation.substring(0, index);
-							} else {
-								currentJmlPart = jmlAnnotation;
-							}
-							jmlAnnotation = jmlAnnotation.substring(index + 4);
-							
-							
-							// Create Resource and load respective Model Instance
-							URI cbcDiagramUri = URI.createFileURI(folder.getLocation()+ "\\" + potentialName + ".cbcmodel");
-							method.setCbcDiagramURI(cbcDiagramUri.toFileString());
-							Resource r2;
-							
-							if(!folder.getFile(potentialName + ".cbcmodel").exists()) {
-								
-								m.put("cbcmodel", new XMIResourceFactoryImpl());
-								r2 = rs.createResource(URI.createFileURI(folder.getLocation() + "\\" + potentialName + ".cbcmodel"));
-							}else {
-								IFile cbcmodelFile = folder.getFile(potentialName + ".cbcmodel");
-								 r2 = GetDiagramUtil.getResourceFromFile(cbcmodelFile, rs);	
-							}
-							
-							GlobalConditions conditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
-							for(EObject obj :r2.getContents()) {
-								if(obj instanceof GlobalConditions) {
-									conditions= (GlobalConditions) obj;
-								}
-							}
-							CbCFormula formula = createFormula(classMethod.getName());
-							formula.setClassName(className);
-							formula.setMethodName(signature);
-							method.setCbcStartTriple(formula);
-							formula.setMethodObj(method);
-							variables.eSet(CbcmodelPackage.eINSTANCE.getJavaVariables_Fields(), fields);
-							addConditionsToFormula(formula, currentJmlPart, variables, method, conditions);
-							r2.getContents().add(formula);
-							r2.getContents().add(variables);
-							r2.getContents().add(conditions);
-
-							EList<Statement> listOfStatements = new BasicEList<Statement>();
-							for (int j = 0; j < classMethod.getStatements().size(); j++) {
-								listOfStatements.add(null);
-							}
-							Collections.copy(listOfStatements, classMethod.getStatements());
-							handleListOfStatements(r2, listOfStatements, formula.getStatement());
-
-							// add types to old variables in variable table
-							for (JavaVariable variable : variables.getVariables()) {
-								if (variable.getName().startsWith("old_")) {
-									String oldVariableName = variable.getName().substring(4);
-									for (JavaVariable variable2 : variables.getVariables()) {
-										int indexName = variable2.getName().indexOf(" " + oldVariableName);
-										if (indexName != -1) {
-											String typeOfVariable = variable2.getName().substring(0, indexName);
-											variable.setName(typeOfVariable + " " + variable.getName());
-											variable.setKind(variable2.getKind());
-											break;
-										}
-
-									}
-								}
-							}
-							methods.add(method);
-							
-							modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Methods(), methods);
-
-							saveResource(r2);
-							GenerateDiagramFromModel gdfm = new GenerateDiagramFromModel();
-							gdfm.execute(r2);
-						} while (index != -1);
-						
-					}
-
-				}
-				modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_ClassInvariants(), invs);
-				modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Fields(), fields);
-				saveResource(r);
+			cbcclassResource = rs
+					.createResource(URI.createFileURI(folder.getLocation() + "\\" + className + ".cbcclass"));
+		} else {
+			IFile cbcclassFile = folder.getFile(className + ".cbcclass");
+			cbcclassResource = GetDiagramUtil.getResourceFromFile(cbcclassFile, rs);
 		}
 
 	}
@@ -330,30 +344,41 @@ public class GenerateModelFromCode {
 		try {
 			r.save(Collections.EMPTY_MAP);
 			r.setTrackingModification(true);
-			IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
-			IPath iLocation = Path.fromOSString(r.getURI().toFileString()); 
+			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			IPath iLocation = Path.fromOSString(r.getURI().toFileString());
 			IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
 			ifile.getParent().refreshLocal(1, null);
 		} catch (IOException | CoreException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 
-	private String buildSignatureString(ClassMethod classMethod, String parameters, String typeString) {
+	private String buildSignatureString(ClassMethod classMethod, JavaVariables variables) {
 		String signature = "";
-		if(classMethod.isPublic()) {
+		if (classMethod.isPublic()) {
 			signature += "public ";
-		}else if(classMethod.isPrivate()) {
+		} else if (classMethod.isPrivate()) {
 			signature += "private ";
-		}else if (classMethod.isProtected()) {
+		} else if (classMethod.isProtected()) {
 			signature += "protected ";
 		}
-		if(classMethod.isStatic()) {
+		if (classMethod.isStatic()) {
 			signature += "static ";
 		}
-		
-		signature += typeString + " "+ classMethod.getName() + "(" + parameters + ")";
-		
+
+		StringJoiner sjParameters = new StringJoiner(", ");
+		String returnType = "void";
+
+		for (JavaVariable v : variables.getVariables()) {
+			if (v.getKind().equals(VariableKind.PARAM)) {
+				sjParameters.add(v.getName());
+			} else if (v.getKind().equals(VariableKind.RETURN)) {
+				returnType = v.getName().substring(0, v.getName().indexOf(' '));
+			}
+		}
+
+		signature += returnType + " " + classMethod.getName() + "(" + sjParameters.toString() + ")";
+
 		return signature;
 	}
 
@@ -363,46 +388,14 @@ public class GenerateModelFromCode {
 	 * @param formula
 	 * @param jmlAnnotation contains pre and post condition for formula
 	 * @param variables
-	 * @param conditions 
+	 * @param conditions
 	 */
-	private void addConditionsToFormula(CbCFormula formula, String jmlAnnotation, JavaVariables variables, Method method, GlobalConditions conditions) {
+	private void addConditionsToFormula(CbCFormula formula, String jmlAnnotation, JavaVariables variables,
+			Method method, GlobalConditions conditions) {
 		jmlAnnotation = replaceSpecialSymbols(jmlAnnotation);
-		int old = jmlAnnotation.indexOf("\\old");
-		String newVariableName = "";
-		// new variable old_name
-		while (old != -1) {
-			int endOld = findEndOfBracket(jmlAnnotation, old + 5);
-			String oldPart = jmlAnnotation.substring(old + 5, endOld);
-			String name = "";
-			String rest = "";
-			int index = oldPart.indexOf(".");
-			if (index != -1) {
-				name = oldPart.substring(0, index);
-				rest = oldPart.substring(index);
-			} else {
-				name = oldPart;
-			}
-			newVariableName = "old_" + name;
-			jmlAnnotation = jmlAnnotation.replace("\\old" + "(" + oldPart + ")", newVariableName + rest);
-			old = jmlAnnotation.indexOf("\\old", endOld + 5);
-			JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
-			variable.setName(newVariableName);
-			variables.getVariables().add(variable);
-			boolean conditionAlreadyExists = false;
-			String newCondition= newVariableName + " = " + name;
-			for(Condition c : conditions.getConditions()) {
-				if(c.getName().equals(newCondition)) {
-					conditionAlreadyExists = true;
-				}
-			}
-			if(!conditionAlreadyExists) {
-			Condition cond = CbcmodelFactory.eINSTANCE.createCondition();
-			cond.setName(newCondition);
-			
-			conditions.getConditions().add(cond);
-			}
-		}
-		
+
+		jmlAnnotation = cbcWorkaroundForOldKeyword(jmlAnnotation, variables, conditions);
+
 		// adds pre condition
 		int startPre = jmlAnnotation.indexOf("requires");
 		String pre = "";
@@ -437,6 +430,60 @@ public class GenerateModelFromCode {
 		postCond.setName(post);
 		formula.getPostCondition().setName(post);
 		formula.getStatement().getPostCondition().setName(post);
+	}
+
+	private String cbcWorkaroundForOldKeyword(String jmlAnnotation, JavaVariables variables,
+			GlobalConditions conditions) {
+		int old = jmlAnnotation.indexOf("\\old");
+		while (old != -1) {
+			int endOld = findEndOfBracket(jmlAnnotation, old + 5);
+			String oldPart = jmlAnnotation.substring(old + 5, endOld);
+			String name = "";
+			String rest = "";
+			int index = oldPart.indexOf(".");
+			if (index != -1) {
+				name = oldPart.substring(0, index);
+				rest = oldPart.substring(index);
+			} else {
+				name = oldPart;
+			}
+			String newVariableName = "old_" + name;
+			jmlAnnotation = jmlAnnotation.replace("\\old" + "(" + oldPart + ")", newVariableName + rest);
+			old = jmlAnnotation.indexOf("\\old", endOld + 5);
+			JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
+			// find type of old variable
+			String typeOfVariable = "";
+			for (JavaVariable var : variables.getVariables()) {
+				int indexName = var.getName().indexOf(" " + name);
+				if (indexName != -1) {
+					typeOfVariable = var.getName().substring(0, indexName);
+					break;
+				}
+			}
+			for(Field f: variables.getFields()) {
+				if(f.getName().equals(name)) {
+					typeOfVariable = f.getType();
+				}
+			}
+			variable.setName(typeOfVariable + " " + newVariableName);
+			variables.getVariables().add(variable);
+			
+			boolean conditionAlreadyExists = false;
+			String newCondition = newVariableName + " = " + name;
+			for (Condition c : conditions.getConditions()) {
+				if (c.getName().equals(newCondition)) {
+					conditionAlreadyExists = true;
+				}
+			}
+			if (!conditionAlreadyExists) {
+				Condition cond = CbcmodelFactory.eINSTANCE.createCondition();
+				cond.setName(newCondition);
+
+				conditions.getConditions().add(cond);
+			}
+		}
+		return jmlAnnotation;
+
 	}
 
 	/**
@@ -606,7 +653,8 @@ public class GenerateModelFromCode {
 			formula.getStatement().getPreCondition()
 					.setName(formula.getStatement().getPreCondition().getName() + " & " + addPre);
 		}
-		UpdateConditionsOfChildren.updateRefinedStatement(formula.getStatement(), formula.getStatement().getRefinement());
+		UpdateConditionsOfChildren.updateRefinedStatement(formula.getStatement(),
+				formula.getStatement().getRefinement());
 
 		repStatement.getInvariant().setName(invariant);
 
@@ -626,8 +674,8 @@ public class GenerateModelFromCode {
 	 * @param jmlLoopConditions   list for conditions for loops
 	 */
 	private void readJMLAnnotations(String file, ArrayList<String> jmlMethodConditions) {
-		
-		Map<String,String> mapJmlMethodConditions = new HashMap<String, String>();
+
+		Map<String, String> mapJmlMethodConditions = new HashMap<String, String>();
 		int startJML1 = file.indexOf("/*@");
 		int startJML2 = file.indexOf("//@");
 		int startJML, endJML;
@@ -652,29 +700,7 @@ public class GenerateModelFromCode {
 				String methodName = parseNextMethodName(file.substring(endJML));
 				mapJmlMethodConditions.put(methodName, jmlAnnotation);
 			} else if (jmlAnnotation.contains("invariant")) {
-				jmlAnnotation = replaceSpecialSymbols(jmlAnnotation);
-				int beginInv = jmlAnnotation.indexOf("invariant");
-				int endInv;
-				String newInv;
-				if (jmlAnnotation.startsWith("//")) {
-					while (beginInv != -1) {
-						endInv = jmlAnnotation.indexOf("//", beginInv) - 1;
-						if (endInv == -2) {
-							endInv = jmlAnnotation.length() - 2;
-						}
-						newInv = jmlAnnotation.substring(beginInv + 10, endInv);
-						invariants.add(newInv);
-						beginInv = jmlAnnotation.indexOf("invariant", endInv);
-					}
-				} else {
-					// line comment, Ende festlegen, im Moment ;*/ Ende
-					while (beginInv != -1) {
-						endInv = findEnd(jmlAnnotation, beginInv);
-						newInv = jmlAnnotation.substring(beginInv + 10, endInv);
-						invariants.add(newInv);
-						beginInv = jmlAnnotation.indexOf("invariant", endInv);
-					}
-				}
+				addInvariantToList(jmlAnnotation);
 			}
 			file = file.substring(endJML);
 			startJML1 = file.indexOf("/*@");
@@ -682,8 +708,39 @@ public class GenerateModelFromCode {
 		}
 	}
 
+	private void addInvariantToList(String jmlAnnotation) {
+		jmlAnnotation = replaceSpecialSymbols(jmlAnnotation);
+		int beginInv = jmlAnnotation.indexOf("invariant");
+		int endInv;
+		String newInv;
+		if (jmlAnnotation.startsWith("//")) {
+			while (beginInv != -1) {
+				endInv = jmlAnnotation.indexOf("//", beginInv) - 1;
+				if (endInv == -2) {
+					endInv = jmlAnnotation.length() - 2;
+				}
+				newInv = jmlAnnotation.substring(beginInv + 10, endInv);
+				Condition inv = CbcmodelFactory.eINSTANCE.createCondition();
+				inv.setName(newInv);
+				invariants.add(inv);
+				beginInv = jmlAnnotation.indexOf("invariant", endInv);
+			}
+		} else {
+			// line comment, Ende festlegen, im Moment ;*/ Ende
+			while (beginInv != -1) {
+				endInv = findEnd(jmlAnnotation, beginInv);
+				newInv = jmlAnnotation.substring(beginInv + 10, endInv);
+				Condition inv = CbcmodelFactory.eINSTANCE.createCondition();
+				inv.setName(newInv);
+				invariants.add(inv);
+				beginInv = jmlAnnotation.indexOf("invariant", endInv);
+			}
+		}
+
+	}
+
 	private String parseNextMethodName(String file) {
-		
+
 		return null;
 	}
 
@@ -780,7 +837,7 @@ public class GenerateModelFromCode {
 				parent.setRefinement(skipStatement);
 				UpdateConditionsOfChildren.updateRefinedStatement(parent, skipStatement);
 			}
-			addToVariables((VariableImpl) variable, (JavaVariables) r.getContents().get(1),VariableKind.LOCAL);
+			addToVariables((VariableImpl) variable, (JavaVariables) r.getContents().get(1), VariableKind.LOCAL);
 		} else if (statement instanceof WhileLoop) {
 			WhileLoop loop = (WhileLoop) statement;
 			Expression condition = loop.getCondition();
@@ -996,8 +1053,7 @@ public class GenerateModelFromCode {
 					handleListOfStatements(r, defaultCase.getStatements(), nextStatement);
 				}
 			}
-		}
-		else if(statement instanceof EmptyStatementImpl) {
+		} else if (statement instanceof EmptyStatementImpl) {
 			SkipStatement skipStatement = createSkipStatement();
 			parent.setRefinement(skipStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, skipStatement);
