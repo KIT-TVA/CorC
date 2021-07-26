@@ -166,6 +166,7 @@ public class FieldImpl extends MinimalEObjectImpl.Container implements Field {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Visibility getVisibility() {
 		return visibility;
 	}
@@ -175,6 +176,7 @@ public class FieldImpl extends MinimalEObjectImpl.Container implements Field {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setVisibility(Visibility newVisibility) {
 		Visibility oldVisibility = visibility;
 		visibility = newVisibility == null ? VISIBILITY_EDEFAULT : newVisibility;
@@ -188,6 +190,7 @@ public class FieldImpl extends MinimalEObjectImpl.Container implements Field {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getType() {
 		return type;
 	}
@@ -197,6 +200,7 @@ public class FieldImpl extends MinimalEObjectImpl.Container implements Field {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(String newType) {
 		String oldType = type;
 		type = newType;
@@ -209,6 +213,7 @@ public class FieldImpl extends MinimalEObjectImpl.Container implements Field {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -218,6 +223,7 @@ public class FieldImpl extends MinimalEObjectImpl.Container implements Field {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -230,6 +236,7 @@ public class FieldImpl extends MinimalEObjectImpl.Container implements Field {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsStatic() {
 		return isStatic;
 	}
@@ -239,6 +246,7 @@ public class FieldImpl extends MinimalEObjectImpl.Container implements Field {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsStatic(boolean newIsStatic) {
 		boolean oldIsStatic = isStatic;
 		isStatic = newIsStatic;
@@ -252,6 +260,7 @@ public class FieldImpl extends MinimalEObjectImpl.Container implements Field {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsFinal() {
 		return isFinal;
 	}
@@ -261,6 +270,7 @@ public class FieldImpl extends MinimalEObjectImpl.Container implements Field {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsFinal(boolean newIsFinal) {
 		boolean oldIsFinal = isFinal;
 		isFinal = newIsFinal;
@@ -274,6 +284,7 @@ public class FieldImpl extends MinimalEObjectImpl.Container implements Field {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDisplayedName() {
 		String staticString = isStatic ? "static " : "";
 		String finalString = isFinal ? "final " : "";

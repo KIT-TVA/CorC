@@ -170,7 +170,6 @@ public interface Field extends EObject {
 	 * @return the value of the '<em>Displayed Name</em>' attribute.
 	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage#getField_DisplayedName()
 	 * @model transient="true" changeable="false" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='String staticString = isStatic? \"static \" : \"\"; String finalString = isFinal ? \"final \" : \"\"; return visibility + \" \" + staticString + finalString + type + \" \" + name;'"
 	 * @generated
 	 */
 	String getDisplayedName();

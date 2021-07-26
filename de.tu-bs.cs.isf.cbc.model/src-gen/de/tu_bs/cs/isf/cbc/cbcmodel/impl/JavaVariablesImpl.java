@@ -82,6 +82,7 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<JavaVariable> getVariables() {
 		if (variables == null) {
 			variables = new EObjectContainmentEList<JavaVariable>(JavaVariable.class, this, CbcmodelPackage.JAVA_VARIABLES__VARIABLES);
@@ -94,6 +95,7 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Field> getFields() {
 		if (fields == null) {
 			fields = new EObjectResolvingEList<Field>(Field.class, this, CbcmodelPackage.JAVA_VARIABLES__FIELDS);

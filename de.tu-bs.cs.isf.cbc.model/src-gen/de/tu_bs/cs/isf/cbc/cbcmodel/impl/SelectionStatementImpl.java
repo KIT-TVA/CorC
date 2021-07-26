@@ -102,6 +102,7 @@ public class SelectionStatementImpl extends AbstractStatementImpl implements Sel
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Condition> getGuards() {
 		if (guards == null) {
 			guards = new EObjectContainmentEList<Condition>(Condition.class, this, CbcmodelPackage.SELECTION_STATEMENT__GUARDS);
@@ -114,6 +115,7 @@ public class SelectionStatementImpl extends AbstractStatementImpl implements Sel
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<AbstractStatement> getCommands() {
 		if (commands == null) {
 			commands = new EObjectContainmentEList<AbstractStatement>(AbstractStatement.class, this, CbcmodelPackage.SELECTION_STATEMENT__COMMANDS);
@@ -126,6 +128,7 @@ public class SelectionStatementImpl extends AbstractStatementImpl implements Sel
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isPreProve() {
 		return preProve;
 	}
@@ -135,6 +138,7 @@ public class SelectionStatementImpl extends AbstractStatementImpl implements Sel
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPreProve(boolean newPreProve) {
 		boolean oldPreProve = preProve;
 		preProve = newPreProve;

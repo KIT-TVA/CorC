@@ -254,6 +254,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCbCFormula() {
 		return cbCFormulaEClass;
 	}
@@ -263,6 +264,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCbCFormula_Name() {
 		return (EAttribute)cbCFormulaEClass.getEStructuralFeatures().get(0);
 	}
@@ -272,6 +274,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCbCFormula_Statement() {
 		return (EReference)cbCFormulaEClass.getEStructuralFeatures().get(1);
 	}
@@ -281,6 +284,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCbCFormula_PreCondition() {
 		return (EReference)cbCFormulaEClass.getEStructuralFeatures().get(2);
 	}
@@ -290,6 +294,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCbCFormula_PostCondition() {
 		return (EReference)cbCFormulaEClass.getEStructuralFeatures().get(3);
 	}
@@ -299,6 +304,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCbCFormula_Proven() {
 		return (EAttribute)cbCFormulaEClass.getEStructuralFeatures().get(4);
 	}
@@ -308,6 +314,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCbCFormula_Comment() {
 		return (EAttribute)cbCFormulaEClass.getEStructuralFeatures().get(5);
 	}
@@ -317,6 +324,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCbCFormula_CompositionTechnique() {
 		return (EAttribute)cbCFormulaEClass.getEStructuralFeatures().get(6);
 	}
@@ -326,6 +334,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCbCFormula_ClassName() {
 		return (EAttribute)cbCFormulaEClass.getEStructuralFeatures().get(7);
 	}
@@ -335,6 +344,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCbCFormula_MethodName() {
 		return (EAttribute)cbCFormulaEClass.getEStructuralFeatures().get(8);
 	}
@@ -344,6 +354,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCbCFormula_MethodObj() {
 		return (EReference)cbCFormulaEClass.getEStructuralFeatures().get(9);
 	}
@@ -353,6 +364,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCondition() {
 		return conditionEClass;
 	}
@@ -362,6 +374,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCondition_Name() {
 		return (EAttribute)conditionEClass.getEStructuralFeatures().get(0);
 	}
@@ -371,6 +384,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAbstractStatement() {
 		return abstractStatementEClass;
 	}
@@ -380,6 +394,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAbstractStatement_Name() {
 		return (EAttribute)abstractStatementEClass.getEStructuralFeatures().get(0);
 	}
@@ -389,6 +404,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAbstractStatement_Refinement() {
 		return (EReference)abstractStatementEClass.getEStructuralFeatures().get(1);
 	}
@@ -398,6 +414,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAbstractStatement_Parent() {
 		return (EReference)abstractStatementEClass.getEStructuralFeatures().get(2);
 	}
@@ -407,6 +424,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAbstractStatement_PostCondition() {
 		return (EReference)abstractStatementEClass.getEStructuralFeatures().get(3);
 	}
@@ -416,6 +434,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAbstractStatement_PreCondition() {
 		return (EReference)abstractStatementEClass.getEStructuralFeatures().get(4);
 	}
@@ -425,6 +444,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAbstractStatement_Proven() {
 		return (EAttribute)abstractStatementEClass.getEStructuralFeatures().get(5);
 	}
@@ -434,6 +454,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAbstractStatement_Comment() {
 		return (EAttribute)abstractStatementEClass.getEStructuralFeatures().get(6);
 	}
@@ -443,6 +464,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSkipStatement() {
 		return skipStatementEClass;
 	}
@@ -452,6 +474,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCompositionStatement() {
 		return compositionStatementEClass;
 	}
@@ -461,6 +484,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCompositionStatement_FirstStatement() {
 		return (EReference)compositionStatementEClass.getEStructuralFeatures().get(0);
 	}
@@ -470,6 +494,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCompositionStatement_SecondStatement() {
 		return (EReference)compositionStatementEClass.getEStructuralFeatures().get(1);
 	}
@@ -479,6 +504,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCompositionStatement_IntermediateCondition() {
 		return (EReference)compositionStatementEClass.getEStructuralFeatures().get(2);
 	}
@@ -488,6 +514,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSelectionStatement() {
 		return selectionStatementEClass;
 	}
@@ -497,6 +524,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSelectionStatement_Guards() {
 		return (EReference)selectionStatementEClass.getEStructuralFeatures().get(0);
 	}
@@ -506,6 +534,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSelectionStatement_Commands() {
 		return (EReference)selectionStatementEClass.getEStructuralFeatures().get(1);
 	}
@@ -515,6 +544,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSelectionStatement_PreProve() {
 		return (EAttribute)selectionStatementEClass.getEStructuralFeatures().get(2);
 	}
@@ -524,6 +554,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getVariant() {
 		return variantEClass;
 	}
@@ -533,6 +564,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getVariant_Name() {
 		return (EAttribute)variantEClass.getEStructuralFeatures().get(0);
 	}
@@ -542,6 +574,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getReturnStatement() {
 		return returnStatementEClass;
 	}
@@ -551,6 +584,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSmallRepetitionStatement() {
 		return smallRepetitionStatementEClass;
 	}
@@ -560,6 +594,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSmallRepetitionStatement_LoopStatement() {
 		return (EReference)smallRepetitionStatementEClass.getEStructuralFeatures().get(0);
 	}
@@ -569,6 +604,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSmallRepetitionStatement_Variant() {
 		return (EReference)smallRepetitionStatementEClass.getEStructuralFeatures().get(1);
 	}
@@ -578,6 +614,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSmallRepetitionStatement_Invariant() {
 		return (EReference)smallRepetitionStatementEClass.getEStructuralFeatures().get(2);
 	}
@@ -587,6 +624,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSmallRepetitionStatement_Guard() {
 		return (EReference)smallRepetitionStatementEClass.getEStructuralFeatures().get(3);
 	}
@@ -596,6 +634,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSmallRepetitionStatement_VariantProven() {
 		return (EAttribute)smallRepetitionStatementEClass.getEStructuralFeatures().get(4);
 	}
@@ -605,6 +644,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSmallRepetitionStatement_PreProven() {
 		return (EAttribute)smallRepetitionStatementEClass.getEStructuralFeatures().get(5);
 	}
@@ -614,6 +654,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSmallRepetitionStatement_PostProven() {
 		return (EAttribute)smallRepetitionStatementEClass.getEStructuralFeatures().get(6);
 	}
@@ -623,6 +664,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getJavaVariables() {
 		return javaVariablesEClass;
 	}
@@ -632,6 +674,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getJavaVariables_Variables() {
 		return (EReference)javaVariablesEClass.getEStructuralFeatures().get(0);
 	}
@@ -641,6 +684,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getJavaVariables_Fields() {
 		return (EReference)javaVariablesEClass.getEStructuralFeatures().get(1);
 	}
@@ -650,6 +694,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getJavaVariable() {
 		return javaVariableEClass;
 	}
@@ -659,6 +704,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getJavaVariable_Name() {
 		return (EAttribute)javaVariableEClass.getEStructuralFeatures().get(0);
 	}
@@ -668,6 +714,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getJavaVariable_Kind() {
 		return (EAttribute)javaVariableEClass.getEStructuralFeatures().get(1);
 	}
@@ -677,6 +724,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getJavaVariable_DisplayedName() {
 		return (EAttribute)javaVariableEClass.getEStructuralFeatures().get(2);
 	}
@@ -686,6 +734,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getGlobalConditions() {
 		return globalConditionsEClass;
 	}
@@ -695,6 +744,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getGlobalConditions_Conditions() {
 		return (EReference)globalConditionsEClass.getEStructuralFeatures().get(0);
 	}
@@ -704,6 +754,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRenaming() {
 		return renamingEClass;
 	}
@@ -713,6 +764,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRenaming_Rename() {
 		return (EReference)renamingEClass.getEStructuralFeatures().get(0);
 	}
@@ -722,6 +774,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRename() {
 		return renameEClass;
 	}
@@ -731,6 +784,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRename_Type() {
 		return (EAttribute)renameEClass.getEStructuralFeatures().get(0);
 	}
@@ -740,6 +794,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRename_Function() {
 		return (EAttribute)renameEClass.getEStructuralFeatures().get(1);
 	}
@@ -749,6 +804,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRename_NewName() {
 		return (EAttribute)renameEClass.getEStructuralFeatures().get(2);
 	}
@@ -758,6 +814,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCbCProblem() {
 		return cbCProblemEClass;
 	}
@@ -767,6 +824,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCbCProblem_Globalcondition() {
 		return (EReference)cbCProblemEClass.getEStructuralFeatures().get(0);
 	}
@@ -776,6 +834,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCbCProblem_Cbcformula() {
 		return (EReference)cbCProblemEClass.getEStructuralFeatures().get(1);
 	}
@@ -785,6 +844,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCbCProblem_JavaVariable() {
 		return (EReference)cbCProblemEClass.getEStructuralFeatures().get(2);
 	}
@@ -794,6 +854,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCbCProblem_Renaming() {
 		return (EReference)cbCProblemEClass.getEStructuralFeatures().get(3);
 	}
@@ -803,6 +864,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCbCProblem_Methodsignature() {
 		return (EReference)cbCProblemEClass.getEStructuralFeatures().get(4);
 	}
@@ -812,6 +874,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCbCProblem_MethodClass() {
 		return (EReference)cbCProblemEClass.getEStructuralFeatures().get(5);
 	}
@@ -821,6 +884,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getStrengthWeakStatement() {
 		return strengthWeakStatementEClass;
 	}
@@ -830,6 +894,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMethodSignature() {
 		return methodSignatureEClass;
 	}
@@ -839,6 +904,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMethodSignature_MethodSignature() {
 		return (EAttribute)methodSignatureEClass.getEStructuralFeatures().get(0);
 	}
@@ -848,6 +914,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMethodClass() {
 		return methodClassEClass;
 	}
@@ -857,6 +924,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMethodClass_MethodClass() {
 		return (EAttribute)methodClassEClass.getEStructuralFeatures().get(0);
 	}
@@ -866,6 +934,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getVariableKind() {
 		return variableKindEEnum;
 	}
@@ -875,6 +944,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getCompositionTechnique() {
 		return compositionTechniqueEEnum;
 	}
@@ -884,6 +954,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CbcmodelFactory getCbcmodelFactory() {
 		return (CbcmodelFactory)getEFactoryInstance();
 	}

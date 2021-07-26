@@ -103,6 +103,7 @@ public class CbcclassFactoryImpl extends EFactoryImpl implements CbcclassFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ModelClass createModelClass() {
 		ModelClassImpl modelClass = new ModelClassImpl();
 		return modelClass;
@@ -113,6 +114,7 @@ public class CbcclassFactoryImpl extends EFactoryImpl implements CbcclassFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Field createField() {
 		FieldImpl field = new FieldImpl();
 		return field;
@@ -123,6 +125,7 @@ public class CbcclassFactoryImpl extends EFactoryImpl implements CbcclassFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Method createMethod() {
 		MethodImpl method = new MethodImpl();
 		return method;
@@ -155,6 +158,7 @@ public class CbcclassFactoryImpl extends EFactoryImpl implements CbcclassFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CbcclassPackage getCbcclassPackage() {
 		return (CbcclassPackage) getEPackage();
 	}

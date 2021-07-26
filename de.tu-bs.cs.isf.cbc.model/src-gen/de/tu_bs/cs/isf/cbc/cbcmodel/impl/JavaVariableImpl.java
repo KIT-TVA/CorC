@@ -103,6 +103,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -112,6 +113,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -124,6 +126,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VariableKind getKind() {
 		return kind;
 	}
@@ -133,6 +136,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setKind(VariableKind newKind) {
 		VariableKind oldKind = kind;
 		kind = newKind == null ? KIND_EDEFAULT : newKind;
@@ -145,6 +149,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDisplayedName() {
 		return getKind() + " " + getName();
 	}
@@ -154,6 +159,7 @@ public class JavaVariableImpl extends MinimalEObjectImpl.Container implements Ja
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isSetDisplayedName() {
 		// TODO: implement this method to return whether the 'Displayed Name' attribute is set
 		// Ensure that you remove @generated or mark it @generated NOT
