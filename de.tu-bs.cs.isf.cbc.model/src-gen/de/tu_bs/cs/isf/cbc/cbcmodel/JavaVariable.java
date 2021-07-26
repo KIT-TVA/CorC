@@ -93,7 +93,6 @@ public interface JavaVariable extends EObject {
 	 * @see #isSetDisplayedName()
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getJavaVariable_DisplayedName()
 	 * @model default="kind + \" \" + name" unsettable="true" transient="true" changeable="false" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return getKind() + \" \" + getName();'"
 	 * @generated
 	 */
 	String getDisplayedName();

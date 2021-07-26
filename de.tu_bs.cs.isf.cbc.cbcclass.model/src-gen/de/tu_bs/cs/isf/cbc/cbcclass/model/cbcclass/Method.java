@@ -120,7 +120,6 @@ public interface Method extends EObject {
 	 * @see #setPrecondition(Condition)
 	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage#getMethod_Precondition()
 	 * @model transient="true" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return cbcStartTriple.getPreCondition();'"
 	 * @generated
 	 */
 	Condition getPrecondition();
@@ -147,7 +146,6 @@ public interface Method extends EObject {
 	 * @see #setPostcondition(Condition)
 	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage#getMethod_Postcondition()
 	 * @model transient="true" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return cbcStartTriple.getPostCondition();'"
 	 * @generated
 	 */
 	Condition getPostcondition();

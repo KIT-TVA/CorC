@@ -137,6 +137,7 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -146,6 +147,7 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -158,6 +160,7 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getJavaClassURI() {
 		return javaClassURI;
 	}
@@ -167,6 +170,7 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setJavaClassURI(String newJavaClassURI) {
 		String oldJavaClassURI = javaClassURI;
 		javaClassURI = newJavaClassURI;
@@ -180,6 +184,7 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Field> getFields() {
 		if (fields == null) {
 			fields = new EObjectContainmentEList<Field>(Field.class, this, CbcclassPackage.MODEL_CLASS__FIELDS);
@@ -192,6 +197,7 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Condition> getClassInvariants() {
 		if (classInvariants == null) {
 			classInvariants = new EObjectContainmentEList<Condition>(Condition.class, this,
@@ -205,6 +211,7 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Method> getMethods() {
 		if (methods == null) {
 			methods = new EObjectContainmentWithInverseEList<Method>(Method.class, this,

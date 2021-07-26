@@ -135,6 +135,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getCbcDiagramURI() {
 		return cbcDiagramURI;
 	}
@@ -144,6 +145,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCbcDiagramURI(String newCbcDiagramURI) {
 		String oldCbcDiagramURI = cbcDiagramURI;
 		cbcDiagramURI = newCbcDiagramURI;
@@ -157,6 +159,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getSignature() {
 		return signature;
 	}
@@ -166,6 +169,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSignature(String newSignature) {
 		String oldSignature = signature;
 		signature = newSignature;
@@ -179,6 +183,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAssignable() {
 		return assignable;
 	}
@@ -188,6 +193,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAssignable(String newAssignable) {
 		String oldAssignable = assignable;
 		assignable = newAssignable;
@@ -201,6 +207,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Condition getPrecondition() {
 		Condition precondition = basicGetPrecondition();
 		return precondition != null && precondition.eIsProxy()
@@ -232,6 +239,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Condition getPostcondition() {
 		Condition postcondition = basicGetPostcondition();
 		return postcondition != null && postcondition.eIsProxy()
@@ -263,6 +271,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CbCFormula getCbcStartTriple() {
 		if (cbcStartTriple != null && cbcStartTriple.eIsProxy()) {
 			InternalEObject oldCbcStartTriple = (InternalEObject) cbcStartTriple;
@@ -309,6 +318,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCbcStartTriple(CbCFormula newCbcStartTriple) {
 		if (newCbcStartTriple != cbcStartTriple) {
 			NotificationChain msgs = null;
@@ -331,6 +341,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ModelClass getParentClass() {
 		if (eContainerFeatureID() != CbcclassPackage.METHOD__PARENT_CLASS)
 			return null;
@@ -352,6 +363,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setParentClass(ModelClass newParentClass) {
 		if (newParentClass != eInternalContainer()
 				|| (eContainerFeatureID() != CbcclassPackage.METHOD__PARENT_CLASS && newParentClass != null)) {

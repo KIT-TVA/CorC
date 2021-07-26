@@ -132,6 +132,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getModelClass() {
 		return modelClassEClass;
 	}
@@ -141,6 +142,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getModelClass_Name() {
 		return (EAttribute) modelClassEClass.getEStructuralFeatures().get(0);
 	}
@@ -150,6 +152,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getModelClass_JavaClassURI() {
 		return (EAttribute) modelClassEClass.getEStructuralFeatures().get(1);
 	}
@@ -159,6 +162,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModelClass_Fields() {
 		return (EReference) modelClassEClass.getEStructuralFeatures().get(2);
 	}
@@ -168,6 +172,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModelClass_ClassInvariants() {
 		return (EReference) modelClassEClass.getEStructuralFeatures().get(4);
 	}
@@ -177,6 +182,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModelClass_Methods() {
 		return (EReference) modelClassEClass.getEStructuralFeatures().get(3);
 	}
@@ -186,6 +192,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getField() {
 		return fieldEClass;
 	}
@@ -195,6 +202,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getField_Visibility() {
 		return (EAttribute) fieldEClass.getEStructuralFeatures().get(0);
 	}
@@ -204,6 +212,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getField_Type() {
 		return (EAttribute) fieldEClass.getEStructuralFeatures().get(1);
 	}
@@ -213,6 +222,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getField_Name() {
 		return (EAttribute) fieldEClass.getEStructuralFeatures().get(2);
 	}
@@ -222,6 +232,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getField_IsStatic() {
 		return (EAttribute) fieldEClass.getEStructuralFeatures().get(3);
 	}
@@ -231,6 +242,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getField_IsFinal() {
 		return (EAttribute) fieldEClass.getEStructuralFeatures().get(4);
 	}
@@ -240,6 +252,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getField_DisplayedName() {
 		return (EAttribute) fieldEClass.getEStructuralFeatures().get(5);
 	}
@@ -249,6 +262,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMethod() {
 		return methodEClass;
 	}
@@ -258,6 +272,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMethod_CbcDiagramURI() {
 		return (EAttribute) methodEClass.getEStructuralFeatures().get(0);
 	}
@@ -267,6 +282,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMethod_Signature() {
 		return (EAttribute) methodEClass.getEStructuralFeatures().get(1);
 	}
@@ -276,6 +292,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMethod_Assignable() {
 		return (EAttribute) methodEClass.getEStructuralFeatures().get(2);
 	}
@@ -285,6 +302,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMethod_Precondition() {
 		return (EReference) methodEClass.getEStructuralFeatures().get(5);
 	}
@@ -294,6 +312,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMethod_Postcondition() {
 		return (EReference) methodEClass.getEStructuralFeatures().get(6);
 	}
@@ -303,6 +322,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMethod_CbcStartTriple() {
 		return (EReference) methodEClass.getEStructuralFeatures().get(3);
 	}
@@ -312,6 +332,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMethod_ParentClass() {
 		return (EReference) methodEClass.getEStructuralFeatures().get(4);
 	}
@@ -321,6 +342,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getVisibility() {
 		return visibilityEEnum;
 	}
@@ -330,6 +352,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CbcclassFactory getCbcclassFactory() {
 		return (CbcclassFactory) getEFactoryInstance();
 	}

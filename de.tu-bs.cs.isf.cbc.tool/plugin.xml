@@ -74,4 +74,15 @@
         </propertySection>
     </propertySections>
 </extension>
+<extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            adaptable="true"
+            class="de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramDecorator"
+            id="de.tu-bs.cs.isf.cbc.tool.cbcDiagramDecorator"
+            label="CbCDiagramDecorator"
+            location="BOTTOM_LEFT"
+            state="true">
+      </decorator>
+   </extension>
 </plugin>
