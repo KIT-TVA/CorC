@@ -22,6 +22,7 @@ import org.eclipse.graphiti.pattern.id.IdUpdateContext;
 import org.eclipse.graphiti.services.Graphiti;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ModelClassImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -240,6 +241,7 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 	}
 	
 	
+	/*
 	@Override
 	public void delete(IDeleteContext context) {
 		Shape shape = (Shape) context.getPictogramElement();
@@ -269,13 +271,59 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 			}
 		}
 		formula.setProven(false);
-		*/
+		//
 		
 		//TODO: CHECK
 		//UpdateConditionsOfChildren.setAllStatementsUnproven(formula.getStatement());
 		
 	
 	}
+	
+	*/
+	/*
+	@Override
+	public void delete(IDeleteContext context) {
+		Shape shape = (Shape) context.getPictogramElement();
+		ContainerShape container = shape.getContainer();
+
+		Condition condition = (Condition) getBusinessObjectForPictogramElement(context.getPictogramElement());
+
+		ModelClassPattern.instance.getClassInvariants().remove(condition);
+
+		
+		
+		if (condition.eContainer() != null && condition.eContainer() instanceof GlobalConditions) {
+			int indexToDelete = getIndex(shape.getGraphicsAlgorithm());
+
+			for (Shape childShape : container.getChildren()) {
+				if (getIndex(childShape.getGraphicsAlgorithm()) > indexToDelete) {
+					setIndex(childShape.getGraphicsAlgorithm(), getIndex(childShape.getGraphicsAlgorithm()) - 1);
+				}
+			}
+			super.delete(context);
+			layoutPictogramElement(container);
+		} else {
+			super.delete(context);
+		}
+		
+		/*
+		CbCFormula formula = null;
+		for (Shape childShape : getDiagram().getChildren()) {
+			Object obj = getBusinessObjectForPictogramElement(childShape);
+			if (obj instanceof CbCFormula) {
+				formula = (CbCFormula) obj;
+			}
+		}
+		formula.setProven(false);
+		
+		
+		//TODO: CHECK
+		//UpdateConditionsOfChildren.setAllStatementsUnproven(formula.getStatement());
+		
+	
+	}
+	*/
+	
 	
 
 	
