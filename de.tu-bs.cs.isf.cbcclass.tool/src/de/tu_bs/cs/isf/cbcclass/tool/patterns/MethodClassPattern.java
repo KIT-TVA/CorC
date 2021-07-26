@@ -316,9 +316,14 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 	@Override
 	public void setValue(String value, IDirectEditingContext context) {
 		Method method = (Method) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		
+		System.out.println(method.eContainer());
+		
+	
 		method.setSignature(value.trim());
 
 		ShapeImpl shape = (ShapeImpl)context.getPictogramElement();
+
 		TextImpl text = (TextImpl)shape.getGraphicsAlgorithm();
 		text.setValue(method.getSignature());
 			
