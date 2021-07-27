@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -143,6 +145,7 @@ public class FileUtil implements IFileUtil{
 		if (!keyFile.exists() || override) {
 			if (!keyHelperFile.exists()) {
 				try {
+					keyHelperFile.getParentFile().mkdirs();
 					keyHelperFile.createNewFile();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -192,6 +195,22 @@ public class FileUtil implements IFileUtil{
 		return URI.createURI(uri).trimFileExtension().lastSegment();
 	}
 	
+	private String trimSegment(String uriString, int number) {
+		URI uri = URI.createURI(uriString);
+		List<String> segments = new ArrayList<String>(Arrays.asList(uri.segments()));
+		segments.remove(number);
+		return String.join("/", segments);
+	}
+	
+	private String trimLastSegment(String uriString) {
+		URI uri = URI.createURI(uriString);
+		return trimSegment(uriString, uri.segmentCount() - 1);
+	}
+	
+	private String withoutFileExtention(String uri) {
+		return URI.createURI(uri).trimFileExtension().toPlatformString(true);
+	}
+	
 	private String getSegment(String uriString, int count) {
 		URI uri = URI.createURI(uriString);
 		return uri.segment(uri.segmentCount()-count);
@@ -199,6 +218,7 @@ public class FileUtil implements IFileUtil{
 	
 
 	public String getLocationString(String uri) {
-		return getProjectLocation(uri) + "/"+ getSegment(uri, 3) + "/prove" + getLastSegment(uri);
+		String uriWithoutProjectAndFileName = trimLastSegment(trimSegment(uri, 0));
+		return getProjectLocation(uri) + "/" + uriWithoutProjectAndFileName + "/prove" + getLastSegment(uri);
 	}
 }

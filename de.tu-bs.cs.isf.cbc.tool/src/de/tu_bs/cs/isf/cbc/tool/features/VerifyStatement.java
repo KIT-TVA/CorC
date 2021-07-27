@@ -106,7 +106,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				JavaVariables vars = null;
 				GlobalConditions conds = null;
 				Renaming renaming = null;
-				MethodClass javaClass = null;
+				CbCFormula formula = null;
 				for (Shape shape : getDiagram().getChildren()) {
 					Object obj = getBusinessObjectForPictogramElement(shape);
 					if (obj instanceof JavaVariables) {
@@ -115,8 +115,8 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 						conds = (GlobalConditions) obj;
 					} else if (obj instanceof Renaming) {
 						renaming = (Renaming) obj;
-					} else if(obj instanceof MethodClass) {
-						javaClass = (MethodClass) obj;
+					} else if(obj instanceof CbCFormula) {
+						formula = (CbCFormula) obj;
 					}
 				}
 				
@@ -136,9 +136,9 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				}
 				
 				if(isVariational) {
-					proven = executeVariationalVerification(project, uri, statement, vars, conds, renaming, javaClass,returnStatement, callingMethod, monitor);
+					proven = executeVariationalVerification(project, uri, statement, vars, conds, renaming, formula, returnStatement, callingMethod, monitor);
 				} else {
-					proven = executeNormalVerification(statement, vars, conds, renaming, javaClass, returnStatement, monitor, callingMethod);
+					proven = executeNormalVerification(statement, vars, conds, renaming, formula, returnStatement, monitor, callingMethod);
 				}					
 				
 				statement.setProven(proven);
@@ -149,7 +149,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		monitor.done();
 	}
 	
-	private boolean executeVariationalVerification(IProject project, URI uri, AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, MethodClass javaClass, boolean returnStatement, String callingMethod, IProgressMonitor monitor) {
+	private boolean executeVariationalVerification(IProject project, URI uri, AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, String callingMethod, IProgressMonitor monitor) {
 		boolean proven = false;
 		String projectName = project.getName();
 		String[][] featureConfigs = null;
@@ -177,7 +177,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 				for (int i = 0; i < variants.length; i++) {
 						Console.println(printConfiguration(featureConfigs, i));
-						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true), javaClass, new FileUtil(uri.toPlatformString(true)));
+						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true), formula, new FileUtil(uri.toPlatformString(true)));
 						if (isInSameClass) {
 							proven = prove.proveStatementWithKey(returnStatement, false, variants[i], i, varMParts[0], varMParts[0]);
 						} else {
@@ -264,12 +264,12 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		writeFile(location, code);	
 	}
 
-	private boolean executeNormalVerification(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, MethodClass javaClass, boolean returnStatement, IProgressMonitor monitor, String callingMethod) {
+	private boolean executeNormalVerification(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor, String callingMethod) {
 		boolean proven = false;
 		Console.println("--------------- Triggered verification ---------------");
 		if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 			String uri = getDiagram().eResource().getURI().toPlatformString(true);
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, javaClass, new FileUtil(uri));
+			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri));
             proven = prove.proveStatementWithKey(returnStatement, false, 0);
 		} else {
             Console.println("Statement is not in correct format.");

@@ -7,6 +7,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
@@ -69,7 +70,7 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 				JavaVariables vars = null;
 				GlobalConditions conds = null;
 				Renaming renaming = null;
-				MethodClass javaClass = null;
+				CbCFormula formula = null;
 				for (Shape shape : getDiagram().getChildren()) {
 					Object obj = getBusinessObjectForPictogramElement(shape);
 					if (obj instanceof JavaVariables) {
@@ -79,12 +80,12 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 					} else if (obj instanceof Renaming) {
 						renaming = (Renaming) obj;
 					} else if (obj instanceof MethodClass) {
-						javaClass = (MethodClass) obj;
+						formula = (CbCFormula) obj;
 					}
 				}
 				boolean proven = false;
 				String uriString = getDiagram().eResource().getURI().toPlatformString(true);
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, javaClass, new FileUtil(uriString));
+				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString));
 				proven = prove.provePreSelWithKey(statement.getGuards(), parent.getPreCondition());
 				if (proven) {
 					statement.setPreProve(true);

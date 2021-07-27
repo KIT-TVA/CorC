@@ -1,17 +1,24 @@
 package de.tu_bs.cs.isf.cbc.util;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 
 public class KeYFileContent {
+	
+	public static final String REGEX_BEFORE_VARIABLE_KEYWORD = "(?<![a-zA-Z0-9_]|self\\.)(";
+	public static final String REGEX_AFTER_VARIABLE_KEYWORD = ")(?![a-zA-Z0-9_])";
+	public static final Pattern REGEX_THIS_KEYWORD = Pattern.compile("(?<![a-zA-Z0-9_])(this)(?![a-zA-Z0-9_])");
 	
 	private String location = "";
 	private String helper = "helper.key";
@@ -82,13 +89,11 @@ public class KeYFileContent {
 				if (var.getKind() == VariableKind.RETURN) {
 					returnVariable = var;
 				} else {
-					if(var.getKind() != VariableKind.GLOBAL) {  
-						programVariables += var.getName() + "; ";
-						// if variable is an Array add <created> condition for key
-						if (var.getName().contains("[]")) {
-							String varName = var.getName().substring(var.getName().indexOf(" ") + 1);
-							conditionArraysCreated += " & " + varName + ".<created>=TRUE";
-						}
+					programVariables += var.getName() + "; ";
+					// if variable is an Array add <created> condition for key
+					if (var.getName().contains("[]")) {
+						String varName = var.getName().substring(var.getName().indexOf(" ") + 1);
+						conditionArraysCreated += " & " + varName + ".<created>=TRUE";
 					}
 				}
 			}
@@ -138,16 +143,34 @@ public class KeYFileContent {
 	}
 	
 	public void replaceThisWithSelf() {
-		statement = statement.replace("this.", "self.");
-		pre = pre.replace("this.", "self.");
-		post = post.replace("this.", "self.");
-		globalConditions = globalConditions.replace("this.", "self."); //TODO this without dot is not replaced
+
+		statement = statement.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+		pre = pre.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+		post = post.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+		globalConditions = globalConditions.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
 	}
 	
-	public void addSelf(MethodClass javaClass) {
-		if(javaClass != null) {
-			self = javaClass.getMethodClass() + " self;";
-			selfConditions = " & self.<created>=TRUE & " + javaClass.getMethodClass() + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
+	public void addSelfForFields(JavaVariables vars) {
+		List<String> nameOfLocalVars = new ArrayList<>();
+		for (JavaVariable var : vars.getVariables()) {
+			String[] NameOfVar = var.getName().split(" ");
+			nameOfLocalVars.add(NameOfVar[NameOfVar.length-1]);
+		}
+		for (Field field : vars.getFields()) {
+			if (!nameOfLocalVars.contains(field.getName())) {
+				Pattern pattern = Pattern.compile(REGEX_BEFORE_VARIABLE_KEYWORD + field.getName() + REGEX_AFTER_VARIABLE_KEYWORD);
+				statement = statement.replaceAll(pattern.pattern(), "self." + field.getName());
+				pre = pre.replaceAll(pattern.pattern(), "self." + field.getName());
+				post = post.replaceAll(pattern.pattern(), "self." + field.getName());
+				globalConditions = globalConditions.replaceAll(pattern.pattern(), "self." + field.getName());
+			}
+		}
+	}
+	
+	public void addSelf(CbCFormula formula) {
+		if(formula != null) {
+			self = formula.getClassName() + " self;";
+			selfConditions = " & self.<created>=TRUE & " + formula.getClassName() + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
 		}
 	}
 	
