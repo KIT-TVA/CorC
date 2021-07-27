@@ -347,6 +347,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -418,14 +420,10 @@ public class FileUtil implements IFileUtil{
 	}
 	
 	public String getProjectLocation(String uriString) {
-		URI uri = URI.createURI(uriString);
-		return getProjectLocation(uri);
+		return getProjectLocationS(uriString);
 	}
 	
-	public static String getProjectLocation(URI uri) {
-		uri = uri.trimFragment();
-		String uriPath = uri.toPlatformString(true);
-
+	private static String getProjectLocationS(String uriPath) {
 		uriPath = uriPath.substring(1, uriPath.length());
 		int positionOfSlash = uriPath.indexOf('/') + 1;
 		uriPath = uriPath.substring(positionOfSlash, uriPath.length());
@@ -455,7 +453,13 @@ public class FileUtil implements IFileUtil{
 //				e.printStackTrace();
 //			}
 //		}
-		return thisProject.getLocation().toOSString();
+		return thisProject.getLocation().toPortableString();
+	}
+	
+	public static String getProjectLocation(URI uri) {
+		uri = uri.trimFragment();
+		String uriPath = uri.toPlatformString(true);
+		return getProjectLocationS(uriPath);
 	}
 	
 	public static IProject getProject(URI uri) {
@@ -481,12 +485,13 @@ public class FileUtil implements IFileUtil{
 		if (!keyFile.exists() || override) {
 			if (!keyHelperFile.exists()) {
 				try {
+					keyHelperFile.getParentFile().mkdirs();
 					keyHelperFile.createNewFile();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			createFile(keyFile, problem);
 			}
+			return createFile(keyFile, problem);
 		}
 		return null;
 	}
@@ -526,9 +531,35 @@ public class FileUtil implements IFileUtil{
 		return generatedFile.getName().substring(0, generatedFile.getName().indexOf("."));
 	}
 
-	@Override
-	public String getLastSegment(String uri) {
+	private String getLastSegment(String uri) {
 		return URI.createURI(uri).trimFileExtension().lastSegment();
 	}
+	
+	private String trimSegment(String uriString, int number) {
+		URI uri = URI.createURI(uriString);
+		List<String> segments = new ArrayList<String>(Arrays.asList(uri.segments()));
+		segments.remove(number);
+		return String.join("/", segments);
+	}
+	
+	private String trimLastSegment(String uriString) {
+		URI uri = URI.createURI(uriString);
+		return trimSegment(uriString, uri.segmentCount() - 1);
+	}
+	
+	private String withoutFileExtention(String uri) {
+		return URI.createURI(uri).trimFileExtension().toPlatformString(true);
+	}
+	
+	private String getSegment(String uriString, int count) {
+		URI uri = URI.createURI(uriString);
+		return uri.segment(uri.segmentCount()-count);
+	}
+	
+
+	public String getLocationString(String uri) {
+		String uriWithoutProjectAndFileName = trimLastSegment(trimSegment(uri, 0));
+		return getProjectLocation(uri) + "/" + uriWithoutProjectAndFileName + "/prove" + getLastSegment(uri);
+	}
 }
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
+>>>>>>> eff7d80e (added self addition for variables.)

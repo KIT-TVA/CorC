@@ -43,11 +43,11 @@ public class ProveWithKey {
 	private Renaming renaming;
 	private IProgressMonitor monitor;
 	private String uri;
-	private MethodClass javaClass;
+	private CbCFormula formula;
 	private IFileUtil fileHandler;
 	
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
-			IProgressMonitor monitor, String uri, MethodClass javaClass, IFileUtil fileHandler) {
+			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler) {
 		super();
 		this.statement = statement;
 		this.vars = vars;
@@ -55,7 +55,7 @@ public class ProveWithKey {
 		this.renaming = renaming;
 		this.monitor = monitor;
 		this.uri = uri;
-		this.javaClass = javaClass;
+		this.formula = formula;
 		this.fileHandler = fileHandler;
 	}
 	
@@ -91,16 +91,18 @@ public class ProveWithKey {
 		JavaVariable returnVariable = content.readVariables(vars);
 		content.readGlobalConditions(conds);
 		readPrePostModVars(refinements, returnVariable, callingMethod, content);
-		content.rename(renaming);
-		replaceOriginalInStatement(refinements, callingMethod, content, varM);
-		content.replaceThisWithSelf();
-		content.addSelf(javaClass);
 		
 		if(returnStatement) { //TODO replace with correct handling of return
 			content.setStatement(";");
 		} else {
 			content.setStatement(statement.getName());
 		}
+		
+		content.rename(renaming);
+		replaceOriginalInStatement(refinements, callingMethod, content, varM);
+		content.replaceThisWithSelf();
+		content.addSelfForFields(vars);
+		content.addSelf(formula);
 
 		String problem = content.getKeYStatementContent();	
 
@@ -447,7 +449,8 @@ public class ProveWithKey {
 		content.setPostFromCondition(postCondition);
 		content.rename(renaming);
 		content.replaceThisWithSelf();
-		content.addSelf(javaClass);
+		content.addSelfForFields(vars);
+		content.addSelf(formula);
 
 		String location = fileHandler.getProjectLocation(uri) + "/src/prove" + fileHandler.getLastSegment(uri);
 		File keyFile = fileHandler.writeFile(content.getKeYCImpliesCContent(), location, numberFile, override);
@@ -494,7 +497,8 @@ public class ProveWithKey {
 		content.setStatement(code);
 		content.rename(renaming);
 		content.replaceThisWithSelf();
-		content.addSelf(javaClass);
+		content.addSelfForFields(vars);
+		content.addSelf(formula);
 		
 		String location = fileHandler.getProjectLocation(uri) + "/src/prove" + fileHandler.getLastSegment(uri);
 		File keyFile = fileHandler.writeFile(content.getKeYStatementContent(), location, numberFile, override);
@@ -514,7 +518,9 @@ public class ProveWithKey {
 		content.readGlobalConditions(conds);
 		content.setStatement(statement.getName());
 		content.setPostFromCondition(statement.getPostCondition().getName());
-
+		content.replaceThisWithSelf();
+		content.addSelfForFields(vars);
+		content.addSelf(formula);		
 		content.rename(renaming);
 		
 		String location = fileHandler.getProjectLocation(uri) + "/src/prove" + fileHandler.getLastSegment(uri);
