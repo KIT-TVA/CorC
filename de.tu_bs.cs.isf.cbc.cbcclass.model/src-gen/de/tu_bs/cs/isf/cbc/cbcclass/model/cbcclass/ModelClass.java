@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getFields <em>Fields</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getMethods <em>Methods</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getClassInvariants <em>Class Invariants</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getPackage <em>Package</em>}</li>
  * </ul>
  *
  * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage#getModelClass()
@@ -111,6 +112,32 @@ public interface ModelClass extends EObject {
 	 * @generated
 	 */
 	EList<Condition> getClassInvariants();
+
+	/**
+	 * Returns the value of the '<em><b>Package</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Package</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Package</em>' attribute.
+	 * @see #setPackage(String)
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage#getModelClass_Package()
+	 * @model
+	 * @generated
+	 */
+	String getPackage();
+
+	/**
+	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getPackage <em>Package</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Package</em>' attribute.
+	 * @see #getPackage()
+	 * @generated
+	 */
+	void setPackage(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Methods</b></em>' containment reference list.

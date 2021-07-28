@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ModelClassImpl#getFields <em>Fields</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ModelClassImpl#getMethods <em>Methods</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ModelClassImpl#getClassInvariants <em>Class Invariants</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ModelClassImpl#getPackage <em>Package</em>}</li>
  * </ul>
  *
  * @generated
@@ -112,6 +113,26 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * @ordered
 	 */
 	protected EList<Condition> classInvariants;
+
+	/**
+	 * The default value of the '{@link #getPackage() <em>Package</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPackage()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String PACKAGE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPackage() <em>Package</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPackage()
+	 * @generated
+	 * @ordered
+	 */
+	protected String package_ = PACKAGE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -211,6 +232,28 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getPackage() {
+		return package_;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPackage(String newPackage) {
+		String oldPackage = package_;
+		package_ = newPackage;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.MODEL_CLASS__PACKAGE, oldPackage,
+					package_));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public EList<Method> getMethods() {
 		if (methods == null) {
@@ -271,6 +314,8 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 			return getMethods();
 		case CbcclassPackage.MODEL_CLASS__CLASS_INVARIANTS:
 			return getClassInvariants();
+		case CbcclassPackage.MODEL_CLASS__PACKAGE:
+			return getPackage();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -302,6 +347,9 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 			getClassInvariants().clear();
 			getClassInvariants().addAll((Collection<? extends Condition>) newValue);
 			return;
+		case CbcclassPackage.MODEL_CLASS__PACKAGE:
+			setPackage((String) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -329,6 +377,9 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 		case CbcclassPackage.MODEL_CLASS__CLASS_INVARIANTS:
 			getClassInvariants().clear();
 			return;
+		case CbcclassPackage.MODEL_CLASS__PACKAGE:
+			setPackage(PACKAGE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -352,6 +403,8 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 			return methods != null && !methods.isEmpty();
 		case CbcclassPackage.MODEL_CLASS__CLASS_INVARIANTS:
 			return classInvariants != null && !classInvariants.isEmpty();
+		case CbcclassPackage.MODEL_CLASS__PACKAGE:
+			return PACKAGE_EDEFAULT == null ? package_ != null : !PACKAGE_EDEFAULT.equals(package_);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -371,6 +424,8 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 		result.append(name);
 		result.append(", javaClassURI: ");
 		result.append(javaClassURI);
+		result.append(", package: ");
+		result.append(package_);
 		result.append(')');
 		return result.toString();
 	}

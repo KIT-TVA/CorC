@@ -84,28 +84,30 @@ import org.emftext.language.java.variables.impl.VariableImpl;
 
 public class GenerateModelFromCode {
 	// Content of Class
-	ArrayList<String> jmlLoopConditions = new ArrayList<String>();
-	EList<Condition> invariants = new BasicEList<Condition>();
-	EList<Field> fields = new BasicEList<Field>();
-	EList<Method> methods = new BasicEList<Method>();
+	private ArrayList<String> jmlLoopConditions = new ArrayList<String>();
+	private EList<Condition> invariants = new BasicEList<Condition>();
+	private EList<Field> fields = new BasicEList<Field>();
+	private EList<Method> methods = new BasicEList<Method>();
 
-	int position = 0;
+	private int position = 0;
 
 	// Stuff to change and create corc diagrams
-	Resource cbcclassResource;
-	List<Resource> cbcmodelResources = new ArrayList<Resource>();
-	ResourceSet rs = new ResourceSetImpl();
-	Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-	Map<String, Object> m = reg.getExtensionToFactoryMap();
+	private Resource cbcclassResource;
+	private List<Resource> cbcmodelResources = new ArrayList<Resource>();
+	private ResourceSet rs = new ResourceSetImpl();
+	private Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+	private Map<String, Object> m = reg.getExtensionToFactoryMap();
 
 	// Info of java file
 	private String className;
 	private IFolder folder;
+	private String packageName;
 
 	public GenerateModelFromCode() {
 	}
 
 	public void execute(IFile iFile) {
+
 		ArrayList<String> jmlMethodConditions = new ArrayList<String>();
 
 		String javaFileContent = readFileToString(iFile.getLocation().toPortableString());
@@ -119,12 +121,13 @@ public class GenerateModelFromCode {
 				|| compilationUnit.getClassifiers().get(0).getMembers().isEmpty()) {
 			return;
 		}
-
+		packageName = compilationUnit.getNamespacesAsString().substring(0, compilationUnit.getNamespacesAsString().length()-1);
 		setupProjectStructure(iFile);
 		
 		ModelClass modelClass = instantiateModelClass();
 		modelClass.setJavaClassURI(URI.createFileURI(iFile.getProjectRelativePath().toPortableString()).toFileString());
-
+		modelClass.setPackage(packageName);
+		
 		if (compilationUnit.getClassifiers().get(0) instanceof ClassImpl) {
 			ClassImpl javaClass = (ClassImpl) compilationUnit.getClassifiers().get(0);
 
