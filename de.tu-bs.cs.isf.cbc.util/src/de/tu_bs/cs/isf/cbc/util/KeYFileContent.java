@@ -168,7 +168,7 @@ public class KeYFileContent {
 	}
 	
 	public void addSelf(CbCFormula formula) {
-		if(formula != null) {
+		if(formula != null && formula.getClassName() != null && !formula.getClassName().isBlank()) {
 			self = formula.getClassName() + " self;";
 			selfConditions = " & self.<created>=TRUE & " + formula.getClassName() + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
 		}
