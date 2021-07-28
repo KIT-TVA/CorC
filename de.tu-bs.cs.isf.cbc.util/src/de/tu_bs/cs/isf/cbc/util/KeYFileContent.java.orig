@@ -1,6 +1,5 @@
 package de.tu_bs.cs.isf.cbc.util;
 
-<<<<<<< HEAD
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,14 +25,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 //import de.tu_bs.cs.isf.cbc.cbcmodel.BaseVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
-=======
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
->>>>>>> eff7d80e (added self addition for variables.)
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
@@ -50,15 +41,8 @@ public class KeYFileContent {
 	public static final String OLD_VARS_SUFFIX = "_oldVal";
 	public static final Pattern REGEX_RESULT_KEYWORD = Pattern.compile("(\\\\result)");
 	
-<<<<<<< HEAD
 	
 	private final String helper = "helper.key";
-=======
-	public static final String REGEX_BEFORE_VARIABLE_KEYWORD = "(?<![a-zA-Z0-9_]|self\\.)(";
-	public static final String REGEX_AFTER_VARIABLE_KEYWORD = ")(?![a-zA-Z0-9_])";
-	public static final Pattern REGEX_THIS_KEYWORD = Pattern.compile("(?<![a-zA-Z0-9_])(this)(?![a-zA-Z0-9_])");
-	
->>>>>>> eff7d80e (added self addition for variables.)
 	private String location = "";
 	private String srcFolder = "";
 	private String statement = "";
@@ -130,7 +114,6 @@ public class KeYFileContent {
 	public JavaVariable readVariables(JavaVariables vars) {
 		JavaVariable returnVariable = null;
 		if (vars != null) {
-<<<<<<< HEAD
 			// TODO: For some reason we get a ConcurrentModificationException when we don't copy our list first
 			List<JavaVariable> variables = new ArrayList<>();
 			variables.addAll(vars.getVariables());
@@ -144,18 +127,6 @@ public class KeYFileContent {
 				
 				if (var.getKind() == VariableKind.RETURN || var.getKind() == VariableKind.RETURNPARAM) {
 					returnVariable = variable;
-=======
-			for (JavaVariable var : vars.getVariables()) {
-				if (var.getKind() == VariableKind.RETURN) {
-					returnVariable = var;
-				} else {
-					programVariables += var.getName() + "; ";
-					// if variable is an Array add <created> condition for key
-					if (var.getName().contains("[]")) {
-						String varName = var.getName().substring(var.getName().indexOf(" ") + 1);
-						conditionArraysCreated += " & " + varName + ".<created>=TRUE";
-					}
->>>>>>> eff7d80e (added self addition for variables.)
 				}
 				programVariables.getVariables().add(variable);
 			}
@@ -242,36 +213,11 @@ public class KeYFileContent {
 		if (cond != null) {
 			postConditions.add(cond);
 =======
-	public void replaceThisWithSelf() {
-
-		statement = statement.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
-		pre = pre.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
-		post = post.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
-		globalConditions = globalConditions.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
-	}
-	
-	public void addSelfForFields(JavaVariables vars) {
-		List<String> nameOfLocalVars = new ArrayList<>();
-		for (JavaVariable var : vars.getVariables()) {
-			String[] NameOfVar = var.getName().split(" ");
-			nameOfLocalVars.add(NameOfVar[NameOfVar.length-1]);
-		}
-		for (Field field : vars.getFields()) {
-			if (!nameOfLocalVars.contains(field.getName())) {
-				Pattern pattern = Pattern.compile(REGEX_BEFORE_VARIABLE_KEYWORD + field.getName() + REGEX_AFTER_VARIABLE_KEYWORD);
-				statement = statement.replaceAll(pattern.pattern(), "self." + field.getName());
-				pre = pre.replaceAll(pattern.pattern(), "self." + field.getName());
-				post = post.replaceAll(pattern.pattern(), "self." + field.getName());
-				globalConditions = globalConditions.replaceAll(pattern.pattern(), "self." + field.getName());
-			}
-		}
-	}
-	
 	public void addSelf(CbCFormula formula) {
-		if(formula != null) {
+		if(formula != null && formula.getClassName() != null && !formula.getClassName().isBlank()) {
 			self = formula.getClassName() + " self;";
 			selfConditions = " & self.<created>=TRUE & " + formula.getClassName() + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
->>>>>>> eff7d80e (added self addition for variables.)
+>>>>>>> 5943fbe9 (no self if class name is blank)
 		}
 	}
 	
