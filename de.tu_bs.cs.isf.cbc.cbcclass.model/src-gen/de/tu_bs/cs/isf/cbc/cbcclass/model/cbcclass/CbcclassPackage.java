@@ -113,13 +113,22 @@ public interface CbcclassPackage extends EPackage {
 	int MODEL_CLASS__CLASS_INVARIANTS = 4;
 
 	/**
+	 * The feature id for the '<em><b>Package</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_CLASS__PACKAGE = 5;
+
+	/**
 	 * The number of structural features of the '<em>Model Class</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_CLASS_FEATURE_COUNT = 5;
+	int MODEL_CLASS_FEATURE_COUNT = 6;
 
 	/**
 	 * The number of operations of the '<em>Model Class</em>' class.
@@ -366,6 +375,17 @@ public interface CbcclassPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getModelClass_ClassInvariants();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getPackage <em>Package</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Package</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getPackage()
+	 * @see #getModelClass()
+	 * @generated
+	 */
+	EAttribute getModelClass_Package();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getMethods <em>Methods</em>}'.
@@ -615,6 +635,14 @@ public interface CbcclassPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MODEL_CLASS__CLASS_INVARIANTS = eINSTANCE.getModelClass_ClassInvariants();
+
+		/**
+		 * The meta object literal for the '<em><b>Package</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MODEL_CLASS__PACKAGE = eINSTANCE.getModelClass_Package();
 
 		/**
 		 * The meta object literal for the '<em><b>Methods</b></em>' containment reference list feature.

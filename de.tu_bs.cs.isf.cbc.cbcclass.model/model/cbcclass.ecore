@@ -11,6 +11,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="classInvariants" upperBound="-1"
         eType="ecore:EClass ../../de.tu-bs.cs.isf.cbc.model/model/cbcmodel.ecore#//Condition"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="package" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Visibility">
     <eLiterals name="PUBLIC"/>
