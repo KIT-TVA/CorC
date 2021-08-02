@@ -3,6 +3,7 @@ package de.tu_bs.cs.isf.cbc.util;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import com.google.common.collect.Lists;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 
@@ -381,7 +383,7 @@ public class Parser {
 	}
 	
 	
-	public static String rewriteConditionToJML(String condition) {
+	public static String rewriteConditionToJML(String condition) {	
 		condition = condition.replaceAll("(?<!<|>|!|=)(\\s*=\\s*)(?!<|>|=)", " == ");
 		condition = condition.replaceAll("->", "==>");
 		condition = condition.replaceAll("<->", "<==>");
@@ -389,8 +391,40 @@ public class Parser {
 		condition = condition.replace("|", "||");
 		condition = condition.replaceAll("(?<==\\s?)TRUE", "true");
 		condition = condition.replaceAll("(?<==\\s?)FALSE", "false");
-		condition = condition.replaceAll("(\\w*)::instance\\((\\w*)\\) = TRUE", "$2 instanceof $1");
+		condition = condition.replaceAll("(\\w*)::exactInstance\\((\\w*)\\)\\s*=\\s*TRUE", "$2 instanceof $1");
+		condition = condition.replaceAll(".<created>\\s*=\\s*TRUE", " != null");
+		condition = condition.replaceAll(".<created>\\s*=\\s*FALSE", " == null");
 		return condition;
+	}
+	
+	public static String processGlobalConditions(GlobalConditions globalConditions, LinkedList<String> localVars, String preCondition) {
+		String result = "";
+		HashSet<String> conditionsSet = new HashSet<>();
+		for (Condition c : globalConditions.getConditions()) {
+			// Check if condition contains local variables:
+			boolean isLocal = false;
+			for(String v : localVars) {
+				if (c.getName().contains(v.substring(v.indexOf(" ")).trim()))
+					isLocal = true;
+			}
+			if (preCondition.contains(c.getName()) || c.getName().contains("<inv>"))
+				continue;
+			if (!isLocal)
+				conditionsSet.add( rewriteConditionToJML(c.getName()) );
+			else {
+				Console.println("[WARNING] Did not add global condition '" + c.getName() + "' to JML annotation, because it contains access to a local variable.");
+			}
+		}		
+		for (String c: conditionsSet) {
+			if (result.isEmpty()) {
+				result += c;
+			}
+			else {
+				result += " & " + c;
+			}
+		}
+		
+		return result;
 	}
 	
 	public static String getMethodStubFromFile(String className, String methodName, IFileUtil fileHandler) {

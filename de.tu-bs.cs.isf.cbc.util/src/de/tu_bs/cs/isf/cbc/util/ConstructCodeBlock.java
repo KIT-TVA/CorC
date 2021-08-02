@@ -5,10 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.regex.Pattern;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
@@ -34,6 +36,9 @@ public class ConstructCodeBlock {
 	private static String line;
 	private static BufferedReader br;
 	private static JavaVariable returnVariable = null;
+	
+	private static final Pattern REGEX_PRIMITIVE_INTEGERS = Pattern.compile("(byte|char|short|int|long)");
+	private static final Pattern REGEX_PRIMITIVE_FLOAT = Pattern.compile("(float|double)");
 
 	public static String constructCodeBlockAndVerify(AbstractStatement statement, boolean innerLoops) {
 		handleInnerLoops = innerLoops;
@@ -53,7 +58,7 @@ public class ConstructCodeBlock {
 	
 	public static StringBuffer getJmlAnnotations(StringBuffer buffer, BufferedReader br) throws IOException {
         buffer.setLength(0);
-        while(line != null && line.contains("@")) {//get jml annotations
+        while(line != null && line.trim().startsWith("/*@") || line.trim().startsWith("@")) {//get jml annotations
         	buffer.append(line);
         	buffer.append("\n");
         	line = br.readLine();
@@ -124,7 +129,7 @@ public class ConstructCodeBlock {
         //TODO: Invarianten & global Vars generieren / updaten
  //       String globalVariables = constructGlobalVariables(vars, signature);
  //       constructGlobalVariables();
-        while(!(line.contains("@") && !line.contains("invariant"))) {
+        while(line != null && !(line.trim().equals("/*@") && !line.contains("invariant"))) {
         	newCode.append(line);
         	newCode.append("\n");
         	line = br.readLine();
@@ -197,7 +202,7 @@ public class ConstructCodeBlock {
 	}
 	
 	public static String constructCodeBlockForExport(
-			CbCFormula formula, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString) {
+			CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString) {
 		handleInnerLoops = true;
 		withInvariants = true;
 		
@@ -207,6 +212,11 @@ public class ConstructCodeBlock {
 
 		String pre = createConditionJMLString(formula.getStatement().getPreCondition().getName(), renaming,
 				Parser.KEYWORD_JML_PRE);
+		if (globalConditions != null) {
+			String processedGlobalConditions = Parser.processGlobalConditions(globalConditions, vars, pre);
+			if (!processedGlobalConditions.isEmpty())
+				pre += " & " + processedGlobalConditions;
+		}
 		pre = useRenamingCondition(pre);
 		
 		String post = createConditionJMLString(postCondition, renaming, Parser.KEYWORD_JML_POST);
@@ -216,6 +226,7 @@ public class ConstructCodeBlock {
 		if(returnVar != null) {
 			String returnValueName = returnVar.getName().split(" ")[1];
 			post = post.replaceAll("(?<=\\W)" + returnValueName + "(?=\\W)", "\\\\result");
+			post = post.replaceAll("(?<=\\W)\\\\\\\\result(?=\\W)", "\\\\result");
 			returnVariable = returnVar; 
 		}
 		
@@ -224,7 +235,7 @@ public class ConstructCodeBlock {
 		code.append("\t/*@\n" + "\t@ normal_behavior\n" //+ "@ requires "
 				+ pre.replaceAll(System.getProperty("line.separator"), "")// + ";\n" //+ "@ ensures "
 				+ post.replaceAll(System.getProperty("line.separator"), "")/* + ";\n"*/ + "\t@ assignable "
-				+ modifiableVariables + ";\n" + "\t@*/\n" + "\t"+ signatureString 
+				+ modifiableVariables + ";\n" + "\t@*/\n" + "\tpublic /*@helper@*/ "+ signatureString 
 				+ " {\n");
 
 		positionIndex = 2;//2
@@ -235,6 +246,23 @@ public class ConstructCodeBlock {
 				code.append(var + ";\n");
 				code = insertTabs(code);
 			}
+		}
+		
+		for(String var : vars) {//declare variables
+			// TODO: Masterarbeit Hayreddin - Initialize all variables directly
+				if (REGEX_PRIMITIVE_INTEGERS.matcher(var).find()) {
+					code.append(var + " = 0;\n");
+					code = insertTabs(code);
+				} else if(REGEX_PRIMITIVE_FLOAT.matcher(var).find()) {
+					code.append(var + " = 0.0;\n");
+					code = insertTabs(code);
+				} else if(var.contains("boolean")) {
+					code.append(var + " = false;\n");
+					code = insertTabs(code);
+				} else {
+					code.append(var + " = null;\n");
+					code = insertTabs(code);
+				}
 		}
 		
 		String s;
@@ -249,8 +277,12 @@ public class ConstructCodeBlock {
 				s = useRenamingCondition(s);
 			code.append(s); 
 		}
-		if(returnVar != null) {
-			code.append("\t\treturn" + returnVar.getName().substring(returnVar.getName().indexOf(" ")) + ";");
+		
+		Pattern void_pattern = Pattern.compile("(?<![a-zA-Z0-9])(void)(?![a-zA-Z0-9])");
+		Pattern return_pattern = Pattern.compile("(?<![a-zA-Z0-9])(return)(?![a-zA-Z0-9])");
+		if (returnVariable != null && !void_pattern.matcher(signatureString).find()
+				&& !return_pattern.matcher(code.toString()).find()) {
+			code.append("\t\treturn " + returnVariable.getName().split(" ")[1] + ";");
 		}
 		code.append("\n\t}");//}
 

@@ -124,7 +124,8 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				boolean proven = false;				
 				String callingMethod = getDiagram().getName();
 				URI uri = getDiagram().eResource().getURI();
-				IProject project = FileUtil.getProject(uri); 
+				IProject project = FileUtil.getProject(uri);
+				
 				boolean isVariational = false;
 				try {
 					if(project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
