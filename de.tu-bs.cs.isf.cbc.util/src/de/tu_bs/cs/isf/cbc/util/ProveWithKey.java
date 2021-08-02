@@ -3,6 +3,7 @@ package de.tu_bs.cs.isf.cbc.util;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -31,6 +32,13 @@ import de.uka.ilkd.key.proof.Proof;
 public class ProveWithKey {
 	public static final String REGEX_ORIGINAL = "original";
 	public static final String REGEX_RESULT = "\\\\result";
+	
+	public static final Pattern REGEX_THIS_KEYWORD = Pattern.compile("(?<![a-zA-Z0-9])(this)(?![a-zA-Z0-9])");
+	public static final Pattern REGEX_RESULT_KEYWORD = Pattern.compile("(\\\\result)");
+	public static final Pattern REGEX_OLD_KEYWORD = Pattern.compile("\\\\old\\((.*?)[\\)]+");
+	public static final String OLD_VARS_SUFFIX = "_oldVal";
+	private static HashMap<String, String> replacements = new HashMap<String, String>();
+	public static HashMap<String, Integer> allStatistics = new HashMap<String, Integer>();
 
 	AbstractStatement statement;
 	private JavaVariables vars;
@@ -89,6 +97,7 @@ public class ProveWithKey {
 		
 		if(returnStatement) { //TODO replace with correct handling of return
 			content.setStatement(";");
+			//content.handleReturn(statement, returnVariable, formula, null); TODO add missing maps for result
 		} else {
 			content.setStatement(statement.getName());
 		}
@@ -98,6 +107,8 @@ public class ProveWithKey {
 		content.replaceThisWithSelf();
 		content.addSelfForFields(vars);
 		content.addSelf(formula);
+		//content.handleOld(formula, vars, null, null); TODO add missing maps for old
+		
 
 		String problem = content.getKeYStatementContent();	
 

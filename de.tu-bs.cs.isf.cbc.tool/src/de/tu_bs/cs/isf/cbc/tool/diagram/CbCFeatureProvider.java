@@ -23,7 +23,6 @@ import de.tu_bs.cs.isf.cbc.tool.features.GenerateIntermediateConditionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.GenerateIntermediateConditionFeature2;
 import de.tu_bs.cs.isf.cbc.tool.features.GenerateTextualRepresentation;
 import de.tu_bs.cs.isf.cbc.tool.features.LayoutFeature;
-import de.tu_bs.cs.isf.cbc.tool.features.PrintFormulaFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.ReconnectionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameConditionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameMethodClassFeature;
@@ -127,7 +126,6 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	@Override
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
 		return new ICustomFeature[] { 
-				new PrintFormulaFeature(this),
 				new ExtractMethodStubsFeature(this), //!
 				new GenerateCodeFromModel(this),
 				new GenerateTextualRepresentation(this), 

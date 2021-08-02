@@ -18,7 +18,9 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
@@ -55,6 +57,7 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 		JavaVariables vars = null;
 		Renaming renaming = null;
 		CbCFormula formula = null;
+		GlobalConditions globalConditions = null;
 		for (Shape shape : getDiagram().getChildren()) {
 			Object obj = getBusinessObjectForPictogramElement(shape);
 			if (obj instanceof JavaVariables) {
@@ -63,6 +66,8 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 				renaming = (Renaming) obj;
 			} else if (obj instanceof CbCFormula) {
 				formula = (CbCFormula) obj;
+			} else if (obj instanceof GlobalConditions) {
+				globalConditions = (GlobalConditions) obj;
 			}
 		} 
 		
@@ -75,7 +80,7 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 			JavaVariable currentVariable = vars.getVariables().get(i);
 		if(currentVariable.getKind() == VariableKind.RETURN) {
 			counter++;
-			if(!signatureString.substring(0, signatureString.indexOf('(')).contains(currentVariable.getName().trim().split(" ")[0])) {
+			if(!signatureString.substring(0, signatureString.indexOf('(')).contains(currentVariable.getName().replace("non-null", "").trim().split(" ")[0])) {
 				Console.println("Method return type and variable type does not match.");
 				return;
 			}
@@ -85,21 +90,25 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 			}
 			returnVariable = currentVariable;
 		}else if(currentVariable.getKind() == VariableKind.LOCAL) {
-			localVariables.add(currentVariable.getName());
+			localVariables.add(currentVariable.getName().replace("non-null", ""));
 		}
 		}
 		String globalVariables ="";
+		for (Field field : vars.getFields()) {
+			globalVariables += ("\t" + field.getVisibility().getName().toLowerCase() + " /*@spec_public@*/ " + field.getType() + " " + field.getName().replace("non-null ", "") + ";\n");
+		}
+		
 		URI uri = getDiagram().eResource().getURI();
 		String location = FileUtil.getProjectLocation(uri);
-		for(int i = 2; i < uri.segments().length - 1; i++) {
+		for(int i = 2; i < uri.segments().length - 2; i++) {
 			location += File.separator + uri.segment(i);
 		}
-		location += ".java";
-		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, renaming, localVariables, returnVariable, signatureString);
-		writeFile(location, code, formula.getClassName(), signatureString, globalVariables);
+		location += File.separator + formula.getClassName() + ".java";
+		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString);
+		writeFile(location, code, formula.getMethodObj().getParentClass().getPackage(), formula.getClassName(), signatureString, globalVariables);
 	}
 
-	private void writeFile(String location, String code, String className,  String signature, String globalVariables) {
+	private void writeFile(String location, String code, String packageName, String className,  String signature, String globalVariables) {
 		StringBuffer newCode = new StringBuffer();
 		newCode.setLength(0);
 		File javaFile = new File(location);
@@ -113,10 +122,13 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 			BufferedWriter bw = new BufferedWriter(fw);
 
 			if(newCode.length() == 0) {
+				if (packageName != null && !packageName.isEmpty()) {
+					bw.write("package " + packageName + "\n\n");
+				}
 				if(globalVariables.isEmpty())
-					bw.write("public class " + className + "{\n\n" + code + "\n}"); 
+					bw.write("public class " + className + " {\n\n" + code + "\n}"); 
 				else {
-					bw.write("public class " + className + "{\n\n" + globalVariables + "\n" + code + "\n}");
+					bw.write("public class " + className + " {\n\n" + globalVariables + "\n" + code + "\n}");
 				}
 			}
 			else {
