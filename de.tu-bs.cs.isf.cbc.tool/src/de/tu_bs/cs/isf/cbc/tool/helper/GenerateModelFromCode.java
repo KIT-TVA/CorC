@@ -113,7 +113,9 @@ public class GenerateModelFromCode {
 				|| compilationUnit.getClassifiers().get(0).getMembers().isEmpty()) {
 			return;
 		}
-		packageName = compilationUnit.getNamespacesAsString().substring(0, compilationUnit.getNamespacesAsString().length()-1);
+		if (compilationUnit.getNamespacesAsString() != null && !compilationUnit.getNamespacesAsString().isEmpty()) {
+			packageName = compilationUnit.getNamespacesAsString().substring(0, compilationUnit.getNamespacesAsString().length()-1);
+		}
 		setupProjectStructure(iFile);
 		
 		ModelClass modelClass = instantiateModelClass();
@@ -391,6 +393,7 @@ public class GenerateModelFromCode {
 		}
 		
 		method.setReturnType("void");
+		method.setName(classMethod.getName());
 
 		for (JavaVariable v : variables.getVariables()) {
 			if (v.getKind().equals(VariableKind.PARAM)) {

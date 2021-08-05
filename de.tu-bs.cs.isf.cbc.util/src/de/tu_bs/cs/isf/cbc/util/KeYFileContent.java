@@ -1,13 +1,22 @@
 package de.tu_bs.cs.isf.cbc.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
@@ -39,12 +48,13 @@ public class KeYFileContent {
 	private String post = "";
 	private Map<String, String> replacements = new HashMap<String, String>();
 	String statement = "";
+	Map<String, List<Field>> methodClassVarMap = null;
+	Map<String, String> returnTypeMap = null;
 	
 	
 	public KeYFileContent() {
-		
 	}
-	
+
 	public void setLocation(String location) {
 		this.location = location;
 	}
@@ -89,7 +99,20 @@ public class KeYFileContent {
 		this.statement = statement;
 	}
 	
-	
+	public Map<String, List<Field>> getMethodClassVarMap() {
+		if(methodClassVarMap == null) {
+			initMethodClassVarMap();
+		}
+		return methodClassVarMap;
+	}
+
+	public Map<String, String> getReturnTypeMap() {
+		if (returnTypeMap == null) {
+			initReturnTypeMap();
+		}
+		return returnTypeMap;
+	}
+
 	public JavaVariable readVariables(JavaVariables vars) {
 		JavaVariable returnVariable = null;
 		if (vars != null) {
@@ -327,7 +350,7 @@ public class KeYFileContent {
 	 * TODO Masterarbeit Hayreddin
 	 * Handle old keyword here.
 	 */
-	public void addOldVariables(CbCFormula formula, JavaVariables vars, Map<String, Set<JavaVariable>> methodClassVarMap, Map<String, Set<String>> sigReturnMap) {
+	public void addOldVariables(CbCFormula formula, JavaVariables vars) {
 		Map<String, String> newReplacements = new HashMap<>();
 		// Add new old variables to variable List
 		for (String varUsedInOldContext : replacements.keySet()) {
@@ -348,7 +371,7 @@ public class KeYFileContent {
 				functionName = functionName.substring(0, functionName.indexOf("("));
 				boolean found = false;
 				String signatureOfFunction = "";
-				for (String sig : sigReturnMap.keySet()) {
+				for (String sig : getReturnTypeMap().keySet()) {
 					if (sig.equals(functionName)) {
 						found = true;
 						signatureOfFunction = sig;
@@ -362,19 +385,8 @@ public class KeYFileContent {
 				}
 				// If found, get return type of method
 				if (found) {
-					Set<String> returnTypesOfFunction = sigReturnMap.get(signatureOfFunction);
-					if (returnTypesOfFunction.size() > 1) {
-						// HashSet can only contain each return type once.
-						// Using same method name in multiple diagrams with different return types not supported.
-						String allReturnTypes = "";
-						for (String rt : returnTypesOfFunction)
-							allReturnTypes += rt;
-						Console.println("Function " + functionName + " was declared in multiple diagrams with different return value. Return values: " + allReturnTypes
-								+ "\nThis is not yet supported. Please use a unique name as method for identification.");
-					}
-					else {
-						var = returnTypesOfFunction.iterator().next() + " " + functionName;
-					}
+					String returnTypeOfFunction = getReturnTypeMap().get(signatureOfFunction);
+					var = returnTypeOfFunction + " " + functionName;
 				} else {
 					Console.println("Did not find function " + functionName + " in Diagrams.");
 				}
@@ -391,13 +403,17 @@ public class KeYFileContent {
 					if (v.getName().replace("non-null", "").substring(v.getName().indexOf(" ") + 1).equals(splittedReplacementVar[0].replaceAll("\\[.*\\]", "")))
 						isFirstAccessedVarInCurrentClass = true;
 				}
+				for (Field f : vars.getFields()) {
+					if (f.getName().equals(splittedReplacementVar[0].replaceAll("\\[.*\\]", "")))
+						isFirstAccessedVarInCurrentClass = true;
+				}
 				if (currentClassName.startsWith("self") || currentClassName.startsWith("this") || isFirstAccessedVarInCurrentClass) {
 					currentClassName = formula.getClassName();
 				}
 				if (isFirstAccessedVarInCurrentClass)
 					startIndex = 0;
 				String currentVarName = "";
-				JavaVariable nestedVariable = null;
+				Field nestedVariable = null;
 				boolean found = false;
 				boolean penultimateIsArray = false;
 				boolean accessArray = false;
@@ -407,11 +423,10 @@ public class KeYFileContent {
 					accessArray = currentVarName.contains("[");
 					// Replace brackets
 					currentVarName = currentVarName.replaceAll("\\[.*\\]", "");
-					if (methodClassVarMap.keySet().contains(currentClassName)) {
-						for (JavaVariable methodVar : methodClassVarMap.get(currentClassName)) {
-							String[] methodVarSplit = methodVar.getName().replace("static ", "").replace("non-null", "").trim().split(" ");
-							String methodVarType = methodVarSplit[0];
-							String methodVarName = methodVarSplit[methodVarSplit.length - 1];
+					if (getMethodClassVarMap().keySet().contains(currentClassName)) {
+						for (Field methodVar : getMethodClassVarMap().get(currentClassName)) {
+							String methodVarType = methodVar.getType();
+							String methodVarName = methodVar.getName();
 							if (methodVarType.contains("[]") && methodVarName.equals(currentVarName)
 									&& splittedReplacementVar.length >= 2
 									&& i == (splittedReplacementVar.length - 2)) {
@@ -423,7 +438,7 @@ public class KeYFileContent {
 								currentVarName = methodVarName;
 								found = true;
 							}
-							if (methodClassVarMap.containsKey(methodVarType)) {
+							if (getMethodClassVarMap().containsKey(methodVarType)) {
 								currentClassName = methodVarType;
 							}			
 						}
@@ -434,9 +449,9 @@ public class KeYFileContent {
 				}
 				// Last variable name should be the the wanted variable!
 				if (currentVarName.equals(lastVarUsedInOldContext) && nestedVariable != null) {
-					var = nestedVariable.getName().replace("static", "").replace("non-null", "");
+					var = nestedVariable.getType() + " " + nestedVariable.getName().replace("static", "").replace("non-null", "");
 					if (accessArray) {
-						var = nestedVariable.getName().replace("static", "").replace("non-null", "").replaceAll("\\[.*\\]", "");
+						var = nestedVariable.getType() + " "+ nestedVariable.getName().replace("static", "").replace("non-null", "").replaceAll("\\[.*\\]", "");
 					}
 				}
 				if (currentVarName.equals("length") && penultimateIsArray) {
@@ -465,12 +480,12 @@ public class KeYFileContent {
 		replacements = newReplacements;
 	}
 	
-	public void handleOld(CbCFormula formula, JavaVariables vars, Map<String, Set<JavaVariable>> methodClassVarMap, Map<String, Set<String>> sigReturnMap) {
+	public void handleOld(CbCFormula formula, JavaVariables vars) {
 		extractOldKeywordVariables();
-		addOldVariables(formula, vars, methodClassVarMap, sigReturnMap);
-		replaceOldKeyword(pre);
-		replaceOldKeyword(post);
-		replaceOldKeyword(globalConditions);
+		addOldVariables(formula, vars);
+		pre = replaceOldKeyword(pre);
+		post= replaceOldKeyword(post);
+		globalConditions = replaceOldKeyword(globalConditions);
 	}
 	
 	public String replaceOldKeyword(String condition) {
@@ -488,7 +503,7 @@ public class KeYFileContent {
 		return condition;
 	}
 	
-	public void handleReturn(AbstractStatement retStatement, JavaVariable returnVariable, CbCFormula formula, Map<String, Set<String>> sigReturnMap) {
+	public void handleReturn(AbstractStatement retStatement, JavaVariable returnVariable, CbCFormula formula) {
 		if(retStatement.getClass().equals(ReturnStatementImpl.class)) {
 			if (returnVariable != null) {
 				statement = returnVariable.getName().replace("static", "").replace(" non-null", "").split(" ")[1] + " = " + retStatement.getName();
@@ -496,20 +511,49 @@ public class KeYFileContent {
 			} else {
 				// Get Return Type of Variable
 				String methodName = formula.getMethodName().substring(0, formula.getMethodName().indexOf("("));
-				Set<String> returnTypesOfMethod = sigReturnMap.get(methodName);
-				if (returnTypesOfMethod == null) {
+				String returnTypeOfMethod = getReturnTypeMap().get(methodName);
+				if (returnTypeOfMethod == null) {
 					Console.println("No diagram was found that implements method '" + methodName + "'!");
-				} else if (returnTypesOfMethod.size() > 1) {
-					Console.println("Function " + methodName + " was declared in multiple diagrams with different return value. Return values: " + returnTypesOfMethod
-						+ "\nThis is not yet supported. Please use a unique name as method for identification.\nThe first return value is used.");
 				} else {
-					String returnVariableType = returnTypesOfMethod.iterator().next();
-					String returnVariableDeclaration = returnVariableType + " result_" + methodName;
+					String returnVariableDeclaration = returnTypeOfMethod + " result_" + methodName;
 					programVariables += returnVariableDeclaration + "; ";
 					statement = "result_" + methodName + " = " + retStatement.getName().replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
 //					post += "& " + returnVariableType + "::exactInstance(result_" + methodName + ") = TRUE";
 					// Replace result keyword in post.
 					post = post.replaceAll(REGEX_RESULT_KEYWORD.pattern(), "result_" + methodName);
+				}
+			}
+		}
+	}
+	
+	private void initReturnTypeMap() {
+		returnTypeMap = new HashMap<>();
+		IProject project = FileUtil.getProjectFromProjectPath(location);
+		Collection<Resource> resources = FileUtil.getCbCClasses(project);
+		for (Resource resource : resources) {
+			for (EObject object : resource.getContents()) {
+				if (object instanceof ModelClass) {
+					ModelClass modelClass = (ModelClass) object;
+					for (Method method : modelClass.getMethods()) {
+						returnTypeMap.put(method.getName(), method.getReturnType());
+					}
+				}
+			}
+		}
+	}
+
+	private void initMethodClassVarMap() {
+		methodClassVarMap = new HashMap<>();
+		IProject project = FileUtil.getProjectFromProjectPath(location);
+		Collection<Resource> resources = FileUtil.getCbCClasses(project);
+		for (Resource resource : resources) {
+			for (EObject object : resource.getContents()) {
+				if (object instanceof ModelClass) {
+					ModelClass modelClass = (ModelClass) object;
+					if (!methodClassVarMap.containsKey(modelClass.getName())) {
+						methodClassVarMap.put(modelClass.getName(), new ArrayList<>());
+					}
+					methodClassVarMap.get(modelClass.getName()).addAll(modelClass.getFields());
 				}
 			}
 		}
