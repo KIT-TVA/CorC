@@ -124,7 +124,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				boolean proven = false;				
 				String callingMethod = getDiagram().getName();
 				URI uri = getDiagram().eResource().getURI();
-				IProject project = FileUtil.getProject(uri);
+				IProject project = FileUtil.getProjectFromFileInProject(uri);
 				
 				boolean isVariational = false;
 				try {

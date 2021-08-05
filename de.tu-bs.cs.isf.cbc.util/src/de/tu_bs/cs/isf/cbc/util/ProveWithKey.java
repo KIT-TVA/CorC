@@ -102,7 +102,7 @@ public class ProveWithKey {
 		
 		if(returnStatement) {
 			content.setStatement(";");
-			//content.handleReturn(statement, returnVariable, formula, null); TODO add missing maps for result
+			content.handleReturn(statement, returnVariable, formula);
 		} else {
 			content.setStatement(statement.getName());
 		}
@@ -112,7 +112,7 @@ public class ProveWithKey {
 		content.replaceThisWithSelf();
 		content.addSelfForFields(vars);
 		content.addSelf(formula);
-		//content.handleOld(formula, vars, null, null); TODO add missing maps for old
+		content.handleOld(formula, vars);
 		
 
 		String problem = content.getKeYStatementContent();	
@@ -462,6 +462,7 @@ public class ProveWithKey {
 		content.replaceThisWithSelf();
 		content.addSelfForFields(vars);
 		content.addSelf(formula);
+		content.handleOld(formula, vars);
 
 		String location = fileHandler.getProjectLocation(uri) + "/src/prove" + fileHandler.getLastSegment(uri);
 		File keyFile = fileHandler.writeFile(content.getKeYCImpliesCContent(), location, numberFile, override);
@@ -510,6 +511,7 @@ public class ProveWithKey {
 		content.replaceThisWithSelf();
 		content.addSelfForFields(vars);
 		content.addSelf(formula);
+		content.handleOld(formula, vars);
 		
 		String location = fileHandler.getProjectLocation(uri) + "/src/prove" + fileHandler.getLastSegment(uri);
 		File keyFile = fileHandler.writeFile(content.getKeYStatementContent(), location, numberFile, override);
@@ -533,6 +535,7 @@ public class ProveWithKey {
 		content.addSelfForFields(vars);
 		content.addSelf(formula);		
 		content.rename(renaming);
+		content.handleOld(formula, vars);
 		
 		String location = fileHandler.getProjectLocation(uri) + "/src/prove" + fileHandler.getLastSegment(uri);
 		//String location = fileHandler.getProjectLocation(uri) + "/features/" + uri.segment(uri.segmentCount()-3) + "/prove" + uri.trimFileExtension().lastSegment();

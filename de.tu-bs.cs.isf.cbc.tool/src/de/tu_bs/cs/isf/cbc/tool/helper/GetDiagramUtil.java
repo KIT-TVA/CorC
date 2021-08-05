@@ -2,6 +2,7 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
@@ -34,6 +35,19 @@ public class GetDiagramUtil {
        }
        return diagramList;
     }
+    
+    public static Collection<Resource> getCbCClasses(IProject p) {
+        final List<IFile> files = getCbCClassFiles(p);
+        final List<Resource> cbcClassList = new ArrayList<Resource>();
+        final ResourceSet rSet = new ResourceSetImpl();
+        for (final IFile file : files) {
+             final Resource resource = getResourceFromFile(file, rSet);
+             if (resource != null) {
+            	 cbcClassList.add(resource);
+             }
+        }
+        return cbcClassList;
+     }
  
     private static List<IFile> getDiagramFiles(IContainer folder) {
        final List<IFile> ret = new ArrayList<IFile>();
@@ -58,6 +72,26 @@ public class GetDiagramUtil {
 		Console.println("==========================");*/
        return ret;
     }
+    
+    private static List<IFile> getCbCClassFiles(IContainer folder) {
+        final List<IFile> ret = new ArrayList<IFile>();
+        try {
+             final IResource[] members = folder.members();
+             for (final IResource resource : members) {
+                  if (resource instanceof IContainer) {
+                      ret.addAll(getCbCClassFiles((IContainer) resource));
+                  } else if (resource instanceof IFile) {
+                      final IFile file = (IFile) resource;
+                      if (file.getName().endsWith(".cbcclass")) {
+                           ret.add(file);
+                      }
+                  }
+             }
+        } catch (final CoreException e) {
+                 e.printStackTrace();
+        }
+        return ret;
+     }
  
     public static Diagram getDiagramFromFile(IFile file,
                                               ResourceSet resourceSet) {
