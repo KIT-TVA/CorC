@@ -8,8 +8,49 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringJoiner;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.emftext.commons.layout.LayoutInformation;
+import org.emftext.language.java.arrays.ArrayDimension;
+import org.emftext.language.java.classifiers.impl.ClassImpl;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.members.ClassMethod;
+import org.emftext.language.java.members.Member;
+import org.emftext.language.java.members.impl.FieldImpl;
+import org.emftext.language.java.parameters.Parameter;
+import org.emftext.language.java.resource.java.util.JavaResourceUtil;
+import org.emftext.language.java.statements.ForLoop;
+import org.emftext.language.java.statements.LocalVariableStatement;
+import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.statements.WhileLoop;
+import org.emftext.language.java.statements.impl.BlockImpl;
+import org.emftext.language.java.statements.impl.ConditionImpl;
+import org.emftext.language.java.statements.impl.DefaultSwitchCaseImpl;
+import org.emftext.language.java.statements.impl.EmptyStatementImpl;
+import org.emftext.language.java.statements.impl.ExpressionStatementImpl;
+import org.emftext.language.java.statements.impl.NormalSwitchCaseImpl;
+import org.emftext.language.java.statements.impl.ReturnImpl;
+import org.emftext.language.java.statements.impl.SwitchImpl;
+import org.emftext.language.java.types.TypeReference;
+import org.emftext.language.java.types.impl.VoidImpl;
+import org.emftext.language.java.variables.LocalVariable;
+import org.emftext.language.java.variables.impl.VariableImpl;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage;
@@ -32,55 +73,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
-import de.tu_bs.cs.isf.cbc.tool.model.CbcClassModelUtil;
-
-import org.eclipse.core.internal.resources.Folder;
-import org.eclipse.core.internal.resources.Workspace;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.ENamedElement;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.emftext.commons.layout.LayoutInformation;
-import org.emftext.language.java.arrays.ArrayDimension;
-import org.emftext.language.java.classifiers.impl.ClassImpl;
-import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.expressions.Expression;
-import org.emftext.language.java.members.ClassMethod;
-import org.emftext.language.java.members.Member;
-import org.emftext.language.java.members.impl.FieldImpl;
-import org.emftext.language.java.modifiers.Modifier;
-import org.emftext.language.java.parameters.Parameter;
-import org.emftext.language.java.parameters.Parametrizable;
-import org.emftext.language.java.resource.java.util.JavaResourceUtil;
-import org.emftext.language.java.statements.ForLoop;
-import org.emftext.language.java.statements.LocalVariableStatement;
-import org.emftext.language.java.statements.Statement;
-import org.emftext.language.java.statements.WhileLoop;
-import org.emftext.language.java.statements.impl.BlockImpl;
-import org.emftext.language.java.statements.impl.ConditionImpl;
-import org.emftext.language.java.statements.impl.DefaultSwitchCaseImpl;
-import org.emftext.language.java.statements.impl.EmptyStatementImpl;
-import org.emftext.language.java.statements.impl.ExpressionStatementImpl;
-import org.emftext.language.java.statements.impl.NormalSwitchCaseImpl;
-import org.emftext.language.java.statements.impl.ReturnImpl;
-import org.emftext.language.java.statements.impl.SwitchImpl;
-import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.types.impl.VoidImpl;
-import org.emftext.language.java.variables.LocalVariable;
-import org.emftext.language.java.variables.impl.VariableImpl;
 
 public class GenerateModelFromCode {
 	// Content of Class
@@ -147,8 +139,8 @@ public class GenerateModelFromCode {
 					JavaVariables variables = CbcmodelFactory.eINSTANCE.createJavaVariables();
 					fillVariableList(variables, classMethod);
 
-					String signature = buildSignatureString(classMethod, variables);
-					method.setSignature(signature);
+					//String signature = buildSignatureString(classMethod, variables);
+					settingSignature(classMethod, variables, method);
 
 					// get global conditions from existing diagram
 					GlobalConditions conditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
@@ -160,7 +152,7 @@ public class GenerateModelFromCode {
 
 					CbCFormula formula = createFormula(classMethod.getName());
 					formula.setClassName(className);
-					formula.setMethodName(signature);
+					formula.setMethodName(method.getName());
 					method.setCbcStartTriple(formula);
 					formula.setMethodObj(method);
 					variables.eSet(CbcmodelPackage.eINSTANCE.getJavaVariables_Fields(), fields);
@@ -383,6 +375,34 @@ public class GenerateModelFromCode {
 		signature += returnType + " " + classMethod.getName() + "(" + sjParameters.toString() + ")";
 
 		return signature;
+	}
+	
+	private void settingSignature(ClassMethod classMethod, JavaVariables variables, Method method) {
+		String signature = "";
+		if (classMethod.isPublic()) {
+			method.setVisibility(Visibility.PUBLIC);
+		} else if (classMethod.isPrivate()) {
+			method.setVisibility(Visibility.PRIVATE);
+		} else if (classMethod.isProtected()) {
+			method.setVisibility(Visibility.PROTECTED);
+		}
+		if (classMethod.isStatic()) {
+			method.setIsStatic(true);
+		}
+		
+		method.setReturnType("void");
+
+		for (JavaVariable v : variables.getVariables()) {
+			if (v.getKind().equals(VariableKind.PARAM)) {
+				de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter param = CbcclassFactory.eINSTANCE.createParameter();
+				String[] nameSplitted = v.getName().split(" ");
+				param.setType(nameSplitted[nameSplitted.length-2]);
+				param.setName(nameSplitted[nameSplitted.length-1]);
+				method.getParameters().add(param);
+			} else if (v.getKind().equals(VariableKind.RETURN)) {
+				method.setReturnType(v.getName().substring(0, v.getName().indexOf(' ')));
+			}
+		}
 	}
 
 	/**

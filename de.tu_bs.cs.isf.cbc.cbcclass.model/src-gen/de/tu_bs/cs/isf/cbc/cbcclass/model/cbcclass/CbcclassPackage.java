@@ -241,13 +241,13 @@ public interface CbcclassPackage extends EPackage {
 	int METHOD__CBC_DIAGRAM_URI = 0;
 
 	/**
-	 * The feature id for the '<em><b>Signature</b></em>' attribute.
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METHOD__SIGNATURE = 1;
+	int METHOD__NAME = 1;
 
 	/**
 	 * The feature id for the '<em><b>Assignable</b></em>' attribute.
@@ -295,13 +295,58 @@ public interface CbcclassPackage extends EPackage {
 	int METHOD__POSTCONDITION = 6;
 
 	/**
+	 * The feature id for the '<em><b>Return Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD__RETURN_TYPE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD__PARAMETERS = 8;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD__VISIBILITY = 9;
+
+	/**
+	 * The feature id for the '<em><b>Signature</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD__SIGNATURE = 10;
+
+	/**
+	 * The feature id for the '<em><b>Is Static</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD__IS_STATIC = 11;
+
+	/**
 	 * The number of structural features of the '<em>Method</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METHOD_FEATURE_COUNT = 7;
+	int METHOD_FEATURE_COUNT = 12;
 
 	/**
 	 * The number of operations of the '<em>Method</em>' class.
@@ -313,6 +358,52 @@ public interface CbcclassPackage extends EPackage {
 	int METHOD_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ParameterImpl <em>Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ParameterImpl
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.CbcclassPackageImpl#getParameter()
+	 * @generated
+	 */
+	int PARAMETER = 3;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER__TYPE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER__NAME = 1;
+
+	/**
+	 * The number of structural features of the '<em>Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility <em>Visibility</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -320,7 +411,7 @@ public interface CbcclassPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.CbcclassPackageImpl#getVisibility()
 	 * @generated
 	 */
-	int VISIBILITY = 3;
+	int VISIBILITY = 4;
 
 	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass <em>Model Class</em>}'.
@@ -366,6 +457,17 @@ public interface CbcclassPackage extends EPackage {
 	EReference getModelClass_Fields();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getMethods <em>Methods</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Methods</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getMethods()
+	 * @see #getModelClass()
+	 * @generated
+	 */
+	EReference getModelClass_Methods();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getClassInvariants <em>Class Invariants</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -386,17 +488,6 @@ public interface CbcclassPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getModelClass_Package();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getMethods <em>Methods</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Methods</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getMethods()
-	 * @see #getModelClass()
-	 * @generated
-	 */
-	EReference getModelClass_Methods();
 
 	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field <em>Field</em>}'.
@@ -496,15 +587,15 @@ public interface CbcclassPackage extends EPackage {
 	EAttribute getMethod_CbcDiagramURI();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getSignature <em>Signature</em>}'.
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Signature</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getSignature()
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getName()
 	 * @see #getMethod()
 	 * @generated
 	 */
-	EAttribute getMethod_Signature();
+	EAttribute getMethod_Name();
 
 	/**
 	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getAssignable <em>Assignable</em>}'.
@@ -516,6 +607,28 @@ public interface CbcclassPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMethod_Assignable();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getCbcStartTriple <em>Cbc Start Triple</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Cbc Start Triple</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getCbcStartTriple()
+	 * @see #getMethod()
+	 * @generated
+	 */
+	EReference getMethod_CbcStartTriple();
+
+	/**
+	 * Returns the meta object for the container reference '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getParentClass <em>Parent Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Parent Class</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getParentClass()
+	 * @see #getMethod()
+	 * @generated
+	 */
+	EReference getMethod_ParentClass();
 
 	/**
 	 * Returns the meta object for the reference '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getPrecondition <em>Precondition</em>}'.
@@ -540,26 +653,91 @@ public interface CbcclassPackage extends EPackage {
 	EReference getMethod_Postcondition();
 
 	/**
-	 * Returns the meta object for the reference '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getCbcStartTriple <em>Cbc Start Triple</em>}'.
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getReturnType <em>Return Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Cbc Start Triple</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getCbcStartTriple()
+	 * @return the meta object for the attribute '<em>Return Type</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getReturnType()
 	 * @see #getMethod()
 	 * @generated
 	 */
-	EReference getMethod_CbcStartTriple();
+	EAttribute getMethod_ReturnType();
 
 	/**
-	 * Returns the meta object for the container reference '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getParentClass <em>Parent Class</em>}'.
+	 * Returns the meta object for the containment reference list '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getParameters <em>Parameters</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Parent Class</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getParentClass()
+	 * @return the meta object for the containment reference list '<em>Parameters</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getParameters()
 	 * @see #getMethod()
 	 * @generated
 	 */
-	EReference getMethod_ParentClass();
+	EReference getMethod_Parameters();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getVisibility <em>Visibility</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Visibility</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getVisibility()
+	 * @see #getMethod()
+	 * @generated
+	 */
+	EAttribute getMethod_Visibility();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getSignature <em>Signature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Signature</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getSignature()
+	 * @see #getMethod()
+	 * @generated
+	 */
+	EAttribute getMethod_Signature();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#isIsStatic <em>Is Static</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Static</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#isIsStatic()
+	 * @see #getMethod()
+	 * @generated
+	 */
+	EAttribute getMethod_IsStatic();
+
+	/**
+	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter <em>Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Parameter</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter
+	 * @generated
+	 */
+	EClass getParameter();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter#getType()
+	 * @see #getParameter()
+	 * @generated
+	 */
+	EAttribute getParameter_Type();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter#getName()
+	 * @see #getParameter()
+	 * @generated
+	 */
+	EAttribute getParameter_Name();
 
 	/**
 	 * Returns the meta object for enum '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility <em>Visibility</em>}'.
@@ -629,6 +807,14 @@ public interface CbcclassPackage extends EPackage {
 		EReference MODEL_CLASS__FIELDS = eINSTANCE.getModelClass_Fields();
 
 		/**
+		 * The meta object literal for the '<em><b>Methods</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL_CLASS__METHODS = eINSTANCE.getModelClass_Methods();
+
+		/**
 		 * The meta object literal for the '<em><b>Class Invariants</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -643,14 +829,6 @@ public interface CbcclassPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MODEL_CLASS__PACKAGE = eINSTANCE.getModelClass_Package();
-
-		/**
-		 * The meta object literal for the '<em><b>Methods</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MODEL_CLASS__METHODS = eINSTANCE.getModelClass_Methods();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.FieldImpl <em>Field</em>}' class.
@@ -729,12 +907,12 @@ public interface CbcclassPackage extends EPackage {
 		EAttribute METHOD__CBC_DIAGRAM_URI = eINSTANCE.getMethod_CbcDiagramURI();
 
 		/**
-		 * The meta object literal for the '<em><b>Signature</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute METHOD__SIGNATURE = eINSTANCE.getMethod_Signature();
+		EAttribute METHOD__NAME = eINSTANCE.getMethod_Name();
 
 		/**
 		 * The meta object literal for the '<em><b>Assignable</b></em>' attribute feature.
@@ -743,6 +921,22 @@ public interface CbcclassPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute METHOD__ASSIGNABLE = eINSTANCE.getMethod_Assignable();
+
+		/**
+		 * The meta object literal for the '<em><b>Cbc Start Triple</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference METHOD__CBC_START_TRIPLE = eINSTANCE.getMethod_CbcStartTriple();
+
+		/**
+		 * The meta object literal for the '<em><b>Parent Class</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference METHOD__PARENT_CLASS = eINSTANCE.getMethod_ParentClass();
 
 		/**
 		 * The meta object literal for the '<em><b>Precondition</b></em>' reference feature.
@@ -761,20 +955,70 @@ public interface CbcclassPackage extends EPackage {
 		EReference METHOD__POSTCONDITION = eINSTANCE.getMethod_Postcondition();
 
 		/**
-		 * The meta object literal for the '<em><b>Cbc Start Triple</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Return Type</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference METHOD__CBC_START_TRIPLE = eINSTANCE.getMethod_CbcStartTriple();
+		EAttribute METHOD__RETURN_TYPE = eINSTANCE.getMethod_ReturnType();
 
 		/**
-		 * The meta object literal for the '<em><b>Parent Class</b></em>' container reference feature.
+		 * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference METHOD__PARENT_CLASS = eINSTANCE.getMethod_ParentClass();
+		EReference METHOD__PARAMETERS = eINSTANCE.getMethod_Parameters();
+
+		/**
+		 * The meta object literal for the '<em><b>Visibility</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute METHOD__VISIBILITY = eINSTANCE.getMethod_Visibility();
+
+		/**
+		 * The meta object literal for the '<em><b>Signature</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute METHOD__SIGNATURE = eINSTANCE.getMethod_Signature();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Static</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute METHOD__IS_STATIC = eINSTANCE.getMethod_IsStatic();
+
+		/**
+		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ParameterImpl <em>Parameter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ParameterImpl
+		 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.CbcclassPackageImpl#getParameter()
+		 * @generated
+		 */
+		EClass PARAMETER = eINSTANCE.getParameter();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARAMETER__TYPE = eINSTANCE.getParameter_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARAMETER__NAME = eINSTANCE.getParameter_Name();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility <em>Visibility</em>}' enum.

@@ -95,7 +95,7 @@ public class ProveWithKey {
 		content.readGlobalConditions(conds);
 		readPrePostModVars(refinements, returnVariable, callingMethod, content);
 		
-		if(returnStatement) { //TODO replace with correct handling of return
+		if(returnStatement) {
 			content.setStatement(";");
 			//content.handleReturn(statement, returnVariable, formula, null); TODO add missing maps for result
 		} else {

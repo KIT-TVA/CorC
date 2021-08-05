@@ -6,6 +6,8 @@
 bin/
 de.tu_bs.cs.isf.cbc.cbcclass.model.edit
 de.tu_bs.cs.isf.cbc.cbcclass.model.editor
+de.tu-bs.cs.isf.cbc.model.edit
+de.tu-bs.cs.isf.cbc.model.editor
 tmp/
 *.tmp
 *.bak
