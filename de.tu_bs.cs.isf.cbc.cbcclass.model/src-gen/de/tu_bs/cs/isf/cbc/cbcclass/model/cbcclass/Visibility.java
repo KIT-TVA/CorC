@@ -37,19 +37,21 @@ public enum Visibility implements Enumerator {
 	 * @ordered
 	 */
 	PRIVATE(1, "PRIVATE", "PRIVATE"),
+
 	/**
 	 * The '<em><b>PROTECTED</b></em>' literal object.
 	 * <!-- begin-user-doc -->
-	* <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #PROTECTED_VALUE
 	 * @generated
 	 * @ordered
 	 */
 	PROTECTED(2, "PROTECTED", "PROTECTED"),
+
 	/**
 	 * The '<em><b>PACKAGE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
-	* <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #PACKAGE_VALUE
 	 * @generated
 	 * @ordered
@@ -59,10 +61,6 @@ public enum Visibility implements Enumerator {
 	/**
 	 * The '<em><b>PUBLIC</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>PUBLIC</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PUBLIC
 	 * @model
@@ -74,10 +72,6 @@ public enum Visibility implements Enumerator {
 	/**
 	 * The '<em><b>PRIVATE</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>PRIVATE</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PRIVATE
 	 * @model
@@ -89,10 +83,6 @@ public enum Visibility implements Enumerator {
 	/**
 	 * The '<em><b>PROTECTED</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>PROTECTED</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PROTECTED
 	 * @model
@@ -104,10 +94,6 @@ public enum Visibility implements Enumerator {
 	/**
 	 * The '<em><b>PACKAGE</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>PACKAGE</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PACKAGE
 	 * @model

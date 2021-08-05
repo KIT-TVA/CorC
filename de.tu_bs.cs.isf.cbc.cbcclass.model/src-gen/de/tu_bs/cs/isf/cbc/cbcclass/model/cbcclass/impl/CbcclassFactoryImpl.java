@@ -63,6 +63,8 @@ public class CbcclassFactoryImpl extends EFactoryImpl implements CbcclassFactory
 			return createField();
 		case CbcclassPackage.METHOD:
 			return createMethod();
+		case CbcclassPackage.PARAMETER:
+			return createParameter();
 		default:
 			throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -129,6 +131,17 @@ public class CbcclassFactoryImpl extends EFactoryImpl implements CbcclassFactory
 	public Method createMethod() {
 		MethodImpl method = new MethodImpl();
 		return method;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Parameter createParameter() {
+		ParameterImpl parameter = new ParameterImpl();
+		return parameter;
 	}
 
 	/**

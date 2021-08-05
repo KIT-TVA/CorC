@@ -2,16 +2,23 @@
  */
 package de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -19,7 +26,9 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,12 +39,17 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * </p>
  * <ul>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getCbcDiagramURI <em>Cbc Diagram URI</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getSignature <em>Signature</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getName <em>Name</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getAssignable <em>Assignable</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getCbcStartTriple <em>Cbc Start Triple</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getParentClass <em>Parent Class</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getPrecondition <em>Precondition</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getPostcondition <em>Postcondition</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getReturnType <em>Return Type</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getVisibility <em>Visibility</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getSignature <em>Signature</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#isIsStatic <em>Is Static</em>}</li>
  * </ul>
  *
  * @generated
@@ -62,24 +76,24 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	protected String cbcDiagramURI = CBC_DIAGRAM_URI_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getSignature() <em>Signature</em>}' attribute.
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSignature()
+	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String SIGNATURE_EDEFAULT = null;
+	protected static final String NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getSignature() <em>Signature</em>}' attribute.
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSignature()
+	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
-	protected String signature = SIGNATURE_EDEFAULT;
+	protected String name = NAME_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getAssignable() <em>Assignable</em>}' attribute.
@@ -110,6 +124,86 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * @ordered
 	 */
 	protected CbCFormula cbcStartTriple;
+
+	/**
+	 * The default value of the '{@link #getReturnType() <em>Return Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getReturnType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String RETURN_TYPE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getReturnType() <em>Return Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getReturnType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String returnType = RETURN_TYPE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParameters()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Parameter> parameters;
+
+	/**
+	 * The default value of the '{@link #getVisibility() <em>Visibility</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVisibility()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Visibility VISIBILITY_EDEFAULT = Visibility.PUBLIC;
+
+	/**
+	 * The cached value of the '{@link #getVisibility() <em>Visibility</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVisibility()
+	 * @generated
+	 * @ordered
+	 */
+	protected Visibility visibility = VISIBILITY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getSignature() <em>Signature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignature()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SIGNATURE_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #isIsStatic() <em>Is Static</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsStatic()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IS_STATIC_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isIsStatic() <em>Is Static</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsStatic()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean isStatic = IS_STATIC_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -160,8 +254,8 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * @generated
 	 */
 	@Override
-	public String getSignature() {
-		return signature;
+	public String getName() {
+		return name;
 	}
 
 	/**
@@ -170,12 +264,11 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * @generated
 	 */
 	@Override
-	public void setSignature(String newSignature) {
-		String oldSignature = signature;
-		signature = newSignature;
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__SIGNATURE, oldSignature,
-					signature));
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__NAME, oldName, name));
 	}
 
 	/**
@@ -200,70 +293,6 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__ASSIGNABLE, oldAssignable,
 					assignable));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Condition getPrecondition() {
-		Condition precondition = basicGetPrecondition();
-		return precondition != null && precondition.eIsProxy()
-				? (Condition) eResolveProxy((InternalEObject) precondition)
-				: precondition;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Condition basicGetPrecondition() {
-		return cbcStartTriple.getPreCondition();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public void setPrecondition(Condition newPrecondition) {
-
-		cbcStartTriple.setPreCondition(newPrecondition);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Condition getPostcondition() {
-		Condition postcondition = basicGetPostcondition();
-		return postcondition != null && postcondition.eIsProxy()
-				? (Condition) eResolveProxy((InternalEObject) postcondition)
-				: postcondition;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Condition basicGetPostcondition() {
-		return cbcStartTriple.getPostCondition();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public void setPostcondition(Condition newPostcondition) {
-
-		cbcStartTriple.setPostCondition(newPostcondition);
 	}
 
 	/**
@@ -389,6 +418,211 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * @generated
 	 */
 	@Override
+	public Condition getPrecondition() {
+		Condition precondition = basicGetPrecondition();
+		return precondition != null && precondition.eIsProxy()
+				? (Condition) eResolveProxy((InternalEObject) precondition)
+				: precondition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Condition basicGetPrecondition() {
+		return cbcStartTriple.getPreCondition();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setPrecondition(Condition newPrecondition) {
+		// TODO: implement this method to set the 'Precondition' reference
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Condition getPostcondition() {
+		Condition postcondition = basicGetPostcondition();
+		return postcondition != null && postcondition.eIsProxy()
+				? (Condition) eResolveProxy((InternalEObject) postcondition)
+				: postcondition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Condition basicGetPostcondition() {
+		return cbcStartTriple.getPostCondition();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setPostcondition(Condition newPostcondition) {
+		// TODO: implement this method to set the 'Postcondition' reference
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getReturnType() {
+		return returnType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setReturnType(String newReturnType) {
+		String oldReturnType = returnType;
+		returnType = newReturnType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__RETURN_TYPE, oldReturnType,
+					returnType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EList<Parameter> getParameters() {
+		if (parameters == null) {
+			parameters = new EObjectContainmentEList<Parameter>(Parameter.class, this,
+					CbcclassPackage.METHOD__PARAMETERS);
+		}
+		return parameters;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Visibility getVisibility() {
+		return visibility;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setVisibility(Visibility newVisibility) {
+		Visibility oldVisibility = visibility;
+		visibility = newVisibility == null ? VISIBILITY_EDEFAULT : newVisibility;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__VISIBILITY, oldVisibility,
+					visibility));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getSignature() {
+		String staticString = isStatic ? "static " : "";
+		String params = "";
+		if (parameters.size() > 0) {
+			for (Parameter param : parameters) {
+				params += param.getType() + " " + param.getName() + ",";
+			}
+			params = params.substring(0, params.length() - 1);
+		}
+		return visibility + " " + staticString + returnType + " " + name + " (" + params + ")";
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 */
+	@Override
+	public void setSignature(String newSignature) {
+		String params = newSignature.substring(newSignature.indexOf("("), newSignature.length()-1);
+		String[] signatureSplitted = newSignature.substring(0, newSignature.indexOf("(")).split(" ");
+		
+		for (String next : signatureSplitted) {
+			if (next.equals("static")) {
+				this.isStatic = true;
+			} else if (next.equals("public")) {
+				this.visibility = Visibility.PUBLIC;
+			} else if (next.equals("private")) {
+				this.visibility = Visibility.PRIVATE;
+			} else if (next.equals("protected")) {
+				this.visibility = Visibility.PROTECTED;
+			}
+		}
+		
+		this.name = signatureSplitted[signatureSplitted.length-1];
+		
+		String[] paramsSplitted = params.split(",");
+		for (String param : paramsSplitted) {
+			String[] paramSplitted = param.split(" ");
+			Parameter parameter = CbcclassFactory.eINSTANCE.createParameter();
+			parameter.setType(paramSplitted[0]);
+			parameter.setName(paramSplitted[1]);
+			this.getParameters().add(parameter);
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public boolean isIsStatic() {
+		return isStatic;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setIsStatic(boolean newIsStatic) {
+		boolean oldIsStatic = isStatic;
+		isStatic = newIsStatic;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__IS_STATIC, oldIsStatic,
+					isStatic));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 		case CbcclassPackage.METHOD__CBC_START_TRIPLE:
@@ -416,6 +650,8 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 			return basicSetCbcStartTriple(null, msgs);
 		case CbcclassPackage.METHOD__PARENT_CLASS:
 			return basicSetParentClass(null, msgs);
+		case CbcclassPackage.METHOD__PARAMETERS:
+			return ((InternalEList<?>) getParameters()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -445,8 +681,8 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		switch (featureID) {
 		case CbcclassPackage.METHOD__CBC_DIAGRAM_URI:
 			return getCbcDiagramURI();
-		case CbcclassPackage.METHOD__SIGNATURE:
-			return getSignature();
+		case CbcclassPackage.METHOD__NAME:
+			return getName();
 		case CbcclassPackage.METHOD__ASSIGNABLE:
 			return getAssignable();
 		case CbcclassPackage.METHOD__CBC_START_TRIPLE:
@@ -463,6 +699,16 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 			if (resolve)
 				return getPostcondition();
 			return basicGetPostcondition();
+		case CbcclassPackage.METHOD__RETURN_TYPE:
+			return getReturnType();
+		case CbcclassPackage.METHOD__PARAMETERS:
+			return getParameters();
+		case CbcclassPackage.METHOD__VISIBILITY:
+			return getVisibility();
+		case CbcclassPackage.METHOD__SIGNATURE:
+			return getSignature();
+		case CbcclassPackage.METHOD__IS_STATIC:
+			return isIsStatic();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -472,14 +718,15 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 		case CbcclassPackage.METHOD__CBC_DIAGRAM_URI:
 			setCbcDiagramURI((String) newValue);
 			return;
-		case CbcclassPackage.METHOD__SIGNATURE:
-			setSignature((String) newValue);
+		case CbcclassPackage.METHOD__NAME:
+			setName((String) newValue);
 			return;
 		case CbcclassPackage.METHOD__ASSIGNABLE:
 			setAssignable((String) newValue);
@@ -496,6 +743,22 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		case CbcclassPackage.METHOD__POSTCONDITION:
 			setPostcondition((Condition) newValue);
 			return;
+		case CbcclassPackage.METHOD__RETURN_TYPE:
+			setReturnType((String) newValue);
+			return;
+		case CbcclassPackage.METHOD__PARAMETERS:
+			getParameters().clear();
+			getParameters().addAll((Collection<? extends Parameter>) newValue);
+			return;
+		case CbcclassPackage.METHOD__VISIBILITY:
+			setVisibility((Visibility) newValue);
+			return;
+		case CbcclassPackage.METHOD__SIGNATURE:
+			setSignature((String) newValue);
+			return;
+		case CbcclassPackage.METHOD__IS_STATIC:
+			setIsStatic((Boolean) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -511,8 +774,8 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		case CbcclassPackage.METHOD__CBC_DIAGRAM_URI:
 			setCbcDiagramURI(CBC_DIAGRAM_URI_EDEFAULT);
 			return;
-		case CbcclassPackage.METHOD__SIGNATURE:
-			setSignature(SIGNATURE_EDEFAULT);
+		case CbcclassPackage.METHOD__NAME:
+			setName(NAME_EDEFAULT);
 			return;
 		case CbcclassPackage.METHOD__ASSIGNABLE:
 			setAssignable(ASSIGNABLE_EDEFAULT);
@@ -529,6 +792,21 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		case CbcclassPackage.METHOD__POSTCONDITION:
 			setPostcondition((Condition) null);
 			return;
+		case CbcclassPackage.METHOD__RETURN_TYPE:
+			setReturnType(RETURN_TYPE_EDEFAULT);
+			return;
+		case CbcclassPackage.METHOD__PARAMETERS:
+			getParameters().clear();
+			return;
+		case CbcclassPackage.METHOD__VISIBILITY:
+			setVisibility(VISIBILITY_EDEFAULT);
+			return;
+		case CbcclassPackage.METHOD__SIGNATURE:
+			setSignature(SIGNATURE_EDEFAULT);
+			return;
+		case CbcclassPackage.METHOD__IS_STATIC:
+			setIsStatic(IS_STATIC_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -544,8 +822,8 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		case CbcclassPackage.METHOD__CBC_DIAGRAM_URI:
 			return CBC_DIAGRAM_URI_EDEFAULT == null ? cbcDiagramURI != null
 					: !CBC_DIAGRAM_URI_EDEFAULT.equals(cbcDiagramURI);
-		case CbcclassPackage.METHOD__SIGNATURE:
-			return SIGNATURE_EDEFAULT == null ? signature != null : !SIGNATURE_EDEFAULT.equals(signature);
+		case CbcclassPackage.METHOD__NAME:
+			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		case CbcclassPackage.METHOD__ASSIGNABLE:
 			return ASSIGNABLE_EDEFAULT == null ? assignable != null : !ASSIGNABLE_EDEFAULT.equals(assignable);
 		case CbcclassPackage.METHOD__CBC_START_TRIPLE:
@@ -556,6 +834,16 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 			return basicGetPrecondition() != null;
 		case CbcclassPackage.METHOD__POSTCONDITION:
 			return basicGetPostcondition() != null;
+		case CbcclassPackage.METHOD__RETURN_TYPE:
+			return RETURN_TYPE_EDEFAULT == null ? returnType != null : !RETURN_TYPE_EDEFAULT.equals(returnType);
+		case CbcclassPackage.METHOD__PARAMETERS:
+			return parameters != null && !parameters.isEmpty();
+		case CbcclassPackage.METHOD__VISIBILITY:
+			return visibility != VISIBILITY_EDEFAULT;
+		case CbcclassPackage.METHOD__SIGNATURE:
+			return SIGNATURE_EDEFAULT == null ? getSignature() != null : !SIGNATURE_EDEFAULT.equals(getSignature());
+		case CbcclassPackage.METHOD__IS_STATIC:
+			return isStatic != IS_STATIC_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -573,10 +861,16 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (cbcDiagramURI: ");
 		result.append(cbcDiagramURI);
-		result.append(", signature: ");
-		result.append(signature);
+		result.append(", name: ");
+		result.append(name);
 		result.append(", assignable: ");
 		result.append(assignable);
+		result.append(", returnType: ");
+		result.append(returnType);
+		result.append(", visibility: ");
+		result.append(visibility);
+		result.append(", isStatic: ");
+		result.append(isStatic);
 		result.append(')');
 		return result.toString();
 	}

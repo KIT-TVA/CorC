@@ -36,7 +36,7 @@
     </genClasses>
     <genClasses ecoreClass="cbcclass.ecore#//Method">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/cbcDiagramURI"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/signature"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/assignable"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/cbcStartTriple"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/parentClass"/>
@@ -44,6 +44,20 @@
           get="return cbcStartTriple.getPreCondition();"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/postcondition"
           get="return cbcStartTriple.getPostCondition();"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/returnType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/parameters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/visibility"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/signature"
+          get="String staticString = isStatic ? &quot;static &quot; : &quot;&quot;;&#xA;String params = &quot;&quot;;&#xA;if (parameters.size() > 0) {&#xA;&#x9;for (Parameter param : parameters) {&#xA;&#x9;&#x9;params += param.getType() + &quot; &quot; + param.getName() + &quot;,&quot;;&#xA;&#x9;}&#xA;&#x9;params = params.substring(0, params.length()-1);&#xA;}&#xA;return visibility + &quot; &quot; + staticString + returnType + &quot; &quot; + name + &quot; (&quot; + params + &quot;)&quot;;">
+        <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="set" value="test"/>
+        </genAnnotations>
+      </genFeatures>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/isStatic"/>
+    </genClasses>
+    <genClasses ecoreClass="cbcclass.ecore#//Parameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Parameter/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Parameter/name"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

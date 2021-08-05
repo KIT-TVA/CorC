@@ -7,11 +7,13 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -47,6 +49,13 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * @generated
 	 */
 	private EClass methodEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass parameterEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -173,6 +182,16 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * @generated
 	 */
 	@Override
+	public EReference getModelClass_Methods() {
+		return (EReference) modelClassEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EReference getModelClass_ClassInvariants() {
 		return (EReference) modelClassEClass.getEStructuralFeatures().get(4);
 	}
@@ -182,18 +201,9 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getModelClass_Package() {
 		return (EAttribute) modelClassEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EReference getModelClass_Methods() {
-		return (EReference) modelClassEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -292,7 +302,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * @generated
 	 */
 	@Override
-	public EAttribute getMethod_Signature() {
+	public EAttribute getMethod_Name() {
 		return (EAttribute) methodEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -304,6 +314,26 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	@Override
 	public EAttribute getMethod_Assignable() {
 		return (EAttribute) methodEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getMethod_CbcStartTriple() {
+		return (EReference) methodEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getMethod_ParentClass() {
+		return (EReference) methodEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -332,8 +362,8 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * @generated
 	 */
 	@Override
-	public EReference getMethod_CbcStartTriple() {
-		return (EReference) methodEClass.getEStructuralFeatures().get(3);
+	public EAttribute getMethod_ReturnType() {
+		return (EAttribute) methodEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -342,8 +372,68 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * @generated
 	 */
 	@Override
-	public EReference getMethod_ParentClass() {
-		return (EReference) methodEClass.getEStructuralFeatures().get(4);
+	public EReference getMethod_Parameters() {
+		return (EReference) methodEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getMethod_Visibility() {
+		return (EAttribute) methodEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getMethod_Signature() {
+		return (EAttribute) methodEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getMethod_IsStatic() {
+		return (EAttribute) methodEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getParameter() {
+		return parameterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getParameter_Type() {
+		return (EAttribute) parameterEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getParameter_Name() {
+		return (EAttribute) parameterEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -404,12 +494,21 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 
 		methodEClass = createEClass(METHOD);
 		createEAttribute(methodEClass, METHOD__CBC_DIAGRAM_URI);
-		createEAttribute(methodEClass, METHOD__SIGNATURE);
+		createEAttribute(methodEClass, METHOD__NAME);
 		createEAttribute(methodEClass, METHOD__ASSIGNABLE);
 		createEReference(methodEClass, METHOD__CBC_START_TRIPLE);
 		createEReference(methodEClass, METHOD__PARENT_CLASS);
 		createEReference(methodEClass, METHOD__PRECONDITION);
 		createEReference(methodEClass, METHOD__POSTCONDITION);
+		createEAttribute(methodEClass, METHOD__RETURN_TYPE);
+		createEReference(methodEClass, METHOD__PARAMETERS);
+		createEAttribute(methodEClass, METHOD__VISIBILITY);
+		createEAttribute(methodEClass, METHOD__SIGNATURE);
+		createEAttribute(methodEClass, METHOD__IS_STATIC);
+
+		parameterEClass = createEClass(PARAMETER);
+		createEAttribute(parameterEClass, PARAMETER__TYPE);
+		createEAttribute(parameterEClass, PARAMETER__NAME);
 
 		// Create enums
 		visibilityEEnum = createEEnum(VISIBILITY);
@@ -486,8 +585,8 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 		initEClass(methodEClass, Method.class, "Method", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMethod_CbcDiagramURI(), ecorePackage.getEString(), "cbcDiagramURI", null, 0, 1, Method.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMethod_Signature(), ecorePackage.getEString(), "signature", null, 0, 1, Method.class,
-				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMethod_Name(), ecorePackage.getEString(), "name", null, 0, 1, Method.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMethod_Assignable(), ecorePackage.getEString(), "assignable", null, 0, 1, Method.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMethod_CbcStartTriple(), theCbcmodelPackage.getCbCFormula(),
@@ -503,6 +602,24 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 		initEReference(getMethod_Postcondition(), theCbcmodelPackage.getCondition(), null, "postcondition", null, 0, 1,
 				Method.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMethod_ReturnType(), ecorePackage.getEString(), "returnType", null, 0, 1, Method.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMethod_Parameters(), this.getParameter(), null, "parameters", null, 0, -1, Method.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
+				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMethod_Visibility(), this.getVisibility(), "visibility", null, 0, 1, Method.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMethod_Signature(), ecorePackage.getEString(), "signature", null, 0, 1, Method.class,
+				IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMethod_IsStatic(), ecorePackage.getEBoolean(), "isStatic", null, 0, 1, Method.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(parameterEClass, Parameter.class, "Parameter", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getParameter_Type(), ecorePackage.getEString(), "type", null, 0, 1, Parameter.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getParameter_Name(), ecorePackage.getEString(), "name", "", 0, 1, Parameter.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(visibilityEEnum, Visibility.class, "Visibility");

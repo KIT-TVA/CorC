@@ -8,6 +8,7 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -219,6 +220,20 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * @generated
 	 */
 	@Override
+	public EList<Method> getMethods() {
+		if (methods == null) {
+			methods = new EObjectContainmentWithInverseEList<Method>(Method.class, this,
+					CbcclassPackage.MODEL_CLASS__METHODS, CbcclassPackage.METHOD__PARENT_CLASS);
+		}
+		return methods;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EList<Condition> getClassInvariants() {
 		if (classInvariants == null) {
 			classInvariants = new EObjectContainmentEList<Condition>(Condition.class, this,
@@ -232,6 +247,7 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPackage() {
 		return package_;
 	}
@@ -241,26 +257,13 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPackage(String newPackage) {
 		String oldPackage = package_;
 		package_ = newPackage;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.MODEL_CLASS__PACKAGE, oldPackage,
 					package_));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EList<Method> getMethods() {
-		if (methods == null) {
-			methods = new EObjectContainmentWithInverseEList<Method>(Method.class, this,
-					CbcclassPackage.MODEL_CLASS__METHODS, CbcclassPackage.METHOD__PARENT_CLASS);
-		}
-		return methods;
 	}
 
 	/**

@@ -3,6 +3,7 @@
 package de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
@@ -32,10 +33,6 @@ public interface ModelClass extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -58,10 +55,6 @@ public interface ModelClass extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Java Class URI</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Java Class URI</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Java Class URI</em>' attribute.
 	 * @see #setJavaClassURI(String)
@@ -85,10 +78,6 @@ public interface ModelClass extends EObject {
 	 * Returns the value of the '<em><b>Fields</b></em>' containment reference list.
 	 * The list contents are of type {@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Fields</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Fields</em>' containment reference list.
 	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage#getModelClass_Fields()
@@ -98,13 +87,23 @@ public interface ModelClass extends EObject {
 	EList<Field> getFields();
 
 	/**
+	 * Returns the value of the '<em><b>Methods</b></em>' containment reference list.
+	 * The list contents are of type {@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method}.
+	 * It is bidirectional and its opposite is '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getParentClass <em>Parent Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Methods</em>' containment reference list.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage#getModelClass_Methods()
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getParentClass
+	 * @model opposite="parentClass" containment="true"
+	 * @generated
+	 */
+	EList<Method> getMethods();
+
+	/**
 	 * Returns the value of the '<em><b>Class Invariants</b></em>' containment reference list.
 	 * The list contents are of type {@link de.tu_bs.cs.isf.cbc.cbcmodel.Condition}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Class Invariants</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Class Invariants</em>' containment reference list.
 	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage#getModelClass_ClassInvariants()
@@ -116,10 +115,6 @@ public interface ModelClass extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Package</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Package</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Package</em>' attribute.
 	 * @see #setPackage(String)
@@ -138,23 +133,5 @@ public interface ModelClass extends EObject {
 	 * @generated
 	 */
 	void setPackage(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Methods</b></em>' containment reference list.
-	 * The list contents are of type {@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method}.
-	 * It is bidirectional and its opposite is '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getParentClass <em>Parent Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Methods</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Methods</em>' containment reference list.
-	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage#getModelClass_Methods()
-	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getParentClass
-	 * @model opposite="parentClass" containment="true"
-	 * @generated
-	 */
-	EList<Method> getMethods();
 
 } // ModelClass
