@@ -1,5 +1,6 @@
 package helper;
 
+
 public class ModelClassHelper {
 	
 	private static Object obj = new Object();
