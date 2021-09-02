@@ -1,11 +1,13 @@
 package de.tu_bs.cs.isf.cbcclass.tool.patterns;
 
 import java.awt.Frame;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IReason;
@@ -53,7 +55,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ConditionImpl;
 import de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassImageProvider;
 import helper.ModelClassHelper;
-import helper.ShapeWithText;
+import model.CbcClassUtil;
 
 
 public class ModelClassPattern extends IdPattern implements IPattern {
@@ -159,16 +161,14 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 		modelClass.setJavaClassURI("zero");
 
 		
-		
-		//de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field field = CbcclassFactory.eINSTANCE.createField();
-		//field.setName("field");
-		//modelClass.getFields().add(field);
+	
 
-		
-		//CbcmodelFactory.eINSTANCE.createCondition();
-		
-				
-		//CbcclassFactory.eINSTANCE.createMethod();
+		try {
+			CbcClassUtil.saveModelClass(modelClass, getDiagram());
+		} catch (CoreException | IOException e) {
+			e.printStackTrace();
+		}
+
 		
 		
 		addGraphicalRepresentation(context, modelClass);
@@ -601,6 +601,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 							setIndex(preConditionText, newIndex);
 							preConditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 							preConditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+							//link(shapePreConditionText, method.getPrecondition());
 							link(shapePreConditionText, method);
 							
 							// Post-Con
@@ -611,6 +612,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 							setIndex(postConditionText, newIndex + 1);
 							postConditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 							postConditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+							//link(shapePostConditionText, method.getPostcondition());
 							link(shapePostConditionText, method);
 							
 							//Signature
@@ -623,7 +625,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 							signatureText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 							link(shapeSignatureText, method);
 							
-						
+	
 						}  else {
 							// Pre-Con
 							Method method = methods.get(methods.size() - 1);
@@ -634,6 +636,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 							setIndex(preConditionText, newIndex);
 							preConditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 							preConditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+							//link(shapePreConditionText, method.getPrecondition());
 							link(shapePreConditionText, method);
 							
 							// Post-Con
@@ -644,6 +647,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 							setIndex(postConditionText, newIndex + 1);
 							postConditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 							postConditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+							//link(shapePostConditionText, method.getPostcondition());
 							link(shapePostConditionText, method);
 							
 							//Signature
@@ -655,9 +659,9 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 							signatureText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 							signatureText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 							link(shapeSignatureText, method);
-							}	
+						}	
 							
-						}
+					}
 				}
 	
 			return true;

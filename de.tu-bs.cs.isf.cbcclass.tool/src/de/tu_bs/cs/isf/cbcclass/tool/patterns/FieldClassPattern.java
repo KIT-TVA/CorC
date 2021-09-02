@@ -1,9 +1,11 @@
 package de.tu_bs.cs.isf.cbcclass.tool.patterns;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -39,6 +41,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import helper.ModelClassHelper;
+import model.CbcClassUtil;
 
 public class FieldClassPattern extends IdPattern implements IPattern {
 	
@@ -88,12 +91,24 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 	public Object[] create (ICreateContext context) {
 		ModelClass modelClass = (ModelClass) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		
+		
+		
 		de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field field = CbcclassFactory.eINSTANCE.createField();
 		field.setName("int[] field");
 		field.setType("int[]");
 		
 		modelClass.getFields().add(field);
 		ModelClassHelper.setObject(field);
+		
+		
+		/*
+		try {
+			CbcClassUtil.saveField(field, getDiagram());
+		} catch (CoreException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		*/
 		
 		updatePictogramElement(context.getTargetContainer());
 		return new Object[] { field };
@@ -187,11 +202,8 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 	
 	
 	private boolean hasKeywordsAsTypeOrName(String value) {
-		
-		//String[] keywords = {"public", "private", "protected", "static", "final"};
-		ArrayList<String> keywords = new ArrayList<>(Arrays.asList("public", "private", "protected", "static", "final"));
-		
 
+		ArrayList<String> keywords = new ArrayList<>(Arrays.asList("public", "private", "protected", "static", "final"));
 		
 		String[] tokens = value.split(" ");
 		
@@ -206,7 +218,7 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 			
 			return false;
 		}
-	
+
 		return false;
 		
 	}

@@ -3,6 +3,7 @@ package de.tu_bs.cs.isf.cbcclass.tool.patterns;
 import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -47,6 +48,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
 import de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassImageProvider;
 import helper.ModelClassHelper;
+import model.CbcClassUtil;
 
 
 public class MethodClassPattern extends IdPattern implements IPattern {
@@ -181,15 +183,22 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		updatePictogramElement(context.getTargetContainer());
 		
 
+
 		/*
-		// Use the following instead of the above line to store the model
-		// data in a seperate file parallel to the diagram file
 		try {
-			CbcModelUtil.saveFormulaToModelFile(formula, getDiagram());
-		} catch (CoreException | IOException e) {
-			e.printStackTrace();
+			CbcClassUtil.saveMethod(method, getDiagram());
+			CbcClassUtil.saveCondition(preCondition, getDiagram());
+			CbcClassUtil.saveCondition(postCondition, getDiagram());
+			CbcClassUtil.saveMethodSignature(signature, getDiagram());
+			CbcClassUtil.saveFormulaToModelFile(formula, getDiagram());
+			
+			
+		}	catch (CoreException | IOException e) {
+				e.printStackTrace();
 		}
+		
 		*/
+
 		
 		
 		return new Object[] { methodClass };
@@ -316,13 +325,13 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 	@Override
 	public void setValue(String value, IDirectEditingContext context) {
 		Method method = (Method) getBusinessObjectForPictogramElement(context.getPictogramElement());
-		
-		System.out.println(method.eContainer());
-		
-	
+
+
 		method.setSignature(value.trim());
 
 		ShapeImpl shape = (ShapeImpl)context.getPictogramElement();
+
+
 
 		TextImpl text = (TextImpl)shape.getGraphicsAlgorithm();
 		text.setValue(method.getSignature());
@@ -335,6 +344,15 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 	@Override
 	public String getInitialValue(IDirectEditingContext context) {
 		Method method = (Method) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		
+		
+		//ModelClass modelClass = method.getParentClass();
+		
+		
+		ShapeImpl shape = (ShapeImpl)context.getPictogramElement();
+		System.out.println(shape.getLink());
+
+		
 		return method.getSignature();
 	}
 }
