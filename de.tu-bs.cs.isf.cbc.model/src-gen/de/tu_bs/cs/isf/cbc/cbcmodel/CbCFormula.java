@@ -3,6 +3,7 @@
 package de.tu_bs.cs.isf.cbc.cbcmodel;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -34,10 +35,6 @@ public interface CbCFormula extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -60,10 +57,6 @@ public interface CbCFormula extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Statement</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Statement</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Statement</em>' containment reference.
 	 * @see #setStatement(AbstractStatement)
@@ -86,10 +79,6 @@ public interface CbCFormula extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Pre Condition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Pre Condition</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Pre Condition</em>' containment reference.
 	 * @see #setPreCondition(Condition)
@@ -112,10 +101,6 @@ public interface CbCFormula extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Post Condition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Post Condition</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Post Condition</em>' containment reference.
 	 * @see #setPostCondition(Condition)
@@ -138,10 +123,6 @@ public interface CbCFormula extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Proven</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Proven</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Proven</em>' attribute.
 	 * @see #setProven(boolean)
@@ -164,10 +145,6 @@ public interface CbCFormula extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Comment</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Comment</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Comment</em>' attribute.
 	 * @see #setComment(String)
@@ -192,10 +169,6 @@ public interface CbCFormula extends EObject {
 	 * The default value is <code>"CONTRACT_OVERRIDING"</code>.
 	 * The literals are from the enumeration {@link de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Composition Technique</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Composition Technique</em>' attribute.
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique
@@ -221,10 +194,6 @@ public interface CbCFormula extends EObject {
 	 * Returns the value of the '<em><b>Class Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Class Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Class Name</em>' attribute.
 	 * @see #setClassName(String)
@@ -248,10 +217,6 @@ public interface CbCFormula extends EObject {
 	 * Returns the value of the '<em><b>Method Name</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Method Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Method Name</em>' attribute.
 	 * @see #setMethodName(String)
@@ -275,10 +240,6 @@ public interface CbCFormula extends EObject {
 	 * Returns the value of the '<em><b>Method Obj</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getCbcStartTriple <em>Cbc Start Triple</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Method Obj</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Method Obj</em>' reference.
 	 * @see #setMethodObj(Method)

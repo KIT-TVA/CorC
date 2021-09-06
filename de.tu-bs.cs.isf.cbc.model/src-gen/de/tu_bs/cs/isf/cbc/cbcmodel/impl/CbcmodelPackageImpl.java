@@ -3,7 +3,9 @@
 package de.tu_bs.cs.isf.cbc.cbcmodel.impl;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage;
+
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.CbcclassPackageImpl;
+
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem;
