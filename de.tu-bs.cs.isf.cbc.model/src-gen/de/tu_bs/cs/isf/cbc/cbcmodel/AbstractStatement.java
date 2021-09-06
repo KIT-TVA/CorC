@@ -30,10 +30,6 @@ public interface AbstractStatement extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -57,10 +53,6 @@ public interface AbstractStatement extends EObject {
 	 * Returns the value of the '<em><b>Refinement</b></em>' containment reference.
 	 * It is bidirectional and its opposite is '{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getParent <em>Parent</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Refinement</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Refinement</em>' containment reference.
 	 * @see #setRefinement(AbstractStatement)
@@ -85,10 +77,6 @@ public interface AbstractStatement extends EObject {
 	 * Returns the value of the '<em><b>Parent</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getRefinement <em>Refinement</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Parent</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parent</em>' container reference.
 	 * @see #setParent(AbstractStatement)
@@ -112,10 +100,6 @@ public interface AbstractStatement extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Post Condition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Post Condition</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Post Condition</em>' containment reference.
 	 * @see #setPostCondition(Condition)
@@ -138,10 +122,6 @@ public interface AbstractStatement extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Pre Condition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Pre Condition</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Pre Condition</em>' containment reference.
 	 * @see #setPreCondition(Condition)
@@ -164,10 +144,6 @@ public interface AbstractStatement extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Proven</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Proven</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Proven</em>' attribute.
 	 * @see #setProven(boolean)
@@ -190,10 +166,6 @@ public interface AbstractStatement extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Comment</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Comment</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Comment</em>' attribute.
 	 * @see #setComment(String)

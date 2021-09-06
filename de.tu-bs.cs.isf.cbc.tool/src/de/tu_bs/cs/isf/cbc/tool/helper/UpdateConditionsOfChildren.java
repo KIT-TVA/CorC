@@ -167,7 +167,7 @@ public class UpdateConditionsOfChildren {
 		}
 	}
 
-	private static CbCFormula getFormula(AbstractStatement statement) {
+	public static CbCFormula getFormula(AbstractStatement statement) {
 		if (statement.getParent() != null) {
 			return getFormula(statement.getParent());
 		}

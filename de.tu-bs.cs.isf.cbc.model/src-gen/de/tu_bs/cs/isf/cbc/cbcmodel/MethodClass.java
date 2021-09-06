@@ -24,10 +24,6 @@ public interface MethodClass extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Method Class</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Method Class</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Method Class</em>' attribute.
 	 * @see #setMethodClass(String)

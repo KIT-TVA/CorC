@@ -35,10 +35,12 @@ import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.impl.FieldImpl;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.resource.java.util.JavaResourceUtil;
+import org.emftext.language.java.statements.Assert;
 import org.emftext.language.java.statements.ForLoop;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.WhileLoop;
+import org.emftext.language.java.statements.impl.AssertImpl;
 import org.emftext.language.java.statements.impl.BlockImpl;
 import org.emftext.language.java.statements.impl.ConditionImpl;
 import org.emftext.language.java.statements.impl.DefaultSwitchCaseImpl;
@@ -380,7 +382,6 @@ public class GenerateModelFromCode {
 	}
 	
 	private void settingSignature(ClassMethod classMethod, JavaVariables variables, Method method) {
-		String signature = "";
 		if (classMethod.isPublic()) {
 			method.setVisibility(Visibility.PUBLIC);
 		} else if (classMethod.isPrivate()) {
@@ -822,15 +823,26 @@ public class GenerateModelFromCode {
 		if (statements.size() > 1) {
 			CompositionStatement composition = createComposition();
 			parent.setRefinement(composition);
-			UpdateConditionsOfChildren.updateRefinedStatement(parent, composition);
+			
 			handleStatement(r, statements.get(0), composition.getFirstStatement());
+			int i = 1;
+			if(statements.get(1) instanceof Assert) { // assert statements contain intermediate conditions
+				Assert assertSt = (Assert) statements.get(1);
+				Condition intermediate = CbcmodelFactory.eINSTANCE.createCondition();
+				intermediate.setName(JavaResourceUtil.getText(assertSt.getCondition()));
+				composition.setIntermediateCondition(intermediate);
+				i = 2;
+			}
+			UpdateConditionsOfChildren.updateRefinedStatement(parent, composition);
 			BasicEList<Statement> newStatementList = new BasicEList<Statement>();
-			for (int i = 1; i < statements.size(); i++) {
+			while (i < statements.size()) {
 				newStatementList.add(statements.get(i));
+				i++;
 			}
 			handleListOfStatements(r, newStatementList, composition.getSecondStatement());
 		} else if (statements.size() == 1) {
 			handleStatement(r, statements.get(0), parent);
+			
 		} else {
 			SkipStatement skipStatement = createSkipStatement();
 			parent.setRefinement(skipStatement);
