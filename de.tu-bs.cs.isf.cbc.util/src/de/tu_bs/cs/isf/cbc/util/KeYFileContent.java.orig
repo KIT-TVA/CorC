@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.core.resources.IProject;
-<<<<<<< HEAD
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -22,15 +21,6 @@ import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
-=======
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
->>>>>>> 8200c9de (added old)
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 //import de.tu_bs.cs.isf.cbc.cbcmodel.BaseVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
@@ -54,24 +44,8 @@ public class KeYFileContent {
 	
 	private final String helper = "helper.key";
 	private String location = "";
-<<<<<<< HEAD
 	private String srcFolder = "";
 	private String statement = "";
-=======
-	private String helper = "helper.key";
-	private String programVariables = "";
-	private String globalConditions = "";
-	private String conditionObjectsCreated = "";
-	private String self = "";
-	private String selfConditions = "";
-	private String assignment = "";
-	private String pre = "";
-	private String post = "";
-	private Map<String, String> replacements = new HashMap<String, String>();
-	String statement = "";
-	Map<String, List<Field>> methodClassVarMap = null;
-	Map<String, String> returnTypeMap = null;
->>>>>>> 8200c9de (added old)
 	
 	private Renaming renaming;
 	private String self;
@@ -84,7 +58,6 @@ public class KeYFileContent {
 	private List<String> unmodifiableVars;
 	private String variant;
 	
-<<<<<<< HEAD
 	private Map<String, List<Field>> methodClassVarMap = null;
 	private Map<String, String> returnTypeMap = null;
 
@@ -106,11 +79,8 @@ public class KeYFileContent {
 		
 		nameOfLocalVars = new ArrayList<>();
 		varsForOldReplacement = new HashMap<>();
-=======
-	public KeYFileContent() {
->>>>>>> 8200c9de (added old)
 	}
-
+	
 	public void setLocation(String location) {
 		this.location = location;
 	}
@@ -131,65 +101,8 @@ public class KeYFileContent {
 		this.statement = statement;
 	}
 	
-<<<<<<< HEAD
 	public String getStatement() {
 		return statement;
-=======
-	public Map<String, List<Field>> getMethodClassVarMap() {
-		if(methodClassVarMap == null) {
-			initMethodClassVarMap();
-		}
-		return methodClassVarMap;
-	}
-
-	public Map<String, String> getReturnTypeMap() {
-		if (returnTypeMap == null) {
-			initReturnTypeMap();
-		}
-		return returnTypeMap;
-	}
-
-	public JavaVariable readVariables(JavaVariables vars) {
-		JavaVariable returnVariable = null;
-		if (vars != null) {
-			for (JavaVariable var : vars.getVariables()) {
-				if (var.getKind() == VariableKind.RETURN) {
-					returnVariable = var;
-				} else {
-					programVariables += var.getName().replace("static", "").replace("non-null", "") + "; ";
-					// if variable is an Array add <created> condition for key
-					if (var.getName().contains("[]")) {
-						String varNameWithoutStaticNonNull = var.getName().replace("static", "").replace("non-null", "").trim();
-						varNameWithoutStaticNonNull = varNameWithoutStaticNonNull.substring(varNameWithoutStaticNonNull.indexOf(" ") + 1);
-						conditionObjectsCreated += " & " + varNameWithoutStaticNonNull + ".<created>=TRUE";
-					}
-					if(var.getKind() == VariableKind.PARAM && var.getName().contains("non-null")){
-						String varNameWithoutStaticNonNull = var.getName().replace("static", "").replace("non-null", "").trim();
-						String varDataType = varNameWithoutStaticNonNull.substring(0, varNameWithoutStaticNonNull.indexOf(" "));
-						String varName = varNameWithoutStaticNonNull.substring(varNameWithoutStaticNonNull.lastIndexOf(" ")).trim();
-						addNonNullProperties(varDataType, varName, false);
-					}
-				}
-			}
-			for (Field field : vars.getFields()) { //TODO for which fields add non null?
-				addNonNullProperties(field.getType(), field.getName(), true);
-			}
-			
-		}
-		return returnVariable;
-	}
-
-	private void addNonNullProperties(String varDataType, String varName, boolean field) {
-
-		if (field) varName = "self." + varName;
-		// Additionally add instance checks for nullable data types.
-		if (!varDataType.matches("(void|byte|short|int|double|char|long|float|double)([\\[\\]]*)")) {
-			conditionObjectsCreated += " & " + varDataType + "::exactInstance(" + varName + ") = TRUE";
-			if (!varDataType.matches("(void|byte|short|int|double|char|long|float|boolean)([\\[\\]]*)"))
-				conditionObjectsCreated += " & " + varName + ".<created> = TRUE";
-			conditionObjectsCreated += " & " + varName + " != null";
-		}
->>>>>>> 8200c9de (added old)
 	}
 	
 	public void addVariable(String var) {
@@ -284,6 +197,7 @@ public class KeYFileContent {
 		if (cond != null) {
 			preConditions.add(cond);
 		}
+<<<<<<< HEAD
 	}
 	
 	@Deprecated
@@ -304,6 +218,16 @@ public class KeYFileContent {
 	public void addUnmodifiableVars(List<String> unmodifiedVariables) {
 		for (String var : unmodifiedVariables) {
 			this.unmodifiableVars.add(var);
+=======
+		for (Field field : vars.getFields()) {
+			if (!nameOfLocalVars.contains(field.getName()) && !field.isIsStatic()) {
+				Pattern pattern = Pattern.compile(REGEX_BEFORE_VARIABLE_KEYWORD + field.getName() + REGEX_AFTER_VARIABLE_KEYWORD);
+				statement = statement.replaceAll(pattern.pattern(), "self." + field.getName());
+				pre = pre.replaceAll(pattern.pattern(), "self." + field.getName());
+				post = post.replaceAll(pattern.pattern(), "self." + field.getName());
+				globalConditions = globalConditions.replaceAll(pattern.pattern(), "self." + field.getName());
+			}
+>>>>>>> 8708476f (Fixed bug in old and result resolution)
 		}
 	}
 	
@@ -685,17 +609,8 @@ public class KeYFileContent {
 		return oldKeywords;
 	}
 	
-<<<<<<< HEAD
 	private Map<String, OldReplacement> addOldVariables(String self, Set<String> oldKeywords) {
 		Map<String, OldReplacement> newReplacements = new HashMap<>();
-=======
-	/*
-	 * TODO Masterarbeit Hayreddin
-	 * Handle old keyword here.
-	 */
-	public void addOldVariables(CbCFormula formula, JavaVariables vars) {
-		Map<String, String> newReplacements = new HashMap<>();
->>>>>>> 8200c9de (added old)
 		// Add new old variables to variable List
 		int counterForVarNaming = 0;
 		
@@ -719,11 +634,7 @@ public class KeYFileContent {
 				functionName = functionName.substring(0, functionName.indexOf("("));
 				boolean found = false;
 				String signatureOfFunction = "";
-<<<<<<< HEAD
 				for (String sig : this.returnTypeMap.keySet()) {
-=======
-				for (String sig : getReturnTypeMap().keySet()) {
->>>>>>> 8200c9de (added old)
 					if (sig.equals(functionName)) {
 						found = true;
 						signatureOfFunction = sig;
@@ -739,11 +650,7 @@ public class KeYFileContent {
 				}
 				// If found, get return type of method
 				if (found) {
-<<<<<<< HEAD
 					String returnTypeOfFunction = returnTypeMap.get(signatureOfFunction);
-=======
-					String returnTypeOfFunction = getReturnTypeMap().get(signatureOfFunction);
->>>>>>> 8200c9de (added old)
 					var = returnTypeOfFunction + " " + functionName;
 				} else {
 					Console.println("Did not find function " + functionName + " in Diagrams.");
@@ -762,7 +669,6 @@ public class KeYFileContent {
 							.equals(splittedReplacementVar[0].replaceAll("\\[.*\\]", "")))
 						isFirstAccessedVarInCurrentClass = true;
 				}
-<<<<<<< HEAD
 				for (Field f : programVariables.getFields()) {
 					if (f.getName().equals(splittedReplacementVar[0].replaceAll("\\[.*\\]", "")))
 						isFirstAccessedVarInCurrentClass = true;
@@ -771,14 +677,6 @@ public class KeYFileContent {
 						|| isFirstAccessedVarInCurrentClass) {
 					// TODO: solve differently
 					currentClassName = self.replace(" self", "");
-=======
-				for (Field f : vars.getFields()) {
-					if (f.getName().equals(splittedReplacementVar[0].replaceAll("\\[.*\\]", "")))
-						isFirstAccessedVarInCurrentClass = true;
-				}
-				if (currentClassName.startsWith("self") || currentClassName.startsWith("this") || isFirstAccessedVarInCurrentClass) {
-					currentClassName = formula.getClassName();
->>>>>>> 8200c9de (added old)
 				}
 				if (isFirstAccessedVarInCurrentClass)
 					startIndex = 0;
@@ -793,14 +691,9 @@ public class KeYFileContent {
 					accessArray = currentVarName.contains("[");
 					// Replace brackets
 					currentVarName = currentVarName.replaceAll("\\[.*\\]", "");
-<<<<<<< HEAD
 					
 					if (methodClassVarMap.keySet().contains(currentClassName)) {
 						for (Field methodVar : methodClassVarMap.get(currentClassName)) {
-=======
-					if (getMethodClassVarMap().keySet().contains(currentClassName)) {
-						for (Field methodVar : getMethodClassVarMap().get(currentClassName)) {
->>>>>>> 8200c9de (added old)
 							String methodVarType = methodVar.getType();
 							String methodVarName = methodVar.getName();
 							if (methodVarType.contains("[]") && methodVarName.equals(currentVarName)
@@ -813,7 +706,7 @@ public class KeYFileContent {
 								currentVarName = methodVarName;
 								found = true;
 							}
-							if (getMethodClassVarMap().containsKey(methodVarType)) {
+							if (methodClassVarMap.containsKey(methodVarType)) {
 								currentClassName = methodVarType;
 							}
 						}
@@ -824,17 +717,11 @@ public class KeYFileContent {
 				}
 				// Last variable name should be the the wanted variable!
 				if (currentVarName.equals(lastVarUsedInOldContext) && nestedVariable != null) {
-<<<<<<< HEAD
 					var = nestedVariable.getType() + " "
 							+ nestedVariable.getName().replace("static", "").replace("non-null", "");
 					if (accessArray) {
 						var = nestedVariable.getType() + " " + nestedVariable.getName().replace("static", "")
 								.replace("non-null", "").replaceAll("\\[.*\\]", "");
-=======
-					var = nestedVariable.getType() + " " + nestedVariable.getName().replace("static", "").replace("non-null", "");
-					if (accessArray) {
-						var = nestedVariable.getType() + " "+ nestedVariable.getName().replace("static", "").replace("non-null", "").replaceAll("\\[.*\\]", "");
->>>>>>> 8200c9de (added old)
 					}
 				}
 				if (currentVarName.equals("length") && penultimateIsArray) {
@@ -858,21 +745,8 @@ public class KeYFileContent {
 		return newReplacements;
 	}
 	
-<<<<<<< HEAD
 	private String replaceOldKeyword(String condition, Map<String, OldReplacement> replacements) {
 		for (String key : replacements.keySet()) {
-=======
-	public void handleOld(CbCFormula formula, JavaVariables vars) {
-		extractOldKeywordVariables();
-		addOldVariables(formula, vars);
-		pre = replaceOldKeyword(pre);
-		post= replaceOldKeyword(post);
-		globalConditions = replaceOldKeyword(globalConditions);
-	}
-	
-	public String replaceOldKeyword(String condition) {
-		for(String key : replacements.keySet()) {
->>>>>>> 8200c9de (added old)
 			String varNameOnly = key.substring(key.lastIndexOf(".") + 1);
 			varNameOnly = varNameOnly.replaceAll("\\[.*\\]", "");
 			if (varNameOnly.contains("("))
@@ -888,6 +762,47 @@ public class KeYFileContent {
 		return condition;
 	}
 <<<<<<< HEAD
+=======
+	
+	public void handleReturn(AbstractStatement retStatement, JavaVariable returnVariable, CbCFormula formula) {
+		if(retStatement.getClass().equals(ReturnStatementImpl.class)) {
+			if (returnVariable != null) {
+				statement = returnVariable.getName().replace("static", "").replace(" non-null", "").split(" ")[1] + " = " + retStatement.getName();
+			    post = post.replaceAll(REGEX_RESULT_KEYWORD.pattern(), returnVariable.getName().substring(returnVariable.getName().indexOf(" ")));
+			} else {
+				// Get Return Type of Variable
+				String methodName = formula.getMethodName();
+				String returnTypeOfMethod = getReturnTypeMap().get(methodName);
+				if (returnTypeOfMethod == null) {
+					Console.println("No diagram was found that implements method '" + methodName + "'!");
+				} else {
+					String returnVariableDeclaration = returnTypeOfMethod + " result_" + methodName;
+					programVariables += returnVariableDeclaration + "; ";
+					statement = "result_" + methodName + " = " + retStatement.getName().replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+//					post += "& " + returnVariableType + "::exactInstance(result_" + methodName + ") = TRUE";
+					// Replace result keyword in post.
+					post = post.replaceAll(REGEX_RESULT_KEYWORD.pattern(), "result_" + methodName);
+				}
+			}
+		}
+	}
+	
+	private void initReturnTypeMap() {
+		returnTypeMap = new HashMap<>();
+		IProject project = FileUtil.getProjectFromProjectPath(location);
+		Collection<Resource> resources = FileUtil.getCbCClasses(project);
+		for (Resource resource : resources) {
+			for (EObject object : resource.getContents()) {
+				if (object instanceof ModelClass) {
+					ModelClass modelClass = (ModelClass) object;
+					for (Method method : modelClass.getMethods()) {
+						returnTypeMap.put(method.getName(), method.getReturnType());
+					}
+				}
+			}
+		}
+	}
+>>>>>>> 8708476f (Fixed bug in old and result resolution)
 
 	private Map<String, List<Field>> initMethodClassVarMap() {
 		Map<String, List<Field>> methodClassVarMap = new HashMap<>();
@@ -901,27 +816,6 @@ public class KeYFileContent {
 						methodClassVarMap.put(modelClass.getName(), new ArrayList<>());
 					}
 					methodClassVarMap.get(modelClass.getName()).addAll(modelClass.getFields());
-=======
-	
-	public void handleReturn(AbstractStatement retStatement, JavaVariable returnVariable, CbCFormula formula) {
-		if(retStatement.getClass().equals(ReturnStatementImpl.class)) {
-			if (returnVariable != null) {
-				statement = returnVariable.getName().replace("static", "").replace(" non-null", "").split(" ")[1] + " = " + retStatement.getName();
-			    post = post.replaceAll(REGEX_RESULT_KEYWORD.pattern(), returnVariable.getName().substring(returnVariable.getName().indexOf(" ")));
-			} else {
-				// Get Return Type of Variable
-				String methodName = formula.getMethodName().substring(0, formula.getMethodName().indexOf("("));
-				String returnTypeOfMethod = getReturnTypeMap().get(methodName);
-				if (returnTypeOfMethod == null) {
-					Console.println("No diagram was found that implements method '" + methodName + "'!");
-				} else {
-					String returnVariableDeclaration = returnTypeOfMethod + " result_" + methodName;
-					programVariables += returnVariableDeclaration + "; ";
-					statement = "result_" + methodName + " = " + retStatement.getName().replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
-//					post += "& " + returnVariableType + "::exactInstance(result_" + methodName + ") = TRUE";
-					// Replace result keyword in post.
-					post = post.replaceAll(REGEX_RESULT_KEYWORD.pattern(), "result_" + methodName);
->>>>>>> 8200c9de (added old)
 				}
 			}
 		}
@@ -999,38 +893,5 @@ public class KeYFileContent {
 	
 	private boolean isArray(String var) {
 		return var.contains("[]");
-	}
-	
-	private void initReturnTypeMap() {
-		returnTypeMap = new HashMap<>();
-		IProject project = FileUtil.getProjectFromProjectPath(location);
-		Collection<Resource> resources = FileUtil.getCbCClasses(project);
-		for (Resource resource : resources) {
-			for (EObject object : resource.getContents()) {
-				if (object instanceof ModelClass) {
-					ModelClass modelClass = (ModelClass) object;
-					for (Method method : modelClass.getMethods()) {
-						returnTypeMap.put(method.getName(), method.getReturnType());
-					}
-				}
-			}
-		}
-	}
-
-	private void initMethodClassVarMap() {
-		methodClassVarMap = new HashMap<>();
-		IProject project = FileUtil.getProjectFromProjectPath(location);
-		Collection<Resource> resources = FileUtil.getCbCClasses(project);
-		for (Resource resource : resources) {
-			for (EObject object : resource.getContents()) {
-				if (object instanceof ModelClass) {
-					ModelClass modelClass = (ModelClass) object;
-					if (!methodClassVarMap.containsKey(modelClass.getName())) {
-						methodClassVarMap.put(modelClass.getName(), new ArrayList<>());
-					}
-					methodClassVarMap.get(modelClass.getName()).addAll(modelClass.getFields());
-				}
-			}
-		}
 	}
 }
