@@ -63,14 +63,14 @@ public class ProveWithKey {
 	}
 	
 	public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, int numberfile) {
-			File location = createProveStatementWithKey(null, 0, true, "", "", inlining);
+			File location = createProveStatementWithKey(null, 0, true, "", "", returnStatement);
 			Console.println("  Verify Pre -> {Statement} Post");
 			return proveWithKey(location, inlining);
 	}
 
 	public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, String variants, int numberfile, String callingMethod, String varM) {
 		if (variants == null || variants.length() == 0) {
-			File location = createProveStatementWithKey(null, 0, true, callingMethod, varM, inlining);
+			File location = createProveStatementWithKey(null, 0, true, callingMethod, varM, returnStatement);
 			Console.println("  Verify Pre -> {Statement} Post");
 			return proveWithKey(location, inlining);
 		} else {
@@ -153,7 +153,7 @@ public class ProveWithKey {
 	}
 	
 	public void replaceOriginalInStatement(List<String> refinements, String callingMethod, KeYFileContent content, String varM) {
-		if (refinements != null && refinements.size() > 0 && content.statement.contains("original(")|| (content.statement.contains("(") && !content.statement.contains("\\."))) { //TODO check guard
+		if (refinements != null && refinements.size() > 0 && (content.statement.contains("original(")|| (content.statement.contains("(") && !content.statement.contains("\\.")))) { //TODO check guard
 			String[] splittedRefinement = refinements.get(0).split("\\.");
 			if (Character.isLowerCase(splittedRefinement[0].charAt(0))) {
 				content.statement = content.statement.replaceFirst("original", splittedRefinement[0] + ".generated_" + splittedRefinement[1]);

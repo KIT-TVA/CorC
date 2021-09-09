@@ -211,7 +211,7 @@ public class KeYFileContent {
 			nameOfLocalVars.add(NameOfVar[NameOfVar.length-1]);
 		}
 		for (Field field : vars.getFields()) {
-			if (!nameOfLocalVars.contains(field.getName())) {
+			if (!nameOfLocalVars.contains(field.getName()) && !field.isIsStatic()) {
 				Pattern pattern = Pattern.compile(REGEX_BEFORE_VARIABLE_KEYWORD + field.getName() + REGEX_AFTER_VARIABLE_KEYWORD);
 				statement = statement.replaceAll(pattern.pattern(), "self." + field.getName());
 				pre = pre.replaceAll(pattern.pattern(), "self." + field.getName());
@@ -510,7 +510,7 @@ public class KeYFileContent {
 			    post = post.replaceAll(REGEX_RESULT_KEYWORD.pattern(), returnVariable.getName().substring(returnVariable.getName().indexOf(" ")));
 			} else {
 				// Get Return Type of Variable
-				String methodName = formula.getMethodName().substring(0, formula.getMethodName().indexOf("("));
+				String methodName = formula.getMethodName();
 				String returnTypeOfMethod = getReturnTypeMap().get(methodName);
 				if (returnTypeOfMethod == null) {
 					Console.println("No diagram was found that implements method '" + methodName + "'!");
