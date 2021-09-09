@@ -7,6 +7,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
@@ -68,6 +69,7 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 					JavaVariables vars = null;
 					GlobalConditions conds = null;
 					Renaming renaming = null;
+					CbCFormula formula = null;
 					for (Shape shape : getDiagram().getChildren()) {
 						Object obj = getBusinessObjectForPictogramElement(shape);
 						if (obj instanceof JavaVariables) {
@@ -76,12 +78,14 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 							conds = (GlobalConditions) obj;
 						} else if (obj instanceof Renaming) {
 							renaming = (Renaming) obj;
+						} else if (obj instanceof CbCFormula) {
+							formula = (CbCFormula) obj;
 						}
 					}
 					boolean proven1 = false;
 					boolean proven2 = false;
 					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, null, new FileUtil(uriString));
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString));
 					proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition());
 					proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition());
 					

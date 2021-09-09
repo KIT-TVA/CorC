@@ -70,29 +70,26 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     @Override
     public void execute(ICustomContext context, IProgressMonitor monitor) {
     	JavaVariables vars = null;
+		GlobalConditions conds = null;
 		Renaming renaming = null;
 		CbCFormula formula = null;
-		GlobalConditions conds = null;
-		MethodClass javaClass = null;
-
+		
 		for (Shape shape : getDiagram().getChildren()) {
 			Object obj = getBusinessObjectForPictogramElement(shape);
 			if (obj instanceof JavaVariables) {
 				vars = (JavaVariables) obj;
+			} else if (obj instanceof GlobalConditions) {
+				conds = (GlobalConditions) obj;
 			} else if (obj instanceof Renaming) {
 				renaming = (Renaming) obj;
 			} else if (obj instanceof CbCFormula) {
 				formula = (CbCFormula) obj;
-			} else if (obj instanceof GlobalConditions) {
-				conds = (GlobalConditions) obj;
-			} else if(obj instanceof MethodClass) {
-				javaClass = (MethodClass) obj;
 			}
 		}
 		AbstractStatement statement = formula.getStatement();
 		boolean prove = false;
 		String uriString = getDiagram().eResource().getURI().toPlatformString(true);
-		prove = proveChildStatement(statement.getRefinement(), vars, conds, renaming, javaClass, uriString, null);	
+		prove = proveChildStatement(statement.getRefinement(), vars, conds, renaming, formula, uriString, null);	
 		if (prove) {
 			statement.setProven(true);
 		} else {
@@ -103,23 +100,23 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     
     
     private static boolean proveChildStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
-    		MethodClass javaClass, String uri, IProgressMonitor monitor) {
+    		CbCFormula formula, String uri, IProgressMonitor monitor) {
 		boolean prove = false;
 		 if (statement instanceof SmallRepetitionStatement) {
-			prove = proveSmallReptitionStatement(statement, vars, conds, renaming, javaClass, uri, monitor);
+			prove = proveSmallReptitionStatement(statement, vars, conds, renaming, formula, uri, monitor);
 		} else if (statement instanceof CompositionStatement) {
-			prove = proveCompositionStatement(statement, vars, conds, renaming, javaClass, uri, monitor);
+			prove = proveCompositionStatement(statement, vars, conds, renaming, formula, uri, monitor);
 		} else if (statement instanceof SelectionStatement) {
-			prove = proveSelectionStatement(statement, vars, conds, renaming, javaClass, uri, monitor);
+			prove = proveSelectionStatement(statement, vars, conds, renaming, formula, uri, monitor);
 		} else if(statement instanceof ReturnStatement) {
 			Console.println("+++++++++++++++++++++++++++++++++Return Statement++++++++++++++++++++++++++++++++++");
-			prove = proveAbstractStatement(statement, vars, conds, true, renaming, javaClass, uri, monitor);
+			prove = proveAbstractStatement(statement, vars, conds, true, renaming, formula, uri, monitor);
 		} else if(statement.getComment() != null) {
 			Console.println("+++++++++++++++++++++++++++++++++Return Statement++++++++++++++++++++++++++++++++++");
 			if(statement.getComment().equals("returnStatement"))
-				prove = proveAbstractStatement(statement, vars, conds, true, renaming, javaClass, uri, monitor);
+				prove = proveAbstractStatement(statement, vars, conds, true, renaming, formula, uri, monitor);
 		} else if (statement instanceof AbstractStatement) {
-			prove = proveAbstractStatement(statement, vars, conds, false, renaming, javaClass, uri, monitor);
+			prove = proveAbstractStatement(statement, vars, conds, false, renaming, formula, uri, monitor);
 		}
 		return prove;
 	}
@@ -155,18 +152,18 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 //	return null;
     
     private static boolean proveCompositionStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, 
-    		MethodClass javaClass, String uri, IProgressMonitor monitor) {
+    		CbCFormula formula, String uri, IProgressMonitor monitor) {
     	boolean prove1, prove2 = false;
     	CompositionStatement compositionStatement = (CompositionStatement) statement;
     	if (compositionStatement.getFirstStatement().getRefinement() != null) {
-    		prove1 = proveChildStatement(compositionStatement.getFirstStatement().getRefinement(), vars, conds, renaming, javaClass, uri, monitor);
+    		prove1 = proveChildStatement(compositionStatement.getFirstStatement().getRefinement(), vars, conds, renaming, formula, uri, monitor);
     	} else {
-    		prove1 = proveChildStatement(compositionStatement.getFirstStatement(), vars, conds, renaming, javaClass, uri, monitor);
+    		prove1 = proveChildStatement(compositionStatement.getFirstStatement(), vars, conds, renaming, formula, uri, monitor);
     	}
     	if (compositionStatement.getSecondStatement().getRefinement() != null) {
-    		prove2 = proveChildStatement(compositionStatement.getSecondStatement().getRefinement(), vars, conds, renaming, javaClass, uri, monitor);
+    		prove2 = proveChildStatement(compositionStatement.getSecondStatement().getRefinement(), vars, conds, renaming, formula, uri, monitor);
     	} else {
-    		prove2 = proveChildStatement(compositionStatement.getSecondStatement(), vars, conds, renaming, javaClass, uri, monitor);
+    		prove2 = proveChildStatement(compositionStatement.getSecondStatement(), vars, conds, renaming, formula, uri, monitor);
     	}
     	if (prove1 && prove2 && true)  {
     		statement.setProven(true);
@@ -176,12 +173,12 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		return (prove1 && prove2 && true);
     }
 	private static boolean proveAbstractStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, boolean returnStatement,
-			Renaming renaming, MethodClass javaClass, String uri, IProgressMonitor monitor) {
+			Renaming renaming, CbCFormula formula, String uri, IProgressMonitor monitor) {
 		if (!statement.isProven()) {
 			boolean proven = false;
 			String variants = null;
 			//TODO für SPLs anpassen
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, null, new FileUtil(uri));
+			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri));
 			proven = prove.proveStatementWithKey(returnStatement, false, 0);
 			if (proven) {
 				statement.setProven(true);
@@ -196,18 +193,18 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     }
     
     private static boolean proveSelectionStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, 
-    		MethodClass javaClass, String uri, IProgressMonitor monitor) {
+    		CbCFormula formula, String uri, IProgressMonitor monitor) {
     	boolean proven = true;
     	SelectionStatement selectionStatement = (SelectionStatement) statement;
 		for (AbstractStatement childStatement : selectionStatement.getCommands()) {
-			proven = (proveChildStatement(childStatement.getRefinement(), vars, conds, renaming, javaClass, uri, monitor) && proven && true);
+			proven = (proveChildStatement(childStatement.getRefinement(), vars, conds, renaming, formula, uri, monitor) && proven && true);
 		}
 		boolean provePre = selectionStatement.isPreProve();
 		if (!(selectionStatement.isProven() && provePre && true)) {
 			if (!selectionStatement.isPreProve()) {
 				EList<Condition> guards = selectionStatement.getGuards();
 				Condition preCondition = selectionStatement.getParent().getPreCondition();
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, null, new FileUtil(uri));
+				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri));
 				provePre = prove.provePreSelWithKey(guards, preCondition);
 				selectionStatement.setPreProve(provePre);
 			}
@@ -224,11 +221,11 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     }
 	
 	private static boolean proveSmallReptitionStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, 
-			MethodClass javaClass, String uri, IProgressMonitor monitor) {
+			CbCFormula formula, String uri, IProgressMonitor monitor) {
 		SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;
 		boolean proven = true;
 		if (repStatement.getLoopStatement().getRefinement() != null) {
-			proven = (proveChildStatement(repStatement.getLoopStatement().getRefinement(), vars, conds, renaming, javaClass, uri, null) && proven && true);
+			proven = (proveChildStatement(repStatement.getLoopStatement().getRefinement(), vars, conds, renaming, formula, uri, null) && proven && true);
 		}
 		boolean provePre = repStatement.isPreProven();
 		boolean provePost = repStatement.isPostProven();
@@ -240,7 +237,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			Condition postCondition = repStatement.getParent().getPostCondition();
 			String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, true);
 			Variant variant = repStatement.getVariant();
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, null, new FileUtil(uri));
+			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri));
 			if (!provePre) {
 				provePre = prove.proveCImpliesCWithKey(preCondition, invariant);
 				repStatement.setPreProven(provePre);

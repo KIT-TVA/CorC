@@ -147,10 +147,9 @@ public class KeYFileContent {
 
 		if (field) varName = "self." + varName;
 		// Additionally add instance checks for nullable data types.
-		if (!varDataType.matches("(void|byte|short|int|double|char|long|float|double)([\\[\\]]*)")) {
+		if (!varDataType.matches("(void|byte|short|int|double|char|long|float|boolean)([\\[\\]]*)")) {
 			conditionObjectsCreated += " & " + varDataType + "::exactInstance(" + varName + ") = TRUE";
-			if (!varDataType.matches("(void|byte|short|int|double|char|long|float|boolean)([\\[\\]]*)"))
-				conditionObjectsCreated += " & " + varName + ".<created> = TRUE";
+			conditionObjectsCreated += " & " + varName + ".<created> = TRUE";
 			conditionObjectsCreated += " & " + varName + " != null";
 		}
 	}
@@ -230,7 +229,7 @@ public class KeYFileContent {
 			}
 			className += formula.getClassName();
 			self = className + " self;";
-			selfConditions = " & self.<created>=TRUE & " + formula.getMethodObj().getParentClass().getPackage() + "." +formula.getClassName() + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
+			selfConditions = " & self.<created>=TRUE & " + className + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
 		}
 	}
 	

@@ -7,6 +7,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
@@ -71,7 +72,7 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 				JavaVariables vars = null;
 				GlobalConditions conds = null;
 				Renaming renaming = null;
-				MethodClass javaClass = null;
+				CbCFormula formula = null;
 				for (Shape shape : getDiagram().getChildren()) {
 					Object obj = getBusinessObjectForPictogramElement(shape);
 					if (obj instanceof JavaVariables) {
@@ -80,8 +81,8 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 						conds = (GlobalConditions) obj;
 					} else if (obj instanceof Renaming) {
 						renaming = (Renaming) obj;
-					} else if (obj instanceof MethodClass) {
-						javaClass = (MethodClass) obj;
+					} else if (obj instanceof CbCFormula) {
+						formula = (CbCFormula) obj;
 					}
 				}
 				boolean proven = false;
@@ -98,7 +99,7 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 				}
 //				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(code)) {
 					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, null, new FileUtil(uriString));					
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString));					
 					proven = prove.proveVariantWithKey(code, invariant, guard, variant);
 //				} else {
 //					Console.println("Statement is not in correct format.");
