@@ -7,6 +7,7 @@ import java.util.Arrays;
 import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -45,13 +46,21 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl;
+import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodSignatureImpl;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.cbc.util.Console;
 
 public class BasicsSection extends GFPropertySection implements ITabbedPropertyConstants {
 	
@@ -60,13 +69,11 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 
 	// Defining the UI properties
 	private Label classLabel;
-	private StyledText classLabelText;
+	private Label classLabelText;
 	private boolean classLabelTextChanged = false;
 
 	private Label invariantLabel;
-	private StyledText invariantLabelText;
 	private List invariantList;
-	private boolean invariantLabelChanged = false;
 	
 	private Label methodSignatureLabel;
 	private StyledText methodSignatureLabelText;
@@ -96,21 +103,21 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 		classLabel.setText("Class: ");
 		
 		// classLabelText
-		classLabelText = new StyledText(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
-		GridData classLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		classLabelText.setLayoutData(classLabelTextGridData);
+		classLabelText = new Label(composite, SWT.PUSH);
+//		GridData classLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+//		classLabelText.setLayoutData(classLabelTextGridData);
 		classLabelText.setBackground(white);
 		
-		classLabelText.addModifyListener(new ModifyListener() {
-			
-			
-
-			@Override
-			public void modifyText(ModifyEvent e) {
-				classLabelTextChanged = true;
-				saveButton.setEnabled(true);
-			}
-		});
+//		classLabelText.addModifyListener(new ModifyListener() {
+//			
+//			
+//
+//			@Override
+//			public void modifyText(ModifyEvent e) {
+//				classLabelTextChanged = true;
+//				saveButton.setEnabled(true);
+//			}
+//		});
 		
 		// methodSignatureLabel
 		methodSignatureLabel = new Label(composite, SWT.PUSH);
@@ -193,12 +200,8 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 							changeMethodSignature(text);
 							methodSignatureLabelChanged = false;
 						}
-						if(invariantLabelChanged) {
-							String text = invariantLabelText.getText();
-							changeInvariant(text);
-							invariantLabelChanged = false;
-						}
 						saveButton.setEnabled(false);
+						refresh();
 					}
 
 
@@ -218,27 +221,29 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 		if(bo instanceof CbCFormulaImpl) {
 			updateData(bo);			
 		}
+		//TODO: automatic save
 	}
 	
 	private void changeClass() {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	public void changeInvariant(String newInvariant) {
-		if(bo instanceof CbCFormulaImpl) {
-			//text in Liste von Invarianten
-			
-			//Liste neu befüllen
-			
-			((CbCFormulaImpl) bo).getMethodObj().getParentClass().getClassInvariants();
-			getDiagramTypeProvider().getDiagramBehavior().refresh();
-		}
-	}
+
 	
 	public void changeMethodSignature(String newMethodSignature) {
-//			((MethodSignatureImpl) bo).setMethodSignature(((MethodSignatureImpl) bo).getMethodSignature().replace(((MethodSignatureImpl) bo).getMethodSignature(), newMethodSignature));
-			((CbCFormulaImpl) bo).getMethodObj().setSignature(newMethodSignature);
+			Method methodobj = null;
+			if(bo instanceof CbCFormula) {
+				methodobj = ((CbCFormula) bo).getMethodObj();
+			}else if(bo instanceof AbstractStatement) {
+				CbCFormula formula = getFormula((AbstractStatement)bo);
+				methodobj = formula.getMethodObj();
+			}else {
+				Console.println("click on formula");
+			}
+			
+			if(methodobj != null) {
+			 methodobj.setSignature(newMethodSignature);
+			}
 			getDiagramTypeProvider().getDiagramBehavior().refresh();
 	}
 
@@ -260,6 +265,19 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 				}
 			}
 		});
+	}
+	
+	public CbCFormula getFormula(AbstractStatement statement) {
+		if (statement.getParent() != null) {
+			return getFormula(statement.getParent());
+		}
+		EObject parent = statement.eContainer();
+		if (parent != null && parent instanceof AbstractStatement) {
+			return getFormula((AbstractStatement) parent);
+		} else if (parent != null && parent instanceof CbCFormula) {
+			return (CbCFormula) parent;
+		}
+		return null;
 	}
 
 }

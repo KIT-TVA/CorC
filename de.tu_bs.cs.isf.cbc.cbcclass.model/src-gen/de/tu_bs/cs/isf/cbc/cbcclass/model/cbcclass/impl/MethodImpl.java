@@ -551,46 +551,60 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	public String getSignature() {
 		String staticString = isStatic ? "static " : "";
 		String params = "";
-		if (parameters.size() > 0) {
+		if (parameters != null && parameters.size() > 0) {
 			for (Parameter param : parameters) {
 				params += param.getType() + " " + param.getName() + ",";
 			}
 			params = params.substring(0, params.length() - 1);
 		}
-		return visibility + " " + staticString + returnType + " " + name + " (" + params + ")";
+		return visibility.getLiteral().toLowerCase() + " " + staticString + returnType + " " + name + "(" + params + ")";
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
 	@Override
 	public void setSignature(String newSignature) {
-		String params = newSignature.substring(newSignature.indexOf("("), newSignature.length()-1);
-		String[] signatureSplitted = newSignature.substring(0, newSignature.indexOf("(")).split(" ");
+		if(newSignature.contains("private ")) {
+			 setVisibility(Visibility.PRIVATE);
+		 }else if(newSignature.contains("protected ")){
+			 setVisibility(Visibility.PROTECTED);
+		 }else {
+			 setVisibility(Visibility.PUBLIC);
+		 }
+		 //remove visibility
+		newSignature = newSignature.replaceFirst(getVisibility().getLiteral().toLowerCase()+" ", "");
 		
-		for (String next : signatureSplitted) {
-			if (next.equals("static")) {
-				this.isStatic = true;
-			} else if (next.equals("public")) {
-				this.visibility = Visibility.PUBLIC;
-			} else if (next.equals("private")) {
-				this.visibility = Visibility.PRIVATE;
-			} else if (next.equals("protected")) {
-				this.visibility = Visibility.PROTECTED;
-			}
+		if(newSignature.contains("static ")){
+			setIsStatic(true);
+		}else {
+			setIsStatic(false);
 		}
 		
-		this.name = signatureSplitted[signatureSplitted.length-1];
-		
-		String[] paramsSplitted = params.split(",");
-		for (String param : paramsSplitted) {
-			String[] paramSplitted = param.split(" ");
-			Parameter parameter = CbcclassFactory.eINSTANCE.createParameter();
-			parameter.setType(paramSplitted[0]);
-			parameter.setName(paramSplitted[1]);
-			this.getParameters().add(parameter);
-		}
+		newSignature = newSignature.replaceFirst("static ", "");
+		 
+		 String returnType = newSignature.substring(0, newSignature.indexOf(" "));
+		 setReturnType(returnType);
+		 newSignature = newSignature.replaceFirst(returnType +" ", "");
+		 
+		 String methodName = newSignature.substring(0, newSignature.indexOf("("));
+		 setName(methodName);
+		 newSignature = newSignature.replaceFirst(methodName +"\\(", "");
+		 
+		 String parameters = newSignature.substring(0, newSignature.indexOf(")"));
+		 String[] paramArray = parameters.split(",");
+		 getParameters().clear();
+		 for(int i = 0; i < paramArray.length; i++) {
+			 String[] splittedParam = paramArray[i].split(" ");
+			 String type = splittedParam[0];
+			 String name = splittedParam[1];
+			 Parameter p = CbcclassFactory.eINSTANCE.createParameter();
+			 p.setType(type);
+			 p.setName(name);
+			 getParameters().add(p);
+		 }
 	}
 
 	/**

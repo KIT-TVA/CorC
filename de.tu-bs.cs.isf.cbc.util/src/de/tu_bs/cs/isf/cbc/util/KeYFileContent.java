@@ -230,7 +230,7 @@ public class KeYFileContent {
 			}
 			className += formula.getClassName();
 			self = className + " self;";
-			selfConditions = " & self.<created>=TRUE & " + formula.getClassName() + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
+			selfConditions = " & self.<created>=TRUE & " + formula.getMethodObj().getParentClass().getPackage() + "." +formula.getClassName() + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
 		}
 	}
 	

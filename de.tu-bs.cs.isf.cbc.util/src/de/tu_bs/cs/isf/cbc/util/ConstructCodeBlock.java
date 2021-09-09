@@ -135,10 +135,10 @@ public class ConstructCodeBlock {
         	line = br.readLine();
         }
         
-        if(vars.length() > 2) {
-        	newCode.append(vars);
-        	newCode.append("\n");
-        }
+//        if(vars.length() > 2) {
+//        	newCode.append(vars);
+//        	newCode.append("\n");
+//        }
 		
         while(line != null) {
         	jmlCode = getJmlAnnotations(jmlCode, br);
@@ -235,7 +235,7 @@ public class ConstructCodeBlock {
 		code.append("\t/*@\n" + "\t@ normal_behavior\n" //+ "@ requires "
 				+ pre.replaceAll(System.getProperty("line.separator"), "")// + ";\n" //+ "@ ensures "
 				+ post.replaceAll(System.getProperty("line.separator"), "")/* + ";\n"*/ + "\t@ assignable "
-				+ modifiableVariables + ";\n" + "\t@*/\n" + "\tpublic /*@helper@*/ "+ signatureString 
+				+ modifiableVariables + ";\n" + "\t@*/\n\t" + /*"public /*@helper@* / "+*/ signatureString 
 				+ " {\n");
 
 		positionIndex = 2;//2
@@ -639,6 +639,13 @@ public class ConstructCodeBlock {
 			buffer.append(constructCodeBlockOfChildStatement(statement.getFirstStatement()));
 		}
 
+		for (int i = 0; i < positionIndex; i++) {
+			buffer.append("\t");
+		}
+		if(statement.getIntermediateCondition().getName() != "") {
+			buffer.append("assert " + statement.getIntermediateCondition().getName() + ";\n");
+		}
+		
 		for (int i = 0; i < positionIndex; i++) {
 			buffer.append("\t");
 		}
