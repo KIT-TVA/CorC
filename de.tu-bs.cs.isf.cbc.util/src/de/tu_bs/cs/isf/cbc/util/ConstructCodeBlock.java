@@ -36,6 +36,7 @@ public class ConstructCodeBlock {
 	private static String line;
 	private static BufferedReader br;
 	private static JavaVariable returnVariable = null;
+	private static boolean withAsserts = true;
 	
 	private static final Pattern REGEX_PRIMITIVE_INTEGERS = Pattern.compile("(byte|char|short|int|long)");
 	private static final Pattern REGEX_PRIMITIVE_FLOAT = Pattern.compile("(float|double)");
@@ -43,6 +44,7 @@ public class ConstructCodeBlock {
 	public static String constructCodeBlockAndVerify(AbstractStatement statement, boolean innerLoops) {
 		handleInnerLoops = innerLoops;
 		withInvariants = false;
+		withAsserts = false;
 		StringBuffer code = new StringBuffer();
 
 		if (statement instanceof SmallRepetitionStatement) {
@@ -642,7 +644,7 @@ public class ConstructCodeBlock {
 		for (int i = 0; i < positionIndex; i++) {
 			buffer.append("\t");
 		}
-		if(statement.getIntermediateCondition().getName() != "") {
+		if(statement.getIntermediateCondition().getName() != "" && withAsserts) {
 			buffer.append("assert " + statement.getIntermediateCondition().getName() + ";\n");
 		}
 		

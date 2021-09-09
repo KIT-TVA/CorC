@@ -157,6 +157,24 @@ public class KeYFileContent {
 		}
 		return returnVariable;
 	}
+<<<<<<< HEAD
+=======
+
+	private void addNonNullProperties(String varDataType, String varName, boolean field) {
+
+		if (field) varName = "self." + varName;
+		// Additionally add instance checks for nullable data types.
+		if (!varDataType.matches("(void|byte|short|int|double|char|long|float|boolean)([\\[\\]]*)")) {
+			conditionObjectsCreated += " & " + varDataType + "::exactInstance(" + varName + ") = TRUE";
+			conditionObjectsCreated += " & " + varName + ".<created> = TRUE";
+			conditionObjectsCreated += " & " + varName + " != null";
+		}
+	}
+	
+	public void addVariable(String var) {
+		programVariables += var + "; ";				
+	}
+>>>>>>> addbc2bd (fixed start of verification)
 	
 	public void readGlobalConditions(GlobalConditions conds) {
 		if (conds != null) {
@@ -232,8 +250,8 @@ public class KeYFileContent {
 			self = className + " self";
 =======
 			self = className + " self;";
-			selfConditions = " & self.<created>=TRUE & " + formula.getMethodObj().getParentClass().getPackage() + "." +formula.getClassName() + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
->>>>>>> b52a2ee2 (Bug fixes MethodImpl)
+			selfConditions = " & self.<created>=TRUE & " + className + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
+>>>>>>> addbc2bd (fixed start of verification)
 		}
 	}
 	

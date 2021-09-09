@@ -21,11 +21,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
-<<<<<<< HEAD
 import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
-=======
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
@@ -91,7 +88,7 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 				JavaVariables vars = null;
 				GlobalConditions conds = null;
 				Renaming renaming = null;
-				MethodClass javaClass = null;
+				CbCFormula formula = null;
 				for (Shape shape : getDiagram().getChildren()) {
 					Object obj = getBusinessObjectForPictogramElement(shape);
 					if (obj instanceof JavaVariables) {
@@ -100,11 +97,11 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 						conds = (GlobalConditions) obj;
 					} else if (obj instanceof Renaming) {
 						renaming = (Renaming) obj;
-					} else if (obj instanceof MethodClass) {
-						javaClass = (MethodClass) obj;
+					} else if (obj instanceof CbCFormula) {
+						formula = (CbCFormula) obj;
 					}
 				}
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
+>>>>>>> addbc2bd (fixed start of verification)
 				boolean proven = false;
 				String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, true);
 				Condition invariant = null;
@@ -151,14 +148,14 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 				Console.println("--------------- Verification completed --------------- ");
 				
 =======
-				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(code)) {
-					String uriString = getDiagram().eResource().getURI().toFileString();
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, null, new FileUtil(uriString));					
+//				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(code)) {
+					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString));					
 					proven = prove.proveVariantWithKey(code, invariant, guard, variant);
-				} else {
-					Console.println("Statement is not in correct format.");
-				}
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
+//				} else {
+//					Console.println("Statement is not in correct format.");
+//				}
+>>>>>>> addbc2bd (fixed start of verification)
 				if (proven) {
 					if (statement instanceof SmallRepetitionStatement) {
 						SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;

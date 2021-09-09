@@ -79,7 +79,7 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 						conds = (GlobalConditions) obj;
 					} else if (obj instanceof Renaming) {
 						renaming = (Renaming) obj;
-					} else if (obj instanceof MethodClass) {
+					} else if (obj instanceof CbCFormula) {
 						formula = (CbCFormula) obj;
 					}
 				}
