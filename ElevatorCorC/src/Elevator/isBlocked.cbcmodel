@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="isBlocked" proven="true" className="Elevator" methodName="isBlocked">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.blocked;" proven="true" comment="returnStatement">
+        <postCondition name="((this.blocked = TRUE -> \result = TRUE)&#xD;&#xA;&amp; (this.blocked = FALSE -> \result = FALSE))"/>
+        <preCondition name=" this.blocked != null"/>
+      </refinement>
+      <postCondition name="((this.blocked = TRUE -> \result = TRUE)&#xD;&#xA;&amp; (this.blocked = FALSE -> \result = FALSE))"/>
+      <preCondition name=" this.blocked != null"/>
+    </statement>
+    <preCondition name=" this.blocked != null"/>
+    <postCondition name=" ((this.blocked = true -> result = true)&amp; (this.blocked = false -> result = false))"/>
+    <methodObj href="Elevator.cbcclass#//@methods.9"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <fields href="Elevator.cbcclass#//@fields.0"/>
+    <fields href="Elevator.cbcclass#//@fields.1"/>
+    <fields href="Elevator.cbcclass#//@fields.2"/>
+    <fields href="Elevator.cbcclass#//@fields.3"/>
+    <fields href="Elevator.cbcclass#//@fields.4"/>
+    <fields href="Elevator.cbcclass#//@fields.5"/>
+    <fields href="Elevator.cbcclass#//@fields.6"/>
+    <fields href="Elevator.cbcclass#//@fields.7"/>
+    <fields href="Elevator.cbcclass#//@fields.8"/>
+    <fields href="Elevator.cbcclass#//@fields.9"/>
+    <fields href="Elevator.cbcclass#//@fields.10"/>
+    <fields href="Elevator.cbcclass#//@fields.11"/>
+    <fields href="Elevator.cbcclass#//@fields.12"/>
+    <fields href="Elevator.cbcclass#//@fields.13"/>
+    <fields href="Elevator.cbcclass#//@fields.14"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>

@@ -34,7 +34,12 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 
+<<<<<<< HEAD
 public class KeYFileContent {	
+=======
+public class KeYFileContent {
+	
+>>>>>>> bce1ccff (added current status of examples)
 	public static final String REGEX_BEFORE_VARIABLE_KEYWORD = "(?<![a-zA-Z0-9_\\.]|self\\.)(";
 	public static final String REGEX_AFTER_VARIABLE_KEYWORD = ")(?![a-zA-Z0-9_])";
 	public static final Pattern REGEX_THIS_KEYWORD = Pattern.compile("(?<![a-zA-Z0-9_])(this)(?![a-zA-Z0-9_])");
@@ -158,23 +163,6 @@ public class KeYFileContent {
 		return returnVariable;
 	}
 <<<<<<< HEAD
-=======
-
-	private void addNonNullProperties(String varDataType, String varName, boolean field) {
-
-		if (field) varName = "self." + varName;
-		// Additionally add instance checks for nullable data types.
-		if (!varDataType.matches("(void|byte|short|int|double|char|long|float|boolean)([\\[\\]]*)")) {
-			conditionObjectsCreated += " & " + varDataType + "::exactInstance(" + varName + ") = TRUE";
-			conditionObjectsCreated += " & " + varName + ".<created> = TRUE";
-			conditionObjectsCreated += " & " + varName + " != null";
-		}
-	}
-	
-	public void addVariable(String var) {
-		programVariables += var + "; ";				
-	}
->>>>>>> addbc2bd (fixed start of verification)
 	
 	public void readGlobalConditions(GlobalConditions conds) {
 		if (conds != null) {
@@ -185,6 +173,34 @@ public class KeYFileContent {
 					cond.setName(conds.getConditions().get(i).getName());
 					cond.getModifiables().addAll(conds.getConditions().get(i).getModifiables());
 					globalConditions.add(cond);
+=======
+
+	private void addNonNullProperties(String varDataType, String varName, boolean field) {
+
+		if (field) varName = "self." + varName;
+		// Additionally add instance checks for nullable data types.
+		if (!varDataType.matches("^(void|byte|short|int|double|char|long|float|boolean)$")) {
+			conditionObjectsCreated += " & " + varDataType + "::exactInstance(" + varName + ") = TRUE";
+			conditionObjectsCreated += " & " + varName + ".<created> = TRUE";
+			conditionObjectsCreated += " & " + varName + " != null";
+		}
+	}
+	
+	public void addVariable(String var) {
+		programVariables += var + "; ";				
+	}
+	
+	public void readGlobalConditions(GlobalConditions conds) {
+		if (conds != null) {
+			for (Condition cond : conds.getConditions()) {
+				if (!cond.getName().isEmpty()) {
+					if (cond.getName().contains("non-null")) { //non-null property added here TODO: up to change
+						String[] conditionSplitted = cond.getName().split(" ");
+						addNonNullProperties(conditionSplitted[0], conditionSplitted[1], false);
+					} else {
+						globalConditions += " & " + cond.getName();
+					}
+>>>>>>> bce1ccff (added current status of examples)
 				}
 			}
 //			for (Condition cond : conds.getConditions()) {
@@ -202,6 +218,7 @@ public class KeYFileContent {
 		}
 	}
 	
+<<<<<<< HEAD
 	@Deprecated
 	public void setPreFromCondition(String cond) {
 		cond = Parser.getConditionFromCondition(cond);
@@ -209,6 +226,15 @@ public class KeYFileContent {
 		condition.setName(cond);
 		
 		setPreFromCondition(condition);
+=======
+	public void replaceThisWithSelf() {
+
+		statement = statement.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+		pre = pre.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+		post = post.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+		globalConditions = globalConditions.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+		assignment = assignment.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+>>>>>>> bce1ccff (added current status of examples)
 	}
 	
 	public void setPreFromCondition(Condition cond) {
@@ -246,12 +272,7 @@ public class KeYFileContent {
 				className += formula.getMethodObj().getParentClass().getPackage() + ".";
 			}
 			className += formula.getClassName();
-<<<<<<< HEAD
 			self = className + " self";
-=======
-			self = className + " self;";
-			selfConditions = " & self.<created>=TRUE & " + className + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
->>>>>>> addbc2bd (fixed start of verification)
 		}
 	}
 	
@@ -606,7 +627,11 @@ public class KeYFileContent {
 							if (newIndex > 0)
 								i = newIndex;
 						} else {
+<<<<<<< HEAD
 							break;
+=======
+								break;
+>>>>>>> bce1ccff (added current status of examples)
 						}
 					}
 				}
