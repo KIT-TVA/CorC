@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="constructEmail" proven="true" className="Email" methodName="constructEmail">
+    <statement name="statement">
+      <refinement name="this.id = idx;" proven="true">
+        <postCondition name=" this.id = idx"/>
+        <preCondition name=" true"/>
+      </refinement>
+      <postCondition name=" this.id = idx"/>
+      <preCondition name=" true"/>
+    </statement>
+    <preCondition name=" true"/>
+    <postCondition name=" this.id = idx"/>
+    <methodObj href="Email.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int idx" kind="PARAM"/>
+    <fields href="Email.cbcclass#//@fields.0"/>
+    <fields href="Email.cbcclass#//@fields.1"/>
+    <fields href="Email.cbcclass#//@fields.2"/>
+    <fields href="Email.cbcclass#//@fields.3"/>
+    <fields href="Email.cbcclass#//@fields.4"/>
+    <fields href="Email.cbcclass#//@fields.5"/>
+    <fields href="Email.cbcclass#//@fields.6"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>

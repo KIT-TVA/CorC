@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="leaveElevator__wrappee__Base" proven="true" className="Elevator" methodName="leaveElevator__wrappee__Base">
+    <statement name="statement" proven="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+        <firstStatement name="statement1">
+          <refinement name="result = false;&#xD;&#xA;this.old_contains = this.persons.contains(p);" proven="true">
+            <postCondition name="modifiable(result,this.old_contains); &#xD;&#xA;result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)"/>
+            <preCondition name="p != null&amp; this.persons != null&amp; this.persons.elements != null"/>
+          </refinement>
+          <postCondition name="modifiable(result,this.old_contains);&#xD;&#xA;result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)"/>
+          <preCondition name="p != null&amp; this.persons != null&amp; this.persons.elements != null"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+                <guards name="this.old_contains = TRUE"/>
+                <guards name="this.old_contains = FALSE"/>
+                <commands name="statement1">
+                  <refinement name="this.persons.remove(p);&#xD;&#xA;p.leaveElevator();&#xD;&#xA;result = true;" proven="true">
+                    <postCondition name="modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE"/>
+                    <preCondition name="modifiable(result,this.old_contains);(result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)) &amp; (this.old_contains = TRUE)"/>
+                  </refinement>
+                  <postCondition name="modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE"/>
+                  <preCondition name="modifiable(result,this.old_contains);(result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)) &amp; (this.old_contains = TRUE)"/>
+                </commands>
+                <commands name="statement">
+                  <refinement name="result = false;" proven="true">
+                    <postCondition name="modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE"/>
+                    <preCondition name="modifiable(result,this.old_contains);(result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)) &amp; (this.old_contains = FALSE)"/>
+                  </refinement>
+                  <postCondition name="modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE"/>
+                  <preCondition name="modifiable(result,this.old_contains);(result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)) &amp; (this.old_contains = FALSE)"/>
+                </commands>
+              </refinement>
+              <postCondition name="modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE"/>
+              <preCondition name="modifiable(result,this.old_contains);&#xD;&#xA;result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="result;" proven="true">
+                <postCondition name="modifiable(result,this.old_contains);&#xD;&#xA;(this.old_contains = TRUE -> (\result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE"/>
+                <preCondition name="modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE"/>
+              </refinement>
+              <postCondition name="modifiable(result,this.old_contains);&#xD;&#xA;(this.old_contains = TRUE -> (\result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE"/>
+              <preCondition name="modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE"/>
+            </secondStatement>
+            <intermediateCondition name="modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE"/>
+          </refinement>
+          <postCondition name="modifiable(result,this.old_contains);&#xD;&#xA;(this.old_contains = TRUE -> (\result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE"/>
+          <preCondition name="modifiable(result,this.old_contains);&#xD;&#xA;result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)"/>
+        </secondStatement>
+        <intermediateCondition name="modifiable(result,this.old_contains);&#xD;&#xA;result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)"/>
+      </refinement>
+      <postCondition name="modifiable(result,this.old_contains);&#xD;&#xA;(this.old_contains = TRUE -> (\result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE"/>
+      <preCondition name="p != null&amp; this.persons != null&amp; this.persons.elements != null"/>
+    </statement>
+    <preCondition name=" p != null&amp; this.persons != null&amp; this.persons.elements != null &amp; p != null &amp; p.destinationReached = false"/>
+    <postCondition name=" (this.old_contains = true -> (result = true &amp; p.isDestinationReached() = true &amp; this.persons.contains(p) = false))&amp; this.old_contains = false -> result = false"/>
+    <methodObj href="Elevator.cbcclass#//@methods.23"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="Person p" kind="PARAM"/>
+    <variables name="boolean result" kind="RETURN"/>
+    <variables name="boolean result"/>
+    <fields href="Elevator.cbcclass#//@fields.0"/>
+    <fields href="Elevator.cbcclass#//@fields.1"/>
+    <fields href="Elevator.cbcclass#//@fields.2"/>
+    <fields href="Elevator.cbcclass#//@fields.3"/>
+    <fields href="Elevator.cbcclass#//@fields.4"/>
+    <fields href="Elevator.cbcclass#//@fields.5"/>
+    <fields href="Elevator.cbcclass#//@fields.6"/>
+    <fields href="Elevator.cbcclass#//@fields.7"/>
+    <fields href="Elevator.cbcclass#//@fields.8"/>
+    <fields href="Elevator.cbcclass#//@fields.9"/>
+    <fields href="Elevator.cbcclass#//@fields.10"/>
+    <fields href="Elevator.cbcclass#//@fields.11"/>
+    <fields href="Elevator.cbcclass#//@fields.12"/>
+    <fields href="Elevator.cbcclass#//@fields.13"/>
+    <fields href="Elevator.cbcclass#//@fields.14"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="Person p non-null"/>
+    <conditions name="this.persons.elements != null"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

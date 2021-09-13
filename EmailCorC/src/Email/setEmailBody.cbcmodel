@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="setEmailBody" proven="true" className="Email" methodName="setEmailBody">
+    <statement name="statement">
+      <refinement name="this.body = valuex;" proven="true">
+        <postCondition name=" this.body = valuex"/>
+        <preCondition name=" valuex != null"/>
+      </refinement>
+      <postCondition name=" this.body = valuex"/>
+      <preCondition name=" valuex != null"/>
+    </statement>
+    <preCondition name=" valuex != null"/>
+    <postCondition name=" this.body = valuex"/>
+    <methodObj href="Email.cbcclass#//@methods.8"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="String valuex" kind="PARAM"/>
+    <fields href="Email.cbcclass#//@fields.0"/>
+    <fields href="Email.cbcclass#//@fields.1"/>
+    <fields href="Email.cbcclass#//@fields.2"/>
+    <fields href="Email.cbcclass#//@fields.3"/>
+    <fields href="Email.cbcclass#//@fields.4"/>
+    <fields href="Email.cbcclass#//@fields.5"/>
+    <fields href="Email.cbcclass#//@fields.6"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>

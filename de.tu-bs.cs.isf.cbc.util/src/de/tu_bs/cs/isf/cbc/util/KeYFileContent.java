@@ -30,7 +30,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 
 public class KeYFileContent {
 	
-	public static final String REGEX_BEFORE_VARIABLE_KEYWORD = "(?<![a-zA-Z0-9_]|self\\.)(";
+	public static final String REGEX_BEFORE_VARIABLE_KEYWORD = "(?<![a-zA-Z0-9_\\.]|self\\.)(";
 	public static final String REGEX_AFTER_VARIABLE_KEYWORD = ")(?![a-zA-Z0-9_])";
 	public static final Pattern REGEX_THIS_KEYWORD = Pattern.compile("(?<![a-zA-Z0-9_])(this)(?![a-zA-Z0-9_])");
 	public static final String OLD_VARS_SUFFIX = "_oldVal";
@@ -147,7 +147,7 @@ public class KeYFileContent {
 
 		if (field) varName = "self." + varName;
 		// Additionally add instance checks for nullable data types.
-		if (!varDataType.matches("(void|byte|short|int|double|char|long|float|boolean)([\\[\\]]*)")) {
+		if (!varDataType.matches("^(void|byte|short|int|double|char|long|float|boolean)$")) {
 			conditionObjectsCreated += " & " + varDataType + "::exactInstance(" + varName + ") = TRUE";
 			conditionObjectsCreated += " & " + varName + ".<created> = TRUE";
 			conditionObjectsCreated += " & " + varName + " != null";
@@ -162,7 +162,12 @@ public class KeYFileContent {
 		if (conds != null) {
 			for (Condition cond : conds.getConditions()) {
 				if (!cond.getName().isEmpty()) {
-					globalConditions += " & " + cond.getName();
+					if (cond.getName().contains("non-null")) { //non-null property added here TODO: up to change
+						String[] conditionSplitted = cond.getName().split(" ");
+						addNonNullProperties(conditionSplitted[0], conditionSplitted[1], false);
+					} else {
+						globalConditions += " & " + cond.getName();
+					}
 				}
 			}
 		}
@@ -201,6 +206,7 @@ public class KeYFileContent {
 		pre = pre.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
 		post = post.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
 		globalConditions = globalConditions.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+		assignment = assignment.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
 	}
 	
 	public void addSelfForFields(JavaVariables vars) {
@@ -331,7 +337,7 @@ public class KeYFileContent {
 							if (newIndex > 0)
 								i = newIndex;
 						} else {
-//								break;
+								break;
 						}
 					}
 				}
