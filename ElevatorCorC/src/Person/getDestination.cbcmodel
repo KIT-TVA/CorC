@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="getDestination" proven="true" className="Person" methodName="getDestination">
+    <statement name="statement" proven="true">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.destination;" proven="true" comment="returnStatement">
+        <postCondition name="\result = this.destination"/>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="\result = this.destination"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name=" true &amp; this.destination >= 0"/>
+    <postCondition name=" result = this.destination &amp; (result instanceof int)"/>
+    <methodObj href="Person.cbcclass#//@methods.9"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int result" kind="RETURN"/>
+    <variables name="int result"/>
+    <fields href="Person.cbcclass#//@fields.0"/>
+    <fields href="Person.cbcclass#//@fields.1"/>
+    <fields href="Person.cbcclass#//@fields.2"/>
+    <fields href="Person.cbcclass#//@fields.3"/>
+    <fields href="Person.cbcclass#//@fields.4"/>
+    <fields href="Person.cbcclass#//@fields.5"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>

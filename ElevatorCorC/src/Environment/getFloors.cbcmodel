@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="getFloors" proven="true" className="Environment" methodName="getFloors">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="&#xD;&#xA;this.floors;&#xD;&#xA;" proven="true" comment="returnStatement">
+        <postCondition name="\result = this.floors"/>
+        <preCondition name="this.floors != null"/>
+      </refinement>
+      <postCondition name="\result = this.floors"/>
+      <preCondition name="this.floors != null"/>
+    </statement>
+    <preCondition name=" this.floors != null &amp; this.floors instanceof Floor[]"/>
+    <postCondition name=" result = this.floors"/>
+    <methodObj href="Environment.cbcclass#//@methods.2"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <fields href="Environment.cbcclass#//@fields.0"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>

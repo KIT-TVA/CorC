@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="createEvilPerson" proven="true" className="Person" methodName="createEvilPerson">
+    <statement name="statement" proven="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+        <firstStatement name="statement1">
+          <refinement name="tmpFloor = envx.getFloor(originx);" proven="true">
+            <postCondition name="modifiable(envx,tmpFloor);&#xD;&#xA;tmpFloor != null&#xD;&#xA;&amp; namex != null&#xD;&#xA;&amp; destinationx >= 0&#xD;&#xA;&amp; envx != null&#xD;&#xA;&amp; weightx >= 0&#xD;&#xA;&amp; originx >= 0&#xD;&#xA;&amp; originx &lt; envx.floors.length&#xD;&#xA;&amp; tmpFloor.&lt;created> = TRUE &#xD;&#xA;&amp; tmpFloor.waiting != null&#xD;&#xA;&amp; tmpFloor.waiting.elements != null"/>
+            <preCondition name="namex != null&amp; destinationx >= 0 &amp; envx.floors != null&amp; envx != null&amp; weightx >= 0&amp; originx >= 0&amp; originx &lt; envx.floors.length &amp; envx.floors[originx] != null&amp; envx.floors[originx].waiting != null &amp; envx.floors[originx].waiting.elements != null&amp; additionalButtonsx != null &amp; namex != null &amp; additionalButtonsx != null"/>
+          </refinement>
+          <postCondition name="modifiable(envx,tmpFloor);&#xD;&#xA;tmpFloor != null&#xD;&#xA;&amp; namex != null&#xD;&#xA;&amp; destinationx >= 0&#xD;&#xA;&amp; envx != null&#xD;&#xA;&amp; weightx >= 0&#xD;&#xA;&amp; originx >= 0&#xD;&#xA;&amp; originx &lt; envx.floors.length&#xD;&#xA;&amp; tmpFloor.&lt;created> = TRUE &#xD;&#xA;&amp; tmpFloor.waiting != null&#xD;&#xA;&amp; tmpFloor.waiting.elements != null"/>
+          <preCondition name="namex != null&amp; destinationx >= 0 &amp; envx.floors != null&amp; envx != null&amp; weightx >= 0&amp; originx >= 0&amp; originx &lt; envx.floors.length &amp; envx.floors[originx] != null&amp; envx.floors[originx].waiting != null &amp; envx.floors[originx].waiting.elements != null&amp; additionalButtonsx != null &amp; namex != null &amp; additionalButtonsx != null"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement name="this.weight = weightx;&#xD;&#xA;this.origin = originx;&#xD;&#xA;this.destination = destinationx;&#xD;&#xA;this.destinationReached = false;&#xD;&#xA;this.name = namex;&#xD;&#xA;tmpFloor.addWaitingPerson(this);&#xD;&#xA;this.additionalButtons = additionalButtonsx;" proven="true">
+            <postCondition name="modifiable(tmpFloor);&#xD;&#xA;this.weight = weightx&#xA;&amp; this.origin = originx&#xA;&amp; this.destination = destinationx&#xA;&amp; this.destinationReached = FALSE&#xA;&amp; this.name.equals(namex) = TRUE &amp;this.additionalButtons = additionalButtonsx"/>
+            <preCondition name="modifiable(envx,tmpFloor);&#xD;&#xA;tmpFloor != null&#xD;&#xA;&amp; namex != null&#xD;&#xA;&amp; destinationx >= 0&#xD;&#xA;&amp; envx != null&#xD;&#xA;&amp; weightx >= 0&#xD;&#xA;&amp; originx >= 0&#xD;&#xA;&amp; originx &lt; envx.floors.length&#xD;&#xA;&amp; tmpFloor.&lt;created> = TRUE &#xD;&#xA;&amp; tmpFloor.waiting != null&#xD;&#xA;&amp; tmpFloor.waiting.elements != null"/>
+          </refinement>
+          <postCondition name="modifiable(tmpFloor);&#xD;&#xA;this.weight = weightx&#xA;&amp; this.origin = originx&#xA;&amp; this.destination = destinationx&#xA;&amp; this.destinationReached = FALSE&#xA;&amp; this.name.equals(namex) = TRUE &amp;this.additionalButtons = additionalButtonsx"/>
+          <preCondition name="modifiable(envx,tmpFloor);&#xD;&#xA;tmpFloor != null&#xD;&#xA;&amp; namex != null&#xD;&#xA;&amp; destinationx >= 0&#xD;&#xA;&amp; envx != null&#xD;&#xA;&amp; weightx >= 0&#xD;&#xA;&amp; originx >= 0&#xD;&#xA;&amp; originx &lt; envx.floors.length&#xD;&#xA;&amp; tmpFloor.&lt;created> = TRUE &#xD;&#xA;&amp; tmpFloor.waiting != null&#xD;&#xA;&amp; tmpFloor.waiting.elements != null"/>
+        </secondStatement>
+        <intermediateCondition name="modifiable(envx,tmpFloor);&#xD;&#xA;tmpFloor != null&#xD;&#xA;&amp; namex != null&#xD;&#xA;&amp; destinationx >= 0&#xD;&#xA;&amp; envx != null&#xD;&#xA;&amp; weightx >= 0&#xD;&#xA;&amp; originx >= 0&#xD;&#xA;&amp; originx &lt; envx.floors.length&#xD;&#xA;&amp; tmpFloor.&lt;created> = TRUE &#xD;&#xA;&amp; tmpFloor.waiting != null&#xD;&#xA;&amp; tmpFloor.waiting.elements != null"/>
+      </refinement>
+      <postCondition name="modifiable(tmpFloor);&#xD;&#xA;this.weight = weightx&#xA;&amp; this.origin = originx&#xA;&amp; this.destination = destinationx&#xA;&amp; this.destinationReached = FALSE&#xA;&amp; this.name.equals(namex) = TRUE &amp;this.additionalButtons = additionalButtonsx"/>
+      <preCondition name="namex != null&amp; destinationx >= 0 &amp; envx.floors != null&amp; envx != null&amp; weightx >= 0&amp; originx >= 0&amp; originx &lt; envx.floors.length &amp; envx.floors[originx] != null&amp; envx.floors[originx].waiting != null &amp; envx.floors[originx].waiting.elements != null&amp; additionalButtonsx != null &amp; namex != null &amp; additionalButtonsx != null"/>
+    </statement>
+    <preCondition name=" namex != null&amp; destinationx >= 0 &amp; envx.floors != null&amp; envx != null&amp; weightx >= 0&amp; originx >= 0&amp; originx &lt; envx.floors.length &amp; envx.floors[originx] != null&amp; envx.floors[originx].waiting != null &amp; envx.floors[originx].waiting.elements != null&amp; additionalButtonsx != null &amp; namex != null &amp; additionalButtonsx != null &amp; envx != null"/>
+    <postCondition name=" this.weight = weightx&#xA;&amp; this.origin = originx&#xA;&amp; this.destination = destinationx&#xA;&amp; this.destinationReached = false&#xA;&amp; this.name.equals(namex) = true&#xA;&amp; this.additionalButtons = additionalButtonsx"/>
+    <methodObj href="Person.cbcclass#//@methods.0"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="String namex" kind="PARAM"/>
+    <variables name="int weightx" kind="PARAM"/>
+    <variables name="int originx" kind="PARAM"/>
+    <variables name="int destinationx" kind="PARAM"/>
+    <variables name="int[] additionalButtonsx" kind="PARAM"/>
+    <variables name="Environment envx" kind="PARAM"/>
+    <variables name="Floor tmpFloor"/>
+    <fields href="Person.cbcclass#//@fields.0"/>
+    <fields href="Person.cbcclass#//@fields.1"/>
+    <fields href="Person.cbcclass#//@fields.2"/>
+    <fields href="Person.cbcclass#//@fields.3"/>
+    <fields href="Person.cbcclass#//@fields.4"/>
+    <fields href="Person.cbcclass#//@fields.5"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="Environment envx non-null"/>
+    <conditions name="String namex non-null"/>
+    <conditions name="int[] additionalButtonsx non-null"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

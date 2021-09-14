@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="interestApplicationEstimated" className="Application" methodName="interestApplicationEstimated">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="&#xD;&#xA;account.interest + daysLeft * account.interestCalculate();&#xD;&#xA;">
+        <postCondition name="account.interestCalculate() >= 0 -> \result >= account.interest"/>
+        <preCondition name="daysLeft > 0 &amp; Account.INTEREST_RATE > 0"/>
+      </refinement>
+      <postCondition name="account.interestCalculate() >= 0 -> \result >= account.interest"/>
+      <preCondition name="daysLeft > 0 &amp; Account.INTEREST_RATE > 0"/>
+    </statement>
+    <preCondition name=" daysLeft > 0"/>
+    <postCondition name=" interestApplicationCalculate() >= 0 -> result >= account.interest"/>
+    <methodObj href="Application.cbcclass#//@methods.3"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int daysLeft" kind="PARAM"/>
+    <variables name="int result" kind="RETURN"/>
+    <variables name="int result"/>
+    <fields href="Application.cbcclass#//@fields.0"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="account.&lt;inv>"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>
