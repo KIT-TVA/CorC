@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Account" javaClassURI="src\Account.java">
+  <fields type="int" name="OVERDRAFT_LIMIT"/>
+  <fields type="int" name="INTEREST_RATE" isStatic="true"/>
+  <fields type="int" name="DAILY_LIMIT" isStatic="true"/>
+  <fields type="int" name="balance"/>
+  <fields type="int" name="withdraw"/>
+  <fields type="int" name="interest"/>
+  <fields type="boolean" name="lock"/>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\update.cbcmodel" name="update" returnType="boolean">
+    <cbcStartTriple href="update.cbcmodel#/0"/>
+    <parameters type="int" name="x"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\undoUpdate.cbcmodel" name="undoUpdate" returnType="boolean">
+    <cbcStartTriple href="undoUpdate.cbcmodel#/0"/>
+    <parameters type="int" name="x"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\interestCalculate.cbcmodel" name="interestCalculate" returnType="int">
+    <cbcStartTriple href="interestCalculate.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\interestEstimated.cbcmodel" name="interestEstimated" returnType="int">
+    <cbcStartTriple href="interestEstimated.cbcmodel#/0"/>
+    <parameters type="int" name="daysLeft"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\lock.cbcmodel" name="lock" returnType="void">
+    <cbcStartTriple href="lock.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\unLock.cbcmodel" name="unLock" returnType="void">
+    <cbcStartTriple href="unLock.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\isLocked.cbcmodel" name="isLocked" returnType="boolean">
+    <cbcStartTriple href="isLocked.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\lock.cbcmodel" name="lock" returnType="boolean" isStatic="true">
+    <cbcStartTriple href="lock.cbcmodel#/0"/>
+    <parameters type="Account" name="source"/>
+    <parameters type="Account" name="destination"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\transfer.cbcmodel" name="transfer" returnType="boolean">
+    <cbcStartTriple href="transfer.cbcmodel#/0"/>
+    <parameters type="Account" name="source"/>
+    <parameters type="Account" name="destination"/>
+    <parameters type="int" name="amount"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\bankAccountUndoUpdate.cbcmodel" name="bankAccountUndoUpdate" returnType="boolean">
+    <cbcStartTriple href="bankAccountUndoUpdate.cbcmodel#/0"/>
+    <parameters type="int" name="x"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\bankAccountUpdate.cbcmodel" name="bankAccountUpdate" returnType="boolean">
+    <cbcStartTriple href="bankAccountUpdate.cbcmodel#/0"/>
+    <parameters type="int" name="x"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\creditAccountCredit.cbcmodel" name="creditAccountCredit" returnType="boolean">
+    <cbcStartTriple href="creditAccountCredit.cbcmodel#/0"/>
+    <parameters type="int" name="amount"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\dailyAccountUpdate.cbcmodel" name="dailyAccountUpdate" returnType="boolean">
+    <cbcStartTriple href="dailyAccountUpdate.cbcmodel#/0"/>
+    <parameters type="int" name="x"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\transactionAccountLock.cbcmodel" name="transactionAccountLock" returnType="boolean">
+    <cbcStartTriple href="transactionAccountLock.cbcmodel#/0"/>
+    <parameters type="Account" name="source"/>
+    <parameters type="Account" name="destination"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\BankAccountCorC\src\Account\transactionAccountTransfer2.cbcmodel" name="transactionAccountTransfer2" returnType="boolean">
+    <cbcStartTriple href="transactionAccountTransfer2.cbcmodel#/0"/>
+    <parameters type="Account" name="source"/>
+    <parameters type="Account" name="destination"/>
+    <parameters type="int" name="amount"/>
+  </methods>
+  <classInvariants name="balance >= OVERDRAFT_LIMIT"/>
+</cbcclass:ModelClass>

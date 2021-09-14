@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="isDestinationReached" proven="true" className="Person" methodName="isDestinationReached">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="&#xD;&#xA;this.destinationReached;&#xD;&#xA;" proven="true">
+        <postCondition name="\result != null &amp; \result = this.destinationReached&amp; (this.destinationReached = TRUE -> \result = TRUE)&amp; (this.destinationReached = FALSE-> \result = FALSE)"/>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="\result != null &amp; \result = this.destinationReached&amp; (this.destinationReached = TRUE -> \result = TRUE)&amp; (this.destinationReached = FALSE-> \result = FALSE)"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name=" true &amp; this.destinationReached != null"/>
+    <postCondition name=" result != null &amp; result = this.destinationReached&amp; (this.destinationReached = true -> result = true)&amp; (this.destinationReached = false -> result = false)"/>
+    <methodObj href="Person.cbcclass#//@methods.7"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="boolean result" kind="RETURN"/>
+    <variables name="boolean result"/>
+    <fields href="Person.cbcclass#//@fields.0"/>
+    <fields href="Person.cbcclass#//@fields.1"/>
+    <fields href="Person.cbcclass#//@fields.2"/>
+    <fields href="Person.cbcclass#//@fields.3"/>
+    <fields href="Person.cbcclass#//@fields.4"/>
+    <fields href="Person.cbcclass#//@fields.5"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>

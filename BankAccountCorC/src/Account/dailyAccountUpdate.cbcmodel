@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="dailyAccountUpdate" className="Account" methodName="dailyAccountUpdate">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+        <firstStatement name="statement1">
+          <refinement xsi:type="cbcmodel:SkipStatement" name=";">
+            <postCondition name="intermediateCond"/>
+            <preCondition name=" true"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name=" true"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SkipStatement" name=";">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                <firstStatement name="statement1">
+                  <refinement xsi:type="cbcmodel:SkipStatement" name=";">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="intermediateCond"/>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="intermediateCond"/>
+                </firstStatement>
+                <secondStatement name="statement2">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                    <firstStatement name="statement1">
+                      <refinement name="result = false;">
+                        <postCondition name="intermediateCond"/>
+                        <preCondition name="intermediateCond"/>
+                      </refinement>
+                      <postCondition name="intermediateCond"/>
+                      <preCondition name="intermediateCond"/>
+                    </firstStatement>
+                    <secondStatement name="statement2">
+                      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                        <firstStatement name="statement1">
+                          <refinement name="newWithdraw = withdraw;">
+                            <postCondition name="intermediateCond"/>
+                            <preCondition name="intermediateCond"/>
+                          </refinement>
+                          <postCondition name="intermediateCond"/>
+                          <preCondition name="intermediateCond"/>
+                        </firstStatement>
+                        <secondStatement name="statement2">
+                          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                            <firstStatement name="statement1">
+                              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
+                                <guards name="x &lt; 0"/>
+                                <guards name="x >= 0"/>
+                                <commands name="statement1">
+                                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                                    <firstStatement name="statement1">
+                                      <refinement name="newWithdraw += x;">
+                                        <postCondition name="intermediateCond"/>
+                                        <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (x &lt; 0)"/>
+                                      </refinement>
+                                      <postCondition name="intermediateCond"/>
+                                      <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (x &lt; 0)"/>
+                                    </firstStatement>
+                                    <secondStatement name="statement2">
+                                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
+                                        <guards name="newWithdraw &lt; DAILY_LIMIT"/>
+                                        <guards name="newWithdraw >= DAILY_LIMIT"/>
+                                        <commands name="statement1">
+                                          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                                            <firstStatement name="statement1">
+                                              <refinement name="result = false;">
+                                                <postCondition name="intermediateCond"/>
+                                                <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (newWithdraw &lt; DAILY_LIMIT)"/>
+                                              </refinement>
+                                              <postCondition name="intermediateCond"/>
+                                              <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (newWithdraw &lt; DAILY_LIMIT)"/>
+                                            </firstStatement>
+                                            <secondStatement name="statement2">
+                                              <refinement xsi:type="cbcmodel:ReturnStatement" name="result = result;">
+                                                <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+                                                <preCondition name="intermediateCond"/>
+                                              </refinement>
+                                              <postCondition name="intermediateCond"/>
+                                              <preCondition name="intermediateCond"/>
+                                            </secondStatement>
+                                            <intermediateCondition name="intermediateCond"/>
+                                          </refinement>
+                                          <postCondition name="intermediateCond"/>
+                                          <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (newWithdraw &lt; DAILY_LIMIT)"/>
+                                        </commands>
+                                        <commands name="statement">
+                                          <refinement xsi:type="cbcmodel:SkipStatement" name=";">
+                                            <postCondition name="intermediateCond"/>
+                                            <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (newWithdraw >= DAILY_LIMIT)"/>
+                                          </refinement>
+                                          <postCondition name="intermediateCond"/>
+                                          <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (newWithdraw >= DAILY_LIMIT)"/>
+                                        </commands>
+                                      </refinement>
+                                      <postCondition name="intermediateCond"/>
+                                      <preCondition name="intermediateCond"/>
+                                    </secondStatement>
+                                    <intermediateCondition name="intermediateCond"/>
+                                  </refinement>
+                                  <postCondition name="intermediateCond"/>
+                                  <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (x &lt; 0)"/>
+                                </commands>
+                                <commands name="statement">
+                                  <refinement xsi:type="cbcmodel:SkipStatement" name=";">
+                                    <postCondition name="intermediateCond"/>
+                                    <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (x >= 0)"/>
+                                  </refinement>
+                                  <postCondition name="intermediateCond"/>
+                                  <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (x >= 0)"/>
+                                </commands>
+                              </refinement>
+                              <postCondition name="intermediateCond"/>
+                              <preCondition name="intermediateCond"/>
+                            </firstStatement>
+                            <secondStatement name="statement2">
+                              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                                <firstStatement name="statement1">
+                                  <refinement name="tmp = update(x);">
+                                    <postCondition name="intermediateCond"/>
+                                    <preCondition name="intermediateCond"/>
+                                  </refinement>
+                                  <postCondition name="intermediateCond"/>
+                                  <preCondition name="intermediateCond"/>
+                                </firstStatement>
+                                <secondStatement name="statement2">
+                                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                                    <firstStatement name="statement1">
+                                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
+                                        <guards name="tmp == false"/>
+                                        <guards name="tmp == true"/>
+                                        <commands name="statement1">
+                                          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                                            <firstStatement name="statement1">
+                                              <refinement name="result = false;">
+                                                <postCondition name="intermediateCond"/>
+                                                <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (tmp == false)"/>
+                                              </refinement>
+                                              <postCondition name="intermediateCond"/>
+                                              <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (tmp == false)"/>
+                                            </firstStatement>
+                                            <secondStatement name="statement2">
+                                              <refinement xsi:type="cbcmodel:ReturnStatement" name="result = result;">
+                                                <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+                                                <preCondition name="intermediateCond"/>
+                                              </refinement>
+                                              <postCondition name="intermediateCond"/>
+                                              <preCondition name="intermediateCond"/>
+                                            </secondStatement>
+                                            <intermediateCondition name="intermediateCond"/>
+                                          </refinement>
+                                          <postCondition name="intermediateCond"/>
+                                          <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (tmp == false)"/>
+                                        </commands>
+                                        <commands name="statement">
+                                          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                                            <firstStatement name="statement1">
+                                              <refinement name="withdraw = newWithdraw;">
+                                                <postCondition name="intermediateCond"/>
+                                                <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (tmp == true)"/>
+                                              </refinement>
+                                              <postCondition name="intermediateCond"/>
+                                              <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (tmp == true)"/>
+                                            </firstStatement>
+                                            <secondStatement name="statement2">
+                                              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                                                <firstStatement name="statement1">
+                                                  <refinement name="result = true;">
+                                                    <postCondition name="intermediateCond"/>
+                                                    <preCondition name="intermediateCond"/>
+                                                  </refinement>
+                                                  <postCondition name="intermediateCond"/>
+                                                  <preCondition name="intermediateCond"/>
+                                                </firstStatement>
+                                                <secondStatement name="statement2">
+                                                  <refinement xsi:type="cbcmodel:ReturnStatement" name="result = result;">
+                                                    <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+                                                    <preCondition name="intermediateCond"/>
+                                                  </refinement>
+                                                  <postCondition name="intermediateCond"/>
+                                                  <preCondition name="intermediateCond"/>
+                                                </secondStatement>
+                                                <intermediateCondition name="intermediateCond"/>
+                                              </refinement>
+                                              <postCondition name="intermediateCond"/>
+                                              <preCondition name="intermediateCond"/>
+                                            </secondStatement>
+                                            <intermediateCondition name="intermediateCond"/>
+                                          </refinement>
+                                          <postCondition name="intermediateCond"/>
+                                          <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (tmp == true)"/>
+                                        </commands>
+                                      </refinement>
+                                      <postCondition name="intermediateCond"/>
+                                      <preCondition name="intermediateCond"/>
+                                    </firstStatement>
+                                    <secondStatement name="statement2">
+                                      <refinement xsi:type="cbcmodel:ReturnStatement" name="result = false;">
+                                        <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+                                        <preCondition name="intermediateCond"/>
+                                      </refinement>
+                                      <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+                                      <preCondition name="intermediateCond"/>
+                                    </secondStatement>
+                                    <intermediateCondition name="intermediateCond"/>
+                                  </refinement>
+                                  <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+                                  <preCondition name="intermediateCond"/>
+                                </secondStatement>
+                                <intermediateCondition name="intermediateCond"/>
+                              </refinement>
+                              <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+                              <preCondition name="intermediateCond"/>
+                            </secondStatement>
+                            <intermediateCondition name="intermediateCond"/>
+                          </refinement>
+                          <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+                          <preCondition name="intermediateCond"/>
+                        </secondStatement>
+                        <intermediateCondition name="intermediateCond"/>
+                      </refinement>
+                      <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+                      <preCondition name="intermediateCond"/>
+                    </secondStatement>
+                    <intermediateCondition name="intermediateCond"/>
+                  </refinement>
+                  <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+                  <preCondition name="intermediateCond"/>
+                </secondStatement>
+                <intermediateCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+      <preCondition name=" true"/>
+    </statement>
+    <preCondition name=" true"/>
+    <postCondition name=" (result = false -> (withdraw = old_withdraw &amp;  balance = old_balance)) &amp; (result = true -> (withdraw &lt;= old_withdraw ) &amp;  balance = old_balance + x)"/>
+    <methodObj href="Account.cbcclass#//@methods.12"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int x" kind="PARAM"/>
+    <variables name="boolean result" kind="RETURN"/>
+    <variables name="int old_withdraw"/>
+    <variables name="int old_balance"/>
+    <variables name="int newWithdraw"/>
+    <variables name="boolean tmp"/>
+    <variables name="boolean result"/>
+    <fields href="Account.cbcclass#//@fields.0"/>
+    <fields href="Account.cbcclass#//@fields.1"/>
+    <fields href="Account.cbcclass#//@fields.2"/>
+    <fields href="Account.cbcclass#//@fields.3"/>
+    <fields href="Account.cbcclass#//@fields.4"/>
+    <fields href="Account.cbcclass#//@fields.5"/>
+    <fields href="Account.cbcclass#//@fields.6"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="old_withdraw = withdraw"/>
+    <conditions name="old_balance = balance"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="unLock" proven="true" className="Account" methodName="unLock">
+    <statement name="statement" proven="true">
+      <refinement name="lock = false;" proven="true">
+        <postCondition name="this.lock = FALSE"/>
+        <preCondition name=" true"/>
+      </refinement>
+      <postCondition name="this.lock = FALSE"/>
+      <preCondition name=" true"/>
+    </statement>
+    <preCondition name=" true"/>
+    <postCondition name=" !this.lock"/>
+    <methodObj href="Account.cbcclass#//@methods.5"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <fields href="Account.cbcclass#//@fields.0"/>
+    <fields href="Account.cbcclass#//@fields.1"/>
+    <fields href="Account.cbcclass#//@fields.2"/>
+    <fields href="Account.cbcclass#//@fields.3"/>
+    <fields href="Account.cbcclass#//@fields.4"/>
+    <fields href="Account.cbcclass#//@fields.5"/>
+    <fields href="Account.cbcclass#//@fields.6"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>

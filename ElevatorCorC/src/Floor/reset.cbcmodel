@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="reset" proven="true" className="Floor" methodName="reset">
+    <statement name="statement" proven="true">
+      <refinement name="this.elevatorCall = false;" proven="true">
+        <postCondition name="this.elevatorCall = FALSE"/>
+        <preCondition name=" true"/>
+      </refinement>
+      <postCondition name="this.elevatorCall = FALSE"/>
+      <preCondition name=" true"/>
+    </statement>
+    <preCondition name=" true"/>
+    <postCondition name=" this.elevatorCall = false"/>
+    <methodObj href="Floor.cbcclass#//@methods.4"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <fields href="Floor.cbcclass#//@fields.0"/>
+    <fields href="Floor.cbcclass#//@fields.1"/>
+    <fields href="Floor.cbcclass#//@fields.2"/>
+    <fields href="Floor.cbcclass#//@fields.3"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>
