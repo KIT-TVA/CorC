@@ -1,73 +1,58 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="stopRequestedAtCurrentFloor__wrappee__ExecutiveFloor" className="Elevator" methodName="stopRequestedAtCurrentFloor__wrappee__ExecutiveFloor">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+  <cbcmodel:CbCFormula name="stopRequestedAtCurrentFloor__wrappee__ExecutiveFloor" proven="true" className="Elevator" methodName="stopRequestedAtCurrentFloor__wrappee__ExecutiveFloor">
+    <statement name="statement" proven="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
         <firstStatement name="statement1">
-          <refinement name="result = false;">
-            <postCondition name="intermediateCond"/>
+          <refinement name="result = false;" proven="true">
+            <postCondition name="modifiable(result);&#xD;&#xA;result = FALSE"/>
             <preCondition name=" this.currentFloorID >= 0"/>
           </refinement>
-          <postCondition name="intermediateCond"/>
+          <postCondition name="modifiable(result);&#xD;&#xA;result = FALSE"/>
           <preCondition name=" this.currentFloorID >= 0"/>
         </firstStatement>
         <secondStatement name="statement2">
-          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
             <firstStatement name="statement1">
-              <refinement name="result = false;">
-                <postCondition name="intermediateCond"/>
-                <preCondition name="intermediateCond"/>
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+                <guards name="this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE"/>
+                <guards name="this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE"/>
+                <commands name="statement">
+                  <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true">
+                    <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+                    <preCondition name="modifiable(result);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE)"/>
+                  </refinement>
+                  <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+                  <preCondition name="modifiable(result);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE)"/>
+                </commands>
+                <commands name="statement">
+                  <refinement name="result = true;" proven="true">
+                    <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+                    <preCondition name="modifiable(result);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE)"/>
+                  </refinement>
+                  <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+                  <preCondition name="modifiable(result);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE)"/>
+                </commands>
               </refinement>
-              <postCondition name="intermediateCond"/>
-              <preCondition name="intermediateCond"/>
+              <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+              <preCondition name="modifiable(result);&#xD;&#xA;result = FALSE"/>
             </firstStatement>
             <secondStatement name="statement2">
-              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
-                <firstStatement name="statement1">
-                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
-                    <guards name="this.isExecutiveFloorCalling() == true&amp;&amp;this.isExecutiveFloor(this.currentFloorID) == false"/>
-                    <guards name="this.isExecutiveFloorCalling() == false||this.isExecutiveFloor(this.currentFloorID) == true"/>
-                    <commands name="statement1">
-                      <refinement xsi:type="cbcmodel:SkipStatement" name=";">
-                        <postCondition name="intermediateCond"/>
-                        <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (this.isExecutiveFloorCalling() == true&amp;&amp;this.isExecutiveFloor(this.currentFloorID) == false)"/>
-                      </refinement>
-                      <postCondition name="intermediateCond"/>
-                      <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (this.isExecutiveFloorCalling() == true&amp;&amp;this.isExecutiveFloor(this.currentFloorID) == false)"/>
-                    </commands>
-                    <commands name="statement">
-                      <refinement name="result = true;">
-                        <postCondition name="intermediateCond"/>
-                        <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (this.isExecutiveFloorCalling() == false||this.isExecutiveFloor(this.currentFloorID) == true)"/>
-                      </refinement>
-                      <postCondition name="intermediateCond"/>
-                      <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (this.isExecutiveFloorCalling() == false||this.isExecutiveFloor(this.currentFloorID) == true)"/>
-                    </commands>
-                  </refinement>
-                  <postCondition name="intermediateCond"/>
-                  <preCondition name="intermediateCond"/>
-                </firstStatement>
-                <secondStatement name="statement2">
-                  <refinement xsi:type="cbcmodel:ReturnStatement" name="result = result;">
-                    <postCondition name=" (this.isExecutiveFloorCalling() = true &amp; this.isExecutiveFloor(this.currentFloorID) = false) -> result = false&#xA;&amp; (this.isExecutiveFloorCalling() = false | this.isExecutiveFloor(this.currentFloorID) = true) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
-                    <preCondition name="intermediateCond"/>
-                  </refinement>
-                  <postCondition name=" (this.isExecutiveFloorCalling() = true &amp; this.isExecutiveFloor(this.currentFloorID) = false) -> result = false&#xA;&amp; (this.isExecutiveFloorCalling() = false | this.isExecutiveFloor(this.currentFloorID) = true) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
-                  <preCondition name="intermediateCond"/>
-                </secondStatement>
-                <intermediateCondition name="intermediateCond"/>
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement">
+                <postCondition name="modifiable(result); &#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> \result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> \result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+                <preCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
               </refinement>
-              <postCondition name=" (this.isExecutiveFloorCalling() = true &amp; this.isExecutiveFloor(this.currentFloorID) = false) -> result = false&#xA;&amp; (this.isExecutiveFloorCalling() = false | this.isExecutiveFloor(this.currentFloorID) = true) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
-              <preCondition name="intermediateCond"/>
+              <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> \result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> \result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+              <preCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
             </secondStatement>
-            <intermediateCondition name="intermediateCond"/>
+            <intermediateCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
           </refinement>
-          <postCondition name=" (this.isExecutiveFloorCalling() = true &amp; this.isExecutiveFloor(this.currentFloorID) = false) -> result = false&#xA;&amp; (this.isExecutiveFloorCalling() = false | this.isExecutiveFloor(this.currentFloorID) = true) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
-          <preCondition name="intermediateCond"/>
+          <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> \result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> \result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+          <preCondition name="modifiable(result);&#xD;&#xA;result = FALSE"/>
         </secondStatement>
-        <intermediateCondition name="intermediateCond"/>
+        <intermediateCondition name="modifiable(result);&#xD;&#xA;result = FALSE"/>
       </refinement>
-      <postCondition name=" (this.isExecutiveFloorCalling() = true &amp; this.isExecutiveFloor(this.currentFloorID) = false) -> result = false&#xA;&amp; (this.isExecutiveFloorCalling() = false | this.isExecutiveFloor(this.currentFloorID) = true) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+      <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> \result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> \result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
       <preCondition name=" this.currentFloorID >= 0"/>
     </statement>
     <preCondition name=" this.currentFloorID >= 0"/>
