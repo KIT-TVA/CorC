@@ -20,7 +20,7 @@ public class Account {
 	 @ public normal_behavior
 	 @ requires true;
 	 @ ensures (!\result ==> balance == \old(balance)) 
-	 @   && (\result ==> balance == \old(balance) + x); 
+	 @   && (\result ==> balance == \old(balance) + x && balance>=OVERDRAFT_LIMIT); 
 	 @ assignable balance;
 	 @*/
 	public /*@helper@*/ boolean update(int x) {
@@ -35,7 +35,7 @@ public class Account {
 	 @ public normal_behavior
 	 @  requires true;
 	 @  ensures (!\result ==> balance == \old(balance)) 
-	 @   && (\result ==> balance == \old(balance) - x);
+	 @   && (\old(balance) - x >= OVERDRAFT_LIMIT ==> balance == \old(balance) - x && \result);
 	 @ assignable balance;
 	 @*/
 	public /*@helper@*/ boolean undoUpdate(int x) {
@@ -82,6 +82,7 @@ public class Account {
 	}
 	
 	/*@
+	  @ normal_behavior
 	  @ requires true;
 	 @ ensures !this.lock;
 	 @ assignable lock;
@@ -101,6 +102,7 @@ public class Account {
 	}
 	
 	/*@
+	  @ normal_behavior
 	  @ requires destination != null && source != null && source != destination;
 	  @ ensures \result ==> source.isLocked() && destination.isLocked();
 	  @ assignable \nothing;
