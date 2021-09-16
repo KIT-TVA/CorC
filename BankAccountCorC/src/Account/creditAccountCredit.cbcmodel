@@ -2,7 +2,7 @@
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="creditAccountCredit" proven="true" className="Account" methodName="creditAccountCredit">
     <statement name="statement">
-      <refinement xsi:type="cbcmodel:ReturnStatement" name="&#xD;&#xA;balance >= amount;&#xD;&#xA;" proven="true">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="balance >= amount;" proven="true" comment="returnStatement">
         <postCondition name="balance >= amount &lt;-> \result = TRUE"/>
         <preCondition name=" amount > 0"/>
       </refinement>

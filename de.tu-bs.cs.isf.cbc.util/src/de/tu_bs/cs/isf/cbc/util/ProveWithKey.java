@@ -429,7 +429,11 @@ public class ProveWithKey {
 	}
 	
 	public static boolean proveWithKey(File location, IProgressMonitor monitor, boolean inlining) {
-		Proof proof = KeYInteraction.startKeyProof(location, null, inlining);
+		Proof proof = null;
+		Console.clear();
+		for (int i = 0; i <5; i++) {
+			proof = KeYInteraction.startKeyProof(location, null, inlining);
+		}
 		if (proof != null) {
 			// Show proof result
 			boolean closed = proof.openGoals().isEmpty();
