@@ -1,83 +1,38 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="resetClients" className="Client" methodName="resetClients">
+  <cbcmodel:CbCFormula name="resetClients" proven="true" className="Client" methodName="resetClients">
     <statement name="statement">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
         <firstStatement name="statement1">
-          <refinement name="index = 0;">
-            <postCondition name="intermediateCond"/>
+          <refinement name="index = 0;&#xD;&#xA;Client.clientCounter = 1;" proven="true">
+            <postCondition name="modifiable(Client.clientCounter,index); index = 0 &amp; Client.clientCounter = 1"/>
             <preCondition name=" Client.clients != null&amp; Client.clientCounter >= 0 &amp; Client.clients != null"/>
           </refinement>
-          <postCondition name="intermediateCond"/>
+          <postCondition name="modifiable(Client.clientCounter,index);&#xD;&#xA;index = 0 &amp; Client.clientCounter = 1"/>
           <preCondition name=" Client.clients != null&amp; Client.clientCounter >= 0 &amp; Client.clients != null"/>
         </firstStatement>
         <secondStatement name="statement2">
-          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
-            <firstStatement name="statement1">
-              <refinement name="index = 0;">
-                <postCondition name="intermediateCond"/>
-                <preCondition name="intermediateCond"/>
+          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" variantProven="true" preProven="true" postProven="true">
+            <postCondition name="modifiable(Client.clientCounter,Client.clients[index],index);&#xD;&#xA;(\forall int k;(((k>=0 &amp; k&lt;Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1"/>
+            <preCondition name="modifiable(Client.clientCounter,index);&#xD;&#xA;index = 0 &amp; Client.clientCounter = 1"/>
+            <loopStatement name="loop">
+              <refinement name="Client.clients[index] = null;&#xD;&#xA;index++;" proven="true">
+                <postCondition name="(\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt; Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1&#xD;&#xA;&amp; index >= 0"/>
+                <preCondition name="((\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt; Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1&#xD;&#xA;&amp; index >= 0) &amp; (index &lt; Client.clients.length)"/>
               </refinement>
-              <postCondition name="intermediateCond"/>
-              <preCondition name="intermediateCond"/>
-            </firstStatement>
-            <secondStatement name="statement2">
-              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
-                <firstStatement name="statement1">
-                  <refinement name="Client.clientCounter = 1;">
-                    <postCondition name="intermediateCond"/>
-                    <preCondition name="intermediateCond"/>
-                  </refinement>
-                  <postCondition name="intermediateCond"/>
-                  <preCondition name="intermediateCond"/>
-                </firstStatement>
-                <secondStatement name="statement2">
-                  <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement">
-                    <postCondition name=" (\forall int k;(((k>=0 &amp; k&lt;Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1"/>
-                    <preCondition name="intermediateCond"/>
-                    <loopStatement name="loop">
-                      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
-                        <firstStatement name="statement1">
-                          <refinement name="Client.clients[index] = null;">
-                            <postCondition name="intermediateCond"/>
-                            <preCondition name="(Client.clientCounter = 1 &amp; index >= 0 &amp; (\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt;Client.clients.length) -> Client.clients[k] = null)))) &amp; (index &lt; Client.clients.length)"/>
-                          </refinement>
-                          <postCondition name="intermediateCond"/>
-                          <preCondition name="(Client.clientCounter = 1 &amp; index >= 0 &amp; (\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt;Client.clients.length) -> Client.clients[k] = null)))) &amp; (index &lt; Client.clients.length)"/>
-                        </firstStatement>
-                        <secondStatement name="statement2">
-                          <refinement name="index++;">
-                            <postCondition name="Client.clientCounter = 1 &amp; index >= 0 &amp; (\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt;Client.clients.length) -> Client.clients[k] = null)))"/>
-                            <preCondition name="intermediateCond"/>
-                          </refinement>
-                          <postCondition name="Client.clientCounter = 1 &amp; index >= 0 &amp; (\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt;Client.clients.length) -> Client.clients[k] = null)))"/>
-                          <preCondition name="intermediateCond"/>
-                        </secondStatement>
-                        <intermediateCondition name="intermediateCond"/>
-                      </refinement>
-                      <postCondition name="Client.clientCounter = 1 &amp; index >= 0 &amp; (\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt;Client.clients.length) -> Client.clients[k] = null)))"/>
-                      <preCondition name="(Client.clientCounter = 1 &amp; index >= 0 &amp; (\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt;Client.clients.length) -> Client.clients[k] = null)))) &amp; (index &lt; Client.clients.length)"/>
-                    </loopStatement>
-                    <variant name="nvariant Client.clientCounter = 1 &amp; index >= 0 &amp; (\forall int k"/>
-                    <invariant name="Client.clientCounter = 1 &amp; index >= 0 &amp; (\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt;Client.clients.length) -> Client.clients[k] = null)))"/>
-                    <guard name="index &lt; Client.clients.length"/>
-                  </refinement>
-                  <postCondition name=" (\forall int k;(((k>=0 &amp; k&lt;Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1"/>
-                  <preCondition name="intermediateCond"/>
-                </secondStatement>
-                <intermediateCondition name="intermediateCond"/>
-              </refinement>
-              <postCondition name=" (\forall int k;(((k>=0 &amp; k&lt;Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1"/>
-              <preCondition name="intermediateCond"/>
-            </secondStatement>
-            <intermediateCondition name="intermediateCond"/>
+              <postCondition name="(\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt; Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1&#xD;&#xA;&amp; index >= 0"/>
+              <preCondition name="((\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt; Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1&#xD;&#xA;&amp; index >= 0) &amp; (index &lt; Client.clients.length)"/>
+            </loopStatement>
+            <variant name="Client.clients.length-index"/>
+            <invariant name="(\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt; Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1&#xD;&#xA;&amp; index >= 0"/>
+            <guard name="index &lt; Client.clients.length"/>
           </refinement>
-          <postCondition name=" (\forall int k;(((k>=0 &amp; k&lt;Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1"/>
-          <preCondition name="intermediateCond"/>
+          <postCondition name="modifiable(Client.clientCounter,Client.clients[index],index);&#xD;&#xA;(\forall int k;(((k>=0 &amp; k&lt;Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1"/>
+          <preCondition name="modifiable(Client.clientCounter,index);&#xD;&#xA;index = 0 &amp; Client.clientCounter = 1"/>
         </secondStatement>
-        <intermediateCondition name="intermediateCond"/>
+        <intermediateCondition name="modifiable(Client.clientCounter,index);&#xD;&#xA;index = 0 &amp; Client.clientCounter = 1"/>
       </refinement>
-      <postCondition name=" (\forall int k;(((k>=0 &amp; k&lt;Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1"/>
+      <postCondition name="modifiable(Client.clientCounter,Client.clients[index],index);&#xD;&#xA;(\forall int k;(((k>=0 &amp; k&lt;Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1"/>
       <preCondition name=" Client.clients != null&amp; Client.clientCounter >= 0 &amp; Client.clients != null"/>
     </statement>
     <preCondition name=" Client.clients != null&amp; Client.clientCounter >= 0 &amp; Client.clients != null"/>

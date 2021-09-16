@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="outgoing" className="Client" methodName="outgoing">
+  <cbcmodel:CbCFormula name="outgoing" proven="true" className="Client" methodName="outgoing">
     <statement name="statement">
-      <refinement name="msg.setEmailFrom(client);">
+      <refinement name="msg.setEmailFrom(client);" proven="true">
         <postCondition name=" msg.from = client"/>
         <preCondition name=" client != null &amp; msg != null"/>
       </refinement>
@@ -22,5 +22,8 @@
     <fields href="Client.cbcclass#//@fields.3"/>
     <fields href="Client.cbcclass#//@fields.4"/>
   </cbcmodel:JavaVariables>
-  <cbcmodel:GlobalConditions/>
+  <cbcmodel:GlobalConditions>
+    <conditions name="Email msg non-null"/>
+    <conditions name="Client client non-null"/>
+  </cbcmodel:GlobalConditions>
 </xmi:XMI>

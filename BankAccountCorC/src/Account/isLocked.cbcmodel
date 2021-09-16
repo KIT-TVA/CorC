@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="isLocked" className="Account" methodName="isLocked">
+  <cbcmodel:CbCFormula name="isLocked" proven="true" className="Account" methodName="isLocked">
     <statement name="statement">
-      <refinement xsi:type="cbcmodel:ReturnStatement" name="result = lock;">
-        <postCondition name=" result = this. lock"/>
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="lock;" proven="true">
+        <postCondition name="\result = this.lock"/>
         <preCondition name=" true"/>
       </refinement>
-      <postCondition name=" result = this. lock"/>
+      <postCondition name="\result = this.lock"/>
       <preCondition name=" true"/>
     </statement>
     <preCondition name=" true"/>
@@ -14,7 +14,6 @@
     <methodObj href="Account.cbcclass#//@methods.6"/>
   </cbcmodel:CbCFormula>
   <cbcmodel:JavaVariables>
-    <variables name="boolean result" kind="RETURN"/>
     <fields href="Account.cbcclass#//@fields.0"/>
     <fields href="Account.cbcclass#//@fields.1"/>
     <fields href="Account.cbcclass#//@fields.2"/>

@@ -261,7 +261,7 @@ public class Account {
 
 		/*@
 		@ normal_behavior
-		@ requires true;
+		@ requires source != destination;
 		@ ensures (\result == true ==> (\old(destination.balance) + amount == destination.balance)) && (\result == true ==> (\old(source.balance) - amount == source.balance)) 
 		@ 	&& (\result == false ==> (\old(destination.balance) == destination.balance)) && (\result == false ==> (\old(source.balance) == source.balance));
 		@ assignable \everything;

@@ -4,9 +4,25 @@
     <statement name="statement" proven="true">
       <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
         <firstStatement name="statement1">
-          <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true">
-            <postCondition name="true"/>
-            <preCondition name="true"/>
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+            <guards name="source.isLocked() = TRUE"/>
+            <guards name="source.isLocked() = FALSE"/>
+            <commands name="statement">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement">
+                <postCondition name="modifiable(result);&#xD;&#xA;result = TRUE -> source.isLocked() = TRUE&amp; destination.isLocked() = TRUE"/>
+                <preCondition name="modifiable(\nothing);(true) &amp; (source.isLocked() = TRUE)"/>
+              </refinement>
+              <postCondition name="true"/>
+              <preCondition name="modifiable(\nothing);(true) &amp; (source.isLocked() = TRUE)"/>
+            </commands>
+            <commands name="statement">
+              <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true">
+                <postCondition name="true"/>
+                <preCondition name="modifiable(\nothing);(true) &amp; (source.isLocked() = FALSE)"/>
+              </refinement>
+              <postCondition name="true"/>
+              <preCondition name="modifiable(\nothing);(true) &amp; (source.isLocked() = FALSE)"/>
+            </commands>
           </refinement>
           <postCondition name="true"/>
           <preCondition name="true"/>
@@ -15,23 +31,23 @@
           <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
             <firstStatement name="statement1">
               <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
-                <guards name="source.isLocked() = TRUE"/>
-                <guards name="source.isLocked() = FALSE"/>
+                <guards name="destination.isLocked() = TRUE"/>
+                <guards name="destination.isLocked() = FALSE"/>
                 <commands name="statement1">
                   <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement">
                     <postCondition name="modifiable(result);&#xD;&#xA;result = TRUE -> source.isLocked() = TRUE&amp; destination.isLocked() = TRUE"/>
-                    <preCondition name="modifiable(\nothing);(true) &amp; (source.isLocked() = TRUE)"/>
+                    <preCondition name="modifiable(\nothing);(true) &amp; (destination.isLocked() = TRUE)"/>
                   </refinement>
                   <postCondition name="true"/>
-                  <preCondition name="modifiable(\nothing);(true) &amp; (source.isLocked() = TRUE)"/>
+                  <preCondition name="modifiable(\nothing);(true) &amp; (destination.isLocked() = TRUE)"/>
                 </commands>
                 <commands name="statement">
                   <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true">
                     <postCondition name="true"/>
-                    <preCondition name="modifiable(\nothing);(true) &amp; (source.isLocked() = FALSE)"/>
+                    <preCondition name="modifiable(\nothing);(true) &amp; (destination.isLocked() = FALSE)"/>
                   </refinement>
                   <postCondition name="true"/>
-                  <preCondition name="modifiable(\nothing);(true) &amp; (source.isLocked() = FALSE)"/>
+                  <preCondition name="modifiable(\nothing);(true) &amp; (destination.isLocked() = FALSE)"/>
                 </commands>
               </refinement>
               <postCondition name="true"/>
