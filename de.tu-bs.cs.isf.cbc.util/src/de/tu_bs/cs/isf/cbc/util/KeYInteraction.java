@@ -93,7 +93,7 @@ public class KeYInteraction {
 			try {
 				proof.saveToFile(location);
 				
-				//printStatistics(proof, inlining);
+//				printStatistics(proof, inlining);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -210,7 +210,7 @@ public class KeYInteraction {
 			Console.println("Inlining");
 		else
 			Console.println("Contracting");
-		Console.println("Statistics: \n\t nodes: " + s.nodes + "\n\t rule apps: " + s.totalRuleApps
+		Console.println("Statistics: \n\t nodes: " + s.nodes //+ "\n\t rule apps: " + s.totalRuleApps
 				+ "\n\t time in Millis: " + s.timeInMillis );
 	}
 
