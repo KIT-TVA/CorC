@@ -7,10 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-<<<<<<< HEAD
 import org.antlr.runtime.RecognitionException;
-=======
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -20,12 +17,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.key_project.util.collection.ImmutableSet;
 
-<<<<<<< HEAD
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
-=======
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 import de.uka.ilkd.key.control.KeYEnvironment;
 import de.uka.ilkd.key.gui.MainWindow;
 import de.uka.ilkd.key.java.abstraction.KeYJavaType;
@@ -34,11 +28,8 @@ import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.Statistics;
 import de.uka.ilkd.key.proof.init.ProofInputException;
 import de.uka.ilkd.key.proof.io.ProblemLoaderException;
-<<<<<<< HEAD
 import de.uka.ilkd.key.java.ConvertException;
 import de.uka.ilkd.key.java.PosConvertException;
-=======
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 import de.uka.ilkd.key.settings.ChoiceSettings;
 import de.uka.ilkd.key.settings.ProofSettings;
 import de.uka.ilkd.key.speclang.Contract;
@@ -47,15 +38,10 @@ import de.uka.ilkd.key.util.KeYTypeUtil;
 import de.uka.ilkd.key.util.MiscTools;
 
 public class KeYInteraction {
-<<<<<<< HEAD
 	private static String lastErrorMessage = "";
 
 	public static Proof startKeyProof(File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
 			AbstractStatement statement, String problem, String uri) {
-=======
-	
-	public static Proof startKeyProof(File location, IProgressMonitor monitor, boolean inlining) {
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 		Proof proof = null;
 		List<File> classPaths = null; // Optionally: Additional specifications
 										// for API classes
@@ -81,17 +67,10 @@ public class KeYInteraction {
 			proof = env.getLoadedProof();
 			// Set proof strategy options
 			StrategyProperties sp = proof.getSettings().getStrategySettings().getActiveStrategyProperties();
-<<<<<<< HEAD
 			if (inlining)
 				sp.setProperty(StrategyProperties.METHOD_OPTIONS_KEY, StrategyProperties.METHOD_EXPAND);
 			else
 				sp.setProperty(StrategyProperties.METHOD_OPTIONS_KEY, StrategyProperties.METHOD_CONTRACT);// METHOD_EXPAND
-=======
-			if(inlining)
-				sp.setProperty(StrategyProperties.METHOD_OPTIONS_KEY, StrategyProperties.METHOD_EXPAND);
-			else
-				sp.setProperty(StrategyProperties.METHOD_OPTIONS_KEY, StrategyProperties.METHOD_CONTRACT);//METHOD_EXPAND
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 			sp.setProperty(StrategyProperties.LOOP_OPTIONS_KEY, StrategyProperties.LOOP_EXPAND);
 			sp.setProperty(StrategyProperties.DEP_OPTIONS_KEY, StrategyProperties.DEP_ON);
 			sp.setProperty(StrategyProperties.QUERY_OPTIONS_KEY, StrategyProperties.QUERY_RESTRICTED);//
@@ -110,11 +89,7 @@ public class KeYInteraction {
 				env.getUi().getProofControl().startAutoMode(proof);
 				while (env.getUi().getProofControl().isInAutoMode()) {
 					if (monitor.isCanceled()) {
-<<<<<<< HEAD
 						env.getUi().getProofControl().stopAutoMode();
-=======
-						env.getUi().getProofControl().stopAndWaitAutoMode();
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 						Console.println("  Proof is canceled.");
 					}
 				}
@@ -136,6 +111,9 @@ public class KeYInteraction {
 								"Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer.");	
 				}
 
+=======
+				
+>>>>>>> b52c9fb4 (only one proof with save)
 //				printStatistics(proof, inlining);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -143,22 +121,10 @@ public class KeYInteraction {
 
 		} catch (ProblemLoaderException e) {
 			handleError(e);
-=======
-				
-				//printStatistics(proof, inlining);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-		} catch (ProblemLoaderException e) {
-			Console.println("  Exception at '" + e.getCause() + "'");
-			e.printStackTrace();
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 		}
 		return proof;
 	}
 	
-<<<<<<< HEAD
 	private static void handleError(ProblemLoaderException ex) {
 		Throwable error = ex.getCause();
 		
@@ -235,8 +201,6 @@ public class KeYInteraction {
 		}
 	}
 
-=======
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 	public static void startKeYProofFirstContract(File location, int proofCounter) {
 		File keyFile = null;
 		List<File> classPaths = null; // Optionally: Additional specifications
@@ -268,17 +232,11 @@ public class KeYInteraction {
 				Set<KeYJavaType> kjts = env.getJavaInfo().getAllKeYJavaTypes();
 				for (KeYJavaType type : kjts) {
 					if (!KeYTypeUtil.isLibraryClass(type)) {
-<<<<<<< HEAD
 						ImmutableSet<IObserverFunction> targets = env.getSpecificationRepository()
 								.getContractTargets(type);
 						for (IObserverFunction target : targets) {
 							ImmutableSet<Contract> contracts = env.getSpecificationRepository().getContracts(type,
 									target);
-=======
-						ImmutableSet<IObserverFunction> targets = env.getSpecificationRepository().getContractTargets(type);
-						for (IObserverFunction target : targets) {
-							ImmutableSet<Contract> contracts = env.getSpecificationRepository().getContracts(type, target);
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 							for (Contract contract : contracts) {
 								proofContracts.add(contract);
 							}
@@ -297,12 +255,8 @@ public class KeYInteraction {
 					sp.setProperty(StrategyProperties.LOOP_OPTIONS_KEY, StrategyProperties.LOOP_INVARIANT);
 					sp.setProperty(StrategyProperties.DEP_OPTIONS_KEY, StrategyProperties.DEP_ON);
 					sp.setProperty(StrategyProperties.QUERY_OPTIONS_KEY, StrategyProperties.QUERY_RESTRICTED);// StrategyProperties.QUERY_ON
-<<<<<<< HEAD
 					sp.setProperty(StrategyProperties.NON_LIN_ARITH_OPTIONS_KEY,
 							StrategyProperties.NON_LIN_ARITH_DEF_OPS);
-=======
-					sp.setProperty(StrategyProperties.NON_LIN_ARITH_OPTIONS_KEY, StrategyProperties.NON_LIN_ARITH_DEF_OPS);
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 					sp.setProperty(StrategyProperties.STOPMODE_OPTIONS_KEY, StrategyProperties.STOPMODE_DEFAULT);
 					proof.getSettings().getStrategySettings().setActiveStrategyProperties(sp);
 					// Make sure that the new options are used
@@ -310,17 +264,12 @@ public class KeYInteraction {
 					ProofSettings.DEFAULT_SETTINGS.getStrategySettings().setMaxSteps(maxSteps);
 					ProofSettings.DEFAULT_SETTINGS.getStrategySettings().setActiveStrategyProperties(sp);
 					proof.getSettings().getStrategySettings().setMaxSteps(maxSteps);
-<<<<<<< HEAD
 					proof.setActiveStrategy(
 							proof.getServices().getProfile().getDefaultStrategyFactory().create(proof, sp));
-=======
-					proof.setActiveStrategy(proof.getServices().getProfile().getDefaultStrategyFactory().create(proof, sp));
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 					// Start auto mode
 //						MainWindow.getInstance().setVisible(true);
 					env.getUi().getProofControl().startAndWaitForAutoMode(proof);
 					// Show proof result
-<<<<<<< HEAD
 					Console.println("  Proof is closed: " + proof.openGoals().isEmpty() + "\n");
 					try {
 						String locationWithoutFileEnding = location.toString().substring(0,
@@ -334,20 +283,6 @@ public class KeYInteraction {
 					} catch (IOException | CoreException e) {
 						e.printStackTrace();
 					}
-=======
-					Console.println("Proof is closed: " + proof.openGoals().isEmpty());
-	                try {
-	                	String locationWithoutFileEnding = location.toString().substring(0, location.toString().indexOf("."));
-	                	keyFile = new File(locationWithoutFileEnding + ".proof");
-	    				proof.saveToFile(keyFile);
-	    				IWorkspace workspace = ResourcesPlugin.getWorkspace();    
-	    				IPath iLocation = Path.fromOSString(keyFile.getAbsolutePath()); 
-	    				IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-	    				ifile.refreshLocal(0, null);
-	    			} catch (IOException | CoreException e) {
-	    				e.printStackTrace();
-	    			}
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
 				} catch (ProofInputException e) {
 					Console.println(
 							"Exception at '" + contract.getDisplayName() + "' of " + contract.getTarget() + ":");
@@ -369,7 +304,6 @@ public class KeYInteraction {
 			e.printStackTrace();
 		}
 	}
-<<<<<<< HEAD
 
 	private static void printStatistics(Proof proof, boolean inlining) throws IOException {
 		Statistics s = proof.getStatistics();
@@ -377,6 +311,7 @@ public class KeYInteraction {
 			Console.println("Inlining");
 		else
 			Console.println("Contracting");
+<<<<<<< HEAD
 		Console.println("Statistics: \n\t nodes: " + s.nodes // + "\n\t rule apps: " + s.totalRuleApps
 				+ "\n\t time in Millis: " + s.timeInMillis);
 
@@ -387,16 +322,9 @@ public class KeYInteraction {
 //		helper.createStatisticFiles("test", exampleFileString);
 
 =======
-	
-	private static void printStatistics(Proof proof, boolean inlining) {
-		Statistics s = proof.getStatistics();
-		if(inlining)
-			Console.println("Inlining");
-		else
-			Console.println("Contracting");
-		Console.println("Statistics: \n\t nodes: " + s.nodes + "\n\t rule apps: " + s.totalRuleApps
+		Console.println("Statistics: \n\t nodes: " + s.nodes //+ "\n\t rule apps: " + s.totalRuleApps
 				+ "\n\t time in Millis: " + s.timeInMillis );
->>>>>>> 669c3bb0 (Refactored ProveWithKeY)
+>>>>>>> b52c9fb4 (only one proof with save)
 	}
 
 }
