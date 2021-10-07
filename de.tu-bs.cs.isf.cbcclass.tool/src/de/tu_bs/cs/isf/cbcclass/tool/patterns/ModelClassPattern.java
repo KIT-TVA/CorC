@@ -568,7 +568,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 						Field field = fields.get(fields.size() - 1);
 						Shape shapeText = Graphiti.getPeCreateService()
 								.createShape((ContainerShape) context.getPictogramElement(), true);
-						Text variableNameText = Graphiti.getGaService().createText(shapeText, field.getName());
+						Text variableNameText = Graphiti.getGaService().createText(shapeText, field.getDisplayedName());
 						setId(variableNameText, ID_CLASS_FIELDS_TEXT);
 						setIndex(variableNameText, newIndex);
 						variableNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
@@ -579,7 +579,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 							Field field = fields.get(fields.size() - 1);
 							Shape shapeText = Graphiti.getPeCreateService()
 									.createShape((ContainerShape) context.getPictogramElement(), true);
-							Text variableNameText = Graphiti.getGaService().createText(shapeText, field.getName());
+							Text variableNameText = Graphiti.getGaService().createText(shapeText, field.getDisplayedName());
 							setId(variableNameText, ID_CLASS_FIELDS_TEXT);
 							setIndex(variableNameText, newIndex);
 							variableNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);

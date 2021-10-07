@@ -37,6 +37,7 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
@@ -93,9 +94,12 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 		
 		
 		
-		de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field field = CbcclassFactory.eINSTANCE.createField();
-		field.setName("int[] field");
+		Field field = CbcclassFactory.eINSTANCE.createField();
+		field.setVisibility(Visibility.PUBLIC);
+		field.setName("field");
 		field.setType("int[]");
+		field.setIsFinal(false);
+		field.setIsStatic(false);
 		
 		modelClass.getFields().add(field);
 		ModelClassHelper.setObject(field);
@@ -118,13 +122,13 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 	
 	@Override
 	public void setValue(String value, IDirectEditingContext context) {
-		
+		//TODO Max: neuer Wert muss in Typ, Name, Visibility, etc. gesplittet werden und einzeln für das Feld gesetzt werden. In getDisplayedName werden diese einzelnen Infos automatisch zusammengesetzt
 		Field field = (Field) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		field.setName(value.trim());
 
 		ShapeImpl shape = (ShapeImpl)context.getPictogramElement();
 		TextImpl text = (TextImpl)shape.getGraphicsAlgorithm();
-		text.setValue(field.getName());
+		text.setValue(field.getDisplayedName());
 		
 		
 		updatePictogramElement(context.getPictogramElement());
@@ -247,7 +251,7 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 		if (id.equals(ID_FIELD_TEXT)) {
 			Text nameText = (Text) context.getGraphicsAlgorithm();
 			Field domainObject = (Field) context.getDomainObject();
-			nameText.setValue(domainObject.getName());
+			nameText.setValue(domainObject.getDisplayedName());
 			return true;
 		}
 		return false;
@@ -268,7 +272,7 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 	@Override
 	public String getInitialValue(IDirectEditingContext context) {
 		Field field = (Field) getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return field.getName();
+		return field.getDisplayedName();
 	}
 
 
