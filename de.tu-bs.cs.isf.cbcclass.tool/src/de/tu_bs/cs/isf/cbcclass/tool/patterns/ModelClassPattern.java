@@ -1,6 +1,13 @@
 package de.tu_bs.cs.isf.cbcclass.tool.patterns;
 
+import java.awt.Frame;
+import java.io.IOException;
 import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IReason;
@@ -48,7 +55,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ConditionImpl;
 import de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassImageProvider;
 import helper.ModelClassHelper;
-import helper.ShapeWithText;
+import model.CbcClassUtil;
 
 
 public class ModelClassPattern extends IdPattern implements IPattern {
@@ -68,7 +75,10 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 	private static final String ID_NAME_TEXT = "nameText";
 	private static final String ID_CLASS_FIELDS_TEXT = "fieldsNameText";
 	private static final String ID_CLASS_INVARIANTS_TEXT = "classInvariantsText";
-	private static final String ID_CLASS_METHODS_TEXT = "classMethodsText";
+	private static final String ID_CLASS_METHODS_POST_TEXT = "classMethodsPostText";
+	private static final String ID_CLASS_METHODS_PRE_TEXT = "classMethodsPreText";
+	private static final String ID_CLASS_METHODS_SIGNATURE_TEXT = "classMethodsSignatureText";
+	
 	private static final String ID_MAIN_RECTANGLE = "mainRectangle";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
 	// Header:
@@ -78,8 +88,12 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 	// lines:
 	private static final String ID_HOR1_LINE = "hor1Line";
 	private static final String ID_HOR2_LINE = "hor2Line";
-	private static final String ID_VER1_LINE = "ver1Line";
-	private static final String ID_VER2_LINE = "ver2Line";
+	private static final String ID_HOR3_LINE = "hor3Line";
+	private static final String ID_HOR4_LINE = "hor4Line";
+	private static final String ID_HOR5_LINE = "hor5Line";
+	private static final String ID_HOR6_LINE = "hor6Line";
+	//private static final String ID_VER1_LINE = "ver1Line";
+	//private static final String ID_VER2_LINE = "ver2Line";
 	
 	private MultiText invariantsText;
 	private Shape textShapeInvariants;
@@ -89,6 +103,12 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 	
 	private Shape textShapeMethods;
 	private MultiText methodsText;
+	
+	private int width;
+	private int height;
+	
+	
+	public static ModelClass instance;
 	
 	
 	
@@ -121,20 +141,32 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 	
 	// Create all elements
 	public Object[] create (ICreateContext context) {
+		
+		Frame jf=new JFrame();
+		jf.setAlwaysOnTop(true);
+		String input = "Model Class";
+		
+		input = (String) JOptionPane.showInputDialog(null, "Choose a class name");
+	
+		//input = (String) JOptionPane.showInputDialog(null, "Choose a class name",
+		//		"Class Name", JOptionPane.QUESTION_MESSAGE, null, new String[] {"a", "b"}, "a");
+		
+		
 		ModelClass modelClass = CbcclassFactory.eINSTANCE.createModelClass();
 		modelClass.setName(getDiagram().getName());
-		modelClass.setName("Model Class");
+		modelClass.setName(input);
 		
-		
-		//de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field field = CbcclassFactory.eINSTANCE.createField();
-		//field.setName("field");
-		//modelClass.getFields().add(field);
+		instance = modelClass;
 
 		
-		//CbcmodelFactory.eINSTANCE.createCondition();
-		
-				
-		//CbcclassFactory.eINSTANCE.createMethod();
+	
+
+		try {
+			CbcClassUtil.saveModelClass(modelClass, getDiagram());
+		} catch (CoreException | IOException e) {
+			e.printStackTrace();
+		}
+
 		
 		
 		addGraphicalRepresentation(context, modelClass);
@@ -157,8 +189,8 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		IGaService gaService = Graphiti.getGaService();
 
-		int width = context.getWidth() <= 0 ? 200 : context.getWidth();
-		int height = context.getHeight() <= 0 ? 100 : context.getHeight();
+		width = context.getWidth() <= 0 ? 400 : context.getWidth();
+		height = context.getHeight() <= 0 ? 400 : context.getHeight();
 
 		Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
 		
@@ -248,7 +280,24 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 		Shape hor2LineShape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor2Polyline = gaService.createPolyline(hor2LineShape);
 		setId(hor2Polyline, ID_HOR2_LINE);
+		
+		Shape hor3LineShape = peCreateService.createShape(outerContainerShape, false);
+		Polyline hor3Polyline = gaService.createPolyline(hor3LineShape);
+		setId(hor3Polyline, ID_HOR3_LINE);
 
+		Shape hor4LineShape = peCreateService.createShape(outerContainerShape, false);
+		Polyline hor4Polyline = gaService.createPolyline(hor4LineShape);
+		setId(hor4Polyline, ID_HOR4_LINE);
+		
+		Shape hor5LineShape = peCreateService.createShape(outerContainerShape, false);
+		Polyline hor5Polyline = gaService.createPolyline(hor5LineShape);
+		setId(hor5Polyline, ID_HOR5_LINE);
+		
+		Shape hor6LineShape = peCreateService.createShape(outerContainerShape, false);
+		Polyline hor6Polyline = gaService.createPolyline(hor6LineShape);
+		setId(hor6Polyline, ID_HOR6_LINE);
+
+		/*
 		Shape ver1LineShape = peCreateService.createShape(outerContainerShape, false);
 		Polyline ver1Polyline = gaService.createPolyline(ver1LineShape);
 		setId(ver1Polyline, ID_VER1_LINE);
@@ -256,6 +305,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 		Shape ver2LineShape = peCreateService.createShape(outerContainerShape, false);
 		Polyline ver2Polyline = gaService.createPolyline(ver2LineShape);
 		setId(ver2Polyline, ID_VER2_LINE);
+		*/
 
 		peCreateService.createChopboxAnchor(textShapeFields);
 		
@@ -318,6 +368,9 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 		GraphicsAlgorithm mainRectangle = context.getRootPictogramElement().getGraphicsAlgorithm();
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		
+		width = mainRectangle.getWidth();
+		height = mainRectangle.getHeight();
+		
 		int third = mainRectangle.getWidth() / 3;
 		// stable sizes from Name and Header save space when the diagram gets big!
 		int sizeName = 30; // size from Formular block
@@ -331,50 +384,57 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 		int sizeFields = modelClass.getFields().size();
 		int sizeMethods = modelClass.getMethods().size();
 		
-		int sizeTextInvariants = sizeText;
-		int sizeTextMethods = sizeText;
-		int sizeTextFields = sizeText;
+		sizeText = 30;
 		
-		if (sizeInvariants >= 1) {
-			sizeTextInvariants = sizeTextInvariants / (sizeInvariants + 1);	
+		// check if resizing is necessary
+		int totalSize = sizeInvariants + sizeFields + sizeMethods;
+		
+		if (height / (totalSize * sizeText + 1) < 2.5) {
+			mainRectangle.setHeight( height + 30);
+			mainRectangle.setWidth( width + 20);
 		}
 		
-		if (sizeMethods >= 1) {
-			sizeTextMethods = sizeTextMethods / (sizeMethods + 1);	
-		}
-		
-		if (sizeFields >= 1) {
-			sizeTextFields = sizeTextFields / (sizeFields + 1);	
-		}
-		
+
+		int beginYFieldHeader = positionText + sizeText * (modelClass.getClassInvariants().size()) + 50;
+		int beginYMethodHeader = positionText + sizeText * (modelClass.getClassInvariants().size() + modelClass.getFields().size()) + 150;
 		
 		if (id.equals(ID_NAME_TEXT)) {
 			Graphiti.getGaService().setLocationAndSize(ga, 0, 5, mainRectangle.getWidth(), sizeName);
 			changesDone = true;
 		} else if (id.equals(ID_CLASS_INVARIANTS_TEXT)) {
 			//int index = getIndex(context.getGraphicsAlgorithm());
-			Graphiti.getGaService().setLocationAndSize(ga, 0, positionText * (indexInvariant + 1), third, sizeTextInvariants);
+			Graphiti.getGaService().setLocationAndSize(ga, 0, positionText + sizeText * (indexInvariant), mainRectangle.getWidth(), sizeText);
 			
 			changesDone = true;
 		} else if (id.equals(ID_CLASS_FIELDS_TEXT)) {
 			//int index = getIndex(context.getGraphicsAlgorithm());
-			Graphiti.getGaService().setLocationAndSize(ga, third, positionText * (indexField + 1), third, sizeTextFields);
+			Graphiti.getGaService().setLocationAndSize(ga, 0, beginYFieldHeader + sizeText * (indexField + 1) - 7, mainRectangle.getWidth(), sizeText);
 			changesDone = true;
-		} else if (id.equals(ID_CLASS_METHODS_TEXT)) {
+		} else if (id.equals(ID_CLASS_METHODS_PRE_TEXT)) {
 			//int index = getIndex(context.getGraphicsAlgorithm());
-			Graphiti.getGaService().setLocationAndSize(ga, third * 2, positionText * (indexMethod + 1), third, sizeTextMethods);
+			Graphiti.getGaService().setLocationAndSize(ga, 0, beginYMethodHeader + sizeText * (indexMethod + 1) - 7, mainRectangle.getWidth() / 3, sizeText);
+			changesDone = true;
+		} else if (id.equals(ID_CLASS_METHODS_POST_TEXT)) {
+			//int index = getIndex(context.getGraphicsAlgorithm());
+			Graphiti.getGaService().setLocationAndSize(ga, third, beginYMethodHeader + sizeText * (indexMethod + 1) - 7, mainRectangle.getWidth() / 3, sizeText);
+			changesDone = true;
+		} else if (id.equals(ID_CLASS_METHODS_SIGNATURE_TEXT)) {
+			//int index = getIndex(context.getGraphicsAlgorithm());
+			Graphiti.getGaService().setLocationAndSize(ga, third * 2, beginYMethodHeader + sizeText * (indexMethod + 1) - 7, mainRectangle.getWidth() / 3, sizeText);
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
 			changesDone = true;
 		} else if (id.equals(ID_CLASS_INVARIANTS_HEADER)) {
-			Graphiti.getGaService().setLocationAndSize(ga, 0, positionHeader, third, sizeHeader);
-			changesDone = true;
-		} else if (id.equals(ID_CLASS_FIELDS_HEADER)) {
 			Graphiti.getGaService().setLocationAndSize(ga, third, positionHeader, third, sizeHeader);
 			changesDone = true;
+		} else if (id.equals(ID_CLASS_FIELDS_HEADER)) {
+			//Graphiti.getGaService().setLocationAndSize(ga, third, positionHeader, third, sizeHeader);
+			Graphiti.getGaService().setLocationAndSize(ga, third, beginYFieldHeader, third, sizeHeader);
+			changesDone = true;
 		} else if (id.equals(ID_CLASS_METHODS_HEADER)) {
-			Graphiti.getGaService().setLocationAndSize(ga, third * 2, positionHeader, third, sizeHeader);
+			//Graphiti.getGaService().setLocationAndSize(ga, third, positionHeader, third, sizeHeader);
+			Graphiti.getGaService().setLocationAndSize(ga, third, beginYMethodHeader, third, sizeHeader);
 			changesDone = true;
 		} else if (id.equals(ID_HOR1_LINE)) {
 			Polyline polyline = (Polyline) ga;
@@ -390,7 +450,38 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 					mainRectangle.getWidth(), positionHeader + sizeHeader });
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
-		} else if (id.equals(ID_VER1_LINE)) {
+		} else if (id.equals(ID_HOR3_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService().createPointList(new int[] { 0, beginYFieldHeader,
+					mainRectangle.getWidth(), beginYFieldHeader });
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
+		} else if (id.equals(ID_HOR4_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService().createPointList(new int[] { 0, beginYFieldHeader + 20,
+					mainRectangle.getWidth(), beginYFieldHeader + 20 });
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
+		} else if (id.equals(ID_HOR5_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService().createPointList(new int[] { 0, beginYMethodHeader,
+					mainRectangle.getWidth(), beginYMethodHeader });
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
+		}  else if (id.equals(ID_HOR6_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService().createPointList(new int[] { 0, beginYMethodHeader + 20,
+					mainRectangle.getWidth(), beginYMethodHeader + 20});
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
+		}
+		
+		
+		/* else if (id.equals(ID_VER1_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
@@ -405,6 +496,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		}
+		*/
 
 		return changesDone;
 	}
@@ -438,12 +530,14 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 			EList<Condition> invariants = modelClass.getClassInvariants();
 			EList<Method> methods = modelClass.getMethods();
 			
+		
+			
 
 			//int size = invariants.size();
-			int size = invariants.size() + fields.size() + methods.size();
+			int size = invariants.size() + fields.size() + methods.size() * 3;
 
-			while (((ContainerShape) context.getPictogramElement()).getChildren().size() - 9 < size) {
-				int newIndex = ((ContainerShape) context.getPictogramElement()).getChildren().size() - 9;
+			while (((ContainerShape) context.getPictogramElement()).getChildren().size() - 11 < size) {
+				int newIndex = ((ContainerShape) context.getPictogramElement()).getChildren().size() - 11;
 				
 				if (ModelClassHelper.getObject() instanceof ConditionImpl) {
 					if (newIndex < invariants.size()) {
@@ -496,28 +590,76 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 					} else if (ModelClassHelper.getObject() instanceof MethodImpl) {
 						if (newIndex < methods.size()) {
 							Method method = methods.get(methods.size() - 1);
-							Shape shapeText = Graphiti.getPeCreateService()
-									.createShape((ContainerShape) context.getPictogramElement(), true);
-							Text variableNameText = Graphiti.getGaService().createText(shapeText, method.getSignature());
-							setId(variableNameText, ID_CLASS_METHODS_TEXT);
-							setIndex(variableNameText, newIndex);
-							variableNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-							variableNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-							link(shapeText, method);
-						
-						}  else {
-								Method method = methods.get(methods.size() - 1);
-								Shape shapeText = Graphiti.getPeCreateService()
-										.createShape((ContainerShape) context.getPictogramElement(), true);
-								Text variableNameText = Graphiti.getGaService().createText(shapeText, method.getSignature());
-								setId(variableNameText, ID_CLASS_METHODS_TEXT);
-								setIndex(variableNameText, newIndex);
-								variableNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-								variableNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-								link(shapeText, method);
-							}	
 							
-						}
+							// Pre-Con
+							Shape shapePreConditionText = Graphiti.getPeCreateService()
+									.createShape((ContainerShape) context.getPictogramElement(), true);
+							Text preConditionText = Graphiti.getGaService().createText(shapePreConditionText, method.getPrecondition().getName());
+							setId(preConditionText, ID_CLASS_METHODS_PRE_TEXT);
+							setIndex(preConditionText, newIndex);
+							preConditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+							preConditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+							//link(shapePreConditionText, method.getPrecondition());
+							link(shapePreConditionText, method);
+							
+							// Post-Con
+							Shape shapePostConditionText = Graphiti.getPeCreateService()
+									.createShape((ContainerShape) context.getPictogramElement(), true);
+							Text postConditionText = Graphiti.getGaService().createText(shapePostConditionText, method.getPostcondition().getName());
+							setId(postConditionText, ID_CLASS_METHODS_POST_TEXT);
+							setIndex(postConditionText, newIndex + 1);
+							postConditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+							postConditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+							//link(shapePostConditionText, method.getPostcondition());
+							link(shapePostConditionText, method);
+							
+							//Signature
+							Shape shapeSignatureText = Graphiti.getPeCreateService()
+									.createShape((ContainerShape) context.getPictogramElement(), true);
+							Text signatureText = Graphiti.getGaService().createText(shapeSignatureText, method.getSignature());
+							setId(signatureText, ID_CLASS_METHODS_SIGNATURE_TEXT);
+							setIndex(signatureText, newIndex + 2);
+							signatureText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+							signatureText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+							link(shapeSignatureText, method);
+							
+	
+						}  else {
+							// Pre-Con
+							Method method = methods.get(methods.size() - 1);
+							Shape shapePreConditionText = Graphiti.getPeCreateService()
+									.createShape((ContainerShape) context.getPictogramElement(), true);
+							Text preConditionText = Graphiti.getGaService().createText(shapePreConditionText, method.getPrecondition().getName());
+							setId(preConditionText, ID_CLASS_METHODS_PRE_TEXT);
+							setIndex(preConditionText, newIndex);
+							preConditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+							preConditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+							//link(shapePreConditionText, method.getPrecondition());
+							link(shapePreConditionText, method);
+							
+							// Post-Con
+							Shape shapePostConditionText = Graphiti.getPeCreateService()
+									.createShape((ContainerShape) context.getPictogramElement(), true);
+							Text postConditionText = Graphiti.getGaService().createText(shapePostConditionText, method.getPostcondition().getName());
+							setId(postConditionText, ID_CLASS_METHODS_POST_TEXT);
+							setIndex(postConditionText, newIndex + 1);
+							postConditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+							postConditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+							//link(shapePostConditionText, method.getPostcondition());
+							link(shapePostConditionText, method);
+							
+							//Signature
+							Shape shapeSignatureText = Graphiti.getPeCreateService()
+									.createShape((ContainerShape) context.getPictogramElement(), true);
+							Text signatureText = Graphiti.getGaService().createText(shapeSignatureText, method.getSignature());
+							setId(signatureText, ID_CLASS_METHODS_SIGNATURE_TEXT);
+							setIndex(signatureText, newIndex + 2);
+							signatureText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+							signatureText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+							link(shapeSignatureText, method);
+						}	
+							
+					}
 				}
 	
 			return true;

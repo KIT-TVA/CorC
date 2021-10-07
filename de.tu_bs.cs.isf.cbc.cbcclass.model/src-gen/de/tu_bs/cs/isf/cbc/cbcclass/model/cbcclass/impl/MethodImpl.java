@@ -594,6 +594,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		 newSignature = newSignature.replaceFirst(methodName +"\\(", "");
 		 
 		 String parameters = newSignature.substring(0, newSignature.indexOf(")"));
+		 if(!parameters.isBlank()) {
 		 String[] paramArray = parameters.split(",");
 		 getParameters().clear();
 		 for(int i = 0; i < paramArray.length; i++) {
@@ -604,6 +605,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 			 p.setType(type);
 			 p.setName(name);
 			 getParameters().add(p);
+		 }
 		 }
 	}
 

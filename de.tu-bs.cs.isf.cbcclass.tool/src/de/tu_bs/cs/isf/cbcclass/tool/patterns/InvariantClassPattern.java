@@ -1,5 +1,8 @@
 package de.tu_bs.cs.isf.cbcclass.tool.patterns;
 
+import java.io.IOException;
+
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -22,6 +25,7 @@ import org.eclipse.graphiti.pattern.id.IdUpdateContext;
 import org.eclipse.graphiti.services.Graphiti;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ModelClassImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -37,7 +41,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import helper.ModelClassHelper;
-import helper.ShapeWithText;
+import model.CbcClassUtil;
+
 
 public class InvariantClassPattern extends IdPattern implements IPattern {
 
@@ -77,6 +82,17 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 		
 		modelClass.getClassInvariants().add(condition);
 		ModelClassHelper.setObject(condition);
+		
+		
+		/*
+		
+		try {
+			CbcClassUtil.saveCondition(condition, getDiagram());
+		} catch (CoreException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		*/
 		
 		updatePictogramElement(context.getTargetContainer());
 		return new Object[] { condition };
@@ -178,10 +194,10 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 	
 	@Override
 	public String getInitialValue(IDirectEditingContext context) {
-		System.out.println("Invariant.getInitialValue");
 		Condition condition = (Condition) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		return System.getProperty("line.separator") + condition.getName() + System.getProperty("line.separator");
 	}
+	
 	
 	@Override
 	public String checkValueValid(String value, IDirectEditingContext context) {
@@ -212,23 +228,6 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 		
 		Condition condition = (Condition) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		condition.setName(value.trim());
-		
-		// TODO: CHECK
-		/*
-		if (!(condition.eContainer() instanceof GlobalConditions)) {
-			UpdateConditionsOfChildren.updateConditionsofChildren(condition);
-		} else if (condition.eContainer() instanceof GlobalConditions) {
-			CbCFormula formula = null;
-			for (Shape shape : getDiagram().getChildren()) {
-				Object obj = getBusinessObjectForPictogramElement(shape);
-				if (obj instanceof CbCFormula) {
-					formula = (CbCFormula) obj;
-					formula.setProven(false);
-					UpdateConditionsOfChildren.setAllStatementsUnproven(formula.getStatement());
-				}
-			}
-		}
-		*/
 
 		ShapeImpl shape = (ShapeImpl)context.getPictogramElement();
 		TextImpl text = (TextImpl)shape.getGraphicsAlgorithm();
@@ -240,43 +239,12 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 	}
 	
 	
-	@Override
+	
+	@Override 
 	public void delete(IDeleteContext context) {
-		Shape shape = (Shape) context.getPictogramElement();
-		ContainerShape container = shape.getContainer();
+		super.delete(context);
 
-		Condition condition = (Condition) getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (condition.eContainer() != null && condition.eContainer() instanceof GlobalConditions) {
-			int indexToDelete = getIndex(shape.getGraphicsAlgorithm());
-
-			for (Shape childShape : container.getChildren()) {
-				if (getIndex(childShape.getGraphicsAlgorithm()) > indexToDelete) {
-					setIndex(childShape.getGraphicsAlgorithm(), getIndex(childShape.getGraphicsAlgorithm()) - 1);
-				}
-			}
-			super.delete(context);
-			layoutPictogramElement(container);
-		} else {
-			super.delete(context);
-		}
 		
-		/*
-		CbCFormula formula = null;
-		for (Shape childShape : getDiagram().getChildren()) {
-			Object obj = getBusinessObjectForPictogramElement(childShape);
-			if (obj instanceof CbCFormula) {
-				formula = (CbCFormula) obj;
-			}
-		}
-		formula.setProven(false);
-		*/
-		
-		//TODO: CHECK
-		//UpdateConditionsOfChildren.setAllStatementsUnproven(formula.getStatement());
-		
-	
 	}
-	
-
-	
+	 
 }

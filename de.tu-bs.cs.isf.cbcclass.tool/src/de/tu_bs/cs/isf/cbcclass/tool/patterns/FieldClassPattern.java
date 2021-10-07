@@ -1,7 +1,11 @@
 package de.tu_bs.cs.isf.cbcclass.tool.patterns;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -37,6 +41,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import helper.ModelClassHelper;
+import model.CbcClassUtil;
 
 public class FieldClassPattern extends IdPattern implements IPattern {
 	
@@ -58,7 +63,7 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 
 	@Override
 	public String getCreateDescription() {
-		return "Create a Class Field";
+		return "Create a class field: \n[modifier] [static] [final] type name \n[] means optional.\nExample: private final int[] number";
 	}
 	
 
@@ -86,12 +91,24 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 	public Object[] create (ICreateContext context) {
 		ModelClass modelClass = (ModelClass) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		
+		
+		
 		de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field field = CbcclassFactory.eINSTANCE.createField();
 		field.setName("int[] field");
 		field.setType("int[]");
 		
 		modelClass.getFields().add(field);
 		ModelClassHelper.setObject(field);
+		
+		
+		/*
+		try {
+			CbcClassUtil.saveField(field, getDiagram());
+		} catch (CoreException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		*/
 		
 		updatePictogramElement(context.getTargetContainer());
 		return new Object[] { field };
@@ -125,11 +142,85 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 	}
 		
 	
-	
+	/*
 	// TODO
 	@Override
 	public String checkValueValid(String value, IDirectEditingContext context) {
+		if (value == null || value.length() == 0) {
+			return "Variable must not be empty";
+		} 
+		
+		
+		else if (value.length() > 0 && !value.toLowerCase().matches(
+				
+				"(static\\s)?"+")?(int|char|float|long|boolean|byte|short|double|([A-Za-z]\\w*))(\\[\\])?\\s[a-zA-Z]\\w*")) {
+			return "Variable must contain a kind, a type and a name";
+		}
 		return null;
+	}
+	*/
+	
+	
+	@Override
+	public String checkValueValid(String value, IDirectEditingContext context) {
+		if (value == null || value.length() == 0) {
+			return "Variable must not be empty";
+		} 
+		
+		
+		else if (value.length() > 0 && !value.toLowerCase().matches(
+				
+				/*
+				"(public\\s|private\\s|protected\\s)?" +
+				"(static\\s)?" +
+				"(final\\s)?" +		
+				"(int|char|float|long|boolean|byte|short|double|([A-Za-z]\\w*))(\\[\\])?\\s[a-zA-Z]\\w*")) {
+				*/
+				
+			
+			
+			"(public\\s|private\\s|protected\\s|)" +
+					"(static\\s)?" +
+					"(final\\s)?" +		
+					"(int|char|float|long|boolean|byte|short|double|([A-Za-z]\\w*))(\\[\\])?\\s[a-zA-Z]\\w*")) {
+			
+			
+			//return "Variable must contain a kind, a type and a name";
+			return "Field must contain a type and a name";
+		}
+		
+		
+		if (hasKeywordsAsTypeOrName(value)) {
+			return "Keywords aren't allowed as a data type or field name";
+		} 
+		
+	
+	
+		
+		return null;
+	}
+	
+	
+	private boolean hasKeywordsAsTypeOrName(String value) {
+
+		ArrayList<String> keywords = new ArrayList<>(Arrays.asList("public", "private", "protected", "static", "final"));
+		
+		String[] tokens = value.split(" ");
+		
+		if (tokens.length > 1) {
+			
+			String lastValue = tokens[tokens.length -1 ].trim();
+			String penultimateValue = tokens[tokens.length - 2].trim();
+			
+			if (keywords.contains(lastValue) || keywords.contains(penultimateValue)) {
+				return true;
+			} 
+			
+			return false;
+		}
+
+		return false;
+		
 	}
 	
 
