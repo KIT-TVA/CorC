@@ -25,7 +25,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.uka.ilkd.key.control.KeYEnvironment;
@@ -53,10 +52,15 @@ public class ProveWithKey {
 	private String uri;
 	private CbCFormula formula;
 	private IFileUtil fileHandler;
+	private String sourceFolder;
 	
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
 			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler) {
-		super();
+		this(statement, vars, conds, renaming, monitor, uri, formula, fileHandler, "src");
+	}
+	
+	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
+			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String srcFolder) {
 		this.statement = statement;
 		this.vars = vars;
 		this.conds = conds;
@@ -65,6 +69,7 @@ public class ProveWithKey {
 		this.uri = uri;
 		this.formula = formula;
 		this.fileHandler = fileHandler;
+		this.sourceFolder = srcFolder;
 	}
 	
 	public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, int numberfile) {
@@ -96,6 +101,7 @@ public class ProveWithKey {
 			boolean override, String callingMethod, String varM, boolean returnStatement) {
 		KeYFileContent content = new KeYFileContent();
 		content.setLocation(fileHandler.getProjectLocation(uri));
+		content.setSrcFolder(sourceFolder);
 		JavaVariable returnVariable = content.readVariables(vars);
 		content.readGlobalConditions(conds);
 		readPrePostModVars(refinements, returnVariable, callingMethod, content);
@@ -443,16 +449,21 @@ public class ProveWithKey {
 		}
 		return false;
 	}
-
-	public boolean proveCImpliesCWithKey(Condition preCondition, Condition postCondition) {
-		File location = createProveCImpliesCWithKey(preCondition.getName(), postCondition.getName(), 0, true);
+	
+	public boolean proveCImpliesCWithKey(Condition preCondition, Condition postCondition, int numberFile) {
+		File location = createProveCImpliesCWithKey(preCondition.getName(), postCondition.getName(), numberFile, true);
 		Console.println("  Verify Pre -> Invariant");
 		return proveWithKey(location, false);
+	}
+
+	public boolean proveCImpliesCWithKey(Condition preCondition, Condition postCondition) {
+		return proveCImpliesCWithKey(preCondition, postCondition, 0);
 	}
 
 	public File createProveCImpliesCWithKey(String preCondition, String postCondition, int numberFile, boolean override) {
 		KeYFileContent content = new KeYFileContent();
 		content.setLocation(fileHandler.getProjectLocation(uri));
+		content.setSrcFolder(sourceFolder);
 		content.readVariables(vars);
 		content.readGlobalConditions(conds);
 
@@ -501,6 +512,7 @@ public class ProveWithKey {
 	public File createProveVariantWithKey(String code, Condition invariant, Condition guard, Variant variant, int numberFile, boolean override) {
 		KeYFileContent content = new KeYFileContent();
 		content.setLocation(fileHandler.getProjectLocation(uri));
+		content.setSrcFolder(sourceFolder);
 		content.readVariables(vars);
 		content.addVariable("int variant");
 		content.readGlobalConditions(conds);
@@ -527,6 +539,7 @@ public class ProveWithKey {
 	private File createProveUseWeakestPreWithKey(int numberFile, boolean override) {
 		KeYFileContent content = new KeYFileContent();
 		content.setLocation(fileHandler.getProjectLocation(uri));
+		content.setSrcFolder(sourceFolder);
 		content.readVariables(vars);
 		content.readGlobalConditions(conds);
 		content.setStatement(statement.getName());
