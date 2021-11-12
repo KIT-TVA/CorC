@@ -56,7 +56,7 @@ public class ProveWithKey {
 	
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
 			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler) {
-		this(statement, vars, conds, renaming, monitor, uri, formula, fileHandler, "src");
+		this(statement, vars, conds, renaming, monitor, uri, formula, fileHandler, "");
 	}
 	
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
