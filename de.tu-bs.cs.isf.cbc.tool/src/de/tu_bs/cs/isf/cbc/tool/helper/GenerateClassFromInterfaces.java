@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -59,12 +59,22 @@ public class GenerateClassFromInterfaces {
 
 	public void execute(IFile file) {
 		project = FileUtil.getProjectFromFileInProject(URI.createURI(file.getFullPath().toPortableString()));
-		List<IFile> javaFiles = FileUtil.getJavaFilesFromProject(project);
-		String traitCompositionFileContent = readFileToString(file.getLocation().toPortableString());
+		handleTraitFiles(Collections.singletonList(file));
 	}
 	
 	public void execute(IProject project) {
 		this.project = project;
+		List<IFile> traitCompositionFiles = FileUtil.getFilesFromProject(project, ".tc");
+		Iterator<IFile> itr = traitCompositionFiles.iterator();
+		while(itr.hasNext()){
+		    if (itr.next().getLocation().toPortableString().contains("/bin/"))
+		    	itr.remove();
+		}
+		
+		handleTraitFiles(traitCompositionFiles);
+	}
+
+	private void handleTraitFiles(List<IFile> traitCompositionFiles) {
 		List<IFile> javaFiles = FileUtil.getJavaFilesFromProject(project);
 		Iterator<IFile> itr = javaFiles.iterator();
 		while(itr.hasNext()){
@@ -72,12 +82,7 @@ public class GenerateClassFromInterfaces {
 		    	itr.remove();
 		}
 		
-		List<IFile> traitCompositionFiles = FileUtil.getFilesFromProject(project, ".tc");
-		itr = traitCompositionFiles.iterator();
-		while(itr.hasNext()){
-		    if (itr.next().getLocation().toPortableString().contains("/bin/"))
-		    	itr.remove();
-		}
+		
 
 		for (IFile javaFile : javaFiles) {
 			String javaFileContent = readFileToString(javaFile.getLocation().toPortableString());
@@ -104,7 +109,7 @@ public class GenerateClassFromInterfaces {
 					for (int i = 0; i < abstractMethod.getPreCondition().size(); i++) {
 						JavaVariables vars = parametersToJavaVars(abstractMethod);
 						GlobalConditions conds = CbcmodelFactory.eINSTANCE.createGlobalConditions();
-						ProveWithKey proveImplication = new ProveWithKey(null, vars, conds, null, null, path, null, new FileUtil(path), "src_key");
+						ProveWithKey proveImplication = new ProveWithKey(null, vars, conds, null, null, path, null, new FileUtil(path), "/src_key");
 						proveImplication.proveCImpliesCWithKey(createConditionForKeY(abstractMethod.getPreCondition().get(i), vars, conds), createConditionForKeY(concreteMethod.getPreCondition().get(i), vars, conds), i*2);
 						proveImplication.proveCImpliesCWithKey(createConditionForKeY(concreteMethod.getPostCondition().get(i), vars, conds), createConditionForKeY(abstractMethod.getPostCondition().get(i), vars, conds), i*2+1);
 					}

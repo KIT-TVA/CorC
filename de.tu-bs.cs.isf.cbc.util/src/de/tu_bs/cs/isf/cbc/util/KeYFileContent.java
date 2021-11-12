@@ -37,7 +37,7 @@ public class KeYFileContent {
 	public static final Pattern REGEX_RESULT_KEYWORD = Pattern.compile("(\\\\result)");
 	
 	private String location = "";
-	private String srcFolder = "src";
+	private String srcFolder = "";
 	private String helper = "helper.key";
 	private String programVariables = "";
 	private String globalConditions = "";
@@ -298,7 +298,7 @@ public class KeYFileContent {
 		//	+ ">=0)}";
 	
 	public String keyHeader() {
-		return "\\javaSource \"" + location + "/" + srcFolder + "\";" + "\\include \"" + helper + "\";"
+		return "\\javaSource \"" + location + srcFolder + "\";" + "\\include \"" + helper + "\";"
 				+ "\\programVariables {" + programVariables + self +" Heap heapAtPre;}";
 	}
 	
