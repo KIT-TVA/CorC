@@ -129,7 +129,9 @@ public class FileUtil implements IFileUtil{
 	public static IProject getProjectFromFileInProject(URI uri) {
 		uri = uri.trimFragment();
 		String uriPath = uri.toPlatformString(true);
-
+		if (uriPath == null) {
+			uriPath = uri.toString();
+		}
 		uriPath = uriPath.substring(1, uriPath.length());
 		int positionOfSlash = uriPath.indexOf('/') + 1;
 		uriPath = uriPath.substring(positionOfSlash, uriPath.length());
@@ -236,7 +238,7 @@ public class FileUtil implements IFileUtil{
 	}
 	    
     public static Collection<Resource> getCbCClasses(IProject p) {
-        final List<IFile> files = getCbCClassFiles(p);
+        final List<IFile> files = getFiles(p, ".cbcclass");
         final List<Resource> cbcClassList = new ArrayList<Resource>();
         final ResourceSet rSet = new ResourceSetImpl();
         for (final IFile file : files) {
@@ -247,26 +249,33 @@ public class FileUtil implements IFileUtil{
         }
         return cbcClassList;
      }
-	 
-	    
-    private static List<IFile> getCbCClassFiles(IContainer folder) {
-        final List<IFile> ret = new ArrayList<IFile>();
+	  
+    public static List<IFile> getJavaFilesFromProject(IProject p) {
+        return getFiles(p, ".java");
+     }
+    
+    public static List<IFile> getFiles(IContainer p, String fileExtension) {
+        final List<IFile> files = new ArrayList<IFile>();
         try {
-             final IResource[] members = folder.members();
+             final IResource[] members = p.members();
              for (final IResource resource : members) {
                   if (resource instanceof IContainer) {
-                      ret.addAll(getCbCClassFiles((IContainer) resource));
+                	  files.addAll(getFiles((IContainer) resource, fileExtension));
                   } else if (resource instanceof IFile) {
                       final IFile file = (IFile) resource;
-                      if (file.getName().endsWith(".cbcclass")) {
-                           ret.add(file);
+                      if (file.getName().endsWith(fileExtension)) {
+                    	  files.add(file);
                       }
                   }
              }
         } catch (final CoreException e) {
                  e.printStackTrace();
         }
-        return ret;
+        return files;
+     }
+    
+    public static List<IFile> getFilesFromProject(IProject p, String fileExtension) {
+        return getFiles(p, fileExtension);
      }
 	 
     public static Resource getResourceFromFile(IFile file,

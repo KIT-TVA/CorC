@@ -37,6 +37,7 @@ public class KeYFileContent {
 	public static final Pattern REGEX_RESULT_KEYWORD = Pattern.compile("(\\\\result)");
 	
 	private String location = "";
+	private String srcFolder = "src";
 	private String helper = "helper.key";
 	private String programVariables = "";
 	private String globalConditions = "";
@@ -57,6 +58,10 @@ public class KeYFileContent {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	
+	public void setSrcFolder(String srcFolder) {
+		this.srcFolder = srcFolder;
 	}
 
 	public void setHelper(String helper) {
@@ -119,20 +124,19 @@ public class KeYFileContent {
 			for (JavaVariable var : vars.getVariables()) {
 				if (var.getKind() == VariableKind.RETURN) {
 					returnVariable = var;
-				} else {
-					programVariables += var.getName().replace("static", "").replace("non-null", "") + "; ";
-					// if variable is an Array add <created> condition for key
-					if (var.getName().contains("[]")) {
-						String varNameWithoutStaticNonNull = var.getName().replace("static", "").replace("non-null", "").trim();
-						varNameWithoutStaticNonNull = varNameWithoutStaticNonNull.substring(varNameWithoutStaticNonNull.indexOf(" ") + 1);
-						conditionObjectsCreated += " & " + varNameWithoutStaticNonNull + ".<created>=TRUE";
-					}
-					if(var.getKind() == VariableKind.PARAM && var.getName().contains("non-null")){
-						String varNameWithoutStaticNonNull = var.getName().replace("static", "").replace("non-null", "").trim();
-						String varDataType = varNameWithoutStaticNonNull.substring(0, varNameWithoutStaticNonNull.indexOf(" "));
-						String varName = varNameWithoutStaticNonNull.substring(varNameWithoutStaticNonNull.lastIndexOf(" ")).trim();
-						addNonNullProperties(varDataType, varName, false);
-					}
+				}
+				programVariables += var.getName().replace("static", "").replace("non-null", "") + "; ";
+				// if variable is an Array add <created> condition for key
+				if (var.getName().contains("[]")) {
+					String varNameWithoutStaticNonNull = var.getName().replace("static", "").replace("non-null", "").trim();
+					varNameWithoutStaticNonNull = varNameWithoutStaticNonNull.substring(varNameWithoutStaticNonNull.indexOf(" ") + 1);
+					conditionObjectsCreated += " & " + varNameWithoutStaticNonNull + ".<created>=TRUE";
+				}
+				if(var.getKind() == VariableKind.PARAM && var.getName().contains("non-null")){
+					String varNameWithoutStaticNonNull = var.getName().replace("static", "").replace("non-null", "").trim();
+					String varDataType = varNameWithoutStaticNonNull.substring(0, varNameWithoutStaticNonNull.indexOf(" "));
+					String varName = varNameWithoutStaticNonNull.substring(varNameWithoutStaticNonNull.lastIndexOf(" ")).trim();
+					addNonNullProperties(varDataType, varName, false);
 				}
 			}
 			for (Field field : vars.getFields()) { //TODO for which fields add non null?
@@ -294,7 +298,7 @@ public class KeYFileContent {
 		//	+ ">=0)}";
 	
 	public String keyHeader() {
-		return "\\javaSource \"" + location + "\";" + "\\include \"" + helper + "\";"
+		return "\\javaSource \"" + location + "/" + srcFolder + "\";" + "\\include \"" + helper + "\";"
 				+ "\\programVariables {" + programVariables + self +" Heap heapAtPre;}";
 	}
 	
