@@ -1,5 +1,6 @@
 package EmailSystem;
 
+
 public class KeyringEntry {
 	private Client keyOwner;
 	private int publicKey;

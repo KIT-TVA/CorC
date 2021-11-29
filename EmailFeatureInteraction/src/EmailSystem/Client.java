@@ -1,68 +1,290 @@
 package EmailSystem; 
 
+
 public  class Client {
-	static Client[] clients = new Client[4];
-	protected int id;
-	protected String name;
+	private /*@spec_public@*/ /*@non_null*/ String name;
+	private /*@spec_public@*/ int id;
+	private /*@spec_public@*/ static Client[] clients;
+	private /*@spec_public@*/ static int clientCounter;
+	private /*@spec_public@*/ static int old_clientCounter;
 	protected KeyringEntry keyring;
 	protected int privateKey;
 	protected boolean autoResponse;
 	//protected ArrayList<AddressBookEntry> addressbook = new ArrayList<AddressBookEntry>();
-	protected Client forwardReceiver;
+	protected /*@spec_public@*/ static Client forwardReceiver;
+	
+	
+	/*@
+	@ normal_behavior
+	@ requires name != null && Client.clients != null&& Client.clientCounter < Client.clients.length&& Client.clientCounter >= 0 && (Client.clients instanceof Client[]) && name != null && Client.clients != null;
+	@ ensures \result != null && \result.getId() == \old(Client.clientCounter) && \result.getName() == name && Client.clientCounter == \old(Client.clientCounter) + 1&& Client.clients[\result.getId()] == \result;
+	@ assignable \nothing;
+	@*/
+	public /*@helper@*/ static Client createClientResultOld(String name) {
+		Client result = null;
+		result = new Client();
+		result.constructClient(Client.clientCounter++, name);
+		Client.clients[result.getId()] = result;
+		return result;
 
-	public int getId() {
-		return id;
 	}
 
+	/*@
+	@ normal_behavior
+	@ requires name != null && Client.clients != null&& Client.clientCounter < Client.clients.length&& Client.clientCounter >= 0 && (Client.clients instanceof Client[]) && name != null && Client.clients != null;
+	@ ensures \result != null && \result.getId() == Client.old_clientCounter && \result.getName() == name && Client.clientCounter == Client.old_clientCounter + 1&& Client.clients[\result.getId()] == \result;
+	@ assignable \nothing;
+	@*/
+	public /*@helper@*/ static Client createClientResult(String name) {
+		Client result = null;
+		Client.old_clientCounter = Client.clientCounter;
+		result = new Client();
+		result.constructClient(Client.clientCounter++, name);
+		Client.clients[result.getId()] = result;
+		return result;
 
-
-	static void deliver(Client client, Email msg) {
 	}
 
+	/*@
+	@ normal_behavior
+	@ requires Client.clients != null && id >= 0 && id < Client.clients.length;
+	@ ensures \result == Client.clients[id];
+	@ assignable \nothing;
+	@*/
+	public /*@helper@*/ static Client getClientById(int id) {
+		Client result = null;
+		result = Client.clients[id];
+		return result;
 
+	}
 
-	private static void incoming__wrappee__Keys(Client client, Email msg) {
+	/*@
+	@ normal_behavior
+	@ requires true;
+	@ ensures \result == this.id;
+	@ assignable \nothing;
+	@*/
+	public /*@helper@*/ int getId() {
+		int result = 0;
+		result = this.id;
+		return result;
+
+	}
+
+	/*@
+	@ normal_behavior
+	@ requires true;
+	@ ensures (this.name != null ==> \result == this.name) && (this.name == null ==> \result == null);
+	@ assignable \nothing;
+	@*/
+	public /*@pure*/ String getName() {
+		String result = null;
+		result = this.name;
+		return result;
+
+	}
+
+	/*@
+	@ normal_behavior
+	@ requires true;
+	@ ensures \result == this.name;
+	@ assignable \nothing;
+	@*/
+	public /*@helper@*/ String getNameWithKeyword() {
+		String result = null;
+		result = this.name;
+		return result;
+	}
+
+	/*@
+	@ normal_behavior
+	@ requires client != null && msg != null;
+	@ ensures msg.from == client;
+	@ assignable msg.from;
+	@*/
+	public /*@helper@*/ static void outgoing(Client client, Email msg) {
+		msg.setEmailFrom(client);
+
+	}
+
+	/*@
+	@ normal_behavior
+	@ requires Client.clients != null&& Client.clientCounter >= 0 && Client.clients != null;
+	@ ensures (\forall int k;((k>=0 && k<Client.clients.length) ==> Client.clients[k] == null)) && Client.clientCounter == 1;
+	@ assignable \nothing;
+	@*/
+	public /*@helper@*/ static void resetClients() {
+		int index = 0;
+		index = 0;
+		Client.clientCounter = 1;
+		//@ loop_invariant Client.clientCounter == 1 && index >= 0 && (\forall int k;((k>=0 && k<index && k<Client.clients.length) ==> Client.clients[k] == null));
+		//@ decreases Client.clients.length - index;
+		while (index < Client.clients.length) {
+			Client.clients[index] = null;
+			index++;
+		}
+
+	}
+
+	/*@
+	@ normal_behavior
+	@ requires true && idx >= 0 && namex != null;
+	@ ensures (idx >= 0 && namex != null) ==> (this.id == idx && this.name == namex);
+	@ assignable this.id,this.name;
+	@*/
+	public /*@helper@*/ Client(int idx, String namex) {
+		this.id = idx;
+		this.name = namex;
+
+	}
+
+	/*@
+	@ normal_behavior
+	@ requires true && idx >= 0 && namex != null;
+	@ ensures (idx >= 0 && namex != null) ==> (this.id == idx && this.name == namex);
+	@ assignable this.id,this.name;
+	@*/
+	public /*@helper@*/ void constructClient(int idx, String namex) {
+		this.id = idx;
+		this.name = namex;
+
+	}
+
+	public Client() {
+		
+	}
+
+	/*@
+	@ normal_behavior
+	@ requires name != null && Client.clients != null&& Client.clientCounter < Client.clients.length&& Client.clientCounter >= 0;
+	@ ensures \result != null && \result != null && \result.getId() == \old(Client.clientCounter) && \result.getName() == name && Client.clientCounter == \old(Client.clientCounter) + 1&& Client.clients[\result.getId()] == \result;
+	@ assignable \nothing;
+	@*/
+	public /*@helper@*/ static Client createClient(String name) {
+		Client result = null;
+		result = new Client();
+		result.constructClient(Client.clientCounter++, name);
+		Client.clients[result.getId()] = result;
+		return result;
+
+	}
+
+	/*@
+	@ normal_behavior
+	@ requires Client.clients != null;
+	@ ensures (\exists int k;((k>=0 && k<Client.clients.length  && Client.clients[k].getName() != null && Client.clients[k].getName().equals(address) == true) ==> \result == Client.clients[k]));
+	@ assignable \nothing;
+	@*/
+	public /*@helper@*/ static Client getClientByAdress(String address) {
+		int index = 0;
+		Client result = null;
+		index = 0;
+		result = null;
+		//@ loop_invariant index >= 0 &&(\exists int k;((k>=0 && k<index && Client.clients[k].getName() != null&& Client.clients[k].getName().equals(address) == true) ==> result == Client.clients[k]));
+		//@ decreases Client.clients.length - index;
+		while (index < Client.clients.length) {
+			if (Client.clients[index] != null && Client.clients[index].getName().equals(address) == true) {
+				result = Client.clients[index];
+			} else if (!(Client.clients[index] != null && Client.clients[index].getName().equals(address) == true )) {
+				;
+			}
+			index++;
+		}
+		return result;
+
+	}
+
+	
+	/*@
+	  @ public normal_behavior
+	  @ requires client != null && msg != null && \invariant_for(msg);
+	  @ ensures msg.isDelivered() ==true;
+	  @ assignable msg.isDelivered;
+	  @*/
+	/*@ helper*/static void deliver(Client client, Email msg) {
+		msg.setEmailIsDelivered(true);
+	}
+	
+	/*@
+	  @ public normal_behavior
+	  @ requires client != null && msg != null &&\invariant_for(msg);
+	  @ ensures msg.from == client && msg.isDelivered == false ;
+	  @ assignable msg.from, msg.isDelivered;
+	  @*/
+	/*@helper*/static void forward(Client client, Email msg) {
+		msg.setEmailIsDelivered(false);
+		outgoing(client, msg);
+	}
+
+	/*@
+	  @ public normal_behavior
+	  @ requires  client!=null && msg!=null && \invariant_for(msg);
+	  @ ensures msg.isDelivered();
+	  @ assignable msg.isDelivered;
+	  @*/
+	private /*@ helper*/static void incoming__Base(Client client, Email msg) {
 		deliver(client, msg);
 	}
-
-	/*@ ensures msg.isEncrypted() ==> encryptedMails.contains(msg); @*/
-
-	private static void incoming__wrappee__Encrypt(Client client, Email msg) {
-		//TODO add to encryptedMails if msg.isEncrypted()
-		incoming__wrappee__Keys(client, msg);
-	}
-
-	/*@ ensures msg.isEncrypted() ==> encryptedMails.contains(msg); @*/
-
-	private static void incoming__wrappee__Sign(Client client, Email msg) {
-		incoming__wrappee__Encrypt(client, msg);
-		if (client.isAutoResponse()) {
-			autoRespond(client, msg);
-		}
-	}
-
-	/*@ ensures msg.isEncrypted() ==> encryptedMails.contains(msg); @*/
-
-	private static void incoming__wrappee__Forward(Client client, Email msg) {
-		incoming__wrappee__Sign(client, msg);
+	
+	/*@
+	  @ public normal_behavior
+	  @ requires  client!=null && msg!=null && \invariant_for(client) && \invariant_for(msg) && \invariant_for(client.forwardReceiver);
+	  @ ensures msg.isDelivered;
+	  @ ensures (client.forwardReceiver != null && client.forwardReceiver.name != null) ==> (msg.to == client.forwardReceiver && msg.from == client);
+	  @ assignable msg.isDelivered, msg.to, msg.from;
+	  @ diverges true;
+	  @*/
+	private static void incoming__Forward(Client client, Email msg) {
+		deliver(client, msg);
 		Client receiver = client.getForwardReceiver();
-		if (receiver != null) {
+		if (receiver != null && receiver.getName() != null) {
 			msg.setEmailTo(receiver.getName());
 			forward(client, msg);
-			incoming(receiver, msg);
+			incoming__Forward(receiver, msg);
 		}
 	}
+//	private static void incoming__wrappee__Keys(Client client, Email msg) {
+//		deliver(client, msg);
+//	}
 
-	/*@ ensures msg.isEncrypted() ==> encryptedMails.contains(msg); @*/
+//	private static void incoming__wrappee__Encrypt(Client client, Email msg) {
+//		//TODO add to encryptedMails if msg.isEncrypted()
+//		incoming__wrappee__Keys(client, msg);
+//	}
 
-	private static void incoming__wrappee__Verify(Client client, Email msg) {
-		verify(client, msg);
-		incoming__wrappee__Forward(client, msg);
-	}
 
-	/*@ ensures msg.isEncrypted() ==> encryptedMails.contains(msg); @*/
+//	private static void incoming__wrappee__Sign(Client client, Email msg) {
+//		incoming__wrappee__Encrypt(client, msg);
+//		if (client.isAutoResponse()) {
+//			autoRespond(client, msg);
+//		}
+//	}
 
-	static void incoming(Client client, Email msg) {
+
+//	private static void incoming__wrappee__Forward(Client client, Email msg) {
+//		incoming__wrappee__Sign(client, msg);
+//		Client receiver = client.getForwardReceiver();
+//		if (receiver != null) {
+//			msg.setEmailTo(receiver.getName());
+//			forward(client, msg);
+//			incoming(receiver, msg);
+//		}
+//	}
+
+
+//	private static void incoming__wrappee__Verify(Client client, Email msg) {
+//		verify(client, msg);
+//		incoming__wrappee__Forward(client, msg);
+//	}
+
+	/*@
+	  @ public normal_behavior
+	  @ requires client != null && msg != null && \invariant_for(msg) && \invariant_for(client);
+	  @ ensures msg.isDelivered();
+	  @ ensures (client.getPrivateKey() != 0 && msg.isEncrypted() && isKeyPairValid(msg.getEmailEncryptionKey(), client.getPrivateKey())) ==> (!msg.isEncrypted() && msg.getEmailEncryptionKey() == 0);
+	  @ assignable msg.isEncrypted, msg.encryptionKey, msg.isDelivered;
+	  @*/
+	/*@helper*/static void incoming(Client client, Email msg) {
 		// decrypt
 
 		int privkey = client.getPrivateKey();
@@ -75,7 +297,7 @@ public  class Client {
 		}
 		// end decrypt
 
-		incoming__wrappee__Verify(client, msg);
+		deliver(client, msg);
 	}
 
 
@@ -83,18 +305,12 @@ public  class Client {
 	private static void mail__wrappee__Keys(Client client, Email msg) {
 	}
 
-	/*@ requires msg.isEncrypted() ==> !unEncryptedMails.contains(msg);
-	 requires !msg.isEncrypted() ==> !encryptedMails.contains(msg);
-	 requires encryptedMails.contains(msg) ==> msg.isEncrypted();
-	 ensures msg.isEncrypted() ==> encryptedMails.contains(msg);
-	 ensures !msg.isEncrypted() ==> unEncryptedMails.contains(msg); @*/
 
 	private static void mail__wrappee__Addressbook  (Client client, Email msg) {
 		//TODO add to encryptedMails if msg.isEncrypted(), else to unEncryptedMails
 		mail__wrappee__Keys(client, msg);
 	}
 
-	/*@ ensures msg.isSigned() ==> signedMails.contains(msg); @*/
 
 	private static void mail__wrappee__Forward(Client client, Email msg) {
 		//TODO add to signedMails if msg.isSigned()
@@ -153,80 +369,23 @@ public  class Client {
 //	}
 
 
-
-	static void outgoing(Client client, Email msg) {
-		sign(client, msg);
-		outgoing__wrappee__AutoResponder(client, msg);
-	}
-
-
-
 	public static int sendEmail(Client sender, String receiverAddress,
 			String subject, String body) {
 		Email email = Email.createEmail(sender, receiverAddress, subject, body);
 		outgoing(sender, email);
 		Client receiver = Client.getClientByAdress(email.getEmailTo());
 		if (receiver != null) {
-			incoming(receiver, email);
+			incoming__Base(receiver, email);
 		} else {
 			throw new IllegalArgumentException("Receiver " + receiverAddress + " Unknown");
 		}
 		return 0; // die Zeile kommt von mir
 	}
 
-
-
-	private Client(int id, String name) {
-		this.id = id;
-		this.name = name;
-	}
-
-
-
-	public String getName() {
-		return name;
-	}
-
-	static int clientCounter = 1;
-
-
-
-	public static Client createClient(String name) {
-		Client client = new Client(clientCounter++, name);
-		clients[client.getId()] = client;
-		return client;
-	}
-
-	static Client getClientById(int id) {
-		return clients[id];
-	}
-
-
-
-	static Client getClientByAdress(String address) {
-		for (int i = 0; i < clients.length; i++) {
-			if (clients[i] != null && clients[i].getName().equals(address)) {
-				return clients[i];
-			}
-		}
-		return null;
-	}
-
-
-
-	public static void resetClients() {
-		clientCounter = 1;
-		for (int i = 0; i < clients.length; i++) {
-			clients[i] = null;
-		}
-	}
-
-
-
-	@Override
-	public String toString() {
-		return name;
-	}
+//	@Override
+//	public String toString() {
+//		return name;
+//	}
 
 	public void setPrivateKey(int privateKey) {
 		this.privateKey = privateKey;
@@ -283,7 +442,7 @@ public  class Client {
 		Client sender = msg.getEmailFrom();
 		msg.setEmailTo(sender.getName());
 		outgoing(client, msg);
-		incoming(sender, msg);
+		incoming__Base(sender, msg);
 	}
 
 //	public List<String> getAddressBookReceiversForAlias(String alias) {
@@ -331,12 +490,15 @@ public  class Client {
 		this.forwardReceiver = forwardReceiver;
 	}
 
-	public Client getForwardReceiver() {
+	/*@
+	  @ public normal_behavior
+	  @ requires true;
+	  @ ensures \result == forwardReceiver;
+	  @ assignable \nothing;
+	  @*/
+	public /*@pure*/ Client getForwardReceiver() {
 		return forwardReceiver;
 	}
 
-	static void forward(Client client, Email msg) {
-		Email.printMail(msg);
-		outgoing(client, msg);
-	}
+
 }

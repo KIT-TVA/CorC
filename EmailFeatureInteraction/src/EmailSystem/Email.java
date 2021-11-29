@@ -13,6 +13,8 @@ public  class Email {
 	private /*@spec_public@*/ int signkey;
 	private /*@spec_public@*/ boolean isSignatureVerified;
 	
+	private /*@spec_public@*/ boolean isDelivered;
+	
 	/*@
 	@ normal_behavior
 	@ requires true;
@@ -30,7 +32,7 @@ public  class Email {
 	@ ensures this.id == idx;
 	@ assignable this.id;
 	@*/
-	public /*@helper@*/ void constructEmail(int idx) {
+	public void constructEmail(int idx) {
 		this.id = idx;
 	}
 
@@ -43,7 +45,7 @@ public  class Email {
 	@ ensures \result.from == fromx && \result.to == tox && \result.subject == subjectx && \result.body == bodyx&& \result.id == \old(Email.emailCounter) && Email.emailCounter == \old(Email.emailCounter) + 1&& \result != null;
 	@ assignable Email.emailCounter;
 	@*/
-	public /*@helper@*/ static Email createEmail(Client fromx, String tox, String subjectx, String bodyx) {
+	public static Email createEmail(Client fromx, String tox, String subjectx, String bodyx) {
 		Email result = null;
 		result = new Email(Email.emailCounter++);
 		result.setEmailFrom(fromx);
@@ -64,28 +66,6 @@ public  class Email {
 			return false;
 	}
 
-	private static void printMail__wrappee__Keys  (Email msg) {
-//		Util.prompt("ID:  " + msg.getId());
-//		Util.prompt("FROM: " + msg.getEmailFrom().getId());
-//		Util.prompt("TO: " + msg.getEmailTo());
-//		Util.prompt("SUBJECT: " + msg.getEmailSubject());
-//		Util.prompt("IS_READABLE " + msg.isReadable());
-//		Util.prompt("BODY: " + msg.getEmailBody());
-	}
-
-	private static void printMail__wrappee__Addressbook  (Email msg) {
-		printMail__wrappee__Keys(msg);
-		// Util.prompt("ENCRYPTION KEY  "+ msg.getEmailEncryptionKey());
-	}
-
-	private static void printMail__wrappee__Forward  (Email msg) {
-		printMail__wrappee__Addressbook(msg);
-	}
-
-	static void printMail(Email msg) {
-		printMail__wrappee__Forward(msg);
-	}
-
 	Email cloneEmail(Email msg) {
 		try {
 			return (Email) this.clone();
@@ -97,11 +77,42 @@ public  class Email {
 	 /*@pure@*/ boolean  isEncrypted() {
 		return isEncrypted;
 	}
-
+	 
+	 /*@
+	   @ public normal_behavior
+	   @ requires true;
+	   @ ensures \result == isDelivered;
+	   @ assignable \nothing;
+	   @*/
+	 /*@pure@*/ boolean  isDelivered() {
+		return isDelivered;
+	}
+	 
+		/*@
+	  @ public normal_behavior
+	  @ requires true;
+	  @ ensures isEncrypted == value;
+	  @ assignable isEncrypted;
+	  @*/
 	void setEmailIsEncrypted(boolean value) {
 		isEncrypted = value;
 	}
-
+	/*@
+	  @ public normal_behavior
+	  @ requires true;
+	  @ ensures isDelivered == value;
+	  @ assignable isDelivered;
+	  @*/
+	void setEmailIsDelivered(boolean value) {
+		isDelivered = value;
+	}
+	
+	/*@
+	  @ public normal_behavior
+	  @ requires true;
+	  @ ensures encryptionKey == value;
+	  @ assignable encryptionKey;
+	  @*/
 	void setEmailEncryptionKey(int value) {
 		this.encryptionKey = value;
 	}

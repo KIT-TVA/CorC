@@ -1,26 +1,26 @@
 package EmailSystem;
 
-import java.util.ArrayList;
 
 public class AddressBookEntry {
 	String alias;
-	ArrayList<String> receivers;
+	//ArrayList<String> receivers;
+	String receiver;
 
 	public AddressBookEntry(String alias) {
 		super();
 		this.alias = alias;
-		this.receivers = new ArrayList<String>();
+		//this.receivers = new ArrayList<String>();
 	}
 
 	public void addReceiver(String address) {
-		receivers.add(address);
+		receiver = address;
 	}
 
 	public String getAlias() {
 		return alias;
 	}
 
-	public ArrayList<String> getReceivers() {
-		return receivers;
+	public String getReceivers() {
+		return receiver;
 	}
 }
