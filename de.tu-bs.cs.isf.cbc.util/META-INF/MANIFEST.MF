@@ -13,8 +13,8 @@ Require-Bundle: de.tu-bs.cs.isf.cbc.model;bundle-version="0.1.0",
  org.eclipse.core.filesystem,
  org.eclipse.ui,
  org.eclipse.ui.console,
- org.emftext.language.java,
- org.key_project.ui
+ org.key_project.ui,
+ org.emftext.language.java
 Export-Package: de.tu_bs.cs.isf.cbc.util
 Import-Package: com.google.common.collect;version="10.0.1",
  org.emftext.language.java.resource.java.util

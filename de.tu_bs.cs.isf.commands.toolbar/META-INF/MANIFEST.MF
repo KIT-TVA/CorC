@@ -11,8 +11,7 @@ Require-Bundle: org.eclipse.core.runtime,
  de.tu-bs.cs.isf.cbc.model,
  org.eclipse.emf.ecore.xmi
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: de.tu_bs.cs.isf.cbc.tool.helper,
- org.eclipse.jdt.core,
+Import-Package: org.eclipse.jdt.core,
  org.eclipse.jdt.internal.compiler.batch,
  org.eclipse.jdt.internal.core,
  org.eclipse.jface.text,

@@ -12,8 +12,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateClassFromInterfaces;
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateModelFromCode;
+import de.tu_bs.cs.isf.cbc.util.GenerateClassFromInterfaces;
 import jdk.internal.misc.FileSystemOption;
 
 public class GenerateClassesFromInterfacesHandler extends AbstractHandler {
