@@ -1,0 +1,1 @@
+ComposedElevator = ElevatorInter + ElevatorInterAbstract
