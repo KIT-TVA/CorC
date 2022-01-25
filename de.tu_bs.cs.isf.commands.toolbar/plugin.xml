@@ -135,7 +135,7 @@
  <command
        defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateClassesFromInterfacesHandler"
        id="de.tu_bs.cs.isf.commands.toolbar.generateClassesFromInterfacesCommand"
-       name="Generate Classes from Interfaces">
+       name="Check Trait Composition">
  </command>
 	</extension>
 	
