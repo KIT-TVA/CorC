@@ -64,7 +64,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.0"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="233" height="251" x="466" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains);&#xD;&#xA;(this.old_contains = TRUE -> (\result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="233" height="251" x="466" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains);(this.old_contains = TRUE -> (\result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&amp; (this.old_contains = FALSE -> \result = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -211,7 +211,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains);&#xD;&#xA;(this.old_contains = TRUE -> (\result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains);(this.old_contains = TRUE -> (\result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&amp; (this.old_contains = FALSE -> \result = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -362,7 +362,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="117" height="151" x="234" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains); &#xD;&#xA;result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="117" height="151" x="234" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains);&#xD;&#xA;result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -467,7 +467,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.2"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="280" height="170" x="280" y="271" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="280" height="170" x="280" y="271" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&amp; (this.old_contains = FALSE -> result = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -497,7 +497,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="420" height="170" x="420" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains);&#xD;&#xA;(this.old_contains = TRUE -> (\result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="420" height="170" x="420" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains);(this.old_contains = TRUE -> (\result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&amp; (this.old_contains = FALSE -> \result = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -739,7 +739,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="510" height="77" y="354" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="510" height="77" y="354" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&amp; (this.old_contains = FALSE -> result = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -794,7 +794,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&amp; (this.old_contains = FALSE -> result = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -897,7 +897,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="197" height="221" x="394" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="197" height="221" x="394" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&amp; (this.old_contains = FALSE -> result = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -1010,7 +1010,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&amp; (this.old_contains = FALSE -> result = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -1115,7 +1115,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);&#xD;&#xA;(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains,p.this.destinationReached,this.persons. elements[*],this.persons.collectionSize);(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&amp; (this.old_contains = FALSE -> result = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -1123,7 +1123,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains);&#xD;&#xA;(this.old_contains = TRUE -> (\result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(result,this.old_contains);(this.old_contains = TRUE -> (\result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&amp; (this.old_contains = FALSE -> \result = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>

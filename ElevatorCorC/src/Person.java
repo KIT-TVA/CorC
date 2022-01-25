@@ -66,7 +66,6 @@ j >= 0 && this.additionalButtons[j] >= 0
 	@ normal_behavior
 	@ requires namex != null&& envx.floors != null&& destinationx >= 0&& envx != null&& weightx >= 0&& originx >= 0&& originx < envx.floors.length&& envx.floors[originx] != null&& envx.floors[originx].waiting != null && envx.floors[originx].waiting.elements != null && (this instanceof Person) && namex != null && envx != null;
 	@ ensures this.weight == weightx&& this.origin == originx&& this.destination == destinationx&& this.destinationReached == false&& this.name.equals(namex) == true;
-	@ assignable this.destination,this.destinationReached,this.name,this.origin,this.weight;
 	@*/
 	public /*@helper@*/ void createPerson(String namex, int weightx, int originx, int destinationx, Environment envx) {
 		Floor tmpFloor = null;
@@ -84,7 +83,7 @@ j >= 0 && this.additionalButtons[j] >= 0
 	@ normal_behavior
 	@ requires e != null&& e != null&& this.destination >= 0 && this.destination < e.floorButtons.length&& e.floorButtons != null&& e.floorButtons[this.destination] != null && e != null && e.floorButtons != null;
 	@ ensures e.floorButtons[this.destination] == true;
-	@ assignable \nothing;
+	@ assignable e.floorButtons[*];
 	@*/
 	public /*@helper@*/ void enterElevator(Elevator e) {
 		e.pressInLiftFloorButton(this.destination);
@@ -172,7 +171,6 @@ j >= 0 && this.additionalButtons[j] >= 0
 	@ normal_behavior
 	@ requires namex != null&& envx.floors != null&& destinationx >= 0&& envx != null&& weightx >= 0&& originx >= 0&& originx < envx.floors.length&& envx.floors[originx] != null&& envx.floors[originx].waiting != null && envx.floors[originx].waiting.elements != null;
 	@ ensures this.weight == weightx&& this.origin == originx&& this.destination == destinationx&& this.destinationReached == false&& this.name.equals(namex) == true;
-	@ assignable this.destination,this.destinationReached,this.name,this.origin,this.weight;
 	@*/
 	public /*@helper@*/ Person(String namex, int weightx, int originx, int destinationx, Environment envx) {
 		Floor tmpFloor = null;

@@ -64,7 +64,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.0"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="247" height="381" x="494" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[*],this.floorButtons[index],this.old_contains);&#xD;&#xA;(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(\result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE&#xD;&#xA;&amp; (this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="247" height="381" x="494" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[*],this.floorButtons[index],this.old_contains);(this.old_contains = TRUE ->(\result = TRUE &amp; p.isDestinationReached() = TRUE&amp; this.persons.contains(p) = FALSE&amp; this.weight = \old(this.weight) - p.getWeight()))&amp; (this.old_contains = FALSE -> \result = FALSE)&amp; ((this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE)))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -211,7 +211,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[*],this.floorButtons[index],this.old_contains);&#xD;&#xA;(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(\result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE&#xD;&#xA;&amp; (this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[*],this.floorButtons[index],this.old_contains);(this.old_contains = TRUE ->(\result = TRUE &amp; p.isDestinationReached() = TRUE&amp; this.persons.contains(p) = FALSE&amp; this.weight = \old(this.weight) - p.getWeight()))&amp; (this.old_contains = FALSE -> \result = FALSE)&amp; ((this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE)))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -467,7 +467,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.2"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" x="166" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);&#xD;&#xA;(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE&#xD;&#xA;&amp; (this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" x="166" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);(this.old_contains = TRUE ->(result = TRUE &amp; p.isDestinationReached() = TRUE&amp; this.persons.contains(p) = FALSE&amp; this.weight = \old(this.weight) - p.getWeight()))&amp; (this.old_contains = FALSE -> result = FALSE)&amp; ((this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE)))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -497,7 +497,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[*],this.floorButtons[index],this.old_contains);&#xD;&#xA;(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(\result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE&#xD;&#xA;&amp; (this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[*],this.floorButtons[index],this.old_contains);(this.old_contains = TRUE ->(\result = TRUE &amp; p.isDestinationReached() = TRUE&amp; this.persons.contains(p) = FALSE&amp; this.weight = \old(this.weight) - p.getWeight()))&amp; (this.old_contains = FALSE -> \result = FALSE)&amp; ((this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE)))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -739,7 +739,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="200" height="45" y="255" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);&#xD;&#xA;(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE&#xD;&#xA;&amp; (this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="200" height="45" y="255" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);(this.old_contains = TRUE ->(result = TRUE &amp; p.isDestinationReached() = TRUE&amp; this.persons.contains(p) = FALSE&amp; this.weight = \old(this.weight) - p.getWeight()))&amp; (this.old_contains = FALSE -> result = FALSE)&amp; ((this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE)))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -794,7 +794,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);&#xD;&#xA;(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE&#xD;&#xA;&amp; (this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);(this.old_contains = TRUE ->(result = TRUE &amp; p.isDestinationReached() = TRUE&amp; this.persons.contains(p) = FALSE&amp; this.weight = \old(this.weight) - p.getWeight()))&amp; (this.old_contains = FALSE -> result = FALSE)&amp; ((this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE)))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -919,7 +919,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);&#xD;&#xA;(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE&#xD;&#xA;&amp; (this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);(this.old_contains = TRUE ->(result = TRUE &amp; p.isDestinationReached() = TRUE&amp; this.persons.contains(p) = FALSE&amp; this.weight = \old(this.weight) - p.getWeight()))&amp; (this.old_contains = FALSE -> result = FALSE)&amp; ((this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE)))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1274,7 +1274,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="861" height="160" y="600" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);&#xD;&#xA;(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE&#xD;&#xA;&amp; (this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="861" height="160" y="600" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);(this.old_contains = TRUE ->(result = TRUE &amp; p.isDestinationReached() = TRUE&amp; this.persons.contains(p) = FALSE&amp; this.weight = \old(this.weight) - p.getWeight()))&amp; (this.old_contains = FALSE -> result = FALSE)&amp; ((this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE)))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -1329,7 +1329,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);&#xD;&#xA;(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE&#xD;&#xA;&amp; (this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);(this.old_contains = TRUE ->(result = TRUE &amp; p.isDestinationReached() = TRUE&amp; this.persons.contains(p) = FALSE&amp; this.weight = \old(this.weight) - p.getWeight()))&amp; (this.old_contains = FALSE -> result = FALSE)&amp; ((this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE)))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -1722,7 +1722,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="80" x="150" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);&#xD;&#xA;(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE&#xD;&#xA;&amp; (this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="80" x="150" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);(this.old_contains = TRUE ->(result = TRUE &amp; p.isDestinationReached() = TRUE&amp; this.persons.contains(p) = FALSE&amp; this.weight = \old(this.weight) - p.getWeight()))&amp; (this.old_contains = FALSE -> result = FALSE)&amp; ((this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE)))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postNameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1836,7 +1836,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="80" x="150" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);&#xD;&#xA;(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE&#xD;&#xA;&amp; (this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="80" x="150" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);(this.old_contains = TRUE ->(result = TRUE &amp; p.isDestinationReached() = TRUE&amp; this.persons.contains(p) = FALSE&amp; this.weight = \old(this.weight) - p.getWeight()))&amp; (this.old_contains = FALSE -> result = FALSE)&amp; ((this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE)))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postNameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1943,7 +1943,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="247" height="421" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);&#xD;&#xA;(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE&#xD;&#xA;&amp; (this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="247" height="421" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[index],this.old_contains,this.floorButtons[*]);(this.old_contains = TRUE ->(result = TRUE &amp; p.isDestinationReached() = TRUE&amp; this.persons.contains(p) = FALSE&amp; this.weight = \old(this.weight) - p.getWeight()))&amp; (this.old_contains = FALSE -> result = FALSE)&amp; ((this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE)))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -1951,7 +1951,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="247" height="421" x="494" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[*],this.floorButtons[index],this.old_contains);&#xD;&#xA;(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(\result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE&#xD;&#xA;&amp; (this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="247" height="421" x="494" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(index,result,this.floorButtons[*],this.floorButtons[index],this.old_contains);(this.old_contains = TRUE ->(\result = TRUE &amp; p.isDestinationReached() = TRUE&amp; this.persons.contains(p) = FALSE&amp; this.weight = \old(this.weight) - p.getWeight()))&amp; (this.old_contains = FALSE -> \result = FALSE)&amp; ((this.old_contains = TRUE &amp; this.persons.isEmpty() = TRUE) -> (\forall int k;((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = FALSE)))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>

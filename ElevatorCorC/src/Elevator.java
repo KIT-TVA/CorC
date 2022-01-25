@@ -299,7 +299,7 @@ tmpFloor.getFloorID() == this.executiveFloor && tmpFloor.hasCall() == true )) {
 	/*@
 	@ normal_behavior
 	@ requires p != null && this.persons != null && this.persons.elements != null && p != null;
-	@ ensures (this.old_contains == true ==>	(\result == true && p.isDestinationReached() == true	&& this.persons.contains(p) == false	&& this.weight == this.old_weight - p.getWeight()))&& this.old_contains == false ==> \result == false;
+	@ ensures (this.old_contains == true ==>	(\result == true && p.isDestinationReached() == true	&& this.persons.contains(p) == false	&& this.weight == this.old_weight - p.getWeight()))&& (this.old_contains == false ==> \result == false);
 	@ assignable this.old_contains,this.old_weight,this.weight;
 	@*/
 	public /*@helper@*/ boolean leaveElevator__wrappee__Weight(Person p) {
@@ -322,7 +322,7 @@ tmpFloor.getFloorID() == this.executiveFloor && tmpFloor.hasCall() == true )) {
 	@ normal_behavior
 	@ requires this.floorButtons != null&& floorID >= 0&& floorID < this.floorButtons.length&& this.floorButtons[floorID] != null;
 	@ ensures this.floorButtons[floorID] == true;
-	@ assignable \nothing;
+	@ assignable this.floorButtons[*];
 	@*/
 	public /*@helper@*/ void pressInLiftFloorButton(int floorID) {
 		this.pressInLiftFloorButton__wrappee__Base(floorID);
@@ -466,7 +466,7 @@ tmpFloor.getFloorID() == this.executiveFloor && tmpFloor.hasCall() == true )) {
 	/*@
 	@ normal_behavior
 	@ requires p != null && this.persons != null && this.persons.elements != null&& this.floorButtons != null&& p.getWeight() >= 0 && p.weight >= 0 && this.weight >= 0;
-	@ ensures (this.old_contains == true ==>	(\result == true && p.isDestinationReached() == true	&& this.persons.contains(p) == false	&& this.weight == \old(this.weight) - p.getWeight()))&& this.old_contains == false ==> \result == false&& (this.old_contains == true && this.persons.isEmpty() == true) ==> (\forall int k;((k>=0 && k<this.floorButtons.length) ==> this.floorButtons[k] == false));
+	@ ensures (this.old_contains == true ==>	(\result == true && p.isDestinationReached() == true	&& this.persons.contains(p) == false	&& this.weight == \old(this.weight) - p.getWeight()))&& (this.old_contains == false ==> \result == false)&& ((this.old_contains == true && this.persons.isEmpty() == true) ==> (\forall int k;((k>=0 && k<this.floorButtons.length) ==> this.floorButtons[k] == false)));
 	@ assignable this.floorButtons[*],this.old_contains;
 	@*/
 	public /*@helper@*/ boolean leaveElevator(Person p) {
@@ -500,7 +500,7 @@ tmpFloor.getFloorID() == this.executiveFloor && tmpFloor.hasCall() == true )) {
 	/*@
 	@ normal_behavior
 	@ requires p != null&& this.persons != null&& this.persons.elements != null && p != null && p.destinationReached == false;
-	@ ensures (this.old_contains == true ==> (\result == true && p.isDestinationReached() == true && this.persons.contains(p) == false))&& this.old_contains == false ==> \result == false;
+	@ ensures (this.old_contains == true ==> (\result == true && p.isDestinationReached() == true && this.persons.contains(p) == false))&& (this.old_contains == false ==> \result == false);
 	@ assignable this.old_contains,this.persons.collectionSize,this.persons.elements[*];
 	@*/
 	public /*@helper@*/ boolean leaveElevator__wrappee__Base(Person p) {

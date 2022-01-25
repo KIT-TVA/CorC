@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="bankAccountUndoUpdate" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.4/@link //@children.1/@link //@children.1/@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.4/@link //@children.1/@children.5/@link //@children.1/@children.6/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.1/@link //@children.2/@children.2/@link //@children.2/@children.3/@link //@children.3/@link //@children.3/@children.1/@link //@children.3/@children.0/@link //@children.3/@children.2/@link //@children.3/@children.4/@link //@children.3/@children.5/@link //@children.3/@children.6/@link //@children.4/@link //@children.4/@children.1/@link //@children.4/@children.14/@link //@children.4/@children.15/@link //@children.4/@children.16/@link //@children.4/@children.20/@link //@children.4/@children.21/@link //@children.4/@children.22/@link //@children.4/@children.23/@link //@children.4/@children.27/@link //@children.5/@link //@children.5/@children.0/@link //@children.5/@children.1/@link //@children.5/@children.2/@link //@children.5/@children.3/@link //@children.6/@link //@children.6/@children.0/@link //@children.6/@children.1/@link //@children.6/@children.2/@link //@children.6/@children.3/@link //@children.7/@link //@children.7/@children.0/@link //@children.7/@children.1/@link //@children.7/@children.2/@link //@children.7/@children.3/@link //@children.8/@link //@children.8/@children.0/@link //@children.8/@children.2/@link //@children.8/@children.3/@link //@children.8/@children.4/@link //@children.8/@children.5/@link //@children.8/@children.6/@link //@children.8/@children.7/@link //@children.8/@children.8/@link //@children.8/@children.9/@link //@children.8/@children.10/@link //@children.8/@children.11/@link //@children.8/@children.12/@link //@children.9/@link //@children.9/@children.0/@link //@children.9/@children.2/@link" version="0.18.0">
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="bankAccountUndoUpdate" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.4/@link //@children.1/@link //@children.1/@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.4/@link //@children.1/@children.5/@link //@children.1/@children.6/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.1/@link //@children.2/@children.2/@link //@children.2/@children.3/@link //@children.3/@link //@children.3/@children.1/@link //@children.3/@children.0/@link //@children.3/@children.2/@link //@children.3/@children.4/@link //@children.3/@children.5/@link //@children.3/@children.6/@link //@children.4/@link //@children.4/@children.1/@link //@children.4/@children.14/@link //@children.4/@children.15/@link //@children.4/@children.16/@link //@children.4/@children.20/@link //@children.4/@children.21/@link //@children.4/@children.22/@link //@children.4/@children.23/@link //@children.4/@children.27/@link //@children.5/@link //@children.5/@children.0/@link //@children.5/@children.1/@link //@children.5/@children.2/@link //@children.5/@children.3/@link //@children.6/@link //@children.6/@children.0/@link //@children.6/@children.1/@link //@children.6/@children.2/@link //@children.6/@children.3/@link //@children.7/@link //@children.7/@children.0/@link //@children.7/@children.1/@link //@children.7/@children.2/@link //@children.7/@children.3/@link //@children.8/@link //@children.8/@children.0/@link //@children.8/@children.2/@link //@children.8/@children.3/@link //@children.8/@children.4/@link //@children.8/@children.5/@link //@children.8/@children.6/@link //@children.8/@children.7/@link //@children.8/@children.8/@link //@children.8/@children.9/@link //@children.8/@children.10/@link //@children.8/@children.11/@link //@children.9/@link //@children.9/@children.0/@link //@children.9/@children.2/@link" version="0.18.0">
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <link>
     <businessObjects href="bankAccountUndoUpdate.cbcmodel#/0"/>
@@ -1218,7 +1218,7 @@
       <businessObjects href="bankAccountUndoUpdate.cbcmodel#/1"/>
     </link>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="43" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variablesName"/>
       </graphicsAlgorithm>
       <link>
@@ -1228,12 +1228,12 @@
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
-        <points y="40"/>
-        <points x="221" y="40"/>
+        <points y="43"/>
+        <points x="221" y="43"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="40" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC int OVERDRAFT_LIMIT">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="43" y="43" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC int OVERDRAFT_LIMIT">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -1242,7 +1242,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="40" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC static int INTEREST_RATE">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="43" y="86" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC static int INTEREST_RATE">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -1251,7 +1251,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="40" y="120" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC static int DAILY_LIMIT">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="43" y="129" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC static int DAILY_LIMIT">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
       </graphicsAlgorithm>
@@ -1260,7 +1260,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="40" y="160" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC int balance">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="43" y="172" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC int balance">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="3"/>
       </graphicsAlgorithm>
@@ -1269,7 +1269,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="40" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC int withdraw">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="43" y="215" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC int withdraw">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="4"/>
       </graphicsAlgorithm>
@@ -1278,7 +1278,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="40" y="240" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC int interest">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="43" y="258" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC int interest">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="5"/>
       </graphicsAlgorithm>
@@ -1287,7 +1287,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="40" y="280" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC boolean lock">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="43" y="301" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC boolean lock">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="6"/>
       </graphicsAlgorithm>
@@ -1296,7 +1296,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="40" y="320" horizontalAlignment="ALIGNMENT_CENTER" value="PARAM int x">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="43" y="344" horizontalAlignment="ALIGNMENT_CENTER" value="PARAM int x">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="7"/>
       </graphicsAlgorithm>
@@ -1305,7 +1305,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="40" y="360" horizontalAlignment="ALIGNMENT_CENTER" value="RETURN boolean result">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="43" y="387" horizontalAlignment="ALIGNMENT_CENTER" value="RETURN boolean result">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="8"/>
       </graphicsAlgorithm>
@@ -1314,21 +1314,12 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="40" y="400" horizontalAlignment="ALIGNMENT_CENTER" value="LOCAL int newBalance">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="43" y="430" horizontalAlignment="ALIGNMENT_CENTER" value="LOCAL int newBalance">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="9"/>
       </graphicsAlgorithm>
       <link>
         <businessObjects href="bankAccountUndoUpdate.cbcmodel#/1/@variables.2"/>
-      </link>
-    </children>
-    <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="221" height="40" y="440" horizontalAlignment="ALIGNMENT_CENTER" value="LOCAL boolean result">
-        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
-        <properties key="org.eclipse.graphiti.pattern.id.index" value="10"/>
-      </graphicsAlgorithm>
-      <link>
-        <businessObjects href="bankAccountUndoUpdate.cbcmodel#/1/@variables.3"/>
       </link>
     </children>
   </children>

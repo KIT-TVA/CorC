@@ -63,7 +63,6 @@
     <variables name="int x" kind="PARAM"/>
     <variables name="boolean result" kind="RETURN"/>
     <variables name="int newBalance"/>
-    <variables name="boolean result"/>
     <fields href="Account.cbcclass#//@fields.0"/>
     <fields href="Account.cbcclass#//@fields.1"/>
     <fields href="Account.cbcclass#//@fields.2"/>

@@ -8,7 +8,7 @@ public class Floor{
 	/*@
 	@ normal_behavior
 	@ requires true && person != null && this.waiting != null && (person instanceof Person) && this.waiting.elements != null;
-	@ ensures this.hasCall() == true && this.waiting.contains(person) == true && this.waiting.collectionSize == \old(this.waiting.collectionSize);
+	@ ensures this.hasCall() == true && this.waiting.contains(person) == true;
 	@ assignable this.waiting.collectionSize,this.waiting.elements[*],this.waiting;
 	@*/
 	public /*@helper@*/ void addWaitingPerson(Person person) {
