@@ -25,5 +25,5 @@ The case studies are implemented
 3) with CorC
 
 For TraitCbC each project contains implementations as interfaces. To run the check that the interfaces (traits) are compatible:
-Right Click on *.tc
+Right click on a file "*.tc"
 Choose "Check Trait Composition"
