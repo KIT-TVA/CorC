@@ -26,6 +26,7 @@ import org.emftext.language.java.classifiers.impl.ClassImpl;
 import org.emftext.language.java.classifiers.impl.InterfaceImpl;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.ClassMethod;
+import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.InterfaceMethod;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.parameters.Parameter;
@@ -47,6 +48,7 @@ public class GenerateClassFromInterfaces {
 	// Content of Class
 	private ArrayList<String> jmlLoopConditions = new ArrayList<String>();
 	private List<Method> methods = new ArrayList<Method>();
+	private List<String> fields = new ArrayList<String>();
 	private String newTraitName;
 	private List<String> composedTraits = new ArrayList<>();
 	private List<Map.Entry<String,String>> removedMethods = new ArrayList<>();
@@ -143,6 +145,14 @@ public class GenerateClassFromInterfaces {
 			javaVariable.setKind(VariableKind.RETURN);
 			javaVariables.getVariables().add(javaVariable);
 		}
+		JavaVariable javaVariableSelf = CbcmodelFactory.eINSTANCE.createJavaVariable();
+		javaVariableSelf.setName(newTraitName + " self");
+		javaVariableSelf.setKind(VariableKind.LOCAL);
+		javaVariables.getVariables().add(javaVariableSelf);
+		JavaVariable javaVariableOld = CbcmodelFactory.eINSTANCE.createJavaVariable();
+		javaVariableOld.setName(newTraitName + " old_this");
+		javaVariableOld.setKind(VariableKind.LOCAL);
+		javaVariables.getVariables().add(javaVariableOld);
 		return javaVariables;
 	}
 
@@ -186,6 +196,11 @@ public class GenerateClassFromInterfaces {
 		abstractMethods = getMethods(true);
 		concreteMethods = getMethods(false);
 		builder.append(buildClassHeader());
+		for (String field : fields) {
+			builder.append(field);
+			builder.append("\n");
+		}
+		
 		checkForConsistency(concreteMethods);
 
 		for (Method method : concreteMethods) {
@@ -223,7 +238,7 @@ public class GenerateClassFromInterfaces {
 	}
 
 	private String buildClassHeader() {
-		String returnString = "public class " + newTraitName + " {";
+		String returnString = "public class " + newTraitName + " {\n\n";
 		return returnString;
 	}
 
@@ -303,19 +318,23 @@ public class GenerateClassFromInterfaces {
 		}
 		
 		if (compilationUnit.getClassifiers().get(0) instanceof ClassImpl) {
-			ClassImpl javaClass = (ClassImpl) compilationUnit.getClassifiers().get(0);
-			for (Member member : javaClass.getMembers()) {
-				if (member instanceof ClassMethod) {
-					handleMethod((ClassMethod) member, javaClass.getName(), false);
-				}
-				
-			}
+//			ClassImpl javaClass = (ClassImpl) compilationUnit.getClassifiers().get(0);
+//			for (Member member : javaClass.getMembers()) {
+//				if (member instanceof ClassMethod) {
+//					handleMethod((ClassMethod) member, javaClass.getName(), false);
+//				}
+//				
+//			}
 		} else if (compilationUnit.getClassifiers().get(0) instanceof InterfaceImpl) {
 			InterfaceImpl javaInterfaceWithDefault = (InterfaceImpl) compilationUnit.getClassifiers().get(0);
 			generateClassForKey(javaFileContent.replaceFirst("interface", "class"), javaInterfaceWithDefault.getName());
 			
 			for (Member member : javaInterfaceWithDefault.getMembers()) {
-				if (member instanceof ClassMethod) {
+				if (member instanceof Field) {
+					if (!fields.contains(JavaResourceUtil.getText(member))) {
+						fields.add(JavaResourceUtil.getText(member));
+					}
+				} else if (member instanceof ClassMethod) {
 					handleMethod((ClassMethod) member, javaInterfaceWithDefault.getName(), false);
 				} else if (member instanceof InterfaceMethod) {
 					handleMethod((InterfaceMethod) member, javaInterfaceWithDefault.getName(), true);
@@ -456,21 +475,23 @@ public class GenerateClassFromInterfaces {
 					break;
 				}
 			}
-			variable.setName(typeOfVariable + " " + newVariableName);
-			variables.getVariables().add(variable);
-			
-			boolean conditionAlreadyExists = false;
-			String newCondition = newVariableName + " = " + name;
-			for (Condition c : conditions.getConditions()) {
-				if (c.getName().equals(newCondition)) {
-					conditionAlreadyExists = true;
+			if (!typeOfVariable.isEmpty()) {
+				variable.setName(typeOfVariable + " " + newVariableName);
+				variables.getVariables().add(variable);
+				
+				boolean conditionAlreadyExists = false;
+				String newCondition = newVariableName + " = " + name;
+				for (Condition c : conditions.getConditions()) {
+					if (c.getName().equals(newCondition)) {
+						conditionAlreadyExists = true;
+					}
 				}
-			}
-			if (!conditionAlreadyExists) {
-				Condition cond = CbcmodelFactory.eINSTANCE.createCondition();
-				cond.setName(newCondition);
+				if (!conditionAlreadyExists) {
+					Condition cond = CbcmodelFactory.eINSTANCE.createCondition();
+					cond.setName(newCondition);
 
-				conditions.getConditions().add(cond);
+					conditions.getConditions().add(cond);
+				}
 			}
 		}
 		return jmlAnnotation;
@@ -491,6 +512,8 @@ public class GenerateClassFromInterfaces {
 		jmlAnnotation = jmlAnnotation.replace("==", "=");
 		jmlAnnotation = jmlAnnotation.replace("@", "");
 		jmlAnnotation = jmlAnnotation.replace("\r\n\t", "");
+		jmlAnnotation = jmlAnnotation.replace("= true", "= TRUE");
+		jmlAnnotation = jmlAnnotation.replace("= false", "= FALSE");
 
 		// replace parts of JML with forall
 		// replace (\forall T x; a; b) by (\forall T x; ((a) -> (b)) and (\forall T x;
@@ -504,7 +527,7 @@ public class GenerateClassFromInterfaces {
 			if (findSecondSemic != -1) {
 				String secondPart = jmlAnnotation.substring(findFirstSemic + 1, findSecondSemic);
 				String thirdPart = jmlAnnotation.substring(findSecondSemic + 1, endForAll);
-				jmlAnnotation = firstPart + "(" + secondPart + ") -> (" + thirdPart + ")"
+				jmlAnnotation = firstPart + "((" + secondPart + ") -> (" + thirdPart + "))"
 						+ jmlAnnotation.substring(endForAll);
 			} else {
 				String secondPart = jmlAnnotation.substring(findFirstSemic + 1, endForAll);
@@ -525,7 +548,7 @@ public class GenerateClassFromInterfaces {
 			if (findSecondSemic != -1) {
 				String secondPart = jmlAnnotation.substring(findFirstSemic + 1, findSecondSemic);
 				String thirdPart = jmlAnnotation.substring(findSecondSemic + 1, endExists);
-				jmlAnnotation = firstPart + "(" + secondPart + ") & (" + thirdPart + ")"
+				jmlAnnotation = firstPart + "((" + secondPart + ") & (" + thirdPart + "))"
 						+ jmlAnnotation.substring(endExists);
 			} else {
 				String secondPart = jmlAnnotation.substring(findFirstSemic + 1, endExists);
