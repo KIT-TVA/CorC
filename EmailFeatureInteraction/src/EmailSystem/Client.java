@@ -10,6 +10,7 @@ public  class Client {
 	protected KeyringEntry keyring;
 	protected int privateKey;
 	protected boolean autoResponse;
+	private Email[] mailbox = new Email[0];
 	//protected ArrayList<AddressBookEntry> addressbook = new ArrayList<AddressBookEntry>();
 	protected /*@spec_public@*/ static Client forwardReceiver;
 	
@@ -77,7 +78,7 @@ public  class Client {
 	@ ensures (this.name != null ==> \result == this.name) && (this.name == null ==> \result == null);
 	@ assignable \nothing;
 	@*/
-	public /*@pure*/ String getName() {
+	public /*@pure*//*@helper*/ String getName() {
 		String result = null;
 		result = this.name;
 		return result;
@@ -102,7 +103,7 @@ public  class Client {
 	@ ensures msg.from == client;
 	@ assignable msg.from;
 	@*/
-	public /*@helper@*/ static void outgoing(Client client, Email msg) {
+	public static void outgoing(Client client, Email msg) {
 		msg.setEmailFrom(client);
 
 	}
@@ -197,44 +198,79 @@ public  class Client {
 	
 	/*@
 	  @ public normal_behavior
-	  @ requires client != null && msg != null && \invariant_for(msg);
-	  @ ensures msg.isDelivered() ==true;
+	  @ requires  msg != null;
+	  @ ensures msg.isDelivered == true;
 	  @ assignable msg.isDelivered;
 	  @*/
-	/*@ helper*/static void deliver(Client client, Email msg) {
+	void deliver(Client client, Email msg) {
 		msg.setEmailIsDelivered(true);
+		addEmailToMailbox(client, msg);
 	}
 	
 	/*@
 	  @ public normal_behavior
-	  @ requires client != null && msg != null &&\invariant_for(msg);
+	  @ requires true;
+	  @ ensures mailboxContainsEmail(client, msg);
+	  @ assignable client.mailbox;
+	  @*/
+	private void addEmailToMailbox(Client client, Email msg) {
+		Email[] tmp = new Email[client.mailbox.length+1];
+		tmp[client.mailbox.length+1] = msg;
+		for(int i = 0; i< client.mailbox.length; i++) {
+			tmp[i] = client.mailbox[i];
+		}
+		client.mailbox = tmp;
+	}
+	
+	/*@
+	  @ public normal_behavior
+	  @ requires client != null && client.mailbox != null;
+	  @ ensures \result <==> (\exists int i; i>= 0 && i< client.mailbox.length; client.mailbox[i] == msg);
+	  @ assignable \nothing;
+	  @*/
+	private /*@ pure*/ /*@ helper*/ boolean mailboxContainsEmail(Client client, Email msg) {
+		/*@
+		  @ loop_invariant (\forall int j; j>=0 && j<i; client.mailbox[j] != msg);
+		  @ decreases client.mailbox.length -i;
+		  @*/
+		for(int i = 0; i< client.mailbox.length; i++) {
+			if(client.mailbox[i].equals(msg)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/*@
+	  @ public normal_behavior
+	  @ requires client != null && msg != null;
 	  @ ensures msg.from == client && msg.isDelivered == false ;
 	  @ assignable msg.from, msg.isDelivered;
 	  @*/
-	/*@helper*/static void forward(Client client, Email msg) {
+	void forward(Client client, Email msg) {
 		msg.setEmailIsDelivered(false);
 		outgoing(client, msg);
 	}
 
 	/*@
 	  @ public normal_behavior
-	  @ requires  client!=null && msg!=null && \invariant_for(msg);
-	  @ ensures msg.isDelivered();
+	  @ requires  client!=null && msg!=null;
+	  @ ensures msg.isDelivered == true;
 	  @ assignable msg.isDelivered;
 	  @*/
-	private /*@ helper*/static void incoming__Base(Client client, Email msg) {
+	private void incoming__Base(Client client, Email msg) {
 		deliver(client, msg);
 	}
 	
 	/*@
 	  @ public normal_behavior
-	  @ requires  client!=null && msg!=null && \invariant_for(client) && \invariant_for(msg) && \invariant_for(client.forwardReceiver);
-	  @ ensures msg.isDelivered;
+	  @ requires  client!=null && msg!=null;
+	  @ ensures msg.isDelivered == true;
 	  @ ensures (client.forwardReceiver != null && client.forwardReceiver.name != null) ==> (msg.to == client.forwardReceiver && msg.from == client);
 	  @ assignable msg.isDelivered, msg.to, msg.from;
 	  @ diverges true;
 	  @*/
-	private static void incoming__Forward(Client client, Email msg) {
+	 private void incoming__Forward(Client client, Email msg) {
 		deliver(client, msg);
 		Client receiver = client.getForwardReceiver();
 		if (receiver != null && receiver.getName() != null) {
@@ -280,11 +316,11 @@ public  class Client {
 	/*@
 	  @ public normal_behavior
 	  @ requires client != null && msg != null && \invariant_for(msg) && \invariant_for(client);
-	  @ ensures msg.isDelivered();
-	  @ ensures (client.getPrivateKey() != 0 && msg.isEncrypted() && isKeyPairValid(msg.getEmailEncryptionKey(), client.getPrivateKey())) ==> (!msg.isEncrypted() && msg.getEmailEncryptionKey() == 0);
+	  @ ensures msg.isDelivered;
+	  @ ensures (client.privateKey != 0 && msg.isEncrypted && isKeyPairValid(msg.encryptionKey, client.privateKey)) ==> (!msg.isEncrypted && msg.encryptionKey == 0);
 	  @ assignable msg.isEncrypted, msg.encryptionKey, msg.isDelivered;
 	  @*/
-	/*@helper*/static void incoming(Client client, Email msg) {
+	 private void incoming_Decrypt(Client client, Email msg) {
 		// decrypt
 
 		int privkey = client.getPrivateKey();
@@ -299,6 +335,39 @@ public  class Client {
 
 		deliver(client, msg);
 	}
+	
+	/*@
+	  @ public normal_behavior
+	  @ requires client != null && msg != null;
+	  @ ensures msg.isDelivered();
+	  @ ensures (client.forwardReceiver != null && client.forwardReceiver.name != null) ==> (msg.to == client.forwardReceiver && msg.from == client);
+	  @ ensures (client.privateKey != 0 && msg.isEncrypted && isKeyPairValid(msg.encryptionKey, client.privateKey)) ==> (!msg.isEncrypted && msg.encryptionKey == 0);
+	  @ assignable msg.isEncrypted, msg.encryptionKey, msg.isDelivered, msg.to, msg.from;
+	  @ diverges true;
+	  @*/
+	private void incoming_Decrypt_Forward(Client client, Email msg) {
+		// decrypt
+
+		int privkey = client.getPrivateKey();
+		if (privkey != 0) {
+			if (msg.isEncrypted()
+					&& isKeyPairValid(msg.getEmailEncryptionKey(), privkey)) {
+				msg.setEmailIsEncrypted(false);
+				msg.setEmailEncryptionKey(0);
+			}
+		}
+		// end decrypt
+
+		deliver(client, msg);
+		Client receiver = client.getForwardReceiver();
+		if (receiver != null && receiver.getName() != null) {
+			msg.setEmailTo(receiver.getName());
+			forward(client, msg);
+			incoming_Decrypt_Forward(receiver, msg);
+		}
+	}
+	
+	
 
 
 
@@ -369,7 +438,7 @@ public  class Client {
 //	}
 
 
-	public static int sendEmail(Client sender, String receiverAddress,
+	public int sendEmail(Client sender, String receiverAddress,
 			String subject, String body) {
 		Email email = Email.createEmail(sender, receiverAddress, subject, body);
 		outgoing(sender, email);
@@ -392,8 +461,13 @@ public  class Client {
 	}
 
 
-
-	public /*@pure*/ int getPrivateKey() {
+	 /*@
+	   @ public normal_behavior
+	   @ requires true;
+	   @ ensures \result == privateKey;
+	   @ assignable \nothing;
+	   @*/
+	public /*@helper*//*@pure*/ int getPrivateKey() {
 		return privateKey;
 	}
 
@@ -421,8 +495,13 @@ public  class Client {
 	}
 
 
-
-	public /*@pure@*/  static boolean isKeyPairValid(int publicKey, int privateKey) {
+	/*@
+	  @ public normal_behavior
+	  @ requires true;
+	  @ ensures ((publicKey == 0 || privateKey ==0) ==> !\result) && (!(publicKey == 0 || privateKey ==0) ==> \result == (privateKey == publicKey));
+	  @ assignable \nothing;
+	  @*/
+	public /*@pure@*/  boolean isKeyPairValid(int publicKey, int privateKey) {
 		if (publicKey == 0 || privateKey == 0)
 			return false;
 		return privateKey == publicKey;
@@ -438,7 +517,7 @@ public  class Client {
 
 	/*@ requires !msg.isReadable(); @*/
 
-	static void autoRespond(Client client, Email msg) {
+	 void autoRespond(Client client, Email msg) {
 		Client sender = msg.getEmailFrom();
 		msg.setEmailTo(sender.getName());
 		outgoing(client, msg);
@@ -479,7 +558,7 @@ public  class Client {
 
 	/*@ requires !msg.isReadable(); @*/
 
-	static void verify  (Client client, Email msg) {
+	 void verify  (Client client, Email msg) {
 		int pubkey = client.getKeyringPublicKeyByClient(msg.getEmailFrom());
 		if (pubkey != 0 && isKeyPairValid(msg.getEmailSignKey(), pubkey)) {
 			msg.setIsSignatureVerified(true);
@@ -496,7 +575,7 @@ public  class Client {
 	  @ ensures \result == forwardReceiver;
 	  @ assignable \nothing;
 	  @*/
-	public /*@pure*/ Client getForwardReceiver() {
+	public /*@pure*//*@helper*/ Client getForwardReceiver() {
 		return forwardReceiver;
 	}
 

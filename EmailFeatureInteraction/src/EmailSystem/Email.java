@@ -15,6 +15,8 @@ public  class Email {
 	
 	private /*@spec_public@*/ boolean isDelivered;
 	
+	
+	
 	/*@
 	@ normal_behavior
 	@ requires true;
@@ -73,8 +75,14 @@ public  class Email {
 			throw new Error("Clone not supported");
 		}
 	}
-
-	 /*@pure@*/ boolean  isEncrypted() {
+	
+	 /*@
+	   @ public normal_behavior
+	   @ requires true;
+	   @ ensures \result == isEncrypted;
+	   @ assignable \nothing;
+	   @*/
+	 /*@pure@*//*@helper*/ boolean  isEncrypted() {
 		return isEncrypted;
 	}
 	 
@@ -94,7 +102,7 @@ public  class Email {
 	  @ ensures isEncrypted == value;
 	  @ assignable isEncrypted;
 	  @*/
-	void setEmailIsEncrypted(boolean value) {
+	void /*@helper*/ setEmailIsEncrypted(boolean value) {
 		isEncrypted = value;
 	}
 	/*@
@@ -103,7 +111,7 @@ public  class Email {
 	  @ ensures isDelivered == value;
 	  @ assignable isDelivered;
 	  @*/
-	void setEmailIsDelivered(boolean value) {
+	void /*@helper*/setEmailIsDelivered(boolean value) {
 		isDelivered = value;
 	}
 	
@@ -113,11 +121,17 @@ public  class Email {
 	  @ ensures encryptionKey == value;
 	  @ assignable encryptionKey;
 	  @*/
-	void setEmailEncryptionKey(int value) {
+	void /*@helper*/ setEmailEncryptionKey(int value) {
 		this.encryptionKey = value;
 	}
-
-	 /*@pure@*/ int getEmailEncryptionKey() {
+	
+	 /*@
+	   @ public normal_behavior
+	   @ requires true;
+	   @ ensures \result == encryptionKey;
+	   @ assignable \nothing;
+	   @*/
+	 /*@pure@*//*@helper*/ int getEmailEncryptionKey() {
 		return encryptionKey;
 	}
 
@@ -175,7 +189,7 @@ public  class Email {
 	@ ensures \result == this.from;
 	@ assignable \nothing;
 	@*/
-	public /*@helper@*/ Client getEmailFrom() {
+	public /*@pure@*/ Client getEmailFrom() {
 		return this.from;
 
 	}
@@ -186,7 +200,7 @@ public  class Email {
 	@ ensures \result == this.to;
 	@ assignable \nothing;
 	@*/
-	public /*@helper@*/ String getEmailTo() {
+	public /*@pure*/  String getEmailTo() {
 		return this.to;
 
 	}
@@ -219,7 +233,7 @@ public  class Email {
 	@ ensures this.body == valuex;
 	@ assignable this.body;
 	@*/
-	public /*@helper@*/ void setEmailBody(String valuex) {
+	public void setEmailBody(String valuex) {
 		this.body = valuex;
 
 	}
@@ -227,10 +241,10 @@ public  class Email {
 	/*@
 	@ normal_behavior
 	@ requires valuex != null;
-	@ ensures this.from == valuex && this.from != null;
-	@ assignable this.from;
+	@ ensures from == valuex;
+	@ assignable from;
 	@*/
-	public /*@helper@*/ void setEmailFrom(Client valuex) {
+	public /*@helper*/void setEmailFrom(Client valuex) {
 		this.from = valuex;
 
 	}
@@ -238,10 +252,10 @@ public  class Email {
 	/*@
 	@ normal_behavior
 	@ requires valuex != null;
-	@ ensures this.to == valuex;
-	@ assignable this.to;
+	@ ensures to == valuex;
+	@ assignable to;
 	@*/
-	public /*@helper@*/ void setEmailTo(String valuex) {
+	public /*@helper*/void setEmailTo(String valuex) {
 		this.to = valuex;
 
 	}
