@@ -1,7 +1,7 @@
 # TraitCbC
 
 This is the slim version that supports only TraitCbC.
-To install TraitCbC or CorC, please refer to the [wiki](https://github.com/TUBS-ISF/CorC/wiki).
+To install TraitCbC or CorC, please refer to the manual installation in the [wiki](https://github.com/TUBS-ISF/CorC/wiki).
 
 The following projects must be imported in the workspace of Eclipse:<br>
 de.tu-bs.cs.isf.cbc.model<br>
