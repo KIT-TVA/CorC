@@ -21,7 +21,8 @@ Require-Bundle: org.eclipse.graphiti,
  org.eclipse.draw2d;bundle-version="3.10.100",
  org.emftext.language.java,
  org.eclipse.jdt.core,
- de.tu_bs.cs.isf.cbc.cbcclass.model
+ de.tu_bs.cs.isf.cbc.cbcclass.model,
+ de.tu_bs.cs.isf.cbc.statistics
 Import-Package: de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass,
  org.eclipse.jdt.core.dom,
  org.emftext.language.java.resource.java.util

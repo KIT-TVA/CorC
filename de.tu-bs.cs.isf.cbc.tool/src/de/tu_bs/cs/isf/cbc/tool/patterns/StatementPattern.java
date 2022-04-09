@@ -41,6 +41,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
+import de.tu_bs.cs.isf.cbc.tool.helper.HighlightHelper;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateModifiableOfConditions;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
@@ -301,6 +302,10 @@ public class StatementPattern extends IdPattern implements IPattern {
 			}
 		}
 
+		if(HighlightHelper.instance.needsInitialHighlightUpdate(context)) {
+			return Reason.createTrueReason("Element needs to be highlighted.");
+		}
+		
 		return Reason.createFalseReason();
 	}
 
@@ -338,6 +343,10 @@ public class StatementPattern extends IdPattern implements IPattern {
 					}
 				}
 			}
+			
+			HighlightHelper.instance.handleHighlightDrawing(context, rectangle);	
+
+			updateParent(domainObject);
 			return true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			AbstractStatement domainObject = (AbstractStatement) context.getDomainObject();
@@ -349,6 +358,19 @@ public class StatementPattern extends IdPattern implements IPattern {
 			}
 		}
 		return false;
+	}
+	
+	private void updateParent(AbstractStatement statement) {
+		if (statement.getParent() != null) {
+			IPeService pe = Graphiti.getPeService();
+			EObject[] objArray = { statement.getParent() };
+			Object[] obj = pe.getLinkedPictogramElements(objArray, getDiagram());
+			if (obj.length > 0) {
+				Shape pElement = (Shape) obj[0];
+				if (pElement.getContainer() != null)
+					updatePictogramElement(pElement.getContainer());
+			}
+		}
 	}
 
 	@Override

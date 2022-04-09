@@ -31,6 +31,8 @@ import de.tu_bs.cs.isf.cbc.tool.features.RenameRenamingFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameStatementFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameVariableFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameVariantFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.ShowKeyFileFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.UpdateDiagramFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyAllStatements;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyPostRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyPreRepetitionStatement;
@@ -158,6 +160,8 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	    		new AboveRepetitionFeature(this),
 	    		new BelowImplementationFeature(this),
 	    		new VerifyAllStatements(this),
-				new VerifyStatementInlining(this)};
+				new VerifyStatementInlining(this),
+	    		new UpdateDiagramFeature(this),
+				new ShowKeyFileFeature(this)};
 	}
 }

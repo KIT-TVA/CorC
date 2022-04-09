@@ -180,9 +180,9 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 						Console.println(printConfiguration(featureConfigs, i));
 						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true), formula, new FileUtil(uri.toPlatformString(true)));
 						if (isInSameClass) {
-							proven = prove.proveStatementWithKey(returnStatement, false, variants[i], i, varMParts[0], varMParts[0]);
+							proven = prove.proveStatementWithKey(returnStatement, false, variants[i], i, varMParts[0], varMParts[0], true);
 						} else {
-							proven = prove.proveStatementWithKey(returnStatement, false, variants[i], i, callingMethod, varMParts[0]);
+							proven = prove.proveStatementWithKey(returnStatement, false, variants[i], i, callingMethod, varMParts[0], true);
 						}
 				}					
 			} else {
@@ -207,7 +207,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 	private String[] generateVariantsStringFromFeatureConfigs(String[][] featureConfigs, String callingFeature, String projectName) {
 		String[] variants = new String[featureConfigs.length];
 		for (int i = 0; i < featureConfigs.length; i++) {
-			//für jede Konfiguration führe aus
+			//fï¿½r jede Konfiguration fï¿½hre aus
 			for (int j = featureConfigs[i].length - 1; j >= 0; j--) {
 				if (!featureConfigs[i][j].equals(callingFeature)) {
 					if (variants[i] == null) {
@@ -271,7 +271,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 			String uri = getDiagram().eResource().getURI().toPlatformString(true);
 			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri));
-            proven = prove.proveStatementWithKey(returnStatement, false, 0);
+            proven = prove.proveStatementWithKey(returnStatement, false, 0, true);
 		} else {
             Console.println("Statement is not in correct format.");
 		}

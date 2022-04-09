@@ -36,6 +36,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
+import de.tu_bs.cs.isf.cbc.tool.helper.HighlightHelper;
 
 /**
  * Class that creates the graphical representation of Conditions
@@ -289,6 +290,9 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 				return Reason.createTrueReason("Statement is not proven. Expected red color.");
 			} 
 		}
+		if(HighlightHelper.instance.needsInitialHighlightUpdate(context)) {
+			return Reason.createTrueReason("Element needs to be highlighted.");
+		}
 		return Reason.createFalseReason();
 	}
 
@@ -316,6 +320,7 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 					if (pElement.getContainer() != null) updatePictogramElement(pElement.getContainer());
 				}
 			}
+			HighlightHelper.instance.handleHighlightDrawing(context, rectangle);
 			return true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			AbstractStatement domainObject = (AbstractStatement) context.getDomainObject();

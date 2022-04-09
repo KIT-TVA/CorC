@@ -19,7 +19,11 @@ import org.key_project.util.collection.ImmutableSet;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+<<<<<<< HEAD
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
+=======
+import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+>>>>>>> 3ac9e8fe (Merged Statistics Tool Fork into CorC2.0)
 import de.uka.ilkd.key.control.KeYEnvironment;
 import de.uka.ilkd.key.gui.MainWindow;
 import de.uka.ilkd.key.java.abstraction.KeYJavaType;
@@ -38,7 +42,10 @@ import de.uka.ilkd.key.util.KeYTypeUtil;
 import de.uka.ilkd.key.util.MiscTools;
 
 public class KeYInteraction {
+<<<<<<< HEAD
 	private static String lastErrorMessage = "";
+=======
+>>>>>>> 3ac9e8fe (Merged Statistics Tool Fork into CorC2.0)
 
 	public static Proof startKeyProof(File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
 			AbstractStatement statement, String problem, String uri) {
@@ -100,20 +107,24 @@ public class KeYInteraction {
 			// Show proof result
 			try {
 				proof.saveToFile(location);
-<<<<<<< HEAD
 
 				try {
 					// TODO: inlining may be important too
+<<<<<<< HEAD
 					StatDataCollector collector = new StatDataCollector();
 					collector.collectCorcStatistics(proof, formula, statement, problem, uri);
 				} catch (RuntimeException e) {
 						Console.println(
 								"Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer.");	
+=======
+					DataCollector collector = new DataCollector();
+					collector.collectCorcStatistics(proof, formula, statement, problem, uri);
+				} catch (RuntimeException e) {
+					Console.println(
+							"Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer.");
+>>>>>>> 3ac9e8fe (Merged Statistics Tool Fork into CorC2.0)
 				}
 
-=======
-				
->>>>>>> b52c9fb4 (only one proof with save)
 //				printStatistics(proof, inlining);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -124,6 +135,7 @@ public class KeYInteraction {
 		}
 		return proof;
 	}
+<<<<<<< HEAD
 	
 	private static void handleError(ProblemLoaderException ex) {
 		Throwable error = ex.getCause();
@@ -200,6 +212,8 @@ public class KeYInteraction {
 			ex.printStackTrace();
 		}
 	}
+=======
+>>>>>>> 3ac9e8fe (Merged Statistics Tool Fork into CorC2.0)
 
 	public static void startKeYProofFirstContract(File location, int proofCounter) {
 		File keyFile = null;
@@ -270,7 +284,11 @@ public class KeYInteraction {
 //						MainWindow.getInstance().setVisible(true);
 					env.getUi().getProofControl().startAndWaitForAutoMode(proof);
 					// Show proof result
+<<<<<<< HEAD
 					Console.println("  Proof is closed: " + proof.openGoals().isEmpty() + "\n");
+=======
+					Console.println("Proof is closed: " + proof.openGoals().isEmpty());
+>>>>>>> 3ac9e8fe (Merged Statistics Tool Fork into CorC2.0)
 					try {
 						String locationWithoutFileEnding = location.toString().substring(0,
 								location.toString().indexOf("."));
@@ -311,7 +329,6 @@ public class KeYInteraction {
 			Console.println("Inlining");
 		else
 			Console.println("Contracting");
-<<<<<<< HEAD
 		Console.println("Statistics: \n\t nodes: " + s.nodes // + "\n\t rule apps: " + s.totalRuleApps
 				+ "\n\t time in Millis: " + s.timeInMillis);
 
@@ -321,10 +338,6 @@ public class KeYInteraction {
 //		
 //		helper.createStatisticFiles("test", exampleFileString);
 
-=======
-		Console.println("Statistics: \n\t nodes: " + s.nodes //+ "\n\t rule apps: " + s.totalRuleApps
-				+ "\n\t time in Millis: " + s.timeInMillis );
->>>>>>> b52c9fb4 (only one proof with save)
 	}
 
 }
