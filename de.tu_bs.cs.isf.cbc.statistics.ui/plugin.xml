@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="de.tu_bs.cs.isf.cbc.statistics.ui.OpenStatisticsViewHandler"
+            id="de.tu_bs.cs.isf.cbc.statistics.ui.view.statistics.command"
+            name="View corc statistics command">
+      </command>
+      <command
+            defaultHandler="de.tu_bs.cs.isf.cbc.statistics.ui.OpenInDiagramHandler"
+            id="de.tu_bs.cs.isf.cbc.statistics.ui.view.diagram.command"
+            name="View in corc diagram command">
+      </command>
+      <command
+            defaultHandler="de.tu_bs.cs.isf.cbc.statistics.ui.AddIdsToCorCDiagramElementsHandler"
+            id="de.tu_bs.cs.isf.cbc.statistics.ui.add.ids.diagram.command"
+            name="Add ids to corc elements command">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="de.tu_bs.cs.isf.cbc.statistics.ui.view.statistics.command"
+               icon="icons/CorC_stats.png"
+               id="de.tu_bs.cs.isf.cbc.statistics.ui.view.statistics.command.mapping"
+               label="View CorC Statistics"
+               style="push">
+            <!-- visibleWhen
+               checkEnabled="false">
+               <with
+                     variable="activeMenuSelection">
+                  <iterate
+                        ifEmpty="false">
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen -->
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="de.tu_bs.cs.isf.cbc.statistics.ui.view.diagram.command"
+               icon="icons/CorC.png"
+               id="de.tu_bs.cs.isf.cbc.statistics.ui.view.diagram.command.mapping"
+               label="Show in CorC Diagram"
+               style="push">
+            <visibleWhen
+                 checkEnabled="false">
+			   	<with variable="activeMenuSelection">
+				      <iterate
+				           ifEmpty="false">
+				         <adapt type="org.eclipse.core.resources.IResource">
+				              <test property="org.eclipse.core.resources.extension" value="key" />
+				         </adapt>
+				      </iterate>
+			   	</with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="de.tu_bs.cs.isf.cbc.statistics.ui.add.ids.diagram.command"
+               icon="icons/CorC.png"
+               id="de.tu_bs.cs.isf.cbc.statistics.ui.add.ids.diagram.command.mapping"
+               label="Add IDs to CorC Diagram Elements"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activeMenuSelection">
+                  <iterate
+                        ifEmpty="false">
+                     <adapt
+                           type="org.eclipse.core.resources.IResource">
+                        <or>
+                           <test
+                                 property="org.eclipse.core.resources.extension"
+                                 value="cbcmodel">
+                           </test>
+                           <test
+                                 property="org.eclipse.core.resources.extension"
+                                 value="diagram">
+                           </test>
+                        </or>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+
+</plugin>

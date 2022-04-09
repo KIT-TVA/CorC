@@ -32,6 +32,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -459,6 +460,26 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	@Override
 	public EAttribute getAbstractStatement_Comment() {
 		return (EAttribute)abstractStatementEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getAbstractStatement_Id() {
+		return (EAttribute)abstractStatementEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EOperation getAbstractStatement__GenerateID() {
+		return abstractStatementEClass.getEOperations().get(0);
 	}
 
 	/**
@@ -1003,6 +1024,8 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		createEReference(abstractStatementEClass, ABSTRACT_STATEMENT__PRE_CONDITION);
 		createEAttribute(abstractStatementEClass, ABSTRACT_STATEMENT__PROVEN);
 		createEAttribute(abstractStatementEClass, ABSTRACT_STATEMENT__COMMENT);
+		createEAttribute(abstractStatementEClass, ABSTRACT_STATEMENT__ID);
+		createEOperation(abstractStatementEClass, ABSTRACT_STATEMENT___GENERATE_ID);
 
 		skipStatementEClass = createEClass(SKIP_STATEMENT);
 
@@ -1133,6 +1156,9 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		initEReference(getAbstractStatement_PreCondition(), this.getCondition(), null, "preCondition", null, 0, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractStatement_Proven(), ecorePackage.getEBoolean(), "proven", null, 0, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractStatement_Comment(), ecorePackage.getEString(), "comment", null, 0, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAbstractStatement_Id(), ecorePackage.getEString(), "id", null, 1, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEOperation(getAbstractStatement__GenerateID(), null, "generateID", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(skipStatementEClass, SkipStatement.class, "SkipStatement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

@@ -174,12 +174,20 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     }
 	private static boolean proveAbstractStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, boolean returnStatement,
 			Renaming renaming, CbCFormula formula, String uri, IProgressMonitor monitor) {
+		// check if there exists a file with this hash (AND its is proven) it is needed to:
+			// check if file with same problem hash exists (get files in prove folder and compare with hashes in DB for same file names) 
+			// -> PROBLEM: we do not have the problem to hash at this point
+				// check is only possible later in program flow (at least without major changes to program flow)
+			// check if statement prove was closed and only then do not check again 
+			// but: if not closed and hash is the same it may also do not need a second verification 
+				// -> still false
+		// if criteria match -> already true AND match KeY file path with CorC node
 		if (!statement.isProven()) {
 			boolean proven = false;
 			String variants = null;
-			//TODO für SPLs anpassen
+			//TODO fï¿½r SPLs anpassen
 			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri));
-			proven = prove.proveStatementWithKey(returnStatement, false, 0);
+			proven = prove.proveStatementWithKey(returnStatement, false, 0, false);
 			if (proven) {
 				statement.setProven(true);
 			} else {

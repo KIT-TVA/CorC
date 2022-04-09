@@ -1,6 +1,7 @@
 package de.tu_bs.cs.isf.cbc.util;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.collect.Lists;
-
+import com.google.common.hash.Hashing;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique;
@@ -25,6 +26,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
+import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
 
@@ -48,6 +50,9 @@ public class ProveWithKey {
 	private CbCFormula formula;
 	private IFileUtil fileHandler;
 	private String sourceFolder;
+	// new field Malena BA
+	private String problem;
+	private String subProofName = "";
 	
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
 			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler) {
@@ -67,15 +72,40 @@ public class ProveWithKey {
 		this.sourceFolder = srcFolder;
 	}
 	
-	public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, int numberfile) {
-			File location = createProveStatementWithKey(null, 0, true, "", "", returnStatement);
-			Console.println("  Verify Pre -> {Statement} Post");
-			return proveWithKey(location, inlining);
-	}
+	public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, int numberfile, boolean forceProving) {
+		File location = createProveStatementWithKey(null, 0, true, "", "", returnStatement);
+		
+		// TODO: proving will only skip if already true
+		if (!forceProving) {
+			String problemHash = Hashing.sha256().hashString(problem, StandardCharsets.UTF_8).toString();
+			String filePath =location.getAbsolutePath().toString();
+			String proveFolderLocation = filePath.substring(0, filePath.lastIndexOf(File.separator));
+			FileNameManager fileManager = new FileNameManager();
+			if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation)) {
+				Console.println("Already true... skip");
+				return true;
+			}
+		}
+		
+		Console.println("  Verify Pre -> {Statement} Post");
+		return proveWithKey(location, inlining);
+}
 
-	public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, String variants, int numberfile, String callingMethod, String varM) {
+public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, String variants, int numberfile, String callingMethod, String varM, boolean forceProving) {
+		
 		if (variants == null || variants.length() == 0) {
 			File location = createProveStatementWithKey(null, 0, true, callingMethod, varM, returnStatement);
+			
+			if (!forceProving) {
+				String problemHash = Hashing.sha256().hashString(problem, StandardCharsets.UTF_8).toString();
+				String filePath = location.getAbsolutePath().toString();
+				String proveFolderLocation = filePath.substring(0, filePath.lastIndexOf(File.separator));
+				FileNameManager fileManager = new FileNameManager();
+				if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation)) {
+					Console.println("Already true... skip");
+					return true;
+				}
+			}
 			Console.println("  Verify Pre -> {Statement} Post");
 			return proveWithKey(location, inlining);
 		} else {
@@ -83,6 +113,16 @@ public class ProveWithKey {
 			
 				List<String> refinements = Lists.newArrayList(variants.split(","));
 				File location = createProveStatementWithKey(refinements, numberfile, true, callingMethod, varM, returnStatement);
+				if (!forceProving) {
+					String problemHash = Hashing.sha256().hashString(problem, StandardCharsets.UTF_8).toString();
+					String filePath = location.getAbsolutePath().toString();
+					String proveFolderLocation = filePath.substring(0, filePath.lastIndexOf(File.separator));
+					FileNameManager fileManager = new FileNameManager();
+					if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation)) {
+						Console.println("Already true... skip");
+						return true;
+					}
+				}
 				Console.println("  Verify Pre -> {Statement} Post");
 
 				if (!proveWithKey(location, inlining)) {
@@ -116,13 +156,13 @@ public class ProveWithKey {
 		content.handleOld(formula, vars);
 		
 
-		String problem = content.getKeYStatementContent();	
+		problem = content.getKeYStatementContent();	
 
 		problem = problem.replaceAll("static", "");
 		problem = problem.replaceAll("return", ""); //TODO replace with correct handling of return
 		
 		String location = fileHandler.getLocationString(uri);
-		File keyFile = fileHandler.writeFile(problem, location, numberFile, override);
+		File keyFile = fileHandler.writeFile(problem, location, numberFile, override, statement, subProofName);
 		return keyFile;
 	}
 	
@@ -431,14 +471,14 @@ public class ProveWithKey {
 	}
 
 	public boolean proveWithKey(File location, boolean inlining) {
-		return proveWithKey(location, monitor, inlining);	
+		return proveWithKey(location, monitor, inlining, formula, statement, problem, uri);	
 	}
 	
-	public static boolean proveWithKey(File location, IProgressMonitor monitor, boolean inlining) {
+	public static boolean proveWithKey(File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula, AbstractStatement statement, String problem, String uri) {
 		Proof proof = null;
 //		Console.clear();
 //		for (int i = 0; i <5; i++) {
-			proof = KeYInteraction.startKeyProof(location, null, inlining);
+			proof = KeYInteraction.startKeyProof(location, null, inlining, formula, statement, problem, uri);
 //		}
 		if (proof != null) {
 			// Show proof result
@@ -450,6 +490,7 @@ public class ProveWithKey {
 	}
 	
 	public boolean proveCImpliesCWithKey(Condition preCondition, Condition postCondition, int numberFile) {
+		subProofName = "precondition";
 		File location = createProveCImpliesCWithKey(preCondition.getName(), postCondition.getName(), numberFile, true);
 		Console.println("  Verify Pre -> Invariant");
 		return proveWithKey(location, false);
@@ -473,14 +514,17 @@ public class ProveWithKey {
 		content.addSelfForFields(vars);
 		content.addSelf(formula);
 		content.handleOld(formula, vars);
+		
+		problem = content.getKeYCImpliesCContent();
 
         //String location = fileHandler.getProjectLocation(uri) + uri.segment(uri.segmentCount()-3) + "/prove" + uri.trimFileExtension().lastSegment();
 		String location = fileHandler.getLocationString(uri);
-		File keyFile = fileHandler.writeFile(content.getKeYCImpliesCContent(), location, numberFile, override);
+		File keyFile = fileHandler.writeFile(problem, location, numberFile, override, statement, subProofName);
 		return keyFile;
 	}
 
 	public boolean provePostRepetitionWithKey(Condition invariant, Condition guard, Condition postCondition) {
+		subProofName = "postcondition";
 		String pre = invariant.getName() + " & !(" + guard.getName() + ")";
 		File location = createProveCImpliesCWithKey(pre, postCondition.getName(), 0, true);
 		Console.println("  Verify (Invariant & !Guard) -> Post");
@@ -504,6 +548,7 @@ public class ProveWithKey {
 	}
 
 	public boolean proveVariantWithKey(String code, Condition invariant, Condition guard, Variant variant) {
+		subProofName = "variant";
 		File location = createProveVariantWithKey(code, invariant, guard, variant, 0, true);
 		Console.println("Verify Pre -> {WhileStatement} (variant<variant0 & variant >= 0)");
 		return proveWithKey(location, false);
@@ -525,8 +570,10 @@ public class ProveWithKey {
 		content.addSelf(formula);
 		content.handleOld(formula, vars);
 		
+		problem = content.getKeYStatementContent();
+		
 		String location = fileHandler.getLocationString(uri);
-		File keyFile = fileHandler.writeFile(content.getKeYStatementContent(), location, numberFile, override);
+		File keyFile = fileHandler.writeFile(problem, location, numberFile, override, statement, subProofName);
 		return keyFile;
 	}
 
@@ -549,14 +596,16 @@ public class ProveWithKey {
 		content.addSelf(formula);		
 		content.rename(renaming);
 		content.handleOld(formula, vars);
+
+		problem = content.getKeYStatementContent();
 		
 		String location = fileHandler.getLocationString(uri);
-		File keyFile = fileHandler.writeFile(content.getKeYWPContent(), location, numberFile, override);
+		File keyFile = fileHandler.writeFile(problem, location, numberFile, override, statement, subProofName);
 		return keyFile;
 	}
 
 	public String createWPWithKey(File location) {
-		Proof proof = KeYInteraction.startKeyProof(location, monitor, false);
+		Proof proof = KeYInteraction.startKeyProof(location, monitor, false, formula, statement, problem, uri);
 		if (proof != null) {
 			String wp = "";
 			Iterator<Goal> it = proof.openGoals().iterator();
