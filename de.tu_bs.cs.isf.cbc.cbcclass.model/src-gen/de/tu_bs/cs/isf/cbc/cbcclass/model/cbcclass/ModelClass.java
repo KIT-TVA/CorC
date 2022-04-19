@@ -23,6 +23,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getMethods <em>Methods</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getClassInvariants <em>Class Invariants</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getPackage <em>Package</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getFeature <em>Feature</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getInheritsFrom <em>Inherits From</em>}</li>
  * </ul>
  *
  * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage#getModelClass()
@@ -133,5 +135,50 @@ public interface ModelClass extends EObject {
 	 * @generated
 	 */
 	void setPackage(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Feature</b></em>' attribute.
+	 * The default value is <code>"default"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Feature</em>' attribute.
+	 * @see #setFeature(String)
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage#getModelClass_Feature()
+	 * @model default="default"
+	 * @generated
+	 */
+	String getFeature();
+
+	/**
+	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getFeature <em>Feature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Feature</em>' attribute.
+	 * @see #getFeature()
+	 * @generated
+	 */
+	void setFeature(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Inherits From</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Inherits From</em>' reference.
+	 * @see #setInheritsFrom(ModelClass)
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage#getModelClass_InheritsFrom()
+	 * @model
+	 * @generated
+	 */
+	ModelClass getInheritsFrom();
+
+	/**
+	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getInheritsFrom <em>Inherits From</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Inherits From</em>' reference.
+	 * @see #getInheritsFrom()
+	 * @generated
+	 */
+	void setInheritsFrom(ModelClass value);
 
 } // ModelClass

@@ -1,6 +1,9 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -14,8 +17,10 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
+import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
+import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 
 /**
  * Class that changes the abstract value of algorithms
@@ -85,8 +90,34 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 				}
 				boolean proven = false;
 				String uriString = getDiagram().eResource().getURI().toPlatformString(true);
+				URI uri = getDiagram().eResource().getURI();
+				IProject project = FileUtil.getProjectFromFileInProject(uri);
+				boolean isVariational = false;
+				try {
+					if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
+						isVariational = true;
+					}
+				} catch (CoreException e) {
+					e.printStackTrace();
+				}
 				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString));
-				proven = prove.provePreSelWithKey(statement.getGuards(), parent.getPreCondition());
+				if (isVariational) {
+					Console.println("--------------- Triggered variational verification ---------------");
+					String callingClass = uri.segment(uri.segmentCount()-2) + "";
+					String callingFeature = uri.segment(uri.segmentCount()-3) + "";
+					String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
+					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false);				
+					VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());		
+					for (int i = 0; i < featureConfigs.length; i++) {
+						verifyStmt.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
+						proven = prove.provePreSelWithKey(statement.getGuards(), parent.getPreCondition(), i);
+					}
+				} else {
+					Console.println("--------------- Triggered verification ---------------");
+					proven = prove.provePreSelWithKey(statement.getGuards(), parent.getPreCondition(), 0);
+					}		
+				Console.println("--------------- Verification completed --------------- ");
+						
 				if (proven) {
 					statement.setPreProve(true);
 				} else {

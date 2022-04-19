@@ -122,13 +122,31 @@ public interface CbcclassPackage extends EPackage {
 	int MODEL_CLASS__PACKAGE = 5;
 
 	/**
+	 * The feature id for the '<em><b>Feature</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_CLASS__FEATURE = 6;
+
+	/**
+	 * The feature id for the '<em><b>Inherits From</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_CLASS__INHERITS_FROM = 7;
+
+	/**
 	 * The number of structural features of the '<em>Model Class</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_CLASS_FEATURE_COUNT = 6;
+	int MODEL_CLASS_FEATURE_COUNT = 8;
 
 	/**
 	 * The number of operations of the '<em>Model Class</em>' class.
@@ -490,6 +508,28 @@ public interface CbcclassPackage extends EPackage {
 	EAttribute getModelClass_Package();
 
 	/**
+	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getFeature <em>Feature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Feature</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getFeature()
+	 * @see #getModelClass()
+	 * @generated
+	 */
+	EAttribute getModelClass_Feature();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getInheritsFrom <em>Inherits From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Inherits From</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass#getInheritsFrom()
+	 * @see #getModelClass()
+	 * @generated
+	 */
+	EReference getModelClass_InheritsFrom();
+
+	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field <em>Field</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -829,6 +869,22 @@ public interface CbcclassPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MODEL_CLASS__PACKAGE = eINSTANCE.getModelClass_Package();
+
+		/**
+		 * The meta object literal for the '<em><b>Feature</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MODEL_CLASS__FEATURE = eINSTANCE.getModelClass_Feature();
+
+		/**
+		 * The meta object literal for the '<em><b>Inherits From</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL_CLASS__INHERITS_FROM = eINSTANCE.getModelClass_InheritsFrom();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.FieldImpl <em>Field</em>}' class.

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="addWaitingPerson" className="Floor" methodName="addWaitingPerson">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+        <firstStatement name="statement1">
+          <refinement name="this.callElevator();" proven="true">
+            <postCondition name="this.hasCall() = TRUE"/>
+            <preCondition name="person != null"/>
+          </refinement>
+          <postCondition name="this.hasCall() = TRUE"/>
+          <preCondition name="person != null"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement name="this.waiting.add(person);">
+            <postCondition name="this.hasCall() = TRUE &amp; this.waiting.contains(person) = TRUE"/>
+            <preCondition name="this.hasCall() = TRUE"/>
+          </refinement>
+          <postCondition name="this.hasCall() = TRUE &amp; this.waiting.contains(person) = TRUE"/>
+          <preCondition name="this.hasCall() = TRUE"/>
+        </secondStatement>
+        <intermediateCondition name="this.hasCall() = TRUE"/>
+      </refinement>
+      <postCondition name="this.hasCall() = TRUE &amp; this.waiting.contains(person) = TRUE"/>
+      <preCondition name="person != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Floor.cbcclass#//@methods.6"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="Person person" kind="PARAM"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="Person person non-null"/>
+    <conditions name="waiting.&lt;inv>"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

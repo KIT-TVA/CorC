@@ -76,6 +76,15 @@ public interface CbcmodelFactory extends EFactory {
 	SelectionStatement createSelectionStatement();
 
 	/**
+	 * Returns a new object of class '<em>Method Statement</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Method Statement</em>'.
+	 * @generated
+	 */
+	MethodStatement createMethodStatement();
+
+	/**
 	 * Returns a new object of class '<em>Variant</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -182,6 +191,15 @@ public interface CbcmodelFactory extends EFactory {
 	 * @generated
 	 */
 	MethodClass createMethodClass();
+
+	/**
+	 * Returns a new object of class '<em>Original Statement</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Original Statement</em>'.
+	 * @generated
+	 */
+	OriginalStatement createOriginalStatement();
 
 	/**
 	 * Returns the package supported by this factory.

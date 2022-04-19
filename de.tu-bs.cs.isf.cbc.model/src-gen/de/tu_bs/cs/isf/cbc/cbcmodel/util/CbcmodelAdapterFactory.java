@@ -92,6 +92,10 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 				return createSelectionStatementAdapter();
 			}
 			@Override
+			public Adapter caseMethodStatement(MethodStatement object) {
+				return createMethodStatementAdapter();
+			}
+			@Override
 			public Adapter caseVariant(Variant object) {
 				return createVariantAdapter();
 			}
@@ -138,6 +142,10 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseMethodClass(MethodClass object) {
 				return createMethodClassAdapter();
+			}
+			@Override
+			public Adapter caseOriginalStatement(OriginalStatement object) {
+				return createOriginalStatementAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -240,6 +248,20 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSelectionStatementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement <em>Method Statement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement
+	 * @generated
+	 */
+	public Adapter createMethodStatementAdapter() {
 		return null;
 	}
 
@@ -408,6 +430,20 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMethodClassAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement <em>Original Statement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement
+	 * @generated
+	 */
+	public Adapter createOriginalStatementAdapter() {
 		return null;
 	}
 

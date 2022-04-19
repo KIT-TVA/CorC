@@ -13,7 +13,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -431,7 +433,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * @generated
 	 */
 	public Condition basicGetPrecondition() {
-		return cbcStartTriple.getPreCondition();
+		return cbcStartTriple.getStatement().getPreCondition();
 	}
 
 	/**
@@ -465,7 +467,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * @generated
 	 */
 	public Condition basicGetPostcondition() {
-		return cbcStartTriple.getPostCondition();
+		return cbcStartTriple.getStatement().getPostCondition();
 	}
 
 	/**
@@ -545,19 +547,21 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getSignature() {
 		String staticString = isStatic ? "static " : "";
 		String params = "";
-		if (parameters != null && parameters.size() > 0) {
+		if (getParameters().size() > 0) {
 			for (Parameter param : parameters) {
-				params += param.getType() + " " + param.getName() + ",";
+				if (!param.getName().equals("ret")) {
+					params += param.getType() + " " + param.getName() + ", ";
+				}
 			}
-			params = params.substring(0, params.length() - 1);
+			params = params.substring(0, params.length() - 2);
 		}
-		return visibility.getLiteral().toLowerCase() + " " + staticString + returnType + " " + name + "(" + params + ")";
+		return visibility.toString().toLowerCase() + " " + staticString + returnType + " " + name + "(" + params + ")";
 	}
 
 	/**
@@ -567,46 +571,90 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 */
 	@Override
 	public void setSignature(String newSignature) {
-		if(newSignature.contains("private ")) {
-			 setVisibility(Visibility.PRIVATE);
-		 }else if(newSignature.contains("protected ")){
-			 setVisibility(Visibility.PROTECTED);
-		 }else {
-			 setVisibility(Visibility.PUBLIC);
-		 }
-		 //remove visibility
-		newSignature = newSignature.replaceFirst(getVisibility().getLiteral().toLowerCase()+" ", "");
-		
-		if(newSignature.contains("static ")){
+		if (newSignature.contains("private ")) {
+			setVisibility(Visibility.PRIVATE);
+		} else if (newSignature.contains("protected ")) {
+			setVisibility(Visibility.PROTECTED);
+		} else {
+			setVisibility(Visibility.PUBLIC);
+		}
+		//remove visibility
+		newSignature = newSignature.replaceFirst(getVisibility().getLiteral().toLowerCase() + " ", "");
+
+		if (newSignature.contains("static ")) {
 			setIsStatic(true);
-		}else {
+		} else {
 			setIsStatic(false);
 		}
-		
+
 		newSignature = newSignature.replaceFirst("static ", "");
-		 
-		 String returnType = newSignature.substring(0, newSignature.indexOf(" "));
-		 setReturnType(returnType);
-		 newSignature = newSignature.replaceFirst(returnType +" ", "");
-		 
-		 String methodName = newSignature.substring(0, newSignature.indexOf("("));
-		 setName(methodName);
-		 newSignature = newSignature.replaceFirst(methodName +"\\(", "");
-		 
-		 String parameters = newSignature.substring(0, newSignature.indexOf(")"));
-		 if(!parameters.isBlank()) {
-		 String[] paramArray = parameters.split(",");
-		 getParameters().clear();
-		 for(int i = 0; i < paramArray.length; i++) {
-			 String[] splittedParam = paramArray[i].split(" ");
-			 String type = splittedParam[0];
-			 String name = splittedParam[1];
-			 Parameter p = CbcclassFactory.eINSTANCE.createParameter();
-			 p.setType(type);
-			 p.setName(name);
-			 getParameters().add(p);
-		 }
-		 }
+
+		String returnType = newSignature.substring(0, newSignature.indexOf(" "));
+		setReturnType(returnType);
+		newSignature = newSignature.substring(returnType.length() + 1);
+
+		String methodName = newSignature.substring(0, newSignature.indexOf("("));
+		setName(methodName);
+		newSignature = newSignature.replaceFirst(methodName + "\\(", "");
+
+		String parameters = newSignature.substring(0, newSignature.indexOf(")"));
+		parameters = parameters.replace(", ", ",");
+		List<Integer> checkedParams = new ArrayList<Integer>();
+		if (!parameters.isBlank()) {
+			String[] paramArray = parameters.split(",");
+			for (String s : paramArray) {
+				String[] splittedParam = s.split(" ");
+				String type = splittedParam[0];
+				String name = splittedParam[1];
+				boolean check = false;
+				for (int i = 0; i < getParameters().size(); i++) {
+					Parameter p = getParameters().get(i);
+					if (!check && (p.getType() + " " + p.getName()).equals(type + " " + name)
+							&& !checkedParams.contains(i)) {
+						checkedParams.add(i);
+						check = true;
+					}
+				}
+				if (!check) {
+					Parameter newParam = CbcclassFactory.eINSTANCE.createParameter();
+					newParam.setType(type);
+					newParam.setName(name);
+					getParameters().add(newParam);
+					checkedParams.add(getParameters().size() - 1);
+				}
+			}
+		}
+		if (!returnType.equals("void")) {
+			boolean check = false;
+			for (int i = 0; i < getParameters().size(); i++) {
+				if (!check && !checkedParams.contains(i) && getParameters().get(i).getName().equals("ret")
+						&& getParameters().get(i).getType().equals(returnType)) {
+					checkedParams.add(i);
+					check = true;
+				}
+			}
+			if (!check) {
+				Parameter returnParam = CbcclassFactory.eINSTANCE.createParameter();
+				returnParam.setType(returnType);
+				returnParam.setName("ret");
+				getParameters().add(returnParam);
+				checkedParams.add(getParameters().size() - 1);
+			}
+		}
+		// delete parameters that are not existing any more
+		for (int i = 0; i < getParameters().size(); i++) {
+			if (!checkedParams.contains(i)) {
+				getParameters().remove(i);
+				for (int j = 0; j < checkedParams.size(); j++) {
+					int oldVal = checkedParams.get(j);
+					if (oldVal > i) {
+						int newVal = oldVal - 1;
+						checkedParams.set(j, newVal);
+					}
+				}
+				i--;
+			}
+		}
 	}
 
 	/**

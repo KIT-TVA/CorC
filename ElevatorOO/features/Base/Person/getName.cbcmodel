@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="getName" proven="true" className="Person" methodName="getName">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.name;" proven="true" comment="returnStatement">
+        <postCondition name="this.name.equals(\result) = TRUE"/>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="this.name.equals(\result) = TRUE"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Person.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="String ret" kind="RETURN"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

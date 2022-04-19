@@ -8,10 +8,12 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.collect.Lists;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
@@ -45,6 +47,11 @@ public class UpdateModifiableOfConditions {
 						if (!modifiableVariables.contains(var)) {
 							if(modifiableVariables.contains("\\nothing"))
 								modifiableVariables = Lists.newArrayList();
+							for (Field f : vars.getFields()) {
+								if (f.getName().equals(var) && f.getType().contains("[]") && !var.contains("[")) {
+									var = var + "[*]";
+								}
+							}
 							modifiableVariables.add(var);
 						}
 					}

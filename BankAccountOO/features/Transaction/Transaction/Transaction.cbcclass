@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Transaction" feature="Transaction">
+  <fields type="Account" name="destination"/>
+  <fields type="Account" name="source"/>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/BankAccountOO/features/Transaction/Transaction/transfer.diagram" name="transfer" returnType="boolean">
+    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/BankAccountOO/features/Transaction/Transaction/transfer.cbcmodel#/0"/>
+    <parameters type="int" name="amount"/>
+  </methods>
+</cbcclass:ModelClass>

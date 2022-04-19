@@ -281,7 +281,6 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		link(post2Shape, addedStatement.getSecondStatement().getPostCondition());
 		link(proveShape, addedStatement);
 		
-
 		return outerContainerShape;
 	}
 
@@ -482,4 +481,3 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		}
 	}
 }
-

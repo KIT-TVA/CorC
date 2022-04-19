@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="nextYear" proven="true" className="Application" methodName="nextYear">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true">
+        <postCondition name="true"/>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="true"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Application.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <fields href="Application.cbcclass#//@fields.0"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

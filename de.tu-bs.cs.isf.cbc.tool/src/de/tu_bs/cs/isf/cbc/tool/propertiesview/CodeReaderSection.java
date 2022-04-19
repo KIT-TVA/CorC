@@ -29,6 +29,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateMethodCallsToProve;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
 
 /**
  * Class for the Code-Reader-Tab of the Properties-View. Formats CorC-Code to
@@ -107,9 +110,9 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 						if (bo instanceof Condition) {
 							((Condition) bo).setName(text);
 							UpdateConditionsOfChildren.updateConditionsofChildren((Condition) bo);
-//							UpdateOriginalCallsToProve.updateOriginalCallsToProve((Condition) bo);
-//							UpdateMethodCallsToProve.updateMethodCallsToProve((Condition) bo);
-//							UpdateContractsToProve.updateContractsToProve((Condition) bo);
+							UpdateOriginalCallsToProve.updateOriginalCallsToProve((Condition) bo); //varcorcXFeatureIDE
+							UpdateMethodCallsToProve.updateMethodCallsToProve((Condition) bo);//varcorcXFeatureIDE
+							UpdateContractsToProve.updateContractsToProve((Condition) bo);//varcorcXFeatureIDE
 						} else if (bo instanceof AbstractStatement) {
 							((AbstractStatement) bo).setName(text);
 							((AbstractStatement) bo).setProven(false);

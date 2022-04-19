@@ -11,6 +11,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -53,7 +54,6 @@ public class GenerateDiagramFromModel {
 		JavaVariables vars = null;
 		GlobalConditions conds = null;
 		Renaming renaming = null;
-		//MethodClass javaClass = null;
 		for (EObject content : resource.getContents()) {
 			if (content instanceof CbCFormula) {
 				formula = (CbCFormula) content;
@@ -63,9 +63,7 @@ public class GenerateDiagramFromModel {
 				conds = (GlobalConditions) content;
 			} else if (content instanceof Renaming) {
 				renaming = (Renaming) content;
-			} /*else if(content instanceof MethodClasses) {
-				classes = (MethodClasses) content;
-			}*/
+			}
 		}
 		ResourceSet resourceSet = new ResourceSetImpl();
 		URI uri = resource.getURI().trimFileExtension();
@@ -95,7 +93,8 @@ public class GenerateDiagramFromModel {
 			diagramResource.save(Collections.EMPTY_MAP);
 			diagramResource.setTrackingModification(true);
 			IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
-			IPath iLocation = Path.fromOSString(uri.toFileString()); 
+			URI fullUri = URI.createURI("file:/" + ResourcesPlugin.getWorkspace().getRoot().getLocation() + uri.toString());
+			IPath iLocation = Path.fromOSString(fullUri.toFileString());
 			IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
 			ifile.getParent().refreshLocal(1, null);
 		} catch (IOException e) {

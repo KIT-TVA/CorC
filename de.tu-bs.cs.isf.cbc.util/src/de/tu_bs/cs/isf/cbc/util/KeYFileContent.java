@@ -14,9 +14,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
@@ -27,6 +29,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
+import de.uka.ilkd.key.strategy.feature.FormulaAddedByRuleFeature;
 
 public class KeYFileContent {
 	
@@ -122,7 +125,7 @@ public class KeYFileContent {
 		JavaVariable returnVariable = null;
 		if (vars != null) {
 			for (JavaVariable var : vars.getVariables()) {
-				if (var.getKind() == VariableKind.RETURN) {
+ 				if (var.getKind() == VariableKind.RETURN || var.getKind() == VariableKind.RETURNPARAM) {
 					returnVariable = var;
 				}
 				programVariables += var.getName().replace("static", "").replace("non-null", "") + "; ";
@@ -220,12 +223,13 @@ public class KeYFileContent {
 			nameOfLocalVars.add(NameOfVar[NameOfVar.length-1]);
 		}
 		for (Field field : vars.getFields()) {
-			if (!nameOfLocalVars.contains(field.getName()) && !field.isIsStatic()) {
+			if (!nameOfLocalVars.contains(field.getName()) /*&& !field.isIsStatic()*/) {
 				Pattern pattern = Pattern.compile(REGEX_BEFORE_VARIABLE_KEYWORD + field.getName() + REGEX_AFTER_VARIABLE_KEYWORD);
 				statement = statement.replaceAll(pattern.pattern(), "self." + field.getName());
 				pre = pre.replaceAll(pattern.pattern(), "self." + field.getName());
 				post = post.replaceAll(pattern.pattern(), "self." + field.getName());
 				globalConditions = globalConditions.replaceAll(pattern.pattern(), "self." + field.getName());
+				assignment = assignment.replaceAll(pattern.pattern(), "self." + field.getName());
 			}
 		}
 	}
@@ -237,7 +241,8 @@ public class KeYFileContent {
 					!formula.getMethodObj().getParentClass().getPackage().isBlank()) {
 				className += formula.getMethodObj().getParentClass().getPackage() + ".";
 			}
-			className += formula.getClassName();
+			//className += formula.eResource().getURI().segment(4); // TODO MAX kann vmtl weg
+			className += formula.getClassName(); 
 			self = className + " self;";
 			selfConditions = " & self.<created>=TRUE & " + className + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
 		}
@@ -290,7 +295,14 @@ public class KeYFileContent {
 				+ assignment + "}";
 		if (withStatement) 
 			string += " \\<{" + statement + "}\\>"; 
-		return string + " (" + post + ")}";
+		/*String[] split = selfConditions.split("&");
+		String invariantCond = "";
+		for (String cond : split) {
+			if (cond.contains(".<inv>")) {
+				invariantCond = invariantCond + "&"  + cond;
+			}
+		}*/
+		return string + " (" + post + /*" " + invariantCond +*/ ")}";
 	}
 	
 	//->{variant := " + variantString
@@ -362,7 +374,9 @@ public class KeYFileContent {
 	public void addOldVariables(CbCFormula formula, JavaVariables vars) {
 		Map<String, String> newReplacements = new HashMap<>();
 		// Add new old variables to variable List
+		int counterForVarNaming = 0;
 		for (String varUsedInOldContext : replacements.keySet()) {
+			counterForVarNaming++;
 			// Get variable name with variable kind
 			String var = "";
 			String lastVarUsedInOldContext = varUsedInOldContext.substring(varUsedInOldContext.lastIndexOf(".") + 1);
@@ -433,6 +447,32 @@ public class KeYFileContent {
 					// Replace brackets
 					currentVarName = currentVarName.replaceAll("\\[.*\\]", "");
 					if (getMethodClassVarMap().keySet().contains(currentClassName)) {
+					/*	if (i == 0) {
+							for (JavaVariable variable : vars.getVariables()) {
+								String methodVarType = variable.getName().split(" ")[0];
+								String methodVarName = variable.getName().split(" ")[1];
+								if (methodVarType.contains("[]") && methodVarName.equals(currentVarName)
+										&& splittedReplacementVar.length >= 2
+										&& i == (splittedReplacementVar.length - 2)) {
+									penultimateIsArray = true;
+									penultimateVarName = currentVarName;
+								}
+								if (methodVarName.equals(lastVarUsedInOldContext)) {
+									Field f = CbcclassFactory.eINSTANCE.createField();
+									f.setIsFinal(false);
+									f.setIsStatic(false);
+									f.setName(methodVarName);
+									f.setType(methodVarType);
+									f.setVisibility(Visibility.PUBLIC);
+									nestedVariable = f;
+									currentVarName = methodVarName;
+									found = true;
+								}
+								if (getMethodClassVarMap().containsKey(methodVarType)) {
+									currentClassName = methodVarType;
+								}
+							}
+						}*/
 						for (Field methodVar : getMethodClassVarMap().get(currentClassName)) {
 							String methodVarType = methodVar.getType();
 							String methodVarName = methodVar.getName();
@@ -473,11 +513,12 @@ public class KeYFileContent {
 				 * What about access to static variables from other classes?
 				 * Class.varName => we got the class name! But no VarType
 				 */
-				String varNameWithOldSuffix = var.substring(var.lastIndexOf(" ") + 1) + OLD_VARS_SUFFIX;
+				// EDIT: counterForVarNaming didn't exist until VarCorC OO, Hashmap needs more detailed key, as only varname_oldVal may not be unique
+				String varNameWithOldSuffix = var.substring(var.lastIndexOf(" ") + 1) + counterForVarNaming + OLD_VARS_SUFFIX;
 				// Add new modified replacements to map.
 //				Console.println("Adding new Replacement: (" + varNameWithOldSuffix + ", " + replacements.get(varUsedInOldContext) + ")");
 				newReplacements.put(varNameWithOldSuffix, replacements.get(varUsedInOldContext));
-				programVariables += var.replace("static", "").replace(" non-null", "") + OLD_VARS_SUFFIX + "; ";
+				programVariables += var.replace("static", "").replace(" non-null", "") + counterForVarNaming + OLD_VARS_SUFFIX + "; ";
 				if (!pre.contains("\\old(" + varUsedInOldContext + ")"))
 					assignment += "||" + varNameWithOldSuffix + ":=" + varUsedInOldContext;
 				// if variable is an Array add <created> condition for key
@@ -564,6 +605,21 @@ public class KeYFileContent {
 					}
 					methodClassVarMap.get(modelClass.getName()).addAll(modelClass.getFields());
 				}
+			}
+		}
+	}
+
+	public void readInvariants(List<Condition> invariants) {
+		for (Condition c : invariants) {
+			if (pre.length() != 0) {
+				pre = pre + " & " + c.getName();
+			} else {
+				pre = c.getName();
+			}
+			if (post.length() != 0) {
+				post = post + " & " + c.getName();
+			} else {
+				post = c.getName();
 			}
 		}
 	}

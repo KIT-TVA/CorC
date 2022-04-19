@@ -1,9 +1,8 @@
 package de.tu_bs.cs.isf.cbcclass.tool.patterns;
 
 import java.io.IOException;
+import java.util.Random;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -14,34 +13,25 @@ import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.impl.TextImpl;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.mm.pictograms.impl.ShapeImpl;
 import org.eclipse.graphiti.pattern.IPattern;
 import org.eclipse.graphiti.pattern.id.IdLayoutContext;
 import org.eclipse.graphiti.pattern.id.IdPattern;
 import org.eclipse.graphiti.pattern.id.IdUpdateContext;
-import org.eclipse.graphiti.services.Graphiti;
-
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ModelClassImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CompositionStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ConditionImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
-import helper.ModelClassHelper;
-import model.CbcClassUtil;
 
 
 public class InvariantClassPattern extends IdPattern implements IPattern {
@@ -76,24 +66,10 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 	@Override
 	public Object[] create(ICreateContext context) {
 		ModelClass modelClass = (ModelClass) getBusinessObjectForPictogramElement(context.getTargetContainer());
-		
 		Condition condition = CbcmodelFactory.eINSTANCE.createCondition();
-		condition.setName("{condition}");
-		
-		modelClass.getClassInvariants().add(condition);
-		ModelClassHelper.setObject(condition);
-		
-		
-		/*
-		
-		try {
-			CbcClassUtil.saveCondition(condition, getDiagram());
-		} catch (CoreException | IOException e) {
-			e.printStackTrace();
-		}
-		
-		*/
-		
+		Random random = new Random();
+		condition.setName("condition" + random.nextInt(10000));
+		modelClass.getClassInvariants().add(condition);		
 		updatePictogramElement(context.getTargetContainer());
 		return new Object[] { condition };
 	}
@@ -109,7 +85,6 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 	
 	@Override
 	protected boolean layout(IdLayoutContext context, String id) {
-		
 		return false;
 	}
 	
@@ -123,7 +98,6 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 				return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getName() + "'");
 			}
 		}
-
 		return Reason.createFalseReason();
 	}
 	
@@ -132,7 +106,6 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 		if (context.getGraphicsAlgorithm() instanceof MultiText) {
 			MultiText nameText = (MultiText) context.getGraphicsAlgorithm();
 			Condition domainObject = (Condition) context.getDomainObject();
-			// TODO:
 			if (domainObject.eContainer().getClass().equals(AbstractStatementImpl.class)
 					|| domainObject.eContainer().getClass().equals(SkipStatementImpl.class)
 					|| domainObject.eContainer().getClass().equals(ReturnStatementImpl.class)
@@ -146,34 +119,6 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 		}
 		return false;
 	}
-	
-	
-	// CHECK
-	/*
-	@Override
-	public boolean canDirectEdit(IDirectEditingContext context) {
-		Object domainObject = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
-		if (domainObject instanceof Condition && ga instanceof MultiText) {
-			Condition condition = ((Condition) domainObject);
-			if (condition.eContainer() instanceof AbstractStatement) {
-				AbstractStatement statement = (AbstractStatement) condition.eContainer();
-				if (statement.eContainer() instanceof CbCFormula || statement instanceof StrengthWeakStatement) {
-					return true;
-				} else if (statement.getPreCondition() != null && statement.getPreCondition().equals(condition)) {
-					return false;
-				} else if (statement.getPostCondition() != null && statement.getPostCondition().equals(condition)) {
-					return false;
-				}
-				return true;
-			} else if (condition.eContainer() instanceof GlobalConditions) {
-				return true;
-			}
-
-		}
-		return false;
-	}
-	*/
 	
 	@Override
 	public int getEditingType() {
@@ -189,15 +134,12 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 		}
 		return false;
 	}
-	
-	
-	
+		
 	@Override
 	public String getInitialValue(IDirectEditingContext context) {
 		Condition condition = (Condition) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		return System.getProperty("line.separator") + condition.getName() + System.getProperty("line.separator");
 	}
-	
 	
 	@Override
 	public String checkValueValid(String value, IDirectEditingContext context) {
@@ -215,36 +157,21 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 				}
 			}
 		}
-		// else if (value.length() > 0 &&
-		// !CompareMethodBodies.readAndTestAssertWithJaMoPP(value.replaceAll("<->",
-		// "&").replaceAll("->", "&"))) {
-		// return "Condition has not the correct syntax.";
-		// }
 		return null;
 	}
 	
 	@Override
 	public void setValue(String value, IDirectEditingContext context) {
-		
 		Condition condition = (Condition) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		condition.setName(value.trim());
-
 		ShapeImpl shape = (ShapeImpl)context.getPictogramElement();
 		TextImpl text = (TextImpl)shape.getGraphicsAlgorithm();
 		text.setValue(condition.getName());
-		
-		
 		updatePictogramElement(context.getPictogramElement());
-	
 	}
-	
-	
-	
+		
 	@Override 
 	public void delete(IDeleteContext context) {
 		super.delete(context);
-
-		
 	}
-	 
 }

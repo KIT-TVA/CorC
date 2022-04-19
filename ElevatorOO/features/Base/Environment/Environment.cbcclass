@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Environment" feature="Base">
+  <fields type="Floor[]" name="floors"/>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Environment/createEnvironment.diagram" name="createEnvironment" returnType="void">
+    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Environment/createEnvironment.cbcmodel#/0"/>
+    <parameters type="int" name="numFloors"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Environment/getFloor.diagram" name="getFloor" returnType="Floor">
+    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Environment/getFloor.cbcmodel#/0"/>
+    <parameters type="int" name="id"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Environment/getFloors.diagram" name="getFloors" returnType="Floor[]">
+    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Environment/getFloors.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Environment/isTopFloor.diagram" name="isTopFloor" returnType="boolean">
+    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Environment/isTopFloor.cbcmodel#/0"/>
+    <parameters type="int" name="id"/>
+  </methods>
+</cbcclass:ModelClass>

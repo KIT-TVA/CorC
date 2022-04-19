@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="undoUpdate" proven="true" className="Account" methodName="undoUpdate">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+        <firstStatement name="statement1">
+          <refinement name="newWithdraw = withdraw;" proven="true">
+            <postCondition name="modifiable(newWithdraw); &#xD;&#xA;newWithdraw = withdraw"/>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="modifiable(newWithdraw);&#xD;&#xA;newWithdraw = withdraw"/>
+          <preCondition name="true"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+                <guards name="x &lt; 0"/>
+                <guards name="x >= 0"/>
+                <commands name="statement">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+                    <firstStatement name="statement1">
+                      <refinement name="newWithdraw -= x;" proven="true">
+                        <postCondition name="modifiable(newWithdraw);&#xD;&#xA;newWithdraw = withdraw - x &amp; x&lt;0"/>
+                        <preCondition name="modifiable(newWithdraw);(newWithdraw = withdraw) &amp; (x &lt; 0)"/>
+                      </refinement>
+                      <postCondition name="modifiable(newWithdraw);&#xD;&#xA;newWithdraw = withdraw - x &amp; x&lt;0"/>
+                      <preCondition name="modifiable(newWithdraw);(newWithdraw = withdraw) &amp; (x &lt; 0)"/>
+                    </firstStatement>
+                    <secondStatement name="statement2">
+                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+                        <guards name="newWithdraw &lt; DAILY_LIMIT"/>
+                        <guards name="newWithdraw >= DAILY_LIMIT"/>
+                        <commands name="statement">
+                          <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement">
+                            <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;(\result = FALSE ->&#xD;&#xA; (withdraw = \old(withdraw) &amp;  balance = \old(balance)))&#xD;&#xA; &amp; (\result = TRUE ->&#xD;&#xA; (withdraw >= \old(withdraw)) &amp;  balance = \old(balance) - x)"/>
+                            <preCondition name="modifiable(newWithdraw);(newWithdraw = withdraw - x &amp; x&lt;0) &amp; (newWithdraw &lt; DAILY_LIMIT)"/>
+                          </refinement>
+                          <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw"/>
+                          <preCondition name="modifiable(newWithdraw);(newWithdraw = withdraw - x &amp; x&lt;0) &amp; (newWithdraw &lt; DAILY_LIMIT)"/>
+                        </commands>
+                        <commands name="statement">
+                          <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true">
+                            <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw"/>
+                            <preCondition name="modifiable(newWithdraw);(newWithdraw = withdraw - x &amp; x&lt;0) &amp; (newWithdraw >= DAILY_LIMIT)"/>
+                          </refinement>
+                          <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw"/>
+                          <preCondition name="modifiable(newWithdraw);(newWithdraw = withdraw - x &amp; x&lt;0) &amp; (newWithdraw >= DAILY_LIMIT)"/>
+                        </commands>
+                      </refinement>
+                      <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw"/>
+                      <preCondition name="modifiable(newWithdraw);&#xD;&#xA;newWithdraw = withdraw - x &amp; x&lt;0"/>
+                    </secondStatement>
+                    <intermediateCondition name="modifiable(newWithdraw);&#xD;&#xA;newWithdraw = withdraw - x &amp; x&lt;0"/>
+                  </refinement>
+                  <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw"/>
+                  <preCondition name="modifiable(newWithdraw);(newWithdraw = withdraw) &amp; (x &lt; 0)"/>
+                </commands>
+                <commands name="statement">
+                  <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true">
+                    <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw"/>
+                    <preCondition name="modifiable(newWithdraw);(newWithdraw = withdraw) &amp; (x >= 0)"/>
+                  </refinement>
+                  <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw"/>
+                  <preCondition name="modifiable(newWithdraw);(newWithdraw = withdraw) &amp; (x >= 0)"/>
+                </commands>
+              </refinement>
+              <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw"/>
+              <preCondition name="modifiable(newWithdraw);&#xD;&#xA;newWithdraw = withdraw"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+                <firstStatement name="statement1">
+                  <refinement xsi:type="cbcmodel:OriginalStatement" name="ret =&#xD;&#xA;original(x);" proven="true">
+                    <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw &amp; (ret = TRUE -> \old(balance) - x = balance) &amp; (ret = FALSE -> \old(balance) = balance)"/>
+                    <preCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw"/>
+                  </refinement>
+                  <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw &amp; (ret = TRUE -> \old(balance) - x = balance) &amp; (ret = FALSE -> \old(balance) = balance)"/>
+                  <preCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw"/>
+                </firstStatement>
+                <secondStatement name="statement2">
+                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+                    <guards name="ret = FALSE"/>
+                    <guards name="ret = TRUE"/>
+                    <commands name="statement">
+                      <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement">
+                        <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;(\result = FALSE ->&#xD;&#xA; (withdraw = \old(withdraw) &amp;  balance = \old(balance)))&#xD;&#xA; &amp; (\result = TRUE ->&#xD;&#xA; (withdraw >= \old(withdraw)) &amp;  balance = \old(balance) - x)"/>
+                        <preCondition name="modifiable(newWithdraw,ret,withdraw);(newWithdraw >= withdraw &amp; (ret = TRUE -> \old(balance) - x = balance) &amp; (ret = FALSE -> \old(balance) = balance)) &amp; (ret = FALSE)"/>
+                      </refinement>
+                      <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;(\result = FALSE ->&#xD;&#xA; (withdraw = \old(withdraw) &amp;  balance = \old(balance)))&#xD;&#xA; &amp; (\result = TRUE ->&#xD;&#xA; (withdraw >= \old(withdraw)) &amp;  balance = \old(balance) - x)"/>
+                      <preCondition name="modifiable(newWithdraw,ret,withdraw);(newWithdraw >= withdraw &amp; (ret = TRUE -> \old(balance) - x = balance) &amp; (ret = FALSE -> \old(balance) = balance)) &amp; (ret = FALSE)"/>
+                    </commands>
+                    <commands name="statement">
+                      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+                        <firstStatement name="statement1">
+                          <refinement name="withdraw = newWithdraw;" proven="true">
+                            <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;withdraw &#xD;&#xA;>= \old(withdraw) &amp; balance = \old(balance) - x"/>
+                            <preCondition name="modifiable(newWithdraw,ret,withdraw);(newWithdraw >= withdraw &amp; (ret = TRUE -> \old(balance) - x = balance) &amp; (ret = FALSE -> \old(balance) = balance)) &amp; (ret = TRUE)"/>
+                          </refinement>
+                          <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;withdraw &#xD;&#xA;>= \old(withdraw) &amp; balance = \old(balance) - x"/>
+                          <preCondition name="modifiable(newWithdraw,ret,withdraw);(newWithdraw >= withdraw &amp; (ret = TRUE -> \old(balance) - x = balance) &amp; (ret = FALSE -> \old(balance) = balance)) &amp; (ret = TRUE)"/>
+                        </firstStatement>
+                        <secondStatement name="statement2">
+                          <refinement xsi:type="cbcmodel:ReturnStatement" name="true;" proven="true" comment="returnStatement">
+                            <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;(\result = FALSE ->&#xD;&#xA; (withdraw = \old(withdraw) &amp;  balance = \old(balance)))&#xD;&#xA; &amp; (\result = TRUE ->&#xD;&#xA; (withdraw >= \old(withdraw)) &amp;  balance = \old(balance) - x)"/>
+                            <preCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;withdraw &#xD;&#xA;>= \old(withdraw) &amp; balance = \old(balance) - x"/>
+                          </refinement>
+                          <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;(\result = FALSE ->&#xD;&#xA; (withdraw = \old(withdraw) &amp;  balance = \old(balance)))&#xD;&#xA; &amp; (\result = TRUE ->&#xD;&#xA; (withdraw >= \old(withdraw)) &amp;  balance = \old(balance) - x)"/>
+                          <preCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;withdraw &#xD;&#xA;>= \old(withdraw) &amp; balance = \old(balance) - x"/>
+                        </secondStatement>
+                        <intermediateCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;withdraw &#xD;&#xA;>= \old(withdraw) &amp; balance = \old(balance) - x"/>
+                      </refinement>
+                      <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;(\result = FALSE ->&#xD;&#xA; (withdraw = \old(withdraw) &amp;  balance = \old(balance)))&#xD;&#xA; &amp; (\result = TRUE ->&#xD;&#xA; (withdraw >= \old(withdraw)) &amp;  balance = \old(balance) - x)"/>
+                      <preCondition name="modifiable(newWithdraw,ret,withdraw);(newWithdraw >= withdraw &amp; (ret = TRUE -> \old(balance) - x = balance) &amp; (ret = FALSE -> \old(balance) = balance)) &amp; (ret = TRUE)"/>
+                    </commands>
+                  </refinement>
+                  <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;(\result = FALSE ->&#xD;&#xA; (withdraw = \old(withdraw) &amp;  balance = \old(balance)))&#xD;&#xA; &amp; (\result = TRUE ->&#xD;&#xA; (withdraw >= \old(withdraw)) &amp;  balance = \old(balance) - x)"/>
+                  <preCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw &amp; (ret = TRUE -> \old(balance) - x = balance) &amp; (ret = FALSE -> \old(balance) = balance)"/>
+                </secondStatement>
+                <intermediateCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw &amp; (ret = TRUE -> \old(balance) - x = balance) &amp; (ret = FALSE -> \old(balance) = balance)"/>
+              </refinement>
+              <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;(\result = FALSE ->&#xD;&#xA; (withdraw = \old(withdraw) &amp;  balance = \old(balance)))&#xD;&#xA; &amp; (\result = TRUE ->&#xD;&#xA; (withdraw >= \old(withdraw)) &amp;  balance = \old(balance) - x)"/>
+              <preCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw"/>
+            </secondStatement>
+            <intermediateCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;newWithdraw >= withdraw"/>
+          </refinement>
+          <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;(\result = FALSE ->&#xD;&#xA; (withdraw = \old(withdraw) &amp;  balance = \old(balance)))&#xD;&#xA; &amp; (\result = TRUE ->&#xD;&#xA; (withdraw >= \old(withdraw)) &amp;  balance = \old(balance) - x)"/>
+          <preCondition name="modifiable(newWithdraw);&#xD;&#xA;newWithdraw = withdraw"/>
+        </secondStatement>
+        <intermediateCondition name="modifiable(newWithdraw);&#xD;&#xA;newWithdraw = withdraw"/>
+      </refinement>
+      <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;(\result = FALSE ->&#xD;&#xA; (withdraw = \old(withdraw) &amp;  balance = \old(balance)))&#xD;&#xA; &amp; (\result = TRUE ->&#xD;&#xA; (withdraw >= \old(withdraw)) &amp;  balance = \old(balance) - x)"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Account.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int x" kind="PARAM"/>
+    <variables name="boolean ret" kind="RETURN"/>
+    <variables name="int newWithdraw"/>
+    <fields href="Account.cbcclass#//@fields.0"/>
+    <fields href="Account.cbcclass#//@fields.1"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<featureModel>
+	<properties>
+		<graphics key="autolayoutconstraints" value="false"/>
+		<graphics key="legendautolayout" value="true"/>
+		<graphics key="showshortnames" value="false"/>
+		<graphics key="layout" value="horizontal"/>
+		<graphics key="showcollapsedconstraints" value="true"/>
+		<graphics key="legendhidden" value="false"/>
+		<graphics key="layoutalgorithm" value="1"/>
+	</properties>
+	<struct>
+		<and abstract="true" mandatory="true" name="ElevatorOO">
+			<feature mandatory="true" name="Base"/>
+			<feature name="Weight"/>
+			<feature name="Empty"/>
+			<feature name="ExecutiveFloor"/>
+			<feature name="TwoThirdsFull"/>
+		</and>
+	</struct>
+	<constraints>
+		<rule>
+			<imp>
+				<var>TwoThirdsFull</var>
+				<var>Weight</var>
+			</imp>
+		</rule>
+	</constraints>
+</featureModel>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="reset" proven="true" className="Floor" methodName="reset">
+    <statement name="statement">
+      <refinement name="this.elevatorCall = false;" proven="true">
+        <postCondition name="modifiable(this.elevatorCall); this.elevatorCall = FALSE"/>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="modifiable(this.elevatorCall);&#xD;&#xA;this.elevatorCall = FALSE"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Floor.cbcclass#//@methods.3"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

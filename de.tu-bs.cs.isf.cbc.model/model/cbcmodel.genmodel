@@ -60,6 +60,7 @@
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//SelectionStatement/commands"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//SelectionStatement/preProve"/>
     </genClasses>
+    <genClasses ecoreClass="cbcmodel.ecore#//MethodStatement"/>
     <genClasses ecoreClass="cbcmodel.ecore#//Variant">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Variant/name"/>
     </genClasses>
@@ -76,7 +77,8 @@
     <genClasses ecoreClass="cbcmodel.ecore#//JavaVariables">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//JavaVariables/variables"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//JavaVariables/fields"
-          get="return ((CbCProblem)eContainer).getCbcformula().getMethodObj().getParentClass().getFields();"/>
+          get="if (eDirectResource() != null) { if (eDirectResource().getResourceSet() != null) {  if (eDirectResource().getResourceSet().getResources() != null) { EList&lt;Resource> resources = eDirectResource().getResourceSet().getResources(); EList&lt;EObject> content = resources.get(resources.size() - 1).getContents(); for (EObject o : content) { if (o instanceof ModelClass) { return ((ModelClass) o).getFields(); }}}}} if (fields == null) { fields = new EObjectResolvingEList&lt;Field>(Field.class, this, CbcmodelPackage.JAVA_VARIABLES__FIELDS); } return fields;"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//JavaVariables/params"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//JavaVariable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/name"/>
@@ -110,5 +112,6 @@
     <genClasses ecoreClass="cbcmodel.ecore#//MethodClass">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//MethodClass/methodClass"/>
     </genClasses>
+    <genClasses ecoreClass="cbcmodel.ecore#//OriginalStatement"/>
   </genPackages>
 </genmodel:GenModel>

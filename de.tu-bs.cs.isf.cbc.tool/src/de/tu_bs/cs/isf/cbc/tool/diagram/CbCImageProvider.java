@@ -11,12 +11,14 @@ public class CbCImageProvider extends AbstractImageProvider {
     // The image identifier for an EReference.
     public static final String IMG_PROVEN= PREFIX + "proven";
     public static final String IMG_UNPROVEN= PREFIX + "unproven";
+    public static final String IMG_WARNING= PREFIX + "warning";
+
     
     @Override
     protected void addAvailableImages() {
         // register the path for each image identifier
         addImageFilePath(IMG_PROVEN, "icons/YESGRN.gif");
         addImageFilePath(IMG_UNPROVEN, "icons/NORED.gif");
+        addImageFilePath(IMG_WARNING, "icons/warning.gif");
     }
-
 }

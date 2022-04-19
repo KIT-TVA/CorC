@@ -32,14 +32,18 @@ import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 
 public class FileUtil implements IFileUtil{
 	
-	String applicationUri;	
+	static String applicationUri;	
 
 	public FileUtil(String applicationUri) {
 		this.applicationUri = applicationUri;
 	}
+	
+	public static void setApplicationUri(URI applicationUri) {
+		FileUtil.applicationUri = applicationUri.toString();
+	}
 
 	public File getClassFile(String className) {
-		URI uriTrimmed = URI.createURI(applicationUri).trimFragment();
+		URI uriTrimmed = URI.createPlatformResourceURI(applicationUri).trimFragment();
 		if (uriTrimmed.isPlatformResource()) {
 			String platformString = uriTrimmed.toPlatformString(true);
 			IResource fileResource = ResourcesPlugin.getWorkspace().getRoot().findMember(platformString);
@@ -78,7 +82,7 @@ public class FileUtil implements IFileUtil{
 	public List<String> readFileInList(String path) {
 		List<String> lines = Collections.emptyList();
 		try {
-			lines = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
+			lines = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);//teilt jede Zeile ein und teilt somit auch ensures in mehrere Teile
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -87,10 +91,10 @@ public class FileUtil implements IFileUtil{
 	}
 	
 	public String getProjectLocation(String uriString) {
-		return getProjectLocationS(uriString);
+		return getProjectLocationS(uriString).getLocation().toPortableString();
 	}
 	
-	private static String getProjectLocationS(String uriPath) {
+	private static IProject getProjectLocationS(String uriPath) {
 		uriPath = uriPath.substring(1, uriPath.length());
 		int positionOfSlash = uriPath.indexOf('/') + 1;
 		uriPath = uriPath.substring(positionOfSlash, uriPath.length());
@@ -121,10 +125,16 @@ public class FileUtil implements IFileUtil{
 //				e.printStackTrace();
 //			}
 //		}
-		return thisProject.getLocation().toPortableString();
+		return thisProject;
 	}
 	
 	public static String getProjectLocation(URI uri) {
+		uri = uri.trimFragment();
+		String uriPath = uri.toPlatformString(true);
+		return getProjectLocationS(uriPath).getLocation().toPortableString();
+	}
+	
+	public static IProject getProject(URI uri) {
 		uri = uri.trimFragment();
 		String uriPath = uri.toPlatformString(true);
 		return getProjectLocationS(uriPath);
@@ -163,7 +173,8 @@ public class FileUtil implements IFileUtil{
 		String keyFileName = manager.getFileName(problem, location, statement, subProofName);
 		
 		File keyFile = new File(location + keyFileName + ".key");
-//		File keyFile = new File(location + "/prove" + numberFile + ".key");
+		//File keyFile = new File(location + "/prove" + numberFile + ".key"); varcorc beweisdatei vor merge mit beweisstatistik
+
 		File keyHelperFile = new File(location + "/helper.key");
 		
 		if (!keyFile.exists() || override) {

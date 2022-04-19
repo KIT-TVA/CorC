@@ -24,6 +24,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
+
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
@@ -33,6 +36,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CompositionStatementImpl;
+import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl;
+import de.tu_bs.cs.isf.cbc.cbcmodel.impl.OriginalStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
@@ -244,6 +249,20 @@ public class GenerateTextualRepresentation extends MyAbstractAsynchronousCustomF
     	return buffer.toString();
 	}
     
+    private String printOriginalStatement(String tabs, OriginalStatement statement) {
+    	StringBuffer buffer = new StringBuffer();
+    	buffer.append("pre:{\"");
+    	buffer.append(statement.getPreCondition().getName() + "\"}");
+    	buffer.append("\n" + tabs + "{");
+    	if(statement.getRefinement() != null) {
+    		buffer.append(statement.getRefinement().getName());
+    	}
+    	buffer.append("}");
+    	buffer.append("\n" + tabs + "post:{\"");
+    	buffer.append(statement.getPostCondition().getName() + "\"}");
+    	return buffer.toString();
+	}
+    
     private String chooseStatement(String tabs, AbstractStatement statement) {
     	statement = statement.getRefinement();
     	if (statement.getClass().equals(AbstractStatementImpl.class)) {
@@ -260,6 +279,10 @@ public class GenerateTextualRepresentation extends MyAbstractAsynchronousCustomF
     		return printSmallRepetitionStatement(tabs, (SmallRepetitionStatement) statement);
     	} else if (statement.getClass().equals(StrengthWeakStatementImpl.class)) {
     		return printStrengthWeakStatement(tabs, (StrengthWeakStatement) statement);
+    	} else if (statement.getClass().equals(OriginalStatementImpl.class)) {
+    		return printOriginalStatement(tabs, (OriginalStatementImpl) statement);
+    	} else if (statement.getClass().equals(MethodStatementImpl.class)) {
+    		return printMethodStatement(tabs, (MethodStatementImpl) statement);
     	} else {
     		return "";
     	}

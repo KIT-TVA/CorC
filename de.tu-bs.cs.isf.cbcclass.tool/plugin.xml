@@ -31,5 +31,36 @@
             id="de.tu-bs.cs.isf.cbcclass.tool.imageProvider">
       </imageProvider>
    </extension>
+   <extension
+    point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+    <propertyContributor contributorId="cbcclass.PropertyContributor">
+        <propertyCategory category="Graphiti">
+        </propertyCategory>
+    </propertyContributor>
+</extension>
+
+<extension
+      point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+   <propertyTabs
+          contributorId="cbcclass.PropertyContributor">
+    <propertyTab
+         category="Graphiti"
+         id="Basics"
+         label="Basics">
+    </propertyTab>
+   </propertyTabs>
+</extension>
+<extension
+      point="org.eclipse.ui.views.properties.tabbed.propertySections">
+    <propertySections
+          contributorId="cbcclass.PropertyContributor">
+        <propertySection
+              class="de.tu_bs.cs.isf.cbcclass.tool.propertiesview.BasicsSection"
+              filter="de.tu_bs.cs.isf.cbcclass.tool.propertiesview.PictogramFilter"
+              id="Basics"
+              tab="Basics">
+        </propertySection>
+    </propertySections>
+</extension>
 
 </plugin>
