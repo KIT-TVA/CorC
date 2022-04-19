@@ -20,6 +20,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 
 public class Parser {
 	public static final String KEYWORD_JML_PRE = "requires";
@@ -151,7 +152,7 @@ public class Parser {
 			boolean methodFound = false;
 			for (int i = linesOfFile.size() - 1; i >= 0; i--) {
 				if (!methodFound) {
-					if (linesOfFile.get(i).contains(methodName + "(")) {
+					if (linesOfFile.get(i).contains(" " + methodName + "(") && !linesOfFile.get(i).contains(";")) {
 						methodFound = true;
 					}
 				} else {
@@ -173,14 +174,11 @@ public class Parser {
 						} else {
 							return "true";
 						}
-
 					}
 				}
-
 			}
 		}
 		return "";
-
 	}
 
 	public String destructConditionAndReplace(Condition condition) throws ParserException {
@@ -291,7 +289,6 @@ public class Parser {
 	}
 	
 	public static String rewriteJMLConditionToKeY(String condition) {
-
 		condition = condition.replaceAll("==>", "->");
 		condition = condition.replaceAll("<==>", "<->");
 		condition = condition.replaceAll("==", "=");
@@ -303,14 +300,14 @@ public class Parser {
 	}
 
 	public static CompositionTechnique getCompositionTechniqueForMethod(File classFile, String feature,
-			String keyword, String callingMethod, IFileUtil fileHandler) {
+			String keyword, String callingMethod, IFileUtil fileHandler, String callingClass) {
 		String path = classFile.getAbsolutePath();
 		String pathParts[] = path.split("\\\\"); //TODO replace with correct delimiter
 		String location = "";
 		for (int i = 0; i < pathParts.length - 2; i++) {
 			location += pathParts[i] + "\\"; //TODO replace with correct delimiter
 		}
-		location += "features\\" + feature.substring(0, 1).toUpperCase() + feature.substring(1) + "\\diagram\\" + callingMethod + ".cbcmodel";
+		location += "features\\" + feature.substring(0, 1).toUpperCase() + feature.substring(1) + "\\" + callingClass + "\\" + callingMethod + ".cbcmodel";
 		List<String> linesOfFile = fileHandler.readFileInList(location);
 		for (int i = 0; i < linesOfFile.size(); i++) {
 			String currLine = linesOfFile.get(i);
@@ -319,9 +316,9 @@ public class Parser {
 			} else if (currLine.contains("CONJUNCTIVE_CONTRACTING")) {
 				return CompositionTechnique.CONJUNCTIVE_CONTRACTING;
 			}
-			
-			}
-		
+
+		}
+
 		return CompositionTechnique.CONTRACT_OVERRIDING;
 	}
 
@@ -437,7 +434,7 @@ public class Parser {
 			for (int i = 0; i < linesOfFile.size(); i++) {
 				String currLine = linesOfFile.get(i);
 				if (!methodFound) {
-					if (currLine.contains(methodName + "(")) {
+					if (currLine.contains(" " + methodName + "(") && !currLine.contains(";")) {
 						methodFound = true;
 						methodStub = currLine;
 						braketCounter++;
@@ -459,9 +456,9 @@ public class Parser {
 		return methodStub;
 	}
 	
-	public static String getModifieableVarsFromCondition2(String condition, LinkedList<String> vars) {
+	public static String getModifieableVarsFromCondition2(String condition) {
 		String variables = getModifieableVarsFromCondition(condition);
-		Console.println("vars: " + variables);
+		//Console.println("vars: " + variables);
 		if(variables.contains("nothing") || variables.contains("everything")) {
 			return variables;
 		} else {
@@ -516,19 +513,60 @@ public class Parser {
 		for (int i = stmtChar.length -1; i >= 0; i--) {
 			if (!name && stmtChar[i] == '(') {
 				name = true;
-			} else if (name && Character.isLetter(stmtChar[i])) {
+			} else if (name && (Character.isLetter(stmtChar[i]) || stmtChar[i] == '.')) {
 				methodName = stmtChar[i] + methodName;
 				isInSameClass = true;
-			} else if (name && stmtChar[i] == '.') {
-				isInSameClass = false;
-				break;
 			} else {
 				name = false;
 			}
 		}
-		if (isInSameClass) {
-			methodName = methodName.substring(0, 1).toUpperCase() + methodName.substring(1) + ".diagram";
-		}
 		return methodName;
+	}
+
+	public static String getModifieableVarsFromConditionExceptLocals(String condition, LinkedList<String> varsLinkedList, JavaVariables vars,
+			JavaVariable returnVar) {
+		String variables = getModifieableVarsFromCondition(condition);
+		if(variables.contains("nothing") || variables.contains("everything")) {
+			return variables;
+		} else {
+			String[] assignableVariables = variables.replaceAll("this\\.", "").split(",");
+			for (int i = 0; i < assignableVariables.length; i++) {
+				assignableVariables[i] = assignableVariables[i].replaceAll("\\[.*\\]", "\\[\\*\\]").split("\\.")[0];
+			}
+			variables = "";
+			for (String modVar : assignableVariables) {
+				boolean isLocal = false;
+				if (varsLinkedList != null && varsLinkedList.size() > 0) {
+					for (String var : varsLinkedList) {
+						if (modVar.replaceAll("\\[.*\\]", "").equals(var.split(" ")[1])) {
+							isLocal = true;
+						}
+					}
+				}
+				if (vars != null && vars.getVariables().size() > 0) {
+					for (JavaVariable var : vars.getVariables()) {
+						if (modVar.replaceAll("\\[.*\\]", "").equals(var.getName().split(" ")[1]) && var.getKind().equals(VariableKind.LOCAL)) {
+							isLocal = true;
+						}
+					}
+				}
+				if (returnVar != null) {
+					if (modVar.replaceAll("\\[.*\\]", "").equals(returnVar.getName().split(" ")[1])) {
+						isLocal = true;
+					}
+				}
+				if (!isLocal && !variables.contains(modVar)) {
+					if (variables.isEmpty()) {
+						variables = modVar;
+					} else {
+						variables = variables + "," + modVar;
+					}
+				}
+			}
+		}
+		if(variables.isEmpty()) {
+			return variables = "\\nothing";
+		}
+		return variables;
 	}
 }

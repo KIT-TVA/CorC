@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="undoUpdate" proven="true" className="Account" methodName="undoUpdate">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+        <firstStatement name="statement1">
+          <refinement name="newBalance = balance - x;" proven="true">
+            <postCondition name="modifiable(newBalance); &#xD;&#xA;newBalance = balance - x"/>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="modifiable(newBalance);&#xD;&#xA;newBalance = balance - x"/>
+          <preCondition name="true"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+                <guards name="newBalance &lt; this.OVERDRAFT_LIMIT"/>
+                <guards name="newBalance >= this.OVERDRAFT_LIMIT"/>
+                <commands name="statement">
+                  <refinement name="ret = false;" proven="true">
+                    <postCondition name="modifiable(balance,newBalance,ret);&#xD;&#xA;(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)"/>
+                    <preCondition name="modifiable(newBalance);&#xD;&#xA;(newBalance = balance - x) &amp; (newBalance &lt; this.OVERDRAFT_LIMIT)"/>
+                  </refinement>
+                  <postCondition name="modifiable(balance,newBalance,ret);&#xD;&#xA;(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)"/>
+                  <preCondition name="modifiable(newBalance);&#xD;&#xA;(newBalance = balance - x) &amp; (newBalance &lt; this.OVERDRAFT_LIMIT)"/>
+                </commands>
+                <commands name="statement">
+                  <refinement name="balance = newBalance;&#xD;&#xA;ret = true;" proven="true">
+                    <postCondition name="modifiable(balance,newBalance,ret);&#xD;&#xA;(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)"/>
+                    <preCondition name="modifiable(newBalance);&#xD;&#xA;(newBalance = balance - x) &amp; (newBalance >= this.OVERDRAFT_LIMIT)"/>
+                  </refinement>
+                  <postCondition name="modifiable(balance,newBalance,ret);&#xD;&#xA;(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)"/>
+                  <preCondition name="modifiable(newBalance);&#xD;&#xA;(newBalance = balance - x) &amp; (newBalance >= this.OVERDRAFT_LIMIT)"/>
+                </commands>
+              </refinement>
+              <postCondition name="modifiable(balance,newBalance,ret);&#xD;&#xA;(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)"/>
+              <preCondition name="modifiable(newBalance);&#xD;&#xA;newBalance = balance - x"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="ret;" proven="true" comment="returnStatement">
+                <postCondition name="modifiable(balance,newBalance,ret); &#xD;&#xA;(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)"/>
+                <preCondition name="modifiable(balance,newBalance,ret);&#xD;&#xA;(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)"/>
+              </refinement>
+              <postCondition name="modifiable(balance,newBalance,ret);&#xD;&#xA;(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)"/>
+              <preCondition name="modifiable(balance,newBalance,ret);&#xD;&#xA;(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)"/>
+            </secondStatement>
+            <intermediateCondition name="modifiable(balance,newBalance,ret);&#xD;&#xA;(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)"/>
+          </refinement>
+          <postCondition name="modifiable(balance,newBalance,ret);&#xD;&#xA;(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)"/>
+          <preCondition name="modifiable(newBalance);&#xD;&#xA;newBalance = balance - x"/>
+        </secondStatement>
+        <intermediateCondition name="modifiable(newBalance);&#xD;&#xA;newBalance = balance - x"/>
+      </refinement>
+      <postCondition name="modifiable(balance,newBalance,ret);&#xD;&#xA;(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Account.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int x" kind="PARAM"/>
+    <variables name="boolean ret" kind="RETURN"/>
+    <variables name="int newBalance"/>
+    <fields href="Account.cbcclass#//@fields.0"/>
+    <fields href="Account.cbcclass#//@fields.1"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="OVERDRAFT_LIMIT = 0"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

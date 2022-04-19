@@ -40,6 +40,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ModelClassImpl#getMethods <em>Methods</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ModelClassImpl#getClassInvariants <em>Class Invariants</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ModelClassImpl#getPackage <em>Package</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ModelClassImpl#getFeature <em>Feature</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ModelClassImpl#getInheritsFrom <em>Inherits From</em>}</li>
  * </ul>
  *
  * @generated
@@ -134,6 +136,36 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * @ordered
 	 */
 	protected String package_ = PACKAGE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getFeature() <em>Feature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFeature()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String FEATURE_EDEFAULT = "default";
+
+	/**
+	 * The cached value of the '{@link #getFeature() <em>Feature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFeature()
+	 * @generated
+	 * @ordered
+	 */
+	protected String feature = FEATURE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getInheritsFrom() <em>Inherits From</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInheritsFrom()
+	 * @generated
+	 * @ordered
+	 */
+	protected ModelClass inheritsFrom;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -271,6 +303,72 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public String getFeature() {
+		return feature;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setFeature(String newFeature) {
+		String oldFeature = feature;
+		feature = newFeature;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.MODEL_CLASS__FEATURE, oldFeature,
+					feature));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ModelClass getInheritsFrom() {
+		if (inheritsFrom != null && inheritsFrom.eIsProxy()) {
+			InternalEObject oldInheritsFrom = (InternalEObject) inheritsFrom;
+			inheritsFrom = (ModelClass) eResolveProxy(oldInheritsFrom);
+			if (inheritsFrom != oldInheritsFrom) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							CbcclassPackage.MODEL_CLASS__INHERITS_FROM, oldInheritsFrom, inheritsFrom));
+			}
+		}
+		return inheritsFrom;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ModelClass basicGetInheritsFrom() {
+		return inheritsFrom;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setInheritsFrom(ModelClass newInheritsFrom) {
+		ModelClass oldInheritsFrom = inheritsFrom;
+		inheritsFrom = newInheritsFrom;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.MODEL_CLASS__INHERITS_FROM,
+					oldInheritsFrom, inheritsFrom));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -319,6 +417,12 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 			return getClassInvariants();
 		case CbcclassPackage.MODEL_CLASS__PACKAGE:
 			return getPackage();
+		case CbcclassPackage.MODEL_CLASS__FEATURE:
+			return getFeature();
+		case CbcclassPackage.MODEL_CLASS__INHERITS_FROM:
+			if (resolve)
+				return getInheritsFrom();
+			return basicGetInheritsFrom();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -353,6 +457,12 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 		case CbcclassPackage.MODEL_CLASS__PACKAGE:
 			setPackage((String) newValue);
 			return;
+		case CbcclassPackage.MODEL_CLASS__FEATURE:
+			setFeature((String) newValue);
+			return;
+		case CbcclassPackage.MODEL_CLASS__INHERITS_FROM:
+			setInheritsFrom((ModelClass) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -383,6 +493,12 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 		case CbcclassPackage.MODEL_CLASS__PACKAGE:
 			setPackage(PACKAGE_EDEFAULT);
 			return;
+		case CbcclassPackage.MODEL_CLASS__FEATURE:
+			setFeature(FEATURE_EDEFAULT);
+			return;
+		case CbcclassPackage.MODEL_CLASS__INHERITS_FROM:
+			setInheritsFrom((ModelClass) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -408,6 +524,10 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 			return classInvariants != null && !classInvariants.isEmpty();
 		case CbcclassPackage.MODEL_CLASS__PACKAGE:
 			return PACKAGE_EDEFAULT == null ? package_ != null : !PACKAGE_EDEFAULT.equals(package_);
+		case CbcclassPackage.MODEL_CLASS__FEATURE:
+			return FEATURE_EDEFAULT == null ? feature != null : !FEATURE_EDEFAULT.equals(feature);
+		case CbcclassPackage.MODEL_CLASS__INHERITS_FROM:
+			return inheritsFrom != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -429,6 +549,8 @@ public class ModelClassImpl extends MinimalEObjectImpl.Container implements Mode
 		result.append(javaClassURI);
 		result.append(", package: ");
 		result.append(package_);
+		result.append(", feature: ");
+		result.append(feature);
 		result.append(')');
 		return result.toString();
 	}

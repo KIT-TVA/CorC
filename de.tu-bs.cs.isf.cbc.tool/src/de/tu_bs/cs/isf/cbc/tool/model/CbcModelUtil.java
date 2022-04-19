@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
@@ -47,6 +48,22 @@ public class CbcModelUtil {
 			if (obj instanceof CbCFormula) {
 				CbCFormula formula = (CbCFormula) obj;
 				return formula;
+			}
+		}
+		return null;
+	}
+	
+	public static ModelClass readModelClass(URI uri) {
+		CbcmodelPackage.eINSTANCE.eClass();
+		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+		Map<String, Object> m = reg.getExtensionToFactoryMap();
+		m.put("cbcclass", new XMIResourceFactoryImpl());
+		ResourceSet rs = new ResourceSetImpl();
+		Resource r = rs.getResource(uri, true);
+		for (EObject obj :  r.getContents()) {
+			if (obj instanceof ModelClass) {
+				ModelClass modelclass = (ModelClass) obj;
+				return modelclass;
 			}
 		}
 		return null;

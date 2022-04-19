@@ -24,6 +24,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcclass.ecore#//ModelClass/methods"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//ModelClass/classInvariants"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//ModelClass/package"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//ModelClass/feature"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//ModelClass/inheritsFrom"/>
     </genClasses>
     <genClasses ecoreClass="cbcclass.ecore#//Field">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Field/visibility"/>
@@ -41,14 +43,14 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/cbcStartTriple"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/parentClass"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/precondition"
-          get="return cbcStartTriple.getPreCondition();"/>
+          get="return cbcStartTriple.getStatement().getPreCondition();"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/postcondition"
-          get="return cbcStartTriple.getPostCondition();"/>
+          get="return cbcStartTriple.getStatement().getPostCondition();"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/returnType"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcclass.ecore#//Method/parameters"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/visibility"/>
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cbcclass.ecore#//Method/signature"
-          get="String staticString = isStatic ? &quot;static &quot; : &quot;&quot;;&#xA;String params = &quot;&quot;;&#xA;if (parameters.size() > 0) {&#xA;&#x9;for (Parameter param : parameters) {&#xA;&#x9;&#x9;params += param.getType() + &quot; &quot; + param.getName() + &quot;,&quot;;&#xA;&#x9;}&#xA;&#x9;params = params.substring(0, params.length()-1);&#xA;}&#xA;return visibility + &quot; &quot; + staticString + returnType + &quot; &quot; + name + &quot; (&quot; + params + &quot;)&quot;;">
+          get="String staticString = isStatic ? &quot;static &quot; : &quot;&quot;;&#xD;&#xA;String params = &quot;&quot;;&#xD;&#xA;if (getParameters().size() > 0) {&#xD;&#xA;&#x9;for (Parameter param : parameters) {&#xD;&#xA;&#x9;&#x9;params += param.getType() + &quot; &quot; + param.getName() + &quot;,&quot;;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;params = params.substring(0, params.length()-1);&#xD;&#xA;}&#xD;&#xA;return visibility + &quot; &quot; + staticString + returnType + &quot; &quot; + name + &quot; (&quot; + params + &quot;)&quot;;">
         <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="set" value="test"/>
         </genAnnotations>

@@ -63,6 +63,7 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 			case CbcmodelPackage.SKIP_STATEMENT: return createSkipStatement();
 			case CbcmodelPackage.COMPOSITION_STATEMENT: return createCompositionStatement();
 			case CbcmodelPackage.SELECTION_STATEMENT: return createSelectionStatement();
+			case CbcmodelPackage.METHOD_STATEMENT: return createMethodStatement();
 			case CbcmodelPackage.VARIANT: return createVariant();
 			case CbcmodelPackage.RETURN_STATEMENT: return createReturnStatement();
 			case CbcmodelPackage.SMALL_REPETITION_STATEMENT: return createSmallRepetitionStatement();
@@ -75,6 +76,7 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 			case CbcmodelPackage.STRENGTH_WEAK_STATEMENT: return createStrengthWeakStatement();
 			case CbcmodelPackage.METHOD_SIGNATURE: return createMethodSignature();
 			case CbcmodelPackage.METHOD_CLASS: return createMethodClass();
+			case CbcmodelPackage.ORIGINAL_STATEMENT: return createOriginalStatement();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -178,6 +180,17 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	public SelectionStatement createSelectionStatement() {
 		SelectionStatementImpl selectionStatement = new SelectionStatementImpl();
 		return selectionStatement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public MethodStatement createMethodStatement() {
+		MethodStatementImpl methodStatement = new MethodStatementImpl();
+		return methodStatement;
 	}
 
 	/**
@@ -310,6 +323,17 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	public MethodClass createMethodClass() {
 		MethodClassImpl methodClass = new MethodClassImpl();
 		return methodClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public OriginalStatement createOriginalStatement() {
+		OriginalStatementImpl originalStatement = new OriginalStatementImpl();
+		return originalStatement;
 	}
 
 	/**

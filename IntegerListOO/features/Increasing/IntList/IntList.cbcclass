@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="IntList" feature="Increasing">
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/IntegerListOO/features/Increasing/IntList/sort.diagram" name="sort" returnType="void">
+    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/IntegerListOO/features/Increasing/IntList/sort.cbcmodel#/0"/>
+  </methods>
+</cbcclass:ModelClass>

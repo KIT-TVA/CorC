@@ -3,8 +3,6 @@
  */
 package de.tu_bs.cs.isf.cbc.textual.tool;
 
-import de.tu_bs.cs.isf.cbc.textual.tool.DslStandaloneSetupGenerated;
-
 /**
  * Initialization support for running Xtext languages without Equinox extension registry.
  */

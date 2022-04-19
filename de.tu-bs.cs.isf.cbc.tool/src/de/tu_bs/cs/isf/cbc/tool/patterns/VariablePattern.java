@@ -1,10 +1,12 @@
 package de.tu_bs.cs.isf.cbc.tool.patterns;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
+import org.eclipse.graphiti.features.context.IRemoveContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Text;
@@ -16,6 +18,8 @@ import org.eclipse.graphiti.pattern.id.IdLayoutContext;
 import org.eclipse.graphiti.pattern.id.IdPattern;
 import org.eclipse.graphiti.pattern.id.IdUpdateContext;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
@@ -95,7 +99,7 @@ public class VariablePattern extends IdPattern implements IPattern {
     }
  
     public IReason updateNeeded(IdUpdateContext context, String id) {
-		Text nameText = (Text) context.getPictogramElement().getGraphicsAlgorithm();
+     	Text nameText = (Text) context.getPictogramElement().getGraphicsAlgorithm();
 		JavaVariable domainObject = (JavaVariable) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (domainObject.getName() == null || !nameText.getValue().equals(domainObject.getDisplayedName())) {
 			return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getName() + "'");
@@ -120,7 +124,7 @@ public class VariablePattern extends IdPattern implements IPattern {
 		Object domainObject = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		if (domainObject instanceof JavaVariable && ga instanceof Text) {
-			return true;
+			if (((Text) ga).getValue().contains(VARIABLE_KIND_LOCAL.toUpperCase())) return true;
 		}
 		return false;
 	}
@@ -192,12 +196,41 @@ public class VariablePattern extends IdPattern implements IPattern {
 	}
 
 	@Override
+	public boolean canDelete(IDeleteContext context) {
+		Shape shape = (Shape) context.getPictogramElement();
+		Text text = (Text) shape.getGraphicsAlgorithm();
+		JavaVariable jv = (JavaVariable) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		if (text.getValue().trim().endsWith("inherited")) {
+			return false;
+		}
+		if (!(jv.eContainer() instanceof ModelClass) && (text.getValue().trim().startsWith("PUBLIC") || text.getValue().trim().startsWith("RETURN") || text.getValue().trim().startsWith("PARAM"))) {
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean canRemove(IRemoveContext context) {
+		Shape shape = (Shape) context.getPictogramElement();
+		Text text = (Text) shape.getGraphicsAlgorithm();
+		JavaVariable jv = (JavaVariable) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		if (text.getValue().trim().endsWith("inherited")) {
+			return false;
+		}
+		if (!(jv.eContainer() instanceof ModelClass) && (text.getValue().trim().startsWith("PUBLIC") || text.getValue().trim().startsWith("RETURN") || text.getValue().trim().startsWith("PARAM"))) {
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
 	public void delete(IDeleteContext context) {
 		Shape shape = (Shape) context.getPictogramElement();
 		ContainerShape container = shape.getContainer();
 		
 		JavaVariable variable = (JavaVariable) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (variable.eContainer() != null && variable.eContainer() instanceof JavaVariables) {
+			
 			int indexToDelete = getIndex(shape.getGraphicsAlgorithm());
 			
 			for (Shape childShape : container.getChildren()) {
@@ -211,4 +244,3 @@ public class VariablePattern extends IdPattern implements IPattern {
 	}
 
 }
-

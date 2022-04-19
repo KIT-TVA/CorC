@@ -3,8 +3,6 @@
  */
 package de.tu_bs.cs.isf.cbc.textual.tool.scoping;
 
-import de.tu_bs.cs.isf.cbc.textual.tool.scoping.AbstractDslScopeProvider;
-
 /**
  * This class contains custom scoping description.
  * 

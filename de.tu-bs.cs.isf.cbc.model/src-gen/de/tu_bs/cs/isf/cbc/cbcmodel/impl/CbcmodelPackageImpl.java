@@ -19,6 +19,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
@@ -86,6 +88,13 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * @generated
 	 */
 	private EClass selectionStatementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass methodStatementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -170,6 +179,13 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * @generated
 	 */
 	private EClass methodClassEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass originalStatementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -578,6 +594,16 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * @generated
 	 */
 	@Override
+	public EClass getMethodStatement() {
+		return methodStatementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getVariant() {
 		return variantEClass;
 	}
@@ -710,6 +736,16 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	@Override
 	public EReference getJavaVariables_Fields() {
 		return (EReference)javaVariablesEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getJavaVariables_Params() {
+		return (EReference)javaVariablesEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -958,6 +994,16 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * @generated
 	 */
 	@Override
+	public EClass getOriginalStatement() {
+		return originalStatementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EEnum getVariableKind() {
 		return variableKindEEnum;
 	}
@@ -1039,6 +1085,8 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		createEReference(selectionStatementEClass, SELECTION_STATEMENT__COMMANDS);
 		createEAttribute(selectionStatementEClass, SELECTION_STATEMENT__PRE_PROVE);
 
+		methodStatementEClass = createEClass(METHOD_STATEMENT);
+
 		variantEClass = createEClass(VARIANT);
 		createEAttribute(variantEClass, VARIANT__NAME);
 
@@ -1056,6 +1104,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		javaVariablesEClass = createEClass(JAVA_VARIABLES);
 		createEReference(javaVariablesEClass, JAVA_VARIABLES__VARIABLES);
 		createEReference(javaVariablesEClass, JAVA_VARIABLES__FIELDS);
+		createEReference(javaVariablesEClass, JAVA_VARIABLES__PARAMS);
 
 		javaVariableEClass = createEClass(JAVA_VARIABLE);
 		createEAttribute(javaVariableEClass, JAVA_VARIABLE__NAME);
@@ -1088,6 +1137,8 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 
 		methodClassEClass = createEClass(METHOD_CLASS);
 		createEAttribute(methodClassEClass, METHOD_CLASS__METHOD_CLASS);
+
+		originalStatementEClass = createEClass(ORIGINAL_STATEMENT);
 
 		// Create enums
 		variableKindEEnum = createEEnum(VARIABLE_KIND);
@@ -1128,9 +1179,11 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		skipStatementEClass.getESuperTypes().add(this.getAbstractStatement());
 		compositionStatementEClass.getESuperTypes().add(this.getAbstractStatement());
 		selectionStatementEClass.getESuperTypes().add(this.getAbstractStatement());
+		methodStatementEClass.getESuperTypes().add(this.getAbstractStatement());
 		returnStatementEClass.getESuperTypes().add(this.getAbstractStatement());
 		smallRepetitionStatementEClass.getESuperTypes().add(this.getAbstractStatement());
 		strengthWeakStatementEClass.getESuperTypes().add(this.getAbstractStatement());
+		originalStatementEClass.getESuperTypes().add(this.getAbstractStatement());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(cbCFormulaEClass, CbCFormula.class, "CbCFormula", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1172,6 +1225,8 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		initEReference(getSelectionStatement_Commands(), this.getAbstractStatement(), null, "commands", null, 0, -1, SelectionStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSelectionStatement_PreProve(), ecorePackage.getEBoolean(), "preProve", null, 0, 1, SelectionStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(methodStatementEClass, MethodStatement.class, "MethodStatement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		initEClass(variantEClass, Variant.class, "Variant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getVariant_Name(), ecorePackage.getEString(), "name", null, 0, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1189,6 +1244,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		initEClass(javaVariablesEClass, JavaVariables.class, "JavaVariables", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getJavaVariables_Variables(), this.getJavaVariable(), null, "variables", null, 0, -1, JavaVariables.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getJavaVariables_Fields(), theCbcclassPackage.getField(), null, "fields", null, 0, -1, JavaVariables.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getJavaVariables_Params(), theCbcclassPackage.getParameter(), null, "params", null, 0, -1, JavaVariables.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(javaVariableEClass, JavaVariable.class, "JavaVariable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getJavaVariable_Name(), ecorePackage.getEString(), "name", "int a", 0, 1, JavaVariable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1221,6 +1277,8 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 
 		initEClass(methodClassEClass, MethodClass.class, "MethodClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMethodClass_MethodClass(), ecorePackage.getEString(), "methodClass", null, 0, 1, MethodClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(originalStatementEClass, OriginalStatement.class, "OriginalStatement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(variableKindEEnum, VariableKind.class, "VariableKind");

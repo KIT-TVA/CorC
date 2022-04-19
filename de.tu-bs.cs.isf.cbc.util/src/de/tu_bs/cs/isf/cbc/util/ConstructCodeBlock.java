@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.regex.Pattern;
 
+import org.emftext.language.java.references.impl.MethodCallImpl;
+
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
@@ -20,11 +22,14 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CompositionStatementImpl;
+import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl;
+import de.tu_bs.cs.isf.cbc.cbcmodel.impl.OriginalStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
+import de.uka.ilkd.key.java.recoderext.MethodCallStatement;
 
 
 public class ConstructCodeBlock {
@@ -208,8 +213,8 @@ public class ConstructCodeBlock {
 		handleInnerLoops = true;
 		withInvariants = true;
 		
-		String modifiableVariables = Parser
-				.getModifieableVarsFromCondition2(formula.getStatement().getPostCondition().getName(),vars);
+		String modifiableVariables = Parser.getModifieableVarsFromConditionExceptLocals(formula.getStatement().getPostCondition().getName(), vars, null, returnVar);
+		modifiableVariables = modifiableVariables.replaceAll("\\)", "").replaceAll("\\(", "");
 		String postCondition = Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName());
 
 		String pre = createConditionJMLString(formula.getStatement().getPreCondition().getName(), renaming,
@@ -217,7 +222,8 @@ public class ConstructCodeBlock {
 		if (globalConditions != null) {
 			String processedGlobalConditions = Parser.processGlobalConditions(globalConditions, vars, pre);
 			if (!processedGlobalConditions.isEmpty())
-				pre += " & " + processedGlobalConditions;
+				pre = pre.replace(";\n", "");
+				pre += " & " + processedGlobalConditions + ";\n";
 		}
 		pre = useRenamingCondition(pre);
 		
@@ -233,10 +239,10 @@ public class ConstructCodeBlock {
 		}
 		
 		StringBuffer code = new StringBuffer();
-		System.out.println(System.getProperties());
-		code.append("\t/*@\n" + "\t@ normal_behavior\n" //+ "@ requires "
-				+ pre.replaceAll(System.getProperty("line.separator"), "")// + ";\n" //+ "@ ensures "
-				+ post.replaceAll(System.getProperty("line.separator"), "")/* + ";\n"*/ + "\t@ assignable "
+		//System.out.println(System.getProperties());
+		code.append("\t/*@\n" + "\t@ normal_behavior\n\t" //+ "@ requires "
+				+ pre.replaceAll(System.getProperty("line.separator"), "").replaceAll("\n", "").replaceAll("\t", "") + "\n\t"// + ";\n" //+ "@ ensures "
+				+ post.replaceAll(System.getProperty("line.separator"), "").replaceAll("\n", "").replaceAll("\t", "")/* + ";\n"*/ + "\n\t@ assignable "
 				+ modifiableVariables + ";\n" + "\t@*/\n\t" + /*"public /*@helper@* / "+*/ signatureString 
 				+ " {\n");
 
@@ -249,7 +255,8 @@ public class ConstructCodeBlock {
 				code = insertTabs(code);
 			}
 		}
-		
+		// initialize local variables
+		/*
 		for(String var : vars) {//declare variables
 			// TODO: Masterarbeit Hayreddin - Initialize all variables directly
 				if (REGEX_PRIMITIVE_INTEGERS.matcher(var).find()) {
@@ -266,7 +273,7 @@ public class ConstructCodeBlock {
 					code = insertTabs(code);
 				}
 		}
-		
+		*/
 		String s;
 		if (formula.getStatement().getRefinement() != null) {
 			s = constructCodeBlockOfChildStatement(formula.getStatement().getRefinement());
@@ -341,7 +348,7 @@ public class ConstructCodeBlock {
 			}
 		}
 		StringBuffer code = new StringBuffer();
-		System.out.println(System.getProperties());
+		//System.out.println(System.getProperties());
 		code.append("public class MethodStubs {\n/*@\n@ normal_behavior\n" + pre + post + "@assignable "
 				+ modifiableVariables + ";\n" + "@*/\n" + "public static " + returnValueType + " " + formula.getName()
 				+ "(" + parameters + ") {\n" + "}");
@@ -394,6 +401,7 @@ public class ConstructCodeBlock {
 					modifiableVariables = modifiableVariables.replaceAll("," + splitName[splitName.length-1],"");
 					modifiableVariables = modifiableVariables.replaceAll(splitName[splitName.length-1] + ";",";");
 					modifiableVariables = modifiableVariables.replaceAll(splitName[splitName.length-1] + ",","");
+					
 				}
 			}
 		}
@@ -442,7 +450,7 @@ public class ConstructCodeBlock {
 		}		
 		
 		StringBuffer code = new StringBuffer();
-		System.out.println(System.getProperties());
+		//System.out.println(System.getProperties());
 		code.append("    /*@\n    @ normal_behavior\n" + pre + post + "    @ assignable "
 				+ modifiableVariables + ";\n" + "    @*/\n" + "    public static " + returnValueType + " " + feature.toLowerCase()
 				+ "(" + parameters + ") {\n    }");
@@ -460,7 +468,7 @@ public class ConstructCodeBlock {
 
 
 	private static String constructCodeBlockOfChildStatement(AbstractStatement refinement) {
-		if (refinement.getClass().equals(AbstractStatementImpl.class)) {
+		if (refinement.getClass().equals(AbstractStatementImpl.class) || refinement.getClass().equals(OriginalStatementImpl.class) || refinement.getClass().equals(MethodStatementImpl.class)) {
 			// behandlung von AbstractStatementImpl nur von Tobi
 			String allStatements = refinement.getName().replace("\r\n", "");
 			allStatements = allStatements.trim();
@@ -641,13 +649,15 @@ public class ConstructCodeBlock {
 			buffer.append(constructCodeBlockOfChildStatement(statement.getFirstStatement()));
 		}
 
+		//commented out to prevent generation of assets from intermediate condition
+		/*
 		for (int i = 0; i < positionIndex; i++) {
 			buffer.append("\t");
 		}
 		if(statement.getIntermediateCondition().getName() != "" && withAsserts) {
-			buffer.append("assert " + statement.getIntermediateCondition().getName() + ";\n");
+			buffer.append("assert " + statement.getIntermediateCondition().getName().replace("\n", " ").replace("\r", " ") + ";\n");
 		}
-		
+		*/
 		for (int i = 0; i < positionIndex; i++) {
 			buffer.append("\t");
 		}
@@ -679,6 +689,8 @@ public class ConstructCodeBlock {
 	private static String constructSmallRepetition(SmallRepetitionStatement statement) {
 		StringBuffer buffer = new StringBuffer();
 		if (handleInnerLoops) {
+			// commented out to prevent generating invariants to java class at varcorc oo
+			/*
 			if (withInvariants) {
 				String invariant = statement.getInvariant().getName();
 				invariant = Parser.rewriteConditionToJML(invariant);
@@ -689,12 +701,13 @@ public class ConstructCodeBlock {
 				}
 				buffer.append("//@ decreases " + statement.getVariant().getName() + ";\n");
 			}
+			*/
 			String guard = statement.getGuard().getName();
 			// guard = guard.replaceAll("\\s=\\s", "==");
 			guard = rewriteGuardToJavaCode(guard);
-			for (int i = 0; i < positionIndex; i++) {
+			/*for (int i = 0; i < positionIndex; i++) {
 				buffer.append("\t");
-			}
+			}*/
 			
 			if(guard.trim().equals("TRUE"))
 				guard = "true";

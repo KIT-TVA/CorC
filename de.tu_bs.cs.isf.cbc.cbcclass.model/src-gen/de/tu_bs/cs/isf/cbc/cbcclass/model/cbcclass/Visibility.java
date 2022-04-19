@@ -17,8 +17,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * @model
  * @generated
  */
-public enum Visibility implements Enumerator
-{
+public enum Visibility implements Enumerator {
 	/**
 	 * The '<em><b>PUBLIC</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -109,14 +108,7 @@ public enum Visibility implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final Visibility[] VALUES_ARRAY =
-		new Visibility[]
-		{
-			PUBLIC,
-			PRIVATE,
-			PROTECTED,
-			PACKAGE,
-		};
+	private static final Visibility[] VALUES_ARRAY = new Visibility[] { PUBLIC, PRIVATE, PROTECTED, PACKAGE, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Visibility</b></em>' enumerators.
@@ -134,13 +126,10 @@ public enum Visibility implements Enumerator
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static Visibility get(String literal)
-	{
-		for (int i = 0; i < VALUES_ARRAY.length; ++i)
-		{
+	public static Visibility get(String literal) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			Visibility result = VALUES_ARRAY[i];
-			if (result.toString().equals(literal))
-			{
+			if (result.toString().equals(literal)) {
 				return result;
 			}
 		}
@@ -155,13 +144,10 @@ public enum Visibility implements Enumerator
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static Visibility getByName(String name)
-	{
-		for (int i = 0; i < VALUES_ARRAY.length; ++i)
-		{
+	public static Visibility getByName(String name) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			Visibility result = VALUES_ARRAY[i];
-			if (result.getName().equals(name))
-			{
+			if (result.getName().equals(name)) {
 				return result;
 			}
 		}
@@ -176,14 +162,16 @@ public enum Visibility implements Enumerator
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-	public static Visibility get(int value)
-	{
-		switch (value)
-		{
-			case PUBLIC_VALUE: return PUBLIC;
-			case PRIVATE_VALUE: return PRIVATE;
-			case PROTECTED_VALUE: return PROTECTED;
-			case PACKAGE_VALUE: return PACKAGE;
+	public static Visibility get(int value) {
+		switch (value) {
+		case PUBLIC_VALUE:
+			return PUBLIC;
+		case PRIVATE_VALUE:
+			return PRIVATE;
+		case PROTECTED_VALUE:
+			return PROTECTED;
+		case PACKAGE_VALUE:
+			return PACKAGE;
 		}
 		return null;
 	}
@@ -215,8 +203,7 @@ public enum Visibility implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private Visibility(int value, String name, String literal)
-	{
+	private Visibility(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -228,9 +215,8 @@ public enum Visibility implements Enumerator
 	 * @generated
 	 */
 	@Override
-	public int getValue()
-	{
-	  return value;
+	public int getValue() {
+		return value;
 	}
 
 	/**
@@ -239,9 +225,8 @@ public enum Visibility implements Enumerator
 	 * @generated
 	 */
 	@Override
-	public String getName()
-	{
-	  return name;
+	public String getName() {
+		return name;
 	}
 
 	/**
@@ -250,9 +235,8 @@ public enum Visibility implements Enumerator
 	 * @generated
 	 */
 	@Override
-	public String getLiteral()
-	{
-	  return literal;
+	public String getLiteral() {
+		return literal;
 	}
 
 	/**
@@ -262,9 +246,8 @@ public enum Visibility implements Enumerator
 	 * @generated
 	 */
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return literal;
 	}
-	
+
 } //Visibility

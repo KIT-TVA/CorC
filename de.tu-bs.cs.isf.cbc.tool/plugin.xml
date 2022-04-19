@@ -45,10 +45,20 @@
           contributorId="cbc.PropertyContributor">
     <propertyTab
          category="Graphiti"
+         id="Configurations"
+         label="Configurations">
+    </propertyTab>
+    <propertyTab
+         category="Graphiti"
+         id="Replacements"
+         label="Replacements">
+    </propertyTab>
+    <propertyTab
+         category="Graphiti"
          id="CodeReader"
          label="Code Reader">
     </propertyTab>
-     <propertyTab
+    <propertyTab
          category="Graphiti"
          id="Basics"
          label="Basics">
@@ -60,10 +70,18 @@
     <propertySections
           contributorId="cbc.PropertyContributor">
         <propertySection
-              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.BasicsSection"
-              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilter"
-              id="Basics"
-              tab="Basics">
+              afterSection="Replacements"
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.ConfigurationsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterVariational"
+              id="Configurations"
+              tab="Configurations">
+        </propertySection>
+        <propertySection
+              afterSection="CodeReader"
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.ReplacementsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterVariational"
+              id="Replacements"
+              tab="Replacements">
         </propertySection>
         <propertySection
               afterSection="Basics"
@@ -71,6 +89,12 @@
               filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilter"
               id="CodeReader"
               tab="CodeReader">
+        </propertySection>
+        <propertySection
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.BasicsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilter"
+              id="Basics"
+              tab="Basics">
         </propertySection>
     </propertySections>
 </extension>

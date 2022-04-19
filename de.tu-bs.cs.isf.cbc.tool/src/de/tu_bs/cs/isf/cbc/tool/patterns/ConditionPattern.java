@@ -1,21 +1,31 @@
 package de.tu_bs.cs.isf.cbc.tool.patterns;
 
+import java.io.File;
+
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
+import org.eclipse.graphiti.features.context.IRemoveContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.MultiText;
+import org.eclipse.graphiti.mm.algorithms.Text;
+import org.eclipse.graphiti.mm.algorithms.impl.TextImpl;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.mm.pictograms.impl.ShapeImpl;
 import org.eclipse.graphiti.pattern.IPattern;
 import org.eclipse.graphiti.pattern.id.IdLayoutContext;
 import org.eclipse.graphiti.pattern.id.IdPattern;
 import org.eclipse.graphiti.pattern.id.IdUpdateContext;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -28,6 +38,10 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateMethodCallsToProve;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
 
 /**
  * Class that creates the graphical representation of Conditions
@@ -151,7 +165,27 @@ public class ConditionPattern extends IdPattern implements IPattern {
 			if (domainObject.getName() == null || !(domainObject.getName().equals(nameText.getValue())
 					|| nameText.getValue().equals("{" + domainObject.getName() + "}"))) {
 				return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getName() + "'");
-			}
+			} /*else {
+				URI uri = domainObject.eResource().getURI();
+				String methodName = uri.trimFileExtension().lastSegment();
+				uri = uri.trimSegments(1);
+				uri = uri.appendSegment(uri.lastSegment() + ".cbcclass");
+				// TODO fall, dass datei groß geschrieben wird, abdecken
+				String cbcclassFileString = uri.toString().replace("platform:/", "");
+				File cbcclassFile = new File(cbcclassFileString);
+				if (cbcclassFile.exists()) {
+					ModelClass mc = CbcModelUtil.readModelClass(uri);
+					if (mc != null) {
+						for (Method method : mc.getMethods()) {
+							if (method.getName().equals(methodName)) {
+								if (!domainObject.getName().equals(method.getCbcStartTriple().getStatement().getPreCondition())) {
+									return Reason.createTrueReason("Name differs.");
+								}
+							}
+						}
+					}				
+				}
+			}*/
 		}
 
 		return Reason.createFalseReason();
@@ -200,7 +234,15 @@ public class ConditionPattern extends IdPattern implements IPattern {
 			} else if (condition.eContainer() instanceof GlobalConditions) {
 				return true;
 			}
-
+		}
+		if (domainObject instanceof Condition && ga instanceof Text) {
+			Condition condition = ((Condition) domainObject);
+			if (condition.eContainer() instanceof ModelClass) {
+				ModelClass mc = (ModelClass) condition.eContainer();
+				if (mc.getName().equals(getDiagram().getName())) {
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -239,7 +281,18 @@ public class ConditionPattern extends IdPattern implements IPattern {
 	public void setValue(String value, IDirectEditingContext context) {
 		Condition condition = (Condition) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		condition.setName(value.trim());
-		if (!(condition.eContainer() instanceof GlobalConditions)) {
+		if (condition.eContainer() instanceof ModelClass) {
+			ShapeImpl shape = (ShapeImpl)context.getPictogramElement();
+			TextImpl text = (TextImpl)shape.getGraphicsAlgorithm();
+			text.setValue("{" + condition.getName() + "}");
+		} else if (!(condition.eContainer() instanceof GlobalConditions)) {
+			// TODO: updateOriginalCallsToProve, updateMethodCallsToProve and
+			// updateContractsToProve
+			// needs to be triggered, when the whole diagram is saved and not exiting
+			// code-edit mode
+			//UpdateOriginalCallsToProve.updateOriginalCallsToProve(condition); TODO von max auskommentiert aufgrund nullpointerexception bei änderung einer bedingung
+			//UpdateMethodCallsToProve.updateMethodCallsToProve(condition); TODO von max auskommentiert aufgrund nullpointerexception bei änderung einer bedingung
+			//UpdateContractsToProve.updateContractsToProve(condition); TODO von max auskommentiert aufgrund nullpointerexception bei änderung einer bedingung
 			UpdateConditionsOfChildren.updateConditionsofChildren(condition);
 		} else if (condition.eContainer() instanceof GlobalConditions) {
 			CbCFormula formula = null;
@@ -256,18 +309,47 @@ public class ConditionPattern extends IdPattern implements IPattern {
 	}
 
 	@Override
+	public boolean canRemove(IRemoveContext context) {
+		Shape shape = (Shape) context.getPictogramElement();
+		if (shape.getGraphicsAlgorithm() instanceof Text) {
+			Text text = (Text) shape.getGraphicsAlgorithm();
+			if (text.getValue().trim().endsWith("inherited")) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean canDelete(IDeleteContext context) {
+		Shape shape = (Shape) context.getPictogramElement();
+		if (shape.getGraphicsAlgorithm() instanceof Text) {
+			Text text = (Text) shape.getGraphicsAlgorithm();
+			if (text.getValue().trim().endsWith("inherited")) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	@Override
 	public void delete(IDeleteContext context) {
 		Shape shape = (Shape) context.getPictogramElement();
 		ContainerShape container = shape.getContainer();
 
 		Condition condition = (Condition) getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (condition.eContainer() != null && condition.eContainer() instanceof GlobalConditions) {
+		if (condition.eContainer() != null && (condition.eContainer() instanceof GlobalConditions) || condition.eContainer() instanceof ModelClass) {
 			int indexToDelete = getIndex(shape.getGraphicsAlgorithm());
 
 			for (Shape childShape : container.getChildren()) {
 				if (getIndex(childShape.getGraphicsAlgorithm()) > indexToDelete) {
 					setIndex(childShape.getGraphicsAlgorithm(), getIndex(childShape.getGraphicsAlgorithm()) - 1);
 				}
+			}
+			if (condition.eContainer() instanceof ModelClass) {
+				super.delete(context);
+				layoutPictogramElement(container);
+				return;
 			}
 			super.delete(context);
 			layoutPictogramElement(container);

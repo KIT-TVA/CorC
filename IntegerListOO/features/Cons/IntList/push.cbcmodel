@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="push" proven="true" compositionTechnique="EXPLICIT_CONTRACTING" className="IntList" methodName="push">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:OriginalStatement" name="original(newTop);" proven="true">
+        <postCondition name="original &amp; &#xD;&#xA;data[data.length - 1] = newTop"/>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="original &amp; &#xD;&#xA;data[data.length - 1] = newTop"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="IntList.cbcclass#//@methods.0"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int newTop" kind="PARAM"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="data != null"/>
+    <conditions name="data.length >= 0"/>
+    <conditions name="\old(data) = data"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

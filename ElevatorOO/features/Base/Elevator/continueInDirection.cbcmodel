@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="continueInDirection" className="Elevator" methodName="continueInDirection">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+        <firstStatement name="statement1">
+          <refinement name="this.currentHeading = dir;">
+            <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir"/>
+            <preCondition name="dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null"/>
+          </refinement>
+          <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir"/>
+          <preCondition name="dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
+                <guards name="this.currentHeading == 1"/>
+                <guards name="this.currentHeading != 0"/>
+                <commands name="statement">
+                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
+                    <guards name="this.env.isTopFloor(this.currentFloorID) == TRUE"/>
+                    <guards name="this.env.isTopFloor(this.currentFloorID) == FALSE"/>
+                    <commands name="statement">
+                      <refinement xsi:type="cbcmodel:MethodStatement" name="this.currentHeading = this.reverse();">
+                        <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
+                        <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading == 1)) &amp; (this.env.isTopFloor(this.currentFloorID) == TRUE)"/>
+                      </refinement>
+                      <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
+                      <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading == 1)) &amp; (this.env.isTopFloor(this.currentFloorID) == TRUE)"/>
+                    </commands>
+                    <commands name="statement">
+                      <refinement xsi:type="cbcmodel:SkipStatement" name=";">
+                        <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
+                        <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading == 1)) &amp; (this.env.isTopFloor(this.currentFloorID) == FALSE)"/>
+                      </refinement>
+                      <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
+                      <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading == 1)) &amp; (this.env.isTopFloor(this.currentFloorID) == FALSE)"/>
+                    </commands>
+                  </refinement>
+                  <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
+                  <preCondition name="modifiable(this.currentHeading);(dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading == 1)"/>
+                </commands>
+                <commands name="statement">
+                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
+                    <guards name="this.currentFloorID == 0"/>
+                    <guards name="this.currentFloorID != 0"/>
+                    <commands name="statement">
+                      <refinement xsi:type="cbcmodel:MethodStatement" name="this.currentHeading = this.reverse();">
+                        <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
+                        <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading != 0)) &amp; (this.currentFloorID == 0)"/>
+                      </refinement>
+                      <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
+                      <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading != 0)) &amp; (this.currentFloorID == 0)"/>
+                    </commands>
+                    <commands name="statement">
+                      <refinement xsi:type="cbcmodel:SkipStatement" name=";">
+                        <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
+                        <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading != 0)) &amp; (this.currentFloorID != 0)"/>
+                      </refinement>
+                      <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
+                      <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading != 0)) &amp; (this.currentFloorID != 0)"/>
+                    </commands>
+                  </refinement>
+                  <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
+                  <preCondition name="modifiable(this.currentHeading);(dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading != 0)"/>
+                </commands>
+              </refinement>
+              <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
+              <preCondition name="modifiable(this.currentHeading);&#xD;&#xA;dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
+                <guards name="this.currentHeading == 1"/>
+                <guards name="this.currentHeading != 1"/>
+                <commands name="statement">
+                  <refinement name="this.currentFloorID = this.currentFloorID + 1;">
+                    <postCondition name="modifiable(this.currentHeading,this.currentFloorID);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = true) -> this.currentHeading = this.reverse()) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = this.reverse())&amp; ((this.currentHeading = 1 ) -> this.currentFloorID = this.currentFloorID + 1)&amp; ((this.currentHeading != 1 ) -> this.currentFloorID = this.currentFloorID - 1)"/>
+                    <preCondition name="modifiable(this.currentHeading);(((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)) &amp; (this.currentHeading == 1)"/>
+                  </refinement>
+                  <postCondition name="modifiable(this.currentHeading,this.currentFloorID);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = true) -> this.currentHeading = this.reverse()) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = this.reverse())&amp; ((this.currentHeading = 1 ) -> this.currentFloorID = this.currentFloorID + 1)&amp; ((this.currentHeading != 1 ) -> this.currentFloorID = this.currentFloorID - 1)"/>
+                  <preCondition name="modifiable(this.currentHeading);(((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)) &amp; (this.currentHeading == 1)"/>
+                </commands>
+                <commands name="statement">
+                  <refinement name="this.currentFloorID = this.currentFloorID - 1;">
+                    <postCondition name="modifiable(this.currentHeading,this.currentFloorID);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = true) -> this.currentHeading = this.reverse()) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = this.reverse())&amp; ((this.currentHeading = 1 ) -> this.currentFloorID = this.currentFloorID + 1)&amp; ((this.currentHeading != 1 ) -> this.currentFloorID = this.currentFloorID - 1)"/>
+                    <preCondition name="modifiable(this.currentHeading);(((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)) &amp; (this.currentHeading != 1)"/>
+                  </refinement>
+                  <postCondition name="modifiable(this.currentHeading,this.currentFloorID);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = true) -> this.currentHeading = this.reverse()) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = this.reverse())&amp; ((this.currentHeading = 1 ) -> this.currentFloorID = this.currentFloorID + 1)&amp; ((this.currentHeading != 1 ) -> this.currentFloorID = this.currentFloorID - 1)"/>
+                  <preCondition name="modifiable(this.currentHeading);(((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)) &amp; (this.currentHeading != 1)"/>
+                </commands>
+              </refinement>
+              <postCondition name="modifiable(this.currentHeading,this.currentFloorID);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = true) -> this.currentHeading = this.reverse()) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = this.reverse())&amp; ((this.currentHeading = 1 ) -> this.currentFloorID = this.currentFloorID + 1)&amp; ((this.currentHeading != 1 ) -> this.currentFloorID = this.currentFloorID - 1)"/>
+              <preCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
+            </secondStatement>
+            <intermediateCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
+          </refinement>
+          <postCondition name="modifiable(this.currentHeading,this.currentFloorID);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = true) -> this.currentHeading = this.reverse()) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = this.reverse())&amp; ((this.currentHeading = 1 ) -> this.currentFloorID = this.currentFloorID + 1)&amp; ((this.currentHeading != 1 ) -> this.currentFloorID = this.currentFloorID - 1)"/>
+          <preCondition name="modifiable(this.currentHeading);&#xD;&#xA;dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir"/>
+        </secondStatement>
+        <intermediateCondition name="modifiable(this.currentHeading);&#xD;&#xA;dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir"/>
+      </refinement>
+      <postCondition name="modifiable(this.currentHeading,this.currentFloorID);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = true) -> this.currentHeading = this.reverse()) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = this.reverse())&amp; ((this.currentHeading = 1 ) -> this.currentFloorID = this.currentFloorID + 1)&amp; ((this.currentHeading != 1 ) -> this.currentFloorID = this.currentFloorID - 1)"/>
+      <preCondition name="dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.2"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int dir" kind="PARAM"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="this.env.floors.length > 0"/>
+    <conditions name="this.env != null"/>
+    <conditions name="this.env.floors != null"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

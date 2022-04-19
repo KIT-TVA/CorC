@@ -1,20 +1,23 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
+import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IDirectEditingInfo;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.platform.IDiagramBehavior;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 
 /**
  * Class that allows to add and edit name of statements
+ * 
  * @author Tobias
  *
  */
 public class RenameConditionFeature extends AbstractCustomFeature {
-	
+
 	/**
 	 * boolean that indicate if something changes
 	 */
@@ -62,7 +65,11 @@ public class RenameConditionFeature extends AbstractCustomFeature {
     			directEditingInfo.setPictogramElement(pes[0]);
     			directEditingInfo.setGraphicsAlgorithm(pes[0].getGraphicsAlgorithm());
     			directEditingInfo.setActive(true);
-
+    			
+    			IFeatureProvider prov = getFeatureProvider();
+    			IDiagramTypeProvider diagtyp = prov.getDiagramTypeProvider();
+    			IDiagramBehavior diagrbeh = diagtyp.getDiagramBehavior();
+    			diagrbeh.refresh();
             	getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refresh();
             }
         }

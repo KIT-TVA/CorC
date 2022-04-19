@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="enterElevator" proven="true" className="Elevator" methodName="enterElevator">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+        <firstStatement name="statement1">
+          <refinement name="p.enterElevator(this);" proven="true">
+            <postCondition name="this.persons != null &amp;&#xD;&#xA;this.persons.elements != null &amp; &#xD;&#xA; this.floorButtons != null &amp; &#xD;&#xA;p != null &amp; &#xD;&#xA;p.getDestination()>= 0 &amp; p.getDestination() &lt; this.floorButtons.length&#xD;&#xA;&amp; this.floorButtons[p.getDestination()] = TRUE"/>
+            <preCondition name="this.persons != null &amp;&#xD;&#xA;this.persons.elements != null &amp; &#xD;&#xA; this.floorButtons != null &amp; &#xD;&#xA;p != null &amp; &#xD;&#xA;p.getDestination()>= 0 &amp; p.getDestination() &lt; this.floorButtons.length"/>
+          </refinement>
+          <postCondition name="this.persons != null &amp;&#xD;&#xA;this.persons.elements != null &amp; &#xD;&#xA; this.floorButtons != null &amp; &#xD;&#xA;p != null &amp; &#xD;&#xA;p.getDestination()>= 0 &amp; p.getDestination() &lt; this.floorButtons.length&#xD;&#xA;&amp; this.floorButtons[p.getDestination()] = TRUE"/>
+          <preCondition name="this.persons != null &amp;&#xD;&#xA;this.persons.elements != null &amp; &#xD;&#xA; this.floorButtons != null &amp; &#xD;&#xA;p != null &amp; &#xD;&#xA;p.getDestination()>= 0 &amp; p.getDestination() &lt; this.floorButtons.length"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement name="this.persons.add(p);" proven="true">
+            <postCondition name="this.persons.contains(p) = TRUE&#xD;&#xA;&amp; this.floorButtons[p.getDestination()] = TRUE&#xD;&#xA;&amp; this.persons.size() = \old(this.persons.size()) + 1"/>
+            <preCondition name="this.persons != null &amp;&#xD;&#xA;this.persons.elements != null &amp; &#xD;&#xA; this.floorButtons != null &amp; &#xD;&#xA;p != null &amp; &#xD;&#xA;p.getDestination()>= 0 &amp; p.getDestination() &lt; this.floorButtons.length&#xD;&#xA;&amp; this.floorButtons[p.getDestination()] = TRUE"/>
+          </refinement>
+          <postCondition name="this.persons.contains(p) = TRUE&#xD;&#xA;&amp; this.floorButtons[p.getDestination()] = TRUE&#xD;&#xA;&amp; this.persons.size() = \old(this.persons.size()) + 1"/>
+          <preCondition name="this.persons != null &amp;&#xD;&#xA;this.persons.elements != null &amp; &#xD;&#xA; this.floorButtons != null &amp; &#xD;&#xA;p != null &amp; &#xD;&#xA;p.getDestination()>= 0 &amp; p.getDestination() &lt; this.floorButtons.length&#xD;&#xA;&amp; this.floorButtons[p.getDestination()] = TRUE"/>
+        </secondStatement>
+        <intermediateCondition name="this.persons != null &amp;&#xD;&#xA;this.persons.elements != null &amp; &#xD;&#xA; this.floorButtons != null &amp; &#xD;&#xA;p != null &amp; &#xD;&#xA;p.getDestination()>= 0 &amp; p.getDestination() &lt; this.floorButtons.length&#xD;&#xA;&amp; this.floorButtons[p.getDestination()] = TRUE"/>
+      </refinement>
+      <postCondition name="this.persons.contains(p) = TRUE&#xD;&#xA;&amp; this.floorButtons[p.getDestination()] = TRUE&#xD;&#xA;&amp; this.persons.size() = \old(this.persons.size()) + 1"/>
+      <preCondition name="this.persons != null &amp;&#xD;&#xA;this.persons.elements != null &amp; &#xD;&#xA; this.floorButtons != null &amp; &#xD;&#xA;p != null &amp; &#xD;&#xA;p.getDestination()>= 0 &amp; p.getDestination() &lt; this.floorButtons.length"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.3"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="Person p" kind="PARAM"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="Person p non-null"/>
+    <conditions name="p.&lt;inv>"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

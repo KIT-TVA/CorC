@@ -66,10 +66,6 @@ public class GetDiagramUtil {
        } catch (final CoreException e) {
                 e.printStackTrace();
        }
-		/*Console.println("Utilllllllllllllllllllllll");
-		Console.println(ret.size());
-		ret.forEach(e -> Console.println(e.getName()));
-		Console.println("==========================");*/
        return ret;
     }
     

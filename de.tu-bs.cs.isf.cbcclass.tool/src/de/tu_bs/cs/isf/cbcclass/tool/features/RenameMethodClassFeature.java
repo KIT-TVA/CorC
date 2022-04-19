@@ -7,7 +7,6 @@ import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 
 public class RenameMethodClassFeature extends AbstractCustomFeature{
 
@@ -26,12 +25,12 @@ public class RenameMethodClassFeature extends AbstractCustomFeature{
 
 	@Override
     public String getName() {
-        return "Edit Name of a Method Class";
+        return "Edit Signature of a Class Method";
     }
  
     @Override
     public String getDescription() {
-        return "Edit Name of a Method Class";
+        return "Edit Signature of a Class Method";
     }
     
     @Override
@@ -40,7 +39,7 @@ public class RenameMethodClassFeature extends AbstractCustomFeature{
         PictogramElement[] pes = context.getPictogramElements();
         if (pes != null && pes.length == 1) {
             Object bo = getBusinessObjectForPictogramElement(pes[0]);
-            if (bo instanceof /*MethodClass */ Method) {
+            if (bo instanceof Method) {
                 ret = true;
             }
         }
@@ -52,7 +51,7 @@ public class RenameMethodClassFeature extends AbstractCustomFeature{
         PictogramElement[] pes = context.getPictogramElements();
         if (pes != null && pes.length == 1) {
             Object bo = getBusinessObjectForPictogramElement(pes[0]);
-            if (/*bo instanceof MethodClass || */bo instanceof Method) {
+            if (bo instanceof Method) {
             	IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
     			directEditingInfo.setMainPictogramElement(pes[0]);
     			directEditingInfo.setPictogramElement(pes[0]);

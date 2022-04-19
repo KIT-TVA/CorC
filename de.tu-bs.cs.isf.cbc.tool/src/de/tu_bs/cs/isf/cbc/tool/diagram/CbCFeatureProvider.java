@@ -34,6 +34,8 @@ import de.tu_bs.cs.isf.cbc.tool.features.RenameVariantFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.ShowKeyFileFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.UpdateDiagramFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyAllStatements;
+import de.tu_bs.cs.isf.cbc.tool.features.VerifyMethodStatementAndSubFormula;
+//import de.tu_bs.cs.isf.cbc.tool.features.VerifyMethodStatementAndSubFormula;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyPostRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyPreRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyPreSelectionStatement;
@@ -55,6 +57,10 @@ import de.tu_bs.cs.isf.cbc.tool.patterns.ConnectionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.FormulaPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.GlobalConditionsPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.MethodSignaturePattern;
+import de.tu_bs.cs.isf.cbc.tool.patterns.MethodStatementPattern;
+import de.tu_bs.cs.isf.cbc.tool.patterns.OriginalStatementPattern;
+//import de.tu_bs.cs.isf.cbc.tool.patterns.MethodStatementPattern;
+//import de.tu_bs.cs.isf.cbc.tool.patterns.OriginalStatementPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.RenamePattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.RenamingPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ReturnPattern;
@@ -72,10 +78,12 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	public CbCFeatureProvider(IDiagramTypeProvider dtp) {
 		super(dtp);
 		addPattern(new FormulaPattern());
+		addPattern(new OriginalStatementPattern());
 		addPattern(new CompositionPattern());
 		addPattern(new SelectionPattern());
 		addPattern(new SmallRepetitionPattern());
 		addPattern(new SkipStatementPattern());
+		addPattern(new MethodStatementPattern());
 		addPattern(new ReturnPattern());
 		addPattern(new StrengthWeakStatementPattern());
 		addPattern(new StatementPattern());
@@ -142,6 +150,7 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 				new EditCommentFeature(this),
 				new EditCompositionTechniqueOfFormula(this), //!
 				new ChangeNameOfFormulaFeature(this), 
+				new VerifyMethodStatementAndSubFormula(this),
 				new RenameStatementFeature(this), 
 				new RenameConditionFeature(this), 
 				new RenameVariantFeature(this),

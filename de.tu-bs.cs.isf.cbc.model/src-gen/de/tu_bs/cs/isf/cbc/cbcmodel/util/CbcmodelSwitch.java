@@ -105,6 +105,13 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case CbcmodelPackage.METHOD_STATEMENT: {
+				MethodStatement methodStatement = (MethodStatement)theEObject;
+				T result = caseMethodStatement(methodStatement);
+				if (result == null) result = caseAbstractStatement(methodStatement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case CbcmodelPackage.VARIANT: {
 				Variant variant = (Variant)theEObject;
 				T result = caseVariant(variant);
@@ -177,6 +184,13 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 			case CbcmodelPackage.METHOD_CLASS: {
 				MethodClass methodClass = (MethodClass)theEObject;
 				T result = caseMethodClass(methodClass);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CbcmodelPackage.ORIGINAL_STATEMENT: {
+				OriginalStatement originalStatement = (OriginalStatement)theEObject;
+				T result = caseOriginalStatement(originalStatement);
+				if (result == null) result = caseAbstractStatement(originalStatement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -271,6 +285,21 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseSelectionStatement(SelectionStatement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Method Statement</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Method Statement</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMethodStatement(MethodStatement object) {
 		return null;
 	}
 
@@ -451,6 +480,21 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMethodClass(MethodClass object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Original Statement</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Original Statement</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOriginalStatement(OriginalStatement object) {
 		return null;
 	}
 

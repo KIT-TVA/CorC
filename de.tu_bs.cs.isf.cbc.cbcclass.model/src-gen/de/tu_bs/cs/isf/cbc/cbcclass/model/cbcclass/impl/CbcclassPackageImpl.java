@@ -212,6 +212,26 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 	 * @generated
 	 */
 	@Override
+	public EAttribute getModelClass_Feature() {
+		return (EAttribute) modelClassEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getModelClass_InheritsFrom() {
+		return (EReference) modelClassEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getField() {
 		return fieldEClass;
 	}
@@ -483,6 +503,8 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 		createEReference(modelClassEClass, MODEL_CLASS__METHODS);
 		createEReference(modelClassEClass, MODEL_CLASS__CLASS_INVARIANTS);
 		createEAttribute(modelClassEClass, MODEL_CLASS__PACKAGE);
+		createEAttribute(modelClassEClass, MODEL_CLASS__FEATURE);
+		createEReference(modelClassEClass, MODEL_CLASS__INHERITS_FROM);
 
 		fieldEClass = createEClass(FIELD);
 		createEAttribute(fieldEClass, FIELD__VISIBILITY);
@@ -567,6 +589,11 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModelClass_Package(), ecorePackage.getEString(), "package", null, 0, 1, ModelClass.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getModelClass_Feature(), ecorePackage.getEString(), "feature", "default", 0, 1, ModelClass.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModelClass_InheritsFrom(), this.getModelClass(), null, "inheritsFrom", null, 0, 1,
+				ModelClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(fieldEClass, Field.class, "Field", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getField_Visibility(), this.getVisibility(), "visibility", null, 0, 1, Field.class,

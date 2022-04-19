@@ -10,16 +10,15 @@ import org.eclipse.graphiti.tb.IToolBehaviorProvider;
 import de.tu_bs.cs.isf.cbc.tool.features.UpdateDiagramFeature;
 import de.tu_bs.cs.isf.cbc.tool.helper.HighlightHelper;
 
-
 public class CbCDiagramTypeProvider extends AbstractDiagramTypeProvider {
 
 	private IToolBehaviorProvider[] toolBehaviorProviders;
-	
+
 	public CbCDiagramTypeProvider() {
-        super();
-    	setFeatureProvider(new CbCFeatureProvider(this));
-     }
-	
+		super();
+		setFeatureProvider(new CbCFeatureProvider(this));
+	}
+
 	@Override
 	public void init(Diagram diagram, IDiagramBehavior diagramBehavior) {
 		super.init(diagram, diagramBehavior);

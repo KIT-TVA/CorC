@@ -18,7 +18,10 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
+<<<<<<< HEAD
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
+=======
+>>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
@@ -26,7 +29,10 @@ import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
+<<<<<<< HEAD
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
+=======
+>>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
 
 /**
  * Class that changes the abstract value of algorithms
@@ -77,31 +83,12 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
 			if (bo instanceof AbstractStatement) {
 				AbstractStatement statement = (AbstractStatement) bo;
-<<<<<<< HEAD
 				DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
 				JavaVariables vars = extractor.getVars();
 				GlobalConditions conds = extractor.getConds();
 				Renaming renaming = extractor.getRenaming();
 				CbCFormula formula = extractor.getFormula();
 				StatDataCollector.checkForId(statement);
-=======
-				JavaVariables vars = null;
-				GlobalConditions conds = null;
-				Renaming renaming = null;
-				CbCFormula formula = null;
-				for (Shape shape : getDiagram().getChildren()) {
-					Object obj = getBusinessObjectForPictogramElement(shape);
-					if (obj instanceof JavaVariables) {
-						vars = (JavaVariables) obj;
-					} else if (obj instanceof GlobalConditions) {
-						conds = (GlobalConditions) obj;
-					} else if (obj instanceof Renaming) {
-						renaming = (Renaming) obj;
-					} else if (obj instanceof CbCFormula) {
-						formula = (CbCFormula) obj;
-					}
-				}
->>>>>>> addbc2bd (fixed start of verification)
 				boolean proven = false;
 				String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, false);
 				Condition invariant = null;
@@ -114,7 +101,6 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 					variant = repStatement.getVariant();
 
 				}
-<<<<<<< HEAD
 
 				String uriString = getDiagram().eResource().getURI().toPlatformString(true);
 				URI uri = getDiagram().eResource().getURI();
@@ -127,6 +113,7 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
+<<<<<<< HEAD
 				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), "");
 				if (isVariational) {
 					Console.println("--------------- Triggered variational verification ---------------");
@@ -144,12 +131,24 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 					}
 				} else {
 					Console.println("--------------- Triggered verification ---------------");
-=======
-//				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(code)) {
-					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString));					
->>>>>>> addbc2bd (fixed start of verification)
 					proven = prove.proveVariantWithKey(code, invariant, guard, variant);
+=======
+				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString));
+				if (isVariational) {
+					Console.println("--------------- Triggered variational verification ---------------");
+					String callingClass = uri.segment(uri.segmentCount()-2) + "";
+					String callingFeature = uri.segment(uri.segmentCount()-3) + "";
+					String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
+					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false);				
+					VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());		
+					for (int i = 0; i < featureConfigs.length; i++) {
+						verifyStmt.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
+						proven = prove.proveVariantWithKey(code, invariant, guard, variant, i);
+					}
+				} else {
+					Console.println("--------------- Triggered verification ---------------");
+					proven = prove.proveVariantWithKey(code, invariant, guard, variant, 0);
+>>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
 					}		
 				Console.println("--------------- Verification completed --------------- ");
 

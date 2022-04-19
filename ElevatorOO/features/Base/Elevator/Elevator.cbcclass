@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Elevator" feature="Base">
+  <fields type="boolean[]" name="floorButtons"/>
+  <fields visibility="PRIVATE" type="boolean" name="verbose"/>
+  <fields visibility="PRIVATE" type="int" name="currentHeading"/>
+  <fields visibility="PRIVATE" type="int" name="currentFloorID"/>
+  <fields visibility="PRIVATE" type="int" name="doors"/>
+  <fields visibility="PRIVATE" type="Environment" name="env"/>
+  <fields visibility="PRIVATE" type="ArrayList" name="persons"/>
+  <fields visibility="PRIVATE" type="boolean" name="blocked"/>
+  <fields visibility="PRIVATE" type="boolean" name="old_contains"/>
+  <fields visibility="PRIVATE" type="int" name="old_weight"/>
+  <fields visibility="PRIVATE" type="int" name="old_currentFloorID"/>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/areDoorsOpen.diagram" name="areDoorsOpen" returnType="boolean">
+    <cbcStartTriple href="areDoorsOpen.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/buttonForFloorIsPressed.diagram" name="buttonForFloorIsPressed" returnType="boolean">
+    <cbcStartTriple href="buttonForFloorIsPressed.cbcmodel#/0"/>
+    <parameters type="int" name="floorID"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/continueInDirection.diagram" name="continueInDirection" returnType="void">
+    <cbcStartTriple href="continueInDirection.cbcmodel#/0"/>
+    <parameters type="int" name="dir"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/enterElevator.diagram" name="enterElevator" returnType="void">
+    <cbcStartTriple href="enterElevator.cbcmodel#/0"/>
+    <parameters type="Person" name="p"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/getCurrentDirection.diagram" name="getCurrentDirection" returnType="int">
+    <cbcStartTriple href="getCurrentDirection.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/getCurrentFloorID.diagram" name="getCurrentFloorID" returnType="int">
+    <cbcStartTriple href="getCurrentFloorID.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/getEnv.diagram" name="getEnv" returnType="Environment">
+    <cbcStartTriple href="getEnv.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/isBlocked.diagram" name="isBlocked" returnType="boolean">
+    <cbcStartTriple href="isBlocked.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/isEmpty.diagram" name="isEmpty" returnType="boolean">
+    <cbcStartTriple href="isEmpty.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/leaveElevator.diagram" name="leaveElevator" returnType="boolean">
+    <cbcStartTriple href="leaveElevator.cbcmodel#/0"/>
+    <parameters type="Person" name="p"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/pressInLiftFloorButton.diagram" name="pressInLiftFloorButton" returnType="void">
+    <cbcStartTriple href="pressInLiftFloorButton.cbcmodel#/0"/>
+    <parameters type="int" name="floorID"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/resetFloorButton.diagram" name="resetFloorButton" returnType="void">
+    <cbcStartTriple href="resetFloorButton.cbcmodel#/0"/>
+    <parameters type="int" name="floorID"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/reverse.diagram" name="reverse" returnType="int">
+    <cbcStartTriple href="reverse.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Elevator/stopRequestedAtCurrentFloor.diagram" name="stopRequestedAtCurrentFloor" returnType="boolean">
+    <cbcStartTriple href="stopRequestedAtCurrentFloor.cbcmodel#/0"/>
+  </methods>
+</cbcclass:ModelClass>

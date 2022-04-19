@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="areDoorsOpen" proven="true" className="Elevator" methodName="areDoorsOpen">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+        <firstStatement name="statement1">
+          <refinement name="ret = (this.doors == 0);" proven="true">
+            <postCondition name="modifiable(ret);&#xD;&#xA;(this.doors = 0 -> ret = TRUE)&#xD;&#xA;&amp; (this.doors = 1 -> ret = FALSE)"/>
+            <preCondition name="this.doors >= 0 &amp; this.doors &lt;= 1"/>
+          </refinement>
+          <postCondition name="modifiable(ret);&#xD;&#xA;(this.doors = 0 -> ret = TRUE)&#xD;&#xA;&amp; (this.doors = 1 -> ret = FALSE)"/>
+          <preCondition name="this.doors >= 0 &amp; this.doors &lt;= 1"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:ReturnStatement" name="ret;" proven="true" comment="returnStatement">
+            <postCondition name="modifiable(ret);&#xD;&#xA;(this.doors = 0 -> ret = TRUE)&#xD;&#xA;&amp; (this.doors = 1 -> ret = FALSE)"/>
+            <preCondition name="modifiable(ret);&#xD;&#xA;(this.doors = 0 -> ret = TRUE)&#xD;&#xA;&amp; (this.doors = 1 -> ret = FALSE)"/>
+          </refinement>
+          <postCondition name="modifiable(ret);&#xD;&#xA;(this.doors = 0 -> ret = TRUE)&#xD;&#xA;&amp; (this.doors = 1 -> ret = FALSE)"/>
+          <preCondition name="modifiable(ret);&#xD;&#xA;(this.doors = 0 -> ret = TRUE)&#xD;&#xA;&amp; (this.doors = 1 -> ret = FALSE)"/>
+        </secondStatement>
+        <intermediateCondition name="modifiable(ret);&#xD;&#xA;(this.doors = 0 -> ret = TRUE)&#xD;&#xA;&amp; (this.doors = 1 -> ret = FALSE)"/>
+      </refinement>
+      <postCondition name="modifiable(ret);&#xD;&#xA;(this.doors = 0 -> ret = TRUE)&#xD;&#xA;&amp; (this.doors = 1 -> ret = FALSE)"/>
+      <preCondition name="this.doors >= 0 &amp; this.doors &lt;= 1"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.0"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="boolean ret" kind="RETURN"/>
+    <variables name="boolean result"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>
