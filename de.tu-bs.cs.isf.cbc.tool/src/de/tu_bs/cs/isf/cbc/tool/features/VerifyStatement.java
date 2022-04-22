@@ -169,7 +169,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
 			String callingClass = uri.segment(uri.segmentCount() - 2) + "";
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, platformUri, formula, new FileUtil(platformUri));
+			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, platformUri, formula, new FileUtil(platformUri), "");
 			proven = prove.proveStatementWithKey(returnStatement, false, 0, callingClass, true);
 		} else {
 			Console.println("Statement is not in correct format.");
@@ -186,7 +186,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
 		String stmt = statement.getName();
 		String varM = "";
-		if (!stmt.contains("original(") && stmt.matches(".*(w*).*")) { // contains method call and not original
+		if (!stmt.contains("original(") && stmt.matches("/.*\\(.*\\).*/gm")) { // contains method call and not original
 			varM = handleVarM(Parser.extractMethodNameFromStatemtent(stmt), callingClass, vars);
 			if (varM.endsWith("."))	varM = "";
 			featureConfigs = VerifyFeatures.verifyConfig(uri, varM, false, callingClass, false);
@@ -204,7 +204,9 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 				for (int i = 0; i < variants.length; i++) {
 					generate(project.getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true), formula, new FileUtil(uri.toPlatformString(true)));
+					String configName = "";
+					for (String s : featureConfigs[i]) configName += s;
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true), formula, new FileUtil(uri.toPlatformString(true)), configName);
 					if (!varM.equals("")) {
 						List<CbCFormula> refinements = generateCbCFormulasForRefinements(variants[i], varMParts[1].toLowerCase());
 						List<JavaVariables> refinementsVars = generateJavaVariablesForRefinements(variants[i], varMParts[1].toLowerCase());

@@ -5,7 +5,6 @@ package de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import org.eclipse.emf.common.util.Enumerator;
 
 /**

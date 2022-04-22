@@ -94,7 +94,8 @@ public class GenerateDiagramFromModel {
 			diagramResource.setTrackingModification(true);
 			IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
 			URI fullUri = URI.createURI("file:/" + ResourcesPlugin.getWorkspace().getRoot().getLocation() + uri.toString());
-			IPath iLocation = Path.fromOSString(fullUri.toFileString());
+			//IPath iLocation = Path.fromOSString(fullUri.toFileString());
+			IPath iLocation = Path.fromOSString(uri.toFileString()); 
 			IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
 			ifile.getParent().refreshLocal(1, null);
 		} catch (IOException e) {

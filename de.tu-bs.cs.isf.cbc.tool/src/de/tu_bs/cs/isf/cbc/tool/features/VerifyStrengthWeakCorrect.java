@@ -100,7 +100,7 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 					} catch (CoreException e) {
 						e.printStackTrace();
 					}
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString));
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), "");
 					if (isVariational) {
 						Console.println("--------------- Triggered variational verification ---------------");
 						String callingClass = uri.segment(uri.segmentCount()-2) + "";
@@ -110,6 +110,9 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 						VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());		
 						for (int i = 0; i < featureConfigs.length; i++) {
 							verifyStmt.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
+							String configName = "";
+							for (String s : featureConfigs[i]) configName += s;
+							prove.setConfigName(configName);
 							proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition(), i);
 							proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition(), i);
 						}

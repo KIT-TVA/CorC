@@ -26,10 +26,7 @@ import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
-<<<<<<< HEAD
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
-=======
->>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
 
 /**
  * Class that changes the abstract value of algorithms
@@ -111,6 +108,9 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 				}
 <<<<<<< HEAD
 				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), "");
+=======
+				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), "");
+>>>>>>> ab792cc1 (SPLs: Generation of prove files for every configuration in folders; Statistic view NOT working for SPL projects)
 				if (isVariational) {
 					Console.println("--------------- Triggered variational verification ---------------");
 					String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
@@ -119,32 +119,23 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
 					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 					for (int i = 0; i < featureConfigs.length; i++) {
+<<<<<<< HEAD
 						genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
 						String configName = "";
 						for (String s : featureConfigs[i]) configName += s;
 						prove.setConfigName(configName);
 						proven = prove.proveVariantWithKey(code, invariant, guard, variant);
+=======
+						verifyStmt.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
+						String configName = "";
+						for (String s : featureConfigs[i]) configName += s;
+						prove.setConfigName(configName);
+						proven = prove.proveVariantWithKey(code, invariant, guard, variant, i);
+>>>>>>> ab792cc1 (SPLs: Generation of prove files for every configuration in folders; Statistic view NOT working for SPL projects)
 					}
 				} else {
 					Console.println("--------------- Triggered verification ---------------");
 					proven = prove.proveVariantWithKey(code, invariant, guard, variant);
-=======
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString));
-				if (isVariational) {
-					Console.println("--------------- Triggered variational verification ---------------");
-					String callingClass = uri.segment(uri.segmentCount()-2) + "";
-					String callingFeature = uri.segment(uri.segmentCount()-3) + "";
-					String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
-					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false);				
-					VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());		
-					for (int i = 0; i < featureConfigs.length; i++) {
-						verifyStmt.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
-						proven = prove.proveVariantWithKey(code, invariant, guard, variant, i);
-					}
-				} else {
-					Console.println("--------------- Triggered verification ---------------");
-					proven = prove.proveVariantWithKey(code, invariant, guard, variant, 0);
->>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
 				}		
 				Console.println("--------------- Verification completed --------------- ");
 				
