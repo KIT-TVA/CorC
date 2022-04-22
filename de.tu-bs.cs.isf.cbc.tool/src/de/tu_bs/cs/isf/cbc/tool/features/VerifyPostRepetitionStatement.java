@@ -100,7 +100,7 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString));
+				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), "");
 				if (isVariational) {
 					Console.println("--------------- Triggered variational verification ---------------");
 					String callingClass = uri.segment(uri.segmentCount()-2) + "";
@@ -110,6 +110,9 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 					VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());		
 					for (int i = 0; i < featureConfigs.length; i++) {
 						verifyStmt.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
+						String configName = "";
+						for (String s : featureConfigs[i]) configName += s;
+						prove.setConfigName(configName);
 						proven = prove.provePostRepetitionWithKey(statement.getInvariant(), statement.getGuard(), parent.getPostCondition(), i);
 					}
 				} else {

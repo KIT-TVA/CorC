@@ -51,6 +51,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     static int configNum = 0;
     static int configs = 0;
     static boolean isVariational = false;
+    static String configName = "";
     /**
      * Constructor of the class
      * @param fp	The FeatureProvider
@@ -117,6 +118,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());	
 			configs = featureConfigs.length-1;
 			for (int i = 0; i < featureConfigs.length; i++) {
+				configName = "";
+				for (String s : featureConfigs[i]) configName += s;
 				configNum = i;
 				verifyStmt.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
 				if (!proveChildStatement(statement.getRefinement(), vars, conds, renaming, formula, uriString, null, verifyStmt)) {
@@ -192,9 +195,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		if (!statement.isProven()) {
 			boolean proven = false;
 		if (!isVariational) {
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri));
-			// TODO prüfen ob segement 2 richtig ist als klassenname
-			proven = prove.proveStatementWithKey(returnStatement, false, proveFileNumber, URI.createPlatformResourceURI(uri, true).segment(3), false);
+			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), "");
+			proven = prove.proveStatementWithKey(returnStatement, false, proveFileNumber, URI.createPlatformResourceURI(uri, true).segment( URI.createPlatformResourceURI(uri, true).segmentCount() - 2), false);
 		} else {
 			URI uRi = URI.createPlatformResourceURI(uri, true);
 			String callingFeature = uri.split("/")[3];
@@ -203,7 +205,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			String stmt = statement.getName();
 			String varM = "";
 			String[][] featureConfigsRelevant = null;
-			if (!stmt.contains("original(") && stmt.matches(".*(w*).*")) { // contains method call and not original
+			if (!stmt.contains("original(") && stmt.matches(".*\\(.*\\).*")) { // contains method call and not original
 				varM = verifyStmt.handleVarM(Parser.extractMethodNameFromStatemtent(stmt), callingClass, vars);
 				if (varM.endsWith("."))	varM = "";
 				featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, varM, false, callingClass, true);
@@ -214,7 +216,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			if (featureConfigsRelevant != null) {
 				String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, varM.contains(".") ? varMParts[0] : callingClass);
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)));
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), configName);
 						if (!varM.equals("")) {
 							List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], varMParts[1].toLowerCase());
 							List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], varMParts[1].toLowerCase());
@@ -253,7 +255,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			if (!selectionStatement.isPreProve()) {
 				EList<Condition> guards = selectionStatement.getGuards();
 				Condition preCondition = selectionStatement.getParent().getPreCondition();
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri));
+				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), configName);
 				provePre = prove.provePreSelWithKey(guards, preCondition, proveFileNumber++);
 				if (configs == configNum) selectionStatement.setPreProve(provePre);
 			}
@@ -286,7 +288,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			Condition postCondition = repStatement.getParent().getPostCondition();
 			String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, false);
 			Variant variant = repStatement.getVariant();
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri));
+			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), configName);
 			if (!provePre) {
 				provePre = prove.proveCImpliesCWithKey(preCondition, invariant, proveFileNumber++);
 				if (configs == configNum) repStatement.setPreProven(provePre);

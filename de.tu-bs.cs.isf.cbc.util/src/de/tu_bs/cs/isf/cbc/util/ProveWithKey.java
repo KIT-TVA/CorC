@@ -12,6 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -59,19 +61,21 @@ public class ProveWithKey {
 	private CbCFormula formula;
 	private IFileUtil fileHandler;
 	private String sourceFolder;
+	private boolean isVariationalProject;
+	private String configName;
 
 	// new field Malena BA
 	private String problem;
 	private String subProofName = "";
 	
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
-			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler) {
-		this(statement, vars, conds, renaming, monitor, uri, formula, fileHandler, "");
+			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String configName) {
+		this(statement, vars, conds, renaming, monitor, uri, formula, fileHandler, "", configName);
 	}
 
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
-			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String srcFolder) {
-		this.statement = statement;
+			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String srcFolder, String configName) {
+		this.statement = statement;	
 		this.vars = vars;
 		this.conds = conds;
 		this.renaming = renaming;
@@ -80,6 +84,18 @@ public class ProveWithKey {
 		this.formula = formula;
 		this.fileHandler = fileHandler;
 		this.sourceFolder = srcFolder;
+		this.isVariationalProject = false;
+		this.configName = configName.equals("") ? "" : ("/" + configName);
+		IProject project = FileUtil.getProjectFromFileInProject(URI.createURI(uri));
+		try {
+			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
+				this.isVariationalProject = true;
+			} else {
+				this.isVariationalProject = false;
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, int numberfile, String callingClass, boolean forceProving) {
@@ -91,7 +107,7 @@ public class ProveWithKey {
 			String filePath =location.getAbsolutePath().toString();
 			String proveFolderLocation = filePath.substring(0, filePath.lastIndexOf(File.separator));
 			FileNameManager fileManager = new FileNameManager();
-			if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation)) {
+			if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation) && !isVariationalProject) {
 				Console.println("Already true... skip");
 				return true;
 			}
@@ -111,7 +127,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 				String filePath = location.getAbsolutePath().toString();
 				String proveFolderLocation = filePath.substring(0, filePath.lastIndexOf(File.separator));
 				FileNameManager fileManager = new FileNameManager();
-				if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation)) {
+				if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation) && !isVariationalProject) {
 					Console.println("Already true... skip");
 					return true;
 				}
@@ -126,7 +142,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 					String filePath = location.getAbsolutePath().toString();
 					String proveFolderLocation = filePath.substring(0, filePath.lastIndexOf(File.separator));
 					FileNameManager fileManager = new FileNameManager();
-					if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation)) {
+					if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation) && !isVariationalProject) {
 						Console.println("Already true... skip");
 						return true;
 					}
@@ -172,7 +188,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		problem = problem.replaceAll("static", "");
 		problem = problem.replaceAll("return", ""); // TODO replace with correct handling of return
 
-		String location = fileHandler.getLocationString(uri);
+		String location = fileHandler.getLocationString(uri) + configName;
 		File keyFile = fileHandler.writeFile(problem, location, numberFile, override, statement, subProofName);
 		return keyFile;
 	}
@@ -571,7 +587,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		
 		problem = content.getKeYCImpliesCContent();
 
-		String location = fileHandler.getLocationString(uri);
+		String location = fileHandler.getLocationString(uri) + configName;
 		File keyFile = fileHandler.writeFile(problem, location, numberFile, override, statement, subProofName);
 		return keyFile;
 	}
@@ -626,7 +642,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		
 		problem = content.getKeYStatementContent();
 
-		String location = fileHandler.getLocationString(uri);
+		String location = fileHandler.getLocationString(uri) + configName;
 		File keyFile = fileHandler.writeFile(problem, location, numberFile, override, statement, subProofName);
 		return keyFile;
 	}
@@ -656,7 +672,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 
 		problem = content.getKeYStatementContent();
 
-		String location = fileHandler.getLocationString(uri);
+		String location = fileHandler.getLocationString(uri) + configName;
 		File keyFile = fileHandler.writeFile(problem, location, numberFile, override, statement, subProofName);
 		return keyFile;
 	}
@@ -710,5 +726,9 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 			IProgressMonitor monitor2) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void setConfigName(String configName) {
+		this.configName = "/" + configName;		
 	}
 }

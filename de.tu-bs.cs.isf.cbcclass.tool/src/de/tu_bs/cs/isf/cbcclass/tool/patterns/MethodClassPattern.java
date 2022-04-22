@@ -179,7 +179,8 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		// check for existing cbcmodel file and read content
 		File cbcmodelFile = new File(classPath + method.getName() + ".cbcmodel");
 		String cbcmodelPath = getDiagram().eResource().getURI().trimSegments(1).appendSegment(method.getName() +".cbcmodel").toPlatformString(true);
-		URI cbcmodelURI = URI.createFileURI(cbcmodelPath);
+		//URI cbcmodelURI = URI.createFileURI(cbcmodelPath);
+		URI cbcmodelURI = URI.createFileURI(classPath + method.getName() + ".cbcmodel");
 		Resource cbcmodelResource = ClassUtil.getCbcModelResource(projectLocation, method.getName());
 		
 		boolean alreadyExisting = false;
@@ -190,7 +191,8 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 				if (obj instanceof CbCFormula) {
 					CbCFormula formula = (CbCFormula) obj;
 					method.setCbcStartTriple(formula);
-					method.setCbcDiagramURI(cbcmodelPath.replace(".cbcmodel", ".diagram"));
+					method.setCbcDiagramURI(classPath + method.getName() + ".diagram");
+					//method.setCbcDiagramURI(cbcmodelPath.replace(".cbcmodel", ".diagram"));
 					formula.setMethodObj(method);
 					formula.setClassName(className);
 					formula.setProven(false);
@@ -206,7 +208,8 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			formula.setClassName(className);
 			formula.setProven(false);
 			formula.setMethodObj(method);
-			method.setCbcDiagramURI(cbcmodelPath.replace(".cbcmodel", ".diagram"));
+			method.setCbcDiagramURI(classPath + method.getName() + ".diagram");
+			//method.setCbcDiagramURI(cbcmodelPath.replace(".cbcmodel", ".diagram"));
 			method.setCbcStartTriple(formula);
 			
 			cbcmodelResource.getContents().add(formula);

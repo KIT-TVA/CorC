@@ -114,7 +114,7 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString));
+				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), "");
 				if (isVariational) {
 					Console.println("--------------- Triggered variational verification ---------------");
 					String callingClass = uri.segment(uri.segmentCount()-2) + "";
@@ -124,6 +124,9 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 					VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());		
 					for (int i = 0; i < featureConfigs.length; i++) {
 						verifyStmt.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
+						String configName = "";
+						for (String s : featureConfigs[i]) configName += s;
+						prove.setConfigName(configName);
 						proven = prove.proveVariantWithKey(code, invariant, guard, variant, i);
 					}
 				} else {
