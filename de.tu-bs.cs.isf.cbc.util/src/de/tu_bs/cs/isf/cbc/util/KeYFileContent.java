@@ -237,11 +237,10 @@ public class KeYFileContent {
 	public void addSelf(CbCFormula formula) {
 		if(formula != null && formula.getClassName() != null && !formula.getClassName().isBlank()) {
 			String className = "";
-			if (formula.getMethodObj() != null && formula.getMethodObj().getParentClass().getPackage() != null &&
+			if (formula.getMethodObj() != null && formula.getMethodObj() != null && formula.getMethodObj().getParentClass() != null && formula.getMethodObj().getParentClass().getPackage() != null &&
 					!formula.getMethodObj().getParentClass().getPackage().isBlank()) {
 				className += formula.getMethodObj().getParentClass().getPackage() + ".";
 			}
-			//className += formula.eResource().getURI().segment(4); // TODO MAX kann vmtl weg
 			className += formula.getClassName(); 
 			self = className + " self;";
 			selfConditions = " & self.<created>=TRUE & " + className + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
