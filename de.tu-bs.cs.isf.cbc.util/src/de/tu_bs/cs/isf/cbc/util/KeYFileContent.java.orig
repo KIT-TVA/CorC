@@ -17,18 +17,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-<<<<<<< HEAD
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
-=======
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
->>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 //import de.tu_bs.cs.isf.cbc.cbcmodel.BaseVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
@@ -41,7 +33,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
-import de.uka.ilkd.key.strategy.feature.FormulaAddedByRuleFeature;
 
 public class KeYFileContent {	
 	public static final String REGEX_BEFORE_VARIABLE_KEYWORD = "(?<![a-zA-Z0-9_\\.]|self\\.)(";
@@ -123,7 +114,6 @@ public class KeYFileContent {
 	public JavaVariable readVariables(JavaVariables vars) {
 		JavaVariable returnVariable = null;
 		if (vars != null) {
-<<<<<<< HEAD
 			// TODO: For some reason we get a ConcurrentModificationException when we don't copy our list first
 			List<JavaVariable> variables = new ArrayList<>();
 			variables.addAll(vars.getVariables());
@@ -137,24 +127,6 @@ public class KeYFileContent {
 				
 				if (var.getKind() == VariableKind.RETURN || var.getKind() == VariableKind.RETURNPARAM) {
 					returnVariable = variable;
-=======
-			for (JavaVariable var : vars.getVariables()) {
- 				if (var.getKind() == VariableKind.RETURN || var.getKind() == VariableKind.RETURNPARAM) {
-					returnVariable = var;
-				}
-				programVariables += var.getName().replace("static", "").replace("non-null", "") + "; ";
-				// if variable is an Array add <created> condition for key
-				if (var.getName().contains("[]")) {
-					String varNameWithoutStaticNonNull = var.getName().replace("static", "").replace("non-null", "").trim();
-					varNameWithoutStaticNonNull = varNameWithoutStaticNonNull.substring(varNameWithoutStaticNonNull.indexOf(" ") + 1);
-					conditionObjectsCreated += " & " + varNameWithoutStaticNonNull + ".<created>=TRUE";
-				}
-				if(var.getKind() == VariableKind.PARAM && var.getName().contains("non-null")){
-					String varNameWithoutStaticNonNull = var.getName().replace("static", "").replace("non-null", "").trim();
-					String varDataType = varNameWithoutStaticNonNull.substring(0, varNameWithoutStaticNonNull.indexOf(" "));
-					String varName = varNameWithoutStaticNonNull.substring(varNameWithoutStaticNonNull.lastIndexOf(" ")).trim();
-					addNonNullProperties(varDataType, varName, false);
->>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
 				}
 				programVariables.getVariables().add(variable);
 			}
@@ -225,7 +197,6 @@ public class KeYFileContent {
 		if (cond != null) {
 			preConditions.add(cond);
 		}
-<<<<<<< HEAD
 	}
 	
 	@Deprecated
@@ -246,17 +217,6 @@ public class KeYFileContent {
 	public void addUnmodifiableVars(List<String> unmodifiedVariables) {
 		for (String var : unmodifiedVariables) {
 			this.unmodifiableVars.add(var);
-=======
-		for (Field field : vars.getFields()) {
-			if (!nameOfLocalVars.contains(field.getName()) /*&& !field.isIsStatic()*/) {
-				Pattern pattern = Pattern.compile(REGEX_BEFORE_VARIABLE_KEYWORD + field.getName() + REGEX_AFTER_VARIABLE_KEYWORD);
-				statement = statement.replaceAll(pattern.pattern(), "self." + field.getName());
-				pre = pre.replaceAll(pattern.pattern(), "self." + field.getName());
-				post = post.replaceAll(pattern.pattern(), "self." + field.getName());
-				globalConditions = globalConditions.replaceAll(pattern.pattern(), "self." + field.getName());
-				assignment = assignment.replaceAll(pattern.pattern(), "self." + field.getName());
-			}
->>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
 		}
 	}
 	
@@ -271,11 +231,10 @@ public class KeYFileContent {
 			className += formula.getClassName();
 			self = className + " self";
 =======
-			//className += formula.eResource().getURI().segment(4); // TODO MAX kann vmtl weg
 			className += formula.getClassName(); 
 			self = className + " self;";
 			selfConditions = " & self.<created>=TRUE & " + className + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ";
->>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
+>>>>>>> 4f9bb5fb (hotfix nullpointer exception at proving process)
 		}
 	}
 	
@@ -330,22 +289,10 @@ public class KeYFileContent {
 		builder.append(getKeyHeader(oldReplacements));
 		builder.append(getKeyProblem(oldReplacements));
 		if (withStatement) 
-<<<<<<< HEAD
 			builder.append(" \\<{" + renameStatement(statement) + "}\\>");
 		
 		builder.append(" (" + getPostConditionsString(oldReplacements) + ")}");
 		return builder.toString();
-=======
-			string += " \\<{" + statement + "}\\>"; 
-		/*String[] split = selfConditions.split("&");
-		String invariantCond = "";
-		for (String cond : split) {
-			if (cond.contains(".<inv>")) {
-				invariantCond = invariantCond + "&"  + cond;
-			}
-		}*/
-		return string + " (" + post + /*" " + invariantCond +*/ ")}";
->>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
 	}
 	
 	private void addSelfForFields() {
@@ -661,12 +608,8 @@ public class KeYFileContent {
 		Map<String, OldReplacement> newReplacements = new HashMap<>();
 		// Add new old variables to variable List
 		int counterForVarNaming = 0;
-<<<<<<< HEAD
 		
 		for (String varUsedInOldContext : oldKeywords) {			
-=======
-		for (String varUsedInOldContext : replacements.keySet()) {
->>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
 			counterForVarNaming++;
 			// Get variable name with variable kind
 			String var = "";
@@ -743,40 +686,9 @@ public class KeYFileContent {
 					accessArray = currentVarName.contains("[");
 					// Replace brackets
 					currentVarName = currentVarName.replaceAll("\\[.*\\]", "");
-<<<<<<< HEAD
 					
 					if (methodClassVarMap.keySet().contains(currentClassName)) {
 						for (Field methodVar : methodClassVarMap.get(currentClassName)) {
-=======
-					if (getMethodClassVarMap().keySet().contains(currentClassName)) {
-					/*	if (i == 0) {
-							for (JavaVariable variable : vars.getVariables()) {
-								String methodVarType = variable.getName().split(" ")[0];
-								String methodVarName = variable.getName().split(" ")[1];
-								if (methodVarType.contains("[]") && methodVarName.equals(currentVarName)
-										&& splittedReplacementVar.length >= 2
-										&& i == (splittedReplacementVar.length - 2)) {
-									penultimateIsArray = true;
-									penultimateVarName = currentVarName;
-								}
-								if (methodVarName.equals(lastVarUsedInOldContext)) {
-									Field f = CbcclassFactory.eINSTANCE.createField();
-									f.setIsFinal(false);
-									f.setIsStatic(false);
-									f.setName(methodVarName);
-									f.setType(methodVarType);
-									f.setVisibility(Visibility.PUBLIC);
-									nestedVariable = f;
-									currentVarName = methodVarName;
-									found = true;
-								}
-								if (getMethodClassVarMap().containsKey(methodVarType)) {
-									currentClassName = methodVarType;
-								}
-							}
-						}*/
-						for (Field methodVar : getMethodClassVarMap().get(currentClassName)) {
->>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
 							String methodVarType = methodVar.getType();
 							String methodVarName = methodVar.getName();
 							if (methodVarType.contains("[]") && methodVarName.equals(currentVarName)
@@ -816,7 +728,6 @@ public class KeYFileContent {
 				 * VarType::(heap, null, Class::$varName) What about access to static variables
 				 * from other classes? Class.varName => we got the class name! But no VarType
 				 */
-<<<<<<< HEAD
 				// EDIT: counterForVarNaming didn't exist until VarCorC OO, Hashmap needs more
 				// detailed key, as only varname_oldVal may not be unique
 				String varNameWithOldSuffix = var.substring(var.lastIndexOf(" ") + 1) + counterForVarNaming
@@ -824,20 +735,6 @@ public class KeYFileContent {
 				// Add new modified replacements to map.
 				newReplacements.put(varNameWithOldSuffix, new OldReplacement(varUsedInOldContext, counterForVarNaming));
 				varsForOldReplacement.put(var, counterForVarNaming);
-=======
-				// EDIT: counterForVarNaming didn't exist until VarCorC OO, Hashmap needs more detailed key, as only varname_oldVal may not be unique
-				String varNameWithOldSuffix = var.substring(var.lastIndexOf(" ") + 1) + counterForVarNaming + OLD_VARS_SUFFIX;
-				// Add new modified replacements to map.
-//				Console.println("Adding new Replacement: (" + varNameWithOldSuffix + ", " + replacements.get(varUsedInOldContext) + ")");
-				newReplacements.put(varNameWithOldSuffix, replacements.get(varUsedInOldContext));
-				programVariables += var.replace("static", "").replace(" non-null", "") + counterForVarNaming + OLD_VARS_SUFFIX + "; ";
-				if (!pre.contains("\\old(" + varUsedInOldContext + ")"))
-					assignment += "||" + varNameWithOldSuffix + ":=" + varUsedInOldContext;
-				// if variable is an Array add <created> condition for key
-				if (var.contains("[]")) {
-					conditionObjectsCreated += " & " + varNameWithOldSuffix + ".<created>=TRUE";
-				}
->>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
 			}
 		}
 		return newReplacements;
@@ -949,20 +846,5 @@ public class KeYFileContent {
 	
 	private boolean isArray(String var) {
 		return var.contains("[]");
-	}
-
-	public void readInvariants(List<Condition> invariants) {
-		for (Condition c : invariants) {
-			if (pre.length() != 0) {
-				pre = pre + " & " + c.getName();
-			} else {
-				pre = c.getName();
-			}
-			if (post.length() != 0) {
-				post = post + " & " + c.getName();
-			} else {
-				post = c.getName();
-			}
-		}
 	}
 }
