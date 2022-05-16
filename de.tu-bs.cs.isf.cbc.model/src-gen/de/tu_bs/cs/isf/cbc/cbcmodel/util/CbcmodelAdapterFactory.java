@@ -136,14 +136,6 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 				return createStrengthWeakStatementAdapter();
 			}
 			@Override
-			public Adapter caseMethodSignature(MethodSignature object) {
-				return createMethodSignatureAdapter();
-			}
-			@Override
-			public Adapter caseMethodClass(MethodClass object) {
-				return createMethodClassAdapter();
-			}
-			@Override
 			public Adapter caseOriginalStatement(OriginalStatement object) {
 				return createOriginalStatementAdapter();
 			}
@@ -402,34 +394,6 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createStrengthWeakStatementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature <em>Method Signature</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature
-	 * @generated
-	 */
-	public Adapter createMethodSignatureAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass <em>Method Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass
-	 * @generated
-	 */
-	public Adapter createMethodClassAdapter() {
 		return null;
 	}
 

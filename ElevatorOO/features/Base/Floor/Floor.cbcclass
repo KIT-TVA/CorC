@@ -4,29 +4,31 @@
   <fields visibility="PRIVATE" type="boolean" name="elevatorCall"/>
   <fields visibility="PRIVATE" type="int" name="thisFloorID"/>
   <fields type="Environment" name="env"/>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/createFloor.diagram" name="createFloor" returnType="void">
+  <methods cbcDiagramURI="addWaitingPerson.diagram" name="addWaitingPerson" returnType="void">
+    <cbcStartTriple href="addWaitingPerson.cbcmodel#/0"/>
+    <parameters type="Person" name="person"/>
+  </methods>
+  <methods cbcDiagramURI="callElevator.diagram" name="callElevator" returnType="void">
+    <cbcStartTriple href="callElevator.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="createFloor.diagram" name="createFloor" returnType="void">
     <cbcStartTriple href="createFloor.cbcmodel#/0"/>
     <parameters type="Environment" name="envx"/>
     <parameters type="int" name="idx"/>
   </methods>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/getFloorID.diagram" name="getFloorID" returnType="int">
+  <methods cbcDiagramURI="getFloorID.diagram" name="getFloorID" returnType="int">
     <cbcStartTriple href="getFloorID.cbcmodel#/0"/>
+    <parameters type="int" name="ret"/>
   </methods>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/callElevator.diagram" name="callElevator" returnType="void">
-    <cbcStartTriple href="callElevator.cbcmodel#/0"/>
-  </methods>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/reset.diagram" name="reset" returnType="void">
-    <cbcStartTriple href="reset.cbcmodel#/0"/>
-  </methods>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/hasCall.diagram" name="hasCall" returnType="boolean">
+  <methods cbcDiagramURI="hasCall.diagram" name="hasCall" returnType="boolean">
     <cbcStartTriple href="hasCall.cbcmodel#/0"/>
+    <parameters type="boolean" name="ret"/>
   </methods>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/processWaitingPersons.diagram" name="processWaitingPersons" returnType="void">
+  <methods cbcDiagramURI="processWaitingPersons.diagram" name="processWaitingPersons" returnType="void">
     <cbcStartTriple href="processWaitingPersons.cbcmodel#/0"/>
     <parameters type="Elevator" name="e"/>
   </methods>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/addWaitingPerson.diagram" name="addWaitingPerson" returnType="void">
-    <cbcStartTriple href="addWaitingPerson.cbcmodel#/0"/>
-    <parameters type="Person" name="person"/>
+  <methods cbcDiagramURI="reset.diagram" name="reset" returnType="void">
+    <cbcStartTriple href="reset.cbcmodel#/0"/>
   </methods>
 </cbcclass:ModelClass>

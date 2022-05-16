@@ -3,7 +3,9 @@
  */
 package de.tu_bs.cs.isf.cbc.textual.tool.validation;
 
+import com.google.common.base.Objects;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
@@ -11,6 +13,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
+import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
+import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckType;
 
@@ -27,25 +32,40 @@ public class DslValidator extends AbstractDslValidator {
   
   @Check
   public void checkSyntaxOfStatement(final AbstractStatement statement) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field CompareMethodBodies is undefined"
-      + "\nreadAndTestMethodBodyWithJaMoPP2 cannot be resolved"
-      + "\n! cannot be resolved");
+    boolean _equals = statement.getClass().equals(AbstractStatementImpl.class);
+    if (_equals) {
+      if (((!Objects.equal(statement.getName(), null)) && (!statement.getName().isEmpty()))) {
+        boolean _readAndTestMethodBodyWithJaMoPP2 = CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName());
+        boolean _not = (!_readAndTestMethodBodyWithJaMoPP2);
+        if (_not) {
+          this.warning("Statement has not the correct syntax.", 
+            CbcmodelPackage.Literals.ABSTRACT_STATEMENT__NAME, 
+            DslValidator.INVALID_NAME);
+        }
+      }
+    }
   }
   
   @Check
   public void checkSyntaxOfRetunrStatement(final ReturnStatement statement) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field CompareMethodBodies is undefined"
-      + "\nreadAndTestMethodBodyWithJaMoPP2 cannot be resolved"
-      + "\n! cannot be resolved");
+    boolean _equals = statement.getClass().equals(ReturnStatementImpl.class);
+    if (_equals) {
+      if (((!Objects.equal(statement.getName(), null)) && (!statement.getName().isEmpty()))) {
+        boolean _readAndTestMethodBodyWithJaMoPP2 = CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName());
+        boolean _not = (!_readAndTestMethodBodyWithJaMoPP2);
+        if (_not) {
+          this.warning("Statement has not the correct syntax.", 
+            CbcmodelPackage.Literals.ABSTRACT_STATEMENT__NAME, 
+            DslValidator.INVALID_NAME);
+        }
+      }
+    }
   }
   
   @Check
   public void checkSyntaxOfCondition(final Condition condition) {
     throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field CompareMethodBodies is undefined"
-      + "\nreadAndTestAssertWithJaMoPP cannot be resolved"
+      + "\nThe method readAndTestAssertWithJaMoPP(String) is undefined for the type Class<CompareMethodBodies>"
       + "\n! cannot be resolved");
   }
   

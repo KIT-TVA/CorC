@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="reverse" proven="true" className="Elevator" methodName="reverse">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
-        <firstStatement name="statement1">
-          <refinement name="result = this.currentHeading;" proven="true">
+    <statement name="statement" id="d2eb3ab5-04c8-496c-93a9-517d3804205e">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="0701159f-7099-4cd2-b3ae-4ee072241d89">
+        <firstStatement name="statement1" id="e318e6b5-65ab-4582-9fbc-1f6eb035dffe">
+          <refinement name="result = this.currentHeading;" proven="true" id="95c09ff9-ce52-4e8d-8cca-881f45a216bb">
             <postCondition name="modifiable(result);&#xD;&#xA;result = this.currentHeading"/>
             <preCondition name="this.currentHeading >= 0 &amp; this.currentHeading &lt;= 1"/>
           </refinement>
           <postCondition name="modifiable(result);&#xD;&#xA;result = this.currentHeading"/>
           <preCondition name="this.currentHeading >= 0 &amp; this.currentHeading &lt;= 1"/>
         </firstStatement>
-        <secondStatement name="statement2">
-          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
-            <firstStatement name="statement1">
-              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+        <secondStatement name="statement2" id="aa2aaf97-9401-4a91-a7f7-a06f0db47ee6">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="1b63b74d-40c0-4121-b123-e63ddabf4da9">
+            <firstStatement name="statement1" id="a07aa232-3fb2-445c-90e9-2239a0cc9bbd">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="b73914a7-ae45-4130-aca4-646da17c0719" preProve="true">
                 <guards name="this.currentHeading = 0"/>
                 <guards name="this.currentHeading = 1"/>
-                <commands name="statement">
-                  <refinement name="result = 1;" proven="true">
+                <commands name="statement" id="768a9e94-cdb1-4473-a1b8-bea1455b6c4c">
+                  <refinement name="result = 1;" proven="true" id="111ded9e-4d45-4540-a705-57e82c4d524b">
                     <postCondition name="modifiable(result);&#xD;&#xA;(this.currentHeading = 0 -> result = 1) &#xD;&#xA;&amp; (this.currentHeading = 1 -> result = 0)"/>
                     <preCondition name="modifiable(result);(result = this.currentHeading) &amp; (this.currentHeading = 0)"/>
                   </refinement>
                   <postCondition name="modifiable(result);&#xD;&#xA;(this.currentHeading = 0 -> result = 1) &#xD;&#xA;&amp; (this.currentHeading = 1 -> result = 0)"/>
                   <preCondition name="modifiable(result);(result = this.currentHeading) &amp; (this.currentHeading = 0)"/>
                 </commands>
-                <commands name="statement">
-                  <refinement name="result = 0;" proven="true">
+                <commands name="statement" id="397bd9ac-8258-4546-9c99-8afde584412c">
+                  <refinement name="result = 0;" proven="true" id="20d3ca68-d6ce-45c9-8306-ed02d5c8e633">
                     <postCondition name="modifiable(result);&#xD;&#xA;(this.currentHeading = 0 -> result = 1) &#xD;&#xA;&amp; (this.currentHeading = 1 -> result = 0)"/>
                     <preCondition name="modifiable(result);(result = this.currentHeading) &amp; (this.currentHeading = 1)"/>
                   </refinement>
@@ -37,8 +37,8 @@
               <postCondition name="modifiable(result);&#xD;&#xA;(this.currentHeading = 0 -> result = 1) &#xD;&#xA;&amp; (this.currentHeading = 1 -> result = 0)"/>
               <preCondition name="modifiable(result);&#xD;&#xA;result = this.currentHeading"/>
             </firstStatement>
-            <secondStatement name="statement2">
-              <refinement xsi:type="cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement">
+            <secondStatement name="statement2" id="280e7297-f474-4389-bb93-0c638654f78d">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement" id="a2efa7a2-dde2-43c5-8e7d-a44e050cec46">
                 <postCondition name="modifiable(result,ret);&#xD;&#xA;(this.currentHeading = 0 -> \result = 1) &amp; (this.currentHeading = 1 -> \result = 0)"/>
                 <preCondition name="modifiable(result);&#xD;&#xA;(this.currentHeading = 0 -> result = 1) &#xD;&#xA;&amp; (this.currentHeading = 1 -> result = 0)"/>
               </refinement>
@@ -57,10 +57,9 @@
     </statement>
     <preCondition name="pre"/>
     <postCondition name="post"/>
-    <methodObj href="Elevator.cbcclass#//@methods.12"/>
+    <methodObj href="Elevator.cbcclass#//@methods.10"/>
   </cbcmodel:CbCFormula>
   <cbcmodel:JavaVariables>
-    <variables name="int ret" kind="RETURN"/>
     <variables name="int result"/>
   </cbcmodel:JavaVariables>
   <cbcmodel:GlobalConditions>

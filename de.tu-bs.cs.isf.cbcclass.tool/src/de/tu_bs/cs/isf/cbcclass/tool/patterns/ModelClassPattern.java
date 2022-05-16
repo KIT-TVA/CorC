@@ -4,16 +4,12 @@ import java.awt.Frame;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import java.util.*;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -53,16 +49,10 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
-import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
-import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ConditionImpl;
-import de.tu_bs.cs.isf.cbc.util.Console;
-
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassImageProvider;
 import helper.ClassUtil;
 import model.CbcClassUtil;
-
 
 public class ModelClassPattern extends IdPattern implements IPattern {
 
@@ -80,8 +70,6 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 	private static final String ID_CLASS_FIELDS_TEXT = "fieldsNameText";
 	private static final String ID_CLASS_INVARIANTS_TEXT = "classInvariantsText";
 	
-	private static final String ID_VARIABLE_TEXT = "variable";
-	
 	private static final String ID_MAIN_RECTANGLE = "mainRectangle";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
 	// Header:
@@ -92,8 +80,6 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 	private static final String ID_HOR2_LINE = "hor2Line";
 	private static final String ID_HOR3_LINE = "hor3Line";
 	private static final String ID_HOR4_LINE = "hor4Line";	
-	
-	private Shape textShapeFields;
 	
 	private int width;
 	private int height;	

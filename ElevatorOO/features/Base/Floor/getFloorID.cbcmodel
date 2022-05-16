@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="getFloorID" proven="true" className="Floor" methodName="getFloorID">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.thisFloorID;" proven="true" comment="returnStatement">
+    <statement name="statement" id="60506d54-c9dd-4cee-b2b7-630de91ad9f6">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.thisFloorID;" proven="true" comment="returnStatement" id="c367387c-acbe-473b-9748-b69901be382b">
         <postCondition name="\result = this.thisFloorID"/>
         <preCondition name="this.thisFloorID>= 0"/>
       </refinement>
@@ -11,9 +11,7 @@
     </statement>
     <preCondition name="pre"/>
     <postCondition name="post"/>
-    <methodObj href="Floor.cbcclass#//@methods.1"/>
+    <methodObj href="Floor.cbcclass#//@methods.3"/>
   </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
-    <variables name="int ret" kind="RETURN"/>
-  </cbcmodel:JavaVariables>
+  <cbcmodel:JavaVariables/>
 </xmi:XMI>

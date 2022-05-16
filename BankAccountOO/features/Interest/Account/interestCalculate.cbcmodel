@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="interestCalculate" className="Account" methodName="interestCalculate" proven="true">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.balance * this.INTEREST_RATE / 36500;" comment="returnStatement">
-        <postCondition name="(this.balance >= 0 -> \result >= 0) &amp; (this.balance &lt;= 0 -> \result &lt;= 0)"/>
+  <cbcmodel:CbCFormula name="interestCalculate" proven="true" className="Account" methodName="interestCalculate">
+    <statement name="statement" id="7a4141da-2c50-446f-9536-086398a7c774">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.balance * this.INTEREST_RATE / 36500;" proven="true" comment="returnStatement" id="f9843044-ecfc-4aa0-bd0b-f42fa0e78673">
+        <postCondition name="true"/>
         <preCondition name="true"/>
       </refinement>
-      <postCondition name="(this.balance >= 0 -> \result >= 0) &amp; (this.balance &lt;= 0 -> \result &lt;= 0)"/>
+      <postCondition name="true"/>
       <preCondition name="true"/>
     </statement>
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Account.cbcclass#//@methods.0"/>
   </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
-    <variables name="int ret" kind="RETURN"/>
-    <fields href="Account.cbcclass#//@fields.0"/>
-    <fields href="Account.cbcclass#//@fields.1"/>
-  </cbcmodel:JavaVariables>
+  <cbcmodel:JavaVariables/>
   <cbcmodel:GlobalConditions>
     <conditions name="this != null"/>
     <conditions name="this.&lt;inv>"/>

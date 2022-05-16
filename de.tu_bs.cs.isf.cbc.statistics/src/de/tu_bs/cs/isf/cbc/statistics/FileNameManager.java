@@ -36,8 +36,9 @@ public class FileNameManager {
 	public String getFileName(String problem, String location, AbstractStatement statement, String subProofName)  {
 		EObject root = getRoot(statement);
 		// TODO: delete old key files
-		cleanKeyFiles(location, root);
-
+		if (!location.contains("/features/")) { // TODO cleanUp diabled for SPLs, as up to date files are deleted in some configs
+			cleanKeyFiles(location, root);
+		}
 		// if there exists a KeY file with same problem hash -> get the existing name
 		File keyFile = getAlreadyProvenKeyFile(problem, statement, location);
 

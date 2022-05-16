@@ -76,11 +76,16 @@ public class DataCollector {
 
 		int indexLastSeperatorEntry = keyFilePath.lastIndexOf(File.separator);
 		keyFilePath = keyFilePath.substring(0, indexLastSeperatorEntry);
+		
+		if (keyFilePath.contains(File.separator + "features" + File.separator)) {
+			// remove config folder for variational projects
+			indexLastSeperatorEntry = keyFilePath.lastIndexOf(File.separator);
+			keyFilePath = keyFilePath.substring(0, indexLastSeperatorEntry);
+		}
 		// adding 6 because of prove string
 		indexLastSeperatorEntry = keyFilePath.lastIndexOf(File.separator) + 6;
-
 		String diagramFolder = keyFilePath.substring(indexLastSeperatorEntry, keyFilePath.length());
-
+		
 		return diagramFolder;
 	}
 

@@ -1,6 +1,6 @@
 public class Application {
 
-    public Account a; // BankAccount
+    public Account a;
 
 
 

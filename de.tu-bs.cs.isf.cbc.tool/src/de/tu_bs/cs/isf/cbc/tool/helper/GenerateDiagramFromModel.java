@@ -38,7 +38,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
@@ -93,9 +92,9 @@ public class GenerateDiagramFromModel {
 			diagramResource.save(Collections.EMPTY_MAP);
 			diagramResource.setTrackingModification(true);
 			IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
-			URI fullUri = URI.createURI("file:/" + ResourcesPlugin.getWorkspace().getRoot().getLocation() + uri.toString());
-			//IPath iLocation = Path.fromOSString(fullUri.toFileString());
-			IPath iLocation = Path.fromOSString(uri.toFileString()); 
+			URI fullUri = URI.createURI("file:/" + ResourcesPlugin.getWorkspace().getRoot().getLocation() + uri.toString().replace("platform:/resource", ""));
+			IPath iLocation = Path.fromOSString(fullUri.toFileString());
+			//IPath iLocation = Path.fromOSString(uri.toFileString()); 
 			IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
 			ifile.getParent().refreshLocal(1, null);
 		} catch (IOException e) {

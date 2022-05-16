@@ -30,8 +30,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameConditionFeature;
-import de.tu_bs.cs.isf.cbc.tool.features.RenameMethodClassFeature;
-import de.tu_bs.cs.isf.cbc.tool.features.RenameMethodSignatureFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameRenamingFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameStatementFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameVariableFeature;
@@ -100,14 +98,6 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 		}
 		customFeature = new RenameRenamingFeature(getFeatureProvider());
 		if (customFeature.canExecute(context)) {
-			return customFeature;
-		}
-		customFeature = new RenameMethodClassFeature(getFeatureProvider());
-		if(customFeature.canExecute(context)) {
-			return customFeature;
-		}
-		customFeature = new RenameMethodSignatureFeature(getFeatureProvider());
-		if(customFeature.canExecute(context)) {
 			return customFeature;
 		}
 		return super.getDoubleClickFeature(context);

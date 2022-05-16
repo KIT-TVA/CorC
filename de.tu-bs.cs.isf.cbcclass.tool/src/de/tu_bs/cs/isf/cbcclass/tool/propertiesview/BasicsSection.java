@@ -193,7 +193,7 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 				int sizeFields = 0;
 				int sizeMethods = 0;
 				
-				java.util.List<IFile> classFiles = ClassUtil.getAllCbCClassFiles(project);
+				java.util.List<IFile> classFiles = ClassUtil.getFilesOfType(project, ".cbcclass");
 				for (IFile cbcclassFile : classFiles) {
 					if (cbcclassFile.getName().replace(".cbcclass", "").equals(className)) {
 					String cbcclassPath = project.getLocationURI().toString().substring(6);// + "/" + cbcclassFile.getFullPath().segment(1) + "/" + cbcclassFile.getFullPath().segment(2) + "/" + cbcclassFile.getFullPath().segment(3) + "/" + cbcclassFile.getFullPath().segment(4);	

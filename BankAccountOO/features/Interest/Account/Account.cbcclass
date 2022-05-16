@@ -2,7 +2,8 @@
 <cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Account" feature="Interest">
   <fields type="int" name="INTEREST_RATE" isStatic="true" isFinal="true"/>
   <fields type="int" name="interest"/>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/BankAccountOO/features/Interest/Account/interestCalculate.diagram" name="interestCalculate" returnType="int">
-    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/BankAccountOO/features/Interest/Account/interestCalculate.cbcmodel#/0"/>
+  <methods cbcDiagramURI="interestCalculate.diagram" name="interestCalculate" returnType="int">
+    <cbcStartTriple href="interestCalculate.cbcmodel#/0"/>
+    <parameters type="int" name="ret"/>
   </methods>
 </cbcclass:ModelClass>

@@ -21,6 +21,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 
 public class Parser {
 	public static final String KEYWORD_JML_PRE = "requires";
@@ -332,13 +333,20 @@ public class Parser {
 		return condition;
 	}
 
-	public static List<String> getUnmodifiedVars(List<String> modifiedVars, EList<JavaVariable> declaredVariables) {
+	public static List<String> getUnmodifiedVars(List<String> modifiedVars, JavaVariables vars) {
 		List<String> unmodifiedVariables = Lists.newArrayList();
+		EList<JavaVariable> declaredVariables = vars.getVariables();
+		EList<Parameter> declaredParameters = vars.getParams();
 		if (!modifiedVars.contains("\\everything")) {
 			for (JavaVariable var : declaredVariables) {
 				String varName = var.getName().split(" ")[1];
 				if (!modifiedVars.contains(varName)) {
 					unmodifiedVariables.add(var.getName());
+				}
+			}
+			for (Parameter param : declaredParameters) {
+				if (!modifiedVars.contains(param.getName())) {
+					unmodifiedVariables.add(param.getType() + " " + param.getName());
 				}
 			}
 		}
@@ -376,6 +384,10 @@ public class Parser {
 			} else
 				variables = "\\everything";
 		}
+		// remove return variable, as it must not be in assignables in java class
+		if (variables.endsWith(",ret") || variables.contains(",ret,")) variables = variables.replace(",ret", "");
+		if (variables.equals("ret")) variables = "\\nothing";
+		if (variables.startsWith("ret,")) variables = variables.replace("ret,", "");
 		return variables;
 	}
 	

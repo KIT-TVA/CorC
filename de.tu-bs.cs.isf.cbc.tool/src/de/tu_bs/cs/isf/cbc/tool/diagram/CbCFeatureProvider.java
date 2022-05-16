@@ -25,8 +25,6 @@ import de.tu_bs.cs.isf.cbc.tool.features.GenerateTextualRepresentation;
 import de.tu_bs.cs.isf.cbc.tool.features.LayoutFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.ReconnectionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameConditionFeature;
-import de.tu_bs.cs.isf.cbc.tool.features.RenameMethodClassFeature;
-import de.tu_bs.cs.isf.cbc.tool.features.RenameMethodSignatureFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameRenamingFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameStatementFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameVariableFeature;
@@ -50,13 +48,11 @@ import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveRepetitionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveSelectionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.intermediate.BelowImplementationFeature;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeFromModel;
-import de.tu_bs.cs.isf.cbc.tool.patterns.ClassPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.CompositionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConditionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConnectionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.FormulaPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.GlobalConditionsPattern;
-import de.tu_bs.cs.isf.cbc.tool.patterns.MethodSignaturePattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.MethodStatementPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.OriginalStatementPattern;
 //import de.tu_bs.cs.isf.cbc.tool.patterns.MethodStatementPattern;
@@ -93,8 +89,6 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 		addPattern(new VariablePattern());
 		addPattern(new RenamingPattern());
 		addPattern(new RenamePattern());
-		addPattern(new ClassPattern());
-		addPattern(new MethodSignaturePattern());
 		addPattern(new VariantPattern()); //this one is remove by getCreateFeatures() below
 		addConnectionPattern(new ConnectionPattern());
 	}
@@ -156,8 +150,6 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 				new RenameVariantFeature(this),
 				new RenameVariableFeature(this), 
 				new RenameRenamingFeature(this),
-				new RenameMethodClassFeature(this),
-				new RenameMethodSignatureFeature(this),
 				new LayoutFeature(this), 
 				new GenerateIntermediateConditionFeature(this), 
 				new GenerateIntermediateConditionFeature2(this),

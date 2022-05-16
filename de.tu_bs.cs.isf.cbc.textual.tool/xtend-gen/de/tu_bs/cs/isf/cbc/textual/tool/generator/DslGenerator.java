@@ -29,6 +29,7 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
  */
 @SuppressWarnings("all")
 public class DslGenerator extends AbstractGenerator {
+  @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     JavaVariables vars = null;
     GlobalConditions conds = null;

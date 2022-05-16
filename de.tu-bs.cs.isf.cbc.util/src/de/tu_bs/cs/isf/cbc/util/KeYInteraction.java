@@ -102,8 +102,8 @@ public class KeYInteraction {
 					DataCollector collector = new DataCollector();
 					collector.collectCorcStatistics(proof, formula, statement, problem, uri);
 				} catch (RuntimeException e) {
-					Console.println(
-							"Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer.");
+						Console.println(
+								"Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer.");	
 				}
 
 //				printStatistics(proof, inlining);

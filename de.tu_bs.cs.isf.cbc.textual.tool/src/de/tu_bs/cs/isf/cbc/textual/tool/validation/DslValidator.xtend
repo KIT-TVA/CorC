@@ -10,7 +10,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey
-import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies
 import org.eclipse.xtext.validation.Check
 import org.eclipse.xtext.validation.CheckType
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl
@@ -19,6 +18,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement
+import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies
 
 /**
  * This class contains custom validation rules. 

@@ -1,9 +1,9 @@
 public class Floor {
 
-    public ArrayList waiting; // Base
-    private /*@spec_public@*/  boolean elevatorCall; // Base
-    private /*@spec_public@*/  int thisFloorID; // Base
-    public Environment env; // Base
+    public ArrayList waiting;
+    private /*@spec_public@*/  boolean elevatorCall;
+    private /*@spec_public@*/  int thisFloorID;
+    public Environment env;
 
 
 
@@ -99,7 +99,7 @@ public class Floor {
 
 	}
 
-// Code from C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/src/Floor_helper.java
+// Code from C:/Users/mko/Documents/ISF/0_corc2.0_kodetzki/runtime-EclipseApplication/ElevatorOO/src/Floor_helper.java
 	/*@
 	@ normal_behavior
 	@ requires envx != null && idx >= 0 ;
@@ -112,5 +112,5 @@ public class Floor {
 		this.waiting = new ArrayList();
 
 	}
-// End of code from C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/src/Floor_helper.java
+// End of code from C:/Users/mko/Documents/ISF/0_corc2.0_kodetzki/runtime-EclipseApplication/ElevatorOO/src/Floor_helper.java
 }

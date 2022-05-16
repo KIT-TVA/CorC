@@ -22,7 +22,6 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
 
 public class CbcClassUtil {	
 	
@@ -44,11 +43,6 @@ public class CbcClassUtil {
 	public static void saveMethod(Method method, Diagram d) throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(method);
-	}
-	
-	public static void saveMethodSignature(MethodSignature signature, Diagram diagram) throws CoreException, IOException {
-		Resource resource = getResource(diagram);
-		resource.getContents().add(signature);			
 	}
 	
 	public static Resource getResource(Diagram d) throws CoreException, IOException {

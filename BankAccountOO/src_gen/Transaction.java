@@ -1,7 +1,7 @@
 public class Transaction {
 
-    public Account destination; // Transaction
-    public Account source; // Transaction
+    public Account source;
+    public Account destination;
 
 
 

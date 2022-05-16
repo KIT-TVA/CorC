@@ -32,6 +32,7 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -254,7 +255,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 	private void generateClasses(String classLocation, String[] config, String callingFeature, String callingClass, String callingMethod) {
 		URI uri = getDiagram().eResource().getURI();
 		IProject project = FileUtil.getProjectFromFileInProject(uri);
-		List<IFile> classFiles = ClassUtil.getAllCbCClassFiles(project);
+		List<IFile> classFiles = ClassUtil.getFilesOfType(project, ".cbcclass");
 		List<String> otherClasses = new ArrayList<String>();
 		for (IFile cbcclassFile : classFiles) {
 			if (cbcclassFile.getFullPath().toString().contains(".cbcclass")) {
@@ -290,7 +291,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 								for (Field f : mc.getFields()) {
 									String newField = f.getVisibility().toString().toLowerCase() + (f.getVisibility().equals(Visibility.PRIVATE) ? " /*@spec_public@*/ " : "") + (f.isIsStatic() ? " static " : " ") + f.getType() + " " + f.getName() + ";";
 									if (!codeFields.contains(newField)) {
-										codeFields += "    " + newField + " // " + resource.getURI().segment(8) + "\n";
+										codeFields += "    " + newField + "\n";
 									} else {
 										Console.println("ERROR: The field " + newField + " is defined in more than one implementation of " + className + ".");
 									}
@@ -424,6 +425,13 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				returnVariable = currentVariable;
 			} else if (currentVariable.getKind() == VariableKind.LOCAL) {
 				localVariables.add(currentVariable.getName().replace("non-null", ""));
+			}
+		}
+		for (Parameter param : vars.getParams()) {
+			if (param.getName().equals("ret")) {
+				returnVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
+				returnVariable.setKind(VariableKind.RETURNPARAM);
+				returnVariable.setName(param.getType() + " " + param.getName());
 			}
 		}
 		if (returnVariable != null) {

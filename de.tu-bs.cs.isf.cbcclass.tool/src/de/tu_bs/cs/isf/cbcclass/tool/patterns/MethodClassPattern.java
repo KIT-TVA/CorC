@@ -2,7 +2,6 @@ package de.tu_bs.cs.isf.cbcclass.tool.patterns;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -10,20 +9,17 @@ import java.util.function.Predicate;
 
 import javax.swing.JOptionPane;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.context.impl.DirectEditingContext;
-import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Image;
@@ -31,7 +27,6 @@ import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
-import org.eclipse.graphiti.mm.algorithms.impl.TextImpl;
 import org.eclipse.graphiti.mm.algorithms.styles.Font;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
@@ -39,7 +34,6 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.graphiti.mm.pictograms.impl.ContainerShapeImpl;
 import org.eclipse.graphiti.pattern.IPattern;
 import org.eclipse.graphiti.pattern.id.IdLayoutContext;
 import org.eclipse.graphiti.pattern.id.IdPattern;
@@ -47,11 +41,8 @@ import org.eclipse.graphiti.pattern.id.IdUpdateContext;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
-import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.graphiti.util.PredefinedColoredAreas;
-//import org.emftext.language.java.members.ClassMethod;
-//import org.emftext.language.java.statements.Statement;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
@@ -64,14 +55,13 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassImageProvider;
-import de.tu_bs.cs.isf.cbc.tool.diagram.CbCFeatureProvider;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import helper.ClassUtil;
 import helper.ModelClassHelper;
 import model.CbcClassUtil;
 
-import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 
@@ -98,14 +88,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 
 	private int width;
 	private int height;
-	private String projectName;
-	private String className;
-	private String projectLocation;
 
-	private ClassUtil utils = new ClassUtil("");
-	private EList<Condition> invariants = new BasicEList<Condition>();
-	private EList<Field> fields = new BasicEList<Field>();
-	private ModelClass modelClass = null;
 	private Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 	private Map<String, Object> m = reg.getExtensionToFactoryMap();
 	private ResourceSet rs = new ResourceSetImpl();
@@ -151,65 +134,56 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 				valid = true;
 		} while (!valid);
 
-		projectLocation = FileUtil.getProjectLocation(getDiagram().eResource().getURI());
-		String[] projectLocationFragments = projectLocation.split("/");
-		projectName = projectLocationFragments[projectLocationFragments.length - 1];
+		URI relURIdiagram = getDiagram().eResource().getURI();
+		String projectName = relURIdiagram.segment(1);
+		String className = relURIdiagram.segment(2).equals("features") ? relURIdiagram.segment(4) : relURIdiagram.segment(2);
+		String featureName = relURIdiagram.segment(2).equals("features") ? relURIdiagram.segment(3) : "";
 
-		Resource resource = null;
-		try {
-			resource = CbcClassUtil.getResource(getDiagram());
-			utils = new ClassUtil(projectName);
-		} catch (CoreException | IOException e1) {
-			e1.printStackTrace();
-		}
-		className = resource.getURI().trimFileExtension().lastSegment().toString();
-		className = className.substring(0, 1).toUpperCase() + className.substring(1);
-		String classPath = URI.createURI(projectLocation).trimSegments(1).toString() + "/" + resource.getURI().trimSegments(1).toString().substring(19) + "/";
-
+		Resource cbcclassResource = ClassUtil.getClassModelResource("platform:/resource/" + projectName, className, featureName);
+		rs = cbcclassResource.getResourceSet();
+		
 		Method method = CbcclassFactory.eINSTANCE.createMethod();
 		method.setSignature(input);
 		method.setIsStatic(input.contains(" static "));
-
+		
+		Resource resource = null;
+		try {
+			resource = CbcClassUtil.getResource(getDiagram());
+		} catch (IOException | CoreException e1) {
+			e1.printStackTrace();
+		}
+		
 		for (EObject obj : resource.getContents()) {
 			if (obj instanceof ModelClass) {
 				method.setParentClass((ModelClass) obj);
 			}
 		}
 		
-		// check for existing cbcmodel file and read content
-		File cbcmodelFile = new File(classPath + method.getName() + ".cbcmodel");
-		String cbcmodelPath = getDiagram().eResource().getURI().trimSegments(1).appendSegment(method.getName() +".cbcmodel").toPlatformString(true);
-		//URI cbcmodelURI = URI.createFileURI(cbcmodelPath);
-		URI cbcmodelURI = URI.createFileURI(classPath + method.getName() + ".cbcmodel");
-		Resource cbcmodelResource = ClassUtil.getCbcModelResource(projectLocation, method.getName());
-		
+		Resource cbcmodelResource = ClassUtil.getCbcModelResource(FileUtil.getProjectLocation(relURIdiagram), method.getName(), featureName, className);
 		boolean alreadyExisting = false;
-		if (cbcmodelFile.exists()) {
+		if (cbcmodelResource != null) {
 			alreadyExisting = true;			
-			cbcmodelResource = rs.getResource(URI.createPlatformResourceURI(cbcmodelPath, true), true);
 			for (EObject obj: cbcmodelResource.getContents()) {
 				if (obj instanceof CbCFormula) {
 					CbCFormula formula = (CbCFormula) obj;
 					method.setCbcStartTriple(formula);
-					method.setCbcDiagramURI(classPath + method.getName() + ".diagram");
-					//method.setCbcDiagramURI(cbcmodelPath.replace(".cbcmodel", ".diagram"));
+					method.setCbcDiagramURI(method.getName() + ".diagram");
 					formula.setMethodObj(method);
 					formula.setClassName(className);
 					formula.setProven(false);
 				}
 			}
 		} else {
-			// initialize cbcmodel file
 			m.put("cbcmodel", new XMIResourceFactoryImpl());
+			URI cbcmodelURI = URI.createPlatformResourceURI("/" + projectName + (!method.getParentClass().getFeature().equals("default") ? ("/features/" + method.getParentClass().getFeature()) : "") + "/" + className + "/" + method.getName() + ".cbcmodel", true);
 			cbcmodelResource = rs.createResource(cbcmodelURI);
 			
-			CbCFormula formula = utils.createFormula(method.getName());
+			CbCFormula formula = ClassUtil.createFormula(method.getName());
 			formula.setMethodName(method.getName());
 			formula.setClassName(className);
 			formula.setProven(false);
 			formula.setMethodObj(method);
-			method.setCbcDiagramURI(classPath + method.getName() + ".diagram");
-			//method.setCbcDiagramURI(cbcmodelPath.replace(".cbcmodel", ".diagram"));
+			method.setCbcDiagramURI(method.getName() + ".diagram");
 			method.setCbcStartTriple(formula);
 			
 			cbcmodelResource.getContents().add(formula);
@@ -219,10 +193,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		updatePictogramElement(context.getTargetContainer());
 
 		// save class fields to cbcmodel of new method
-		Resource cbcclassResource = ClassUtil.getClassModelResource(projectLocation, className, method.getParentClass().getFeature());
 		JavaVariables variables = CbcmodelFactory.eINSTANCE.createJavaVariables();
-
-		// import already existing vars from cbcmodel or add fields to cbcmodel
 		if (alreadyExisting) {			
 			for (EObject obj : cbcmodelResource.getContents()) {
 				if (obj instanceof JavaVariables) {
@@ -254,17 +225,9 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			GenerateDiagramFromModel gdfm = new GenerateDiagramFromModel();
 			gdfm.execute(cbcmodelResource);
 		}		
-		addGraphicalRepresentation(context, method);
 		
-		// create java class
-		URI uri = getDiagram().eResource().getURI();
-		String location = FileUtil.getProjectLocation(uri);
-		for (int i = 2; i < uri.segments().length - 2; i++) {
-			location += File.separator + uri.segment(i);
-		}
-		location += File.separator + method.getParentClass().getName().substring(0,1).toUpperCase() + method.getParentClass().getName().substring(1) + ".java";
-		//utils.writeJavaClass(location, cbcclassResource, method);
-		ClassUtil.refreshProject(projectLocation);
+		addGraphicalRepresentation(context, method);
+		ClassUtil.refreshProject(FileUtil.getProjectLocation(relURIdiagram));
 		return new Object[] { method };
 	}
 
@@ -634,16 +597,6 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			JOptionPane.showMessageDialog(null, "Can not change name of method in the this state of CorC.");
 			return;
 		}
-			
-		// create java class
-		URI uri = getDiagram().eResource().getURI();
-		String location = FileUtil.getProjectLocation(uri);
-		for (int i = 2; i < uri.segments().length - 2; i++) {
-			location += File.separator + uri.segment(i);
-		}
-		location += File.separator + method.getParentClass().getName().substring(0,1).toUpperCase() + method.getParentClass().getName().substring(1) + ".java";
-		// TODO Without java class, verification of statments is not possible
-		//utils.writeJavaClass(location, cbcclassResource, method);
 		
 		if (method.getParameters().size() != oldParamSize) {
 			URI urii = getDiagram().eResource().getURI();

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="addWaitingPerson" className="Floor" methodName="addWaitingPerson">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
-        <firstStatement name="statement1">
-          <refinement name="this.callElevator();" proven="true">
+    <statement name="statement" id="f02c01c7-dd04-4c1b-a3cd-3ab8ce6649f6">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="d6816a5c-7643-4aa2-b6d6-1bcd2023d7ab">
+        <firstStatement name="statement1" id="cd8a8573-fb5e-45c8-9434-5647fc559047">
+          <refinement name="this.callElevator();" id="322f7f76-5fb6-4c17-90de-353e11d2cd07">
             <postCondition name="this.hasCall() = TRUE"/>
             <preCondition name="person != null"/>
           </refinement>
           <postCondition name="this.hasCall() = TRUE"/>
           <preCondition name="person != null"/>
         </firstStatement>
-        <secondStatement name="statement2">
-          <refinement name="this.waiting.add(person);">
+        <secondStatement name="statement2" id="47bc81a1-c6f2-4828-b491-6d3d5183a3a5">
+          <refinement name="this.waiting.add(person);" id="89634894-fff5-44d9-baed-767245491682">
             <postCondition name="this.hasCall() = TRUE &amp; this.waiting.contains(person) = TRUE"/>
             <preCondition name="this.hasCall() = TRUE"/>
           </refinement>
@@ -26,11 +26,9 @@
     </statement>
     <preCondition name="pre"/>
     <postCondition name="post"/>
-    <methodObj href="Floor.cbcclass#//@methods.6"/>
+    <methodObj href="Floor.cbcclass#//@methods.0"/>
   </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
-    <variables name="Person person" kind="PARAM"/>
-  </cbcmodel:JavaVariables>
+  <cbcmodel:JavaVariables/>
   <cbcmodel:GlobalConditions>
     <conditions name="Person person non-null"/>
     <conditions name="waiting.&lt;inv>"/>

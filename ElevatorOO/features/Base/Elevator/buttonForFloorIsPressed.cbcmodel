@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="buttonForFloorIsPressed" proven="true" className="Elevator" methodName="buttonForFloorIsPressed">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.floorButtons[floorID];" proven="true" comment="returnStatement">
+    <statement name="statement" id="2cea4dfd-a993-466b-88f0-b2a3bb63c9a8">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.floorButtons[floorID];" proven="true" comment="returnStatement" id="48797ef7-1239-44de-813c-fc807a5b226f">
         <postCondition name="\result = this.floorButtons[floorID]"/>
         <preCondition name="floorID >= 0 &amp; this.floorButtons != null &amp; floorID &lt; this.floorButtons.length"/>
       </refinement>
@@ -13,8 +13,5 @@
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.1"/>
   </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
-    <variables name="int floorID" kind="PARAM"/>
-    <variables name="boolean ret" kind="RETURN"/>
-  </cbcmodel:JavaVariables>
+  <cbcmodel:JavaVariables/>
 </xmi:XMI>

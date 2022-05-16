@@ -1416,31 +1416,13 @@ public interface CbcmodelPackage extends EPackage {
 	int CB_CPROBLEM__RENAMING = 3;
 
 	/**
-	 * The feature id for the '<em><b>Methodsignature</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CB_CPROBLEM__METHODSIGNATURE = 4;
-
-	/**
-	 * The feature id for the '<em><b>Method Class</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CB_CPROBLEM__METHOD_CLASS = 5;
-
-	/**
 	 * The number of structural features of the '<em>Cb CProblem</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CB_CPROBLEM_FEATURE_COUNT = 6;
+	int CB_CPROBLEM_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Cb CProblem</em>' class.
@@ -1561,80 +1543,6 @@ public interface CbcmodelPackage extends EPackage {
 	int STRENGTH_WEAK_STATEMENT_OPERATION_COUNT = ABSTRACT_STATEMENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodSignatureImpl <em>Method Signature</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodSignatureImpl
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethodSignature()
-	 * @generated
-	 */
-	int METHOD_SIGNATURE = 17;
-
-	/**
-	 * The feature id for the '<em><b>Method Signature</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_SIGNATURE__METHOD_SIGNATURE = 0;
-
-	/**
-	 * The number of structural features of the '<em>Method Signature</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_SIGNATURE_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>Method Signature</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_SIGNATURE_OPERATION_COUNT = 0;
-
-	/**
-	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodClassImpl <em>Method Class</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodClassImpl
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethodClass()
-	 * @generated
-	 */
-	int METHOD_CLASS = 18;
-
-	/**
-	 * The feature id for the '<em><b>Method Class</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_CLASS__METHOD_CLASS = 0;
-
-	/**
-	 * The number of structural features of the '<em>Method Class</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_CLASS_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>Method Class</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_CLASS_OPERATION_COUNT = 0;
-
-	/**
 	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.OriginalStatementImpl <em>Original Statement</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1642,7 +1550,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getOriginalStatement()
 	 * @generated
 	 */
-	int ORIGINAL_STATEMENT = 19;
+	int ORIGINAL_STATEMENT = 17;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1751,7 +1659,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getVariableKind()
 	 * @generated
 	 */
-	int VARIABLE_KIND = 20;
+	int VARIABLE_KIND = 18;
 
 	/**
 	 * The meta object id for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique <em>Composition Technique</em>}' enum.
@@ -1761,7 +1669,7 @@ public interface CbcmodelPackage extends EPackage {
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getCompositionTechnique()
 	 * @generated
 	 */
-	int COMPOSITION_TECHNIQUE = 21;
+	int COMPOSITION_TECHNIQUE = 19;
 
 
 	/**
@@ -2463,28 +2371,6 @@ public interface CbcmodelPackage extends EPackage {
 	EReference getCbCProblem_Renaming();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethodsignature <em>Methodsignature</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Methodsignature</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethodsignature()
-	 * @see #getCbCProblem()
-	 * @generated
-	 */
-	EReference getCbCProblem_Methodsignature();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethodClass <em>Method Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Method Class</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem#getMethodClass()
-	 * @see #getCbCProblem()
-	 * @generated
-	 */
-	EReference getCbCProblem_MethodClass();
-
-	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement <em>Strength Weak Statement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2493,48 +2379,6 @@ public interface CbcmodelPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getStrengthWeakStatement();
-
-	/**
-	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature <em>Method Signature</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Method Signature</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature
-	 * @generated
-	 */
-	EClass getMethodSignature();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature#getMethodSignature <em>Method Signature</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Method Signature</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature#getMethodSignature()
-	 * @see #getMethodSignature()
-	 * @generated
-	 */
-	EAttribute getMethodSignature_MethodSignature();
-
-	/**
-	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass <em>Method Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Method Class</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass
-	 * @generated
-	 */
-	EClass getMethodClass();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass#getMethodClass <em>Method Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Method Class</em>'.
-	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass#getMethodClass()
-	 * @see #getMethodClass()
-	 * @generated
-	 */
-	EAttribute getMethodClass_MethodClass();
 
 	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement <em>Original Statement</em>}'.
@@ -3142,22 +2986,6 @@ public interface CbcmodelPackage extends EPackage {
 		EReference CB_CPROBLEM__RENAMING = eINSTANCE.getCbCProblem_Renaming();
 
 		/**
-		 * The meta object literal for the '<em><b>Methodsignature</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CB_CPROBLEM__METHODSIGNATURE = eINSTANCE.getCbCProblem_Methodsignature();
-
-		/**
-		 * The meta object literal for the '<em><b>Method Class</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CB_CPROBLEM__METHOD_CLASS = eINSTANCE.getCbCProblem_MethodClass();
-
-		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl <em>Strength Weak Statement</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3166,42 +2994,6 @@ public interface CbcmodelPackage extends EPackage {
 		 * @generated
 		 */
 		EClass STRENGTH_WEAK_STATEMENT = eINSTANCE.getStrengthWeakStatement();
-
-		/**
-		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodSignatureImpl <em>Method Signature</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodSignatureImpl
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethodSignature()
-		 * @generated
-		 */
-		EClass METHOD_SIGNATURE = eINSTANCE.getMethodSignature();
-
-		/**
-		 * The meta object literal for the '<em><b>Method Signature</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute METHOD_SIGNATURE__METHOD_SIGNATURE = eINSTANCE.getMethodSignature_MethodSignature();
-
-		/**
-		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodClassImpl <em>Method Class</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodClassImpl
-		 * @see de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbcmodelPackageImpl#getMethodClass()
-		 * @generated
-		 */
-		EClass METHOD_CLASS = eINSTANCE.getMethodClass();
-
-		/**
-		 * The meta object literal for the '<em><b>Method Class</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute METHOD_CLASS__METHOD_CLASS = eINSTANCE.getMethodClass_MethodClass();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.OriginalStatementImpl <em>Original Statement</em>}' class.

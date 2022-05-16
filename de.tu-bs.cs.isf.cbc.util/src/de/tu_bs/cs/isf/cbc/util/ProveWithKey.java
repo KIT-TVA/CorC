@@ -26,7 +26,6 @@ import com.google.common.hash.Hashing;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -310,7 +309,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 
 		content.setPre(resolveResultKeyword(pre, returnVariable));
 		content.setPost(resolveResultKeyword(post, returnVariable));
-		List<String> unmodifiedVariables = Parser.getUnmodifiedVars(modifiables, vars.getVariables());
+		List<String> unmodifiedVariables = Parser.getUnmodifiedVars(modifiables, vars);
 		unmodifiedVariables = unmodifiedVariables.stream().distinct().collect(Collectors.toList());
 		content.addUnmodifiableVars(unmodifiedVariables);
 

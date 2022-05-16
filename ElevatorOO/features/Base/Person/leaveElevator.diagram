@@ -191,7 +191,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.index" value="5"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Person/Person.cbcclass#//@fields.0"/>
+        <businessObjects href="Person.cbcclass#//@fields.0"/>
       </link>
     </children>
     <children visible="true" active="true">
@@ -200,7 +200,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.index" value="4"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Person/Person.cbcclass#//@fields.1"/>
+        <businessObjects href="Person.cbcclass#//@fields.1"/>
       </link>
     </children>
     <children visible="true" active="true">
@@ -209,7 +209,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.index" value="3"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Person/Person.cbcclass#//@fields.2"/>
+        <businessObjects href="Person.cbcclass#//@fields.2"/>
       </link>
     </children>
     <children visible="true" active="true">
@@ -218,7 +218,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Person/Person.cbcclass#//@fields.3"/>
+        <businessObjects href="Person.cbcclass#//@fields.3"/>
       </link>
     </children>
     <children visible="true" active="true">
@@ -227,7 +227,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Person/Person.cbcclass#//@fields.4"/>
+        <businessObjects href="Person.cbcclass#//@fields.4"/>
       </link>
     </children>
     <children visible="true" active="true">
@@ -236,13 +236,13 @@
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Person/Person.cbcclass#//@fields.5"/>
+        <businessObjects href="Person.cbcclass#//@fields.5"/>
       </link>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="100" x="170" y="230" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="100" x="320" y="230" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -301,7 +301,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(this.destinationReached); &#xD;&#xA;this.destinationReached = TRUE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(this.destinationReached);&#xD;&#xA;this.destinationReached = TRUE}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>

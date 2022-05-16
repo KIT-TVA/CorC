@@ -18,9 +18,11 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
@@ -137,6 +139,26 @@ public class KeYFileContent {
 				}
 				if(var.getKind() == VariableKind.PARAM && var.getName().contains("non-null")){
 					String varNameWithoutStaticNonNull = var.getName().replace("static", "").replace("non-null", "").trim();
+					String varDataType = varNameWithoutStaticNonNull.substring(0, varNameWithoutStaticNonNull.indexOf(" "));
+					String varName = varNameWithoutStaticNonNull.substring(varNameWithoutStaticNonNull.lastIndexOf(" ")).trim();
+					addNonNullProperties(varDataType, varName, false);
+				}
+			}
+			for (Parameter param : vars.getParams()) {
+				if (param.getName().equals("ret")) {
+					returnVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
+					returnVariable.setKind(VariableKind.RETURNPARAM);
+					returnVariable.setName(param.getType() + " " + param.getName());
+				}
+				programVariables += (param.getType() + " " + param.getName()).replace("static", "").replace("non-null", "") + "; ";
+				// if variable is an Array add <created> condition for key
+				if ((param.getType() + " " + param.getName()).contains("[]")) {
+					String varNameWithoutStaticNonNull = (param.getType() + " " + param.getName()).replace("static", "").replace("non-null", "").trim();
+					varNameWithoutStaticNonNull = varNameWithoutStaticNonNull.substring(varNameWithoutStaticNonNull.indexOf(" ") + 1);
+					conditionObjectsCreated += " & " + varNameWithoutStaticNonNull + ".<created>=TRUE";
+				}
+				if(!param.getName().equals("ret") && (param.getType() + " " + param.getName()).contains("non-null")){
+					String varNameWithoutStaticNonNull = (param.getType() + " " + param.getName()).replace("static", "").replace("non-null", "").trim();
 					String varDataType = varNameWithoutStaticNonNull.substring(0, varNameWithoutStaticNonNull.indexOf(" "));
 					String varName = varNameWithoutStaticNonNull.substring(varNameWithoutStaticNonNull.lastIndexOf(" ")).trim();
 					addNonNullProperties(varDataType, varName, false);

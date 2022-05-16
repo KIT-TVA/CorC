@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="ASCII"?>
 <cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Elevator" feature="ExecutiveFloor">
   <fields visibility="PRIVATE" type="int" name="executiveFloor"/>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/ExecutiveFloor/Elevator/isExecutiveFloor.diagram" name="isExecutiveFloor" returnType="boolean">
-    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/ExecutiveFloor/Elevator/isExecutiveFloor.cbcmodel#/0"/>
+  <methods cbcDiagramURI="isExecutiveFloor.diagram" name="isExecutiveFloor" returnType="boolean">
+    <cbcStartTriple href="isExecutiveFloor.cbcmodel#/0"/>
     <parameters type="int" name="floorID"/>
+    <parameters type="boolean" name="ret"/>
   </methods>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/ExecutiveFloor/Elevator/isExecutiveFloorCalling.diagram" name="isExecutiveFloorCalling" returnType="boolean">
-    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/ExecutiveFloor/Elevator/isExecutiveFloorCalling.cbcmodel#/0"/>
+  <methods cbcDiagramURI="isExecutiveFloorCalling.diagram" name="isExecutiveFloorCalling" returnType="boolean">
+    <cbcStartTriple href="isExecutiveFloorCalling.cbcmodel#/0"/>
+    <parameters type="boolean" name="ret"/>
   </methods>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/ExecutiveFloor/Elevator/stopRequestedAtCurrentFloor.diagram" name="stopRequestedAtCurrentFloor" returnType="boolean">
-    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/ExecutiveFloor/Elevator/stopRequestedAtCurrentFloor.cbcmodel#/0"/>
+  <methods cbcDiagramURI="stopRequestedAtCurrentFloor.diagram" name="stopRequestedAtCurrentFloor" returnType="boolean">
+    <cbcStartTriple href="stopRequestedAtCurrentFloor.cbcmodel#/0"/>
+    <parameters type="boolean" name="ret"/>
   </methods>
 </cbcclass:ModelClass>
