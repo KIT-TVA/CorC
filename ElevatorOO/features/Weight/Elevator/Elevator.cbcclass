@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
 <cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Elevator" feature="Weight">
-  <fields visibility="PRIVATE" type="int" name="weight"/>
   <fields visibility="PRIVATE" type="int" name="maximumWeight"/>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Weight/Elevator/leaveElevator.diagram" name="leaveElevator" returnType="boolean">
-    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Weight/Elevator/leaveElevator.cbcmodel#/0"/>
+  <methods cbcDiagramURI="enterElevator.diagram" name="enterElevator" returnType="void">
+    <cbcStartTriple href="enterElevator.cbcmodel#/0"/>
     <parameters type="Person" name="p"/>
   </methods>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Weight/Elevator/enterElevator.diagram" name="enterElevator" returnType="void">
-    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Weight/Elevator/enterElevator.cbcmodel#/0"/>
+  <methods cbcDiagramURI="leaveElevator.diagram" name="leaveElevator" returnType="boolean">
+    <cbcStartTriple href="leaveElevator.cbcmodel#/0"/>
     <parameters type="Person" name="p"/>
+    <parameters type="boolean" name="ret"/>
   </methods>
 </cbcclass:ModelClass>

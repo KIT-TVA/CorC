@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="resetFloorButton" proven="true" className="Elevator" methodName="resetFloorButton">
-    <statement name="statement">
-      <refinement name="this.floorButtons[floorID] = false;" proven="true">
+    <statement name="statement" id="0f65f23e-eb12-4e17-9080-30a3a0e3bb08">
+      <refinement name="this.floorButtons[floorID] = false;" proven="true" id="eae1ae76-a56f-448c-a6e6-bd5793b05ba1">
         <postCondition name="this.floorButtons[floorID] = FALSE"/>
         <preCondition name="floorID >= 0 &amp; this.floorButtons != null&amp; floorID &lt; this.floorButtons.length &amp; this.floorButtons != null"/>
       </refinement>
@@ -11,9 +11,7 @@
     </statement>
     <preCondition name="pre"/>
     <postCondition name="post"/>
-    <methodObj href="Elevator.cbcclass#//@methods.11"/>
+    <methodObj href="Elevator.cbcclass#//@methods.9"/>
   </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
-    <variables name="int floorID" kind="PARAM"/>
-  </cbcmodel:JavaVariables>
+  <cbcmodel:JavaVariables/>
 </xmi:XMI>

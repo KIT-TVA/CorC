@@ -11,7 +11,6 @@
 	</properties>
 	<struct>
 		<and mandatory="true" name="BankAccount">
-			<graphics key="collapsed" value="false"/>
 			<feature name="DailyLimit"/>
 			<feature name="Interest"/>
 			<feature name="Transaction"/>

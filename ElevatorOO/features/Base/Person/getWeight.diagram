@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="getWeight" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.4/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.3/@link //@children.1/@children.4/@link //@children.1/@children.5/@link //@children.1/@children.6/@link //@children.1/@children.7/@link //@children.1/@children.8/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.1/@link //@children.2/@children.2/@link //@children.2/@children.3/@link //@children.3/@link //@children.3/@children.0/@link" version="0.18.0">
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="getWeight" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.4/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.3/@link //@children.1/@children.4/@link //@children.1/@children.5/@link //@children.1/@children.6/@link //@children.1/@children.7/@link //@children.1/@children.8/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.1/@link //@children.2/@children.2/@link //@children.2/@children.3/@link" version="0.18.0">
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <link>
     <businessObjects href="getWeight.cbcmodel#/0"/>
@@ -130,7 +130,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="201" height="181" x="680" y="80" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="100" x="430" y="110" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -171,7 +171,7 @@
       <businessObjects href="getWeight.cbcmodel#/1"/>
     </link>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="201" height="22" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="12" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variablesName"/>
       </graphicsAlgorithm>
       <link>
@@ -181,77 +181,77 @@
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
-        <points y="22"/>
-        <points x="201" y="22"/>
+        <points y="12"/>
+        <points x="200" y="12"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="201" height="22" y="132" horizontalAlignment="ALIGNMENT_CENTER" value="PRIVATE int destination">
-        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
-        <properties key="org.eclipse.graphiti.pattern.id.index" value="5"/>
-      </graphicsAlgorithm>
-      <link>
-        <businessObjects href="file:/C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Person/Person.cbcclass#//@fields.0"/>
-      </link>
-    </children>
-    <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="201" height="22" y="110" horizontalAlignment="ALIGNMENT_CENTER" value="PRIVATE boolean destinationReached">
-        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
-        <properties key="org.eclipse.graphiti.pattern.id.index" value="4"/>
-      </graphicsAlgorithm>
-      <link>
-        <businessObjects href="file:/C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Person/Person.cbcclass#//@fields.1"/>
-      </link>
-    </children>
-    <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="201" height="22" y="88" horizontalAlignment="ALIGNMENT_CENTER" value="PRIVATE String name">
-        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
-        <properties key="org.eclipse.graphiti.pattern.id.index" value="3"/>
-      </graphicsAlgorithm>
-      <link>
-        <businessObjects href="file:/C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Person/Person.cbcclass#//@fields.2"/>
-      </link>
-    </children>
-    <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="201" height="22" y="66" horizontalAlignment="ALIGNMENT_CENTER" value="PRIVATE int weight">
-        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
-        <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
-      </graphicsAlgorithm>
-      <link>
-        <businessObjects href="file:/C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Person/Person.cbcclass#//@fields.3"/>
-      </link>
-    </children>
-    <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="201" height="22" y="44" horizontalAlignment="ALIGNMENT_CENTER" value="PRIVATE int origin">
-        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
-        <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
-      </graphicsAlgorithm>
-      <link>
-        <businessObjects href="file:/C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Person/Person.cbcclass#//@fields.4"/>
-      </link>
-    </children>
-    <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="201" height="22" y="22" horizontalAlignment="ALIGNMENT_CENTER" value="PRIVATE int[] additionalButtons">
-        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
-        <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
-      </graphicsAlgorithm>
-      <link>
-        <businessObjects href="file:/C:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Person/Person.cbcclass#//@fields.5"/>
-      </link>
-    </children>
-    <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="201" height="22" y="154" horizontalAlignment="ALIGNMENT_CENTER" value="RETURN int ret">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="12" y="84" horizontalAlignment="ALIGNMENT_CENTER" value="PRIVATE int destination">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="6"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="getWeight.cbcmodel#/1/@variables.0"/>
+        <businessObjects href="Person.cbcclass#//@fields.0"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="12" y="72" horizontalAlignment="ALIGNMENT_CENTER" value="PRIVATE boolean destinationReached">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="5"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="Person.cbcclass#//@fields.1"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="12" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="PRIVATE String name">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="4"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="Person.cbcclass#//@fields.2"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="12" y="48" horizontalAlignment="ALIGNMENT_CENTER" value="PRIVATE int weight">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="3"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="Person.cbcclass#//@fields.3"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="12" y="36" horizontalAlignment="ALIGNMENT_CENTER" value="PRIVATE int origin">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="Person.cbcclass#//@fields.4"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="12" y="24" horizontalAlignment="ALIGNMENT_CENTER" value="PRIVATE int[] additionalButtons">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="Person.cbcclass#//@fields.5"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="12" y="12" horizontalAlignment="ALIGNMENT_CENTER" value="RETURN int ret">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="Person.cbcclass#//@methods.4/@parameters.0"/>
       </link>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="100" x="270" y="260" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="100" x="90" y="290" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -359,64 +359,6 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postSep"/>
         <points x="100"/>
         <points x="100" y="100"/>
-      </graphicsAlgorithm>
-    </children>
-  </children>
-  <children xsi:type="pi:ContainerShape" visible="true" active="true">
-    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="100" x="390" y="50" cornerHeight="20" cornerWidth="20">
-      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
-      <renderingStyle>
-        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
-          <adaptedGradientColoredAreas styleAdaption="0">
-            <gradientColor>
-              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
-                <color red="212" green="231" blue="248"/>
-              </start>
-              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
-                <color red="250" green="251" blue="252"/>
-              </end>
-            </gradientColor>
-          </adaptedGradientColoredAreas>
-          <adaptedGradientColoredAreas styleAdaption="1">
-            <gradientColor>
-              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
-                <color red="129" green="185" blue="234"/>
-              </start>
-              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
-                <color red="170" green="208" blue="242"/>
-              </end>
-            </gradientColor>
-          </adaptedGradientColoredAreas>
-          <adaptedGradientColoredAreas styleAdaption="2">
-            <gradientColor>
-              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
-                <color red="187" green="218" blue="247"/>
-              </start>
-              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
-                <color red="197" green="224" blue="247"/>
-              </end>
-            </gradientColor>
-          </adaptedGradientColoredAreas>
-        </adaptedGradientColoredAreas>
-      </renderingStyle>
-    </graphicsAlgorithm>
-    <link>
-      <businessObjects href="getWeight.cbcmodel#/2"/>
-    </link>
-    <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="100" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Global Conditions">
-        <properties key="org.eclipse.graphiti.pattern.id.id" value="globalConditionsName"/>
-      </graphicsAlgorithm>
-      <link>
-        <businessObjects href="getWeight.cbcmodel#/2"/>
-      </link>
-    </children>
-    <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
-        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
-        <points y="100"/>
-        <points x="200" y="100"/>
       </graphicsAlgorithm>
     </children>
   </children>

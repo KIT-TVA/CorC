@@ -1,6 +1,6 @@
 public class Environment {
 
-    public Floor[] floors; // Base
+    public Floor[] floors;
 
 
 

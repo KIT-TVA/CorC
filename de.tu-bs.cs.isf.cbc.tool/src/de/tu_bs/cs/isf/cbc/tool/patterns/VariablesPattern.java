@@ -179,8 +179,9 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		JavaVariables variables = (JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement());
 		EList<Field> inheritedFields = null;
 		if (getDiagram().eResource().getURI().isPlatform()) {
+			String featureName = ((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI().segment(((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI().segmentCount() - 3);
 			String className = ((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI().segment(((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI().segmentCount() - 2);
-			Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI()), className);
+			Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);
 			if (((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
 				inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();	
 			}
@@ -218,18 +219,18 @@ public class VariablesPattern extends IdPattern implements IPattern {
 			EList<Field> fields = ((JavaVariables) context.getDomainObject()).getFields();
 			EList<Parameter> params = ((JavaVariables) context.getDomainObject()).getParams();
 			EList<Field> inheritedFields = null;
+			String className = ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 2);
+			String featureName = ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 4).equals("features") ? ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 3) : "";
+			String methodName = getDiagram().eResource().getURI().trimFileExtension().segment(getDiagram().eResource().getURI().segmentCount()-1);
 			if (getDiagram().eResource().getURI().isPlatform()) {
-				String className = ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 2);
-				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI()), className);
+				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);
 				if (((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
 					inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();	
 				}
 			}
 			// in some cases getFields/getParams do not return fields/params; backup via modelclass
 			if (fields.size() == 0 || params.size() == 0) {
-				String className = ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 2);
-				String methodName = getDiagram().eResource().getURI().trimFileExtension().segment(getDiagram().eResource().getURI().segmentCount()-1);
-				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI()), className);				
+				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);				
 				if (classResource != null && classResource.getContents().get(0) instanceof ModelClass) {
 					ModelClass mc = (ModelClass) classResource.getContents().get(0);
 					fields = mc.getFields();
@@ -297,12 +298,29 @@ public class VariablesPattern extends IdPattern implements IPattern {
 			EList<Field> fields = ((JavaVariables) context.getDomainObject()).getFields();
 			EList<Parameter> params = ((JavaVariables) context.getDomainObject()).getParams();
 			EList<Field> inheritedFields = null;
+			String className = ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 2);
+			String featureName = ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 4).equals("features") ? ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 3) : "";
+			String methodName = getDiagram().eResource().getURI().trimFileExtension().segment(getDiagram().eResource().getURI().segmentCount()-1);
 			if (getDiagram().eResource().getURI().isPlatform()) {
-				String className = ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 2);
-				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI()), className);
+				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);
 				if (((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
 					inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();	
 				}
+			}
+			
+			// in some cases getFields/getParams do not return fields/params; backup via modelclass
+			if (fields.size() == 0 || params.size() == 0) {
+				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);				
+				if (classResource != null && classResource.getContents().get(0) instanceof ModelClass) {
+					ModelClass mc = (ModelClass) classResource.getContents().get(0);
+					fields = mc.getFields();
+					for (de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method m : mc.getMethods()) {
+						if (m.getName().equals(methodName)) {
+							params = m.getParameters();
+							break;
+						}
+					}
+				}			
 			}
 			
 			List<Integer> checkedShapes = new ArrayList<>();

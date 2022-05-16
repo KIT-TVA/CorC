@@ -1,11 +1,11 @@
 public class Account {
 
-    public int OVERDRAFT_LIMIT; // BankAccount
-    public int balance; // BankAccount
-    public int withdraw; // DailyLimit
-    public int DAILY_LIMIT; // DailyLimit
-    public static int INTEREST_RATE; // Interest
-    public int interest; // Interest
+    public int OVERDRAFT_LIMIT;
+    public int balance;
+    public int DAILY_LIMIT;
+    public int withdraw;
+    public static int INTEREST_RATE;
+    public int interest;
 
     /*@ invariant balance >= OVERDRAFT_LIMIT; @*/
 
@@ -84,11 +84,11 @@ public class Account {
 	}
 
 	/*@
-	@ normal_behavior
-	@ requires true;
-	@ ensures (\result == false ==> (withdraw == \old(withdraw) &&  balance == \old(balance))) && (\result == true ==> (withdraw <= \old(withdraw)) &&  balance == \old(balance) + x);
-	@ assignable withdraw;
-	@*/
+    @ public normal_behavior
+    @ requires true;
+    @ ensures (\result == false ==> (withdraw == \old(withdraw) &&  balance == \old(balance))) && (\result == true ==> (withdraw <= \old(withdraw)) &&  balance == \old(balance) + x) && balance >= OVERDRAFT_LIMIT;
+    @ assignable withdraw;
+    @*/
 	public boolean update(int x) {
 		int newWithdraw;
 		boolean ret;
@@ -119,7 +119,7 @@ public class Account {
 	/*@
 	@ normal_behavior
 	@ requires true;
-	@ ensures (this.balance >= 0 ==> \result >= 0) && (this.balance <= 0 ==> \result <= 0);
+	@ ensures true;
 	@ assignable \nothing;
 	@*/
 	public int interestCalculate() {

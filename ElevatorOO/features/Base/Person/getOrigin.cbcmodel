@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="getOrigin" proven="true" className="Person" methodName="getOrigin">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.origin;" proven="true" comment="returnStatement">
+    <statement name="statement" id="c0b81c54-93db-451a-ac22-5b26d5db7ffd">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.origin;" proven="true" comment="returnStatement" id="020fd252-eb80-4467-b1e3-7b6bb7e285a3">
         <postCondition name="\result = this.origin"/>
         <preCondition name="true"/>
       </refinement>
@@ -11,9 +11,7 @@
     </statement>
     <preCondition name="pre"/>
     <postCondition name="post"/>
-    <methodObj href="Person.cbcclass#//@methods.2"/>
+    <methodObj href="Person.cbcclass#//@methods.3"/>
   </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
-    <variables name="int ret" kind="RETURN"/>
-  </cbcmodel:JavaVariables>
+  <cbcmodel:JavaVariables/>
 </xmi:XMI>

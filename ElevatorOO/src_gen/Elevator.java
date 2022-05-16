@@ -1,19 +1,17 @@
 public class Elevator {
 
-    public boolean[] floorButtons; // Base
-    private /*@spec_public@*/  boolean verbose; // Base
-    private /*@spec_public@*/  int currentHeading; // Base
-    private /*@spec_public@*/  int currentFloorID; // Base
-    private /*@spec_public@*/  int doors; // Base
-    private /*@spec_public@*/  Environment env; // Base
-    private /*@spec_public@*/  ArrayList persons; // Base
-    private /*@spec_public@*/  boolean blocked; // Base
-    private /*@spec_public@*/  boolean old_contains; // Base
-    private /*@spec_public@*/  int old_weight; // Base
-    private /*@spec_public@*/  int old_currentFloorID; // Base
-    private /*@spec_public@*/  int executiveFloor; // ExecutiveFloor
-    private /*@spec_public@*/  int weight; // Weight
-    private /*@spec_public@*/  int maximumWeight; // Weight
+    private /*@spec_public@*/  int old_currentFloorID;
+    public boolean[] floorButtons;
+    private /*@spec_public@*/  boolean verbose;
+    private /*@spec_public@*/  int currentHeading;
+    private /*@spec_public@*/  int currentFloorID;
+    private /*@spec_public@*/  int doors;
+    private /*@spec_public@*/  Environment env;
+    private /*@spec_public@*/  ArrayList persons;
+    private /*@spec_public@*/  boolean blocked;
+    private /*@spec_public@*/  boolean old_contains;
+    private /*@spec_public@*/  int old_weight;
+    private /*@spec_public@*/  int weight;
 
 
 
@@ -24,7 +22,6 @@ public class Elevator {
 	@ assignable \nothing;
 	@*/
 	public boolean areDoorsOpen() {
-		boolean result;
 		boolean ret;
 		ret = (this.doors == 0);
 		return ret;

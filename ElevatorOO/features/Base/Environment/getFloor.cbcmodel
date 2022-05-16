@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="getFloor" proven="true" className="Environment" methodName="getFloor">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.floors[id];" proven="true" comment="returnStatement">
+    <statement name="statement" id="f4bbff6f-c711-49fa-a72a-fe4de07726b3">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.floors[id];" proven="true" comment="returnStatement" id="639ca36d-67a7-490e-a089-427c9ca86408">
         <postCondition name="(id &lt; this.floors.length&amp; id >= 0) -> \result = this.floors[id]"/>
         <preCondition name="this.floors != null &amp; 0 &lt;= id &amp; id &lt; this.floors.length"/>
       </refinement>
@@ -13,9 +13,5 @@
     <postCondition name="post"/>
     <methodObj href="Environment.cbcclass#//@methods.1"/>
   </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
-    <variables name="int id" kind="PARAM"/>
-    <variables name="Floor ret" kind="RETURN"/>
-    <fields href="Environment.cbcclass#//@fields.0"/>
-  </cbcmodel:JavaVariables>
+  <cbcmodel:JavaVariables/>
 </xmi:XMI>

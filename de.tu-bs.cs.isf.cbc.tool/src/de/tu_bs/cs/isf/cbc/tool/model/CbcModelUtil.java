@@ -21,8 +21,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodClass;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodSignature;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 
 public class CbcModelUtil {
@@ -77,16 +75,6 @@ public class CbcModelUtil {
 	public static void saveRenamingToModelFile(Renaming renaming, Diagram d) throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(renaming);
-	}
-	
-	public static void saveClassToModelFile(MethodClass cbcclass, Diagram diagram) throws CoreException, IOException {
-		Resource resource = getResource(diagram);
-		resource.getContents().add(cbcclass);		
-	}
-
-	public static void saveSignatureToModelFile(MethodSignature signature, Diagram diagram) throws CoreException, IOException {
-		Resource resource = getResource(diagram);
-		resource.getContents().add(signature);			
 	}
 	
 	public static Resource getResource(Diagram d) throws CoreException, IOException {

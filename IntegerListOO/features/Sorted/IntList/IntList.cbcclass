@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="IntList" feature="Sorted">
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/IntegerListOO/features/Sorted/IntList/push.diagram" name="push" returnType="void">
-    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/IntegerListOO/features/Sorted/IntList/push.cbcmodel#/0"/>
+  <methods cbcDiagramURI="push.diagram" name="push" returnType="void">
+    <cbcStartTriple href="push.cbcmodel#/0"/>
     <parameters type="int" name="newTop"/>
   </methods>
 </cbcclass:ModelClass>

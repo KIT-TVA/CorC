@@ -1,6 +1,6 @@
 public class IntList {
 
-    public int[] data; // Base
+    public int[] data;
 
     /*@ invariant this != null; @*/
     /*@ invariant data != null; @*/
@@ -13,8 +13,8 @@ public class IntList {
 	@ assignable data[*];
 	@*/
 	public void original_original_push(int newTop) {
-		int[] tmp;
 		int i;
+		int[] tmp;
 		tmp = new int[data.length+1];
 		tmp[tmp.length-1] = newTop;
 		i = 0;
@@ -27,11 +27,11 @@ public class IntList {
 	}
 
 	/*@
-    @ public normal_behavior
-    @ requires true;
-    @ ensures (\exists int z;(0 <= z && z < data.length&& data[z] == newTop))&& (\forall int k; (0 <= k && k < \old(data).length==> (\exists int z; (0 <= z && z < data.length&& data[z] == \old(data)[k])))) && data[data.length - 1] == newTop && data[data.length - 1] == newTop && this != null && data != null;
-    @ assignable \nothing;
-    @*/
+	@ normal_behavior
+	@ requires true;
+	@ ensures (\exists int z;(0 <= z && z < data.length&& data[z] == newTop))&& (\forall int k; (0 <= k && k < \old(data).length==> (\exists int z; (0 <= z && z < data.length&& data[z] == \old(data)[k])))) && data[data.length - 1] == newTop && data[data.length - 1] == newTop;
+	@ assignable \nothing;
+	@*/
 	public void original_push(int newTop) {
 		original_original_push(newTop);
 

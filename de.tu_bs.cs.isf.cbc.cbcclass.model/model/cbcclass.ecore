@@ -62,7 +62,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="signature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         volatile="true" transient="true" derived="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="get" value="String staticString = isStatic ? &quot;static &quot; : &quot;&quot;;&#xD;&#xA;String params = &quot;&quot;;&#xD;&#xA;if (getParameters().size() > 0) {&#xD;&#xA;&#x9;for (Parameter param : parameters) {&#xD;&#xA;&#x9;&#x9;params += param.getType() + &quot; &quot; + param.getName() + &quot;,&quot;;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;params = params.substring(0, params.length()-1);&#xD;&#xA;}&#xD;&#xA;return visibility + &quot; &quot; + staticString + returnType + &quot; &quot; + name + &quot; (&quot; + params + &quot;)&quot;;"/>
+        <details key="get" value="String staticString = isStatic ? &quot;static &quot; : &quot;&quot;;&#x9;&#x9;String params = &quot;&quot;;&#x9;&#x9;if (getParameters().size() > 0) {&#x9;&#x9;&#x9;for (Parameter param : parameters) {&#x9;&#x9;&#x9;&#x9;if (!param.getName().equals(&quot;ret&quot;)) {&#x9;&#x9;&#x9;&#x9;&#x9;params += param.getType() + &quot; &quot; + param.getName() + &quot;, &quot;;&#x9;&#x9;&#x9;&#x9;}&#x9;&#x9;&#x9;}&#x9;&#x9;&#x9;params = params.substring(0, params.length() - 2);&#x9;&#x9;}&#x9;&#x9;return visibility.toString().toLowerCase() + &quot; &quot; + staticString + returnType + &quot; &quot; + name + &quot;(&quot; + params + &quot;)&quot;;"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isStatic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>

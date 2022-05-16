@@ -1,11 +1,11 @@
 public class Person {
 
-    private /*@spec_public@*/  int destination; // Base
-    private /*@spec_public@*/  boolean destinationReached; // Base
-    private /*@spec_public@*/  String name; // Base
-    private /*@spec_public@*/  int weight; // Base
-    private /*@spec_public@*/  int origin; // Base
-    private /*@spec_public@*/  int[] additionalButtons; // Base
+    private /*@spec_public@*/  int destination;
+    private /*@spec_public@*/  boolean destinationReached;
+    private /*@spec_public@*/  String name;
+    private /*@spec_public@*/  int weight;
+    private /*@spec_public@*/  int origin;
+    private /*@spec_public@*/  int[] additionalButtons;
 
 
 

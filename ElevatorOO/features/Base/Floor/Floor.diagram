@@ -3,7 +3,7 @@
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="350" height="291" x="460" y="70" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="350" height="291" x="140" y="30" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -59,6 +59,7 @@
       <link>
         <businessObjects href="Floor.cbcclass#/"/>
       </link>
+      <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
@@ -137,7 +138,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="335" y="410" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="530" y="30" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -177,18 +178,18 @@
     <link>
       <businessObjects href="Floor.cbcclass#//@methods.0"/>
     </link>
-    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.3"/>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.2"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{envx != null&amp; idx >= 0}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{person != null}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/createFloor.cbcmodel#/0/@statement/@preCondition"/>
+        <businessObjects href="addWaitingPerson.cbcmodel#/0/@statement/@preCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="150" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="public void createFloor(Environment envx, int idx)">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="150" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="public void addWaitingPerson(Person person)">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="signatureText"/>
       </graphicsAlgorithm>
       <link>
@@ -196,11 +197,11 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(this.env,this.thisFloorID,this.waiting);&#xD;&#xA;envx != null &amp; idx != null &amp; this.thisFloorID = idx &amp; this.env = envx &amp; this.waiting != null}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{this.hasCall() = TRUE &amp; this.waiting.contains(person) = TRUE}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/createFloor.cbcmodel#/0/@statement/@postCondition"/>
+        <businessObjects href="addWaitingPerson.cbcmodel#/0/@statement/@postCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
@@ -271,7 +272,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="900" y="220" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="530" y="190" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -311,18 +312,18 @@
     <link>
       <businessObjects href="Floor.cbcclass#//@methods.1"/>
     </link>
-    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.2"/>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.3"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{this.thisFloorID>= 0}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{true}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/getFloorID.cbcmodel#/0/@statement/@preCondition"/>
+        <businessObjects href="callElevator.cbcmodel#/0/@statement/@preCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="150" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="public int getFloorID()">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="150" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="public void callElevator()">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="signatureText"/>
       </graphicsAlgorithm>
       <link>
@@ -330,11 +331,11 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{\result = this.thisFloorID}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(this.elevatorCall);&#xD;&#xA;this.elevatorCall = TRUE}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/getFloorID.cbcmodel#/0/@statement/@postCondition"/>
+        <businessObjects href="callElevator.cbcmodel#/0/@statement/@postCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
@@ -395,7 +396,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -405,7 +406,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="900" y="50" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="-500" y="30" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -445,18 +446,18 @@
     <link>
       <businessObjects href="Floor.cbcclass#//@methods.2"/>
     </link>
-    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.1"/>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.5"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{true}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{envx != null&amp; idx >= 0}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/callElevator.cbcmodel#/0/@statement/@preCondition"/>
+        <businessObjects href="createFloor.cbcmodel#/0/@statement/@preCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="150" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="public void callElevator()">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="150" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="public void createFloor(Environment envx, int idx)">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="signatureText"/>
       </graphicsAlgorithm>
       <link>
@@ -464,11 +465,11 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(this.elevatorCall);&#xD;&#xA;this.elevatorCall = TRUE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(this.env,this.thisFloorID,this.waiting);&#xD;&#xA;envx != null &amp; idx != null &amp; this.thisFloorID = idx &amp; this.env = envx &amp; this.waiting != null}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/callElevator.cbcmodel#/0/@statement/@postCondition"/>
+        <businessObjects href="createFloor.cbcmodel#/0/@statement/@postCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
@@ -529,7 +530,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -539,7 +540,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="670" y="-120" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="-500" y="190" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -579,18 +580,18 @@
     <link>
       <businessObjects href="Floor.cbcclass#//@methods.3"/>
     </link>
-    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.0"/>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.6"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{true}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{this.thisFloorID>= 0}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/reset.cbcmodel#/0/@statement/@preCondition"/>
+        <businessObjects href="getFloorID.cbcmodel#/0/@statement/@preCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="150" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="public void reset()">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="150" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="public int getFloorID()">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="signatureText"/>
       </graphicsAlgorithm>
       <link>
@@ -598,11 +599,11 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(this.elevatorCall);&#xD;&#xA;this.elevatorCall = FALSE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{\result = this.thisFloorID}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/reset.cbcmodel#/0/@statement/@postCondition"/>
+        <businessObjects href="getFloorID.cbcmodel#/0/@statement/@postCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
@@ -663,7 +664,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -673,7 +674,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" y="-120" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="15" y="350" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -713,13 +714,13 @@
     <link>
       <businessObjects href="Floor.cbcclass#//@methods.4"/>
     </link>
-    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.5"/>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.4"/>
     <children visible="true" active="true">
       <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{true}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/hasCall.cbcmodel#/0/@statement/@preCondition"/>
+        <businessObjects href="hasCall.cbcmodel#/0/@statement/@preCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
@@ -736,7 +737,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/hasCall.cbcmodel#/0/@statement/@postCondition"/>
+        <businessObjects href="hasCall.cbcmodel#/0/@statement/@postCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
@@ -797,7 +798,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -807,7 +808,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="-230" y="50" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="330" y="-136" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -847,13 +848,13 @@
     <link>
       <businessObjects href="Floor.cbcclass#//@methods.5"/>
     </link>
-    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.6"/>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.1"/>
     <children visible="true" active="true">
       <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{true}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/processWaitingPersons.cbcmodel#/0/@statement/@preCondition"/>
+        <businessObjects href="processWaitingPersons.cbcmodel#/0/@statement/@preCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
@@ -870,7 +871,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/processWaitingPersons.cbcmodel#/0/@statement/@postCondition"/>
+        <businessObjects href="processWaitingPersons.cbcmodel#/0/@statement/@postCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
@@ -941,7 +942,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="-230" y="220" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="-300" y="-136" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -981,18 +982,18 @@
     <link>
       <businessObjects href="Floor.cbcclass#//@methods.6"/>
     </link>
-    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.4"/>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.0"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{person != null}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{true}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/addWaitingPerson.cbcmodel#/0/@statement/@preCondition"/>
+        <businessObjects href="reset.cbcmodel#/0/@statement/@preCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="150" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="public void addWaitingPerson(Person person)">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="150" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="public void reset()">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="signatureText"/>
       </graphicsAlgorithm>
       <link>
@@ -1000,11 +1001,11 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{this.hasCall() = TRUE &amp; this.waiting.contains(person) = TRUE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(this.elevatorCall);&#xD;&#xA;this.elevatorCall = FALSE}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/ElevatorOO/features/Base/Floor/addWaitingPerson.cbcmodel#/0/@statement/@postCondition"/>
+        <businessObjects href="reset.cbcmodel#/0/@statement/@postCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
@@ -1065,7 +1066,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -1073,7 +1074,7 @@
       </link>
     </children>
   </children>
-  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.4/@anchors.0">
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.7/@anchors.0">
     <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED"/>
     <connectionDecorators visible="true" locationRelative="true" location="1.0">
       <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED">
@@ -1083,17 +1084,7 @@
       </graphicsAlgorithm>
     </connectionDecorators>
   </connections>
-  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.3/@anchors.0">
-    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED"/>
-    <connectionDecorators visible="true" locationRelative="true" location="1.0">
-      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED">
-        <points x="-15" y="10"/>
-        <points/>
-        <points x="-15" y="-10"/>
-      </graphicsAlgorithm>
-    </connectionDecorators>
-  </connections>
-  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.2/@anchors.0">
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.6/@anchors.0">
     <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED"/>
     <connectionDecorators visible="true" locationRelative="true" location="1.0">
       <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED">
@@ -1113,7 +1104,7 @@
       </graphicsAlgorithm>
     </connectionDecorators>
   </connections>
-  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.7/@anchors.0">
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.2/@anchors.0">
     <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED"/>
     <connectionDecorators visible="true" locationRelative="true" location="1.0">
       <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED">
@@ -1133,7 +1124,17 @@
       </graphicsAlgorithm>
     </connectionDecorators>
   </connections>
-  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.6/@anchors.0">
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.3/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@anchors.0" end="//@children.4/@anchors.0">
     <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED"/>
     <connectionDecorators visible="true" locationRelative="true" location="1.0">
       <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED">

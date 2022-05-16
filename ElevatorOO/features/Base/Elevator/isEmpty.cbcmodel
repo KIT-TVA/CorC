@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="isEmpty" proven="true" className="Elevator" methodName="isEmpty">
-    <statement name="statement" proven="true">
-      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.persons.isEmpty();" proven="true" comment="returnStatement">
+    <statement name="statement" id="578a20ff-affa-4bec-a2f4-973c128e022f">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.persons.isEmpty();" proven="true" comment="returnStatement" id="cf4fd512-85fc-4538-9c5b-416e3343be9f">
         <postCondition name="\result = this.persons.isEmpty()"/>
         <preCondition name="this.persons != null"/>
       </refinement>
@@ -11,9 +11,7 @@
     </statement>
     <preCondition name="pre"/>
     <postCondition name="post"/>
-    <methodObj href="Elevator.cbcclass#//@methods.8"/>
+    <methodObj href="Elevator.cbcclass#//@methods.7"/>
   </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
-    <variables name="boolean ret" kind="RETURN"/>
-  </cbcmodel:JavaVariables>
+  <cbcmodel:JavaVariables/>
 </xmi:XMI>

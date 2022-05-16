@@ -33,8 +33,11 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+<<<<<<< HEAD
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
+=======
+>>>>>>> d5152824 (fixes after merges; update of case studies, they now support relative paths)
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement;
@@ -67,11 +70,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     static int configs = 0;
     static boolean isVariational = false;
     static String configName = "";
-<<<<<<< HEAD
     static VerifyStatement verifyStmt;
     static GenerateCodeForVariationalVerification genCode;
-=======
->>>>>>> ab792cc1 (SPLs: Generation of prove files for every configuration in folders; Statistic view NOT working for SPL projects)
     /**
      * Constructor of the class
      * @param fp	The FeatureProvider
@@ -287,7 +287,6 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 	private static boolean proveAbstractStatement(AbstractStatement statement, Diagram diagram, boolean returnStatement, IProgressMonitor monitor) {
 		if (!statement.isProven()) {
 			boolean proven = false;
-<<<<<<< HEAD
 			DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
 			String uri = diagram.eResource().getURI().toPlatformString(true);
 			if (!isVariational) {
@@ -310,42 +309,6 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 					} else {
 						Console.println("  Statement is not in correct format.");
 					}
-=======
-		if (!isVariational) {
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), "");
-			proven = prove.proveStatementWithKey(returnStatement, false, proveFileNumber, URI.createPlatformResourceURI(uri, true).segment( URI.createPlatformResourceURI(uri, true).segmentCount() - 2), false);
-		} else {
-			URI uRi = URI.createPlatformResourceURI(uri, true);
-			String callingFeature = uri.split("/")[3];
-			String callingClass = uri.split("/")[4];
-			String callingMethod = uri.split("/")[5].split("\\.")[0];
-			String stmt = statement.getName();
-			String varM = "";
-			String[][] featureConfigsRelevant = null;
-			if (!stmt.contains("original(") && stmt.matches(".*\\(.*\\).*")) { // contains method call and not original
-				varM = verifyStmt.handleVarM(Parser.extractMethodNameFromStatemtent(stmt), callingClass, vars);
-				if (varM.endsWith("."))	varM = "";
-				featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, varM, false, callingClass, true);
-			} else { // original or normal statement
-				featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true);
-			}
-			String varMParts[] = varM.split("\\.");
-			if (featureConfigsRelevant != null) {
-				String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, varM.contains(".") ? varMParts[0] : callingClass);
-				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), configName);
-						if (!varM.equals("")) {
-							List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], varMParts[1].toLowerCase());
-							List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], varMParts[1].toLowerCase());
-							proven = prove.proveStatementWithKey(refinements, refinementsVars, returnStatement, false, proveFileNumber++, callingMethod, varM, callingClass, false);
-						} else {
-							List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
-							List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], callingMethod);
-							proven = prove.proveStatementWithKey(refinements, refinementsVars, returnStatement, false, proveFileNumber++, callingMethod, varMParts[0], callingClass, false);
-						}
-				} else {
-					Console.println("  Statement is not in correct format.");
->>>>>>> ab792cc1 (SPLs: Generation of prove files for every configuration in folders; Statistic view NOT working for SPL projects)
 				}
 			}
 			if (proven && configs == configNum) {
@@ -371,13 +334,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			if (!selectionStatement.isPreProve()) {
 				EList<Condition> guards = selectionStatement.getGuards();
 				Condition preCondition = selectionStatement.getParent().getPreCondition();
-<<<<<<< HEAD
 				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(diagram.eResource().getURI().toPlatformString(true)), configName);
 				provePre = prove.provePreSelWithKey(guards, preCondition);
-=======
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), configName);
-				provePre = prove.provePreSelWithKey(guards, preCondition, proveFileNumber++);
->>>>>>> ab792cc1 (SPLs: Generation of prove files for every configuration in folders; Statistic view NOT working for SPL projects)
 				if (configs == configNum) selectionStatement.setPreProve(provePre);
 			}
 			if (provePre && proven && true && configs == configNum) {
@@ -408,11 +366,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			Condition postCondition = repStatement.getParent().getPostCondition();
 			String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, false);
 			Variant variant = repStatement.getVariant();
-<<<<<<< HEAD
 			ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(diagram.eResource().getURI().toPlatformString(true)), configName);
-=======
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), configName);
->>>>>>> ab792cc1 (SPLs: Generation of prove files for every configuration in folders; Statistic view NOT working for SPL projects)
 			if (!provePre) {
 				provePre = prove.proveCImpliesCWithKey(preCondition, invariant);
 				if (configs == configNum) repStatement.setPreProven(provePre);

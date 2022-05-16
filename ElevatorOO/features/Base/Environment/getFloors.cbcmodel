@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="getFloors" proven="true" className="Environment" methodName="getFloors">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:ReturnStatement" name="&#xD;&#xA;this.floors;" proven="true" comment="returnStatement">
+    <statement name="statement" id="88602815-b828-448d-b546-a8405e4c37a9">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.floors;" proven="true" comment="returnStatement" id="ae80c8fc-9f37-49a2-8f57-a033f8a6ed93">
         <postCondition name="\result = this.floors"/>
         <preCondition name="this.floors != null"/>
       </refinement>
@@ -13,8 +13,5 @@
     <postCondition name="post"/>
     <methodObj href="Environment.cbcclass#//@methods.2"/>
   </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
-    <variables name="Floor[] ret" kind="RETURN"/>
-    <fields href="Environment.cbcclass#//@fields.0"/>
-  </cbcmodel:JavaVariables>
+  <cbcmodel:JavaVariables/>
 </xmi:XMI>

@@ -109,9 +109,6 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 */
 	@Override
 	public EList<Field> getFields() {
-		//eResource().getResourceSet();
-		//eInternalResource();
-		//eInternalResource().getResourceSet();
 		if (eDirectResource() != null) {
 			if (eDirectResource().getResourceSet() != null) {
 				if (eDirectResource().getResourceSet().getResources() != null) {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="getCurrentDirection" proven="true" className="Elevator" methodName="getCurrentDirection">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.currentHeading;" proven="true" comment="returnStatement">
+    <statement name="statement" id="e3529477-7be8-403f-878b-2ff190af8ad5">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.currentHeading;" proven="true" comment="returnStatement" id="e5e1eccc-8f25-45b3-b563-341c7adf9a36">
         <postCondition name="\result = this.currentHeading"/>
         <preCondition name="this.currentHeading >= 0 &amp; this.currentHeading &lt;= 1"/>
       </refinement>
@@ -11,9 +11,7 @@
     </statement>
     <preCondition name="pre"/>
     <postCondition name="post"/>
-    <methodObj href="Elevator.cbcclass#//@methods.4"/>
+    <methodObj href="Elevator.cbcclass#//@methods.3"/>
   </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
-    <variables name="int ret" kind="RETURN"/>
-  </cbcmodel:JavaVariables>
+  <cbcmodel:JavaVariables/>
 </xmi:XMI>

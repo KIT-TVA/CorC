@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="stopRequestedAtCurrentFloor" proven="true" className="Elevator" methodName="stopRequestedAtCurrentFloor">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
-        <firstStatement name="statement1">
-          <refinement name="result = false;" proven="true">
+    <statement name="statement" id="bc3908e7-eaea-4b14-9bff-e6e8b89eded0">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="4fc8238d-aa1a-4a9f-855e-cc21635732e6">
+        <firstStatement name="statement1" id="a7ec5c9a-367d-4522-bc0a-00138c52ca49">
+          <refinement name="result = false;" proven="true" id="275cdbf8-97b2-42bb-8e95-94d534765357">
             <postCondition name="modifiable(result);&#xD;&#xA;result = FALSE"/>
             <preCondition name="this.currentFloorID >= 0"/>
           </refinement>
           <postCondition name="modifiable(result);&#xD;&#xA;result = FALSE"/>
           <preCondition name="this.currentFloorID >= 0"/>
         </firstStatement>
-        <secondStatement name="statement2">
-          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
-            <firstStatement name="statement1">
-              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+        <secondStatement name="statement2" id="3daf13ff-bc6a-4065-ae6e-c66e45ffe4bd">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="2913b344-d51f-44ef-a98f-c599400b66ec">
+            <firstStatement name="statement1" id="0dcf8c96-da12-4d89-8e36-bc1676725f4a">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="b1a0d84b-21eb-4485-b7dd-3606ebb73a40" preProve="true">
                 <guards name="this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE"/>
                 <guards name="this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE"/>
-                <commands name="statement">
-                  <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true">
+                <commands name="statement" id="f0b9226e-0950-4303-acb4-4beacc9633b5">
+                  <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true" id="d622c69e-6409-4e0e-aa2e-31b3b1db1462">
                     <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.original_stopRequestedAtCurrentFloor()"/>
                     <preCondition name="modifiable(result);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE)"/>
                   </refinement>
                   <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.original_stopRequestedAtCurrentFloor()"/>
                   <preCondition name="modifiable(result);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE)"/>
                 </commands>
-                <commands name="statement">
-                  <refinement name="result = true;" proven="true">
+                <commands name="statement" id="e224581d-738b-425f-8098-db836dcde9fe">
+                  <refinement name="result = true;" proven="true" id="83572746-685a-4e3a-bc2f-953164a164ec">
                     <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.original_stopRequestedAtCurrentFloor()"/>
                     <preCondition name="modifiable(result);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE)"/>
                   </refinement>
@@ -37,8 +37,8 @@
               <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.original_stopRequestedAtCurrentFloor()"/>
               <preCondition name="modifiable(result);&#xD;&#xA;result = FALSE"/>
             </firstStatement>
-            <secondStatement name="statement2">
-              <refinement xsi:type="cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement">
+            <secondStatement name="statement2" id="83e8d605-bbf0-4fe9-b115-50ca3169534a">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement" id="9d8e850f-2c7a-432b-8cce-4fc834029219">
                 <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> \result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> \result = this.original_stopRequestedAtCurrentFloor()"/>
                 <preCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.original_stopRequestedAtCurrentFloor()"/>
               </refinement>
@@ -60,8 +60,6 @@
     <methodObj href="Elevator.cbcclass#//@methods.2"/>
   </cbcmodel:CbCFormula>
   <cbcmodel:JavaVariables>
-    <variables name="boolean ret" kind="RETURN"/>
     <variables name="boolean result"/>
-    <fields href="Elevator.cbcclass#//@fields.0"/>
   </cbcmodel:JavaVariables>
 </xmi:XMI>

@@ -2,13 +2,15 @@
 <cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Account" feature="BankAccount">
   <fields type="int" name="OVERDRAFT_LIMIT" isFinal="true"/>
   <fields type="int" name="balance"/>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/BankAccountOO/features/BankAccount/Account/update.diagram" name="update" returnType="boolean">
-    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/BankAccountOO/features/BankAccount/Account/update.cbcmodel#/0"/>
+  <methods cbcDiagramURI="update.diagram" name="update" returnType="boolean">
+    <cbcStartTriple href="update.cbcmodel#/0"/>
     <parameters type="int" name="x"/>
+    <parameters type="boolean" name="ret"/>
   </methods>
-  <methods cbcDiagramURI="c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/BankAccountOO/features/BankAccount/Account/undoUpdate.diagram" name="undoUpdate" returnType="boolean">
-    <cbcStartTriple href="file:/c:/Users/mko/Documents/ISF/branchProjektarbeit/CorC/BankAccountOO/features/BankAccount/Account/undoUpdate.cbcmodel#/0"/>
+  <methods cbcDiagramURI="undoUpdate.diagram" name="undoUpdate" returnType="boolean">
+    <cbcStartTriple href="undoUpdate.cbcmodel#/0"/>
     <parameters type="int" name="x"/>
+    <parameters type="boolean" name="ret"/>
   </methods>
   <classInvariants name="balance >= OVERDRAFT_LIMIT"/>
 </cbcclass:ModelClass>

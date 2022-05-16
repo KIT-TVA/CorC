@@ -78,7 +78,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
         eType="ecore:EClass ../../de.tu_bs.cs.isf.cbc.cbcclass.model/model/cbcclass.ecore#//Field">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="get" value="if (eDirectResource() != null) { if (eDirectResource().getResourceSet() != null) {  if (eDirectResource().getResourceSet().getResources() != null) { EList&lt;Resource> resources = eDirectResource().getResourceSet().getResources(); EList&lt;EObject> content = resources.get(resources.size() - 1).getContents(); for (EObject o : content) { if (o instanceof ModelClass) { return ((ModelClass) o).getFields(); }}}}} if (fields == null) { fields = new EObjectResolvingEList&lt;Field>(Field.class, this, CbcmodelPackage.JAVA_VARIABLES__FIELDS); } return fields;"/>
+        <details key="get" value="if (eDirectResource() != null) { &#x9;&#x9;&#x9;if (eDirectResource().getResourceSet() != null) { &#x9;&#x9;&#x9;&#x9;if (eDirectResource().getResourceSet().getResources() != null) { &#x9;&#x9;&#x9;&#x9;&#x9;EList&lt;Resource> resources = eDirectResource().getResourceSet().getResources(); &#x9;&#x9;&#x9;&#x9;&#x9;URI uri = eDirectResource().getURI(); &#x9;&#x9;&#x9;&#x9;&#x9;uri = uri.trimSegments(1); &#x9;&#x9;&#x9;&#x9;&#x9;uri = uri.appendSegment(uri.lastSegment() + &quot;.cbcclass&quot;); &#x9;&#x9;&#x9;&#x9;&#x9;for (Resource res : resources) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if (res.getURI().equals(uri)) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;EList&lt;EObject> content = res.getContents(); &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for (EObject o : content) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if (o instanceof ModelClass) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;return ((ModelClass) o).getFields(); &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;} &#x9;&#x9;}&#x9; &#x9;&#x9;if (fields == null) { &#x9;&#x9;&#x9;fields = new EObjectResolvingEList&lt;Field>(Field.class, this, CbcmodelPackage.JAVA_VARIABLES__FIELDS); &#x9;&#x9;} &#x9;&#x9;return fields;"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
@@ -124,10 +124,6 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="renaming" eType="#//Renaming"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="methodsignature" eType="#//MethodSignature"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="methodClass" eType="#//MethodClass"
-        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StrengthWeakStatement" eSuperTypes="#//AbstractStatement"/>
   <eClassifiers xsi:type="ecore:EEnum" name="VariableKind">
@@ -142,12 +138,6 @@
     <eLiterals name="CONTRACT_OVERRIDING"/>
     <eLiterals name="EXPLICIT_CONTRACTING" value="1"/>
     <eLiterals name="CONJUNCTIVE_CONTRACTING" value="2" literal="CONJUNCTIVE_CONTRACTING"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MethodSignature">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodSignature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MethodClass">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodClass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OriginalStatement" eSuperTypes="#//AbstractStatement"/>
 </ecore:EPackage>
