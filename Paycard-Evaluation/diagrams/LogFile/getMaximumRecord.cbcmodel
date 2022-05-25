@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="getMaximumRecord">
+    <statement name="statement" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1">
+          <refinement name="max = a.logArray.get(0);&#xD;&#xA;i=1;" context="none" typeableResult="true" tyleableText="max = a.logArray.get(0): Security levels are equal.&#xA;i = 1: target SL is higher than value SL. (using local promotion)">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+            <postCondition name=""/>
+            <preCondition name="intermediateCond"/>
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" context="none">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="intermediateCond"/>
+                <loopStatement name="loop">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="high">
+                    <postCondition name=""/>
+                    <preCondition name="(invariant) &amp; (i&lt;a.logArray.size())"/>
+                    <firstStatement name="statement1">
+                      <refinement name="i +=1;" context="high" typeableResult="true" tyleableText="i += 1: target SL is higher than value SL. (using local promotion)">
+                        <postCondition name="intermediateCond"/>
+                        <preCondition name="(invariant) &amp; (i&lt;a.logArray.size())"/>
+                      </refinement>
+                      <postCondition name="intermediateCond"/>
+                      <preCondition name="(invariant) &amp; (i&lt;a.logArray.size())"/>
+                    </firstStatement>
+                    <secondStatement name="statement2">
+                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="high">
+                        <postCondition name="invariant"/>
+                        <preCondition name="intermediateCond"/>
+                        <guards name="lr.getBalance() > max.getBalance()"/>
+                        <commands name="statement">
+                          <refinement name="max = lr;" context="high" typeableResult="true" tyleableText="max = lr: Security levels are equal.">
+                            <postCondition name="invariant"/>
+                            <preCondition name="(intermediateCond) &amp; (lr.getBalance() > max.getBalance())"/>
+                          </refinement>
+                          <postCondition name="invariant"/>
+                          <preCondition name="(intermediateCond) &amp; (lr.getBalance() > max.getBalance())"/>
+                        </commands>
+                      </refinement>
+                      <postCondition name="invariant"/>
+                      <preCondition name="intermediateCond"/>
+                    </secondStatement>
+                    <intermediateCondition name="intermediateCond"/>
+                  </refinement>
+                  <postCondition name="invariant"/>
+                  <preCondition name="(invariant) &amp; (i&lt;a.logArray.size())"/>
+                </loopStatement>
+                <variant name="variant"/>
+                <invariant name="invariant"/>
+                <guard name="i&lt;a.logArray.size()"/>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement name="return max;" context="none" typeableResult="true" tyleableText="max: Return is typeable since defined method return type SL (high) for method getMaximumRecord() and SL of returned object  (high) is equal.">
+                <postCondition name="post"/>
+                <preCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="post"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:MethodLink className="LogFile" methodSignature="LogRecord getMaximumRecord()"/>
+  <cbcmodel:JavaVariables>
+    <variables name="a" confidentiality="low" type="LogFile" modifier="read"/>
+    <variables name="max" confidentiality="high" type="LogRecord" modifier="imm"/>
+    <variables name="i" confidentiality="high" type="int" modifier="imm"/>
+    <variables name="lr" confidentiality="high" type="LogRecord" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

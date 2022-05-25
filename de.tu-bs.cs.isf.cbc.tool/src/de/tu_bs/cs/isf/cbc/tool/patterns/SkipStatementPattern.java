@@ -49,6 +49,7 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 	private static final String ID_PRE_TEXT = "preNameText";
 	private static final String ID_POST_TEXT = "postNameText";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
+	private static final String ID_IMAGE_CONTEXT = "imageContext";
 	//Headers:
 	private static final String ID_PRE_HEADER = "preHeader";
 	private static final String ID_POST_HEADER = "postHeader";
@@ -91,10 +92,10 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 		SkipStatement statement = CbcmodelFactory.eINSTANCE.createSkipStatement();
 		statement.setName(";");
 		Condition pre = CbcmodelFactory.eINSTANCE.createCondition();
-		pre.setName("");
+		pre.setName("{}");
 		statement.setPreCondition(pre);
 		Condition post = CbcmodelFactory.eINSTANCE.createCondition();
-		post.setName("");
+		post.setName("{}");
 		statement.setPostCondition(post);
 		
 		addGraphicalRepresentation(context, statement);
@@ -144,13 +145,13 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 		statementNameText.setFont(headerFont);
 		
 		Shape preShape = peCreateService.createShape(outerContainerShape, false);
-		MultiText preNameText = gaService.createMultiText(preShape, "{" + addedStatement.getPreCondition().getName() + "}");
+		MultiText preNameText = gaService.createMultiText(preShape, addedStatement.getPreCondition().getName());
 		setId(preNameText, ID_PRE_TEXT);
 		preNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		preNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		
 		Shape postShape = peCreateService.createShape(outerContainerShape, false);
-		MultiText postNameText = gaService.createMultiText(postShape, "{" + addedStatement.getPostCondition().getName() + "}");
+		MultiText postNameText = gaService.createMultiText(postShape, addedStatement.getPostCondition().getName());
 		setId(postNameText, ID_POST_TEXT);
 		postNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		postNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
@@ -226,6 +227,9 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
+			changesDone = true;
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 20, 10, 15, 15);
 			changesDone = true;
 		} else if (id.equals(ID_PRE_HEADER)) {
 			Graphiti.getGaService().setLocationAndSize(ga, 0, positionHeader, halfWidth, sizeHeader);

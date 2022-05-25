@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="addRecord">
+    <statement name="statement" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1">
+          <refinement name="a.currentRecord +=1;" context="none" typeableResult="true" tyleableText="a.currentRecord += 1: target SL is higher than value SL. (using local promotion)">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+            <postCondition name=""/>
+            <preCondition name="intermediateCond"/>
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="intermediateCond"/>
+                <guards name="a.currentRecord == a.logFileSize"/>
+                <commands name="statement">
+                  <refinement name="a.currentRecord = 0;" context="high" typeableResult="true" tyleableText="a.currentRecord = 0: target SL is higher than value SL. (using local promotion)">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="(intermediateCond) &amp; (a.currentRecord == a.logFileSize)"/>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="(intermediateCond) &amp; (a.currentRecord == a.logFileSize)"/>
+                </commands>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement name="tmp = a.logArray.get(a.currentRecord);&#xD;&#xA;tmp.setRecord(balance);" context="none" typeableResult="true" tyleableText="tmp = a.logArray.get(a.currentRecord): Security levels are equal.&#xA;tmp.setRecord(balance): Method  tmp.setRecord(balance) is typeable.">
+                <postCondition name="post"/>
+                <preCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="post"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+    <security level="high" mutationModifier="CAPSULE"/>
+    <security level="high" mutationModifier="CAPSULE"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:MethodLink className="LogFile" methodSignature="void addRecord(int)"/>
+  <cbcmodel:JavaVariables>
+    <variables name="balance" confidentiality="high" type="int" modifier="imm"/>
+    <variables name="a" confidentiality="low" type="LogFile" modifier="mut"/>
+    <variables name="tmp" confidentiality="high" type="LogRecord" modifier="mut"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

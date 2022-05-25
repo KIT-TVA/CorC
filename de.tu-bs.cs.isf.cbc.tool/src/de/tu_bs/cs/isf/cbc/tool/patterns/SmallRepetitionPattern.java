@@ -54,6 +54,7 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 	private static final String ID_PRE_TEXT = "preNameText";
 	private static final String ID_POST_TEXT = "postNameText";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
+	private static final String ID_IMAGE_CONTEXT = "imageContext";
 	//Headers:
 	private static final String ID_VARIANT_HEADER = "variantHeader";
 	private static final String ID_INVARIANT_HEADER = "invariantHeader";
@@ -216,6 +217,7 @@ manageColor(IColorConstant.DARK_GREEN);
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
 		setId(image, ID_IMAGE_PROVEN);
+		
 		//HEADER:
 		Shape variantHeader = peCreateService.createShape(outerContainerShape, false);
 		Text variantNameHeader = gaService.createText(variantHeader, "variant");
@@ -334,6 +336,9 @@ manageColor(IColorConstant.DARK_GREEN);
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
+			changesDone = true;
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 20, 10, 15, 15);
 			changesDone = true;
 		//HEADERS:
 		} else if (id.equals(ID_VARIANT_HEADER)) {

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:MethodLink className="Client" methodSignature="void incoming(Client, Email)"/>
+  <cbcmodel:CbCFormula name="Client_incoming">
+    <statement name="statement" context="low" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name="">
+          <confToVarsMap key="intermediateBool" value="/1/@security.100"/>
+        </postCondition>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1" context="low">
+          <refinement name="privkey = client.getPrivateKey();&#xD;&#xA;intermediateBool = msg.isEncrypted();&#xD;&#xA;intermediateInt = msg.getEmailEncryptionKey();" context="none" typeableResult="true" tyleableText="privkey = client.getPrivateKey(): Security levels are equal.&#xA;intermediateBool = msg.isEncrypted(): target SL is lower than value SL. (using SEC-PROM)&#xA;intermediateInt = msg.getEmailEncryptionKey(): Security levels are equal.">
+            <postCondition name="intermediateCond">
+              <confToVarsMap key="intermediateBool" value="/1/@security.96"/>
+            </postCondition>
+            <preCondition name="pre"/>
+          </refinement>
+          <postCondition name="intermediateCond">
+            <confToVarsMap key="privkey" value="/1/@security.35"/>
+            <confToVarsMap key="intermediateInt" value="/1/@security.37"/>
+            <confToVarsMap key="intermediateBool" value="/1/@security.36"/>
+          </postCondition>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2" context="low">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+            <postCondition name="">
+              <confToVarsMap key="intermediateBool" value="/1/@security.100"/>
+            </postCondition>
+            <preCondition name="intermediateCond">
+              <confToVarsMap key="intermediateBool" value="/1/@security.96"/>
+            </preCondition>
+            <firstStatement name="statement1" context="low">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+                <postCondition name="intermediateCond">
+                  <confToVarsMap key="intermediateBool" value="/1/@security.99"/>
+                </postCondition>
+                <preCondition name="intermediateCond">
+                  <confToVarsMap key="intermediateBool" value="/1/@security.96"/>
+                </preCondition>
+                <guards name="privkey != 0"/>
+                <commands name="statement" context="high">
+                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="high">
+                    <postCondition name="intermediateCond">
+                      <confToVarsMap key="intermediateBool" value="/1/@security.98"/>
+                    </postCondition>
+                    <preCondition name="(intermediateCond) &amp; (guard)">
+                      <confToVarsMap key="intermediateBool" value="/1/@security.96"/>
+                    </preCondition>
+                    <guards name="msg.isEncrypted() &amp;&amp; isKeyPairValid(msg.getEmailEncryptionKey(), privkey)"/>
+                    <commands name="statement" context="high">
+                      <refinement name="intermediateBool = false;" context="high" typeableResult="true" tyleableText="intermediateBool = false: target SL is higher than value SL. (using local promotion)">
+                        <postCondition name="intermediateCond">
+                          <confToVarsMap key="intermediateBool" value="/1/@security.97"/>
+                        </postCondition>
+                        <preCondition name="((intermediateCond) &amp; (guard)) &amp; (guard)">
+                          <confToVarsMap key="intermediateBool" value="/1/@security.96"/>
+                        </preCondition>
+                      </refinement>
+                      <postCondition name="intermediateCond">
+                        <confToVarsMap key="privkey" value="/1/@security.35"/>
+                        <confToVarsMap key="intermediateInt" value="/1/@security.37"/>
+                        <confToVarsMap key="intermediateBool" value="/1/@security.64"/>
+                      </postCondition>
+                      <preCondition name="((intermediateCond) &amp; (guard)) &amp; (guard)">
+                        <confToVarsMap key="privkey" value="/1/@security.35"/>
+                        <confToVarsMap key="intermediateInt" value="/1/@security.37"/>
+                        <confToVarsMap key="intermediateBool" value="/1/@security.36"/>
+                      </preCondition>
+                    </commands>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="(intermediateCond) &amp; (guard)">
+                    <confToVarsMap key="privkey" value="/1/@security.35"/>
+                    <confToVarsMap key="intermediateInt" value="/1/@security.37"/>
+                    <confToVarsMap key="intermediateBool" value="/1/@security.36"/>
+                  </preCondition>
+                </commands>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond">
+                <confToVarsMap key="privkey" value="/1/@security.35"/>
+                <confToVarsMap key="intermediateInt" value="/1/@security.37"/>
+                <confToVarsMap key="intermediateBool" value="/1/@security.36"/>
+              </preCondition>
+            </firstStatement>
+            <secondStatement name="statement2" context="low">
+              <refinement name="msg.setEmailIsEncrypted(intermediateBool);&#xD;&#xA;&#x9;&#x9;msg.setEmailEncryptionKey(intermediateInt);&#xD;&#xA;&#x9;&#x9;incoming__wrappee__Verify(client, msg);" context="none" typeableResult="true" tyleableText="msg.setEmailIsEncrypted(intermediateBool): Method  msg.setEmailIsEncrypted(intermediateBool) is typeable.&#xA;msg.setEmailEncryptionKey(intermediateInt): Method  msg.setEmailEncryptionKey(intermediateInt) is typeable.&#xA;incoming__wrappee__Verify(client, msg): Method  incoming__wrappee__Verify(client, msg) is typeable.">
+                <postCondition name="post">
+                  <confToVarsMap key="intermediateBool" value="/1/@security.100"/>
+                </postCondition>
+                <preCondition name="intermediateCond">
+                  <confToVarsMap key="intermediateBool" value="/1/@security.99"/>
+                </preCondition>
+              </refinement>
+              <postCondition name="post"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond">
+            <confToVarsMap key="privkey" value="/1/@security.35"/>
+            <confToVarsMap key="intermediateInt" value="/1/@security.37"/>
+            <confToVarsMap key="intermediateBool" value="/1/@security.36"/>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond">
+          <confToVarsMap key="privkey" value="/1/@security.35"/>
+          <confToVarsMap key="intermediateInt" value="/1/@security.37"/>
+          <confToVarsMap key="intermediateBool" value="/1/@security.36"/>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="post">
+        <confToVarsMap key="intermediateBool" value="/1/@security.100"/>
+      </postCondition>
+      <preCondition name="pre"/>
+    </statement>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="client" confidentiality="low" type="Client" modifier="mut"/>
+    <variables name="msg" confidentiality="low" type="Email" modifier="mut"/>
+    <variables name="privkey" confidentiality="high" type="int" modifier="imm"/>
+    <variables name="intermediateBool" confidentiality="low" type="boolean" modifier="imm"/>
+    <variables name="intermediateInt" confidentiality="high" type="int" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

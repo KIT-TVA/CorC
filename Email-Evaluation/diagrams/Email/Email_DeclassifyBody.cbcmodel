@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="msg" confidentiality="high" type="Email" modifier="mut"/>
+    <variables name="hash" confidentiality="low" type="String" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:CbCFormula name="Email_DeclassifyBody" proven="true">
+    <statement name="statement" context="low">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1" context="low">
+          <refinement name="hash = declassify(msg.body);" context="none" typeableResult="false" tyleableText="hash = declassify(msg.body): Cannot declassify value because MDF is not IMMUTABLE or CAPSULE, is MUTABLE.">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+          </refinement>
+          <postCondition name="intermediateCond">
+            <confToVarsMap key="declassifiedString" value="/1/@security.2"/>
+          </postCondition>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2" context="low">
+          <refinement name="return hash;" context="none" typeableResult="true" tyleableText="hash: Return is typeable since defined method return type SL (low) for method declassifyEmailBody() and SL of returned object  (low) is equal.">
+            <postCondition name="post"/>
+            <preCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond">
+            <confToVarsMap key="declassifiedString" value="/1/@security.2"/>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond">
+          <confToVarsMap key="declassifiedString" value="/1/@security.2"/>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <atType name="declassifiedString"/>
+    <atType name="declassifiedString"/>
+    <atType name="declassifiedString"/>
+    <atType name="declassifiedString"/>
+    <atType name="declassifiedString"/>
+    <atType name="declassifiedString"/>
+    <atType name="declassifiedString"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:MethodLink className="Email" methodSignature="String declassifyEmailBody(Email)"/>
+</xmi:XMI>

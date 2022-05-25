@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="lock">
+    <statement name="statement" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1">
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+            <guards name="source.isLocked()"/>
+            <commands name="statement">
+              <refinement name="return false;" context="low" typeableResult="true" tyleableText="return false: Return is typeable since defined method return type SL (low) for method lock() and SL of returned object  (low) is equal.">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="(pre) &amp; (source.isLocked())"/>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="(pre) &amp; (source.isLocked())"/>
+            </commands>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+            <postCondition name=""/>
+            <preCondition name="intermediateCond"/>
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="intermediateCond"/>
+                <guards name="destination.isLocked()"/>
+                <commands name="statement">
+                  <refinement name="return false;" context="low" typeableResult="true" tyleableText="return false: Return is typeable since defined method return type SL (low) for method lock() and SL of returned object  (low) is equal.">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="(intermediateCond) &amp; (destination.isLocked())"/>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="(intermediateCond) &amp; (destination.isLocked())"/>
+                </commands>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement name="source.lock();&#xD;&#xA;destination.lock();&#xD;&#xA;return true;" context="none" typeableResult="true" tyleableText="source.lock(): Method  source.lock() is typeable.&#xA;destination.lock(): Method  destination.lock() is typeable.&#xA;return true: Return is typeable since defined method return type SL (low) for method lock() and SL of returned object  (low) is equal.">
+                <postCondition name="post"/>
+                <preCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="post"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:MethodLink className="Transaction" methodSignature="boolean lock(Account,Account)"/>
+  <cbcmodel:JavaVariables>
+    <variables name="source" confidentiality="low" type="Account" modifier="mut"/>
+    <variables name="destination" confidentiality="low" type="Account" modifier="mut"/>
+    <variables name="result" confidentiality="low" type="boolean" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

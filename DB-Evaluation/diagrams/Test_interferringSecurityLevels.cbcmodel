@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="gui" confidentiality="low" type="GUI" modifier="imm"/>
+    <variables name="name" confidentiality="highOne" type="String" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:CbCFormula name="Test_interferringSecurityLevels">
+    <statement name="statement" typeableResult="false">
+      <refinement name="gui.databaseOne.setEntry(&quot;person&quot;, &quot;hans&quot;, -1);&#xD;&#xA;gui.databaseTwo.setEntry(&quot;person&quot;, &quot;peter&quot;, -1);&#xD;&#xA;name = gui.databaseOne.getEntry(&quot;person&quot;, 0);&#xD;&#xA;gui.databaseTwo.setEntry(&quot;person&quot;, name, 0);" context="none" typeableResult="false" tyleableText="gui.databaseOne.setEntry(&quot;person&quot;, &quot;hans&quot;, -1): Method  gui.databaseOne.setEntry(&quot;person&quot;, &quot;hans&quot;, -1) is typeable.&#xA;gui.databaseTwo.setEntry(&quot;person&quot;, &quot;peter&quot;, -1): Method  gui.databaseTwo.setEntry(&quot;person&quot;, &quot;peter&quot;, -1) is typeable.&#xA;name = gui.databaseOne.getEntry(&quot;person&quot;, 0): Local promotion of method return object to target SL highOne was possible because method MDF for expression is IMMUTABLE.&#xA;gui.databaseTwo.setEntry(&quot;person&quot;, name, 0): Runtime receiver security level (highTwo) is not reachable from parsed parameter security level (highOne). Cannot locate parameter locally.">
+        <postCondition name="post"/>
+        <preCondition name="pre"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+  </cbcmodel:CbCFormula>
+</xmi:XMI>

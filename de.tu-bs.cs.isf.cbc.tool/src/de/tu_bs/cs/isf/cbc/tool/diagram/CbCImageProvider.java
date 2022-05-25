@@ -9,8 +9,8 @@ public class CbCImageProvider extends AbstractImageProvider {
               "de.tu_bs.cs.isf.cbc.tool.";
  
     // The image identifier for an EReference.
-    public static final String IMG_PROVEN= PREFIX + "proven";
-    public static final String IMG_UNPROVEN= PREFIX + "unproven";
+    public static final String IMG_PROVEN = PREFIX + "proven";
+    public static final String IMG_UNPROVEN = PREFIX + "unproven";
     
     @Override
     protected void addAvailableImages() {

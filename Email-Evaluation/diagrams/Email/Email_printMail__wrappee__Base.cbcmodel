@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="msg" confidentiality="low" type="Email" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:CbCFormula name="Email_printMail__wrappee__Base" proven="true">
+    <statement name="statement" context="low">
+      <refinement name="Util.prompt(msg.id);&#xD;&#xA;Util.prompt(msg.from);&#xD;&#xA;Util.prompt(msg.to);&#xD;&#xA;Util.prompt(msg.subject);" context="none" typeableResult="true" tyleableText="Util.prompt(msg.id): Method  Util.prompt(msg.id) is typeable.&#xA;Util.prompt(msg.from): Method  Util.prompt(msg.from) is typeable.&#xA;Util.prompt(msg.to): Method  Util.prompt(msg.to) is typeable.&#xA;Util.prompt(msg.subject): Method  Util.prompt(msg.subject) is typeable.">
+        <postCondition name="post"/>
+        <preCondition name="pre"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+  </cbcmodel:CbCFormula>
+</xmi:XMI>

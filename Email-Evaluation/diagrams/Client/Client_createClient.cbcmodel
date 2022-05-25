@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="name" confidentiality="low" type="String" modifier="imm"/>
+    <variables name="privateKey" confidentiality="high" type="int" modifier="imm"/>
+    <variables name="autoResponse" confidentiality="low" type="boolean" modifier="imm"/>
+    <variables name="client" confidentiality="low" type="Client" modifier="mut"/>
+    <variables name="clientCounter" confidentiality="low" type="int" modifier="imm"/>
+    <variables name="clients" confidentiality="low" type="ClientArray" modifier="mut"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:MethodLink className="Client" methodSignature="Client createClient(String, int, boolean)"/>
+  <cbcmodel:CbCFormula name="Client_createClient">
+    <statement name="statement" context="low" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1" context="low">
+          <refinement name="client = new Client(clientCounter, &#xD;&#xA;name, &#xD;&#xA;new ArrayList&lt;KeyringEntry>(), &#xD;&#xA;privateKey,&#xD;&#xA;autoResponse,&#xD;&#xA;new ArrayList&lt;AddressBookEntry>(),&#xD;&#xA;null);" context="none" typeableResult="true" tyleableText="client = new Client(clientCounter, name, new ArrayList&lt;KeyringEntry>(), privateKey, autoResponse, new ArrayList&lt;AddressBookEntry>(), null): Security levels are equal.">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2" context="low">
+          <refinement name="clients.add(client.getId(), client);&#xD;&#xA;return client;" context="none" typeableResult="true" tyleableText="clients.add(client.getId(), client): Method  clients.add(client.getId(), client) is typeable.&#xA;client: Return is typeable since defined method return type SL (low) for method createClient() and SL of returned object  (low) is equal.">
+            <postCondition name="post"/>
+            <preCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+  </cbcmodel:CbCFormula>
+</xmi:XMI>

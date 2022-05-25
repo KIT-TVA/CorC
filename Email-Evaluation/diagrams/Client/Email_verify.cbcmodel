@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="client" confidentiality="low" type="Client" modifier="mut"/>
+    <variables name="msg" confidentiality="low" type="Email" modifier="mut"/>
+    <variables name="pubkey" confidentiality="low" type="int" modifier="imm"/>
+    <variables name="intermediateBool" confidentiality="high" type="boolean" modifier="imm"/>
+    <variables name="from" confidentiality="low" type="Client" modifier="mut"/>
+    <variables name="signedKey" confidentiality="high" type="int" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:CbCFormula name="Email_verify" proven="true">
+    <statement name="statement" context="low">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1" context="low">
+          <refinement name="from = msg.getEmailFrom();&#xD;&#xA;pubkey = client.getKeyringPublicKeyByClient(from);" context="none" typeableResult="true" tyleableText="from = msg.getEmailFrom(): Security levels are equal.&#xA;pubkey = client.getKeyringPublicKeyByClient(from): Security levels are equal.">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+          </refinement>
+          <postCondition name="intermediateCond">
+            <confToVarsMap key="pubkey" value="/1/@security.53"/>
+            <confToVarsMap key="from" value="/1/@security.52"/>
+          </postCondition>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2" context="low">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+            <postCondition name=""/>
+            <preCondition name="intermediateCond"/>
+            <firstStatement name="statement1" context="low">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                <postCondition name=""/>
+                <preCondition name="intermediateCond"/>
+                <firstStatement name="statement1" context="low">
+                  <refinement name="signedKey = msg.getEmailSignKey();" context="none" typeableResult="true" tyleableText="signedKey = msg.getEmailSignKey(): Security levels are equal.">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="intermediateCond"/>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="intermediateCond">
+                    <confToVarsMap key="pubkey" value="/1/@security.53"/>
+                    <confToVarsMap key="from" value="/1/@security.52"/>
+                  </preCondition>
+                </firstStatement>
+                <secondStatement name="statement2" context="low">
+                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="intermediateCond"/>
+                    <guards name="pubkey != 0 &amp;&amp; isKeyPairValid(signedKey, pubkey)"/>
+                    <commands name="statement" context="low">
+                      <refinement name="intermediateBool = true;" context="high" typeableResult="true" tyleableText="intermediateBool = true: target SL is higher than value SL. (using local promotion)">
+                        <postCondition name="intermediateCond"/>
+                        <preCondition name="(intermediateCond) &amp; (guard)"/>
+                      </refinement>
+                      <postCondition name="intermediateCond"/>
+                      <preCondition name="(intermediateCond) &amp; (guard)">
+                        <confToVarsMap key="pubkey" value="/1/@security.23"/>
+                        <confToVarsMap key="from" value="/1/@security.22"/>
+                      </preCondition>
+                    </commands>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="intermediateCond"/>
+                </secondStatement>
+                <intermediateCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond">
+                <confToVarsMap key="pubkey" value="/1/@security.53"/>
+                <confToVarsMap key="from" value="/1/@security.52"/>
+              </preCondition>
+            </firstStatement>
+            <secondStatement name="statement2" context="low">
+              <refinement name="msg.setIsSignatureVerified(intermediateBool);" context="none" typeableResult="true" tyleableText="msg.setIsSignatureVerified(intermediateBool): Method  msg.setIsSignatureVerified(intermediateBool) is typeable.">
+                <postCondition name="post"/>
+                <preCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="post"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond">
+            <confToVarsMap key="pubkey" value="/1/@security.53"/>
+            <confToVarsMap key="from" value="/1/@security.52"/>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond">
+          <confToVarsMap key="pubkey" value="/1/@security.53"/>
+          <confToVarsMap key="from" value="/1/@security.52"/>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:MethodLink className="Client" methodSignature="void verify(Client, Email)"/>
+</xmi:XMI>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="client" confidentiality="low" type="Client" modifier="mut"/>
+    <variables name="msg" confidentiality="low" type="Email" modifier="mut"/>
+    <variables name="aliasReceivers" confidentiality="low" type="ArrayList" modifier="mut"/>
+    <variables name="to" confidentiality="low" type="String" modifier="imm"/>
+    <variables name="receiverAddress" confidentiality="low" type="String" modifier="imm"/>
+    <variables name="clientByAddress" confidentiality="low" type="Client" modifier="mut"/>
+    <variables name="i" confidentiality="low" type="int" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:CbCFormula name="outgoing__wrappee__Addressbook">
+    <statement name="statement" context="low" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1" context="low">
+          <refinement name="to = msg.getEmailTo();&#xD;&#xA;aliasReceivers = client.getAddressBookReceiversForAlias(to);" context="none" typeableResult="true" tyleableText="to = msg.getEmailTo(): Security levels are equal.&#xA;aliasReceivers = client.getAddressBookReceiversForAlias(to): Security levels are equal.">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2" context="low">
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+            <postCondition name="post"/>
+            <preCondition name="intermediateCond"/>
+            <guards name="!aliasReceivers.isEmpty()"/>
+            <guards name="aliasReceivers.isEmpty()"/>
+            <commands name="statement" context="low">
+              <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" context="low">
+                <postCondition name="post"/>
+                <preCondition name="(intermediateCond) &amp; (guard)"/>
+                <loopStatement name="loop" context="low">
+                  <refinement name="receiverAddress = aliasReceivers.get(i);&#xD;&#xA;msg.setEmailTo(receiverAddress);&#xD;&#xA;outgoing(client, msg);&#xD;&#xA;clientByAddress = Client.getClientByAdress(receiverAddress);&#xD;&#xA;incoming(clientByAddress, msg);" context="low" typeableResult="true" tyleableText="receiverAddress = aliasReceivers.get(i): Security levels are equal.&#xA;msg.setEmailTo(receiverAddress): Method  msg.setEmailTo(receiverAddress) is typeable.&#xA;outgoing(client, msg): Method  outgoing(client, msg) is typeable.&#xA;clientByAddress = Client.getClientByAdress(receiverAddress): Security levels are equal.&#xA;incoming(clientByAddress, msg): Method  incoming(clientByAddress, msg) is typeable.">
+                    <postCondition name="invariant"/>
+                    <preCondition name="(invariant) &amp; (guard)"/>
+                  </refinement>
+                  <postCondition name="invariant"/>
+                  <preCondition name="(invariant) &amp; (guard)"/>
+                </loopStatement>
+                <variant name="variant"/>
+                <invariant name="invariant"/>
+                <guard name="i &lt; aliasReceivers.size()"/>
+              </refinement>
+              <postCondition name="post"/>
+              <preCondition name="(intermediateCond) &amp; (guard)"/>
+            </commands>
+            <commands name="statement" context="low">
+              <refinement name="outgoing__wrappee__Encrypt(client, msg);" context="low" typeableResult="true" tyleableText="outgoing__wrappee__Encrypt(client, msg): Method  outgoing__wrappee__Encrypt(client, msg) is typeable.">
+                <postCondition name="post"/>
+                <preCondition name="(intermediateCond) &amp; (guard)"/>
+              </refinement>
+              <postCondition name="post"/>
+              <preCondition name="(intermediateCond) &amp; (guard)"/>
+            </commands>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+    <atType name="aliasReceivers"/>
+    <atType name="aliasReceivers"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:MethodLink className="Client" methodSignature="void outgoing__wrappee__Addressbook(Client, Email)"/>
+</xmi:XMI>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="address" confidentiality="low" type="String" modifier="imm"/>
+    <variables name="i" confidentiality="low" type="int" modifier="imm"/>
+    <variables name="clients" confidentiality="low" type="ClientArray" modifier="mut"/>
+    <variables name="client" confidentiality="low" type="Client" modifier="mut"/>
+    <variables name="clientName" confidentiality="low" type="String" modifier="mut"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:CbCFormula name="getClientByAdress">
+    <statement name="statement" context="low" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1" context="low">
+          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" context="none">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+            <loopStatement name="loop" context="low">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="low">
+                <postCondition name=""/>
+                <preCondition name="(invariant) &amp; (i &lt; clients.size())"/>
+                <firstStatement name="statement1" context="low">
+                  <refinement name="client = clients.get(i);&#xD;&#xA;clientName = client.getName();" context="low" typeableResult="true" tyleableText="client = clients.get(i): Security levels are equal.&#xA;clientName = client.getName(): Security levels are equal.">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="(invariant) &amp; (i &lt; clients.size())"/>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="(invariant) &amp; (i &lt; clients.size())"/>
+                </firstStatement>
+                <secondStatement name="statement2" context="low">
+                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="low">
+                    <postCondition name="invariant"/>
+                    <preCondition name="intermediateCond"/>
+                    <guards name="clients.get(i) != null &amp;&amp; clientName.equals(address)"/>
+                    <commands name="statement" context="low">
+                      <refinement name="return clients.get(i);" context="low" typeableResult="true" tyleableText="clients.get(i): Return is typeable since defined method return type SL (low) for method getClientByAdress() and SL of returned object  (low) is equal.">
+                        <postCondition name="invariant"/>
+                        <preCondition name="(intermediateCond) &amp; (clients.get(i) != null &amp;&amp; clients.get(i).getName().equals(address))"/>
+                      </refinement>
+                      <postCondition name="invariant"/>
+                      <preCondition name="(intermediateCond) &amp; (clients.get(i) != null &amp;&amp; clients.get(i).getName().equals(address))"/>
+                    </commands>
+                  </refinement>
+                  <postCondition name="invariant"/>
+                  <preCondition name="intermediateCond"/>
+                </secondStatement>
+                <intermediateCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="invariant"/>
+              <preCondition name="(invariant) &amp; (i &lt; clients.size())"/>
+            </loopStatement>
+            <variant name="variant"/>
+            <invariant name="invariant"/>
+            <guard name="i &lt; clients.size()"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2" context="low">
+          <refinement name="return null;" context="none" typeableResult="true" tyleableText="return null: Return is typeable since defined method return type SL (low) for method getClientByAdress() and SL of returned object  (low) is equal.">
+            <postCondition name="post"/>
+            <preCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:MethodLink className="Client" methodSignature="Client getClientByAdress(String)"/>
+</xmi:XMI>

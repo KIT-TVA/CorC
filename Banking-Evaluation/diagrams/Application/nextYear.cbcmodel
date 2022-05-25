@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="nextYear">
+    <statement name="statement" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1">
+          <refinement name="a.account.balance += a.account.interest;" context="none" typeableResult="true" tyleableText="a.account.balance += a.account.interest: Local promotion of field access to target SL high was possible because combined MDF for expression is IMMUTABLE.">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement name="a.account.interest = 0;" context="none" typeableResult="true" tyleableText="a.account.interest = 0: target SL is higher than value SL. (using local promotion)">
+            <postCondition name="post"/>
+            <preCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:MethodLink className="Application" methodSignature="void nextYear()"/>
+  <cbcmodel:JavaVariables>
+    <variables name="a" confidentiality="low" type="Application" modifier="mut"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

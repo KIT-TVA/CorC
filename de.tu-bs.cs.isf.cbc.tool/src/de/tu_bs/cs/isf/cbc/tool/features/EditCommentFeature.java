@@ -11,7 +11,6 @@ import org.eclipse.ui.PlatformUI;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyInputDialog;
 
 /**
  * Class that allows to add and edit code of methods

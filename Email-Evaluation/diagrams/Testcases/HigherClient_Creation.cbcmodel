@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="name" confidentiality="high" type="String" modifier="mut"/>
+    <variables name="client" confidentiality="high" type="Client" modifier="mut"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:CbCFormula name="HigherClient_Creation" proven="true">
+    <statement name="statement" context="low">
+      <refinement name="client = Client.createClientMutableName(name, 5, true);" context="none" typeableResult="true" tyleableText="client = Client.createClientMutableName(name, 5, true): Security levels are equal.">
+        <postCondition name="post">
+          <atTypesToVarsMap key="f" value="/1/@atType.6"/>
+        </postCondition>
+        <preCondition name="pre">
+          <atTypesToVarsMap key="f" value="/1/@atType.4"/>
+        </preCondition>
+      </refinement>
+      <postCondition name="post">
+        <confToVarsMap key="client" value="/1/@security.5"/>
+      </postCondition>
+      <preCondition name="pre"/>
+    </statement>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <atType name="@Unique"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+  </cbcmodel:CbCFormula>
+</xmi:XMI>

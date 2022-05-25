@@ -32,22 +32,35 @@ import org.eclipse.graphiti.util.PredefinedColoredAreas;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
 
 /**
- * Class that creates the graphical representation of Methods
+ * Class that creates the graphical representation of Variables
  * 
  * @author Tobias
  *
  */
 public class VariablesPattern extends IdPattern implements IPattern {
 
-	private static final String ID_NAME_TEXT = "variablesName";
-	private static final String ID_VARIABLE_TEXT = "variable";
+	private static final String ID_NAME_TEXT = "RenamingName";
+	private static final String ID_VARIABLES_TYPE = "variableType";
+	private static final String ID_VARIABLES_CONF = "variableConf";
+	private static final String ID_VARIABLES_NAME = "variableName";
+	private static final String ID_VARIABLES_MODIFIER = "variableModifier";
 	private static final String ID_MAIN_RECTANGLE = "mainRectangle";
+	// Header:
+	private static final String ID_VARIABLES_CONF_HEADER = "confHeader";
+	private static final String ID_VARIABLES_TYPE_HEADER = "typeHeader";
+	private static final String ID_VARIABLES_NAME_HEADER = "nameHeader"; // the name that is used in the diagram
+	private static final String ID_VARIABLES_MODIFIER_HEADER = "modifierHeader";
 	// lines:
-	private static final String ID_HOR1_LINE = "hor1Line";
+	private static final String ID_HOR1_LINE = "hor1Header";
+	private static final String ID_HOR2_LINE = "hor2Header";
+	private static final String ID_VER1_LINE = "ver1Header";
+	private static final String ID_VER2_LINE = "ver2Header";
+	private static final String ID_VER3_LINE = "ver3Header";
+	
+	private static final Integer NUMBER_OF_COLUMNS = 4;
 
 	/**
 	 * Constructor of the class
@@ -89,9 +102,10 @@ public class VariablesPattern extends IdPattern implements IPattern {
 	public Object[] create(ICreateContext context) {
 		JavaVariables variables = CbcmodelFactory.eINSTANCE.createJavaVariables();
 		JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
-		variable.setName("int a");
-		variable.setKind(VariableKind.LOCAL);
-		variable.setDisplayedName("int a");
+		variable.setName("a");
+		variable.setType("int");
+		variable.setConfidentiality("low");
+		variable.setModifier("capsule");
 		variables.getVariables().add(variable);
 
 		try {
@@ -117,8 +131,8 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		IGaService gaService = Graphiti.getGaService();
 
-		int width = context.getWidth() <= 0 ? 200 : context.getWidth();
-		int height = context.getHeight() <= 0 ? 100 : context.getHeight();
+		int width = context.getWidth() <= 0 ? 400 : context.getWidth();
+		int height = context.getHeight() <= 0 ? 150 : context.getHeight();
 
 		Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
 
@@ -133,7 +147,6 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		// create link and wire it
 		link(outerContainerShape, addedVariables);
 
-		// method name
 		Shape nameTextShape = peCreateService.createShape(outerContainerShape, false);
 		Text variablesNameText = gaService.createText(nameTextShape, "Variables");
 		setId(variablesNameText, ID_NAME_TEXT);
@@ -141,10 +154,55 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		variablesNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		variablesNameText.setFont(headerFont);
 
-		// line:
+		// header:
+		Shape confHeaderShape = peCreateService.createShape(outerContainerShape, false);
+		Text confHeader = gaService.createText(confHeaderShape, "Confidentiality");
+		setId(confHeader, ID_VARIABLES_CONF_HEADER);
+		confHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		confHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		confHeader.setFont(headerFont);
+
+		Shape nameHeaderShape = peCreateService.createShape(outerContainerShape, false);
+		Text nameHeader = gaService.createText(nameHeaderShape, "Modifier");
+		setId(nameHeader, ID_VARIABLES_MODIFIER);
+		nameHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		nameHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		nameHeader.setFont(headerFont);
+
+		Shape typeHeaderShape = peCreateService.createShape(outerContainerShape, false);
+		Text typeHeader = gaService.createText(typeHeaderShape, "Type");
+		setId(typeHeader, ID_VARIABLES_TYPE_HEADER);
+		typeHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		typeHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		typeHeader.setFont(headerFont);
+
+		Shape modifierHeaderShape = peCreateService.createShape(outerContainerShape, false);
+		Text modifierHeader = gaService.createText(modifierHeaderShape, "Name");
+		setId(modifierHeader, ID_VARIABLES_NAME_HEADER);
+		modifierHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		modifierHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		modifierHeader.setFont(headerFont);
+
+		// lines:
 		Shape hor1Shape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor1line = gaService.createPolyline(hor1Shape);
 		setId(hor1line, ID_HOR1_LINE);
+
+		Shape hor2Shape = peCreateService.createShape(outerContainerShape, false);
+		Polyline hor2line = gaService.createPolyline(hor2Shape);
+		setId(hor2line, ID_HOR2_LINE);
+
+		Shape ver1Shape = peCreateService.createShape(outerContainerShape, false);
+		Polyline ver1line = Graphiti.getGaService().createPolyline(ver1Shape);
+		setId(ver1line, ID_VER1_LINE);
+
+		Shape ver2Shape = peCreateService.createShape(outerContainerShape, false);
+		Polyline ver2line = Graphiti.getGaService().createPolyline(ver2Shape);
+		setId(ver2line, ID_VER2_LINE);
+
+		Shape ver3Shape = peCreateService.createShape(outerContainerShape, false);
+		Polyline ver3line = Graphiti.getGaService().createPolyline(ver3Shape);
+		setId(ver3line, ID_VER3_LINE);
 
 		link(outerContainerShape, addedVariables);
 		link(nameTextShape, addedVariables);
@@ -162,21 +220,74 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		int height = mainRectangle.getHeight();
 		if (variables.getVariables().size() >= 1) {
-			height = height / (variables.getVariables().size() + 1);
+			height = height / (variables.getVariables().size() + 2);
 		}
+		int width = mainRectangle.getWidth() / 4;
 
 		if (id.equals(ID_NAME_TEXT)) {
 			Graphiti.getGaService().setLocationAndSize(ga, 0, 0, mainRectangle.getWidth(), height);
 			changesDone = true;
-		} else if (id.equals(ID_VARIABLE_TEXT)) {
+		} else if (id.equals(ID_VARIABLES_TYPE)) {
 			int index = getIndex(context.getGraphicsAlgorithm());
-			Graphiti.getGaService().setLocationAndSize(ga, 0, height * (index + 1), mainRectangle.getWidth(), height);
+			Graphiti.getGaService().setLocationAndSize(ga, width * 2, height * (index + 2), width, height);
+			changesDone = true;
+		} else if (id.equals(ID_VARIABLES_CONF)) {
+			int index = getIndex(context.getGraphicsAlgorithm());
+			Graphiti.getGaService().setLocationAndSize(ga, 0, height * (index + 2), width, height);
+			changesDone = true;
+		} else if (id.equals(ID_VARIABLES_MODIFIER)) {
+			int index = getIndex(context.getGraphicsAlgorithm());
+			Graphiti.getGaService().setLocationAndSize(ga, width, height * (index + 2), width, height);
+			changesDone = true;
+		} else if (id.equals(ID_VARIABLES_NAME)) {
+			int index = getIndex(context.getGraphicsAlgorithm());
+			Graphiti.getGaService().setLocationAndSize(ga, width * 3, height * (index + 2), width, height);
+			changesDone = true;
+		} else if (id.equals(ID_VARIABLES_CONF_HEADER)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 0, height, width, height);
+			changesDone = true;
+		} else if (id.equals(ID_VARIABLES_MODIFIER_HEADER)) {
+			Graphiti.getGaService().setLocationAndSize(ga, width, height, width, height);
+			changesDone = true;
+		} else if (id.equals(ID_VARIABLES_TYPE_HEADER)) {
+			Graphiti.getGaService().setLocationAndSize(ga, width * 2, height, width, height);
+			changesDone = true;
+		} else if (id.equals(ID_VARIABLES_NAME_HEADER)) {
+			Graphiti.getGaService().setLocationAndSize(ga, width * 3, height, width, height);
 			changesDone = true;
 		} else if (id.equals(ID_HOR1_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
 					.createPointList(new int[] { 0, height, mainRectangle.getWidth(), height });
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
+		} else if (id.equals(ID_HOR2_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService()
+					.createPointList(new int[] { 0, height * 2, mainRectangle.getWidth(), height * 2 });
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
+		} else if (id.equals(ID_VER1_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService()
+					.createPointList(new int[] { width, height, width, mainRectangle.getHeight() });
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
+		} else if (id.equals(ID_VER2_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService()
+					.createPointList(new int[] { width * 2, height, width * 2, mainRectangle.getHeight() });
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
+		} else if (id.equals(ID_VER3_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService()
+					.createPointList(new int[] { width * 3, height, width * 3, mainRectangle.getHeight() });
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		}
@@ -189,9 +300,9 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		if (id.equals(ID_MAIN_RECTANGLE)) {
 			ContainerShape containerShape = (ContainerShape) context.getPictogramElement();
 			JavaVariables variables = (JavaVariables) context.getDomainObject();
-			if (containerShape.getChildren().size() - 2 != variables.getVariables().size()) {
-				return Reason.createTrueReason("Number of Variables differ. Expected: "
-						+ variables.getVariables().size() + " " + (containerShape.getChildren().size() - 2));
+			if ((containerShape.getChildren().size() - 10) != variables.getVariables().size() * NUMBER_OF_COLUMNS) {
+				return Reason.createTrueReason("Number of variables differ. Expected: "
+						+ variables.getVariables().size() + " " + (containerShape.getChildren().size() - 10) / 4);
 			}
 		}
 		return Reason.createFalseReason();
@@ -201,17 +312,46 @@ public class VariablesPattern extends IdPattern implements IPattern {
 	protected boolean update(IdUpdateContext context, String id) {
 		if (id.equals(ID_MAIN_RECTANGLE)) {
 			EList<JavaVariable> variables = ((JavaVariables) context.getDomainObject()).getVariables();
-			while (((ContainerShape) context.getPictogramElement()).getChildren().size() - 2 < variables.size()) {
-				int newIndex = ((ContainerShape) context.getPictogramElement()).getChildren().size() - 2;
+			while ((((ContainerShape) context.getPictogramElement()).getChildren().size() - 8) / NUMBER_OF_COLUMNS < variables.size()) {
+				int newIndex = (((ContainerShape) context.getPictogramElement()).getChildren().size() - 8) / NUMBER_OF_COLUMNS;
 				JavaVariable variable = variables.get(newIndex);
 				Shape shapeText = Graphiti.getPeCreateService()
 						.createShape((ContainerShape) context.getPictogramElement(), true);
-				Text variableNameText = Graphiti.getGaService().createText(shapeText, variable.getDisplayedName());
-				setId(variableNameText, ID_VARIABLE_TEXT);
+				Text variableNameText = Graphiti.getGaService().createText(shapeText, variable.getName());
+				setId(variableNameText, ID_VARIABLES_NAME);
 				setIndex(variableNameText, newIndex);
 				variableNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 				variableNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 				link(shapeText, variable);
+
+				Shape shapeTypeText = Graphiti.getPeCreateService()
+						.createShape((ContainerShape) context.getPictogramElement(), true);
+				Text variableTypeText = Graphiti.getGaService().createText(shapeTypeText, variable.getType());
+				setId(variableTypeText, ID_VARIABLES_TYPE);
+				setIndex(variableTypeText, newIndex);
+				variableTypeText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+				variableTypeText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+				link(shapeTypeText, variable);
+
+				Shape shapeConfText = Graphiti.getPeCreateService()
+						.createShape((ContainerShape) context.getPictogramElement(), true);
+				Text variableConfText = Graphiti.getGaService().createText(shapeConfText,
+						variable.getConfidentiality().toLowerCase());
+				setId(variableConfText, ID_VARIABLES_CONF);
+				setIndex(variableConfText, newIndex);
+				variableConfText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+				variableConfText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+				link(shapeConfText, variable);
+
+				Shape shapeModifierText = Graphiti.getPeCreateService()
+						.createShape((ContainerShape) context.getPictogramElement(), true);
+				Text variableModifierText = Graphiti.getGaService().createText(shapeModifierText,
+						variable.getModifier().toLowerCase());
+				setId(variableModifierText, ID_VARIABLES_MODIFIER);
+				setIndex(variableModifierText, newIndex);
+				variableModifierText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+				variableModifierText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+				link(shapeModifierText, variable);
 			}
 			return true;
 		}

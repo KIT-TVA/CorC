@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="updateBalance">
+    <statement name="statement" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name="">
+          <confToVarsMap key="newBalance" value="/0/@security.3"/>
+        </postCondition>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1">
+          <refinement name="newBalance= a.balance + x;" context="none" typeableResult="true" tyleableText="newBalance = a.balance + x: target SL is lower than value SL. (using SEC-PROM)">
+            <postCondition name="intermediateCond">
+              <confToVarsMap key="newBalance" value="/0/@security.0"/>
+            </postCondition>
+            <preCondition name="pre"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+            <postCondition name="">
+              <confToVarsMap key="newBalance" value="/0/@security.3"/>
+            </postCondition>
+            <preCondition name="intermediateCond">
+              <confToVarsMap key="newBalance" value="/0/@security.0"/>
+            </preCondition>
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+                <postCondition name="intermediateCond">
+                  <confToVarsMap key="newBalance" value="/0/@security.2"/>
+                </postCondition>
+                <preCondition name="intermediateCond">
+                  <confToVarsMap key="newBalance" value="/0/@security.0"/>
+                </preCondition>
+                <guards name="newBalance &lt; a.OVERDRAFT_LIMIT"/>
+                <commands name="statement">
+                  <refinement name="result = false;" context="high" typeableResult="true" tyleableText="result = false: target SL is higher than value SL. (using local promotion)">
+                    <postCondition name="intermediateCond">
+                      <confToVarsMap key="newBalance" value="/0/@security.1"/>
+                    </postCondition>
+                    <preCondition name="(intermediateCond) &amp; (newBalance &lt; a.OVERDRAFT_LIMIT)">
+                      <confToVarsMap key="newBalance" value="/0/@security.0"/>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="(intermediateCond) &amp; (newBalance &lt; a.OVERDRAFT_LIMIT)"/>
+                </commands>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement name="a.balance = newBalance;" context="none" typeableResult="true" tyleableText="a.balance = newBalance: Security levels are equal.">
+                <postCondition name="post">
+                  <confToVarsMap key="newBalance" value="/0/@security.3"/>
+                </postCondition>
+                <preCondition name="intermediateCond">
+                  <confToVarsMap key="newBalance" value="/0/@security.2"/>
+                </preCondition>
+              </refinement>
+              <postCondition name="post"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post">
+        <confToVarsMap key="newBalance" value="/0/@security.3"/>
+      </postCondition>
+      <preCondition name="pre"/>
+    </statement>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="a" confidentiality="low" type="Account" modifier="mut"/>
+    <variables name="x" confidentiality="low" type="int" modifier="imm"/>
+    <variables name="result" confidentiality="high" type="boolean" modifier="imm"/>
+    <variables name="newBalance" confidentiality="low" type="int" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:MethodLink className="Account" methodSignature="boolean updateBalance(int)"/>
+</xmi:XMI>

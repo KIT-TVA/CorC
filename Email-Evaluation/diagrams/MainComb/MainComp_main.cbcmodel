@@ -1,0 +1,831 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="MainComp_main" proven="true">
+    <statement name="statement" context="low">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1" context="low">
+          <refinement name="client1.setPrivateKey(5);" context="none" typeableResult="true" tyleableText="client1.setPrivateKey(5): Method  client1.setPrivateKey(5) is typeable.">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2" context="low">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+            <postCondition name=""/>
+            <preCondition name="intermediateCond"/>
+            <firstStatement name="statement1" context="low">
+              <refinement name="client1.addAddressbookEntry(&quot;client2&quot;, &quot;Sebastian&quot;);" context="none" typeableResult="true" tyleableText="client1.addAddressbookEntry(&quot;client2&quot;, &quot;Sebastian&quot;): Method  client1.addAddressbookEntry(&quot;client2&quot;, &quot;Sebastian&quot;) is typeable.">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond"/>
+            </firstStatement>
+            <secondStatement name="statement2" context="low">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                <postCondition name=""/>
+                <preCondition name="intermediateCond"/>
+                <firstStatement name="statement1" context="low">
+                  <refinement name="client1.addKeyringEntry(client2, 7);" context="none" typeableResult="true" tyleableText="client1.addKeyringEntry(client2, 7): Method  client1.addKeyringEntry(client2, 7) is typeable.">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="intermediateCond"/>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="intermediateCond"/>
+                </firstStatement>
+                <secondStatement name="statement2" context="low">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                    <postCondition name=""/>
+                    <preCondition name="intermediateCond"/>
+                    <firstStatement name="statement1" context="low">
+                      <refinement name="client1.addKeyringEntry(client3, 3);" context="none" typeableResult="true" tyleableText="client1.addKeyringEntry(client3, 3): Method  client1.addKeyringEntry(client3, 3) is typeable.">
+                        <postCondition name="intermediateCond"/>
+                        <preCondition name="intermediateCond"/>
+                      </refinement>
+                      <postCondition name="intermediateCond"/>
+                      <preCondition name="intermediateCond"/>
+                    </firstStatement>
+                    <secondStatement name="statement2" context="low">
+                      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                        <postCondition name=""/>
+                        <preCondition name="intermediateCond"/>
+                        <firstStatement name="statement1" context="low">
+                          <refinement name="client2.addKeyringEntry(client1, 5);" context="none" typeableResult="true" tyleableText="client2.addKeyringEntry(client1, 5): Method  client2.addKeyringEntry(client1, 5) is typeable.">
+                            <postCondition name="intermediateCond"/>
+                            <preCondition name="intermediateCond"/>
+                          </refinement>
+                          <postCondition name="intermediateCond"/>
+                          <preCondition name="intermediateCond"/>
+                        </firstStatement>
+                        <secondStatement name="statement2" context="low">
+                          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                            <postCondition name=""/>
+                            <preCondition name="intermediateCond"/>
+                            <firstStatement name="statement1" context="low">
+                              <refinement name="client2.addKeyringEntry(client3, 3);" context="none" typeableResult="true" tyleableText="client2.addKeyringEntry(client3, 3): Method  client2.addKeyringEntry(client3, 3) is typeable.">
+                                <postCondition name="intermediateCond"/>
+                                <preCondition name="intermediateCond"/>
+                              </refinement>
+                              <postCondition name="intermediateCond"/>
+                              <preCondition name="intermediateCond"/>
+                            </firstStatement>
+                            <secondStatement name="statement2" context="low">
+                              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                                <postCondition name=""/>
+                                <preCondition name="intermediateCond"/>
+                                <firstStatement name="statement1" context="low">
+                                  <refinement name="client3.addKeyringEntry(client2, 7);" context="none" typeableResult="true" tyleableText="client3.addKeyringEntry(client2, 7): Method  client3.addKeyringEntry(client2, 7) is typeable.">
+                                    <postCondition name="intermediateCond"/>
+                                    <preCondition name="intermediateCond"/>
+                                  </refinement>
+                                  <postCondition name="intermediateCond"/>
+                                  <preCondition name="intermediateCond"/>
+                                </firstStatement>
+                                <secondStatement name="statement2" context="low">
+                                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                                    <postCondition name=""/>
+                                    <preCondition name="intermediateCond"/>
+                                    <firstStatement name="statement1" context="low">
+                                      <refinement name="client2.setForwardReceiver(client3);" context="none" typeableResult="true" tyleableText="client2.setForwardReceiver(client3): Method  client2.setForwardReceiver(client3) is typeable.">
+                                        <postCondition name="intermediateCond"/>
+                                        <preCondition name="intermediateCond"/>
+                                      </refinement>
+                                      <postCondition name="intermediateCond"/>
+                                      <preCondition name="intermediateCond"/>
+                                    </firstStatement>
+                                    <secondStatement name="statement2" context="low">
+                                      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                                        <postCondition name=""/>
+                                        <preCondition name="intermediateCond"/>
+                                        <firstStatement name="statement1" context="low">
+                                          <refinement name="Client.sendEmail(client1, &quot;Sebastian&quot;, &quot;Email1&quot;, &quot;Hallo, das ist die erste Mail&quot;);" context="none" typeableResult="true" tyleableText="Client.sendEmail(client1, &quot;Sebastian&quot;, &quot;Email1&quot;, &quot;Hallo, das ist die erste Mail&quot;): Method  Client.sendEmail(client1, &quot;Sebastian&quot;, &quot;Email1&quot;, &quot;Hallo, das ist die erste Mail&quot;) is typeable.">
+                                            <postCondition name="intermediateCond"/>
+                                            <preCondition name="intermediateCond"/>
+                                          </refinement>
+                                          <postCondition name="intermediateCond"/>
+                                          <preCondition name="intermediateCond"/>
+                                        </firstStatement>
+                                        <secondStatement name="statement2" context="low">
+                                          <refinement name="Client.resetClients();" context="none" typeableResult="true" tyleableText="Client.resetClients(): Method  Client.resetClients() is typeable.">
+                                            <postCondition name="post"/>
+                                            <preCondition name="intermediateCond"/>
+                                          </refinement>
+                                          <postCondition name="post"/>
+                                          <preCondition name="intermediateCond"/>
+                                        </secondStatement>
+                                        <intermediateCondition name="intermediateCond"/>
+                                      </refinement>
+                                      <postCondition name="post"/>
+                                      <preCondition name="intermediateCond"/>
+                                    </secondStatement>
+                                    <intermediateCondition name="intermediateCond"/>
+                                  </refinement>
+                                  <postCondition name="post"/>
+                                  <preCondition name="intermediateCond"/>
+                                </secondStatement>
+                                <intermediateCondition name="intermediateCond"/>
+                              </refinement>
+                              <postCondition name="post"/>
+                              <preCondition name="intermediateCond"/>
+                            </secondStatement>
+                            <intermediateCondition name="intermediateCond"/>
+                          </refinement>
+                          <postCondition name="post"/>
+                          <preCondition name="intermediateCond"/>
+                        </secondStatement>
+                        <intermediateCondition name="intermediateCond"/>
+                      </refinement>
+                      <postCondition name="post"/>
+                      <preCondition name="intermediateCond"/>
+                    </secondStatement>
+                    <intermediateCondition name="intermediateCond"/>
+                  </refinement>
+                  <postCondition name="post"/>
+                  <preCondition name="intermediateCond"/>
+                </secondStatement>
+                <intermediateCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="post"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="client1" confidentiality="low" type="Client" modifier="mut"/>
+    <variables name="client2" confidentiality="low" type="Client" modifier="mut"/>
+    <variables name="client3" confidentiality="low" type="Client" modifier="mut"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

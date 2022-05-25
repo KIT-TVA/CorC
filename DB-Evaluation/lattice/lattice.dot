@@ -1,0 +1,7 @@
+digraph testgraph
+{
+ low -> highOne
+ low -> highTwo
+ highOne -> high
+ highTwo -> high
+}

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="charge">
+    <statement name="statement" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1">
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+            <guards name="amount &lt;= 0"/>
+            <commands name="statement">
+              <refinement name="return false;" context="low" typeableResult="true" tyleableText="return false: Return is typeable because SEC-PROM of returned object (SL: low, MDF: IMMUTABLE)  is possible. ">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="(pre) &amp; (amount &lt;= 0)"/>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="(pre) &amp; (amount &lt;= 0)"/>
+            </commands>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+            <postCondition name=""/>
+            <preCondition name="intermediateCond"/>
+            <firstStatement name="statement1">
+              <refinement name="intermediate = a.balance;&#xD;&#xA;result = a.balance+amount&lt;a.limit;" context="none" typeableResult="true" tyleableText="intermediate = a.balance: Local promotion of field access to target SL high was possible because combined MDF for expression is IMMUTABLE.&#xA;result = a.balance + amount &lt; a.limit: Security levels are equal.">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                <postCondition name=""/>
+                <preCondition name="intermediateCond"/>
+                <firstStatement name="statement1">
+                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="intermediateCond"/>
+                    <guards name="result == true"/>
+                    <commands name="statement">
+                      <refinement name="intermediate=a.balance+amount;" context="high" typeableResult="true" tyleableText="intermediate = a.balance + amount: Security levels are equal.">
+                        <postCondition name="intermediateCond"/>
+                        <preCondition name="(intermediateCond) &amp; (result == true)"/>
+                      </refinement>
+                      <postCondition name="intermediateCond"/>
+                      <preCondition name="(intermediateCond) &amp; (result == true)"/>
+                    </commands>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="intermediateCond"/>
+                </firstStatement>
+                <secondStatement name="statement2">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                    <postCondition name=""/>
+                    <preCondition name="intermediateCond"/>
+                    <firstStatement name="statement1">
+                      <refinement name="a.balance = intermediate;" context="none" typeableResult="true" tyleableText="a.balance = intermediate: Security levels are equal.">
+                        <postCondition name="intermediateCond"/>
+                        <preCondition name="intermediateCond"/>
+                      </refinement>
+                      <postCondition name="intermediateCond"/>
+                      <preCondition name="intermediateCond"/>
+                    </firstStatement>
+                    <secondStatement name="statement2">
+                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+                        <postCondition name="post"/>
+                        <preCondition name="intermediateCond"/>
+                        <guards name="result == true"/>
+                        <guards name="result == false"/>
+                        <commands name="statement">
+                          <refinement name="return true;" context="high" typeableResult="true" tyleableText="return true: Return is typeable because SEC-PROM of returned object (SL: low, MDF: IMMUTABLE)  is possible. ">
+                            <postCondition name="post"/>
+                            <preCondition name="(intermediateCond) &amp; (result == true)"/>
+                          </refinement>
+                          <postCondition name="post"/>
+                          <preCondition name="(intermediateCond) &amp; (result == true)"/>
+                        </commands>
+                        <commands name="statement">
+                          <refinement name="return false;" context="high" typeableResult="true" tyleableText="return false: Return is typeable because SEC-PROM of returned object (SL: low, MDF: IMMUTABLE)  is possible. ">
+                            <postCondition name="post"/>
+                            <preCondition name="(intermediateCond) &amp; (result == false)"/>
+                          </refinement>
+                          <postCondition name="post"/>
+                          <preCondition name="(intermediateCond) &amp; (result == false)"/>
+                        </commands>
+                      </refinement>
+                      <postCondition name="post"/>
+                      <preCondition name="intermediateCond"/>
+                    </secondStatement>
+                    <intermediateCondition name="intermediateCond"/>
+                  </refinement>
+                  <postCondition name="post"/>
+                  <preCondition name="intermediateCond"/>
+                </secondStatement>
+                <intermediateCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="post"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+    <atType name="result"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:MethodLink className="PayCard" methodSignature="boolean charge(int)"/>
+  <cbcmodel:JavaVariables>
+    <variables name="amount" confidentiality="low" type="int" modifier="imm"/>
+    <variables name="a" confidentiality="low" type="PayCard" modifier="mut"/>
+    <variables name="result" confidentiality="high" type="boolean" modifier="imm"/>
+    <variables name="intermediate" confidentiality="high" type="int" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

@@ -9,8 +9,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.Method;
-import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyInputDialog;
-import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies;
+import de.tu_bs.cs.isf.cbc.tool.helper.CompareMethodBodies;
 
 /**
  * Class that allows to add and edit code of methods

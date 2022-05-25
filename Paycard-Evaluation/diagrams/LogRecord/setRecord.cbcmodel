@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="setRecord">
+    <statement name="statement" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1">
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+            <guards name="balance &lt; 0"/>
+            <commands name="statement">
+              <refinement xsi:type="cbcmodel:SkipStatement" name=";" context="high" typeableResult="false" tyleableText="Could not parse statement(s) in this diagram.">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="(pre) &amp; (balance &lt; 0)"/>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="(pre) &amp; (balance &lt; 0)"/>
+            </commands>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement name="a.empty = false;&#xD;&#xA;&#x9;a.balance = balance;&#xD;&#xA;&#x9;a.transactionId = a.transactionCounter;" context="none" typeableResult="true" tyleableText="a.empty = false: Security levels are equal.&#xA;a.balance = balance: Security levels are equal.&#xA;a.transactionId = a.transactionCounter: Security levels are equal.">
+            <postCondition name="post"/>
+            <preCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:MethodLink className="LogRecord" methodSignature="void setRecord(int)"/>
+  <cbcmodel:JavaVariables>
+    <variables name="a" confidentiality="low" type="LogRecord" modifier="mut"/>
+    <variables name="balance" confidentiality="high" type="int" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

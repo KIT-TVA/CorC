@@ -2,6 +2,7 @@ package de.tu_bs.cs.isf.cbc.tool.patterns;
 
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -36,8 +37,13 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
+import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
-import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies;
+import de.tu_bs.cs.isf.cbc.tool.helper.CompareMethodBodies;
+import de.tu_bs.cs.isf.cbc.tool.helper.GetProjectUtil;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateInformationFlow;
+import de.tu_bs.cs.isf.lattice.Lattice;
+import de.tu_bs.cs.isf.lattice.Lattices;
 
 
 /**
@@ -53,6 +59,7 @@ public class ReturnPattern extends IdPattern implements IPattern {
 	private static final String ID_POST_TEXT = "postText";
 	private static final String ID_MAIN_RECTANGLE = "mainRectangle";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
+	private static final String ID_IMAGE_CONTEXT = "imageContext";
 	//Headers:
 	private static final String ID_PRE_HEADER = "preHeader";
 	private static final String ID_POST_HEADER = "postHeader";
@@ -227,6 +234,9 @@ public class ReturnPattern extends IdPattern implements IPattern {
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
 			changesDone = true;
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 20, 10, 15, 15);
+			changesDone = true;
 		//Header:
 		} else if (id.equals(ID_NAME_HEADER)) {
 			Graphiti.getGaService().setLocationAndSize(ga, third, 20, third, 20); //mainrectangle anpassen
@@ -380,6 +390,18 @@ public class ReturnPattern extends IdPattern implements IPattern {
 		AbstractStatement statement = (AbstractStatement) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		statement.setName(value);
 		statement.setProven(false);
+		final IProject project = GetProjectUtil.getProjectForDiagram(getDiagram());
+		final Lattice lattice = Lattices.getLatticeForProject(project);
+		if (lattice == null) {
+			System.out.println("ERROR: no lattice found for project " + project.getName());
+			return;
+		}
+		try {
+			UpdateInformationFlow.updateInformationFlow(project.getName(), statement, lattice);
+		} catch (IFbCException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		updatePictogramElement(context.getPictogramElement());
 	}
 }

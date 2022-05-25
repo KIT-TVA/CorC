@@ -31,5 +31,37 @@
             id="de.tu-bs.cs.isf.cbc.tool.imageProvider">
       </imageProvider>
    </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            contributorId="cbc.PropertyContributor">
+         <propertyCategory
+               category="Graphiti">
+         </propertyCategory>
+      </propertyContributor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs
+            contributorId="cbc.PropertyContributor">
+         <propertyTab
+               category="Graphiti"
+               id="graphiti.main.tab"
+               label="Main">
+         </propertyTab>
+      </propertyTabs>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections
+            contributorId="cbc.PropertyContributor">
+         <propertySection
+               class="de.tu_bs.cs.isf.cbc.tool.properties.AlgorithmSection"
+               filter="de.tu_bs.cs.isf.cbc.tool.properties.AlgorithmFilter"
+               id="graphiti.main.tab.statement"
+               tab="graphiti.main.tab">
+         </propertySection>
+      </propertySections>
+   </extension>
 
 </plugin>

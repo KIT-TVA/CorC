@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="e" confidentiality="low" type="AddressBookEntry" modifier="mut"/>
+    <variables name="alias" confidentiality="low" type="String" modifier="imm"/>
+    <variables name="addressbook" confidentiality="low" type="ArrayList" modifier="mut"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:CbCFormula name="Client_getAddressBookReceiversForAlias" proven="true">
+    <statement name="statement" context="low">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1" context="low">
+          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" context="none">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+            <loopStatement name="loop" context="low">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="low" typeableResult="" tyleableText="">
+                <postCondition name="invariant"/>
+                <preCondition name="(invariant) &amp; (guard)"/>
+                <guards name="e.getAlias().equals(alias)"/>
+                <commands name="statement" context="low">
+                  <refinement name="return e.getReceivers();" context="low" typeableResult="true" tyleableText="e.getReceivers(): Return is typeable since defined method return type SL (low) for method getAddressBookReceiversForAlias() and SL of returned object  (low) is equal.">
+                    <postCondition name="invariant"/>
+                    <preCondition name="((invariant) &amp; (guard)) &amp; (guard)"/>
+                  </refinement>
+                  <postCondition name="invariant"/>
+                  <preCondition name="((invariant) &amp; (guard)) &amp; (guard)"/>
+                </commands>
+              </refinement>
+              <postCondition name="invariant"/>
+              <preCondition name="(invariant) &amp; (guard)"/>
+            </loopStatement>
+            <variant name="variant"/>
+            <invariant name="invariant"/>
+            <guard name="addressbook.indexOf(e) &lt; addressbook.size()"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2" context="low">
+          <refinement name="return Collections.emptyList();" context="none" typeableResult="true" tyleableText="Collections.emptyList(): Return is typeable since defined method return type SL (low) for method getAddressBookReceiversForAlias() and SL of returned object  (low) is equal.">
+            <postCondition name="post"/>
+            <preCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:MethodLink className="Client" methodSignature="List&lt;String> getAddressBookReceiversForAlias(String)"/>
+</xmi:XMI>

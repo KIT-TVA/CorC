@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="gui" confidentiality="low" type="GUIInterface" modifier="imm"/>
+    <variables name="normalGui" confidentiality="low" type="GUI" modifier="imm"/>
+    <variables name="secureGUI" confidentiality="low" type="SecureGUI" modifier="imm"/>
+    <variables name="testEntry" confidentiality="low" type="String" modifier="mut"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:CbCFormula name="ChangedTypes">
+    <statement name="statement" context="low">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name="">
+          <atTypesToVarsMap key="SecureGUI" value="/1/@atType.78"/>
+        </postCondition>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1" context="low">
+          <refinement name="gui = normalGui;" context="none" typeableResult="true" tyleableText="gui = normalGui: Security levels are equal.">
+            <postCondition name="intermediateCond">
+              <atTypesToVarsMap key="GUI" value="/1/@atType.75"/>
+            </postCondition>
+            <preCondition name="pre"/>
+          </refinement>
+          <postCondition name="intermediateCond">
+            <confToVarsMap key="gui"/>
+          </postCondition>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2" context="low">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+            <postCondition name="">
+              <atTypesToVarsMap key="SecureGUI" value="/1/@atType.78"/>
+            </postCondition>
+            <preCondition name="intermediateCond">
+              <atTypesToVarsMap key="GUI" value="/1/@atType.75"/>
+            </preCondition>
+            <firstStatement name="statement1" context="low">
+              <refinement name="gui.printEntry(testEntry);" context="none" typeableResult="true" tyleableText="gui.printEntry(testEntry): Method  gui.printEntry(testEntry) is typeable.">
+                <postCondition name="intermediateCond">
+                  <atTypesToVarsMap key="GUI" value="/1/@atType.76"/>
+                </postCondition>
+                <preCondition name="intermediateCond">
+                  <atTypesToVarsMap key="GUI" value="/1/@atType.75"/>
+                </preCondition>
+              </refinement>
+              <postCondition name="intermediateCond">
+                <confToVarsMap key="gui"/>
+              </postCondition>
+              <preCondition name="intermediateCond">
+                <confToVarsMap key="gui"/>
+              </preCondition>
+            </firstStatement>
+            <secondStatement name="statement2" context="low">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                <postCondition name="">
+                  <atTypesToVarsMap key="SecureGUI" value="/1/@atType.78"/>
+                </postCondition>
+                <preCondition name="intermediateCond">
+                  <atTypesToVarsMap key="GUI" value="/1/@atType.76"/>
+                </preCondition>
+                <firstStatement name="statement1" context="low">
+                  <refinement name="gui = secureGUI;" context="none" typeableResult="true" tyleableText="gui = secureGUI: Security levels are equal.">
+                    <postCondition name="intermediateCond">
+                      <atTypesToVarsMap key="SecureGUI" value="/1/@atType.77"/>
+                    </postCondition>
+                    <preCondition name="intermediateCond">
+                      <atTypesToVarsMap key="GUI" value="/1/@atType.76"/>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="intermediateCond">
+                    <confToVarsMap key="gui"/>
+                  </preCondition>
+                </firstStatement>
+                <secondStatement name="statement2" context="low">
+                  <refinement name="gui.printEntry(testEntry);" context="none" typeableResult="false" tyleableText="gui.printEntry(testEntry): Defined paramters MDF is IMMUTABLE, runtime parameter can only be in (IMMUTABLE | CAPSULE). Is MUTABLE. (Parameter: ParameterDefinition [name=testEntry, securityLevel=low, mutationModifier=MUTABLE, type=String, optionalEntity=null])">
+                    <postCondition name="post">
+                      <atTypesToVarsMap key="SecureGUI" value="/1/@atType.78"/>
+                    </postCondition>
+                    <preCondition name="intermediateCond">
+                      <atTypesToVarsMap key="SecureGUI" value="/1/@atType.77"/>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="post"/>
+                  <preCondition name="intermediateCond"/>
+                </secondStatement>
+                <intermediateCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="post"/>
+              <preCondition name="intermediateCond">
+                <confToVarsMap key="gui"/>
+              </preCondition>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond">
+              <confToVarsMap key="gui"/>
+            </intermediateCondition>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond">
+            <confToVarsMap key="gui"/>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond">
+          <confToVarsMap key="gui"/>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <atType name="gui"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+  </cbcmodel:CbCFormula>
+</xmi:XMI>

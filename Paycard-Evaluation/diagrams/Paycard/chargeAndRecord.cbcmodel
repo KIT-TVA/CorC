@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="chargeAndRecord">
+    <statement name="statement" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1">
+          <refinement name="tmp = a.charge(amount);" context="none" typeableResult="true" tyleableText="tmp = a.charge(amount): Security levels are equal.">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+            <postCondition name="post"/>
+            <preCondition name="intermediateCond"/>
+            <guards name="tmp == true"/>
+            <commands name="statement">
+              <refinement name="a.log.addRecord(a.balance);" context="high" typeableResult="true" tyleableText="a.log.addRecord(a.balance): Method  a.log.addRecord(a.balance) is typeable.">
+                <postCondition name="post"/>
+                <preCondition name="(intermediateCond) &amp; (tmp == true)"/>
+              </refinement>
+              <postCondition name="post"/>
+              <preCondition name="(intermediateCond) &amp; (tmp == true)"/>
+            </commands>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:MethodLink className="PayCard" methodSignature="void chargeAndRecord(int)"/>
+  <cbcmodel:JavaVariables>
+    <variables name="amount" confidentiality="low" type="int" modifier="imm"/>
+    <variables name="a" confidentiality="low" type="PayCard" modifier="mut"/>
+    <variables name="tmp" confidentiality="high" type="boolean" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

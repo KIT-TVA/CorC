@@ -45,8 +45,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
-import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyAbstractAsynchronousCustomFeature;
 
 /**
  * Class that changes the abstract value of algorithms
@@ -116,9 +114,7 @@ public class GenerateTextualRepresentation extends MyAbstractAsynchronousCustomF
         if (renaming != null)
         	content += generateContentOfRenames(renaming);
         	content = replaceSlashesInConditions(content);
-        	
         String workspace = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
-//        String workspace = FileUtil.getProject(uriTextFile).getLocation() + "";
         File textFile = new File(workspace + uriTextFile.toPlatformString(true));
         writeFile(content, textFile);
 		monitor.done();
@@ -357,11 +353,11 @@ public class GenerateTextualRepresentation extends MyAbstractAsynchronousCustomF
     	StringBuffer buffer = new StringBuffer();
     	buffer.append("JavaVariables\n\tvariables {");
     	if (!variables.getVariables().isEmpty()) {
-    		buffer.append("\"" + variables.getVariables().get(0).getName() + "\"");
+    		buffer.append(variables.getVariables().get(0).getConfidentiality().toLowerCase() + " " + variables.getVariables().get(0).getType() + " " + variables.getVariables().get(0).getName());
     	}
     	for (int i = 1; i < variables.getVariables().size(); i++) {
     		JavaVariable variable = variables.getVariables().get(i);
-    		buffer.append(", \"" + variable.getName() + "\"");
+    		buffer.append(", " + variable.getConfidentiality().toLowerCase() + " " + variable.getType() + " " + variable.getName());
     	}
     	buffer.append("}\n\n");
     	return buffer.toString();

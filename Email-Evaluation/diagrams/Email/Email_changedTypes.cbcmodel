@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="email" confidentiality="low" type="IEmail" modifier="imm"/>
+    <variables name="normalEmail" confidentiality="low" type="Email" modifier="imm"/>
+    <variables name="secureEmail" confidentiality="low" type="SecureEmail" modifier="imm"/>
+    <variables name="testParam" confidentiality="low" type="Email" modifier="mut"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:CbCFormula name="Email_changedTypes">
+    <statement name="statement" context="low">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="low">
+        <postCondition name="">
+          <confToVarsMap key="email"/>
+          <atTypesToVarsMap key="SecureEmail" value="/1/@atType.31"/>
+        </postCondition>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1" context="low">
+          <refinement name="email = normalEmail;" context="low" typeableResult="true" tyleableText="email = normalEmail: Security levels are equal.">
+            <postCondition name="intermediateCond">
+              <confToVarsMap key="email"/>
+              <atTypesToVarsMap key="f" value="/1/@atType.32"/>
+            </postCondition>
+            <preCondition name="pre">
+              <atTypesToVarsMap key="f" value="/1/@atType.32"/>
+            </preCondition>
+          </refinement>
+          <postCondition name="intermediateCond">
+            <confToVarsMap key="email"/>
+          </postCondition>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2" context="low">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="low">
+            <postCondition name="">
+              <confToVarsMap key="email"/>
+              <atTypesToVarsMap key="SecureEmail" value="/1/@atType.31"/>
+            </postCondition>
+            <preCondition name="intermediateCond">
+              <confToVarsMap key="email"/>
+              <atTypesToVarsMap key="Email" value="/1/@atType.28"/>
+            </preCondition>
+            <firstStatement name="statement1" context="low">
+              <refinement name="email.printMail(testParam);" context="low" typeableResult="true" tyleableText="email.printMail(testParam): Method  email.printMail(testParam) is typeable.">
+                <postCondition name="intermediateCond">
+                  <confToVarsMap key="email"/>
+                  <atTypesToVarsMap key="Email" value="/1/@atType.28"/>
+                </postCondition>
+                <preCondition name="intermediateCond">
+                  <confToVarsMap key="email"/>
+                  <atTypesToVarsMap key="Email" value="/1/@atType.28"/>
+                </preCondition>
+              </refinement>
+              <postCondition name="intermediateCond">
+                <confToVarsMap key="email"/>
+              </postCondition>
+              <preCondition name="intermediateCond">
+                <confToVarsMap key="email"/>
+              </preCondition>
+            </firstStatement>
+            <secondStatement name="statement2" context="low">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="low">
+                <postCondition name="">
+                  <confToVarsMap key="email"/>
+                  <atTypesToVarsMap key="SecureEmail" value="/1/@atType.31"/>
+                </postCondition>
+                <preCondition name="intermediateCond">
+                  <confToVarsMap key="email"/>
+                  <atTypesToVarsMap key="Email" value="/1/@atType.29"/>
+                </preCondition>
+                <firstStatement name="statement1" context="low">
+                  <refinement name="email = secureEmail;" context="low" typeableResult="true" tyleableText="email = secureEmail: Security levels are equal.">
+                    <postCondition name="intermediateCond">
+                      <confToVarsMap key="email"/>
+                      <atTypesToVarsMap key="Email" value="/1/@atType.29"/>
+                    </postCondition>
+                    <preCondition name="intermediateCond">
+                      <confToVarsMap key="email"/>
+                      <atTypesToVarsMap key="Email" value="/1/@atType.29"/>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="intermediateCond">
+                    <confToVarsMap key="email"/>
+                  </postCondition>
+                  <preCondition name="intermediateCond">
+                    <confToVarsMap key="email"/>
+                  </preCondition>
+                </firstStatement>
+                <secondStatement name="statement2" context="low">
+                  <refinement name="email.printMail(testParam);" context="low" typeableResult="false" tyleableText="email.printMail(testParam): Defined paramters MDF is IMMUTABLE, runtime parameter can only be in (IMMUTABLE | CAPSULE), is MUTABLE. (Parameter: ParameterDefinition [name=testParam, securityLevel=low, mutationModifier=MUTABLE, type=Email, optionalEntity=null])">
+                    <postCondition name="post">
+                      <confToVarsMap key="email"/>
+                      <atTypesToVarsMap key="SecureEmail" value="/1/@atType.30"/>
+                    </postCondition>
+                    <preCondition name="intermediateCond">
+                      <confToVarsMap key="email"/>
+                      <atTypesToVarsMap key="SecureEmail" value="/1/@atType.30"/>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="post">
+                    <confToVarsMap key="email"/>
+                  </postCondition>
+                  <preCondition name="intermediateCond">
+                    <confToVarsMap key="email"/>
+                  </preCondition>
+                </secondStatement>
+                <intermediateCondition name="intermediateCond">
+                  <confToVarsMap key="email"/>
+                </intermediateCondition>
+              </refinement>
+              <postCondition name="post">
+                <confToVarsMap key="email"/>
+              </postCondition>
+              <preCondition name="intermediateCond">
+                <confToVarsMap key="email"/>
+              </preCondition>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond">
+              <confToVarsMap key="email"/>
+            </intermediateCondition>
+          </refinement>
+          <postCondition name="post">
+            <confToVarsMap key="email"/>
+          </postCondition>
+          <preCondition name="intermediateCond">
+            <confToVarsMap key="email"/>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond">
+          <confToVarsMap key="email"/>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="post">
+        <confToVarsMap key="email"/>
+      </postCondition>
+      <preCondition name="pre"/>
+    </statement>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="IEmail"/>
+    <atType name="email"/>
+    <atType name="email"/>
+    <atType name="email"/>
+    <atType name="email"/>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+  </cbcmodel:CbCFormula>
+</xmi:XMI>

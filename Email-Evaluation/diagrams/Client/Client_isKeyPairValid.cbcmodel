@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:MethodLink className="Client" methodSignature="boolean isKeyPairValid(int, int)"/>
+  <cbcmodel:CbCFormula name="Client_isKeyPairValid">
+    <statement name="statement" context="low" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1" context="low">
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="pre"/>
+            <guards name="publicKey == 0 || privateKey == 0"/>
+            <commands name="statement" context="high">
+              <refinement name="return false;" context="high" typeableResult="true" tyleableText="return false: Return is typeable because SEC-PROM of returned object (SL: low, MDF: IMMUTABLE)  is possible. ">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="(pre) &amp; (guard)"/>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="(pre) &amp; (guard)"/>
+            </commands>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2" context="low">
+          <refinement name="return privateKey == publicKey;" context="none" typeableResult="true" tyleableText="return privateKey == publicKey: Return is typeable since defined method return type SL (high) for method isKeyPairValid() and SL of returned object  (high) is equal.">
+            <postCondition name="post"/>
+            <preCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post">
+            <confToVarsMap key="privateKey" value="/1/@security.53"/>
+          </postCondition>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="publicKey" confidentiality="high" type="int" modifier="imm"/>
+    <variables name="privateKey" confidentiality="high" type="int" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

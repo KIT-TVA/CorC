@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:JavaVariables>
+    <variables name="client1" confidentiality="low" type="Client" modifier="mut"/>
+    <variables name="client2" confidentiality="low" type="Client" modifier="mut"/>
+    <variables name="client3" confidentiality="low" type="Client" modifier="mut"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:CbCFormula name="MainComp_main_compact" proven="true">
+    <statement name="statement" context="low">
+      <refinement name="client1.setPrivateKey(5);&#xD;&#xA;client1.addAddressbookEntry(&quot;client2&quot;, &quot;Sebastian&quot;);&#xD;&#xA;client1.addKeyringEntry(client2, 7);&#xD;&#xA;client1.addKeyringEntry(client3, 3);&#xD;&#xA;client2.addKeyringEntry(client1, 5);&#xD;&#xA;client2.addKeyringEntry(client3, 3);&#xD;&#xA;client3.addKeyringEntry(client2, 7);&#xD;&#xA;client2.setForwardReceiver(client3);&#xD;&#xA;Client.resetClients();" context="none" typeableResult="true" tyleableText="client1.setPrivateKey(5): Method  client1.setPrivateKey(5) is typeable.&#xA;client1.addAddressbookEntry(&quot;client2&quot;, &quot;Sebastian&quot;): Method  client1.addAddressbookEntry(&quot;client2&quot;, &quot;Sebastian&quot;) is typeable.&#xA;client1.addKeyringEntry(client2, 7): Method  client1.addKeyringEntry(client2, 7) is typeable.&#xA;client1.addKeyringEntry(client3, 3): Method  client1.addKeyringEntry(client3, 3) is typeable.&#xA;client2.addKeyringEntry(client1, 5): Method  client2.addKeyringEntry(client1, 5) is typeable.&#xA;client2.addKeyringEntry(client3, 3): Method  client2.addKeyringEntry(client3, 3) is typeable.&#xA;client3.addKeyringEntry(client2, 7): Method  client3.addKeyringEntry(client2, 7) is typeable.&#xA;client2.setForwardReceiver(client3): Method  client2.setForwardReceiver(client3) is typeable.&#xA;Client.resetClients(): Method  Client.resetClients() is typeable.">
+        <postCondition name="post"/>
+        <preCondition name="pre"/>
+      </refinement>
+      <postCondition name="post"/>
+      <preCondition name="pre"/>
+    </statement>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <atType name="@Unique"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="low"/>
+  </cbcmodel:CbCFormula>
+</xmi:XMI>

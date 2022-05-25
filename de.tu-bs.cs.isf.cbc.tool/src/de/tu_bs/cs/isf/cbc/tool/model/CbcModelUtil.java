@@ -18,11 +18,13 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
+import de.tu_bs.cs.isf.cbc.cbcmodel.IFbCSpecification;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Method;
+import de.tu_bs.cs.isf.cbc.cbcmodel.MethodLink;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Security;
 
 public class CbcModelUtil {
 	
@@ -39,6 +41,10 @@ public class CbcModelUtil {
 	public static void saveVariablesToModelFile(final JavaVariables variables, final Diagram d) throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(variables);
+	}
+	
+	private static void saveSecurityToModelFile(final Security security, final Resource resource) throws CoreException, IOException {
+		resource.getContents().add(security);
 	}
 	
 	public static CbCFormula readFormula(URI uri) {
@@ -61,15 +67,20 @@ public class CbcModelUtil {
 		Resource resource = getResource(d);
 		resource.getContents().add(conditions);
 	}
+
+	public static void saveMethodLinkToModelFile(MethodLink methodLink, Diagram d) throws CoreException, IOException {
+		Resource resource = getResource(d);
+		resource.getContents().add(methodLink);
+	}
+
+	public static void saveIFbCSpecificationToModelFile(IFbCSpecification spec, Diagram d) throws CoreException, IOException {
+		Resource resource = getResource(d);
+		resource.getContents().add(spec);
+	}
 	
 	public static void saveRenamingToModelFile(Renaming renaming, Diagram d) throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(renaming);
-	}
-	
-	public static void saveMethodRefinementsToModelFile(MethodRefinements refinements, Diagram d) throws CoreException, IOException {
-		Resource resource = getResource(d);
-		resource.getContents().add(refinements);
 	}
 	
 	public static Resource getResource(Diagram d) throws CoreException, IOException {

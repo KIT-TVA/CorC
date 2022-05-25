@@ -37,7 +37,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
-import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies;
+import de.tu_bs.cs.isf.cbc.tool.helper.CompareMethodBodies;
 
 
 /**
@@ -53,6 +53,7 @@ public class StrengthWeakStatementPattern extends IdPattern implements IPattern 
 	private static final String ID_POST_TEXT = "postText";
 	private static final String ID_MAIN_RECTANGLE = "mainRectangle";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
+	private static final String ID_IMAGE_CONTEXT = "imageContext";
 	//Headers:
 	private static final String ID_PRE_HEADER = "preHeader";
 	private static final String ID_POST_HEADER = "postHeader";
@@ -226,6 +227,9 @@ public class StrengthWeakStatementPattern extends IdPattern implements IPattern 
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
+			changesDone = true;
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 20, 10, 15, 15);
 			changesDone = true;
 		//Header:
 		} else if (id.equals(ID_NAME_HEADER)) {

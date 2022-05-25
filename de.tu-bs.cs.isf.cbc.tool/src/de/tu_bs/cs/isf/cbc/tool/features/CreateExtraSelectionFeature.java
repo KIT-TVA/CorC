@@ -38,10 +38,10 @@ public class CreateExtraSelectionFeature extends AbstractCreateFeature {
 		Condition guard = CbcmodelFactory.eINSTANCE.createCondition();
 		guard.setName("guard");
 		Condition pre = CbcmodelFactory.eINSTANCE.createCondition();
-		pre.setName("{}");
+		pre.setName("");
 		statement.setPreCondition(pre);
 		Condition post = CbcmodelFactory.eINSTANCE.createCondition();
-		post.setName("{}");
+		post.setName("");
 		statement.setPostCondition(post);
 		selectionStatement.getCommands().add(statement);
 		selectionStatement.getGuards().add(guard);

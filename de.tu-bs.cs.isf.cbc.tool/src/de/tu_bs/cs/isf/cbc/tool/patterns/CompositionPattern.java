@@ -52,6 +52,7 @@ public class CompositionPattern extends IdPattern implements IPattern {
 	private static final String ID_PRE1_TEXT = "pre1NameText";
 	private static final String ID_POST2_TEXT = "post2NameText";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
+	private static final String ID_IMAGE_CONTEXT = "imageContext";
 	//Header:
 	private static final String ID_PRE_HEADER = "preHeader";
 	private static final String ID_POST_HEADER = "postHeader";
@@ -99,6 +100,13 @@ public class CompositionPattern extends IdPattern implements IPattern {
 	public Object[] create(ICreateContext context) {
 		CompositionStatement compoStatement = CbcmodelFactory.eINSTANCE.createCompositionStatement();
 		compoStatement.setName("compositionStatement");
+		Condition pre = CbcmodelFactory.eINSTANCE.createCondition();
+		pre.setName("");
+		compoStatement.setPreCondition(pre);
+		Condition post = CbcmodelFactory.eINSTANCE.createCondition();
+		post.setName("");
+		compoStatement.setPostCondition(post);
+		
 		AbstractStatement statement1 = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 		statement1.setName("statement1");
 		compoStatement.setFirstStatement(statement1);
@@ -317,6 +325,9 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
 			changesDone = true;
+		} else if (id.equals(ID_IMAGE_CONTEXT)) {
+				Graphiti.getGaService().setLocationAndSize(ga, 20, 10, 15, 15);
+				changesDone = true;
 			
 		//HEADER:
 		} else if (id.equals(ID_PRE_HEADER)) {

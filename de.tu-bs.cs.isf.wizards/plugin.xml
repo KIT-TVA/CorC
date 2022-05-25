@@ -16,21 +16,6 @@
 		</wizard>
 	</extension>
 	 <!-- Examples: TAXONOMY TOOL-->
-	<extension point = "org.eclipse.ui.newWizards">
-		<category
-	   		id = "org.eclipse.ui.examples.taxonomy.tool"
-	   		name = "Taxonomy">
-		</category>
-		<wizard
-		class="de.tu_bs.cs.isf.taxonomy.exampleWizard.TaxWizard"
-        category="org.eclipse.ui.examples.taxonomy.tool"
-        icon="icons/taxlogov2.png"
-        id="de.tu-bs.cs.isf.cbc.helper.TaxonomyWizard"
-        name="Taxonomy Examples">
-       		<description>this wizard will create a new project in your workspace that contains example diagrams from the taxonomy tool</description>
-	   		<selection class="org.eclipse.core.resources.IResource"/>
-		</wizard>
-	</extension>
 	<!-- newDiagram: CorC-->
 	<extension point = "org.eclipse.ui.newWizards">
 		<wizard	
@@ -45,17 +30,5 @@
 		</wizard>
 	</extension>
 	<!-- newDiagram: TAX-->
-	<extension point = "org.eclipse.ui.newWizards">
-		<wizard	
-		class="de.tu_bs.cs.isf.taxonomy.newFileWizard.NewTaxFileWizard"
-        category="org.eclipse.ui.examples.taxonomy.tool"
-        icon="icons/taxlogo.png"
-        id="de.tu-bs.cs.isf.newDiagram.taxonomy.wizard"
-        project = "true"
-        name="new taxonomy diagram">
-       		<description>this wizard will let you create a new taxonomy diagram</description>
-	   		<selection class="org.eclipse.core.resources.IResource"/>
-		</wizard>
-	</extension>
 	
 </plugin>

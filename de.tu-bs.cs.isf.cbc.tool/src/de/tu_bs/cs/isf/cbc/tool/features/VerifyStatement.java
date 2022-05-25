@@ -1,26 +1,21 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
-import de.tu_bs.cs.isf.cbc.cbcmodel.ProductVariant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
+import de.tu_bs.cs.isf.cbc.tool.helper.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
-import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyAbstractAsynchronousCustomFeature;
-import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies;
 
 /**
  * Class that changes the abstract value of algorithms
@@ -56,8 +51,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
-			if (bo != null && (bo.getClass().equals(AbstractStatementImpl.class) || bo instanceof SkipStatement
-					|| bo instanceof ReturnStatement)) {
+			if (bo != null && (bo.getClass().equals(AbstractStatementImpl.class) || bo instanceof SkipStatement || bo instanceof ReturnStatement)) {
 				AbstractStatement statement = (AbstractStatement) bo;
 				if (statement.getRefinement() == null) {
 					ret = true;
@@ -78,8 +72,6 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				JavaVariables vars = null;
 				GlobalConditions conds = null;
 				Renaming renaming = null;
-				EList<ProductVariant> variants = null;
-				CbCFormula formula = null;
 				for (Shape shape : getDiagram().getChildren()) {
 					Object obj = getBusinessObjectForPictogramElement(shape);
 					if (obj instanceof JavaVariables) {
@@ -88,18 +80,12 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 						conds = (GlobalConditions) obj;
 					} else if (obj instanceof Renaming) {
 						renaming = (Renaming) obj;
-					} else if (obj instanceof MethodRefinements) {
-						MethodRefinements methodRef = (MethodRefinements) obj;
-						variants = methodRef.getProductvariants();
-					} else if (obj instanceof CbCFormula) {
-						formula = (CbCFormula) obj;
 					}
 				}
 				boolean prove = false;
 
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-					prove = ProveWithKey.proveStatementWithKey(statement, vars, conds, renaming, variants,
-							getDiagram().eResource().getURI(), monitor);
+					prove = ProveWithKey.proveStatementWithKey(statement, vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
 				} else {
 					Console.println("Statement is not in correct format.");
 				}
@@ -108,7 +94,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				} else {
 					statement.setProven(false);
 				}
-				updatePictogramElement(((Shape) pes[0]).getContainer());
+				updatePictogramElement(((Shape)pes[0]).getContainer());
 			}
 		}
 		monitor.done();

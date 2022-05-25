@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="Client_createClient_High">
+    <statement name="statement" context="low" typeableResult="false">
+      <refinement name="client.setForwardReceiver(forward);" context="none" typeableResult="false" tyleableText="client.setForwardReceiver(forward): Runtime receiver SL (high) is higher than expression SL (low). Need to use parameters with a higher SL. &#xA;&#x9;No automatic promotion of parameters possible since MDF of parameter 'forward' is not IMM|CAPS.">
+        <postCondition name="true">
+          <atTypesToVarsMap key="f" value="/0/@atType.41"/>
+        </postCondition>
+        <preCondition name="true">
+          <atTypesToVarsMap key="f" value="/0/@atType.24"/>
+        </preCondition>
+      </refinement>
+      <postCondition name="true">
+        <atTypesToVarsMap key="f" value="/0/@atType.41"/>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Owned"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <atType name="@Unique"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="low"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="high"/>
+    <security level="low"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="client" confidentiality="high" type="Client" modifier="imm"/>
+    <variables name="forward" confidentiality="low" type="Client" modifier="mut"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>
