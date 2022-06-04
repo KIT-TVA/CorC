@@ -2,48 +2,48 @@
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="FactorialGraphical" proven="true">
     <statement name="statement">
-      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true">
+      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
         <guards name="n = 0"/>
         <guards name="n = 1"/>
         <guards name="n >= 2"/>
         <commands name="statement">
           <refinement name="f = 1;" proven="true">
-            <postCondition name="f = frac(n)"/>
-            <preCondition name="(n >= 0) &amp; (n = 0)"/>
+            <postCondition name="modifiable(f); &#xD;&#xA;f = frac(n)"/>
+            <preCondition name="modifiable(\nothing);(n >= 0) &amp; (n = 0)"/>
           </refinement>
-          <postCondition name="f = frac(n)"/>
-          <preCondition name="(n >= 0) &amp; (n = 0)"/>
+          <postCondition name="modifiable(f);&#xD;&#xA;f = frac(n)"/>
+          <preCondition name="modifiable(\nothing);(n >= 0) &amp; (n = 0)"/>
         </commands>
         <commands name="statement">
           <refinement name="f = 1;" proven="true">
-            <postCondition name="f = frac(n)"/>
-            <preCondition name="(n >= 0) &amp; (n = 1)"/>
+            <postCondition name="modifiable(f);&#xD;&#xA;f = frac(n)"/>
+            <preCondition name="modifiable(\nothing);(n >= 0) &amp; (n = 1)"/>
           </refinement>
-          <postCondition name="f = frac(n)"/>
-          <preCondition name="(n >= 0) &amp; (n = 1)"/>
+          <postCondition name="modifiable(f);&#xD;&#xA;f = frac(n)"/>
+          <preCondition name="modifiable(\nothing);(n >= 0) &amp; (n = 1)"/>
         </commands>
         <commands name="statement">
-          <refinement name="f = n * frac(n-1);" proven="true">
-            <postCondition name="f = frac(n)"/>
-            <preCondition name="(n >= 0) &amp; (n >= 2)"/>
+          <refinement xsi:type="cbcmodel:MethodStatement" name="f = n*frac(n-1);" proven="true">
+            <postCondition name="modifiable(f);&#xD;&#xA;f = frac(n)"/>
+            <preCondition name="modifiable(\nothing);(n >= 0) &amp; (n >= 2)"/>
           </refinement>
-          <postCondition name="f = frac(n)"/>
-          <preCondition name="(n >= 0) &amp; (n >= 2)"/>
+          <postCondition name="modifiable(f);&#xD;&#xA;f = frac(n)"/>
+          <preCondition name="modifiable(\nothing);(n >= 0) &amp; (n >= 2)"/>
         </commands>
       </refinement>
-      <postCondition name="f = frac(n)"/>
+      <postCondition name="modifiable(f);&#xD;&#xA;f = frac(n)"/>
       <preCondition name="n >= 0"/>
     </statement>
   </cbcmodel:CbCFormula>
-  <cbcmodel:Renaming>
-    <rename type="int" function="Helper.factorial" newName="frac"/>
-  </cbcmodel:Renaming>
+  <cbcmodel:JavaVariables>
+    <variables name="int n"/>
+    <variables name="int f"/>
+  </cbcmodel:JavaVariables>
   <cbcmodel:GlobalConditions>
     <conditions name="n >= 0"/>
     <conditions name="n &lt; 6"/>
   </cbcmodel:GlobalConditions>
-  <cbcmodel:JavaVariables>
-    <variables name="int f"/>
-    <variables name="int n"/>
-  </cbcmodel:JavaVariables>
+  <cbcmodel:Renaming>
+    <rename type="int" function="Helper.factorial" newName="frac"/>
+  </cbcmodel:Renaming>
 </xmi:XMI>

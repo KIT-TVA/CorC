@@ -133,11 +133,11 @@ public class CorCWizard extends Wizard implements INewWizard {
 		File destinationCbcmodel = new File(folderpath +"/" + diagramName + ".cbcmodel");
 		//copy/paste helper.key:
 		String name = namePage.name.getText();
-		String keyDataPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "/" + name + "/src/prove" + diagramName;
+		String keyDataPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "/" + name + "/src/diagrams/prove" + diagramName;
    		File sourceHelper = new File (pluginPath + "/" + "helper" + diagramName + ".key");
    		File destinationHelper = new File(keyDataPath + "/" + "helper.key");
 		//create prove folder for the diagram:
-		IFolder proveFolder = project.getFolder("src/prove" + diagramName);
+		IFolder proveFolder = project.getFolder("src/diagrams/prove" + diagramName);
 		if (!proveFolder.exists()) {
 			try {
 				proveFolder.create(false, true, null);

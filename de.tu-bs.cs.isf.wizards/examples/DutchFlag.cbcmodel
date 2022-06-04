@@ -5,73 +5,73 @@
       <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
         <firstStatement name="statement1">
           <refinement name="wb = 0; wt = 0; bb = A.length;" proven="true">
-            <postCondition name="s(A,wb,wt,bb)"/>
-            <preCondition name="s(A,0,0,A.length)"/>
+            <postCondition name="modifiable(bb,wb,wt); s(A, wb, wt, bb)"/>
+            <preCondition name="s(A, 0, 0, A.length)"/>
           </refinement>
-          <postCondition name="s(A,wb,wt,bb)"/>
-          <preCondition name="s(A,0,0,A.length)"/>
+          <postCondition name="modifiable(bb,wb,wt);&#xD;&#xA;s(A, wb, wt, bb)"/>
+          <preCondition name="s(A, 0, 0, A.length)"/>
         </firstStatement>
         <secondStatement name="statement2">
           <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" variantProven="true" preProven="true" postProven="true">
-            <postCondition name="s(A,wb,wt,bb) &amp; wt = bb"/>
-            <preCondition name="s(A,wb,wt,bb)"/>
+            <postCondition name="modifiable(bb,wb,wt);&#xD;&#xA;s(A, wb, wt, bb) &amp; wt = bb"/>
+            <preCondition name="modifiable(bb,wb,wt);&#xD;&#xA;s(A, wb, wt, bb)"/>
             <loopStatement name="loop">
               <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
                 <guards name="A[wt] = 0"/>
                 <guards name="A[wt] = 1"/>
                 <guards name="A[wt] = 2"/>
-                <commands name="statement11">
-                  <refinement name="t = A[wt]; A[wt] = A[wb]; A[wb] = t; wt = wt + 1; wb = wb + 1;" proven="true">
-                    <postCondition name="s(A,wb,wt,bb)"/>
-                    <preCondition name="((s(A,wb,wt,bb)) &amp; (wt != bb)) &amp; (A[wt] = 0)"/>
+                <commands name="statement">
+                  <refinement name="t = A[wt]; A[wt] = A[wb]; A[wb] = t; wt = wt+1; wb = wb+1;" proven="true">
+                    <postCondition name="modifiable(A[wb],A[wt],t,wb,wt); &#xD;&#xA;s(A, wb, wt, bb)"/>
+                    <preCondition name="modifiable(\nothing);((s(A, wb, wt, bb)) &amp; (wt != bb)) &amp; (A[wt] = 0)"/>
                   </refinement>
-                  <postCondition name="s(A,wb,wt,bb)"/>
-                  <preCondition name="((s(A,wb,wt,bb)) &amp; (wt != bb)) &amp; (A[wt] = 0)"/>
+                  <postCondition name="modifiable(wt,A[wb],A[wt],t,wb,A[bb-1],bb);&#xD;&#xA;s(A, wb, wt, bb)"/>
+                  <preCondition name="modifiable(\nothing);((s(A, wb, wt, bb)) &amp; (wt != bb)) &amp; (A[wt] = 0)"/>
                 </commands>
-                <commands name="statement21">
-                  <refinement name="wt = wt + 1;" proven="true">
-                    <postCondition name="s(A,wb,wt,bb)"/>
-                    <preCondition name="((s(A,wb,wt,bb)) &amp; (wt != bb)) &amp; (A[wt] = 1)"/>
+                <commands name="statement">
+                  <refinement name="wt = wt+1;" proven="true">
+                    <postCondition name="modifiable(A[wb],A[wt],t,wb,wt);&#xD;&#xA;s(A, wb, wt, bb)"/>
+                    <preCondition name="modifiable(\nothing);((s(A, wb, wt, bb)) &amp; (wt != bb)) &amp; (A[wt] = 1)"/>
                   </refinement>
-                  <postCondition name="s(A,wb,wt,bb)"/>
-                  <preCondition name="((s(A,wb,wt,bb)) &amp; (wt != bb)) &amp; (A[wt] = 1)"/>
+                  <postCondition name="modifiable(wt);&#xD;&#xA;s(A, wb, wt, bb)"/>
+                  <preCondition name="modifiable(\nothing);((s(A, wb, wt, bb)) &amp; (wt != bb)) &amp; (A[wt] = 1)"/>
                 </commands>
-                <commands name="statement31">
-                  <refinement name="t = A[wt]; A[wt] = A[bb-1]; A[bb-1] = t; bb = bb - 1;" proven="true">
-                    <postCondition name="s(A,wb,wt,bb)"/>
-                    <preCondition name="((s(A,wb,wt,bb)) &amp; (wt != bb)) &amp; (A[wt] = 2)"/>
+                <commands name="statement">
+                  <refinement name="t = A[wt]; A[wt] = A[bb-1]; A[bb-1] = t; bb = bb-1;" proven="true">
+                    <postCondition name="modifiable(wt,A[wb],A[wt],t,wb,A[bb-1],bb);&#xD;&#xA;s(A, wb, wt, bb)"/>
+                    <preCondition name="modifiable(\nothing);((s(A, wb, wt, bb)) &amp; (wt != bb)) &amp; (A[wt] = 2)"/>
                   </refinement>
-                  <postCondition name="s(A,wb,wt,bb)"/>
-                  <preCondition name="((s(A,wb,wt,bb)) &amp; (wt != bb)) &amp; (A[wt] = 2)"/>
+                  <postCondition name="modifiable(A[bb-1],A[wt],bb,t);&#xD;&#xA;s(A, wb, wt, bb)"/>
+                  <preCondition name="modifiable(\nothing);((s(A, wb, wt, bb)) &amp; (wt != bb)) &amp; (A[wt] = 2)"/>
                 </commands>
               </refinement>
-              <postCondition name="s(A,wb,wt,bb)"/>
-              <preCondition name="(s(A,wb,wt,bb)) &amp; (wt != bb)"/>
+              <postCondition name="modifiable(wt,A[wb],A[wt],t,wb,A[bb-1],bb);&#xD;&#xA;s(A, wb, wt, bb)"/>
+              <preCondition name="(s(A, wb, wt, bb)) &amp; (wt != bb)"/>
             </loopStatement>
             <variant name="bb-wt"/>
-            <invariant name="s(A,wb,wt,bb)"/>
+            <invariant name="s(A, wb, wt, bb)"/>
             <guard name="wt != bb"/>
           </refinement>
-          <postCondition name="s(A,wb,wt,bb) &amp; wt = bb"/>
-          <preCondition name="s(A,wb,wt,bb)"/>
+          <postCondition name="modifiable(wt,A[wb],A[wt],t,wb,A[bb-1],bb);&#xD;&#xA;s(A, wb, wt, bb) &amp; wt = bb"/>
+          <preCondition name="modifiable(bb,wb,wt);&#xD;&#xA;s(A, wb, wt, bb)"/>
         </secondStatement>
-        <intermediateCondition name="s(A,wb,wt,bb)"/>
+        <intermediateCondition name="modifiable(bb,wb,wt);&#xD;&#xA;s(A, wb, wt, bb)"/>
       </refinement>
-      <postCondition name="s(A,wb,wt,bb) &amp; wt = bb"/>
-      <preCondition name="s(A,0,0,A.length)"/>
+      <postCondition name="modifiable(wt,A[wb],A[wt],t,wb,A[bb-1],bb);&#xD;&#xA;s(A, wb, wt, bb) &amp; wt = bb"/>
+      <preCondition name="s(A, 0, 0, A.length)"/>
     </statement>
   </cbcmodel:CbCFormula>
   <cbcmodel:JavaVariables>
-    <variables name="int[] A"/>
-    <variables name="int wt"/>
-    <variables name="int wb"/>
-    <variables name="int bb"/>
     <variables name="int t"/>
+    <variables name="int bb"/>
+    <variables name="int wb"/>
+    <variables name="int wt"/>
+    <variables name="int[] A"/>
   </cbcmodel:JavaVariables>
   <cbcmodel:GlobalConditions>
-    <conditions name="A!=null"/>
-    <conditions name="A.length>0"/>
-    <conditions name="0&lt;=wb &amp; wb&lt;=wt &amp; wt&lt;=bb &amp; bb&lt;=A.length"/>
-    <conditions name="(\forall int i; ((i>=0 &amp; i&lt;A.length) -> (A[i] = 0 | A[i] = 1 | A[i] = 2)))"/>
+    <conditions name="A != null"/>
+    <conditions name="A.length > 0"/>
+    <conditions name="0 &lt;= wb &amp; wb &lt;= wt &amp; wt &lt;= bb &amp; bb &lt;= A.length"/>
+    <conditions name="\forall int i; ((i >= 0 &amp; i &lt; A.length) -> (A[i] = 0 | A[i] = 1 | A[i] = 2))"/>
   </cbcmodel:GlobalConditions>
 </xmi:XMI>

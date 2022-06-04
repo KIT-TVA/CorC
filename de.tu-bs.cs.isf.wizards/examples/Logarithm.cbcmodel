@@ -5,49 +5,49 @@
       <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
         <firstStatement name="statement1">
           <refinement name="n=N; l=0;" proven="true">
-            <postCondition name="N>=n*pow(2,l) &#xD;&#xA;&amp; N&lt;(n+1)* pow(2,l)"/>
-            <preCondition name="N>0"/>
+            <postCondition name="modifiable(l,n); N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)"/>
+            <preCondition name="N > 0"/>
           </refinement>
-          <postCondition name="N>=n*pow(2,l) &#xD;&#xA;&amp; N&lt;(n+1)* pow(2,l)"/>
-          <preCondition name="N>0"/>
+          <postCondition name="modifiable(l,n);&#xD;&#xA;N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)"/>
+          <preCondition name="N > 0"/>
         </firstStatement>
         <secondStatement name="statement2">
           <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" variantProven="true" preProven="true" postProven="true">
-            <postCondition name="N>=n*pow(2,l) &#xD;&#xA;&amp; N&lt;(n+1)* pow(2,l) &#xD;&#xA;&amp; n=1"/>
-            <preCondition name="N>=n*pow(2,l) &#xD;&#xA;&amp; N&lt;(n+1)* pow(2,l)"/>
+            <postCondition name="modifiable(l,n);&#xD;&#xA;N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l) &amp; n = 1"/>
+            <preCondition name="modifiable(l,n);&#xD;&#xA;N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)"/>
             <loopStatement name="loop">
-              <refinement name="n=n/2; l=l+1;" proven="true">
-                <postCondition name="N>=n*pow(2,l) &#xD;&#xA;&amp; N&lt;(n+1)* pow(2,l)"/>
-                <preCondition name="(N>=n*pow(2,l) &#xD;&#xA;&amp; N&lt;(n+1)* pow(2,l)) &amp; (n!=1)"/>
+              <refinement name="n = n/2; l=l+1;" proven="true">
+                <postCondition name="modifiable(l,n); N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)"/>
+                <preCondition name="(N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)) &amp; (n != 1)"/>
               </refinement>
-              <postCondition name="N>=n*pow(2,l) &#xD;&#xA;&amp; N&lt;(n+1)* pow(2,l)"/>
-              <preCondition name="(N>=n*pow(2,l) &#xD;&#xA;&amp; N&lt;(n+1)* pow(2,l)) &amp; (n!=1)"/>
+              <postCondition name="modifiable(l,n);&#xD;&#xA;N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)"/>
+              <preCondition name="(N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)) &amp; (n != 1)"/>
             </loopStatement>
             <variant name="n-1"/>
-            <invariant name="N>=n*pow(2,l) &#xD;&#xA;&amp; N&lt;(n+1)* pow(2,l)"/>
-            <guard name="n!=1"/>
+            <invariant name="N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)"/>
+            <guard name="n != 1"/>
           </refinement>
-          <postCondition name="N>=n*pow(2,l) &#xD;&#xA;&amp; N&lt;(n+1)* pow(2,l) &#xD;&#xA;&amp; n=1"/>
-          <preCondition name="N>=n*pow(2,l) &#xD;&#xA;&amp; N&lt;(n+1)* pow(2,l)"/>
+          <postCondition name="modifiable(l,n);&#xD;&#xA;N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l) &amp; n = 1"/>
+          <preCondition name="modifiable(l,n);&#xD;&#xA;N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)"/>
         </secondStatement>
-        <intermediateCondition name="N>=n*pow(2,l) &#xD;&#xA;&amp; N&lt;(n+1)* pow(2,l)"/>
+        <intermediateCondition name="modifiable(l,n);&#xD;&#xA;N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)"/>
       </refinement>
-      <postCondition name="N>=n*pow(2,l) &#xD;&#xA;&amp; N&lt;(n+1)* pow(2,l) &#xD;&#xA;&amp; n=1"/>
-      <preCondition name="N>0"/>
+      <postCondition name="modifiable(l,n);&#xD;&#xA;N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l) &amp; n = 1"/>
+      <preCondition name="N > 0"/>
     </statement>
   </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int n"/>
+    <variables name="int l"/>
+    <variables name="int N"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="N > 0"/>
+    <conditions name="n &lt;= N &amp; n >= 1"/>
+    <conditions name="l >= 0 &amp; l &lt; N"/>
+    <conditions name="N &lt; 20"/>
+  </cbcmodel:GlobalConditions>
   <cbcmodel:Renaming>
     <rename type="int" function="Helper.pow" newName="pow"/>
   </cbcmodel:Renaming>
-  <cbcmodel:JavaVariables>
-    <variables name="int N"/>
-    <variables name="int l"/>
-    <variables name="int n"/>
-  </cbcmodel:JavaVariables>
-  <cbcmodel:GlobalConditions>
-    <conditions name="N>0"/>
-    <conditions name="n&lt;=N &amp; n>=1"/>
-    <conditions name="l>= 0 &amp; l&lt;N"/>
-    <conditions name="N&lt;20"/>
-  </cbcmodel:GlobalConditions>
 </xmi:XMI>
