@@ -4,7 +4,6 @@ public class Account {
     public int balance;
     public int DAILY_LIMIT;
     public int withdraw;
-    public static int INTEREST_RATE;
     public int interest;
 
     /*@ invariant balance >= OVERDRAFT_LIMIT; @*/
@@ -84,11 +83,11 @@ public class Account {
 	}
 
 	/*@
-    @ public normal_behavior
-    @ requires true;
-    @ ensures (\result == false ==> (withdraw == \old(withdraw) &&  balance == \old(balance))) && (\result == true ==> (withdraw <= \old(withdraw)) &&  balance == \old(balance) + x) && balance >= OVERDRAFT_LIMIT;
-    @ assignable withdraw;
-    @*/
+	@ normal_behavior
+	@ requires true;
+	@ ensures (\result == false ==> (withdraw == \old(withdraw) &&  balance == \old(balance))) && (\result == true ==> (withdraw <= \old(withdraw)) &&  balance == \old(balance) + x);
+	@ assignable withdraw;
+	@*/
 	public boolean update(int x) {
 		int newWithdraw;
 		boolean ret;
@@ -116,16 +115,19 @@ public class Account {
 
 	}
 
+// Code from C:/Users/mko/Documents/ISF/corczweinull/CorC/BankAccountOO/src/Account_helper.java
+	final static int INTEREST_RATE = 2;
+	
 	/*@
 	@ normal_behavior
 	@ requires true;
-	@ ensures true;
+	@ ensures (balance >= 0 ==> \result >= 0) && (balance <= 0 ==> \result <= 0);
 	@ assignable \nothing;
 	@*/
-	public int interestCalculate() {
-		int ret;
-		ret = this.balance * this.INTEREST_RATE / 36500;
-		return ret;
-
+	public /*@helper pure@*/ int interestCalculate() {
+		int result;
+		result = balance * INTEREST_RATE / 36500;
+		return result; 
 	}
+// End of code from C:/Users/mko/Documents/ISF/corczweinull/CorC/BankAccountOO/src/Account_helper.java
 }

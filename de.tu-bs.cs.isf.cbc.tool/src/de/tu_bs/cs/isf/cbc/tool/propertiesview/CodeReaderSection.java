@@ -139,7 +139,7 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 			codeText.setText(text);
 			codeText.setEditable(true);
 			saveButton.setEnabled(true);
-			styleText();
+			styleText(codeText, display);
 			parent.pack();
 			tabbedPropertySheetPage.resizeScrolledComposite();
 		} else {
@@ -154,7 +154,7 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 	/**
 	 * Method for highlighting of key-words.
 	 */
-	public void styleText() {
+	public static void styleText(StyledText codeText, Display display) {
 		String[] lines = codeText.getText().split("\\n");
 		String keyWord1 = "forall";
 		String keyWord2 = "exists";
@@ -216,7 +216,7 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 	/**
 	 * Method to format condition-code.
 	 */
-	public String formateCode(String unformatted) {
+	public static String formateCode(String unformatted) {
 		unformatted = unformatted.replaceAll("\n", "");
 		unformatted = unformatted.replaceAll("\r", "");
 		String formatted = "";
@@ -270,7 +270,7 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 	/**
 	 * Method to format statement-code.
 	 */
-	public String generateCode2(String unformatted) {
+	public static String generateCode2(String unformatted) {
 		String formatted = "";
 		unformatted = unformatted.replaceAll("\n", "");
 		unformatted = unformatted.replaceAll("\r", "");

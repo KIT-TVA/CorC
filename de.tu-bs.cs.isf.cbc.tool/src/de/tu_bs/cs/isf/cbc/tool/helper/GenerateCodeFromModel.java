@@ -70,7 +70,7 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 			}
 		} 
 		
-		String signatureString = formula.getMethodObj().getSignature();
+		String signatureString = formula.getMethodObj() != null ? formula.getMethodObj().getSignature() : ("public void " + formula.getName().toLowerCase() + " ()");
 		
 		JavaVariable returnVariable = null;
 		int counter = 0;
@@ -102,9 +102,9 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 		for(int i = 2; i < uri.segments().length - 2; i++) {
 			location += File.separator + uri.segment(i);
 		}
-		location += File.separator + formula.getClassName() + ".java";
+		location += File.separator + (formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName()) + ".java";
 		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString);
-		writeFile(location, code, formula.getMethodObj().getParentClass().getPackage(), formula.getClassName(), signatureString, globalVariables);
+		writeFile(location, code, formula.getMethodObj() != null ? formula.getMethodObj().getParentClass().getPackage() : "", formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName(), signatureString, globalVariables);
 	}
 
 	private void writeFile(String location, String code, String packageName, String className,  String signature, String globalVariables) {
@@ -145,6 +145,5 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-	}
-	
+	}	
 }

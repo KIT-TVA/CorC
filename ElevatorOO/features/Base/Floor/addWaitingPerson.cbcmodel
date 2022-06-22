@@ -4,7 +4,7 @@
     <statement name="statement" id="f02c01c7-dd04-4c1b-a3cd-3ab8ce6649f6">
       <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="d6816a5c-7643-4aa2-b6d6-1bcd2023d7ab">
         <firstStatement name="statement1" id="cd8a8573-fb5e-45c8-9434-5647fc559047">
-          <refinement name="this.callElevator();" id="322f7f76-5fb6-4c17-90de-353e11d2cd07">
+          <refinement name="this.callElevator();" proven="true" id="322f7f76-5fb6-4c17-90de-353e11d2cd07">
             <postCondition name="this.hasCall() = TRUE"/>
             <preCondition name="person != null"/>
           </refinement>

@@ -97,10 +97,11 @@ public class FileUtil implements IFileUtil{
 	private static IProject getProjectLocationS(String uriPath) {
 		uriPath = uriPath.substring(1, uriPath.length());
 		int positionOfSlash = uriPath.indexOf('/') + 1;
+		String projectName = uriPath.substring(0, positionOfSlash-1);
 		uriPath = uriPath.substring(positionOfSlash, uriPath.length());
 		IProject thisProject = null;
 		for (IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-			if (p.getFile(new Path(uriPath)).exists()) {
+			if (p.getFile(new Path(uriPath)).exists() && p.getName().equalsIgnoreCase(projectName)) {
 				thisProject = p;
 				break;
 			}
@@ -168,12 +169,11 @@ public class FileUtil implements IFileUtil{
 		return thisProject;
 	}
 	
-	public File writeFile(String problem, String location, int numberFile, boolean override, AbstractStatement statement, String subProofName) {
+	public File writeFile(String problem, String location, boolean override, AbstractStatement statement, String subProofName) {
 		FileNameManager manager = new FileNameManager();
 		String keyFileName = manager.getFileName(problem, location, statement, subProofName);
 		
 		File keyFile = new File(location + keyFileName + ".key");
-		//File keyFile = new File(location + "/prove" + numberFile + ".key"); varcorc beweisdatei vor merge mit beweisstatistik
 
 		File keyHelperFile = new File(location + "/helper.key");
 		

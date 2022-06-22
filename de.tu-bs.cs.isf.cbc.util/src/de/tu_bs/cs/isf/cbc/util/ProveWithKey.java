@@ -25,6 +25,7 @@ import com.google.common.hash.Hashing;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
@@ -34,7 +35,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
@@ -62,8 +62,6 @@ public class ProveWithKey {
 	private String sourceFolder;
 	private boolean isVariationalProject;
 	private String configName;
-
-	// new field Malena BA
 	private String problem;
 	private String subProofName = "";
 	
@@ -97,8 +95,8 @@ public class ProveWithKey {
 		}
 	}
 	
-	public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, int numberfile, String callingClass, boolean forceProving) {
-		File location = createProveStatementWithKey(null, null, 0, true, "", "", returnStatement, callingClass);
+	public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, String callingClass, boolean forceProving) {
+		File location = createProveStatementWithKey(null, null, true, "", "", returnStatement, callingClass);
 		
 		// TODO: proving will only skip if already true
 		if (!forceProving) {
@@ -116,11 +114,9 @@ public class ProveWithKey {
 		return proveWithKey(location, inlining);
 }
 
-public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, boolean returnStatement, boolean inlining, int numberfile, String callingMethod, String varM, String callingClass, boolean forceProving) {
-		
+public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, boolean returnStatement, boolean inlining, String callingMethod, String varM, String callingClass, boolean forceProving) {
 		if (refinements == null || refinements.size() == 0) {
-			File location = createProveStatementWithKey(null, refinementsVars, numberfile, true, callingMethod, varM, returnStatement, callingClass);
-			
+			File location = createProveStatementWithKey(null, refinementsVars, true, callingMethod, varM, returnStatement, callingClass);
 			if (!forceProving) {
 				String problemHash = Hashing.sha256().hashString(problem, StandardCharsets.UTF_8).toString();
 				String filePath = location.getAbsolutePath().toString();
@@ -135,7 +131,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 			return proveWithKey(location, inlining);
 		} else {
 			boolean proven = true;			
-				File location = createProveStatementWithKey(refinements, refinementsVars, numberfile, true, callingMethod, varM, returnStatement, callingClass);
+				File location = createProveStatementWithKey(refinements, refinementsVars, true, callingMethod, varM, returnStatement, callingClass);
 				if (!forceProving) {
 					String problemHash = Hashing.sha256().hashString(problem, StandardCharsets.UTF_8).toString();
 					String filePath = location.getAbsolutePath().toString();
@@ -147,8 +143,6 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 					}
 				}
 				Console.println("  Verify Pre -> {Statement} Post");
-
-
 			if (!proveWithKey(location, inlining)) {
 				proven = false;
 			}
@@ -156,7 +150,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		}
 	}
 
-	public File createProveStatementWithKey(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, int numberFile, boolean override,	String callingMethod, String varM, boolean returnStatement, String callingClass) {
+	public File createProveStatementWithKey(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, boolean override, String callingMethod, String varM, boolean returnStatement, String callingClass) {
 		String callingFeature = uri.split("/")[3];
 		KeYFileContent content = new KeYFileContent();
 		JavaVariables varsFromJavaClass = readFieldsFromClass(callingClass);
@@ -188,7 +182,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		problem = problem.replaceAll("return", ""); // TODO replace with correct handling of return
 
 		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(problem, location, numberFile, override, statement, subProofName);
+		File keyFile = fileHandler.writeFile(problem, location, override, statement, subProofName);
 		return keyFile;
 	}
 
@@ -200,6 +194,11 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 			return vars;
 		}
 		List<String> lines = fileHandler.readFileInList(file.getAbsolutePath());
+		if (lines.get(0).contains(" extends ")) {
+			String inheritedClassName = lines.get(0).trim();
+			inheritedClassName = inheritedClassName.substring(inheritedClassName.indexOf(" extends ") + 9, inheritedClassName.indexOf("{")).trim();
+			vars = readFieldsFromClass(inheritedClassName);
+		}
 		int i = 2;
 		while (lines.get(i).contains(";")) {
 			String field = lines.get(i++).replace(";", "");
@@ -260,30 +259,6 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		}
 		return invariants;
 	}
-
-	
-	private List<Condition> readInvariantsFromClass() {
-		List<Condition> invs = new ArrayList<Condition>();
-		for (Condition c : formula.getMethodObj().getParentClass().getClassInvariants()) {
-			invs.add(c);
-		}
-		if (formula.getMethodObj().getParentClass().getInheritsFrom() != null) {
-			for (Condition c : formula.getMethodObj().getParentClass().getInheritsFrom().getClassInvariants()) {
-				invs.add(c);
-			}
-		}
-		return invs;
-	}
-	
-	private List<String> readInheritedFields() {
-		List<String> fields = new ArrayList<String>();
-		if (formula.getMethodObj().getParentClass().getInheritsFrom() != null) {
-			for (Field f : formula.getMethodObj().getParentClass().getInheritsFrom().getFields()) {
-				fields.add(f.getDisplayedName().substring(f.getDisplayedName().indexOf(" ") + 1));
-			}
-		}
-		return fields;
-	}
 	
 	public void readPrePostModVars(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, JavaVariable returnVariable, KeYFileContent content, String callingClass) {
 		CbCFormula formula = getCbCFormula(statement);
@@ -293,6 +268,17 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		String post = Parser.getConditionFromCondition(statement.getPostCondition().getName());
 		List<String> modifiables = Parser.getModifiedVarsFromCondition(statement.getPostCondition().getName());
 
+		String preInherited = applyLiskovInheritance(pre, preFormula, "pre");
+		String postInherited = applyLiskovInheritance(post, postFormula, "post");
+		String preInvariant = "";
+		String postInvariant = "";
+		
+		List<Condition> invariants = readInvariantsFromClass(callingClass);
+		for (Condition c : invariants) {
+			preInvariant += " & " + c.getName();
+			postInvariant += " & " + c.getName();
+		}
+		
 		if (refinements != null && pre.equals(preFormula)) { // TODO composition only for pre post of formula. Extend to every case
 			pre = composeContractForCbCDiagram(formula.getCompositionTechnique(), refinements, pre,	Parser.KEYWORD_JML_PRE, returnVariable);
 		}
@@ -301,12 +287,11 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 			post = composeContractForCbCDiagram(formula.getCompositionTechnique(), refinements, post, Parser.KEYWORD_JML_POST, returnVariable);
 		}
 
-		List<Condition> invariants = readInvariantsFromClass(callingClass);
-		for (Condition c : invariants) {
-			pre += " & " + c.getName();
-			post += " & " + c.getName();
-		}
-
+		pre = "(" + pre + preInherited + ")";
+		post = "(" + post + postInherited + ")";
+		if (pre.equals(preFormula)) pre += preInvariant;
+		if (pre.equals(preFormula)) post += postInvariant;
+		
 		content.setPre(resolveResultKeyword(pre, returnVariable));
 		content.setPost(resolveResultKeyword(post, returnVariable));
 		List<String> unmodifiedVariables = Parser.getUnmodifiedVars(modifiables, vars);
@@ -319,6 +304,24 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		if (post == null || post.length() == 0) {
 			content.setPost("true");
 		}
+	}
+
+	private String applyLiskovInheritance(String cond, String condFormula, String type) {
+		if (formula.getMethodObj() != null && formula.getMethodObj().getParentClass().getInheritsFrom() != null) {
+			if (cond.equals(condFormula)) {
+				for (Method m : formula.getMethodObj().getParentClass().getInheritsFrom().getMethods()) {
+					if (m.getName().equals(formula.getMethodObj().getName())) {
+						switch (type) {
+							case "pre" :
+								return " | (" + Parser.getConditionFromCondition(m.getCbcStartTriple().getStatement().getPreCondition().getName()) + ")";
+							case "post" :
+								return " & (" + Parser.getConditionFromCondition(m.getCbcStartTriple().getStatement().getPostCondition().getName()) + ")";
+						}
+					}
+				}
+			}
+		}
+		return "";
 	}
 
 	public void replaceOriginalInStatement(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, String callingMethod, KeYFileContent content,
@@ -559,23 +562,25 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		return false;
 	}
 
-	public boolean proveCImpliesCWithKey(Condition preCondition, Condition postCondition, int numberFile) {
+	public boolean proveCImpliesCWithKey(Condition preCondition, Condition postCondition) {
 		subProofName = "precondition";
-		File location = createProveCImpliesCWithKey(preCondition.getName(), postCondition.getName(), numberFile, true);
+		File location = createProveCImpliesCWithKey(preCondition.getName(), postCondition.getName(), true);
 		Console.println("  Verify Pre -> Invariant");
 		return proveWithKey(location, false);
 	}
 
-	public File createProveCImpliesCWithKey(String preCondition, String postCondition, int numberFile, boolean override) {
+	public File createProveCImpliesCWithKey(String preCondition, String postCondition, boolean override) {
 		KeYFileContent content = new KeYFileContent();
 		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
 		content.readVariables(vars);
 		content.readGlobalConditions(conds);
-		content.readInvariants(readInvariantsFromClass());
+		content.readInvariants(readInvariantsFromClass(uri.split("/")[4]));
 
-		content.setPreFromCondition(preCondition);
-		content.setPostFromCondition(postCondition);
+		//content.setPreFromCondition(preCondition);
+		//content.setPostFromCondition(postCondition);
+		content.setPreFromCondition(preCondition + applyLiskovInheritance(preCondition, Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre"));
+		content.setPostFromCondition(postCondition + applyLiskovInheritance(postCondition, Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName()), "post"));
 		content.rename(renaming);
 		content.replaceThisWithSelf();
 		content.addSelfForFields(vars);
@@ -587,19 +592,19 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		problem = content.getKeYCImpliesCContent();
 
 		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(problem, location, numberFile, override, statement, subProofName);
+		File keyFile = fileHandler.writeFile(problem, location, override, statement, subProofName);
 		return keyFile;
 	}
 
-	public boolean provePostRepetitionWithKey(Condition invariant, Condition guard, Condition postCondition, int numberfile) {
+	public boolean provePostRepetitionWithKey(Condition invariant, Condition guard, Condition postCondition) {
 		subProofName = "postcondition";
 		String pre = invariant.getName() + " & !(" + guard.getName() + ")";
-		File location = createProveCImpliesCWithKey(pre, postCondition.getName(), numberfile, true);
+		File location = createProveCImpliesCWithKey(pre, postCondition.getName(), true);
 		Console.println("  Verify (Invariant & !Guard) -> Post");
 		return proveWithKey(location, false);
 	}
 
-	public boolean provePreSelWithKey(EList<Condition> guards, Condition preCondition, int numberfile) {
+	public boolean provePreSelWithKey(EList<Condition> guards, Condition preCondition) {
 		String guardString = "";
 		if (guards != null && guards.get(0) != null) {
 			guardString = "((" + guards.get(0).getName() + ")";
@@ -610,19 +615,19 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		} else {
 			guardString = "true";
 		}
-		File location = createProveCImpliesCWithKey(preCondition.getName(), guardString, numberfile, true);
+		File location = createProveCImpliesCWithKey(preCondition.getName(), guardString, true);
 		Console.println("  Verify Pre -> GvGvG...");
 		return proveWithKey(location, false);
 	}
 
-	public boolean proveVariantWithKey(String code, Condition invariant, Condition guard, Variant variant, int numberfile) {
+	public boolean proveVariantWithKey(String code, Condition invariant, Condition guard, Variant variant) {
 		subProofName = "variant";
-		File location = createProveVariantWithKey(code, invariant, guard, variant, numberfile, true);
+		File location = createProveVariantWithKey(code, invariant, guard, variant, true);
 		Console.println("Verify Pre -> {WhileStatement} (variant<variant0 & variant >= 0)");
 		return proveWithKey(location, false);
 	}
 
-	public File createProveVariantWithKey(String code, Condition invariant, Condition guard, Variant variant, int numberFile, boolean override) {
+	public File createProveVariantWithKey(String code, Condition invariant, Condition guard, Variant variant, boolean override) {
 		KeYFileContent content = new KeYFileContent();
 		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
@@ -642,25 +647,25 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		problem = content.getKeYStatementContent();
 
 		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(problem, location, numberFile, override, statement, subProofName);
+		File keyFile = fileHandler.writeFile(problem, location, override, statement, subProofName);
 		return keyFile;
 	}
 
 	public String proveUseWeakestPreWithKey() {
-		File location = createProveUseWeakestPreWithKey(0, true);
+		File location = createProveUseWeakestPreWithKey(true);
 		Console.println("Verify Pre -> {Statement} Post");
 		return createWPWithKey(location);
 	}
 
-	private File createProveUseWeakestPreWithKey(int numberFile, boolean override) {
+	private File createProveUseWeakestPreWithKey(boolean override) {
 		KeYFileContent content = new KeYFileContent();
 		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
 		content.readVariables(vars);
 		content.readGlobalConditions(conds);
-		content.readInvariants(readInvariantsFromClass());
+		content.readInvariants(readInvariantsFromClass(uri.split("/")[4]));
 		content.setStatement(statement.getName());
-		content.setPostFromCondition(statement.getPostCondition().getName());
+		content.setPostFromCondition("(" + statement.getPostCondition().getName() + applyLiskovInheritance(statement.getPostCondition().getName(), Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre") + ")");
 		content.replaceThisWithSelf();
 		content.addSelfForFields(vars);
 		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
@@ -672,7 +677,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		problem = content.getKeYStatementContent();
 
 		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(problem, location, numberFile, override, statement, subProofName);
+		File keyFile = fileHandler.writeFile(problem, location, override, statement, subProofName);
 		return keyFile;
 	}
 
@@ -717,14 +722,6 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 			return wp;
 		}
 		return "";
-	}
-
-	// TODO Max - split VerifyStatement back to VerifyMethodCall, VerifyOriginalCall, and VerifyStatement
-	public static boolean proveMethodFormulaWithKey(Condition preCondition, Condition preCondition2,
-			List<JavaVariable> vars2, List<Condition> conds2, List<Rename> renaming2, URI uri2,
-			IProgressMonitor monitor2) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	public void setConfigName(String configName) {

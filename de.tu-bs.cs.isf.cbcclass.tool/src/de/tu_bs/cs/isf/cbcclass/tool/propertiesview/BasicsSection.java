@@ -29,10 +29,8 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
-import de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassDiagramTypeProvider;
 import helper.ClassUtil;
 
 public class BasicsSection extends GFPropertySection implements ITabbedPropertyConstants {

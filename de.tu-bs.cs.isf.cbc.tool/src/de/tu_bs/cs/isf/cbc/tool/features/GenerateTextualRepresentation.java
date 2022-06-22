@@ -24,7 +24,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;

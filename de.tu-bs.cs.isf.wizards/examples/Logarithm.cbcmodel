@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="Logarithm" proven="true">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
-        <firstStatement name="statement1">
-          <refinement name="n=N; l=0;" proven="true">
+    <statement name="statement" id="1135c0d8-ae3f-441a-870b-54008a762543">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="0bc06484-6a91-474f-9b8d-a1ea13c66288">
+        <firstStatement name="statement1" id="ce2b34fd-822d-47b5-8a81-237bfe6e9cee">
+          <refinement name="n=N; l=0;" proven="true" id="b35626ef-cd69-43d3-8041-4120df02f6b7">
             <postCondition name="modifiable(l,n); N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)"/>
             <preCondition name="N > 0"/>
           </refinement>
           <postCondition name="modifiable(l,n);&#xD;&#xA;N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)"/>
           <preCondition name="N > 0"/>
         </firstStatement>
-        <secondStatement name="statement2">
-          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" variantProven="true" preProven="true" postProven="true">
+        <secondStatement name="statement2" id="13e3bc2e-f477-4ec9-8e4d-e6e2fa850954">
+          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="b9c6d0b1-f7bc-42a9-9686-35b69abcfa2d" variantProven="true" preProven="true" postProven="true">
             <postCondition name="modifiable(l,n);&#xD;&#xA;N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l) &amp; n = 1"/>
             <preCondition name="modifiable(l,n);&#xD;&#xA;N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)"/>
-            <loopStatement name="loop">
-              <refinement name="n = n/2; l=l+1;" proven="true">
+            <loopStatement name="loop" id="a5f7ed6e-48eb-457a-9d7f-78754cc597e7">
+              <refinement name="n = n/2; l=l+1;" proven="true" id="41dafac6-dac9-4c66-8d7f-e027a35f8bd6">
                 <postCondition name="modifiable(l,n); N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)"/>
                 <preCondition name="(N >= n*pow(2,l) &amp; N &lt; (n+1)*pow(2,l)) &amp; (n != 1)"/>
               </refinement>

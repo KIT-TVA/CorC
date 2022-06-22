@@ -1,6 +1,5 @@
 package de.tu_bs.cs.isf.cbc.tool.propertiesview;
 
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
@@ -11,12 +10,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.transaction.RecordingCommand;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.algorithms.Text;
@@ -61,7 +55,6 @@ import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCFeatureProvider;
-import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import helper.ClassUtil;
 

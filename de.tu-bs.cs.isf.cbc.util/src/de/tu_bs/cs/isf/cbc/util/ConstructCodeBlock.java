@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.regex.Pattern;
 
-import org.emftext.language.java.references.impl.MethodCallImpl;
-
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
@@ -28,7 +26,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
-import de.uka.ilkd.key.java.recoderext.MethodCallStatement;
 
 
 public class ConstructCodeBlock {
@@ -220,9 +217,10 @@ public class ConstructCodeBlock {
 				Parser.KEYWORD_JML_PRE);
 		if (globalConditions != null) {
 			String processedGlobalConditions = Parser.processGlobalConditions(globalConditions, vars, pre);
-			if (!processedGlobalConditions.isEmpty())
+			if (!processedGlobalConditions.isEmpty()) {
 				pre = pre.replace(";\n", "");
 				pre += " & " + processedGlobalConditions + ";\n";
+			}
 		}
 		pre = useRenamingCondition(pre);
 		

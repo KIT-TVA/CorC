@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="maxElement" proven="true">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
-        <firstStatement name="statement1">
-          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
-            <firstStatement name="statement1">
-              <refinement name="i = 0;" proven="true">
+    <statement name="statement" id="96cd71c7-6ae1-4c53-af9a-30594071f4f3">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="04fd118a-173a-4546-b940-b1d8705d9e73">
+        <firstStatement name="statement1" id="bfddce60-c123-4618-af8b-396a2ae6b630">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="46e01c73-b221-4b13-b819-f934179408ac">
+            <firstStatement name="statement1" id="114406e1-ceba-4a07-8760-6da0e992ee31">
+              <refinement name="i = 0;" proven="true" id="57191c7b-498a-4d9b-b539-55cd60262218">
                 <postCondition name="A.length > 0 &amp; i = 0"/>
                 <preCondition name="A.length > 0"/>
               </refinement>
               <postCondition name="A.length > 0 &amp; i = 0"/>
               <preCondition name="A.length > 0"/>
             </firstStatement>
-            <secondStatement name="statement2">
-              <refinement name="j = 1;" proven="true">
+            <secondStatement name="statement2" id="9ccd7147-3176-482d-8515-6442fb88cb9b">
+              <refinement name="j = 1;" proven="true" id="eca8736b-25c9-41f8-94c0-3ba87d4540e0">
                 <postCondition name="modifiable(j);&#xD;&#xA;A.length > 0 &amp; i = 0 &amp; j = 1"/>
                 <preCondition name="A.length > 0 &amp; i = 0"/>
               </refinement>
@@ -26,26 +26,26 @@
           <postCondition name="modifiable(j);&#xD;&#xA;A.length > 0 &amp; i = 0 &amp; j = 1"/>
           <preCondition name="A.length > 0"/>
         </firstStatement>
-        <secondStatement name="statement2">
-          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" variantProven="true" preProven="true" postProven="true">
+        <secondStatement name="statement2" id="bab44ffc-c4f6-4258-9ecf-a63ce1e28d1b">
+          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="fee30599-b621-4d9e-ae53-1e903f245f22" variantProven="true" preProven="true" postProven="true">
             <postCondition name="modifiable(j);&#xD;&#xA;max(A, 0, A.length, i)"/>
             <preCondition name="modifiable(j);&#xD;&#xA;A.length > 0 &amp; i = 0 &amp; j = 1"/>
-            <loopStatement name="loop">
-              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
-                <firstStatement name="statement1">
-                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+            <loopStatement name="loop" id="896ffa8f-7e08-46af-96a7-ab3e3693c5a2">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="a35212ef-359a-485d-b9e4-ce2371d25ae1">
+                <firstStatement name="statement1" id="8d1b1385-39e3-441d-a5f3-2993d0b11bbe">
+                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="8243f7c2-24e0-40f4-b808-a7923e90f458" preProve="true">
                     <guards name="A[j] > A[i]"/>
                     <guards name="A[j] &lt;= A[i]"/>
-                    <commands name="statement">
-                      <refinement name="i = j;" proven="true">
+                    <commands name="statement" id="7daedc81-d71b-425d-90e3-f7b29ef89799">
+                      <refinement name="i = j;" proven="true" id="88ef9be8-26f7-4f42-94f3-e08ab9730b4f">
                         <postCondition name="modifiable(i);&#xD;&#xA;max(A, 0, j+1, i)"/>
                         <preCondition name="modifiable(\nothing);((max(A, 0, j, i)) &amp; (j != A.length)) &amp; (A[j] > A[i])"/>
                       </refinement>
                       <postCondition name="modifiable(i);&#xD;&#xA;max(A, 0, j+1, i)"/>
                       <preCondition name="modifiable(\nothing);((max(A, 0, j, i)) &amp; (j != A.length)) &amp; (A[j] > A[i])"/>
                     </commands>
-                    <commands name="statement">
-                      <refinement name=";" proven="true">
+                    <commands name="statement" id="f10878a8-6dad-4a16-a35b-0ad62a368922">
+                      <refinement name=";" proven="true" id="e2a0c148-fcfc-4351-bfbd-896aa520aab5">
                         <postCondition name="modifiable(\nothing); &#xD;&#xA;max(A, 0, j+1, i)"/>
                         <preCondition name="modifiable(\nothing);((max(A, 0, j, i)) &amp; (j != A.length)) &amp; (A[j] &lt;= A[i])"/>
                       </refinement>
@@ -56,8 +56,8 @@
                   <postCondition name="modifiable(i);&#xD;&#xA;max(A, 0, j+1, i)"/>
                   <preCondition name="(max(A, 0, j, i)) &amp; (j != A.length)"/>
                 </firstStatement>
-                <secondStatement name="statement2">
-                  <refinement name="j = j+1;" proven="true">
+                <secondStatement name="statement2" id="a256e72b-9d85-451b-8c2f-b21f09ff8f4d">
+                  <refinement name="j = j+1;" proven="true" id="ac80a9d2-f5d5-4059-b291-eb44225f8e3a">
                     <postCondition name="modifiable(i,j); &#xD;&#xA;max(A, 0, j, i)"/>
                     <preCondition name="modifiable(i);&#xD;&#xA;max(A, 0, j+1, i)"/>
                   </refinement>

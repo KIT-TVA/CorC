@@ -4,10 +4,13 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+
 import com.google.common.hash.Hashing;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.util.Console;
 import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.Statistics;
 
@@ -138,5 +141,13 @@ public class DataCollector {
 		String hash = Hashing.sha256().hashString(problem, StandardCharsets.UTF_8).toString();
 
 		return hash;
+	}
+	
+	public static boolean checkForId(AbstractStatement statement) {
+		if (statement.getId() == null || statement.getId().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer. Proof not executed.");
+			return false;
+		}
+		return true;
 	}
 }

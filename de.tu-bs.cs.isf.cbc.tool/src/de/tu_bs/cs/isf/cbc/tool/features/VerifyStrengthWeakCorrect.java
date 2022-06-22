@@ -15,6 +15,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
+import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
@@ -87,6 +89,7 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 							formula = (CbCFormula) obj;
 						}
 					}
+					if (!DataCollector.checkForId(statement)) return;
 					boolean proven1 = false;
 					boolean proven2 = false;
 					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
@@ -107,19 +110,19 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 						String callingFeature = uri.segment(uri.segmentCount()-3) + "";
 						String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
 						String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false);				
-						VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());		
+						GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 						for (int i = 0; i < featureConfigs.length; i++) {
-							verifyStmt.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
+							genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
 							String configName = "";
 							for (String s : featureConfigs[i]) configName += s;
 							prove.setConfigName(configName);
-							proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition(), i);
-							proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition(), i);
+							proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition());
+							proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition());
 						}
 					} else {
 						Console.println("--------------- Triggered verification ---------------");
-						proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition(), 0);
-						proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition(), 0);
+						proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition());
+						proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition());
 					}		
 					Console.println("--------------- Verification completed --------------- ");
 					

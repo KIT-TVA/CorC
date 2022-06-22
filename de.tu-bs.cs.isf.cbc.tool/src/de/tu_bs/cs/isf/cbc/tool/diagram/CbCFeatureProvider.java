@@ -32,8 +32,8 @@ import de.tu_bs.cs.isf.cbc.tool.features.RenameVariantFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.ShowKeyFileFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.UpdateDiagramFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyAllStatements;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyMethodStatementAndSubFormula;
-//import de.tu_bs.cs.isf.cbc.tool.features.VerifyMethodStatementAndSubFormula;
+import de.tu_bs.cs.isf.cbc.tool.features.VerifyMethodCallStatement;
+import de.tu_bs.cs.isf.cbc.tool.features.VerifyOriginalCallStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyPostRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyPreRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyPreSelectionStatement;
@@ -109,16 +109,6 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 		return new ReconnectionFeature(this);
 	}
 
-	// @Override
-	// public IUpdateFeature getUpdateFeature(IUpdateContext context) {
-	// PictogramElement pe = context.getPictogramElement();
-	// Object bo = getBusinessObjectForPictogramElement(pe);
-	// if (bo instanceof JavaVariable) {
-	// return new UpdateVariableFeature(this);
-	// }
-	// return super.getUpdateFeature(context);
-	// }
-
 	@Override
 	public IDeleteFeature getDeleteFeature(IDeleteContext context) {
 		if (context.getPictogramElement() instanceof Connection) {
@@ -134,17 +124,17 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 				new GenerateCodeFromModel(this),
 				new GenerateTextualRepresentation(this), 
 				new VerifyStatement(this),
+				new VerifyOriginalCallStatement(this),
+				new VerifyMethodCallStatement(this),
 				new VerifyPreRepetitionStatement(this), 
 				new VerifyPostRepetitionStatement(this),
 				new VerifyPreSelectionStatement(this), 
 				new VerifyStrengthWeakCorrect(this),
-				// new VerifyVariant(this),
 				new VerifyVariantWithInnerLoops(this), 
 				new VerifyVariantWithoutInnerLoops(this), //!
 				new EditCommentFeature(this),
 				new EditCompositionTechniqueOfFormula(this), //!
-				new ChangeNameOfFormulaFeature(this), 
-				new VerifyMethodStatementAndSubFormula(this),
+				new ChangeNameOfFormulaFeature(this),
 				new RenameStatementFeature(this), 
 				new RenameConditionFeature(this), 
 				new RenameVariantFeature(this),

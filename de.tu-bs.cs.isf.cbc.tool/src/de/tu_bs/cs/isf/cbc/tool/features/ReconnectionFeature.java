@@ -83,8 +83,6 @@ public class ReconnectionFeature extends DefaultReconnectionFeature {
 		return false;
 	}
 	
-	
-	
 	@Override
 	public void postReconnect(IReconnectionContext context) {
 		Connection connection = context.getConnection();
@@ -129,5 +127,4 @@ public class ReconnectionFeature extends DefaultReconnectionFeature {
 		}
 		return false;
 	}
-
 }

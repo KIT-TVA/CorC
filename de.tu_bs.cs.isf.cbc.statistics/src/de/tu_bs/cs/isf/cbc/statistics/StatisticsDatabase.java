@@ -95,7 +95,8 @@ public class StatisticsDatabase {
 			// adding 6 because of prove string
 			indexLastSeperatorEntry = entryPath.lastIndexOf(File.separator) + 6;
 
-			String entryFolder = entryPath.substring(indexLastSeperatorEntry, entryPath.length());
+			// TODO added question for length, as problems occur for spls, folder named as config
+			String entryFolder = entryPath.substring(indexLastSeperatorEntry < entryPath.length() ? indexLastSeperatorEntry : entryPath.length(), entryPath.length());
 
 //				System.out.println(affectedDiagram);
 			if (entryFolder.equals(affectedDiagram)) {

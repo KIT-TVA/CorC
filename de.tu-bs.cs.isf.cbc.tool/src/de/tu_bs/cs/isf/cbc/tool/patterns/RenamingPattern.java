@@ -305,12 +305,10 @@ public class RenamingPattern extends IdPattern implements IPattern {
 				setIndex(functionNewNameText, newIndex);
 				functionNewNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 				functionNewNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-				link(shapeNewNameText, rename);
-				
+				link(shapeNewNameText, rename);				
 			}
 			return true;
 		}
 		return false;
 	}
 }
-

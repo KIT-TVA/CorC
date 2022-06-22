@@ -3,12 +3,6 @@ package de.tu_bs.cs.isf.cbc.tool.features;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-
-import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 
 public class VerifyStatementInlining extends VerifyStatement{
 

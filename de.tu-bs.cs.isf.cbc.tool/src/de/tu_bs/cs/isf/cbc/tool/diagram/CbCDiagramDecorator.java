@@ -2,9 +2,6 @@ package de.tu_bs.cs.isf.cbc.tool.diagram;
 
 import java.net.URL;
 
-import org.eclipse.core.internal.resources.File;
-import org.eclipse.core.internal.resources.Folder;
-import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IPath;

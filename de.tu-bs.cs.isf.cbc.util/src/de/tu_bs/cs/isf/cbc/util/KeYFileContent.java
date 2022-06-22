@@ -3,23 +3,18 @@ package de.tu_bs.cs.isf.cbc.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -31,7 +26,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
-import de.uka.ilkd.key.strategy.feature.FormulaAddedByRuleFeature;
 
 public class KeYFileContent {
 	
@@ -288,7 +282,7 @@ public class KeYFileContent {
 		if (condition == null || condition.length() == 0) {
 			post = "true";
 		} else {
-			post = condition;
+			post = (post == null || post.isEmpty()) ? condition : (post + " & " + condition);
 		}
 	}
 	
@@ -297,7 +291,7 @@ public class KeYFileContent {
 		if (condition == null || condition.length() == 0) {
 			pre = "true";
 		} else {
-			pre = condition;
+			pre = (pre == null || pre.isEmpty()) ? condition : (pre + " & " + condition);
 		}
 	}
 

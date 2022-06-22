@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="Exponentation" proven="true">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
-        <firstStatement name="statement1">
-          <refinement name="i = n-1; b = a; z = a;" proven="true">
+    <statement name="statement" id="6d4d0c30-4f06-4dfa-9b87-be86fe6062ed">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="3855a060-ee78-44e1-810a-ead8aa983b47">
+        <firstStatement name="statement1" id="719d4ef7-0360-44e5-8c8c-736489a9cd0e">
+          <refinement name="i = n-1; b = a; z = a;" proven="true" id="76eeceb5-19c3-4fc5-b20c-2e910fba6741">
             <postCondition name="modifiable(b,i,z); z * pow(b,i) = pow(a,n)"/>
             <preCondition name="n > 0"/>
           </refinement>
           <postCondition name="modifiable(b,i,z);&#xD;&#xA;z * pow(b,i) = pow(a,n)"/>
           <preCondition name="n > 0"/>
         </firstStatement>
-        <secondStatement name="statement2">
-          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" variantProven="true" preProven="true" postProven="true">
+        <secondStatement name="statement2" id="f5869ff3-5fa6-4f0b-a72e-870d35ddb2d1">
+          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="2d64d9fc-986d-48c6-ad64-58a84af6aa0f" variantProven="true" preProven="true" postProven="true">
             <postCondition name="modifiable(b,i,z);&#xD;&#xA;i = 0 &amp; z * pow(b,i) = pow(a,n)"/>
             <preCondition name="modifiable(b,i,z);&#xD;&#xA;z * pow(b,i) = pow(a,n)"/>
-            <loopStatement name="loop">
-              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+            <loopStatement name="loop" id="aca94e6e-07dd-49b9-b0a3-abef7fab9057">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="dd53f456-1a9f-4f26-af06-608d3a1a9aba" preProve="true">
                 <guards name="i%2 = 0"/>
                 <guards name="i%2 = 1"/>
-                <commands name="statement">
-                  <refinement name="i = i/2; b = b*b;" proven="true">
+                <commands name="statement" id="112b49c1-b4b8-4112-87a2-1eada2d854e8">
+                  <refinement name="i = i/2; b = b*b;" proven="true" id="472dfc2e-d3c4-41e0-8f5c-de069b43a9d1">
                     <postCondition name="modifiable(b,i); &#xD;&#xA;z * pow(b,i) = pow(a,n)"/>
                     <preCondition name="modifiable(\nothing);((z * pow(b,i) = pow(a,n)) &amp; (i != 0)) &amp; (i%2 = 0)"/>
                   </refinement>
                   <postCondition name="modifiable(b,i,z);&#xD;&#xA;z * pow(b,i) = pow(a,n)"/>
                   <preCondition name="modifiable(\nothing);((z * pow(b,i) = pow(a,n)) &amp; (i != 0)) &amp; (i%2 = 0)"/>
                 </commands>
-                <commands name="statement">
-                  <refinement name="i = i-1; z = z*b;" proven="true">
+                <commands name="statement" id="01fff8fa-ca5f-450b-b14b-183fc64efba3">
+                  <refinement name="i = i-1; z = z*b;" proven="true" id="f2b7b1b3-b11c-4588-8eb9-854f363a93c2">
                     <postCondition name="modifiable(b,i,z);&#xD;&#xA;z * pow(b,i) = pow(a,n)"/>
                     <preCondition name="modifiable(\nothing);((z * pow(b,i) = pow(a,n)) &amp; (i != 0)) &amp; (i%2 = 1)"/>
                   </refinement>

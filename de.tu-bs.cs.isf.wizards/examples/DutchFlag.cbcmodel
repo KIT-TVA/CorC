@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="DutchFlag" proven="true">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
-        <firstStatement name="statement1">
-          <refinement name="wb = 0; wt = 0; bb = A.length;" proven="true">
+    <statement name="statement" id="6b5376ae-c8ba-4566-a846-778165d5b96c">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="dfa5e053-f1ad-4d2d-81d0-4e40cd9ed800">
+        <firstStatement name="statement1" id="fb38d2f0-eefe-42e4-be61-5d8ab0375f65">
+          <refinement name="wb = 0; wt = 0; bb = A.length;" proven="true" id="1a131424-b234-404e-ad21-4beb50b44ea8">
             <postCondition name="modifiable(bb,wb,wt); s(A, wb, wt, bb)"/>
             <preCondition name="s(A, 0, 0, A.length)"/>
           </refinement>
           <postCondition name="modifiable(bb,wb,wt);&#xD;&#xA;s(A, wb, wt, bb)"/>
           <preCondition name="s(A, 0, 0, A.length)"/>
         </firstStatement>
-        <secondStatement name="statement2">
-          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" variantProven="true" preProven="true" postProven="true">
+        <secondStatement name="statement2" id="2db6b4e6-6c87-4167-866f-e4f5235de276">
+          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="95a82338-5650-4c85-95d6-f6659cb7b9ec" variantProven="true" preProven="true" postProven="true">
             <postCondition name="modifiable(bb,wb,wt);&#xD;&#xA;s(A, wb, wt, bb) &amp; wt = bb"/>
             <preCondition name="modifiable(bb,wb,wt);&#xD;&#xA;s(A, wb, wt, bb)"/>
-            <loopStatement name="loop">
-              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+            <loopStatement name="loop" id="384924d5-a6b2-4550-a0ac-756472d784d4">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="7e9f4497-3e3c-4353-acd4-56cca3be31ee" preProve="true">
                 <guards name="A[wt] = 0"/>
                 <guards name="A[wt] = 1"/>
                 <guards name="A[wt] = 2"/>
-                <commands name="statement">
-                  <refinement name="t = A[wt]; A[wt] = A[wb]; A[wb] = t; wt = wt+1; wb = wb+1;" proven="true">
+                <commands name="statement" id="f6f37484-1848-4b47-b0b2-4a42fc5da76b">
+                  <refinement name="t = A[wt]; A[wt] = A[wb]; A[wb] = t; wt = wt+1; wb = wb+1;" proven="true" id="342ca691-500e-45a2-8a69-1c3aa334a341">
                     <postCondition name="modifiable(A[wb],A[wt],t,wb,wt); &#xD;&#xA;s(A, wb, wt, bb)"/>
                     <preCondition name="modifiable(\nothing);((s(A, wb, wt, bb)) &amp; (wt != bb)) &amp; (A[wt] = 0)"/>
                   </refinement>
                   <postCondition name="modifiable(wt,A[wb],A[wt],t,wb,A[bb-1],bb);&#xD;&#xA;s(A, wb, wt, bb)"/>
                   <preCondition name="modifiable(\nothing);((s(A, wb, wt, bb)) &amp; (wt != bb)) &amp; (A[wt] = 0)"/>
                 </commands>
-                <commands name="statement">
-                  <refinement name="wt = wt+1;" proven="true">
+                <commands name="statement" id="b531ff2b-7edb-4b4d-9442-4d79ce316a06">
+                  <refinement name="wt = wt+1;" proven="true" id="729b6ea6-91f5-4e5d-95d7-ed02c5a4f3a0">
                     <postCondition name="modifiable(A[wb],A[wt],t,wb,wt);&#xD;&#xA;s(A, wb, wt, bb)"/>
                     <preCondition name="modifiable(\nothing);((s(A, wb, wt, bb)) &amp; (wt != bb)) &amp; (A[wt] = 1)"/>
                   </refinement>
                   <postCondition name="modifiable(wt);&#xD;&#xA;s(A, wb, wt, bb)"/>
                   <preCondition name="modifiable(\nothing);((s(A, wb, wt, bb)) &amp; (wt != bb)) &amp; (A[wt] = 1)"/>
                 </commands>
-                <commands name="statement">
-                  <refinement name="t = A[wt]; A[wt] = A[bb-1]; A[bb-1] = t; bb = bb-1;" proven="true">
+                <commands name="statement" id="18f76d77-1d6e-4332-8d8e-8e061af78988">
+                  <refinement name="t = A[wt]; A[wt] = A[bb-1]; A[bb-1] = t; bb = bb-1;" proven="true" id="d587028d-449f-4d0f-97a9-62c52fc62e84">
                     <postCondition name="modifiable(wt,A[wb],A[wt],t,wb,A[bb-1],bb);&#xD;&#xA;s(A, wb, wt, bb)"/>
                     <preCondition name="modifiable(\nothing);((s(A, wb, wt, bb)) &amp; (wt != bb)) &amp; (A[wt] = 2)"/>
                   </refinement>

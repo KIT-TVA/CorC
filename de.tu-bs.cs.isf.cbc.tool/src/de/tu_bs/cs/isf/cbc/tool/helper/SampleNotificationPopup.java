@@ -63,7 +63,6 @@ public class SampleNotificationPopup extends AbstractNotificationPopup {
 			newButton.addListener(SWT.Selection, new Listener() {
 				@Override
 				public void handleEvent(Event e) {
-					String s = uris.get(index).toString();
 					System.out.println(index);
 					IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 					IWorkbenchPage activePage = window.getActivePage();

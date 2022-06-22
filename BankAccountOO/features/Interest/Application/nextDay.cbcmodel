@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="nextDay" compositionTechnique="EXPLICIT_CONTRACTING" className="Application" methodName="nextDay">
+  <cbcmodel:CbCFormula name="nextDay" proven="true" compositionTechnique="EXPLICIT_CONTRACTING" className="Application" methodName="nextDay">
     <statement name="statement" id="b6539aa5-cbba-473e-9c38-61227d04c84f">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="a4000393-5fbb-415b-8705-02359703a0e5">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="a4000393-5fbb-415b-8705-02359703a0e5">
         <firstStatement name="statement1" id="c17042cd-d1c4-4745-bfbb-3ff53c91551a">
           <refinement xsi:type="cbcmodel:OriginalStatement" name="original();" proven="true" id="f3905700-9aea-40a6-a5bd-8dd00a2359fd">
             <postCondition name="true"/>
@@ -12,7 +12,7 @@
           <preCondition name="true"/>
         </firstStatement>
         <secondStatement name="statement2" id="630687c9-6bea-4b5f-af80-bcfc21fffe5c">
-          <refinement xsi:type="cbcmodel:MethodStatement" name="a.interest += a.interestCalculate();" id="ecf4d7f1-8fbd-4953-9f80-96b70f1adf17">
+          <refinement xsi:type="cbcmodel:MethodStatement" name="a.interest += a.interestCalculate();" proven="true" id="ecf4d7f1-8fbd-4953-9f80-96b70f1adf17">
             <postCondition name="modifiable(a.interest);&#xD;&#xA;(a.balance >= 0 -> a.interest >= \old(this.a.interest)) &amp; (a.balance &lt;= 0 -> a.interest &lt;= \old(this.a.interest))"/>
             <preCondition name="true"/>
           </refinement>

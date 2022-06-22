@@ -11,7 +11,7 @@ public interface IFileUtil {
 
 	public List<String> readFileInList(String path);
 
-	public File writeFile(String problem, String location, int numberFile, boolean override, AbstractStatement statement, String subProofName);
+	public File writeFile(String problem, String location, boolean override, AbstractStatement statement, String subProofName);
 
 	public String getProjectLocation(String uri);
 

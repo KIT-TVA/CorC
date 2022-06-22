@@ -60,6 +60,11 @@
     </propertyTab>
     <propertyTab
          category="Graphiti"
+         id="Inheritance"
+         label="Inheritance">
+    </propertyTab>
+    <propertyTab
+         category="Graphiti"
          id="Basics"
          label="Basics">
     </propertyTab>
@@ -84,11 +89,18 @@
               tab="Replacements">
         </propertySection>
         <propertySection
-              afterSection="Basics"
+              afterSection="Inheritance"
               class="de.tu_bs.cs.isf.cbc.tool.propertiesview.CodeReaderSection"
-              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilter"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterCodeReader"
               id="CodeReader"
               tab="CodeReader">
+        </propertySection>
+        <propertySection
+              afterSection="Basics"
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.InheritanceSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilter"
+              id="Inheritance"
+              tab="Inheritance">
         </propertySection>
         <propertySection
               class="de.tu_bs.cs.isf.cbc.tool.propertiesview.BasicsSection"

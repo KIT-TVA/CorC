@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -45,8 +44,6 @@ import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 
 public class GenerateClassFromInterfaces {
-	// Content of Class
-	private ArrayList<String> jmlLoopConditions = new ArrayList<String>();
 	private List<Method> methods = new ArrayList<Method>();
 	private List<String> fields = new ArrayList<String>();
 	private String newTraitName;
@@ -57,6 +54,7 @@ public class GenerateClassFromInterfaces {
 	List<Method> concreteMethods;
 
 	public GenerateClassFromInterfaces() {
+		
 	}
 
 	public void execute(IFile file) {
@@ -72,20 +70,18 @@ public class GenerateClassFromInterfaces {
 		    if (itr.next().getLocation().toPortableString().contains("/bin/"))
 		    	itr.remove();
 		}
-		
 		handleTraitFiles(traitCompositionFiles);
 	}
 
 	private void handleTraitFiles(List<IFile> traitCompositionFiles) {
 		List<IFile> javaFiles = FileUtil.getJavaFilesFromProject(project);
 		Iterator<IFile> itr = javaFiles.iterator();
+		
 		while(itr.hasNext()){
 		    if (itr.next().getLocation().toPortableString().contains("/src_key/"))
 		    	itr.remove();
 		}
 		
-		
-
 		for (IFile javaFile : javaFiles) {
 			String javaFileContent = readFileToString(javaFile.getLocation().toPortableString());
 			readClass(javaFileContent);
@@ -105,7 +101,6 @@ public class GenerateClassFromInterfaces {
 	}
 	
 	private void verifyImplications(String path) {
-		int proof = 0;
 		for (Method abstractMethod : abstractMethods) {
 			for (Method concreteMethod : concreteMethods) {
 				if (abstractMethod.getMethodName().equals(concreteMethod.getMethodName())) {
@@ -113,8 +108,8 @@ public class GenerateClassFromInterfaces {
 						JavaVariables vars = parametersToJavaVars(abstractMethod);
 						GlobalConditions conds = CbcmodelFactory.eINSTANCE.createGlobalConditions();
 						ProveWithKey proveImplication = new ProveWithKey(null, vars, conds, null, null, path, null, new FileUtil(path), "/src_key");
-						proveImplication.proveCImpliesCWithKey(createConditionForKeY(abstractMethod.getPreCondition().get(i), vars, conds), createConditionForKeY(concreteMethod.getPreCondition().get(i), vars, conds), proof++);
-						proveImplication.proveCImpliesCWithKey(createConditionForKeY(concreteMethod.getPostCondition().get(i), vars, conds), createConditionForKeY(abstractMethod.getPostCondition().get(i), vars, conds), proof++);
+						proveImplication.proveCImpliesCWithKey(createConditionForKeY(abstractMethod.getPreCondition().get(i), vars, conds), createConditionForKeY(concreteMethod.getPreCondition().get(i), vars, conds));
+						proveImplication.proveCImpliesCWithKey(createConditionForKeY(concreteMethod.getPostCondition().get(i), vars, conds), createConditionForKeY(abstractMethod.getPostCondition().get(i), vars, conds));
 					}
 				}
 			}
@@ -317,15 +312,7 @@ public class GenerateClassFromInterfaces {
 			return;
 		}
 		
-		if (compilationUnit.getClassifiers().get(0) instanceof ClassImpl) {
-//			ClassImpl javaClass = (ClassImpl) compilationUnit.getClassifiers().get(0);
-//			for (Member member : javaClass.getMembers()) {
-//				if (member instanceof ClassMethod) {
-//					handleMethod((ClassMethod) member, javaClass.getName(), false);
-//				}
-//				
-//			}
-		} else if (compilationUnit.getClassifiers().get(0) instanceof InterfaceImpl) {
+		if (compilationUnit.getClassifiers().get(0) instanceof InterfaceImpl) {
 			InterfaceImpl javaInterfaceWithDefault = (InterfaceImpl) compilationUnit.getClassifiers().get(0);
 			generateClassForKey(javaFileContent.replaceFirst("interface", "class"), javaInterfaceWithDefault.getName());
 			
@@ -447,8 +434,7 @@ public class GenerateClassFromInterfaces {
 		return post;
 	}
 
-	private String cbcWorkaroundForOldKeyword(String jmlAnnotation, JavaVariables variables,
-			GlobalConditions conditions) {
+	private String cbcWorkaroundForOldKeyword(String jmlAnnotation, JavaVariables variables, GlobalConditions conditions) {
 		int old = jmlAnnotation.indexOf("\\old");
 		while (old != -1) {
 			int endOld = findEndOfBracket(jmlAnnotation, old + 5);
@@ -489,13 +475,11 @@ public class GenerateClassFromInterfaces {
 				if (!conditionAlreadyExists) {
 					Condition cond = CbcmodelFactory.eINSTANCE.createCondition();
 					cond.setName(newCondition);
-
 					conditions.getConditions().add(cond);
 				}
 			}
 		}
 		return jmlAnnotation;
-
 	}
 
 	/**

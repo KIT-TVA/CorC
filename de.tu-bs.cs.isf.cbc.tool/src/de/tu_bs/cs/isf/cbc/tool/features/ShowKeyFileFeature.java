@@ -56,8 +56,7 @@ public class ShowKeyFileFeature extends AbstractCustomFeature {
 	}
 
 	@Override
-	public void execute(ICustomContext context) {
-		
+	public void execute(ICustomContext context) {		
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
@@ -78,11 +77,6 @@ public class ShowKeyFileFeature extends AbstractCustomFeature {
 					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 					IViewPart view = page.findView(IPageLayout.ID_PROJECT_EXPLORER);
 					((ISetSelectionTarget)view).selectReveal(new StructuredSelection(keyFiles));
-					
-//					Console.println("KeY file name(s):");
-//					for (IFile file : keyFiles) {
-//						Console.println("    "+file.getName());
-//					}
 				}
 			}
 		}

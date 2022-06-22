@@ -559,7 +559,8 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 					params += param.getType() + " " + param.getName() + ", ";
 				}
 			}
-			if (params.length() != 0) params = params.substring(0, params.length() - 2);
+			if (params.length() != 0)
+				params = params.substring(0, params.length() - 2);
 		}
 		return visibility.toString().toLowerCase() + " " + staticString + returnType + " " + name + "(" + params + ")";
 	}

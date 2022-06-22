@@ -18,6 +18,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
+import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
@@ -89,6 +91,7 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 						formula = (CbCFormula) obj;
 					}
 				}
+				if (!DataCollector.checkForId(statement)) return;
 				boolean proven = false;
 				String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, false);
 				Condition invariant = null;
@@ -120,17 +123,17 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 					String callingFeature = uri.segment(uri.segmentCount()-3) + "";
 					String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
 					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false);				
-					VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());		
+					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 					for (int i = 0; i < featureConfigs.length; i++) {
-						verifyStmt.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
+						genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
 						String configName = "";
 						for (String s : featureConfigs[i]) configName += s;
 						prove.setConfigName(configName);
-						proven = prove.proveVariantWithKey(code, invariant, guard, variant, i);
+						proven = prove.proveVariantWithKey(code, invariant, guard, variant);
 					}
 				} else {
 					Console.println("--------------- Triggered verification ---------------");
-					proven = prove.proveVariantWithKey(code, invariant, guard, variant, 0);
+					proven = prove.proveVariantWithKey(code, invariant, guard, variant);
 					}		
 				Console.println("--------------- Verification completed --------------- ");
 

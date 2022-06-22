@@ -68,7 +68,6 @@ public class EditCompositionTechniqueOfFormula extends AbstractCustomFeature {
 				}
 			}
 		}
-
 	}
 
 	private CompositionTechnique convertToCompositionTechnique(String compositionTechString) {
@@ -88,5 +87,4 @@ public class EditCompositionTechniqueOfFormula extends AbstractCustomFeature {
 	public boolean hasDoneChanges() {
 		return this.hasDoneChanges;
 	}
-
 }

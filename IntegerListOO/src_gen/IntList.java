@@ -50,11 +50,11 @@ public class IntList {
 	}
 
 	/*@
-	@ normal_behavior
-	@ requires data == \old(data);
-	@ ensures ((\forall int k; (0 <= k && k < \old(data).length==> (\exists int z; (0 <= z && z < data.length&& data[z] == \old(data)[k]))))&& (\forall int k; (0 <= k && k < data.length-1 ==> data[k] <= data[k+1])));
-	@ assignable data[*];
-	@*/
+    @ public normal_behavior
+    @ requires data == \old(data);
+    @ ensures ((\forall int k; (0 <= k && k < \old(data).length==> (\exists int z; (0 <= z && z < data.length&& data[z] == \old(data)[k]))))&& (\forall int k; (0 <= k && k < data.length-1 ==> data[k] <= data[k+1]))) && this != null && data != null;
+    @ assignable data[*];
+    @*/
 	public void sort() {
 		int i;
 		int j;

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
   <cbcmodel:CbCFormula name="LinearSearch" proven="true">
-    <statement name="statement">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
-        <firstStatement name="statement1">
-          <refinement name="i = A.length-1;" proven="true">
+    <statement name="statement" id="ce8c50c1-5f5a-446c-ba61-e1742dfde8e1">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="750d0d95-8327-4620-b708-6e17a9475db8">
+        <firstStatement name="statement1" id="f34a1280-946c-4621-8452-478455437e53">
+          <refinement name="i = A.length-1;" proven="true" id="482f9a04-703a-4ddd-a8e6-5dc2604842b8">
             <postCondition name="modifiable(i);&#xD;&#xA;appears(A, x, 0, A.length)&#xD;&#xA;&amp; i = A.length-1"/>
             <preCondition name="appears(A, x, 0, A.length)"/>
           </refinement>
           <postCondition name="modifiable(i);&#xD;&#xA;appears(A, x, 0, A.length)&#xD;&#xA;&amp; i = A.length-1"/>
           <preCondition name="appears(A, x, 0, A.length)"/>
         </firstStatement>
-        <secondStatement name="statement2">
-          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" variantProven="true" preProven="true" postProven="true">
+        <secondStatement name="statement2" id="995d39df-064f-4e47-b81a-a7621d73c467">
+          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="a4612520-a813-4a75-9bda-12a8bbed9198" variantProven="true" preProven="true" postProven="true">
             <postCondition name="modifiable(i);&#xD;&#xA;A[i] = x"/>
             <preCondition name="modifiable(i);&#xD;&#xA;appears(A, x, 0, A.length)&#xD;&#xA;&amp; i = A.length-1"/>
-            <loopStatement name="loop">
-              <refinement name="i = i-1;" proven="true">
+            <loopStatement name="loop" id="1b623dd7-fe10-4be0-a312-3fce703bd72a">
+              <refinement name="i = i-1;" proven="true" id="0ee0ba57-4959-491d-a328-26cc1521aa2a">
                 <postCondition name="!appears(A, x, i+1, A.length)"/>
                 <preCondition name="(!appears(A, x, i+1, A.length)) &amp; (A[i] != x)"/>
               </refinement>
