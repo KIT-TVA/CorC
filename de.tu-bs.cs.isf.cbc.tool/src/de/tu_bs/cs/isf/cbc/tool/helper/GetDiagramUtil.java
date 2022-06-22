@@ -2,7 +2,6 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
@@ -19,8 +18,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
-import de.tu_bs.cs.isf.cbc.util.Console;
-
 public class GetDiagramUtil {
  
     public static Collection<Diagram> getDiagrams(IProject p) {
@@ -35,19 +32,6 @@ public class GetDiagramUtil {
        }
        return diagramList;
     }
-    
-    public static Collection<Resource> getCbCClasses(IProject p) {
-        final List<IFile> files = getCbCClassFiles(p);
-        final List<Resource> cbcClassList = new ArrayList<Resource>();
-        final ResourceSet rSet = new ResourceSetImpl();
-        for (final IFile file : files) {
-             final Resource resource = getResourceFromFile(file, rSet);
-             if (resource != null) {
-            	 cbcClassList.add(resource);
-             }
-        }
-        return cbcClassList;
-     }
  
     private static List<IFile> getDiagramFiles(IContainer folder) {
        final List<IFile> ret = new ArrayList<IFile>();
@@ -68,32 +52,9 @@ public class GetDiagramUtil {
        }
        return ret;
     }
-    
-    private static List<IFile> getCbCClassFiles(IContainer folder) {
-        final List<IFile> ret = new ArrayList<IFile>();
-        try {
-             final IResource[] members = folder.members();
-             for (final IResource resource : members) {
-                  if (resource instanceof IContainer) {
-                      ret.addAll(getCbCClassFiles((IContainer) resource));
-                  } else if (resource instanceof IFile) {
-                      final IFile file = (IFile) resource;
-                      if (file.getName().endsWith(".cbcclass")) {
-                           ret.add(file);
-                      }
-                  }
-             }
-        } catch (final CoreException e) {
-                 e.printStackTrace();
-        }
-        return ret;
-     }
  
-    public static Diagram getDiagramFromFile(IFile file,
-                                              ResourceSet resourceSet) {
-       // Get the URI of the model file.
+    public static Diagram getDiagramFromFile(IFile file, ResourceSet resourceSet) {
        final URI resourceURI = getFileURI(file, resourceSet);
-       // Demand load the resource for this file.
        Resource resource;
        try {
             resource = resourceSet.getResource(resourceURI, true);
@@ -112,12 +73,8 @@ public class GetDiagramUtil {
        return null;
     }
     
-    public static Resource getResourceFromFile(IFile file,
-            ResourceSet resourceSet) {
-    	
-    	// Get the URI of the model file.
-        final URI resourceURI = getFileURI(file, resourceSet);
-        // Demand load the resource for this file.
+    public static Resource getResourceFromFile(IFile file, ResourceSet resourceSet) {
+    	final URI resourceURI = getFileURI(file, resourceSet);
         Resource resource = resourceSet.getResource(resourceURI, true);
     	return resource;
     }

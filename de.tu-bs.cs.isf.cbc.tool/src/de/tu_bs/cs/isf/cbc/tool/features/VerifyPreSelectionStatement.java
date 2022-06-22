@@ -16,6 +16,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
+import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
@@ -87,6 +89,7 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 						formula = (CbCFormula) obj;
 					}
 				}
+				if (!DataCollector.checkForId(statement)) return;
 				boolean proven = false;
 				String uriString = getDiagram().eResource().getURI().toPlatformString(true);
 				URI uri = getDiagram().eResource().getURI();
@@ -106,17 +109,17 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 					String callingFeature = uri.segment(uri.segmentCount()-3) + "";
 					String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
 					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false);				
-					VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());		
+					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 					for (int i = 0; i < featureConfigs.length; i++) {
-						verifyStmt.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
+						genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
 						String configName = "";
 						for (String s : featureConfigs[i]) configName += s;
 						prove.setConfigName(configName);
-						proven = prove.provePreSelWithKey(statement.getGuards(), parent.getPreCondition(), i);
+						proven = prove.provePreSelWithKey(statement.getGuards(), parent.getPreCondition());
 					}
 				} else {
 					Console.println("--------------- Triggered verification ---------------");
-					proven = prove.provePreSelWithKey(statement.getGuards(), parent.getPreCondition(), 0);
+					proven = prove.provePreSelWithKey(statement.getGuards(), parent.getPreCondition());
 					}		
 				Console.println("--------------- Verification completed --------------- ");
 						

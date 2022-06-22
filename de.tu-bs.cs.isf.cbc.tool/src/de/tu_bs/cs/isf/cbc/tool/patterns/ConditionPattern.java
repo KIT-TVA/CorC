@@ -1,8 +1,5 @@
 package de.tu_bs.cs.isf.cbc.tool.patterns;
 
-import java.io.File;
-
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -23,8 +20,6 @@ import org.eclipse.graphiti.pattern.id.IdLayoutContext;
 import org.eclipse.graphiti.pattern.id.IdPattern;
 import org.eclipse.graphiti.pattern.id.IdUpdateContext;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
@@ -38,10 +33,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
-import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
-import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;
-import de.tu_bs.cs.isf.cbc.tool.helper.UpdateMethodCallsToProve;
-import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
 
 /**
  * Class that creates the graphical representation of Conditions
@@ -99,61 +90,11 @@ public class ConditionPattern extends IdPattern implements IPattern {
 
 	@Override
 	public PictogramElement doAdd(IAddContext context) {
-
-		// Diagram targetDiagram = (Diagram) context.getTargetContainer();
-		// Condition addedCondition = (Condition) context.getNewObject();
-		// IPeCreateService peCreateService = Graphiti.getPeCreateService();
-		// IGaService gaService = Graphiti.getGaService();
-		//
-		// int width = context.getWidth() <= 0 ? 200 : context.getWidth();
-		// int height = context.getHeight() <= 0 ? 100 : context.getHeight();
-		//
-		// // Main contents area
-		// ContainerShape outerContainerShape =
-		// peCreateService.createContainerShape(targetDiagram, true);
-		// RoundedRectangle mainRectangle =
-		// gaService.createRoundedRectangle(outerContainerShape, 20, 20);
-		// setId(mainRectangle, ID_MAIN_RECTANGLE);
-		// mainRectangle.setFilled(true);
-		// gaService.setRenderingStyle(mainRectangle,
-		// PredefinedColoredAreas.getBlueWhiteAdaptions());
-		// gaService.setLocationAndSize(mainRectangle,
-		// context.getX(), context.getY(), width, height);
-		//
-		// // create link and wire it
-		// link(outerContainerShape, addedCondition);
-		//
-		// // Condition name
-		// Shape textShape = peCreateService.createShape(outerContainerShape, false);
-		// MultiText conditionNameText = gaService.createMultiText(textShape, "");
-		// setId(conditionNameText, ID_NAME_TEXT);
-		// conditionNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		// conditionNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		//
-		// peCreateService.createChopboxAnchor(outerContainerShape);
-		//
-		// link(outerContainerShape, addedCondition);
-		// link(textShape, addedCondition);
-		//
-		// return outerContainerShape;
 		return null;
 	}
 
 	@Override
 	protected boolean layout(IdLayoutContext context, String id) {
-		// boolean changesDone = false;
-		//
-		// GraphicsAlgorithm mainRectangle =
-		// context.getRootPictogramElement().getGraphicsAlgorithm();
-		// GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
-		//
-		// if (id.equals(ID_NAME_TEXT)) {
-		// Graphiti.getGaService().setLocationAndSize(ga, 0, 10,
-		// mainRectangle.getWidth(), mainRectangle.getHeight() - 10);
-		// changesDone = true;
-		// }
-		//
-		// return changesDone;
 		return false;
 	}
 
@@ -165,27 +106,7 @@ public class ConditionPattern extends IdPattern implements IPattern {
 			if (domainObject.getName() == null || !(domainObject.getName().equals(nameText.getValue())
 					|| nameText.getValue().equals("{" + domainObject.getName() + "}"))) {
 				return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getName() + "'");
-			} /*else {
-				URI uri = domainObject.eResource().getURI();
-				String methodName = uri.trimFileExtension().lastSegment();
-				uri = uri.trimSegments(1);
-				uri = uri.appendSegment(uri.lastSegment() + ".cbcclass");
-				// TODO fall, dass datei groß geschrieben wird, abdecken
-				String cbcclassFileString = uri.toString().replace("platform:/", "");
-				File cbcclassFile = new File(cbcclassFileString);
-				if (cbcclassFile.exists()) {
-					ModelClass mc = CbcModelUtil.readModelClass(uri);
-					if (mc != null) {
-						for (Method method : mc.getMethods()) {
-							if (method.getName().equals(methodName)) {
-								if (!domainObject.getName().equals(method.getCbcStartTriple().getStatement().getPreCondition())) {
-									return Reason.createTrueReason("Name differs.");
-								}
-							}
-						}
-					}				
-				}
-			}*/
+			}
 		}
 
 		return Reason.createFalseReason();
@@ -269,11 +190,6 @@ public class ConditionPattern extends IdPattern implements IPattern {
 				}
 			}
 		}
-		// else if (value.length() > 0 &&
-		// !CompareMethodBodies.readAndTestAssertWithJaMoPP(value.replaceAll("<->",
-		// "&").replaceAll("->", "&"))) {
-		// return "Condition has not the correct syntax.";
-		// }
 		return null;
 	}
 

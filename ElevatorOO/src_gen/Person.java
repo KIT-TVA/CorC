@@ -13,7 +13,7 @@ public class Person {
 	@ normal_behavior
 	@ requires namex != null&& envx.floors != null&& destinationx >= 0&& envx != null&& weightx >= 0&& originx >= 0&& originx < envx.floors.length&& envx.floors[originx] != null&& envx.floors[originx].waiting != null && envx.floors[originx].waiting.elements != null;
 	@ ensures this.weight == weightx&& this.origin == originx&& this.destination == destinationx&& this.destinationReached == false&& this.name.equals(namex) == true;
-	@ assignable destination,destinationReached,name,origin,weight;
+	@ assignable envx,destination,destinationReached,name,origin,weight;
 	@*/
 	public void createPerson(String namex, int weightx, int originx, int destinationx, Environment envx) {
 		Floor tmpFloor;

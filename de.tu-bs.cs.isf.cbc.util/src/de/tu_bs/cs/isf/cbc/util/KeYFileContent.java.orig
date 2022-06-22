@@ -4,10 +4,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,13 +21,11 @@ import de.tu_bs.cs.isf.cbc.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
 =======
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
->>>>>>> d5152824 (fixes after merges; update of case studies, they now support relative paths)
+>>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 //import de.tu_bs.cs.isf.cbc.cbcmodel.BaseVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
@@ -139,39 +135,16 @@ public class KeYFileContent {
 				}
 				programVariables.getVariables().add(variable);
 			}
-<<<<<<< HEAD
 			/*
 			int originalSize = vars.getParams().size();
 			for (int i = 0; i < originalSize; i++) {
 				Parameter param = vars.getParams().get(0);
-=======
-			for (Parameter param : vars.getParams()) {
->>>>>>> d5152824 (fixes after merges; update of case studies, they now support relative paths)
 				if (param.getName().equals("ret")) {
 					returnVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 					returnVariable.setKind(VariableKind.RETURNPARAM);
 					returnVariable.setName(param.getType() + " " + param.getName());
 				}
-<<<<<<< HEAD
 				programVariables.getParams().add(param);
-=======
-				programVariables += (param.getType() + " " + param.getName()).replace("static", "").replace("non-null", "") + "; ";
-				// if variable is an Array add <created> condition for key
-				if ((param.getType() + " " + param.getName()).contains("[]")) {
-					String varNameWithoutStaticNonNull = (param.getType() + " " + param.getName()).replace("static", "").replace("non-null", "").trim();
-					varNameWithoutStaticNonNull = varNameWithoutStaticNonNull.substring(varNameWithoutStaticNonNull.indexOf(" ") + 1);
-					conditionObjectsCreated += " & " + varNameWithoutStaticNonNull + ".<created>=TRUE";
-				}
-				if(!param.getName().equals("ret") && (param.getType() + " " + param.getName()).contains("non-null")){
-					String varNameWithoutStaticNonNull = (param.getType() + " " + param.getName()).replace("static", "").replace("non-null", "").trim();
-					String varDataType = varNameWithoutStaticNonNull.substring(0, varNameWithoutStaticNonNull.indexOf(" "));
-					String varName = varNameWithoutStaticNonNull.substring(varNameWithoutStaticNonNull.lastIndexOf(" ")).trim();
-					addNonNullProperties(varDataType, varName, false);
-				}
-			}
-			for (Field field : vars.getFields()) { //TODO for which fields add non null?
-				addNonNullProperties(field.getType(), field.getName(), true);
->>>>>>> d5152824 (fixes after merges; update of case studies, they now support relative paths)
 			}
 			*/
 			for (Parameter param : vars.getParams()) {
@@ -297,6 +270,27 @@ public class KeYFileContent {
 		}
 	}
 	
+<<<<<<< HEAD
+=======
+	public void setPostFromCondition(String cond) {
+		String condition = Parser.getConditionFromCondition(cond);
+		if (condition == null || condition.length() == 0) {
+			post = "true";
+		} else {
+			post = (post == null || post.isEmpty()) ? condition : (post + " & " + condition);
+		}
+	}
+	
+	public void setPreFromCondition(String cond) {
+		String condition = Parser.getConditionFromCondition(cond);
+		if (condition == null || condition.length() == 0) {
+			pre = "true";
+		} else {
+			pre = (pre == null || pre.isEmpty()) ? condition : (pre + " & " + condition);
+		}
+	}
+
+>>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 	public String getKeYStatementContent() {
 		return 	getKeYContent(true);
 	}

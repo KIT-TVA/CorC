@@ -160,7 +160,6 @@ public class EditCompositionTechniqueOfFormula extends AbstractCustomFeature {
 				}
 			}
 		}
-
 	}
 
 	private CompositionTechnique convertToCompositionTechnique(String compositionTechString) {
@@ -180,6 +179,5 @@ public class EditCompositionTechniqueOfFormula extends AbstractCustomFeature {
 	public boolean hasDoneChanges() {
 		return this.hasDoneChanges;
 	}
-
 }
->>>>>>> 2bd8d20a ()
+>>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)

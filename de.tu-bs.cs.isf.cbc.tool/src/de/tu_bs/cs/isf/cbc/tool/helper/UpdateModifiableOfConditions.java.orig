@@ -206,7 +206,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
-import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
@@ -532,4 +531,4 @@ public class UpdateModifiableOfConditions {
 	}
 
 }
->>>>>>> ea133cd3 (Merged VarCorC2.0_kodetzki - see comment)
+>>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)

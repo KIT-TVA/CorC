@@ -24,7 +24,7 @@ import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IContextButtonPadData;
 import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IToolBehaviorProvider;
-
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
@@ -51,8 +51,8 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 	 */
 	public CbCToolBehaviorProvider(IDiagramTypeProvider diagramTypeProvider) {
 		super(diagramTypeProvider);
-	}
-
+	}	
+	
 	@Override
 	public IContextButtonPadData getContextButtonPad(IPictogramElementContext context) {
 		IContextButtonPadData data = super.getContextButtonPad(context);
@@ -123,9 +123,6 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 		for (int i = 0; i < customFeatures.length; i++) {
 			ICustomFeature customFeature = customFeatures[i];
 			if (customFeature.canExecute(context)) {
-//				if (!customFeature.getName().contains("Generate") && !customFeature.getName().contains("Extract")
-//						&& !customFeature.getName().contains("Edit") && !customFeature.getName().contains("Layout")
-//						&& !customFeature.getName().contains("Open")) {
 				if (customFeature.getName().contains("Verify")) {
 					ContextMenuEntry menuEntry = new ContextMenuEntry(customFeature, context);
 					subMenuVerify.add(menuEntry);
@@ -144,12 +141,6 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 	public IPaletteCompartmentEntry[] getPalette() {
 		List<IPaletteCompartmentEntry> ret = new ArrayList<IPaletteCompartmentEntry>();
 
-		// add compartments from super class
-		// IPaletteCompartmentEntry[] superCompartments =
-		// super.getPalette();
-		// for (int i = 0; i < superCompartments.length; i++)
-		// ret.add(superCompartments[i]);
-
 		// add new compartment at the end of the existing compartments
 		PaletteCompartmentEntry compartmentStatementEntry = new PaletteCompartmentEntry("Statements", null);
 		ret.add(compartmentStatementEntry);
@@ -164,13 +155,8 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 		IFeatureProvider featureProvider = getFeatureProvider();
 		ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
 		for (ICreateFeature cf : createFeatures) {
-			ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry(cf.getCreateName(),
-					cf.getCreateDescription(), cf.getCreateImageId(), cf.getCreateLargeImageId(), cf);
-			/*if (cf.getCreateName().contains("Method") || cf.getCreateName().contains("Variable")
-					|| cf.getCreateName().contains("Condition") || cf.getCreateName().contains("Renam")
-					|| cf.getCreateName().equals("MethodRefinements") || cf.getCreateName().equals("ProductVariant")
-					|| cf.getCreateName().contains("Method Class"))*/ 
-			if (cf.getCreateName().contains("Method") || cf.getCreateName().contains("Variable")
+			ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry(cf.getCreateName(), cf.getCreateDescription(), cf.getCreateImageId(), cf.getCreateLargeImageId(), cf);
+			if (cf.getCreateName().contains("Variable")
 					|| cf.getCreateName().contains("Condition") || cf.getCreateName().contains("Renam")
 					|| cf.getCreateName().equals("ProductVariant")){
 				compartmentOtherEntry.addToolEntry(objectCreationToolEntry);
@@ -202,6 +188,14 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 			}
 		} else if (bo instanceof CbCFormula) {
 			String comment = ((CbCFormula) bo).getComment();
+			CbCFormula domainObject = (CbCFormula) bo;
+			if (domainObject.getMethodObj() != null && domainObject.getMethodObj().getParentClass().getInheritsFrom() != null) {
+				for (Method m : domainObject.getMethodObj().getParentClass().getInheritsFrom().getMethods()) {
+					if (m.getCbcStartTriple().getName().equals(domainObject.getName())) {
+						comment = "This method has a super implementation. See properties view for more information." + (comment == null ? "" : (" // " + comment));
+					}
+				}
+			}
 			if (comment != null && !comment.isEmpty()) {
 				return comment;
 			}

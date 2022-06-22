@@ -151,46 +151,11 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		// create link and wire it
 		link(outerContainerShape, addedStatement);
 
-		// Statement name
-		// Shape textShapeStatement = peCreateService.createShape(outerContainerShape,
-		// true);
-		// MultiText statementText = gaService.createMultiText(textShapeStatement, "");
-		// setId(statementText, ID_STATEMENT_TEXT);
-		// setIndex(statementText, 0);
-		// statementText.setValue(addedStatement.getCommands().get(0).getName());
-		// statementText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		// statementText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		//
-		// Shape textShapeCondition = peCreateService.createShape(outerContainerShape,
-		// false);
-		// MultiText conditionText = gaService.createMultiText(textShapeCondition, "");
-		// setId(conditionText, ID_CONDITION_TEXT);
-		// setIndex(conditionText, 0);
-		// conditionText.setValue(addedStatement.getGuards().get(0).getName());
-		// conditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		// conditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-
 		Shape textShapeName = peCreateService.createShape(outerContainerShape, false);
 		MultiText nameText = gaService.createMultiText(textShapeName, "SelectionStatement IF..FI");
 		setId(nameText, ID_NAME_TEXT);
 		nameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		nameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-
-		// Shape preShape = peCreateService.createShape(outerContainerShape, false);
-		// MultiText preNameText = gaService.createMultiText(preShape,
-		// addedStatement.getCommands().get(0).getPreCondition().getName());
-		// setId(preNameText, ID_PRE_TEXT);
-		// setIndex(preNameText, 0);
-		// preNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		// preNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		//
-		// Shape postShape = peCreateService.createShape(outerContainerShape, false);
-		// MultiText postNameText = gaService.createMultiText(postShape,
-		// addedStatement.getCommands().get(0).getPostCondition().getName());
-		// setId(postNameText, ID_POST_TEXT);
-		// setIndex(postNameText, 0);
-		// postNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		// postNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
@@ -260,12 +225,10 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		Polyline hor8line = gaService.createPolyline(hor8Shape);
 		setId(hor8line, ID_HOR8_LINE);
 
-		// peCreateService.createChopboxAnchor(textShapeStatement);
 		peCreateService.createChopboxAnchor(outerContainerShape);
 
 		link(outerContainerShape, addedStatement);
-		// link(textShapeCondition, addedStatement.getGuards().get(0));
-		// link(textShapeStatement, addedStatement.getCommands().get(0));
+
 		link(proveShape, addedStatement);
 
 		return outerContainerShape;
@@ -280,7 +243,6 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				context.getRootPictogramElement());
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		int width = mainRectangle.getWidth();
-		// int fifthHeight = mainRectangle.getHeight() / 5;
 		int sizeHeader = 20;
 		int sizeName = 40; // name = SelectionStatement IF..FI
 		int sizeBlock = (mainRectangle.getHeight() - sizeName) / 4 - sizeHeader; // Height from one Block

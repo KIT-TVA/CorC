@@ -40,7 +40,6 @@ import org.emftext.language.java.statements.ForLoop;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.WhileLoop;
-import org.emftext.language.java.statements.impl.AssertImpl;
 import org.emftext.language.java.statements.impl.BlockImpl;
 import org.emftext.language.java.statements.impl.ConditionImpl;
 import org.emftext.language.java.statements.impl.DefaultSwitchCaseImpl;

@@ -1,11 +1,8 @@
 package helper;
 
 import org.eclipse.graphiti.mm.algorithms.Text;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.mm.pictograms.impl.ShapeImpl;
-import org.eclipse.graphiti.pattern.id.IdUpdateContext;
-import org.eclipse.graphiti.services.Graphiti;
 
 public class ShapeWithText extends ShapeImpl {
 	

@@ -5,7 +5,7 @@
       <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="32eb9e7e-2a23-47d5-8544-3b027cae1e0c">
         <firstStatement name="statement1" id="3476a68a-c662-496b-892f-3e3b0ac8d23b">
           <refinement name="newWithdraw = withdraw;" proven="true" id="606bc14a-f955-4673-87c5-75f283f1a2d9">
-            <postCondition name="modifiable(newWithdraw);&#xD;&#xA;newWithdraw = withdraw"/>
+            <postCondition name="modifiable(newWithdraw); &#xD;&#xA;newWithdraw = withdraw"/>
             <preCondition name="true"/>
           </refinement>
           <postCondition name="modifiable(newWithdraw);&#xD;&#xA;newWithdraw = withdraw"/>
@@ -101,7 +101,7 @@
                           <preCondition name="modifiable(newWithdraw,withdraw);(newWithdraw >= withdraw &amp; (ret = TRUE -> \old(balance) - x = balance) &amp; (ret = FALSE -> \old(balance) = balance)) &amp; (ret = TRUE)"/>
                         </firstStatement>
                         <secondStatement name="statement2" id="99e8efb4-adb9-46d9-9ec6-daca0a5ae701">
-                          <refinement xsi:type="cbcmodel:ReturnStatement" name="true;" proven="true" comment="returnStatement" id="65b3bddf-671d-4b70-9f8d-ebb7cdb57d7c">
+                          <refinement xsi:type="cbcmodel:ReturnStatement" name="  true;" proven="true" comment="returnStatement" id="65b3bddf-671d-4b70-9f8d-ebb7cdb57d7c">
                             <postCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;(\result = FALSE ->&#xD;&#xA; (withdraw = \old(withdraw) &amp;  balance = \old(balance)))&#xD;&#xA; &amp; (\result = TRUE ->&#xD;&#xA; (withdraw >= \old(withdraw)) &amp;  balance = \old(balance) - x)"/>
                             <preCondition name="modifiable(newWithdraw,ret,withdraw);&#xD;&#xA;withdraw &#xD;&#xA;>= \old(withdraw) &amp; balance = \old(balance) - x"/>
                           </refinement>
