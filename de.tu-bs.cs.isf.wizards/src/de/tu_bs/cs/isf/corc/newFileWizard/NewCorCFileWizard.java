@@ -102,10 +102,8 @@ public class NewCorCFileWizard extends Wizard implements INewWizard {
 			
 			return true;
 		} else if (typePage.corcclass) {
-			
 			ResourceSet resourceSet = new ResourceSetImpl();
-			String absolute = ResourcesPlugin.getWorkspace().getRoot().getLocationURI().toString().replace("file:/", "");
-			URI diagramuri = URI.createPlatformResourceURI(typePage.path.getText().replace(absolute, "") + "/" + typePage.name.getText());
+			URI diagramuri = URI.createURI("file:/"+ typePage.path.getText() + "/" + typePage.name.getText());
 			URI modeluri = diagramuri;
 			diagramuri = diagramuri.appendFileExtension("diagram");		
 			modeluri = modeluri.appendFileExtension("cbcclass");

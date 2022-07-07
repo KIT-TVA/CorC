@@ -136,7 +136,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 
 		URI relURIdiagram = getDiagram().eResource().getURI();
 		String projectName = relURIdiagram.segment(1);
-		String className = relURIdiagram.segment(2).equals("features") ? relURIdiagram.segment(4) : relURIdiagram.segment(2);
+		String className = relURIdiagram.segment(2).equals("features") ? relURIdiagram.segment(4) : relURIdiagram.segment(3);
 		String featureName = relURIdiagram.segment(2).equals("features") ? relURIdiagram.segment(3) : "";
 
 		Resource cbcclassResource = ClassUtil.getClassModelResource("platform:/resource/" + projectName, className, featureName);
@@ -175,7 +175,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			}
 		} else {
 			m.put("cbcmodel", new XMIResourceFactoryImpl());
-			URI cbcmodelURI = URI.createPlatformResourceURI("/" + projectName + (!method.getParentClass().getFeature().equals("default") ? ("/features/" + method.getParentClass().getFeature()) : "") + "/" + className + "/" + method.getName() + ".cbcmodel", true);
+			URI cbcmodelURI = URI.createPlatformResourceURI("/" + projectName + (!method.getParentClass().getFeature().equals("default") ? ("/features/" + method.getParentClass().getFeature()) : "/src") + "/" + className + "/" + method.getName() + ".cbcmodel", true);
 			cbcmodelResource = rs.createResource(cbcmodelURI);
 			
 			CbCFormula formula = ClassUtil.createFormula(method.getName());
