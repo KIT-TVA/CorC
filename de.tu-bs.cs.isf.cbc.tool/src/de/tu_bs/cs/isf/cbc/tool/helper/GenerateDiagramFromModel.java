@@ -100,7 +100,9 @@ public class GenerateDiagramFromModel {
 			e.printStackTrace();
 		} catch (CoreException e) {
 			e.printStackTrace();
-		} 
+		} catch (NullPointerException e) {
+			System.out.println("Local refresh not available!");
+		}
 	}
 
 	private void addFormula(IFeatureProvider featureProvider, CbCFormula formula, Diagram diagram, int x, int y) {
