@@ -27,7 +27,8 @@ Require-Bundle: org.eclipse.graphiti,
  org.eclipse.swt,
  de.ovgu.featureide.fm.core,
  org.eclipse.mylyn.commons.ui,
- org.eclipse.ui.workbench
+ org.eclipse.ui.workbench,
+ org.eclipse.core.commands
 Import-Package: de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass,
  de.tu_bs.cs.isf.cbcclass.tool.patterns,
  helper,
