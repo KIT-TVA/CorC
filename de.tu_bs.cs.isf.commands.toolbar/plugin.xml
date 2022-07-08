@@ -35,6 +35,31 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="de.tu_bs.cs.isf.commands.toolbar.predicateManagement"
+               icon="icons/predicatemanager.png"
+               id="de.tu_bs.cs.isf.commands.toolbar.predicateManagement.mapping"
+               label="Open Predicate Management"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <test
+                        property="org.eclipse.core.resources.name"
+                        value="*.diagram">
+                  </test>
+               </iterate>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
             allPopups="false"
             locationURI="toolbar:org.eclipse.ui.main.toolbar">
          <toolbar
@@ -176,5 +201,13 @@
 	<command id="de.tu_bs.cs.isf.commands.toolbar.generateJavaCodeCommand" defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateJavaCodeHandler" name="Generate Java Code">
 	</command>
 	</extension>
+ <extension
+       point="org.eclipse.ui.commands">
+    <command
+          defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.PredicateWizardHandler"
+          id="de.tu_bs.cs.isf.commands.toolbar.predicateManagement"
+          name="Manage Predicates command">
+    </command>
+ </extension>
 
 </plugin>

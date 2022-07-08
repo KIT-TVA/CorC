@@ -9,9 +9,11 @@ Require-Bundle: org.eclipse.core.runtime,
  de.tu-bs.cs.isf.cbc.util;bundle-version="1.0.0",
  org.eclipse.emf.ecore,
  de.tu-bs.cs.isf.cbc.model,
- org.eclipse.emf.ecore.xmi
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.jface
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: de.tu_bs.cs.isf.cbc.tool.helper,
+ de.tu_bs.cs.isf.corc.predicateWizard,
  org.eclipse.jdt.core,
  org.eclipse.jdt.internal.compiler.batch,
  org.eclipse.jdt.internal.core,
