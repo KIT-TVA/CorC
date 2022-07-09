@@ -28,6 +28,41 @@ public class Predicate {
 		this.find = "";
 	}
 	
+	public void resolveVars() {
+		// find varsTerms
+		String[] signatureSplit = this.def.trim().split(",");
+		String[] findSplit = this.find.trim().substring(find.trim().indexOf("(") + 1, find.trim().length() - 1).split(",");
+		if (signatureSplit.length != findSplit.length) {
+			System.out.println("Error: Number of type declarations in signature does not match number of variables in string to be found!");
+			return;
+		}
+		for (int i = 0; i < signatureSplit.length; i++) {
+			varsTerms.add(signatureSplit[i].trim() + " " + findSplit[i].trim());
+		}
+		
+		// find varsFree
+		String rep = this.replace;
+		while (rep.contains("\\forall ")) {
+			int index = rep.indexOf("\\forall ") + 8;
+			String nameOfFree = "";
+			while (rep.charAt(index) != ';') {
+				nameOfFree += rep.charAt(index++);
+			}
+			if (!varsFree.contains(nameOfFree))  varsFree.add("int " + nameOfFree.trim()); //TODO ist nicht zwingend int
+			rep = rep.replace("\\forall ", "done");
+		}
+		
+		while (rep.contains("\\exists ")) {
+			int index = rep.indexOf("\\exists ") + 8;
+			String nameOfFree = "";
+			while (rep.charAt(index) != ';') {
+				nameOfFree += rep.charAt(index++);
+			}
+			if (!varsFree.contains(nameOfFree))  varsFree.add("int " + nameOfFree.trim()); //TODO ist nicht zwingend int
+			rep = rep.replace("\\exists ", "done");
+		}
+	}
+	
 	public String printPredicate() {
 		return "\t" + this.name + "(" + def + "); //" + this.definedInFeature + ":" + this.definedInClass + ":" + this.definedInMethod;
 	}
@@ -40,8 +75,8 @@ public class Predicate {
 		for (String s : varsFree) {
 			output += "\t\t\\schemaVar \\variable " + s + ";\n";
 		}
+		output += "\t\t\\find (" + find + ")\n";
 		if (!varsFree.isEmpty() && !varsTerms.isEmpty()) {
-			output += "\t\t\\find (" + find + ")\n";
 			output += "\t\t\\varcond (";
 			for (String free : varsFree) {
 				for (String term : varsTerms) {
@@ -54,5 +89,17 @@ public class Predicate {
 		output += "\t\t\\replacewith (" + replace + ")\n";
 		output += "\t\t\\heuristics(simplify)\n\t};";
 		return output;
+	}
+	
+	public String getDefinedInFeature() {
+		return definedInFeature.equals("default") ? "All features" : definedInFeature;
+	}
+	
+	public String getDefinedInClass() {
+		return definedInClass.equals("default") ? "All classes" : definedInClass;
+	}
+	
+	public String getDefinedInMethod() {
+		return definedInMethod.equals("default") ? "All methods" : definedInMethod;
 	}
 }
