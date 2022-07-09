@@ -11,10 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import javax.imageio.event.IIOReadUpdateListener;
-
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -41,11 +38,11 @@ import org.eclipse.swt.widgets.Text;
 public class PredicateManagementTypePage extends WizardPage {
 	private ArrayList<Predicate> predicates;
 	
-	public static final String PROJECT_TYPE_NOTOO = "non object-oriented project"; // project/src/.diagram
-	public static final String PROJECT_TYPE_OO = "object-oriented project"; // project/src/class/.diagram
-	public static final String PROJECT_TYPE_SPL = "object-oriented spl"; // project/features/feature/class/.diagram
-	private String projectType = "";
+	private static final String PROJECT_TYPE_NOTOO = "non object-oriented project"; // project/src/.diagram
+	private static final String PROJECT_TYPE_OO = "object-oriented project"; // project/src/class/.diagram
+	private static final String PROJECT_TYPE_SPL = "object-oriented spl"; // project/features/feature/class/.diagram
 	
+	private String projectType = "";
 	private IResource resource;
 	private String projectName;
 	private String featureName;
@@ -53,25 +50,27 @@ public class PredicateManagementTypePage extends WizardPage {
 	private String methodName;
 	private boolean variationalProject;
 	private Predicate currentPredicate = null;
+	private String currentPredicateFeature;
+	private String currentPredicateClass;
+	private String currentPredicateMethod;
 	
-	static List predicatesList;
+	private static List predicatesList;
 	
-	public Button buttonAddPredicate;
-	public Button buttonDelPredicate;
-	public Button buttonSave;
-	public Button buttonRestore;
+	private Button buttonAddPredicate;
+	private Button buttonDelPredicate;
+	private Button buttonSave;
+	private Button buttonRestore;
 	
-	public Combo combo_feature;
-	public Combo combo_class;
-	public Combo combo_method;
+	private Combo combo_feature;
+	private Combo combo_class;
+	private Combo combo_method;
 	
-	public Text nameField;
-	public Text signatureField;
-	public Text findField;
-	public Text replaceField;
+	private Text nameField;
+	private Text signatureField;
+	private Text findField;
+	private Text replaceField;
 	
-	Label label_blank_1;
-	Label label_blank_2;
+	private Label label_blank_1;
 	
 	protected PredicateManagementTypePage(IResource resource) {
 		super("manage Predicates");		
@@ -213,8 +212,6 @@ public class PredicateManagementTypePage extends WizardPage {
 	    if (variationalProject) {
 	    	new Label(groupConfig, SWT.NULL).setText("Feature:");
 	    	combo_feature = new Combo(groupConfig, SWT.DROP_DOWN | SWT.READ_ONLY);
-	    	String[] features = new String[] {"                    ", "feature1", "feature2"};
-	    	combo_feature.setItems(features);
 	    	combo_feature.setEnabled(false);
 	    	GridData gridData_combo_feature = new GridData();
 	    	gridData_combo_feature.horizontalAlignment = GridData.FILL;
@@ -226,8 +223,6 @@ public class PredicateManagementTypePage extends WizardPage {
 		//LABEL + INPUT class
 	    new Label(groupConfig, SWT.NULL).setText("Class:");
 	    combo_class = new Combo(groupConfig, SWT.DROP_DOWN | SWT.READ_ONLY);
-	    String[] classes = new String[] {"                    ", "class2", "class2"};
-		combo_class.setItems(classes);
 		combo_class.setEnabled(false);
 		GridData gridData_combo_class = new GridData();
 		gridData_combo_class.horizontalAlignment = GridData.FILL;
@@ -238,8 +233,6 @@ public class PredicateManagementTypePage extends WizardPage {
 		//LABEL + INPUT method
 	    new Label(groupConfig, SWT.NULL).setText("Method:");
 	    combo_method = new Combo(groupConfig, SWT.DROP_DOWN | SWT.READ_ONLY);
-	    String[] methods = new String[] {"                    ", "method1", "method2"};
-		combo_method.setItems(methods);
 		combo_method.setEnabled(false);
 		GridData gridData_combo_method = new GridData();
 		gridData_combo_method.horizontalAlignment = GridData.FILL;
@@ -273,7 +266,15 @@ public class PredicateManagementTypePage extends WizardPage {
 	    buttonAddPredicate.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event e) {
-				System.out.println("Add predicate");
+				Predicate newPredicate = new Predicate("default:default:default");
+				newPredicate.name = "newPredicate";
+				newPredicate.def = "int";
+				newPredicate.find = "newPredicate(var)";
+				newPredicate.replace = "true";
+				newPredicate.resolveVars();
+				predicates.add(newPredicate);
+				updateList();
+				resetFields();
 			}
 		});
 	    
@@ -292,31 +293,36 @@ public class PredicateManagementTypePage extends WizardPage {
 			}
 		});
 	    
+	    //LISTENER button save
+	    buttonSave.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event e) {
+				Predicate newPredicate = new Predicate(currentPredicateFeature + ":" + currentPredicateClass + ":" + currentPredicateMethod);
+				newPredicate.name = nameField.getText();
+				newPredicate.def = signatureField.getText();
+				newPredicate.find = findField.getText();
+				newPredicate.replace = replaceField.getText();
+				newPredicate.resolveVars();
+				predicates.set(predicatesList.getSelectionIndex(), newPredicate);
+				updateList();
+				resetFields();
+			}
+		});
+	    
+	    //LISTENER button restore
+	    buttonRestore.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event e) {
+				resetFields();
+	        	loadSelectedPredicate();
+			}
+		});
+	    
 	    //LISTENER predicates list
 	    predicatesList.addListener(SWT.Selection, new Listener() {
 	        public void handleEvent(Event e) {
-	        	for (Predicate p : predicates) {
-	        		if ((p.name + "(" + p.def + ")").equals(predicatesList.getSelection()[0])) {
-	        			currentPredicate = p;
-	        			nameField.setText(p.name);
-	        			nameField.setEnabled(true);
-	        			signatureField.setText(p.def);
-	        			signatureField.setEnabled(true);
-	        			findField.setText(p.find);
-	        			findField.setEnabled(true);
-	        			replaceField.setText(p.replace);
-	        			replaceField.setEnabled(true);
-	        			combo_feature.setEnabled(true);
-	        			buttonRestore.setEnabled(true);
-	        			buttonSave.setEnabled(true);
-	        			
-	        			if (!p.definedInFeature.equals("default")) combo_class.setEnabled(true);
-	        			if (!p.definedInClass.equals("default")) combo_method.setEnabled(true);
-	        			//TODO set combos
-	        			return;
-	        		}
-	        	}
 	        	resetFields();
+	        	loadSelectedPredicate();
 	        }
 	    });
 	    
@@ -326,14 +332,20 @@ public class PredicateManagementTypePage extends WizardPage {
             public void widgetSelected(SelectionEvent e) {
                 int index = combo_feature.getSelectionIndex();
                 if (index == 0) {
+                	currentPredicateFeature = "default";
+                	currentPredicateClass = "default";
+                	currentPredicateMethod = "default";
+                	combo_class.setItems(new String[0]);
                 	combo_class.setEnabled(false);
-                	combo_class.setText("                    ");
+                	combo_method.setItems(new String[0]);
                 	combo_method.setEnabled(false);
-                	combo_method.setText("                    ");
                 } else {
+                	combo_class.setItems(loadAvailableClasses());
+                	combo_class.setText("All classes");
                 	combo_class.setEnabled(true);
-                	//TODO feature setzen
-                	System.out.println(combo_feature.getItem(index));
+                	combo_method.setItems(new String[0]);
+                	combo_method.setEnabled(false);
+                	currentPredicateFeature = combo_feature.getItem(index);
                 }
             }
         });
@@ -344,12 +356,15 @@ public class PredicateManagementTypePage extends WizardPage {
             public void widgetSelected(SelectionEvent e) {
                 int index = combo_class.getSelectionIndex();
                 if (index == 0) {
+                	currentPredicateClass = "default";
+                	currentPredicateMethod = "default";
+                	combo_method.setItems(new String[0]);
                 	combo_method.setEnabled(false);
-                	combo_method.setText("                    ");
                 } else {
+                	combo_method.setItems(loadAvailableMethods());
+                	combo_method.setText("All methods");
                 	combo_method.setEnabled(true);
-                	//TODO class setzen
-                	System.out.println(combo_class.getItem(index));
+                	currentPredicateClass = combo_class.getItem(index);
                 }
             }
         });
@@ -359,8 +374,11 @@ public class PredicateManagementTypePage extends WizardPage {
 			@Override
             public void widgetSelected(SelectionEvent e) {
                 int index = combo_method.getSelectionIndex();
-                //TODO method setzen
-                System.out.println(combo_class.getItem(index));
+                if (index == 0) {
+                	currentPredicateMethod = "default";
+                } else {
+                	currentPredicateMethod = combo_method.getItem(index);
+                }
 			}
         });
 	    
@@ -368,6 +386,47 @@ public class PredicateManagementTypePage extends WizardPage {
 	    setControl(composite);
 	}
 	
+	private void loadSelectedPredicate() {
+		for (Predicate p : predicates) {
+    		if ((p.name + "(" + p.def + ")").equals(predicatesList.getSelection()[0])) {
+    			currentPredicate = p;
+    			nameField.setText(p.name);
+    			nameField.setEnabled(true);
+    			signatureField.setText(p.def);
+    			signatureField.setEnabled(true);
+    			findField.setText(p.find);
+    			findField.setEnabled(true);
+    			replaceField.setText(p.replace);
+    			replaceField.setEnabled(true);
+    			combo_feature.setEnabled(true);
+    			buttonRestore.setEnabled(true);
+    			buttonSave.setEnabled(true);
+    			
+    			combo_feature.setItems(loadAvailableFeatures());
+    			if (currentPredicate.definedInFeature.equals("default")) {
+    				combo_feature.setText("All features");
+    			} else {
+    				combo_feature.setText(currentPredicate.getDefinedInFeature());
+    				combo_class.setItems(loadAvailableClasses());
+    				combo_class.setEnabled(true);
+    				if (currentPredicate.definedInClass.equals("default")) {
+        				combo_class.setText("All classes");
+        			} else {
+        				combo_class.setText(currentPredicate.getDefinedInClass());
+        				combo_method.setItems(loadAvailableMethods());
+        				combo_method.setEnabled(true);
+        				combo_method.setText(currentPredicate.getDefinedInMethod());
+        			}	
+    			}
+    			
+    			currentPredicateFeature = currentPredicate.definedInFeature;
+				currentPredicateClass = currentPredicate.definedInClass;
+				currentPredicateMethod = currentPredicate.definedInMethod;
+    			return;
+    		}
+    	}
+	}
+
 	private void updateList() {
 		String[] preds = new String[predicates.size()];
 		for (int i = 0; i < predicates.size(); i++) {
@@ -387,18 +446,14 @@ public class PredicateManagementTypePage extends WizardPage {
         replaceField.setText("");
         
         combo_feature.setEnabled(false);
-        combo_feature.setText("");
+        combo_feature.setItems(new String[0]);
         combo_class.setEnabled(false);
-        combo_class.setText("");
+        combo_class.setItems(new String[0]);
         combo_method.setEnabled(false);
-        combo_method.setText("");
+        combo_method.setItems(new String[0]);
         
         buttonRestore.setEnabled(false);
         buttonSave.setEnabled(false);
-	}
-
-	private void save() {
-		
 	}
 	
 	public void saveAndQuit() {
@@ -413,6 +468,18 @@ public class PredicateManagementTypePage extends WizardPage {
 			output = predicatesOutput + "}\n\n" + rulesOutput + "}";
 		}
 		writeToFile(output);
+	}
+	
+	private String[] loadAvailableFeatures() {
+		return new String[] {"All features", "f1", "f2"}; //TODO
+	}
+	
+	private String[] loadAvailableClasses() {
+		return new String[] {"All classes", "c1", "c2"}; //TODO
+	}
+	
+	private String[] loadAvailableMethods() {
+		return new String[] {"All methods", "m1", "m2"}; //TODO
 	}
 	
 	private void writeToFile(String output) {
