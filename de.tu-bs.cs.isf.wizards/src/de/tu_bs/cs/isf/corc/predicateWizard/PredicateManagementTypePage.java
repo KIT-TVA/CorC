@@ -1,6 +1,8 @@
 package de.tu_bs.cs.isf.corc.predicateWizard;
 
 import de.tu_bs.cs.isf.cbc.tool.helper.Predicate;
+import de.tu_bs.cs.isf.cbc.util.Console;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -471,15 +473,80 @@ public class PredicateManagementTypePage extends WizardPage {
 	}
 	
 	private String[] loadAvailableFeatures() {
-		return new String[] {"All features", "f1", "f2"}; //TODO
+		String[] ret = new String[0];
+		if (projectType.equals(PROJECT_TYPE_SPL)) {
+			File f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\features");
+			File[] files = f.listFiles();
+			ret = new String[files.length + 1];
+			ret[0] = "All features";
+			for (int i = 0; i < files.length; i++) {
+				ret[i + 1] = files[i].getName();
+			}
+		}
+		return ret;
 	}
 	
 	private String[] loadAvailableClasses() {
-		return new String[] {"All classes", "c1", "c2"}; //TODO
+		String[] ret = new String[0];
+		File f = null;
+		switch (projectType) {
+			case PROJECT_TYPE_SPL:
+				f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\features\\" + combo_feature.getText());
+				break;
+			case PROJECT_TYPE_OO:
+				f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\src");
+				break;
+			case PROJECT_TYPE_NOTOO:
+				return ret;
+		}
+		File[] files = f.listFiles();
+		int foundClasses = 1;
+		for (File file: files) {
+			if (!file.getAbsolutePath().contains("\\prove")) {
+				foundClasses++;
+			}
+		}
+		ret = new String[foundClasses];
+		ret[0] = "All classes";
+		int retCounter = 1;
+		for (int i = 0; i < files.length; i++) {
+			if (!files[i].getAbsolutePath().contains("\\prove")) {
+				ret[retCounter++] = files[i].getName();
+			}
+		}
+		return ret;
 	}
 	
 	private String[] loadAvailableMethods() {
-		return new String[] {"All methods", "m1", "m2"}; //TODO
+		String[] ret = new String[0];
+		File f = null;
+		switch (projectType) {
+			case PROJECT_TYPE_SPL:
+				f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\features\\" + combo_feature.getText() + "\\" + combo_class.getText());
+				break;
+			case PROJECT_TYPE_OO:
+				f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\src\\" + combo_class.getText());
+				break;
+			case PROJECT_TYPE_NOTOO:
+				f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\src\\diagrams");
+				break;
+		}
+		File[] files = f.listFiles();
+		int foundMethods = 1;
+		for (File file: files) {
+			if (file.getAbsolutePath().endsWith(".diagram") && (projectType.equals(PROJECT_TYPE_NOTOO) ? true : !file.getAbsolutePath().endsWith(combo_class.getText() + ".diagram"))) {
+				foundMethods++;
+			}
+		}
+		ret = new String[foundMethods];
+		ret[0] = "All methods";
+		int retCounter = 1;
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].getAbsolutePath().endsWith(".diagram") && (projectType.equals(PROJECT_TYPE_NOTOO) ? true : !files[i].getAbsolutePath().endsWith(combo_class.getText() + ".diagram"))) {
+				ret[retCounter++] = files[i].getName().replace(".diagram", "");
+			}
+		}
+		return ret;
 	}
 	
 	private void writeToFile(String output) {
@@ -570,7 +637,7 @@ public class PredicateManagementTypePage extends WizardPage {
 					ruleDef = false;
 				}
 			}	
-		}
+		} else Console.println("This project has no file for saving predicates. Create at <projectName>/helper.key");
 		return readPredicates;
 	}
 
