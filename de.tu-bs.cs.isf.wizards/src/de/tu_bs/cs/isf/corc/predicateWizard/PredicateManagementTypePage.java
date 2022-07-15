@@ -1,8 +1,9 @@
 package de.tu_bs.cs.isf.corc.predicateWizard;
 
 import de.tu_bs.cs.isf.cbc.tool.helper.Predicate;
-import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.tool.helper.PredicateDefinition;
 
+import javax.swing.JOptionPane;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -24,6 +25,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -35,6 +37,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 
 public class PredicateManagementTypePage extends WizardPage {
@@ -47,32 +51,16 @@ public class PredicateManagementTypePage extends WizardPage {
 	private String projectType = "";
 	private IResource resource;
 	private String projectName;
-	private String featureName;
-	private String className;
-	private String methodName;
 	private boolean variationalProject;
 	private Predicate currentPredicate = null;
-	private String currentPredicateFeature;
-	private String currentPredicateClass;
-	private String currentPredicateMethod;
 	
 	private static List predicatesList;
 	
+	private TabFolder tab_folder;	
+	private Group groupTabs;	
 	private Button buttonAddPredicate;
-	private Button buttonDelPredicate;
-	private Button buttonSave;
-	private Button buttonRestore;
-	
-	private Combo combo_feature;
-	private Combo combo_class;
-	private Combo combo_method;
-	
-	private Text nameField;
-	private Text signatureField;
-	private Text findField;
-	private Text replaceField;
-	
-	private Label label_blank_1;
+	private Button buttonDelPredicate;	
+	private Label label_blank_1;	
 	
 	protected PredicateManagementTypePage(IResource resource) {
 		super("manage Predicates");		
@@ -84,9 +72,6 @@ public class PredicateManagementTypePage extends WizardPage {
 		if (parts[parts.length-2].equals("src")) projectType = PROJECT_TYPE_NOTOO;
 		if (parts[parts.length-3].equals("src")) projectType = PROJECT_TYPE_OO;
 		if (parts[parts.length-4].equals("features")) projectType = PROJECT_TYPE_SPL;
-		methodName = !parts[parts.length-1].replace(".diagram", "").equalsIgnoreCase(parts[parts.length-2]) ? parts[parts.length-1].replace(".diagram", "") : ""; 
-		className = projectType.equals(PROJECT_TYPE_NOTOO) ? "" : parts[parts.length-2];
-		featureName = projectType.equals(PROJECT_TYPE_SPL) ? parts[parts.length-3] : "";
 		projectName = projectType.equals(PROJECT_TYPE_NOTOO) ? parts[parts.length-3] : (projectType.equals(PROJECT_TYPE_OO) ? parts[parts.length-4] : parts[parts.length-5]);
 		setDescription("Manage the predicates of the project " + projectName + ".");
 		variationalProject = projectType.equals(PROJECT_TYPE_SPL);		
@@ -96,7 +81,7 @@ public class PredicateManagementTypePage extends WizardPage {
 	@Override
 	public void createControl(Composite parent) {
 		setPageComplete(false);
-		Composite composite = new Composite(parent, SWT.None);		
+		Composite composite = new Composite(parent, SWT.None);	
 		
 		// START LAYOUT--------------------------------------------------------------------------------
 		
@@ -104,6 +89,9 @@ public class PredicateManagementTypePage extends WizardPage {
 		GridLayout gridLayout_page = new GridLayout();
 		gridLayout_page.numColumns = 2;
 		composite.setLayout(gridLayout_page);
+		GridData gridData_page = new GridData();
+		gridData_page.widthHint = 3000;
+		composite.setLayoutData(gridData_page);
 		
 		// GROUP predicates list
 		Group groupList = new Group(composite, SWT.NULL);
@@ -141,13 +129,115 @@ public class PredicateManagementTypePage extends WizardPage {
 		GridData gridData_list_predicates = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
 		gridData_list_predicates.horizontalSpan = 3;
 		gridData_list_predicates.horizontalAlignment = GridData.FILL;
-		predicatesList = new List(groupList, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
+		predicatesList = new List(groupList, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		updateList();
-		gridData_list_predicates.heightHint = predicatesList.computeTrim(0, 0, 0, predicatesList.getItemHeight() * 14).height;
-	    predicatesList.setLayoutData(gridData_list_predicates);
+		gridData_list_predicates.heightHint = predicatesList.computeTrim(0, 0, 0, predicatesList.getItemHeight() * 18).height;
+		predicatesList.setLayoutData(gridData_list_predicates);
 		
+	    // GROUP tabs
+	    groupTabs = new Group(composite, SWT.NULL);
+		groupTabs.setText("Predicate properties");
+	    GridLayout layout_group_tabs = new GridLayout();
+	    groupTabs.setLayout(layout_group_tabs);
+	    GridData gridData_group_tabs = new GridData();
+	    gridData_group_tabs.horizontalAlignment = GridData.FILL;
+	    gridData_group_tabs.verticalAlignment = GridData.FILL;
+	    gridData_group_tabs.grabExcessHorizontalSpace = true;
+	    gridData_group_tabs.widthHint = 650;
+	    groupTabs.setLayoutData(gridData_group_tabs);
+	    
+	    // TAB FOLDER tabs
+	    tab_folder = new TabFolder(groupTabs, SWT.NONE);
+	    GridData gridData_tab_folder = new GridData();
+	    gridData_tab_folder.horizontalAlignment = GridData.FILL;
+	    gridData_tab_folder.verticalAlignment = GridData.FILL;
+	    gridData_tab_folder.grabExcessHorizontalSpace = true;
+	    gridData_tab_folder.grabExcessVerticalSpace = true;
+	    tab_folder.setLayoutData(gridData_tab_folder);
+	    
+	    // END LAYOUT----------------------------------------------------------------------------------
+		
+	    // LISTENER predicates list
+	    predicatesList.addListener(SWT.Selection, new Listener() {
+	        public void handleEvent(Event e) {
+	        	resetTabFolder();
+	        	loadTabFolder();
+	        }
+	    });
+	    
+	    // LISTENER button add predicate
+	    buttonAddPredicate.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event e) {
+				for (Predicate p : predicates) {
+					if (p.signature.equals("newPredicate(int[] array, int number, String word)")) {
+						JOptionPane.showMessageDialog(null, "There is already a new predicate. Please change signature of predicate newPredicate to be able to create a new predicate.", "Add new predicate", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
+				}
+				int input = JOptionPane.showConfirmDialog(null, "Unsaved changes will be disposed. Continue?", "Unsaved changes", JOptionPane.YES_NO_OPTION);
+				if (input == JOptionPane.NO_OPTION) {
+					return;
+				}
+				Predicate newPredicate = new Predicate("newPredicate(int[] array, int number, String word)");
+				PredicateDefinition pDef = new PredicateDefinition("true", "default:default:default:default");
+				newPredicate.definitions.add(pDef);
+				predicates.add(newPredicate);
+				updateList();
+				predicatesList.setSelection(predicatesList.getItemCount() - 1);
+				resetTabFolder();
+				loadTabFolder();
+			}
+		});
+	    
+	    // LISTENER button del predicate
+	    buttonDelPredicate.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event e) {
+				for (Predicate p : predicates) {
+					if (p.getSignature(false).equals(predicatesList.getSelection()[0])) {
+						int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the predicate " + p.getSignature(true) + " ?", "Delete", JOptionPane.YES_NO_OPTION);
+						if (input == JOptionPane.YES_OPTION) {
+							predicates.remove(p);
+							updateList();
+							resetTabFolder();
+						}
+						return;
+					}
+				}
+			}
+		});
+	    
+	    setPageComplete(true);
+	    setControl(composite);	    
+	}
+	
+	private void resetTabFolder() {
+		for (TabItem tab: tab_folder.getItems()) {
+			tab.dispose();
+		}
+	}
+	
+	private void loadTabFolder() {
+		for (Predicate p : predicates) {
+    		if ((p.getSignature(false).equals(predicatesList.getSelection()[0]))) {
+    			currentPredicate = p;
+    			boolean firstTab = true;
+    			for (PredicateDefinition pDef : p.definitions) {
+    				createTab(p.getSignature(true), pDef, firstTab, false);
+    				firstTab = false;
+    			}
+    			createTab(p.getSignature(true), null, firstTab, true);
+    		}
+    	}
+	}
+	
+	private void createTab(String signature, PredicateDefinition pDef, boolean  firstTab, boolean extraTab) {
+		TabItem tab = new TabItem(tab_folder, SWT.NONE);
+	    tab.setText(pDef != null ? pDef.name : "Add new");
+	    
 	    // GROUP predicate information
-	    Group groupInfo = new Group(composite, SWT.NULL);
+	    Group groupInfo = new Group(tab_folder, SWT.NULL);
 		groupInfo.setText("Predicate properties");
 	    GridLayout layout_group_predicate_info = new GridLayout();
 	    layout_group_predicate_info.numColumns = 3;
@@ -164,9 +254,11 @@ public class PredicateManagementTypePage extends WizardPage {
 	    gridData_label_name.horizontalAlignment = GridData.FILL;
 	    gridData_label_name.horizontalSpan = 2;
 	    new Label(groupInfo, SWT.NULL).setText("Name:");
-	    nameField = new Text(groupInfo, SWT.SINGLE | SWT.BORDER);
+	    Text nameField = new Text(groupInfo, SWT.SINGLE | SWT.BORDER);
 	    nameField.setLayoutData(gridData_label_name);
-	    nameField.setEnabled(false);
+	    nameField.setEnabled(true);
+	    nameField.setText(pDef != null ? pDef.name : "");
+	    nameField.setToolTipText("Provide name of definition of predicate");
 	    
 	    // LABEL + INPUT signature
 	    GridData gridData_label_signature = new GridData();
@@ -174,34 +266,28 @@ public class PredicateManagementTypePage extends WizardPage {
 	    gridData_label_signature.horizontalAlignment = GridData.FILL;
 	    gridData_label_signature.horizontalSpan = 2;
 	    new Label(groupInfo, SWT.NULL).setText("Signature:");
-	    signatureField = new Text(groupInfo, SWT.SINGLE | SWT.BORDER);
+	    Text signatureField = new Text(groupInfo, SWT.SINGLE | SWT.BORDER);
 	    signatureField.setLayoutData(gridData_label_signature);
-	    signatureField.setEnabled(false);
+	    signatureField.setEnabled(true);
+	    signatureField.setEditable(firstTab);
+	    signatureField.setText(signature);
+	    signatureField.setToolTipText("Provide signature for predicate" + (firstTab ? "" : ". Changes can be done in first tab."));
 	    
-	    // LABEL + INPUT find
-	    GridData gridData_label_find = new GridData();
-	    gridData_label_find.grabExcessHorizontalSpace = true;
-	    gridData_label_find.horizontalAlignment = GridData.FILL;
-	    gridData_label_find.horizontalSpan = 2;
-	    new Label(groupInfo, SWT.NULL).setText("Find:");
-	    findField = new Text(groupInfo, SWT.SINGLE | SWT.BORDER);
-	    findField.setLayoutData(gridData_label_find);
-	    findField.setEnabled(false);
-	    
-	    // LABEL + INPUT replace
-	    GridData gridData_label_replace = new GridData(GridData.FILL_BOTH);
-	    gridData_label_replace.grabExcessHorizontalSpace = true;
-	    gridData_label_replace.horizontalSpan = 2;
-	    new Label(groupInfo, SWT.NULL).setText("Replace:");
-	    replaceField = new Text(groupInfo, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
-	    replaceField.setLayoutData(gridData_label_replace);
-	    replaceField.setEnabled(false);
+	    // LABEL + INPUT definition
+	    GridData gridData_label_definition = new GridData(GridData.FILL_BOTH);
+	    gridData_label_definition.grabExcessHorizontalSpace = true;
+	    gridData_label_definition.horizontalSpan = 2;
+	    new Label(groupInfo, SWT.NULL).setText("Definition:");
+	    Text definitionField = new Text(groupInfo, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+	    definitionField.setLayoutData(gridData_label_definition);
+	    definitionField.setEnabled(true);
+	    definitionField.setText(pDef != null ? pDef.replace : "");
 	    
 	    // GROUP config predicate
 	    Group groupConfig = new Group(groupInfo, SWT.NULL);
 		groupConfig.setText("Availability of Predicate");
 	    GridLayout layout_group_predicate_config = new GridLayout();
-	    layout_group_predicate_config.numColumns = variationalProject ? 6 : 4;
+	    layout_group_predicate_config.numColumns = 6;
 	    groupConfig.setLayout(layout_group_predicate_config);
 	    GridData gridData_group_predicate_config = new GridData();
 	    gridData_group_predicate_config.horizontalAlignment = GridData.FILL;
@@ -210,21 +296,19 @@ public class PredicateManagementTypePage extends WizardPage {
 	    gridData_group_predicate_config.horizontalSpan = 3;
 	    groupConfig.setLayoutData(gridData_group_predicate_config);
 	    
-	    //LABEL + INPUT feature
-	    if (variationalProject) {
-	    	new Label(groupConfig, SWT.NULL).setText("Feature:");
-	    	combo_feature = new Combo(groupConfig, SWT.DROP_DOWN | SWT.READ_ONLY);
-	    	combo_feature.setEnabled(false);
-	    	GridData gridData_combo_feature = new GridData();
-	    	gridData_combo_feature.horizontalAlignment = GridData.FILL;
-	    	gridData_combo_feature.grabExcessHorizontalSpace = true;
-	    	gridData_combo_feature.widthHint = 90;
-	    	combo_feature.setLayoutData(gridData_combo_feature);
-	    }
-	    	
-		//LABEL + INPUT class
+	    // LABEL + INPUT feature
+	    new Label(groupConfig, SWT.NULL).setText("Feature:");
+	    Combo combo_feature = new Combo(groupConfig, SWT.DROP_DOWN | SWT.READ_ONLY);
+	    combo_feature.setEnabled(true);
+	    GridData gridData_combo_feature = new GridData();
+	    gridData_combo_feature.horizontalAlignment = GridData.FILL;
+	    gridData_combo_feature.grabExcessHorizontalSpace = true;
+	    gridData_combo_feature.widthHint = 90;
+	    combo_feature.setLayoutData(gridData_combo_feature);
+	        	
+		// LABEL + INPUT class
 	    new Label(groupConfig, SWT.NULL).setText("Class:");
-	    combo_class = new Combo(groupConfig, SWT.DROP_DOWN | SWT.READ_ONLY);
+	    Combo combo_class = new Combo(groupConfig, SWT.DROP_DOWN | SWT.READ_ONLY);
 		combo_class.setEnabled(false);
 		GridData gridData_combo_class = new GridData();
 		gridData_combo_class.horizontalAlignment = GridData.FILL;
@@ -232,9 +316,9 @@ public class PredicateManagementTypePage extends WizardPage {
     	gridData_combo_class.widthHint = 90;
 		combo_class.setLayoutData(gridData_combo_class);
 		
-		//LABEL + INPUT method
+		// LABEL + INPUT method
 	    new Label(groupConfig, SWT.NULL).setText("Method:");
-	    combo_method = new Combo(groupConfig, SWT.DROP_DOWN | SWT.READ_ONLY);
+	    Combo combo_method = new Combo(groupConfig, SWT.DROP_DOWN | SWT.READ_ONLY);
 		combo_method.setEnabled(false);
 		GridData gridData_combo_method = new GridData();
 		gridData_combo_method.horizontalAlignment = GridData.FILL;
@@ -242,234 +326,266 @@ public class PredicateManagementTypePage extends WizardPage {
     	gridData_combo_method.widthHint = 90;
 		combo_method.setLayoutData(gridData_combo_method);
 		
-		//BUTTON restore
+		// COMPOSITE error/restore/save
+		Composite compositeERS = new Composite(groupInfo, SWT.NONE);
+	    GridLayout gridLayoutERS = new GridLayout();
+	    gridLayoutERS.numColumns = 3;
+	    compositeERS.setLayout(gridLayoutERS);
+	    GridData gridData_composite_ers = new GridData();
+	    gridData_composite_ers.horizontalSpan = 3;
+	    compositeERS.setLayoutData(gridData_composite_ers);
+	    
+	    // BUTTON delete
+	 	GridData gridData_button_delete = new GridData();
+	 	gridData_button_delete.widthHint = 150;
+	 	Button buttonDelete = new Button(compositeERS, SWT.PUSH);
+	 	buttonDelete.setText("Delete Definition");
+	 	//TODO erste kann auch bei mehreren defs nicht gelöscht werden (button müsste dynamisch angepasst werden)
+	 	buttonDelete.setEnabled(!extraTab && !firstTab);
+	 	buttonDelete.setLayoutData(gridData_button_delete);
+	    
+		// BUTTON restore
 		GridData gridData_button_restore = new GridData();
-		gridData_button_restore.horizontalAlignment = GridData.END;
-		gridData_button_restore.widthHint = 80;
-		gridData_button_restore.horizontalSpan = 2;
-		gridData_button_restore.horizontalIndent = 380;
-		buttonRestore = new Button(groupInfo, SWT.PUSH);
-		buttonRestore.setText("Restore");
-		buttonRestore.setEnabled(false);
+		gridData_button_restore.widthHint = 150;
+		Button buttonRestore = new Button(compositeERS, SWT.PUSH);
+		buttonRestore.setText("Restore Definition");
 		buttonRestore.setLayoutData(gridData_button_restore);
 		
-		//BUTTON save
+		// BUTTON save
 		GridData gridData_button_save = new GridData();
-		gridData_button_save.horizontalAlignment = GridData.END;
-		gridData_button_save.widthHint = 80;
-		buttonSave = new Button(groupInfo, SWT.PUSH);
-		buttonSave.setText("Save");
-		buttonSave.setEnabled(false);
-		buttonSave.setLayoutData(gridData_button_save);
+		gridData_button_save.widthHint = 150;
+		Button buttonSave = new Button(compositeERS, SWT.PUSH);
+		buttonSave.setText("Save Definition");
+		buttonSave.setLayoutData(gridData_button_save);	
 		
-	    // END LAYOUT----------------------------------------------------------------------------------
+		// COMPOSITE error
+		Composite compositeError = new Composite(compositeERS, SWT.NONE);
+		GridLayout gridLayoutError = new GridLayout();
+		gridLayoutError.numColumns = 1;
+		compositeError.setLayout(gridLayoutError);
+		GridData gridData_composite_error = new GridData();
+		gridData_composite_error.horizontalSpan = 3;
+		compositeError.setLayoutData(gridData_composite_error);
+			    
+		// LABEL error
+		GridData gridData_label_error = new GridData();
+		gridData_label_error.grabExcessHorizontalSpace = true;
+		gridData_label_error.verticalSpan = 1;
+		Label label_error = new Label(compositeError, SWT.None);
+		label_error.setText("                                                                                                                                                      ");
+		label_error.setVisible(true);
+		label_error.setLayoutData(gridData_label_error);
+	    
+		combo_feature.setItems(loadAvailableFeatures());
+		if (pDef == null || pDef.definedInFeature.equals("default")) {
+			combo_feature.setText("All features");
+		} else {
+			combo_feature.setText(pDef.getDefinedInFeature());
+			combo_class.setItems(loadAvailableClasses(pDef.definedInFeature));
+			combo_class.setEnabled(true);
+			if (pDef.definedInClass.equals("default")) {
+				combo_class.setText("All classes");
+			} else {
+				combo_class.setText(pDef.getDefinedInClass());
+				combo_method.setItems(loadAvailableMethods(pDef.definedInFeature, pDef.definedInClass));
+				combo_method.setEnabled(true);
+				combo_method.setText(pDef.getDefinedInMethod());
+			}	
+		}
 		
-	    // LISTENER button add predicate
-	    buttonAddPredicate.addListener(SWT.Selection, new Listener() {
+		// LISTENER tab_folder
+		tab_folder.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void handleEvent(Event e) {
-				Predicate newPredicate = new Predicate("default:default:default");
-				newPredicate.name = "newPredicate";
-				newPredicate.def = "int";
-				newPredicate.find = "newPredicate(var)";
-				newPredicate.replace = "true";
-				newPredicate.resolveVars();
-				predicates.add(newPredicate);
-				updateList();
-				resetFields();
+			public void widgetSelected(SelectionEvent e) {
+				label_error.setText("");
 			}
 		});
+		
+		// LISTENER combo features
+	    combo_feature.addSelectionListener(new SelectionAdapter() {
+			@Override
+            public void widgetSelected(SelectionEvent e) {
+                int index = combo_feature.getSelectionIndex();
+                if (index == 0) {
+                	combo_class.setItems(new String[0]);
+                	combo_class.setEnabled(false);
+                	combo_method.setItems(new String[0]);
+                	combo_method.setEnabled(false);
+                } else {
+                	combo_class.setItems(loadAvailableClasses(combo_feature.getText()));
+                	combo_class.setText("All classes");
+                	combo_class.setEnabled(true);
+                	combo_method.setItems(new String[0]);
+                	combo_method.setEnabled(false);
+                }
+            }
+        });
 	    
-	    //LISTENER button del predicate
-	    buttonDelPredicate.addListener(SWT.Selection, new Listener() {
+	    // LISTENER combo classes
+	    combo_class.addSelectionListener(new SelectionAdapter() {
+			@Override
+            public void widgetSelected(SelectionEvent e) {
+                int index = combo_class.getSelectionIndex();
+                if (index == 0) {
+                	combo_method.setItems(new String[0]);
+                	combo_method.setEnabled(false);
+                } else {
+                	combo_method.setItems(loadAvailableMethods(combo_feature.getText(), combo_class.getText()));
+                	combo_method.setText("All methods");
+                	combo_method.setEnabled(true);
+                }
+            }
+        });
+	    
+	    // LISTENER button delete
+	    buttonDelete.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event e) {
-				for (Predicate p : predicates) {
-					if (p.def.equals(predicatesList.getSelection()[0])) {
-						predicates.remove(p);
-						updateList();
-						resetFields();
+				for (PredicateDefinition pDef : currentPredicate.definitions) {
+					if (pDef.name.equals(tab_folder.getItem(tab_folder.getSelectionIndex()).getText())) {
+						int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this definition?", "Delete", JOptionPane.YES_NO_OPTION);
+						if (input == JOptionPane.YES_OPTION) {
+							currentPredicate.definitions.remove(pDef);
+							tab_folder.getItem(tab_folder.getSelectionIndex()).dispose();
+						}
 						return;
 					}
 				}
 			}
 		});
 	    
-	    //LISTENER button save
-	    buttonSave.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event e) {
-				Predicate newPredicate = new Predicate(currentPredicateFeature + ":" + currentPredicateClass + ":" + currentPredicateMethod);
-				newPredicate.name = nameField.getText();
-				newPredicate.def = signatureField.getText();
-				newPredicate.find = findField.getText();
-				newPredicate.replace = replaceField.getText();
-				newPredicate.resolveVars();
-				predicates.set(predicatesList.getSelectionIndex(), newPredicate);
-				updateList();
-				resetFields();
-			}
-		});
-	    
-	    //LISTENER button restore
+	    // LISTENER button restore
 	    buttonRestore.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event e) {
-				resetFields();
-	        	loadSelectedPredicate();
+				nameField.setText(pDef.name);
+				signatureField.setText(signature);
+				definitionField.setText(pDef.replace);
+				
+				combo_feature.setItems(loadAvailableFeatures());
+				if (pDef.definedInFeature.equals("default")) {
+					combo_feature.setText("All features");
+				} else {
+					combo_feature.setText(pDef.getDefinedInFeature());
+					combo_class.setItems(loadAvailableClasses(pDef.definedInFeature));
+					combo_class.setEnabled(true);
+					if (pDef.definedInClass.equals("default")) {
+						combo_class.setText("All classes");
+					} else {
+						combo_class.setText(pDef.getDefinedInClass());
+						combo_method.setItems(loadAvailableMethods(pDef.definedInFeature, pDef.definedInClass));
+						combo_method.setEnabled(true);
+						combo_method.setText(pDef.getDefinedInMethod());
+					}	
+				}
 			}
 		});
 	    
-	    //LISTENER predicates list
-	    predicatesList.addListener(SWT.Selection, new Listener() {
-	        public void handleEvent(Event e) {
-	        	resetFields();
-	        	loadSelectedPredicate();
-	        }
-	    });
-	    
-	    //LISTENER combo features
-	    combo_feature.addSelectionListener(new SelectionAdapter() {
+	    // LISTENER button save
+	    buttonSave.addListener(SWT.Selection, new Listener() {
 			@Override
-            public void widgetSelected(SelectionEvent e) {
-                int index = combo_feature.getSelectionIndex();
-                if (index == 0) {
-                	currentPredicateFeature = "default";
-                	currentPredicateClass = "default";
-                	currentPredicateMethod = "default";
-                	combo_class.setItems(new String[0]);
-                	combo_class.setEnabled(false);
-                	combo_method.setItems(new String[0]);
-                	combo_method.setEnabled(false);
-                } else {
-                	combo_class.setItems(loadAvailableClasses());
-                	combo_class.setText("All classes");
-                	combo_class.setEnabled(true);
-                	combo_method.setItems(new String[0]);
-                	combo_method.setEnabled(false);
-                	currentPredicateFeature = combo_feature.getItem(index);
-                }
-            }
-        });
-
-	    //LISTENER combo classes
-	    combo_class.addSelectionListener(new SelectionAdapter() {
-			@Override
-            public void widgetSelected(SelectionEvent e) {
-                int index = combo_class.getSelectionIndex();
-                if (index == 0) {
-                	currentPredicateClass = "default";
-                	currentPredicateMethod = "default";
-                	combo_method.setItems(new String[0]);
-                	combo_method.setEnabled(false);
-                } else {
-                	combo_method.setItems(loadAvailableMethods());
-                	combo_method.setText("All methods");
-                	combo_method.setEnabled(true);
-                	currentPredicateClass = combo_class.getItem(index);
-                }
-            }
-        });
-
-	    //LISTENER combo methods
-	    combo_method.addSelectionListener(new SelectionAdapter() {
-			@Override
-            public void widgetSelected(SelectionEvent e) {
-                int index = combo_method.getSelectionIndex();
-                if (index == 0) {
-                	currentPredicateMethod = "default";
-                } else {
-                	currentPredicateMethod = combo_method.getItem(index);
-                }
+			public void handleEvent(Event e) {
+				int tabIndex = tab_folder.getSelectionIndex();
+				PredicateDefinition currentPDef;
+				boolean newTabNecessary = false;
+				if (tabIndex == currentPredicate.definitions.size()) {
+					currentPDef = new PredicateDefinition("true", "default:default:default:default");
+					newTabNecessary = true;
+				} else {
+					currentPDef = currentPredicate.definitions.get(tabIndex);
+				}
+				
+				String errorName = currentPDef.checkValidName(nameField.getText().trim());
+				String errorSignature = tabIndex == 0 ? currentPDef.checkValidSignature(signatureField.getText().trim()) : "";
+				String errorReplace = currentPDef.checkValidReplace(definitionField.getText().trim());
+				
+				if (!errorName.equals("")) {
+					displayError(label_error, errorName, false);
+					return;
+				}
+				
+				for (PredicateDefinition pDef : currentPredicate.definitions) {
+					if (nameField.getText().trim().equals(pDef.name) && !pDef.equals(currentPDef)) {
+						displayError(label_error, "Error: The chosen name is already used in another definition. Didn't save changes.", false);
+						return;
+					}
+				}
+				
+				if (!errorSignature.equals("")) {
+					displayError(label_error, errorSignature, false);
+					return;
+				}
+				
+				for (Predicate p : predicates) {
+					if (p.removeNamesFromSignature(signatureField.getText().trim()).equals(p.getSignature(false)) && !p.equals(currentPredicate)) {
+						displayError(label_error, "Error: This signature is already in use. Didn't save changes.", false);
+						return;
+					}
+				}
+				
+				if (!errorReplace.equals("")) {
+					displayError(label_error, errorReplace, false);
+					return;
+				}
+				
+				// Check that there is no other definition of this predicate in the same feature
+				if (!combo_feature.getText().equals("All features")) {
+					for (PredicateDefinition pDef : currentPredicate.definitions) {
+						if (pDef.definedInFeature.equals(combo_feature.getText())) {
+							displayError(label_error, "Error: Predicate already has definition in feature " + combo_feature.getText() + ". Didn't save changes.", false);
+							return;
+						}
+					}
+				} else {
+					if (currentPredicate.definitions.size() > 1) {
+						displayError(label_error, "Error: Definition has to be declared in specific feature, as there is more than one definition.", false);
+						return;
+					}
+				}
+				String replaceError = currentPDef.setReplace(definitionField.getText().trim()); 
+				if (!replaceError.equals("")) {
+					displayError(label_error, replaceError, false);
+					return;
+				}
+				
+				String oldSignature = currentPredicate.getSignature(true);
+				if (tabIndex == 0) {
+					currentPredicate.signature = signatureField.getText().trim();
+					currentPredicate.name = signatureField.getText().trim().substring(0, signature.indexOf("("));
+					currentPredicate.resolveVars();
+				}
+				currentPDef.name = nameField.getText().trim(); 
+				currentPDef.definedInFeature = combo_feature.getText().equals("All features") ? "default" : combo_feature.getText();
+				currentPDef.definedInClass = (combo_class.getText().equals("All classes") | combo_class.getText().equals("")) ? "default" : combo_class.getText();
+				currentPDef.definedInMethod = (combo_method.getText().equals("All methods") | combo_method.getText().equals("")) ? "default" : combo_method.getText(); 
+				
+				tab_folder.getItem(tabIndex).setText(currentPDef.name);
+				int predIndex = predicatesList.getSelectionIndex();
+				updateList();
+				predicatesList.setSelection(predIndex);
+				if (newTabNecessary) {
+					createTab(currentPredicate.getSignature(true), null, false, true);
+					currentPredicate.definitions.add(currentPDef);
+					buttonDelete.setEnabled(true);
+				}
+								
+				if (tabIndex == 0 && !oldSignature.equals(currentPredicate.getSignature(true)) && currentPredicate.definitions.size() > 1) {
+					JOptionPane.showMessageDialog(null, "The changes of the signature will be displayed in the other tabs after restarting the wizard.", "Changed signature", JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+				displayError(label_error, "Saved changes.", true);
 			}
-        });
-	    
-	    setPageComplete(true);
-	    setControl(composite);
+		});
+		
+		tab.setControl(groupInfo);    
 	}
 	
-	private void loadSelectedPredicate() {
-		for (Predicate p : predicates) {
-    		if ((p.name + "(" + p.def + ")").equals(predicatesList.getSelection()[0])) {
-    			currentPredicate = p;
-    			nameField.setText(p.name);
-    			nameField.setEnabled(true);
-    			signatureField.setText(p.def);
-    			signatureField.setEnabled(true);
-    			findField.setText(p.find);
-    			findField.setEnabled(true);
-    			replaceField.setText(p.replace);
-    			replaceField.setEnabled(true);
-    			combo_feature.setEnabled(true);
-    			buttonRestore.setEnabled(true);
-    			buttonSave.setEnabled(true);
-    			
-    			combo_feature.setItems(loadAvailableFeatures());
-    			if (currentPredicate.definedInFeature.equals("default")) {
-    				combo_feature.setText("All features");
-    			} else {
-    				combo_feature.setText(currentPredicate.getDefinedInFeature());
-    				combo_class.setItems(loadAvailableClasses());
-    				combo_class.setEnabled(true);
-    				if (currentPredicate.definedInClass.equals("default")) {
-        				combo_class.setText("All classes");
-        			} else {
-        				combo_class.setText(currentPredicate.getDefinedInClass());
-        				combo_method.setItems(loadAvailableMethods());
-        				combo_method.setEnabled(true);
-        				combo_method.setText(currentPredicate.getDefinedInMethod());
-        			}	
-    			}
-    			
-    			currentPredicateFeature = currentPredicate.definedInFeature;
-				currentPredicateClass = currentPredicate.definedInClass;
-				currentPredicateMethod = currentPredicate.definedInMethod;
-    			return;
-    		}
-    	}
-	}
-
 	private void updateList() {
 		String[] preds = new String[predicates.size()];
 		for (int i = 0; i < predicates.size(); i++) {
-			preds[i] = predicates.get(i).name + "(" + predicates.get(i).def + ")";
+			preds[i] = predicates.get(i).getSignature(false);
 		}
 		predicatesList.setItems(preds);
-	}
-	
-	private void resetFields() {
-		nameField.setEnabled(false);
-		signatureField.setEnabled(false);
-        findField.setEnabled(false);
-        replaceField.setEnabled(false);
-        nameField.setText("");
-        signatureField.setText("");
-        findField.setText("");
-        replaceField.setText("");
-        
-        combo_feature.setEnabled(false);
-        combo_feature.setItems(new String[0]);
-        combo_class.setEnabled(false);
-        combo_class.setItems(new String[0]);
-        combo_method.setEnabled(false);
-        combo_method.setItems(new String[0]);
-        
-        buttonRestore.setEnabled(false);
-        buttonSave.setEnabled(false);
-	}
-	
-	public void saveAndQuit() {
-		String output = "";
-		String predicatesOutput = "\\predicates {\n";
-		String rulesOutput = "\\rules {\n";
-		if (!predicates.isEmpty()) {
-			for (Predicate p : predicates) {
-				predicatesOutput += p.printPredicate() + "\n";
-				rulesOutput += p.printRule() + "\n\n";
-			}
-			output = predicatesOutput + "}\n\n" + rulesOutput + "}";
-		}
-		writeToFile(output);
 	}
 	
 	private String[] loadAvailableFeatures() {
@@ -486,12 +602,12 @@ public class PredicateManagementTypePage extends WizardPage {
 		return ret;
 	}
 	
-	private String[] loadAvailableClasses() {
+	private String[] loadAvailableClasses(String currentFeature) {
 		String[] ret = new String[0];
 		File f = null;
 		switch (projectType) {
 			case PROJECT_TYPE_SPL:
-				f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\features\\" + combo_feature.getText());
+				f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\features\\" + currentFeature);
 				break;
 			case PROJECT_TYPE_OO:
 				f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\src");
@@ -517,15 +633,15 @@ public class PredicateManagementTypePage extends WizardPage {
 		return ret;
 	}
 	
-	private String[] loadAvailableMethods() {
+	private String[] loadAvailableMethods(String currentFeature, String currentClass) {
 		String[] ret = new String[0];
 		File f = null;
 		switch (projectType) {
 			case PROJECT_TYPE_SPL:
-				f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\features\\" + combo_feature.getText() + "\\" + combo_class.getText());
+				f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\features\\" + currentFeature + "\\" + currentClass);
 				break;
 			case PROJECT_TYPE_OO:
-				f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\src\\" + combo_class.getText());
+				f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\src\\" + currentClass);
 				break;
 			case PROJECT_TYPE_NOTOO:
 				f = new File(resource.getLocationURI().toString().substring(6, resource.getLocationURI().toString().indexOf(projectName) + projectName.length()) + "\\src\\diagrams");
@@ -534,7 +650,7 @@ public class PredicateManagementTypePage extends WizardPage {
 		File[] files = f.listFiles();
 		int foundMethods = 1;
 		for (File file: files) {
-			if (file.getAbsolutePath().endsWith(".diagram") && (projectType.equals(PROJECT_TYPE_NOTOO) ? true : !file.getAbsolutePath().endsWith(combo_class.getText() + ".diagram"))) {
+			if (file.getAbsolutePath().endsWith(".diagram") && (projectType.equals(PROJECT_TYPE_NOTOO) ? true : !file.getAbsolutePath().endsWith(currentClass + ".diagram"))) {
 				foundMethods++;
 			}
 		}
@@ -542,15 +658,29 @@ public class PredicateManagementTypePage extends WizardPage {
 		ret[0] = "All methods";
 		int retCounter = 1;
 		for (int i = 0; i < files.length; i++) {
-			if (files[i].getAbsolutePath().endsWith(".diagram") && (projectType.equals(PROJECT_TYPE_NOTOO) ? true : !files[i].getAbsolutePath().endsWith(combo_class.getText() + ".diagram"))) {
+			if (files[i].getAbsolutePath().endsWith(".diagram") && (projectType.equals(PROJECT_TYPE_NOTOO) ? true : !files[i].getAbsolutePath().endsWith(currentClass + ".diagram"))) {
 				ret[retCounter++] = files[i].getName().replace(".diagram", "");
 			}
 		}
 		return ret;
 	}
 	
+	private void displayError(Label label, String message, boolean green) {
+		label.setForeground(green ? new Color(null, 0, 200,0) : new Color(null, 200, 0, 0));
+		label.setText(message);
+	}
+	
+	public void saveAndQuit() {
+		String output = "+-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+\n\\predicates {\n";
+		for (Predicate p : predicates) {
+			output += p.print();
+		}
+		output += "}\n+-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+";
+		writeToFile(output);
+	}
+	
 	private void writeToFile(String output) {
-		String predicateFilePath = resource.getLocationURI().toString().replace("file:/", "").substring(0, resource.getLocationURI().toString().indexOf(projectName)) + "/helper.key";
+		String predicateFilePath = resource.getLocationURI().toString().replace("file:/", "").substring(0, resource.getLocationURI().toString().indexOf(projectName)) + "/predicates.def";
 		File predicateFile = new File(predicateFilePath);
 		File dir = new File(predicateFilePath.substring(0, predicateFilePath.lastIndexOf("/")));
 		
@@ -574,70 +704,31 @@ public class PredicateManagementTypePage extends WizardPage {
 	}
 
 	private ArrayList<Predicate> loadPredicates() {
-		String predicateFilePath = resource.getLocationURI().toString().replace("file:/", "").substring(0, resource.getLocationURI().toString().indexOf(projectName)) + "/helper.key";
+		String predicateFilePath = resource.getLocationURI().toString().replace("file:/", "").substring(0, resource.getLocationURI().toString().indexOf(projectName)) + "/predicates.def";
 		File predicateFile = new File(predicateFilePath);
 		ArrayList<Predicate> readPredicates = new ArrayList<>();
-		boolean predicateDef = false;
-		boolean ruleDef = false;
 		
 		if (predicateFile.exists()) {
+			Predicate newPredicate = null;
 			ArrayList<String> lines = readFile(predicateFile.getAbsolutePath());
-			for (int i = 0; i < lines.size(); i++) {
-				String line = lines.get(i);
-				if (line.startsWith("\\predicates ")) {
-					predicateDef = true;
-				} else if (line.startsWith("\\rules ")) {
-					ruleDef = true;
-				}
-				
-				if (predicateDef) {
-					i++;
-					do {
-						line = lines.get(i++);
-						Predicate newPredicate = new Predicate(line.substring(line.indexOf("//") + 2).trim());
-						newPredicate.name = line.trim().substring(0, line.indexOf("(") - 1);
-						newPredicate.def = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
+			if (lines.get(1).startsWith("\\predicates ")) {
+				for (int i = 2; i < lines.size() - 1; i++) {
+					String line = lines.get(i++);
+					if (line.trim().equals("}")) break;
+					String signature = line.trim().substring(0, line.trim().indexOf(" //") - 1);
+					String config = line.trim().substring(line.trim().indexOf(" //") + 3);
+					if (newPredicate == null || !newPredicate.signature.equals(signature)) {
+						newPredicate = new Predicate(signature);
 						readPredicates.add(newPredicate);
-					} while (!lines.get(i).contains("}"));
-					predicateDef = false;
-				} else if (ruleDef) {
-					i++;
-					do {
-						line = lines.get(i++).trim();
-						for (Predicate p : readPredicates) {
-							if (p.name.equals(line.replace("{", ""))) {
-								while (!lines.get(i).trim().equals("") && !lines.get(i).trim().equals("}")) {
-									line = lines.get(i++).trim();
-									String defType = line.substring(0, (line.indexOf(" ") == -1 ? 0 : line.indexOf(" ")));
-									switch (defType) {
-										case "\\schemaVar":
-											if (line.startsWith("\\schemaVar \\term")) {
-												p.varsTerms.add(line.replace("\\schemaVar \\term ", "").replace(";", ""));
-											} else {
-												p.varsFree.add(line.replace("\\schemaVar \\variable ", "").replace(";", ""));
-											}
-											break;
-										case "\\find":
-											p.find = line.replace("\\find (", "");
-											p.find = p.find.substring(0, p.find.length() - 1);
-											break;
-										case "\\replacewith":
-											p.replace = line.replace("\\replacewith (", "");
-											p.replace = p.replace.substring(0, p.replace.length() - 1);
-											break;
-										default:
-											break;
-									}
-								}
-								break;
-							}
-						}
-						i++;
-					} while (i-1 < lines.size() && !lines.get(i-1).equals("}"));
-					ruleDef = false;
+					}
+					newPredicate.signature = signature;
+					String replace = lines.get(i).trim().replace("\\replacewith (", "");
+					replace = replace.substring(0, replace.length() - 1);
+					PredicateDefinition pDef = new PredicateDefinition(replace, config);
+					newPredicate.definitions.add(pDef);
 				}
-			}	
-		} else Console.println("This project has no file for saving predicates. Create at <projectName>/helper.key");
+			}
+		}		
 		return readPredicates;
 	}
 
@@ -651,4 +742,43 @@ public class PredicateManagementTypePage extends WizardPage {
 		}
 		return lines;
 	}
+	/*
+	@Override
+    public void performHelp() {
+		// SHELL
+		Shell shell = new Shell(getShell());
+        shell.setText("Predicate Management - Help");
+        shell.setSize(500, 300);
+        shell.setLayout(new GridLayout());
+        GridData gridData_shell = new GridData();
+        shell.setLayoutData(gridData_shell);
+        
+        // GROUP help
+     	/*Group groupShell = new Group(shell, SWT.NULL);
+     	groupShell.setText("Predicate Management - Help");
+     	GridLayout layout_group_shell = new GridLayout();
+     	groupShell.setLayout(layout_group_shell);
+     	GridData gridData_group_shell = new GridData();
+     	gridData_group_shell.horizontalAlignment = GridData.FILL;
+     	gridData_group_shell.verticalAlignment = GridData.FILL;
+     	groupShell.setLayoutData(gridData_group_shell);*/
+     	/*
+     	Text text = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.WRAP);
+     	text.setText("Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max ");
+        text.setEditable(false);
+        text.setLocation(0, 0);
+     	//GridData gridData_text = new GridData(SWT.MULTI | SWT.V_SCROLL);
+        //gridData_text.grabExcessHorizontalSpace = true;
+        //gridData_text.widthHint=100;
+        //text.setLayoutData(gridData_text);
+     	text.setLayoutData(new GridData(GridData.FILL_BOTH));
+     	text.setBackground(new Color(255,255,255));
+        /*
+        Browser browser = new Browser(shell, SWT.NONE);
+        browser.setUrl("http://stackoverflow.com/questions/7322489/cant-put-content-behind-swt-wizard-help-button");
+        browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        
+        shell.open();
+		
+    }*/
 }

@@ -38,7 +38,6 @@ public class PredicateWizardHandler extends AbstractHandler {
 		if (resourceList.isEmpty()) {
 			return null;
 		}
-		IResource fileTriggered = resourceList.get(0);
 		
 		WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), new PredicateWizard(resourceList.get(0)));
 		if (wizardDialog.open() == Window.OK) {
