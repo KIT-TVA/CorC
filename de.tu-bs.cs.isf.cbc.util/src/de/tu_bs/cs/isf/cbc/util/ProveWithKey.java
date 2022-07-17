@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-
 import com.google.common.collect.Lists;
 
 import com.google.common.hash.Hashing;
@@ -38,6 +37,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
+import de.tu_bs.cs.isf.cbc.tool.helper.Predicate;
+import de.tu_bs.cs.isf.cbc.tool.helper.PredicateDefinition;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
 
@@ -63,6 +64,7 @@ public class ProveWithKey {
 	private boolean isVariationalProject;
 	private String configName;
 	private String problem;
+	private String helper;
 	private String subProofName = "";
 	
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
@@ -180,9 +182,10 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		problem = content.getKeYStatementContent();	
 		problem = problem.replaceAll("static", "");
 		problem = problem.replaceAll("return", ""); // TODO replace with correct handling of return
-
+		helper = collectPredicates();
+		
 		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(problem, location, override, statement, subProofName);
+		File keyFile = fileHandler.writeFile(problem, helper, location, override, statement, subProofName);
 		return keyFile;
 	}
 
@@ -590,9 +593,10 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		content.handleOld(formula, vars);
 		
 		problem = content.getKeYCImpliesCContent();
-
+		helper = collectPredicates();
+		
 		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(problem, location, override, statement, subProofName);
+		File keyFile = fileHandler.writeFile(problem, helper, location, override, statement, subProofName);
 		return keyFile;
 	}
 
@@ -645,9 +649,10 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		content.handleOld(formula, vars);
 		
 		problem = content.getKeYStatementContent();
-
+		helper = collectPredicates();
+		
 		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(problem, location, override, statement, subProofName);
+		File keyFile = fileHandler.writeFile(problem, helper, location, override, statement, subProofName);
 		return keyFile;
 	}
 
@@ -675,9 +680,10 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		content.handleOld(formula, vars);
 
 		problem = content.getKeYStatementContent();
-
+		helper = collectPredicates();
+		
 		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(problem, location, override, statement, subProofName);
+		File keyFile = fileHandler.writeFile(problem, helper, location, override, statement, subProofName);
 		return keyFile;
 	}
 
@@ -726,5 +732,31 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 
 	public void setConfigName(String configName) {
 		this.configName = "/" + configName;		
+	}
+	
+	private String collectPredicates() {
+		String projectName = uri.split("/")[1];
+		String filePath = fileHandler.getLocationString(uri);
+		filePath = filePath.substring(0, filePath.indexOf(projectName)) + projectName + "/predicates.def";
+		List<Predicate> predicates = fileHandler.readPredicates(filePath);
+		
+		String defString = "\\predicates {\n";
+		String rulesString = "\\rules {\n"; 
+		for (Predicate p : predicates) {
+			for (int i = 0; i < p.definitions.size(); i++) {
+				PredicateDefinition pDef = p.definitions.get(i);
+				if (configName.contains(pDef.definedInFeature) || pDef.definedInFeature.equals("default")) {
+					//TODO Max not safe, featurename könnte teilmenge eines anderen featurenamens sein
+					if (formula.getClassName().equals(pDef.definedInClass) || pDef.definedInClass.equals("default")) {
+						if (formula.getName().equals(pDef.definedInMethod) || pDef.definedInMethod.equals("default")) {
+							defString += p.printDefForKeY();
+							rulesString += p.printReplaceForKeY(i);
+							break;
+						}
+					}
+				}
+			}
+		}
+		return defString + "}\n\n" + rulesString + "}";
 	}
 }

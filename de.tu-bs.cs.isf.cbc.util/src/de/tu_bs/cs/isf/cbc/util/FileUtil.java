@@ -29,6 +29,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
+import de.tu_bs.cs.isf.cbc.tool.helper.Predicate;
+import de.tu_bs.cs.isf.cbc.tool.helper.PredicateDefinition;
 
 public class FileUtil implements IFileUtil{
 	
@@ -106,26 +108,6 @@ public class FileUtil implements IFileUtil{
 				break;
 			}
 		}
-//			if (thisProject.getName().contains("Userstudy")) {
-//			File diagramFile = new File(thisProject.getLocation() + "/" + uriPath);
-//			File diagramFileCopy = new File(thisProject.getLocation() + "/src/saved/ExDia" + proofCounter +  ".diagram");
-//			File cbcFile = new File(thisProject.getLocation() + "/" + uriPath.substring(0, uriPath.indexOf(".")) + ".cbcmodel");
-//			File cbcFileCopy = new File(thisProject.getLocation() + "/src/saved/ExDia" + proofCounter +  ".cbcmodel");
-//			proofCounter++;
-//			try {
-//				IWorkspace workspace = ResourcesPlugin.getWorkspace();
-//				Files.copy(diagramFile.toPath(), diagramFileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);
-//				Files.copy(cbcFile.toPath(), cbcFileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);  
-//				IPath iLocation = Path.fromOSString(diagramFileCopy.getAbsolutePath()); 
-//				IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-//				ifile.refreshLocal(0, null);
-//				iLocation = Path.fromOSString(cbcFileCopy.getAbsolutePath()); 
-//				ifile = workspace.getRoot().getFileForLocation(iLocation);
-//				ifile.refreshLocal(0, null);
-//			} catch (IOException | CoreException e) {
-//				e.printStackTrace();
-//			}
-//		}
 		return thisProject;
 	}
 	
@@ -169,7 +151,7 @@ public class FileUtil implements IFileUtil{
 		return thisProject;
 	}
 	
-	public File writeFile(String problem, String location, boolean override, AbstractStatement statement, String subProofName) {
+	public File writeFile(String problem, String helper, String location, boolean override, AbstractStatement statement, String subProofName) {
 		FileNameManager manager = new FileNameManager();
 		String keyFileName = manager.getFileName(problem, location, statement, subProofName);
 		
@@ -178,9 +160,10 @@ public class FileUtil implements IFileUtil{
 		File keyHelperFile = new File(location + "/helper.key");
 		
 		if (!keyFile.exists() || override) {
-			if (!keyHelperFile.exists()) {
+			if (!keyHelperFile.exists() || override) {
 				try {
 					keyHelperFile.getParentFile().mkdirs();
+					createFile(keyHelperFile, helper);
 					keyHelperFile.createNewFile();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -240,15 +223,6 @@ public class FileUtil implements IFileUtil{
 	private String trimLastSegment(String uriString) {
 		URI uri = URI.createURI(uriString);
 		return trimSegment(uriString, uri.segmentCount() - 1);
-	}
-	
-	private String withoutFileExtention(String uri) {
-		return URI.createURI(uri).trimFileExtension().toPlatformString(true);
-	}
-	
-	private String getSegment(String uriString, int count) {
-		URI uri = URI.createURI(uriString);
-		return uri.segment(uri.segmentCount()-count);
 	}
 
 	public String getLocationString(String uri) {
@@ -313,4 +287,42 @@ public class FileUtil implements IFileUtil{
        return resourceURI;
     }
 
+	public List<Predicate> readPredicates(String filePath) {
+		File predicateFile = new File(filePath);
+		ArrayList<Predicate> readPredicates = new ArrayList<>();
+		
+		if (predicateFile.exists()) {
+			Predicate newPredicate = null;
+			ArrayList<String> lines = readFile(predicateFile.getAbsolutePath());
+			if (lines.get(1).startsWith("\\predicates ")) {
+				for (int i = 2; i < lines.size() - 1; i++) {
+					String line = lines.get(i++);
+					if (line.trim().equals("}")) break;
+					String signature = line.trim().substring(0, line.trim().indexOf(" //") - 1);
+					String config = line.trim().substring(line.trim().indexOf(" //") + 3);
+					if (newPredicate == null || !newPredicate.signature.equals(signature)) {
+						newPredicate = new Predicate(signature);
+						readPredicates.add(newPredicate);
+					}
+					newPredicate.signature = signature;
+					String replace = lines.get(i).trim().replace("\\replacewith (", "");
+					replace = replace.substring(0, replace.length() - 1);
+					PredicateDefinition pDef = new PredicateDefinition(replace, config);
+					newPredicate.definitions.add(pDef);
+				}
+			}
+		}		
+		return readPredicates;
+	}
+
+	private ArrayList<String> readFile(String path) {
+		ArrayList<String> lines = null;
+		try {
+			lines = (ArrayList<String>) Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return lines;
+	}
 }
