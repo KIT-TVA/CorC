@@ -5,13 +5,6 @@ import java.util.List;
 
 public class PredicateDefinition {
 	
-	/*
-	 * STuff um die boundvars rauszurechnen
-	replace = this.replace;
-	for (String var : varsBound) {
-		replace = replace.replace(var, var.split(" ")[1]);
-	}*/
-	
 	public String name;
 	public String replace;
 	public String definedInFeature;
@@ -48,7 +41,7 @@ public class PredicateDefinition {
 			while (replace.contains("\\exists")) {
 				int index = replace.indexOf("\\exists");
 				String newVar = replace.substring(index + 8, replace.length()).split(";")[0];
-				varsBound.add(newVar.trim().split(" ")[0].trim() + newVar.trim().split(" ")[1].trim());
+				varsBound.add(newVar.trim().split(" ")[0].trim() + " " + newVar.trim().split(" ")[1].trim());
 				replace = replace.replace("\\exists", "done");
 			}
 		
@@ -64,6 +57,14 @@ public class PredicateDefinition {
 		
 		this.replace = copy;
 		return "";
+	}
+	
+	public String getReplace() {
+		String output = replace;
+		for (String var : varsBound) {
+			output = output.replace(var, var.split(" ")[1]);
+		}
+		return output;
 	}
 
 	public String checkValidName(String toCheck) {

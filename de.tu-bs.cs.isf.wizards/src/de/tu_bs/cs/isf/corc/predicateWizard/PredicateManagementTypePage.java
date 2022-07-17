@@ -76,8 +76,8 @@ public class PredicateManagementTypePage extends WizardPage {
 		setDescription("Manage the predicates of the project " + projectName + ".");
 		variationalProject = projectType.equals(PROJECT_TYPE_SPL);		
 		predicates = loadPredicates();
-	}	
-
+	}
+	
 	@Override
 	public void createControl(Composite parent) {
 		setPageComplete(false);
@@ -340,8 +340,11 @@ public class PredicateManagementTypePage extends WizardPage {
 	 	gridData_button_delete.widthHint = 150;
 	 	Button buttonDelete = new Button(compositeERS, SWT.PUSH);
 	 	buttonDelete.setText("Delete Definition");
-	 	//TODO erste kann auch bei mehreren defs nicht gelöscht werden (button müsste dynamisch angepasst werden)
-	 	buttonDelete.setEnabled(!extraTab && !firstTab);
+	 	if (currentPredicate.definitions.size() > 1) {
+			buttonDelete.setEnabled(true);
+		} else {
+			buttonDelete.setEnabled(false);
+		}
 	 	buttonDelete.setLayoutData(gridData_button_delete);
 	    
 		// BUTTON restore
@@ -398,6 +401,12 @@ public class PredicateManagementTypePage extends WizardPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				label_error.setText("");
+				if (!signatureField.getEditable()) signatureField.setText(currentPredicate.getSignature(true));
+				if (currentPredicate.definitions.size() > 1) {
+					buttonDelete.setEnabled(true);
+				} else {
+					buttonDelete.setEnabled(false);
+				}
 			}
 		});
 		
@@ -531,13 +540,13 @@ public class PredicateManagementTypePage extends WizardPage {
 				// Check that there is no other definition of this predicate in the same feature
 				if (!combo_feature.getText().equals("All features")) {
 					for (PredicateDefinition pDef : currentPredicate.definitions) {
-						if (pDef.definedInFeature.equals(combo_feature.getText())) {
+						if (pDef.definedInFeature.equals(combo_feature.getText()) && !pDef.equals(currentPDef)) {
 							displayError(label_error, "Error: Predicate already has definition in feature " + combo_feature.getText() + ". Didn't save changes.", false);
 							return;
 						}
 					}
 				} else {
-					if (currentPredicate.definitions.size() > 1) {
+					if (currentPredicate.definitions.size() > 1 || !currentPredicate.definitions.contains(pDef)) {
 						displayError(label_error, "Error: Definition has to be declared in specific feature, as there is more than one definition.", false);
 						return;
 					}
@@ -548,7 +557,6 @@ public class PredicateManagementTypePage extends WizardPage {
 					return;
 				}
 				
-				String oldSignature = currentPredicate.getSignature(true);
 				if (tabIndex == 0) {
 					currentPredicate.signature = signatureField.getText().trim();
 					currentPredicate.name = signatureField.getText().trim().substring(0, signature.indexOf("("));
@@ -566,13 +574,7 @@ public class PredicateManagementTypePage extends WizardPage {
 				if (newTabNecessary) {
 					createTab(currentPredicate.getSignature(true), null, false, true);
 					currentPredicate.definitions.add(currentPDef);
-					buttonDelete.setEnabled(true);
 				}
-								
-				if (tabIndex == 0 && !oldSignature.equals(currentPredicate.getSignature(true)) && currentPredicate.definitions.size() > 1) {
-					JOptionPane.showMessageDialog(null, "The changes of the signature will be displayed in the other tabs after restarting the wizard.", "Changed signature", JOptionPane.INFORMATION_MESSAGE);
-				}
-				
 				displayError(label_error, "Saved changes.", true);
 			}
 		});
@@ -680,7 +682,8 @@ public class PredicateManagementTypePage extends WizardPage {
 	}
 	
 	private void writeToFile(String output) {
-		String predicateFilePath = resource.getLocationURI().toString().replace("file:/", "").substring(0, resource.getLocationURI().toString().indexOf(projectName)) + "/predicates.def";
+		String predicateFilePath = resource.getLocationURI().toString().replace("file:/", "");
+		predicateFilePath = predicateFilePath.substring(0, predicateFilePath.indexOf(projectName)) + projectName + "/predicates.def";
 		File predicateFile = new File(predicateFilePath);
 		File dir = new File(predicateFilePath.substring(0, predicateFilePath.lastIndexOf("/")));
 		
@@ -704,7 +707,8 @@ public class PredicateManagementTypePage extends WizardPage {
 	}
 
 	private ArrayList<Predicate> loadPredicates() {
-		String predicateFilePath = resource.getLocationURI().toString().replace("file:/", "").substring(0, resource.getLocationURI().toString().indexOf(projectName)) + "/predicates.def";
+		String predicateFilePath = resource.getLocationURI().toString().replace("file:/", "");
+		predicateFilePath = predicateFilePath.substring(0, predicateFilePath.indexOf(projectName)) + projectName + "/predicates.def";
 		File predicateFile = new File(predicateFilePath);
 		ArrayList<Predicate> readPredicates = new ArrayList<>();
 		
