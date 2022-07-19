@@ -116,6 +116,7 @@ public class VerifyPreRepetitionStatement extends MyAbstractAsynchronousCustomFe
 						for (String s : featureConfigs[i]) configName += s;
 						prove.setConfigName(configName);
 						proven = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getInvariant());
+					//i=100;
 					}
 				} else {
 					Console.println("--------------- Triggered verification ---------------");

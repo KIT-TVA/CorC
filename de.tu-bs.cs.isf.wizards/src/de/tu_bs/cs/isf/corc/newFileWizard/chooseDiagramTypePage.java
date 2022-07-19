@@ -1,8 +1,13 @@
 package de.tu_bs.cs.isf.corc.newFileWizard;
 
+import java.util.LinkedList;
+import java.util.List;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -144,22 +149,29 @@ public class chooseDiagramTypePage extends WizardPage {
 		IWorkbench wb = PlatformUI.getWorkbench();
 		IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
 		IWorkbenchPage page = win.getActivePage();
-		ISelection selected = page.getSelection();
+		ISelection selection = page.getSelection();
 		
-		//cutting the toString from selection so it can be used as a path:
-		String oldselection = selected.toString();
-		String selection = oldselection.substring(2, oldselection.length() - 1); //cuts first two and the last character [X, ]
-		String currentPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
-		if (oldselection.charAt(1) == 'L' || oldselection.equals("<empty selection>") || !selection.contains("/")) {
-			error.setText("use the browse function to select a path");
-			path.setText("");
-		} else {
-			currentPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + selection;
-			setPageComplete(true);
-			error.setText("");
-			path.setText(currentPath);
+		List<IResource> resourceList = new LinkedList<>();
+
+		if (selection != null & selection instanceof IStructuredSelection) {
+			IStructuredSelection strucSelection = (IStructuredSelection) selection;
+			for (Object selectedElement : strucSelection.toList()) {
+				if (selectedElement instanceof IJavaElement) {
+					IResource res = ((IJavaElement) selectedElement).getResource();
+					resourceList.add(res);
+				} else if (selectedElement instanceof IResource) {
+					resourceList.add((IResource) selectedElement);
+				}
+			}
 		}
-	    	
+		if (!resourceList.isEmpty()) {
+			IResource fileTriggered = resourceList.get(0);
+			String absolutePath = fileTriggered.getLocationURI().toString();
+			path.setText(absolutePath.substring(6));
+			System.out.println();
+			setPageComplete(true);
+		}
+		
 		//SEPERATOR LINE:
 		GridData sepData = new GridData(GridData.FILL_HORIZONTAL);
 		sepData.horizontalSpan = columns;

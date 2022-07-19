@@ -196,7 +196,13 @@ public class GenerateModelFromCode {
 					}
 					Collections.copy(listOfStatements, classMethod.getStatements());
 					handleListOfStatements(cbcmodelResource, listOfStatements, formula.getStatement());					
-					
+					for (int i = 0; i < variables.getVariables().size(); i++) {
+						JavaVariable var = variables.getVariables().get(i);
+						if (var.getKind().equals(VariableKind.PARAM) || var.getKind().equals(VariableKind.RETURN)) {
+							variables.getVariables().remove(var);
+							i--;
+						}
+					}
 					cbcmodelResources.add(cbcmodelResource);
 				}
 			}
@@ -274,7 +280,7 @@ public class GenerateModelFromCode {
 			}
 			JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 			typeString = JavaResourceUtil.getText(type) + arrayDimensions;
-			variable.setName(typeString + " result");
+			variable.setName(typeString + " ret");
 			variable.setKind(VariableKind.RETURN);
 			variables.getVariables().add(variable);
 		}
@@ -404,6 +410,11 @@ public class GenerateModelFromCode {
 				method.getParameters().add(param);
 			} else if (v.getKind().equals(VariableKind.RETURN)) {
 				method.setReturnType(v.getName().substring(0, v.getName().indexOf(' ')));
+				de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter param = CbcclassFactory.eINSTANCE.createParameter();
+				String[] nameSplitted = v.getName().split(" ");
+				param.setType(nameSplitted[nameSplitted.length-2]);
+				param.setName(nameSplitted[nameSplitted.length-1]);
+				method.getParameters().add(param);
 			}
 		}
 	}
@@ -1012,8 +1023,7 @@ public class GenerateModelFromCode {
 			conditionString = conditionString.replace("&&", "&");
 			conditionString = conditionString.replace("||", "|");
 			SmallRepetitionStatement repStatement = createRepetition(conditionString);
-			addLoopConditions(r, repStatement, jmlLoopConditions.get(position));
-			position++;
+			if (position < jmlLoopConditions.size()) addLoopConditions(r, repStatement, jmlLoopConditions.get(position++));
 			composition2.getFirstStatement().setRefinement(repStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(composition2.getFirstStatement(), repStatement);
 

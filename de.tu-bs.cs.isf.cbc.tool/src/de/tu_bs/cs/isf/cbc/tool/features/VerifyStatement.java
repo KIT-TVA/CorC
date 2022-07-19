@@ -176,6 +176,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 					List<CbCFormula> refinements = generateCbCFormulasForRefinements(variants[i], callingMethod);
 					List<JavaVariables> refinementsVars = generateJavaVariablesForRefinements(variants[i], callingMethod);
 					proven = prove.proveStatementWithKey(refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, true);
+				i=100;
 				}
 			} else {
 				Console.println("  Statement is not in correct format.");
