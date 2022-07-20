@@ -95,6 +95,7 @@ public class FileUtil implements IFileUtil{
 	}
 	
 	private static IProject getProjectLocationS(String uriPath) {
+		if (uriPath == null || uriPath.length() == 0) return null;
 		uriPath = uriPath.substring(1, uriPath.length());
 		int positionOfSlash = uriPath.indexOf('/') + 1;
 		String projectName = uriPath.substring(0, positionOfSlash-1);
@@ -132,7 +133,8 @@ public class FileUtil implements IFileUtil{
 	public static String getProjectLocation(URI uri) {
 		uri = uri.trimFragment();
 		String uriPath = uri.toPlatformString(true);
-		return getProjectLocationS(uriPath).getLocation().toPortableString();
+		IProject project = getProjectLocationS(uriPath);
+		return project == null ? "" : project.getLocation().toPortableString();
 	}
 	
 	public static IProject getProject(URI uri) {

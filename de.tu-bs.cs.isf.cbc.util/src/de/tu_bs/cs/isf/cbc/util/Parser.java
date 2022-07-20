@@ -467,59 +467,9 @@ public class Parser {
 		}
 		return methodStub;
 	}
-	
-	public static String getModifieableVarsFromCondition2(String condition) {
-		String variables = getModifieableVarsFromCondition(condition);
-		//Console.println("vars: " + variables);
-		if(variables.contains("nothing") || variables.contains("everything")) {
-			return variables;
-		} else {
-			String[] assignableVariables = variables.split(",");			
-//			String s;//should be a list
-			variables = "";
-			if(assignableVariables[0].startsWith("this.")) {
-				assignableVariables[0] = assignableVariables[0].replaceAll("\\[.*\\]", "\\[\\*\\]");
-				variables = assignableVariables[0]; 
-			}
-			for(int i = 1; i < assignableVariables.length; i++) {//only global vars are modifiable
-				if(assignableVariables[i].startsWith("this.")) {
-					assignableVariables[i] = assignableVariables[i].replaceAll("\\[.*\\]", "\\[\\*\\]");
-					if(variables.isEmpty())
-						variables = assignableVariables[i];
-					else if(!Arrays.stream(variables.split(",")).anyMatch(assignableVariables[i]::equals))
-						variables = variables + "," + assignableVariables[i];
-				}
-				/*if(assignableVariables[i].contains("[")) {
-					s = assignableVariables[i].substring(0, assignableVariables[i].indexOf('[')) + "[*]";
-					variables = variables.replaceFirst(
-							assignableVariables[i].substring(0, assignableVariables[i].indexOf('[')) + "\\[\\w*.?\\w+\\]", s);
-					variables = variables.replaceAll(
-							"\\," + assignableVariables[i].substring(0, assignableVariables[i].indexOf('[')) + "\\[\\w*.?\\w+\\]", "");
-					variables = variables.replaceAll(
-							assignableVariables[i].substring(0, assignableVariables[i].indexOf('[')) + "\\[\\w*.?\\w+\\]\\,", "");
-					assignableVariables[i] = s;
-				}
-				int j = i;
-				if(vars.stream().filter(e -> e.split(" ")[1].equals(assignableVariables[j])
-						|| (e.split(" ")[1] + "[*]").equals(assignableVariables[j])).count() > 0) {
-					if(variables.contains(assignableVariables[i] + ","))
-						variables = variables.replace(assignableVariables[i] + "," , "");
-					else if(variables.contains("," + assignableVariables[i]))
-						variables = variables.replace("," + assignableVariables[i] , "");
-					else
-						return variables = "\\nothing";
-				}*/
-			}
-		}		
-		if(variables.isEmpty()) {
-			return variables = "\\nothing";
-		}
-		return variables;
-	}
 
 	public static String extractMethodNameFromStatemtent(String stmt) {
 		String methodName = "";
-		boolean isInSameClass = false;
 		char stmtChar[] = stmt.toCharArray();
 		boolean name = false;
 		for (int i = stmtChar.length -1; i >= 0; i--) {
@@ -527,7 +477,6 @@ public class Parser {
 				name = true;
 			} else if (name && (Character.isLetter(stmtChar[i]) || stmtChar[i] == '.')) {
 				methodName = stmtChar[i] + methodName;
-				isInSameClass = true;
 			} else {
 				name = false;
 			}
@@ -543,7 +492,7 @@ public class Parser {
 		} else {
 			String[] assignableVariables = variables.replaceAll("this\\.", "").split(",");
 			for (int i = 0; i < assignableVariables.length; i++) {
-				assignableVariables[i] = assignableVariables[i].replaceAll("\\[.*\\]", "\\[\\*\\]").split("\\.")[0];
+				assignableVariables[i] = assignableVariables[i].replaceAll("\\[.*\\]", "\\[\\*\\]");//.split("\\.")[0];
 			}
 			variables = "";
 			for (String modVar : assignableVariables) {

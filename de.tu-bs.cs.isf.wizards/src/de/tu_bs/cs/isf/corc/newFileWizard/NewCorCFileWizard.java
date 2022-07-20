@@ -26,7 +26,7 @@ import org.eclipse.ui.IWorkbench;
  */
 public class NewCorCFileWizard extends Wizard implements INewWizard {
 	
-	private chooseDiagramTypePage typePage = new chooseDiagramTypePage();
+	private chooseDiagramTypePage typePage;
 	private Resource diagramResource;
 	private Resource modelResource;
 	private Diagram diagram;
@@ -34,6 +34,7 @@ public class NewCorCFileWizard extends Wizard implements INewWizard {
 	
 	@Override
 	public void addPages() {
+		typePage = new chooseDiagramTypePage();
 		addPage(typePage);
 	}
 	@Override
