@@ -400,7 +400,7 @@ public class PredicateManagementTypePage extends WizardPage {
 		tab_folder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				label_error.setText("");
+				label_error.setText("                                                                                                                                                      ");
 				if (!signatureField.getEditable()) signatureField.setText(currentPredicate.getSignature(true));
 				if (currentPredicate.definitions.size() > 1) {
 					buttonDelete.setEnabled(true);
