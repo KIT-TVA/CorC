@@ -59,25 +59,25 @@
                 </firstStatement>
                 <secondStatement name="statement2" id="ab6bd845-2b97-4683-bd72-93f4d12f59e6">
                   <refinement name="data = tmp;" proven="true" id="deb4d5bc-fd07-4581-b80b-bcce590a30d5">
-                    <postCondition name="modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop"/>
+                    <postCondition name="modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data)) &amp; lastElementIsNew(data, newTop)"/>
                     <preCondition name="modifiable(data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop&#xD;&#xA;&amp; (\forall int i; (0 &lt;= i &amp; i &lt; data.length -> data[i] = tmp[i]))"/>
                   </refinement>
-                  <postCondition name="modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop"/>
+                  <postCondition name="modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data)) &amp; lastElementIsNew(data, newTop)"/>
                   <preCondition name="modifiable(data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop&#xD;&#xA;&amp; (\forall int i; (0 &lt;= i &amp; i &lt; data.length -> data[i] = tmp[i]))"/>
                 </secondStatement>
                 <intermediateCondition name="modifiable(data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop&#xD;&#xA;&amp; (\forall int i; (0 &lt;= i &amp; i &lt; data.length -> data[i] = tmp[i]))"/>
               </refinement>
-              <postCondition name="modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop"/>
+              <postCondition name="modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data)) &amp; lastElementIsNew(data, newTop)"/>
               <preCondition name="modifiable(tmp,tmp[tmp.length-1]);&#xD;&#xA;tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop"/>
             </secondStatement>
             <intermediateCondition name="modifiable(tmp,tmp[tmp.length-1]);&#xD;&#xA;tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop"/>
           </refinement>
-          <postCondition name="modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop"/>
+          <postCondition name="modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data)) &amp; lastElementIsNew(data, newTop)"/>
           <preCondition name="modifiable(tmp);&#xD;&#xA;tmp.length = data.length + 1"/>
         </secondStatement>
         <intermediateCondition name="modifiable(tmp);&#xD;&#xA;tmp.length = data.length + 1"/>
       </refinement>
-      <postCondition name="modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop"/>
+      <postCondition name="modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data)) &amp; lastElementIsNew(data, newTop)"/>
       <preCondition name="true"/>
     </statement>
     <preCondition name="pre"/>

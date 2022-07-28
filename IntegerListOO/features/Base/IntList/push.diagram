@@ -64,7 +64,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.0"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="90" x="200" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="90" x="200" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data)) &amp; lastElementIsNew(data, newTop)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -408,7 +408,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data)) &amp; lastElementIsNew(data, newTop)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -694,7 +694,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data)) &amp; lastElementIsNew(data, newTop)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -980,7 +980,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data)) &amp; lastElementIsNew(data, newTop)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1304,7 +1304,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(data[*],data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data)) &amp; lastElementIsNew(data, newTop)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>

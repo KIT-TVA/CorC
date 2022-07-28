@@ -13,7 +13,7 @@
         </firstStatement>
         <secondStatement name="statement2" id="ee3f41e8-083e-47b6-95cc-a2c8f665dfee">
           <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="6a729f4f-c2d8-44f2-bafa-3b5703a151f5" variantProven="true" preProven="true" postProven="true">
-            <postCondition name="modifiable(data[j+1],data[j],i,j,tmp);&#xD;&#xA;((\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] &lt;= data[k+1])))"/>
+            <postCondition name="modifiable(data[j+1],data[j],i,j,tmp); containsOldElements(data, \old(data))&#xD;&#xA;&amp; sorted(data)"/>
             <preCondition name="modifiable(i);&#xD;&#xA;i = 0"/>
             <loopStatement name="loop" id="822597b5-1771-4667-a859-899b121c4431">
               <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="ad87f1d2-2a88-4ffa-b9dc-3678971eec8f">
@@ -99,12 +99,12 @@
             <invariant name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))"/>
             <guard name="i &lt; data.length"/>
           </refinement>
-          <postCondition name="modifiable(data[j+1],data[j],i,j,tmp);&#xD;&#xA;((\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] &lt;= data[k+1])))"/>
+          <postCondition name="modifiable(data[j+1],data[j],i,j,tmp); containsOldElements(data, \old(data))&#xD;&#xA;&amp; sorted(data)"/>
           <preCondition name="modifiable(i);&#xD;&#xA;i = 0"/>
         </secondStatement>
         <intermediateCondition name="modifiable(i);&#xD;&#xA;i = 0"/>
       </refinement>
-      <postCondition name="modifiable(data[j+1],data[j],i,j,tmp);&#xD;&#xA;((\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] &lt;= data[k+1])))"/>
+      <postCondition name="modifiable(data[j+1],data[j],i,j,tmp); containsOldElements(data, \old(data))&#xD;&#xA;&amp; sorted(data)"/>
       <preCondition name="data = \old(data)"/>
     </statement>
     <preCondition name="pre"/>
