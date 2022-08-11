@@ -25,20 +25,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-<<<<<<< HEAD
 
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcclass.Visibility;
-=======
-import org.eclipse.graphiti.mm.pictograms.Shape;
-
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
@@ -48,7 +39,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
-<<<<<<< HEAD
 import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 import de.tu_bs.cs.isf.cbc.util.Colors;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -61,17 +51,8 @@ import de.tu_bs.cs.isf.cbc.util.IFileUtil;
 import de.tu_bs.cs.isf.cbc.util.consts.MetaNames;
 
 public class GenerateCodeForVariationalVerification extends MyAbstractAsynchronousCustomFeature{
-=======
-import de.tu_bs.cs.isf.cbc.util.Console;
-import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
-import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import de.tu_bs.cs.isf.cbc.util.IFileUtil;
-import helper.ClassUtil;
-
-public class GenerateCodeForVariationalVerification extends MyAbstractAsynchronousCustomFeature{
-	
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 	private IFileUtil fileHandler;
+	private String[] config;
 	
 	public GenerateCodeForVariationalVerification(IFeatureProvider fp) {
 		super(fp);
@@ -86,8 +67,9 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 <<<<<<< HEAD
 		String output = " > Configuration: [";
 =======
+		this.config = config;
 		String output = "++++++++++ Next configuration: ";
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
+>>>>>>> 3c1d220c (predicate replacement at verification time for generated Java class)
 		for (int j = 0; j < config.length; j++) {
 			if (j == config.length - 1) {
 				output += config[j];
@@ -95,11 +77,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 				output += config[j] + ", ";
 			}
 		}
-<<<<<<< HEAD
 		Console.println(output + "]", Colors.BLUE);
-=======
-		Console.println(output + " ++++++++++");
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 		deleteExistingClasses(location + "/src_gen/");
 		writeFile(location + "/src_gen/" + callingClass + ".java", "public class " + callingClass + " {\n}");
 		generateClasses(location + "/src_gen/", config, callingFeature, callingClass, callingMethod.toLowerCase());
@@ -116,7 +94,6 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			}
 		}
 	}
-<<<<<<< HEAD
 	
 	private void removeMetaFiles(List<IFile> classFiles) {
 		for (int i = 0; i < classFiles.size(); i++) {
@@ -126,17 +103,12 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			}
 		}
 	}
-=======
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 
 	private void generateClasses(String classLocation, String[] config, String callingFeature, String callingClass, String callingMethod) {
 		URI uri = getDiagram().eResource().getURI();
 		IProject project = FileUtil.getProjectFromFileInProject(uri);
 		List<IFile> classFiles = ClassUtil.getFilesOfType(project, ".cbcclass");
-<<<<<<< HEAD
 		removeMetaFiles(classFiles);
-=======
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 		List<String> otherClasses = new ArrayList<String>();
 		for (IFile cbcclassFile : classFiles) {
 			if (cbcclassFile.getFullPath().toString().contains(".cbcclass")) {
@@ -159,12 +131,8 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			for (String feature : config) {
 				for (IFile cbcclassFile : classFiles) {
 					if (cbcclassFile.getFullPath().toString().contains(className + ".cbcclass") && cbcclassFile.getFullPath().toString().contains("/features/" + feature)) {
-<<<<<<< HEAD
 						//String cbcclassPath = project.getLocationURI().toString().substring(6);
 						String cbcclassPath = project.getLocation().toOSString();
-=======
-						String cbcclassPath = project.getLocationURI().toString().substring(6);
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 						Resource resource = ClassUtil.getClassModelResource(cbcclassPath, className, cbcclassFile.getFullPath().segment(2));
 						for (EObject obj : resource.getContents()) {
 							if (obj instanceof ModelClass) {
@@ -183,14 +151,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 									String newField = f.getVisibility().toString().toLowerCase() + (f.getVisibility().equals(Visibility.PRIVATE) ? " /*@spec_public@*/ " : "") + (f.isIsStatic() ? " static " : " ") + f.getType() + " " + f.getName() + ";";
 									if (!codeFields.contains(newField)) {
 										codeFields += "    " + newField + "\n";
-<<<<<<< HEAD
 									} 								}
-=======
-									} else {
-										Console.println("ERROR: The field " + newField + " is defined in more than one implementation of " + className + ".");
-									}
-								}
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 							}
 						}
 					}
@@ -202,18 +163,12 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			for (String feature : config) {
 				for (Diagram dia : getDiagrams()) {
 					URI diagramUri = dia.eResource().getURI();
-<<<<<<< HEAD
 					String diagramFeature = FeatureUtil.getInstance().getCallingFeature(diagramUri);
 					String diagramClass = FeatureUtil.getInstance().getCallingClass(diagramUri);
 					String diagramMethod = FeatureUtil.getInstance().getCallingMethod(diagramUri);
 					if (diagramFeature.equals(feature)
 							&& diagramClass.equals(className)
 							&& diagramMethod.matches("[a-z][a-zA-Z0-9]*")) {
-=======
-					if (diagramUri.segment(diagramUri.segmentCount() - 3).equals(feature)
-							&& diagramUri.segment(diagramUri.segmentCount() - 2).equals(className)
-							&& diagramUri.trimFileExtension().lastSegment().matches("[a-z][a-zA-Z0-9]*")) {
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 						if (!dia.getName().equalsIgnoreCase(callingMethod) || !handledCallingMethod) {
 							String pattern = ".* " + dia.getName() + "\\(.*\\) \\{.*";
 							boolean addedToList = false;
@@ -233,15 +188,9 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 										oldVersionOfMethod = oldVersionOfMethod.replace("original_" + dia.getName() + "(", "original_original_" + dia.getName() + "(");
 										oldVersionOfMethod = oldVersionOfMethod.replace(" " + dia.getName() + "(", " original_" + dia.getName() + "(");
 										newVersionOfMethod = newVersionOfMethod.replace("original(", "original_" + dia.getName() + "(");
-<<<<<<< HEAD
 										if (diagramFeature.equals(callingFeature) 
 												&& diagramClass.equals(callingClass) 
 												&& diagramMethod.equals(callingMethod + ".diagram")) {
-=======
-										if (diagramUri.segment(diagramUri.segmentCount() - 3).equals(callingFeature) 
-												&& diagramUri.segment(diagramUri.segmentCount() - 2).equals(callingClass) 
-												&& diagramUri.segment(diagramUri.segmentCount() - 1).equals(callingMethod + ".diagram")) {
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 											handledCallingMethod = true;
 										}
 									}
@@ -285,30 +234,11 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 	
 	private String generateMethodForClass(Diagram diagram, String methodName) {
 		diagram.eResource().getAllContents();
-<<<<<<< HEAD
 		DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
 		JavaVariables vars = extractor.getVars();
 		GlobalConditions globalConditions = extractor.getConds();
 		Renaming renaming = extractor.getRenaming();
 		CbCFormula formula = extractor.getFormula();
-=======
-		JavaVariables vars = null;
-		Renaming renaming = null;
-		CbCFormula formula = null;
-		GlobalConditions globalConditions = null;
-		for (Shape shape : diagram.getChildren()) {
-			Object obj = getBusinessObjectForPictogramElement(shape);
-			if (obj instanceof JavaVariables) {
-				vars = (JavaVariables) obj;
-			} else if (obj instanceof Renaming) {
-				renaming = (Renaming) obj;
-			} else if (obj instanceof CbCFormula) {
-				formula = (CbCFormula) obj;
-			} else if (obj instanceof GlobalConditions) {
-				globalConditions = (GlobalConditions) obj;
-			}
-		}
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 
 		String signatureString = formula.getMethodObj().getSignature().replaceFirst(formula.getMethodObj().getName(), methodName);
 		JavaVariable returnVariable = null;
@@ -342,7 +272,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			localVariables.add(returnVariable.getName().replace("non-null", ""));
 		}
 		globalConditions = null;
-		return ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString);
+		return ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString, config);
 	}
 
 	private void resolveRemainingExplicitOriginalInCondition(String path) {
@@ -358,7 +288,6 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 					List<String> method = new ArrayList<String>();
 					method.add(line);
 					method.add(lines.get(++i));
-<<<<<<< HEAD
 
 					int depth = 0;
 					if ((lines.get(++i).contains("original ") || lines.get(i).contains("original;")) && lines.get(i).contains("@ requires")) {
@@ -374,23 +303,12 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 									String newCondition = lines.get(j - 4).replace("\t", "").replace("@ requires ", "").trim().replace("\n", "");
 									temp = temp.replace("original", newCondition.substring(0, newCondition.length() - 1));
 								}
-=======
-					if (lines.get(++i).contains("original ") && lines.get(i).contains("@ requires")) {
-						String temp = lines.get(i);
-						String[] splittedSignatureLine = lines.get(i + 4).split("\\(")[0].split(" ");
-						String methodName = splittedSignatureLine[splittedSignatureLine.length];
-						for (int j = 0; j < lines.size(); j++) {
-							if (lines.get(j).contains(" original_" + methodName) && lines.get(j).contains("\\{")) {
-								String newCondition = lines.get(j - 4).replace("\t", "").replace("@ requires ", "").trim().replace("\n", "");
-								temp = temp.replace("original", newCondition.substring(0, newCondition.length() - 1));
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 							}
 						}
 						method.add(temp);
 					} else {
 						method.add(lines.get(i));
 					}
-<<<<<<< HEAD
 					depth = 0;
 					if ((lines.get(++i).contains("original ") || lines.get(i).contains("original;")) && lines.get(i).contains("@ ensures")) {
 						String temp = lines.get(i);
@@ -405,16 +323,6 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 									String newCondition = lines.get(j - 3).replace("\t", "").replace("@ ensures ", "").trim().replace("\n", "");
 									temp = temp.replace("original", newCondition.substring(0, newCondition.length() - 1));
 								}
-=======
-					if (lines.get(++i).contains("original ") && lines.get(i).contains("@ ensures")) {
-						String temp = lines.get(i);
-						String[] splittedSignatureLine = lines.get(i + 3).split("\\(")[0].split(" ");
-						String methodName = splittedSignatureLine[splittedSignatureLine.length - 1];
-						for (int j = 0; j < lines.size(); j++) {
-							if (lines.get(j).contains(" original_" + methodName) && lines.get(j).contains("{")) {
-								String newCondition = lines.get(j - 3).replace("\t", "").replace("@ ensures ", "").trim().replace("\n", "");
-								temp = temp.replace("original", newCondition.substring(0, newCondition.length() - 1));
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)
 							}
 						}
 						method.add(temp);
@@ -492,8 +400,4 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 		}
 		return result;
 	}	
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 0198ee19 (Merge branch 'CorC2.0_kodetzki' of https://github.com/TUBS-ISF/CorC into CorC2.0)

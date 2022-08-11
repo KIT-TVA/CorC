@@ -82,6 +82,12 @@
                   label="Verify with KeY"
                   style="push">
             </command>
+            <command
+                  commandId="de.tu_bs.cs.isf.commands.toolbar.predicateManagement"
+                  icon="icons/predicatemanager.png"
+                  label="Predicate Management"
+                  style="push">
+            </command>
          </toolbar>
       </menuContribution>
    </extension>
