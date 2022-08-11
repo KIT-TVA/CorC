@@ -23,6 +23,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -34,6 +36,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
@@ -485,43 +488,47 @@ public class PredicateManagementTypePage extends WizardPage {
 		}
 		return lines;
 	}
-	/*
+	
 	@Override
     public void performHelp() {
-		// SHELL
 		Shell shell = new Shell(getShell());
         shell.setText("Predicate Management - Help");
-        shell.setSize(500, 300);
+        shell.setSize(1500, 350);
         shell.setLayout(new GridLayout());
         GridData gridData_shell = new GridData();
         shell.setLayoutData(gridData_shell);
-        
-        // GROUP help
-     	/*Group groupShell = new Group(shell, SWT.NULL);
-     	groupShell.setText("Predicate Management - Help");
-     	GridLayout layout_group_shell = new GridLayout();
-     	groupShell.setLayout(layout_group_shell);
-     	GridData gridData_group_shell = new GridData();
-     	gridData_group_shell.horizontalAlignment = GridData.FILL;
-     	gridData_group_shell.verticalAlignment = GridData.FILL;
-     	groupShell.setLayoutData(gridData_group_shell);*/
-     	/*
-     	Text text = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.WRAP);
-     	text.setText("Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max Hallo mein name ist max ");
+     	
+     	StyledText text = new StyledText(shell, SWT.MULTI | SWT.BORDER | SWT.WRAP);
+     	text.setText("---Available Predicates---\r\n"
+     			+ "Displays all predicates of the project the currently selected file is part of. Predicates can be added and deleted using the buttons above the list of predicates. The list displays the signature of the available predicates without the parameter's names. It is not possible to create duplicate predicates, even if the parameters differ.\r\n"
+     			+ "\r\n"
+     			+ "---Predicate Properties---\r\n"
+     			+ "Enables the definition of predicates. For the definition, the following fields have to be set:\r\n"
+     			+ "Name: Internal name of the predicate's definition. This name does not influence the construction or verification of programs containing the predicate.\r\n"
+     			+ "Signature: Signature of the predicate in method signature style. Provide name and parameters. For every parameter, provide type and name. The parameter's order is considered when replacing predicates by their definition at verification time. Example: newPredicate(int[] array, int number, String word).\r\n"
+     			+ "Definition: The definition a predicate should be replaced by. The parameters declared in the signature will be replaced by the parameters provided by the predicate call in the program when the verification is started. Be aware that bound variables (\\forall, \\exists) must not exist in the terms the parameters of the predicate are replaced by. It is not allowed to use the keyword \\old in the definition of a predicate. Please provide old values of a field or variable by adding a new parameter to the predicate's definition. Example: TODO.\r\n"
+     			+ "Restore Definition: Values of the currently displayed definition are restored to the last saved state.\r\n"
+     			+ "Save Definition: Saves the current values of the currently displayed definition. Please consider error messages when saving definitions.");
         text.setEditable(false);
         text.setLocation(0, 0);
-     	//GridData gridData_text = new GridData(SWT.MULTI | SWT.V_SCROLL);
-        //gridData_text.grabExcessHorizontalSpace = true;
-        //gridData_text.widthHint=100;
-        //text.setLayoutData(gridData_text);
-     	text.setLayoutData(new GridData(GridData.FILL_BOTH));
+        text.setLayoutData(new GridData(GridData.FILL_BOTH));
      	text.setBackground(new Color(255,255,255));
-        /*
-        Browser browser = new Browser(shell, SWT.NONE);
-        browser.setUrl("http://stackoverflow.com/questions/7322489/cant-put-content-behind-swt-wizard-help-button");
-        browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         
+     	StyleRange[] styles = new StyleRange[11];
+     	                         //AvailablePreds, PredProps, Name, Sign, SignEx, Def,  forExist, old,  DefEx, Res,  Save
+     	int[] starts = new int[]  {0,              367,       491,  643,  894,    947,  1196,     1328, 1482,  1489, 1593};
+     	int[] lengths = new int[] {26,             26,        5,    10,   50,     11,   16,       4,    4,     19,   16};
+     	for (int i = 0; i < styles.length; i++) {
+     		styles[i] = new StyleRange();
+     		styles[i].start = starts[i];
+            styles[i].length = lengths[i];
+            if (i == 4 || i == 6 || i == 7 || i == 8) {
+            	styles[i].fontStyle = SWT.ITALIC;
+            } else {
+            	styles[i].fontStyle = SWT.BOLD;
+            }
+     	}
+        text.setStyleRanges(styles);
         shell.open();
-		
-    }*/
+    }
 }
