@@ -59,7 +59,8 @@ public class PredicateDefinition {
 		return "";
 	}
 	
-	public String getReplace() {
+	public String getReplace(boolean withBoundDataType) {
+		if (withBoundDataType) return replace;
 		String output = replace;
 		for (String var : varsBound) {
 			output = output.replace(var, var.split(" ")[1]);

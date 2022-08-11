@@ -49,6 +49,7 @@ import helper.ClassUtil;
 public class GenerateCodeForVariationalVerification extends MyAbstractAsynchronousCustomFeature{
 	
 	private IFileUtil fileHandler;
+	private String[] config;
 	
 	public GenerateCodeForVariationalVerification(IFeatureProvider fp) {
 		super(fp);
@@ -60,6 +61,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 	}	
 	
 	public void generate(IPath location, String callingFeature, String callingClass, String callingMethod, String[] config) {
+		this.config = config;
 		String output = "++++++++++ Next configuration: ";
 		for (int j = 0; j < config.length; j++) {
 			if (j == config.length - 1) {
@@ -263,7 +265,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			localVariables.add(returnVariable.getName().replace("non-null", ""));
 		}
 		globalConditions = null;
-		return ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString);
+		return ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString, config);
 	}
 
 	private void resolveRemainingExplicitOriginalInCondition(String path) {

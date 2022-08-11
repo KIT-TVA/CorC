@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
@@ -26,6 +28,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
+import de.tu_bs.cs.isf.cbc.tool.helper.Predicate;
+import de.tu_bs.cs.isf.cbc.tool.helper.PredicateDefinition;
 
 
 public class ConstructCodeBlock {
@@ -38,6 +42,7 @@ public class ConstructCodeBlock {
 	private static BufferedReader br;
 	private static JavaVariable returnVariable = null;
 	private static boolean withAsserts = true;
+	private static List<Predicate> predicates = null;
 	
 	private static final Pattern REGEX_PRIMITIVE_INTEGERS = Pattern.compile("(byte|char|short|int|long)");
 	private static final Pattern REGEX_PRIMITIVE_FLOAT = Pattern.compile("(float|double)");
@@ -205,9 +210,10 @@ public class ConstructCodeBlock {
 	}
 	
 	public static String constructCodeBlockForExport(
-			CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString) {
+			CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString, String[] config) {
 		handleInnerLoops = true;
 		withInvariants = true;
+		readPredicates(new FileUtil(formula.eResource().getURI().toPlatformString(true)), config, formula);
 		
 		String modifiableVariables = Parser.getModifieableVarsFromConditionExceptLocals(formula.getStatement().getPostCondition().getName(), vars, null, returnVar);
 		modifiableVariables = modifiableVariables.replaceAll("\\)", "").replaceAll("\\(", "");
@@ -294,6 +300,34 @@ public class ConstructCodeBlock {
 
 		returnVariable = null;
 		return code.toString();
+	}
+
+	private static void readPredicates(FileUtil fileHandler, String[] config, CbCFormula formula) {
+		predicates = new ArrayList<Predicate>();
+		if (config == null || config.length == 0) return;
+		String[] splitUri = formula.eResource().getURI().toString().split("/features/");
+		String projectName = splitUri[0].split("/")[splitUri[0].split("/").length-1];
+		String filePath = formula.eResource().getURI().toString();
+		filePath = filePath.substring(6, filePath.indexOf(projectName)) + projectName + "/predicates.def";
+		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
+		String configName = "";
+		for (String feature : config) configName += feature;
+		for (Predicate p : readPredicates) {
+			for (int i = 0; i < p.definitions.size(); i++) {
+				PredicateDefinition pDef = p.definitions.get(i);
+				if (configName.contains(pDef.definedInFeature) || pDef.definedInFeature.equals("default")) {
+					//TODO Max not safe, featurename könnte teilmenge eines anderen featurenamens sein
+					if (formula.getClassName().equals(pDef.definedInClass) || pDef.definedInClass.equals("default")) {
+						if (formula.getName().equals(pDef.definedInMethod) || pDef.definedInMethod.equals("default")) {
+							Predicate foundPredicate = new Predicate(p.getSignature(true));
+							foundPredicate.definitions.add(pDef);
+							predicates.add(foundPredicate);
+							break;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	private static String translateOldVariablesToJML(String post, LinkedList<String> vars) {
@@ -746,7 +780,7 @@ public class ConstructCodeBlock {
 		if (condition.equals("")) {
 			return condition;
 		} else {
-			String jmlCondition = Parser.rewriteConditionToJML(condition);
+			String jmlCondition = Parser.rewriteConditionToJML(applyPredicates(condition));
 			if (renaming != null) {
 				ConstructCodeBlock.renaming = renaming;
 				//jmlCondition = useRenamingCondition(jmlCondition);
@@ -756,6 +790,33 @@ public class ConstructCodeBlock {
 			return jmlCondition;
 		}
 
+	}
+
+	private static String applyPredicates(String condition) {
+		if (predicates != null) {
+			for (Predicate p : predicates) {
+				while (condition.contains(p.name + "(")) {
+					int index = condition.indexOf(p.name + "(") + p.name.length() + 1;
+					int startIndex = index;
+					int bracketCounter = 0;
+					while (condition.charAt(index) != ')' || bracketCounter != 0) {
+						if (condition.charAt(index) == ')') bracketCounter--;
+						if (condition.charAt(index) == '(') bracketCounter++;
+						index++;
+					}
+					String toReplace = condition.substring(startIndex, index);
+					String def = p.definitions.get(0).getReplace(true);
+					String[] params = toReplace.split(",");
+					if (params.length == p.varsTerms.size()) {
+						for (int i = 0; i < params.length; i++) {		
+							def = def.replace(p.varsTerms.get(i).split(" ")[1], params[i].trim());
+						}
+					}
+					condition = condition.replace(p.name + "(" + toReplace + ")", def);
+				}
+			}
+		}
+		return condition;
 	}
 
 	private static String rewriteGuardToJavaCode(String guard) {

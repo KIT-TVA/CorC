@@ -87,7 +87,7 @@ public class Predicate {
 			if (output.endsWith(", ")) output = output.substring(0, output.length() - 2);
 			output += ")\n";
 		}
-		output += "\t\t\\replacewith (" + definitions.get(defNum).getReplace() + ")\n";
+		output += "\t\t\\replacewith (" + definitions.get(defNum).getReplace(false) + ")\n";
 		output += "\t\t\\heuristics(simplify)\n\t};\n\n";
 		return output;
 	}

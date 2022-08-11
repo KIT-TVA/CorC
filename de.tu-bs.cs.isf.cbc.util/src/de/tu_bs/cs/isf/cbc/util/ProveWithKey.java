@@ -66,6 +66,7 @@ public class ProveWithKey {
 	private String problem;
 	private String helper;
 	private String subProofName = "";
+	private static List<Predicate> predicates = null;
 	
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
 			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String configName) {
@@ -95,6 +96,7 @@ public class ProveWithKey {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
+		readPredicates();
 	}
 	
 	public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, String callingClass, boolean forceProving) {
@@ -496,9 +498,9 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 	String composeContractForCalledOriginal(List<CbCFormula> refinements, String keyword) {
 		String composedCondition = "";
 		if (keyword.equals("requires")) {
-			composedCondition = Parser.rewriteConditionToJML(Parser.getConditionFromCondition(refinements.get(0).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", ""));
+			composedCondition = Parser.rewriteConditionToJML(applyPredicates(Parser.getConditionFromCondition(refinements.get(0).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", "")));
 		} else if (keyword.equals("ensures")) {
-			composedCondition = Parser.rewriteConditionToJML(Parser.getConditionFromCondition(refinements.get(0).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", ""));
+			composedCondition = Parser.rewriteConditionToJML(applyPredicates(Parser.getConditionFromCondition(refinements.get(0).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", "")));
 		}
 
 		CompositionTechnique compTechnique = refinements.get(0).getCompositionTechnique();
@@ -508,9 +510,9 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 			}
 			String conditionOriginal = "";
 			if (keyword.equals("requires")) {
-				conditionOriginal = Parser.rewriteConditionToJML(Parser.getConditionFromCondition(refinements.get(i).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", ""));
+				conditionOriginal = Parser.rewriteConditionToJML(applyPredicates(Parser.getConditionFromCondition(refinements.get(i).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", "")));
 			} else if (keyword.equals("ensures")) {
-				conditionOriginal = Parser.rewriteConditionToJML(Parser.getConditionFromCondition(refinements.get(i).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", ""));
+				conditionOriginal = Parser.rewriteConditionToJML(applyPredicates(Parser.getConditionFromCondition(refinements.get(i).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", "")));
 			}
 			composedCondition = applyCompositionTechnique(composedCondition, conditionOriginal, compTechnique);
 			if (compTechnique == CompositionTechnique.CONTRACT_OVERRIDING || (compTechnique == CompositionTechnique.EXPLICIT_CONTRACTING && !composedCondition.contains(REGEX_ORIGINAL))) {
@@ -734,12 +736,14 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		this.configName = "/" + configName;		
 	}
 	
-	private String collectPredicates() {
+	private void readPredicates() {
 		String projectName = uri.split("/")[1];
 		String filePath = fileHandler.getLocationString(uri);
 		filePath = filePath.substring(0, filePath.indexOf(projectName)) + projectName + "/predicates.def";
-		List<Predicate> predicates = fileHandler.readPredicates(filePath);
-		
+		predicates = fileHandler.readPredicates(filePath);
+	}
+	
+	private String collectPredicates() {
 		String defString = "\\predicates {\n";
 		String rulesString = "\\rules {\n"; 
 		for (Predicate p : predicates) {
@@ -758,5 +762,32 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 			}
 		}
 		return defString + "}\n\n" + rulesString + "}";
+	}
+	
+	private static String applyPredicates(String condition) {
+		if (predicates != null) {
+			for (Predicate p : predicates) {
+				while (condition.contains(p.name + "(")) {
+					int index = condition.indexOf(p.name + "(") + p.name.length() + 1;
+					int startIndex = index;
+					int bracketCounter = 0;
+					while (condition.charAt(index) != ')' || bracketCounter != 0) {
+						if (condition.charAt(index) == ')') bracketCounter--;
+						if (condition.charAt(index) == '(') bracketCounter++;
+						index++;
+					}
+					String toReplace = condition.substring(startIndex, index);
+					String def = p.definitions.get(0).getReplace(true);
+					String[] params = toReplace.split(",");
+					if (params.length == p.varsTerms.size()) {
+						for (int i = 0; i < params.length; i++) {		
+							def = def.replace(p.varsTerms.get(i).split(" ")[1], params[i].trim());
+						}
+					}
+					condition = condition.replace(p.name + "(" + toReplace + ")", def);
+				}
+			}
+		}
+		return condition;
 	}
 }
