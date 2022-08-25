@@ -1,5 +1,5 @@
-# VarCorC Project Setup Guide & Case Study Introduction (2022-06-23)
-Installation guide for plugins and properties for **development with VarCorC** including FeatureIDE and CorC 2.0 with introduction of case stuyds contained in branch **CorC2.0**
+# CorC 2.0 Project Setup Guide & Case Study Introduction (2022-08-25)
+Installation guide for plugins and properties for **development with CorC 2.0** with introduction of case studies.
 ## Setup
 * **Eclipse** Install [Eclipse Modelling Tools](https://www.eclipse.org/downloads/packages/release/2021-06/r). The latest stable version is 2021-06 (Eclipse 4.20.0). Newer versions may struggle with FeatureIDE.
 * **Graphiti** Install Graphiti using the update site https://download.eclipse.org/graphiti/updates/0.18.0/
@@ -10,7 +10,7 @@ Installation guide for plugins and properties for **development with VarCorC** i
 * **Mylyn** Available in [Eclipse Marketplace](https://marketplace.eclipse.org/content/mylyn) (Mylyn 3.23)
 
 ## Properties & Initialisation
-1. Checkout CorC2.0 from https://github.com/TUBS-ISF/CorC.git
+1. Checkout branch **CorC2.0** from https://github.com/TUBS-ISF/CorC.git
 2. Open the following packages in Eclipse Modelling Tools:
 * de.tu-bs.cs.isf.cbc.model
 * de.tu-bs.cs.isf.cbc.tool
@@ -33,18 +33,14 @@ Create CorC-examples via File -> New -> Other... -> CorC -> CorC Examples -> Sel
 The repository you checked out contains various software product line case studies. They can be loaded via File -> Open project from file system. 
 #### BankAccount
 The BankAccount implements basic functions of a bank account such as withdrawals, limits, money transfers and checking the account balance.
-* **BankAccount** Implementation as project without object-orientation.
-* **BankAccountCorC** Implementation using fields and invariants but neither class hierarchy nor CbC-Classes.
-* **BankAccountOO** Object-oriented implementation with class structure and CbC-Classes.
+* **BankAccount** Object-oriented implementation with class structure and CbC-Classes.
 #### Elevator
 The Elevator implements basic functions of an elevator such as the movement and entering and leaving of persons.
-* **ElevatorCorC** Implementation using fields and invariants but neither class hierarchy nor CbC-Classes.
-* **ElevatorOO** Object-oriented implementation with class structure and CbC-Classes.
+* **Elevator** Object-oriented implementation with class structure and CbC-Classes.
 #### Email
 The product line Email implements basic functions of an email system including server- and client-side interactions.
-* **EmailCorC** Implementation using fields and invariants but neither class hierarchy nor CbC-Classes.
+* **EmailOO** Implementation using fields and invariants but neither class hierarchy nor CbC-Classes.
 * **EmailFeatureInteraction** Java-Implementation without implementation with CbC.
 #### IntegerList
 The IntegerList implements a list of integers with add and sort operations.
-* **IntegerList** Implementation as project without object-orientation.
-* **IntegerListOO** Object-oriented implementation with class structure and CbC-Classes.
+* **IntegerList** Object-oriented implementation with class structure and CbC-Classes.
