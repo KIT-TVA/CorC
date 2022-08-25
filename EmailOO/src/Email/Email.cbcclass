@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Email">
+  <fields visibility="PRIVATE" type="int" name="id"/>
+  <fields visibility="PRIVATE" type="int" name="emailCounter" isStatic="true"/>
+  <fields visibility="PRIVATE" type="Client" name="from"/>
+  <fields visibility="PRIVATE" type="String" name="to"/>
+  <fields visibility="PRIVATE" type="String" name="subject"/>
+  <fields visibility="PRIVATE" type="String" name="body"/>
+  <fields visibility="PRIVATE" type="int" name="old_emailCounter" isStatic="true"/>
+  <methods cbcDiagramURI="setEmailSubject.diagram" name="setEmailSubject" returnType="void">
+    <cbcStartTriple href="setEmailSubject.cbcmodel#/0"/>
+    <parameters type="String" name="valuex"/>
+  </methods>
+  <methods cbcDiagramURI="constructEmail.diagram" name="constructEmail" returnType="void">
+    <cbcStartTriple href="constructEmail.cbcmodel#/0"/>
+    <parameters type="int" name="idx"/>
+  </methods>
+  <methods cbcDiagramURI="createEmail.diagram" name="createEmail" returnType="Email" isStatic="true">
+    <cbcStartTriple href="createEmail.cbcmodel#/0"/>
+    <parameters type="Client" name="fromx"/>
+    <parameters type="String" name="tox"/>
+    <parameters type="String" name="subjectx"/>
+    <parameters type="String" name="bodyx"/>
+    <parameters type="Email" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="getEmailBody.diagram" name="getEmailBody" returnType="String">
+    <cbcStartTriple href="getEmailBody.cbcmodel#/0"/>
+    <parameters type="String" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="getEmailFrom.diagram" name="getEmailFrom" returnType="Client">
+    <cbcStartTriple href="getEmailFrom.cbcmodel#/0"/>
+    <parameters type="Client" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="getEmailTo.diagram" name="getEmailTo" returnType="String">
+    <cbcStartTriple href="getEmailTo.cbcmodel#/0"/>
+    <parameters type="String" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="getEmailSubject.diagram" name="getEmailSubject" returnType="String">
+    <cbcStartTriple href="getEmailSubject.cbcmodel#/0"/>
+    <parameters type="String" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="getId.diagram" name="getId" returnType="int">
+    <cbcStartTriple href="getId.cbcmodel#/0"/>
+    <parameters type="int" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="setEmailBody.diagram" name="setEmailBody" returnType="void">
+    <cbcStartTriple href="setEmailBody.cbcmodel#/0"/>
+    <parameters type="String" name="valuex"/>
+  </methods>
+  <methods cbcDiagramURI="setEmailFrom.diagram" name="setEmailFrom" returnType="void">
+    <cbcStartTriple href="setEmailFrom.cbcmodel#/0"/>
+    <parameters type="Client" name="valuex"/>
+  </methods>
+  <methods cbcDiagramURI="setEmailTo.diagram" name="setEmailTo" returnType="void">
+    <cbcStartTriple href="setEmailTo.cbcmodel#/0"/>
+    <parameters type="String" name="valuex"/>
+  </methods>
+</cbcclass:ModelClass>

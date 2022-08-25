@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="createEmail" proven="true" comment="" className="Email" methodName="createEmail">
+    <statement name="statement" id="72b84f64-665d-4e42-8d70-bcfc1f244e26">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="b6bd7152-51cc-44e6-b8e9-3f57035ae785">
+        <firstStatement name="statement1" id="e31177ac-8e61-435a-ae57-3786637268e1">
+          <refinement name="result = new Email(Email.emailCounter++);&#xD;&#xA;result.setEmailFrom(fromx);&#xD;&#xA;result.setEmailTo(tox);&#xD;&#xA;result.setEmailSubject(subjectx);&#xD;&#xA;result.setEmailBody(bodyx);" proven="true" id="2c25c711-4e30-48b8-aff6-7e94595d71bc">
+            <postCondition name="result.from = fromx &#xD;&#xA;&amp; result.to = tox &#xD;&#xA;&amp; result.subject = subjectx &#xD;&#xA;&amp; result.body = bodyx&#xD;&#xA;&amp; result.id = \old(Email.emailCounter)&#xD;&#xA;&amp; Email.emailCounter = \old(Email.emailCounter) + 1&#xD;&#xA;&amp; result != null&#xD;&#xA;&amp; result.&lt;created> = TRUE">
+              <modifiables>result</modifiables>
+            </postCondition>
+            <preCondition name="fromx != null &amp; tox != null &amp; subjectx != null &amp; bodyx != null"/>
+          </refinement>
+          <postCondition name="result.from = fromx &#xD;&#xA;&amp; result.to = tox &#xD;&#xA;&amp; result.subject = subjectx &#xD;&#xA;&amp; result.body = bodyx&#xD;&#xA;&amp; result.id = \old(Email.emailCounter)&#xD;&#xA;&amp; Email.emailCounter = \old(Email.emailCounter) + 1&#xD;&#xA;&amp; result != null&#xD;&#xA;&amp; result.&lt;created> = TRUE">
+            <modifiables>result</modifiables>
+          </postCondition>
+          <preCondition name="fromx != null &amp; tox != null &amp; subjectx != null &amp; bodyx != null"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="11f00b0b-d6a3-4576-914a-f86ba6514b20">
+          <refinement xsi:type="cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement" id="e6bc9e1d-c9a2-4ab9-9a24-2acee176ce59">
+            <postCondition name="\result.from = fromx &#xD;&#xA;&amp; \result.to = tox &#xD;&#xA;&amp; \result.subject = subjectx &#xD;&#xA;&amp; \result.body = bodyx&#xD;&#xA;&amp; \result.id = \old(Email.emailCounter) &#xD;&#xA;&amp; Email.emailCounter = \old(Email.emailCounter) + 1&#xD;&#xA;&amp; \result != null">
+              <modifiables>result</modifiables>
+              <modifiables>ret</modifiables>
+            </postCondition>
+            <preCondition name="result.from = fromx &#xD;&#xA;&amp; result.to = tox &#xD;&#xA;&amp; result.subject = subjectx &#xD;&#xA;&amp; result.body = bodyx&#xD;&#xA;&amp; result.id = \old(Email.emailCounter)&#xD;&#xA;&amp; Email.emailCounter = \old(Email.emailCounter) + 1&#xD;&#xA;&amp; result != null&#xD;&#xA;&amp; result.&lt;created> = TRUE">
+              <modifiables>result</modifiables>
+            </preCondition>
+          </refinement>
+          <postCondition name="\result.from = fromx &#xD;&#xA;&amp; \result.to = tox &#xD;&#xA;&amp; \result.subject = subjectx &#xD;&#xA;&amp; \result.body = bodyx&#xD;&#xA;&amp; \result.id = \old(Email.emailCounter) &#xD;&#xA;&amp; Email.emailCounter = \old(Email.emailCounter) + 1&#xD;&#xA;&amp; \result != null">
+            <modifiables>result</modifiables>
+            <modifiables>ret</modifiables>
+          </postCondition>
+          <preCondition name="result.from = fromx &#xD;&#xA;&amp; result.to = tox &#xD;&#xA;&amp; result.subject = subjectx &#xD;&#xA;&amp; result.body = bodyx&#xD;&#xA;&amp; result.id = \old(Email.emailCounter)&#xD;&#xA;&amp; Email.emailCounter = \old(Email.emailCounter) + 1&#xD;&#xA;&amp; result != null&#xD;&#xA;&amp; result.&lt;created> = TRUE">
+            <modifiables>result</modifiables>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="result.from = fromx &#xD;&#xA;&amp; result.to = tox &#xD;&#xA;&amp; result.subject = subjectx &#xD;&#xA;&amp; result.body = bodyx&#xD;&#xA;&amp; result.id = \old(Email.emailCounter)&#xD;&#xA;&amp; Email.emailCounter = \old(Email.emailCounter) + 1&#xD;&#xA;&amp; result != null&#xD;&#xA;&amp; result.&lt;created> = TRUE">
+          <modifiables>result</modifiables>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="\result.from = fromx &#xD;&#xA;&amp; \result.to = tox &#xD;&#xA;&amp; \result.subject = subjectx &#xD;&#xA;&amp; \result.body = bodyx&#xD;&#xA;&amp; \result.id = \old(Email.emailCounter) &#xD;&#xA;&amp; Email.emailCounter = \old(Email.emailCounter) + 1&#xD;&#xA;&amp; \result != null">
+        <modifiables>result</modifiables>
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="fromx != null &amp; tox != null &amp; subjectx != null &amp; bodyx != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Email.cbcclass#//@methods.2"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="Email result"/>
+    <fields href="Email.cbcclass#//@fields.0"/>
+    <fields href="Email.cbcclass#//@fields.1"/>
+    <fields href="Email.cbcclass#//@fields.2"/>
+    <fields href="Email.cbcclass#//@fields.3"/>
+    <fields href="Email.cbcclass#//@fields.4"/>
+    <fields href="Email.cbcclass#//@fields.5"/>
+    <fields href="Email.cbcclass#//@fields.6"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="Client fromx non-null"/>
+    <conditions name="String tox non-null"/>
+    <conditions name="String bodyx non-null"/>
+    <conditions name="String subjectx non-null"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

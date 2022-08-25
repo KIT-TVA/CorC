@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="constructClient" proven="true" comment="" className="Client" methodName="constructClient">
+    <statement name="statement" id="8307b5a8-ba1c-49be-be9c-416d69141123">
+      <refinement name="this.id = idx;&#xD;&#xA;this.name = namex;" proven="true" id="6cff2676-ca4c-4d3d-bc29-7816f7a75fca">
+        <postCondition name="(idx >= 0 &amp; namex != null) -> (this.id = idx &amp; this.name = namex)">
+          <modifiables>this.id</modifiables>
+          <modifiables>this.name</modifiables>
+        </postCondition>
+        <preCondition name="true &amp; idx >= 0 &amp; namex != null"/>
+      </refinement>
+      <postCondition name="(idx >= 0 &amp; namex != null) -> (this.id = idx &amp; this.name = namex)">
+        <modifiables>this.id</modifiables>
+        <modifiables>this.name</modifiables>
+      </postCondition>
+      <preCondition name="true &amp; idx >= 0 &amp; namex != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Client.cbcclass#//@methods.6"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

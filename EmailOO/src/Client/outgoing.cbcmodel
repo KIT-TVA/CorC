@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="outgoing" proven="true" comment="" className="Client" methodName="outgoing">
+    <statement name="statement" id="86ac115c-df56-4d01-9ae3-89ee18adec63">
+      <refinement name="msg.setEmailFrom(client);" proven="true" id="0b1b5614-41e5-4d6a-8236-3d9a39b97a6f">
+        <postCondition name="msg.from = client"/>
+        <preCondition name="client != null &amp; msg != null"/>
+      </refinement>
+      <postCondition name="msg.from = client"/>
+      <preCondition name="client != null &amp; msg != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Client.cbcclass#//@methods.4"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+  <cbcmodel:GlobalConditions>
+    <conditions name="Email msg non-null"/>
+    <conditions name="Client client non-null"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

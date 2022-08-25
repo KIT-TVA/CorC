@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="createPerson" className="Person" methodName="createPerson">
+    <statement name="statement" id="f9d6747d-15bf-4abd-9496-c93bbe764a62">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="b4e401e5-ea93-4dd5-ab2a-a152eafa7dec">
+        <firstStatement name="statement1" id="009ca079-ee4f-4799-96b9-fe7f4ee6a804">
+          <refinement name="tmpFloor = envx.getFloor(originx);" id="f2118fa8-565d-413d-adb1-f6a762533146">
+            <postCondition name="tmpFloor != null&#xD;&#xA;&amp; namex != null&#xD;&#xA;&amp; destinationx >= 0&#xD;&#xA;&amp; envx != null&#xD;&#xA;&amp; weightx >= 0&#xD;&#xA;&amp; originx >= 0&#xD;&#xA;&amp; originx &lt; envx.floors.length&#xD;&#xA;&amp; tmpFloor.&lt;created> = TRUE &#xD;&#xA;&amp; tmpFloor.waiting != null&#xD;&#xA;&amp; tmpFloor.waiting.elements != null">
+              <modifiables>tmpFloor</modifiables>
+            </postCondition>
+            <preCondition name="namex != null&amp; envx.floors != null&amp; destinationx >= 0&amp; envx != null&amp; weightx >= 0&amp; originx >= 0&amp; originx &lt; envx.floors.length&amp; envx.floors[originx] != null&amp; envx.floors[originx].waiting != null &amp; envx.floors[originx].waiting.elements != null"/>
+          </refinement>
+          <postCondition name="tmpFloor != null&#xD;&#xA;&amp; namex != null&#xD;&#xA;&amp; destinationx >= 0&#xD;&#xA;&amp; envx != null&#xD;&#xA;&amp; weightx >= 0&#xD;&#xA;&amp; originx >= 0&#xD;&#xA;&amp; originx &lt; envx.floors.length&#xD;&#xA;&amp; tmpFloor.&lt;created> = TRUE &#xD;&#xA;&amp; tmpFloor.waiting != null&#xD;&#xA;&amp; tmpFloor.waiting.elements != null">
+            <modifiables>tmpFloor</modifiables>
+          </postCondition>
+          <preCondition name="namex != null&amp; envx.floors != null&amp; destinationx >= 0&amp; envx != null&amp; weightx >= 0&amp; originx >= 0&amp; originx &lt; envx.floors.length&amp; envx.floors[originx] != null&amp; envx.floors[originx].waiting != null &amp; envx.floors[originx].waiting.elements != null"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="0cfe4f83-d0e5-4726-9485-2b10d9429a4c">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="09a124ae-693a-4f32-923b-9f5e2f06fe4c">
+            <firstStatement name="statement1" id="c929baed-9277-49f6-a449-e8ad435edc21">
+              <refinement name="this.weight = weightx;&#xD;&#xA;this.origin = originx;&#xD;&#xA;this.destination = destinationx;&#xD;&#xA;this.destinationReached = false;&#xD;&#xA;this.name = namex;" id="b71b72a5-b920-4463-ad3a-15ac6e528cc0">
+                <postCondition name="this.weight = weightx&amp; this.origin = originx&amp; this.destination = destinationx&amp; this.destinationReached = FALSE&amp; this.name.equals(namex) = TRUE">
+                  <modifiables>this.destination</modifiables>
+                  <modifiables>this.destinationReached</modifiables>
+                  <modifiables>this.name</modifiables>
+                  <modifiables>this.origin</modifiables>
+                  <modifiables>this.weight</modifiables>
+                  <modifiables>tmpFloor</modifiables>
+                </postCondition>
+                <preCondition name="tmpFloor != null&#xD;&#xA;&amp; namex != null&#xD;&#xA;&amp; destinationx >= 0&#xD;&#xA;&amp; envx != null&#xD;&#xA;&amp; weightx >= 0&#xD;&#xA;&amp; originx >= 0&#xD;&#xA;&amp; originx &lt; envx.floors.length&#xD;&#xA;&amp; tmpFloor.&lt;created> = TRUE &#xD;&#xA;&amp; tmpFloor.waiting != null&#xD;&#xA;&amp; tmpFloor.waiting.elements != null">
+                  <modifiables>tmpFloor</modifiables>
+                </preCondition>
+              </refinement>
+              <postCondition name="this.weight = weightx&amp; this.origin = originx&amp; this.destination = destinationx&amp; this.destinationReached = FALSE&amp; this.name.equals(namex) = TRUE">
+                <modifiables>this.destination</modifiables>
+                <modifiables>this.destinationReached</modifiables>
+                <modifiables>this.name</modifiables>
+                <modifiables>this.origin</modifiables>
+                <modifiables>this.weight</modifiables>
+                <modifiables>tmpFloor</modifiables>
+              </postCondition>
+              <preCondition name="tmpFloor != null&#xD;&#xA;&amp; namex != null&#xD;&#xA;&amp; destinationx >= 0&#xD;&#xA;&amp; envx != null&#xD;&#xA;&amp; weightx >= 0&#xD;&#xA;&amp; originx >= 0&#xD;&#xA;&amp; originx &lt; envx.floors.length&#xD;&#xA;&amp; tmpFloor.&lt;created> = TRUE &#xD;&#xA;&amp; tmpFloor.waiting != null&#xD;&#xA;&amp; tmpFloor.waiting.elements != null">
+                <modifiables>tmpFloor</modifiables>
+              </preCondition>
+            </firstStatement>
+            <secondStatement name="statement2" id="55197940-254c-40bb-b4b4-2f6660a78d98">
+              <refinement name="tmpFloor.addWaitingPerson(this);" id="1590245d-b342-4113-a566-9bccb738b4c5">
+                <postCondition name="this.weight = weightx&amp; this.origin = originx&amp; this.destination = destinationx&amp; this.destinationReached = FALSE&amp; this.name.equals(namex) = TRUE">
+                  <modifiables>this.destination</modifiables>
+                  <modifiables>this.destinationReached</modifiables>
+                  <modifiables>this.name</modifiables>
+                  <modifiables>this.origin</modifiables>
+                  <modifiables>this.weight</modifiables>
+                  <modifiables>tmpFloor</modifiables>
+                </postCondition>
+                <preCondition name="this.weight = weightx&amp; this.origin = originx&amp; this.destination = destinationx&amp; this.destinationReached = FALSE&amp; this.name.equals(namex) = TRUE">
+                  <modifiables>this.destination</modifiables>
+                  <modifiables>this.destinationReached</modifiables>
+                  <modifiables>this.name</modifiables>
+                  <modifiables>this.origin</modifiables>
+                  <modifiables>this.weight</modifiables>
+                  <modifiables>tmpFloor</modifiables>
+                </preCondition>
+              </refinement>
+              <postCondition name="this.weight = weightx&amp; this.origin = originx&amp; this.destination = destinationx&amp; this.destinationReached = FALSE&amp; this.name.equals(namex) = TRUE">
+                <modifiables>this.destination</modifiables>
+                <modifiables>this.destinationReached</modifiables>
+                <modifiables>this.name</modifiables>
+                <modifiables>this.origin</modifiables>
+                <modifiables>this.weight</modifiables>
+                <modifiables>tmpFloor</modifiables>
+              </postCondition>
+              <preCondition name="this.weight = weightx&amp; this.origin = originx&amp; this.destination = destinationx&amp; this.destinationReached = FALSE&amp; this.name.equals(namex) = TRUE">
+                <modifiables>this.destination</modifiables>
+                <modifiables>this.destinationReached</modifiables>
+                <modifiables>this.name</modifiables>
+                <modifiables>this.origin</modifiables>
+                <modifiables>this.weight</modifiables>
+                <modifiables>tmpFloor</modifiables>
+              </preCondition>
+            </secondStatement>
+            <intermediateCondition name="this.weight = weightx&amp; this.origin = originx&amp; this.destination = destinationx&amp; this.destinationReached = FALSE&amp; this.name.equals(namex) = TRUE">
+              <modifiables>this.destination</modifiables>
+              <modifiables>this.destinationReached</modifiables>
+              <modifiables>this.name</modifiables>
+              <modifiables>this.origin</modifiables>
+              <modifiables>this.weight</modifiables>
+              <modifiables>tmpFloor</modifiables>
+            </intermediateCondition>
+          </refinement>
+          <postCondition name="this.weight = weightx&amp; this.origin = originx&amp; this.destination = destinationx&amp; this.destinationReached = FALSE&amp; this.name.equals(namex) = TRUE">
+            <modifiables>this.destination</modifiables>
+            <modifiables>this.destinationReached</modifiables>
+            <modifiables>this.name</modifiables>
+            <modifiables>this.origin</modifiables>
+            <modifiables>this.weight</modifiables>
+            <modifiables>tmpFloor</modifiables>
+          </postCondition>
+          <preCondition name="tmpFloor != null&#xD;&#xA;&amp; namex != null&#xD;&#xA;&amp; destinationx >= 0&#xD;&#xA;&amp; envx != null&#xD;&#xA;&amp; weightx >= 0&#xD;&#xA;&amp; originx >= 0&#xD;&#xA;&amp; originx &lt; envx.floors.length&#xD;&#xA;&amp; tmpFloor.&lt;created> = TRUE &#xD;&#xA;&amp; tmpFloor.waiting != null&#xD;&#xA;&amp; tmpFloor.waiting.elements != null">
+            <modifiables>tmpFloor</modifiables>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="tmpFloor != null&#xD;&#xA;&amp; namex != null&#xD;&#xA;&amp; destinationx >= 0&#xD;&#xA;&amp; envx != null&#xD;&#xA;&amp; weightx >= 0&#xD;&#xA;&amp; originx >= 0&#xD;&#xA;&amp; originx &lt; envx.floors.length&#xD;&#xA;&amp; tmpFloor.&lt;created> = TRUE &#xD;&#xA;&amp; tmpFloor.waiting != null&#xD;&#xA;&amp; tmpFloor.waiting.elements != null">
+          <modifiables>tmpFloor</modifiables>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="this.weight = weightx&amp; this.origin = originx&amp; this.destination = destinationx&amp; this.destinationReached = FALSE&amp; this.name.equals(namex) = TRUE">
+        <modifiables>this.destination</modifiables>
+        <modifiables>this.destinationReached</modifiables>
+        <modifiables>this.name</modifiables>
+        <modifiables>this.origin</modifiables>
+        <modifiables>this.weight</modifiables>
+        <modifiables>tmpFloor</modifiables>
+      </postCondition>
+      <preCondition name="namex != null&amp; envx.floors != null&amp; destinationx >= 0&amp; envx != null&amp; weightx >= 0&amp; originx >= 0&amp; originx &lt; envx.floors.length&amp; envx.floors[originx] != null&amp; envx.floors[originx].waiting != null &amp; envx.floors[originx].waiting.elements != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Person.cbcclass#//@methods.2"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="Floor tmpFloor"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="Environment envx non-null"/>
+    <conditions name="String namex non-null"/>
+    <conditions name="envx.&lt;inv>"/>
+    <conditions name="tmpFloor.&lt;inv>"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

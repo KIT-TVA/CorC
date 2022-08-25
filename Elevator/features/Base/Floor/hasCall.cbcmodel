@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="hasCall" proven="true" comment="" className="Floor" methodName="hasCall">
+    <statement name="statement" id="f396eb60-0481-46a3-a6d0-28fc7a226bc7">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.elevatorCall;" proven="true" comment="returnStatement" id="c09eb575-d1e4-4d2c-a6ee-a12f5a13bc6d">
+        <postCondition name="(this.elevatorCall = TRUE -> \result = TRUE)&#xD;&#xA;&amp; (this.elevatorCall = FALSE -> \result = FALSE)">
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="true &amp; this.elevatorCall != null"/>
+      </refinement>
+      <postCondition name="(this.elevatorCall = TRUE -> \result = TRUE)&#xD;&#xA;&amp; (this.elevatorCall = FALSE -> \result = FALSE)">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="true &amp; this.elevatorCall != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Floor.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

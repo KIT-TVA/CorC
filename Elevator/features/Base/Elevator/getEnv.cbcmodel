@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="getEnv" proven="true" comment="" className="Elevator" methodName="getEnv">
+    <statement name="statement" id="2f5b40cc-0966-451b-bb7c-c18a442f01eb">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.env;" proven="true" comment="returnStatement" id="2ff56468-6d4b-443d-9206-5930fa303bc9">
+        <postCondition name="\result = this.env">
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="this.env != null &amp; this.env != null"/>
+      </refinement>
+      <postCondition name="\result = this.env">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="this.env != null &amp; this.env != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.6"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

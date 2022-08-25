@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="getNameWithKeyword" proven="true" comment="" className="Client" methodName="getNameWithKeyword">
+    <statement name="statement" id="bfb40b54-69d4-4bae-b15b-1662d1f3f4f1">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.name;" proven="true" comment="returnStatement" id="959c94c1-beac-4536-b21c-ced6dde18992">
+        <postCondition name="\result = this.name">
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="\result = this.name">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Client.cbcclass#//@methods.3"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

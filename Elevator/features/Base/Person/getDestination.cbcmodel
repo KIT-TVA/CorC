@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="getDestination" proven="true" comment="" className="Person" methodName="getDestination">
+    <statement name="statement" id="39d99fef-679c-468e-9df5-2b41bd193cc3">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.destination;" proven="true" comment="returnStatement" id="fc4a83bc-6840-416e-bb47-7a57d43512c6">
+        <postCondition name="\result = this.destination">
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="\result = this.destination">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Person.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

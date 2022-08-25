@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="getWeight" proven="true" comment="" className="Person" methodName="getWeight">
+    <statement name="statement" id="c516d8b1-c3f8-4e4a-bd13-96bb4bae73d0">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.weight;" proven="true" comment="returnStatement" id="7abb2f5f-954a-4939-80bc-c0d42cd8fac3">
+        <postCondition name="\result = this.weight">
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="\result = this.weight">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Person.cbcclass#//@methods.4"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="leaveElevator" proven="true" comment="" className="Elevator" methodName="leaveElevator">
+    <statement name="statement" id="72ac0cc1-8cd0-4ef1-8a3d-833a3f0f83ca">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="668ae117-2508-4624-8cf4-991f04a51a1f">
+        <firstStatement name="statement1" id="9a9c43c6-c440-43d0-88a6-66ca10bb860f">
+          <refinement name="result = false;&#xD;&#xA;this.old_contains = this.persons.contains(p);" proven="true" id="4a4905d3-8fb4-4b6f-b67d-9312cd699403">
+            <postCondition name="result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)">
+              <modifiables>result</modifiables>
+              <modifiables>this.old_contains</modifiables>
+            </postCondition>
+            <preCondition name="p != null &#xD;&#xA;&amp; this.persons != null &#xD;&#xA;&amp; this.persons.elements != null"/>
+          </refinement>
+          <postCondition name="result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)">
+            <modifiables>result</modifiables>
+            <modifiables>this.old_contains</modifiables>
+          </postCondition>
+          <preCondition name="p != null &#xD;&#xA;&amp; this.persons != null &#xD;&#xA;&amp; this.persons.elements != null"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="23cdcd98-c08b-4159-91fb-fac22bfec46e">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="f3d00992-12da-4587-8324-5a97b533681e">
+            <firstStatement name="statement1" id="e93de97e-8c86-48b9-81f9-3a3fa0573d42">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="15f02b97-72fc-49fb-ab5b-d5f723e1673c" preProve="true">
+                <guards name="this.old_contains = TRUE"/>
+                <guards name="this.old_contains = FALSE"/>
+                <commands name="statement" id="180fd454-c999-4fd7-9132-f7541a4c1bb6">
+                  <refinement name="this.original(p);&#xD;&#xA;this.weight = this.weight -p.getWeight();&#xD;&#xA;result = true;" proven="true" id="6210331f-68d9-43f1-8b63-3cf8a3057688">
+                    <postCondition name="(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE">
+                      <modifiables>result</modifiables>
+                      <modifiables>this.old_contains</modifiables>
+                      <modifiables>this.weight</modifiables>
+                    </postCondition>
+                    <preCondition name="(result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)) &amp; (this.old_contains = TRUE)">
+                      <modifiables>result</modifiables>
+                      <modifiables>this.old_contains</modifiables>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE">
+                    <modifiables>result</modifiables>
+                    <modifiables>this.old_contains</modifiables>
+                    <modifiables>this.weight</modifiables>
+                  </postCondition>
+                  <preCondition name="(result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)) &amp; (this.old_contains = TRUE)">
+                    <modifiables>result</modifiables>
+                    <modifiables>this.old_contains</modifiables>
+                  </preCondition>
+                </commands>
+                <commands name="statement" id="ba447042-03d0-472b-ae38-fb6e59c36567">
+                  <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true" id="f0044f12-c86f-46db-a9f6-ba7ff041de1b">
+                    <postCondition name="(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE">
+                      <modifiables>result</modifiables>
+                      <modifiables>this.old_contains</modifiables>
+                      <modifiables>this.weight</modifiables>
+                    </postCondition>
+                    <preCondition name="(result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)) &amp; (this.old_contains = FALSE)">
+                      <modifiables>result</modifiables>
+                      <modifiables>this.old_contains</modifiables>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE">
+                    <modifiables>result</modifiables>
+                    <modifiables>this.old_contains</modifiables>
+                    <modifiables>this.weight</modifiables>
+                  </postCondition>
+                  <preCondition name="(result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)) &amp; (this.old_contains = FALSE)">
+                    <modifiables>result</modifiables>
+                    <modifiables>this.old_contains</modifiables>
+                  </preCondition>
+                </commands>
+              </refinement>
+              <postCondition name="(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE">
+                <modifiables>result</modifiables>
+                <modifiables>this.old_contains</modifiables>
+                <modifiables>this.weight</modifiables>
+              </postCondition>
+              <preCondition name="result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)">
+                <modifiables>result</modifiables>
+                <modifiables>this.old_contains</modifiables>
+              </preCondition>
+            </firstStatement>
+            <secondStatement name="statement2" id="7bf9188e-bd56-4275-b0d6-8366dba63ef3">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement" id="b3bc5181-8f9e-4090-8b30-d4234331c549">
+                <postCondition name="(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(\result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE">
+                  <modifiables>result</modifiables>
+                  <modifiables>ret</modifiables>
+                  <modifiables>this.old_contains</modifiables>
+                  <modifiables>this.weight</modifiables>
+                </postCondition>
+                <preCondition name="(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE">
+                  <modifiables>result</modifiables>
+                  <modifiables>this.old_contains</modifiables>
+                  <modifiables>this.weight</modifiables>
+                </preCondition>
+              </refinement>
+              <postCondition name="(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(\result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE">
+                <modifiables>result</modifiables>
+                <modifiables>ret</modifiables>
+                <modifiables>this.old_contains</modifiables>
+                <modifiables>this.weight</modifiables>
+              </postCondition>
+              <preCondition name="(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE">
+                <modifiables>result</modifiables>
+                <modifiables>this.old_contains</modifiables>
+                <modifiables>this.weight</modifiables>
+              </preCondition>
+            </secondStatement>
+            <intermediateCondition name="(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE">
+              <modifiables>result</modifiables>
+              <modifiables>this.old_contains</modifiables>
+              <modifiables>this.weight</modifiables>
+            </intermediateCondition>
+          </refinement>
+          <postCondition name="(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(\result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE">
+            <modifiables>result</modifiables>
+            <modifiables>ret</modifiables>
+            <modifiables>this.old_contains</modifiables>
+            <modifiables>this.weight</modifiables>
+          </postCondition>
+          <preCondition name="result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)">
+            <modifiables>result</modifiables>
+            <modifiables>this.old_contains</modifiables>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)">
+          <modifiables>result</modifiables>
+          <modifiables>this.old_contains</modifiables>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="(this.old_contains = TRUE ->&#xD;&#xA;&#x9;(\result = TRUE &amp; p.isDestinationReached() = TRUE&#xD;&#xA;&#x9;&amp; this.persons.contains(p) = FALSE&#xD;&#xA;&#x9;&amp; this.weight = \old(this.weight) - p.getWeight()))&#xD;&#xA;&amp; this.old_contains = FALSE -> \result = FALSE">
+        <modifiables>result</modifiables>
+        <modifiables>ret</modifiables>
+        <modifiables>this.old_contains</modifiables>
+        <modifiables>this.weight</modifiables>
+      </postCondition>
+      <preCondition name="p != null &#xD;&#xA;&amp; this.persons != null &#xD;&#xA;&amp; this.persons.elements != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="boolean result"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="Person p non-null"/>
+    <conditions name="this.persons.elements != null"/>
+    <conditions name="this.weight >= 0"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

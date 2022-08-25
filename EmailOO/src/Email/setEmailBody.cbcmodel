@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="setEmailBody" proven="true" comment="" className="Email" methodName="setEmailBody">
+    <statement name="statement" id="39f6f436-bb51-4ca2-a1cf-759359ce6cbe">
+      <refinement name="this.body = valuex;" proven="true" id="3ee8ab45-8585-4174-8f72-413f30edcf8f">
+        <postCondition name="this.body = valuex">
+          <modifiables>this.body</modifiables>
+        </postCondition>
+        <preCondition name="valuex != null"/>
+      </refinement>
+      <postCondition name="this.body = valuex">
+        <modifiables>this.body</modifiables>
+      </postCondition>
+      <preCondition name="valuex != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Email.cbcclass#//@methods.8"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <fields href="Email.cbcclass#//@fields.0"/>
+    <fields href="Email.cbcclass#//@fields.1"/>
+    <fields href="Email.cbcclass#//@fields.2"/>
+    <fields href="Email.cbcclass#//@fields.3"/>
+    <fields href="Email.cbcclass#//@fields.4"/>
+    <fields href="Email.cbcclass#//@fields.5"/>
+    <fields href="Email.cbcclass#//@fields.6"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

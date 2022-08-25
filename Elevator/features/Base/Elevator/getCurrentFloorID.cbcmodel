@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="getCurrentFloorID" proven="true" comment="" className="Elevator" methodName="getCurrentFloorID">
+    <statement name="statement" id="e2a78ad1-be3c-4b75-8250-b96d50bbcb52">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.currentFloorID;" proven="true" comment="returnStatement" id="250410c7-ebc8-415f-9f38-573dd7f502b1">
+        <postCondition name="\result = this.currentFloorID">
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="this.currentFloorID>= 0"/>
+      </refinement>
+      <postCondition name="\result = this.currentFloorID">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="this.currentFloorID>= 0"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.11"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

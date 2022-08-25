@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="continueInDirection" className="Elevator" methodName="continueInDirection">
+    <statement name="statement" id="683a2ea5-9fe0-4039-936d-d1818e0ffdf2">
+      <refinement xsi:type="cbcmodel:SkipStatement" name=";" id="bf7292f2-f3e0-496a-b6f7-0cd1bb73e49c">
+        <postCondition name="((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = true) -> this.currentHeading = this.reverse()) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = this.reverse())&amp; ((this.currentHeading = 1 ) -> this.currentFloorID = this.currentFloorID + 1)&amp; ((this.currentHeading != 1 ) -> this.currentFloorID = this.currentFloorID - 1)"/>
+        <preCondition name="dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null"/>
+      </refinement>
+      <postCondition name="((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = true) -> this.currentHeading = this.reverse()) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = this.reverse())&amp; ((this.currentHeading = 1 ) -> this.currentFloorID = this.currentFloorID + 1)&amp; ((this.currentHeading != 1 ) -> this.currentFloorID = this.currentFloorID - 1)"/>
+      <preCondition name="dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.13"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

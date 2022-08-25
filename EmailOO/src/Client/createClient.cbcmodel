@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="createClient" proven="true" comment="" className="Client" methodName="createClient">
+    <statement name="statement" id="448cd42c-56d8-4eb4-9fbb-d3e33d395bb7">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="4d0ba7c1-1f4f-408a-b774-363876d4ded2">
+        <firstStatement name="statement1" id="6624451a-746b-44af-9794-c1b33d025384">
+          <refinement name="result = new Client();&#xD;&#xA;result.constructClient(Client.clientCounter++, name);&#xD;&#xA;Client.clients[result.getId()] = result;" proven="true" id="1bbc70b7-978f-4fb6-97dc-4d09d8336f7a">
+            <postCondition name="result != null &#xD;&#xA;&amp; Client::exactInstance(result) = TRUE &#xD;&#xA;&amp; result.&lt;created> = TRUE &#xD;&#xA;&amp; result.getId() =  \old(Client.clientCounter)&#xD;&#xA;&amp; result.getName() = name &#xD;&#xA;&amp; Client.clientCounter =  \old(Client.clientCounter) + 1 &#xD;&#xA;&amp; Client.clients[result.getId()] = result">
+              <modifiables>Client.clients[result.getId()]</modifiables>
+              <modifiables>result</modifiables>
+              <modifiables>result.this.id</modifiables>
+              <modifiables>result.this.name</modifiables>
+            </postCondition>
+            <preCondition name="name != null &amp; name.&lt;created> = TRUE &amp; Client.clients != null&amp; Client.clientCounter &lt; Client.clients.length&amp; Client.clientCounter >= 0"/>
+          </refinement>
+          <postCondition name="result != null &#xD;&#xA;&amp; Client::exactInstance(result) = TRUE &#xD;&#xA;&amp; result.&lt;created> = TRUE &#xD;&#xA;&amp; result.getId() =  \old(Client.clientCounter)&#xD;&#xA;&amp; result.getName() = name &#xD;&#xA;&amp; Client.clientCounter =  \old(Client.clientCounter) + 1 &#xD;&#xA;&amp; Client.clients[result.getId()] = result">
+            <modifiables>Client.clients[result.getId()]</modifiables>
+            <modifiables>result</modifiables>
+            <modifiables>result.this.id</modifiables>
+            <modifiables>result.this.name</modifiables>
+          </postCondition>
+          <preCondition name="name != null &amp; name.&lt;created> = TRUE &amp; Client.clients != null&amp; Client.clientCounter &lt; Client.clients.length&amp; Client.clientCounter >= 0"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="cd525994-66a7-46c4-ba6c-346bfb30989f">
+          <refinement xsi:type="cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement" id="6796ab90-679f-452e-a601-b3e47320a950">
+            <postCondition name="\result != null &amp; \result.&lt;created> = TRUE &amp; \result.getId() = \old(Client.clientCounter) &amp; \result.getName() = name &amp; Client.clientCounter = \old(Client.clientCounter) + 1 &amp; Client.clients[\result.getId()] = \result">
+              <modifiables>Client.clients[result.getId()]</modifiables>
+              <modifiables>result</modifiables>
+              <modifiables>result.this.id</modifiables>
+              <modifiables>result.this.name</modifiables>
+              <modifiables>ret</modifiables>
+            </postCondition>
+            <preCondition name="result != null &#xD;&#xA;&amp; Client::exactInstance(result) = TRUE &#xD;&#xA;&amp; result.&lt;created> = TRUE &#xD;&#xA;&amp; result.getId() =  \old(Client.clientCounter)&#xD;&#xA;&amp; result.getName() = name &#xD;&#xA;&amp; Client.clientCounter =  \old(Client.clientCounter) + 1 &#xD;&#xA;&amp; Client.clients[result.getId()] = result">
+              <modifiables>Client.clients[result.getId()]</modifiables>
+              <modifiables>result</modifiables>
+              <modifiables>result.this.id</modifiables>
+              <modifiables>result.this.name</modifiables>
+            </preCondition>
+          </refinement>
+          <postCondition name="\result != null &amp; \result.&lt;created> = TRUE &amp; \result.getId() = \old(Client.clientCounter) &amp; \result.getName() = name &amp; Client.clientCounter = \old(Client.clientCounter) + 1 &amp; Client.clients[\result.getId()] = \result">
+            <modifiables>Client.clients[result.getId()]</modifiables>
+            <modifiables>result</modifiables>
+            <modifiables>result.this.id</modifiables>
+            <modifiables>result.this.name</modifiables>
+            <modifiables>ret</modifiables>
+          </postCondition>
+          <preCondition name="result != null &#xD;&#xA;&amp; Client::exactInstance(result) = TRUE &#xD;&#xA;&amp; result.&lt;created> = TRUE &#xD;&#xA;&amp; result.getId() =  \old(Client.clientCounter)&#xD;&#xA;&amp; result.getName() = name &#xD;&#xA;&amp; Client.clientCounter =  \old(Client.clientCounter) + 1 &#xD;&#xA;&amp; Client.clients[result.getId()] = result">
+            <modifiables>Client.clients[result.getId()]</modifiables>
+            <modifiables>result</modifiables>
+            <modifiables>result.this.id</modifiables>
+            <modifiables>result.this.name</modifiables>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="result != null &#xD;&#xA;&amp; Client::exactInstance(result) = TRUE &#xD;&#xA;&amp; result.&lt;created> = TRUE &#xD;&#xA;&amp; result.getId() =  \old(Client.clientCounter)&#xD;&#xA;&amp; result.getName() = name &#xD;&#xA;&amp; Client.clientCounter =  \old(Client.clientCounter) + 1 &#xD;&#xA;&amp; Client.clients[result.getId()] = result">
+          <modifiables>Client.clients[result.getId()]</modifiables>
+          <modifiables>result</modifiables>
+          <modifiables>result.this.id</modifiables>
+          <modifiables>result.this.name</modifiables>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="\result != null &amp; \result.&lt;created> = TRUE &amp; \result.getId() = \old(Client.clientCounter) &amp; \result.getName() = name &amp; Client.clientCounter = \old(Client.clientCounter) + 1 &amp; Client.clients[\result.getId()] = \result">
+        <modifiables>Client.clients[result.getId()]</modifiables>
+        <modifiables>result</modifiables>
+        <modifiables>result.this.id</modifiables>
+        <modifiables>result.this.name</modifiables>
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="name != null &amp; name.&lt;created> = TRUE &amp; Client.clients != null&amp; Client.clientCounter &lt; Client.clients.length&amp; Client.clientCounter >= 0"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Client.cbcclass#//@methods.7"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="Client result"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>
