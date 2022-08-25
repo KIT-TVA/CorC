@@ -52,7 +52,9 @@ public class SelectionPattern extends IdPattern implements IPattern {
 	private static final String ID_MAIN_RECTANGLE = "mainRectangle";
 	private static final String ID_NAME_TEXT = "nameText";
 	private static final String ID_PRE_TEXT = "preText";
+	private static final String ID_PRE_MOD = "preConditionModifiables";
 	private static final String ID_POST_TEXT = "postText";
+	private static final String ID_POST_MOD = "postConditionModifiables";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
 	// HEADERS:
 	private static final String ID_GUARD_HEADER = "guardHeader";
@@ -68,6 +70,8 @@ public class SelectionPattern extends IdPattern implements IPattern {
 	private static final String ID_HOR6_LINE = "hor6Line";
 	private static final String ID_HOR7_LINE = "hor7Line";
 	private static final String ID_HOR8_LINE = "hor8Line";
+	private static final String ID_HOR9_LINE = "hor9Line";
+	private static final String ID_HOR10_LINE = "hor10Line";
 	private static final String ID_VER1_LINE = "ver1Line"; // in guards
 	private static final String ID_VER2_LINE = "ver2Line"; // in pre conds
 	private static final String ID_VER3_LINE = "ver3Line"; // in statements
@@ -133,9 +137,9 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		IGaService gaService = Graphiti.getGaService();
 
-		int width = context.getWidth() <= 0 ? 200 : context.getWidth();
-		int height = context.getHeight() <= 0 ? 300 : context.getHeight();
-		// font:
+		int width = context.getWidth() <= 0 ? 300 : context.getWidth();
+		int height = context.getHeight() <= 0 ? 500 : context.getHeight();
+		// Font:
 		Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
 
 		// Main contents area
@@ -156,6 +160,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		setId(nameText, ID_NAME_TEXT);
 		nameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		nameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		nameText.setFont(headerFont);
 
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
@@ -224,6 +229,14 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		Shape hor8Shape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor8line = gaService.createPolyline(hor8Shape);
 		setId(hor8line, ID_HOR8_LINE);
+		
+		Shape hor9Shape = peCreateService.createShape(outerContainerShape, false);
+		Polyline hor9line = gaService.createPolyline(hor9Shape);
+		setId(hor9line, ID_HOR9_LINE);
+		
+		Shape hor10Shape = peCreateService.createShape(outerContainerShape, false);
+		Polyline hor10line = gaService.createPolyline(hor10Shape);
+		setId(hor10line, ID_HOR10_LINE);
 
 		peCreateService.createChopboxAnchor(outerContainerShape);
 
@@ -250,6 +263,9 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		int positionLine2 = mainRectangle.getHeight() - (mainRectangle.getHeight() - sizeName) / 4 * 3 + 20; // pre
 		int positionLine3 = mainRectangle.getHeight() - (mainRectangle.getHeight() - sizeName) / 4 * 2 + 20; // statement
 		int positionLine4 = mainRectangle.getHeight() - (mainRectangle.getHeight() - sizeName) / 4 * 1 + 20; // post
+		int positionLine5 = mainRectangle.getHeight() - (mainRectangle.getHeight() - sizeName) / 4 * 0 + 20; // virtual line
+		int positionPreModLine = (positionLine3-positionLine2-20)/3 + positionLine2; // modifiables pre
+		int positionPostModLine = (positionLine5-positionLine4-20)/3 + positionLine4; // modifiables post
 		if (statement.getCommands().size() > 1) {
 			width = width / statement.getCommands().size();
 		}
@@ -267,14 +283,20 @@ public class SelectionPattern extends IdPattern implements IPattern {
 			changesDone = true;
 		} else if (id.equals(ID_PRE_TEXT)) {
 			int index = getIndex(context.getGraphicsAlgorithm());
-			Graphiti.getGaService().setLocationAndSize(ga, width * index, positionLine2, width, sizeBlock);
+			Graphiti.getGaService().setLocationAndSize(ga, width * index, positionPreModLine, width, (sizeBlock/3)*2);
+			changesDone = true;
+		} else if (id.equals(ID_PRE_MOD)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 0, positionLine2, mainRectangle.getWidth(), sizeBlock/3);
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
 			changesDone = true;
 			// Header:
 		} else if (id.equals(ID_POST_TEXT) && getIndex(context.getGraphicsAlgorithm()) == 0) {
-			Graphiti.getGaService().setLocationAndSize(ga, 0, positionLine4, mainRectangle.getWidth(), sizeBlock);
+			Graphiti.getGaService().setLocationAndSize(ga, 0, positionPostModLine, mainRectangle.getWidth(), (sizeBlock/3)*2);
+			changesDone = true;
+		} else if (id.equals(ID_POST_MOD)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 0, positionLine4, mainRectangle.getWidth(), sizeBlock/3);
 			changesDone = true;
 		} else if (id.equals(ID_GUARD_HEADER)) {
 			Graphiti.getGaService().setLocationAndSize(ga, 0, positionLine1 - sizeHeader, mainRectangle.getWidth(),
@@ -349,6 +371,20 @@ public class SelectionPattern extends IdPattern implements IPattern {
 					.createPointList(new int[] { 0, positionLine4, mainRectangle.getWidth(), positionLine4 });
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
+		} else if (id.equals(ID_HOR9_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService()
+					.createPointList(new int[] { 0, positionPreModLine, mainRectangle.getWidth(), positionPreModLine });
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
+		} else if (id.equals(ID_HOR10_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService()
+					.createPointList(new int[] { 0, positionPostModLine, mainRectangle.getWidth(), positionPostModLine });
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
 		} else if (id.equals(ID_VER1_LINE)) {
 			int index = getIndex(context.getGraphicsAlgorithm());
 			if (index > 0) {
@@ -368,7 +404,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				Polyline polyline = (Polyline) ga;
 				polyline.getPoints().clear();
 				List<Point> pointList = Graphiti.getGaService().createPointList(
-						new int[] { width * index, positionLine2, width * index, positionLine3 - sizeHeader });
+						new int[] { width * index, positionPreModLine, width * index, positionLine3 - sizeHeader });
 				polyline.getPoints().addAll(pointList);
 			} else {
 				Polyline polyline = (Polyline) ga;
@@ -398,7 +434,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		if (id.equals(ID_MAIN_RECTANGLE)) {
 			ContainerShape containerShape = (ContainerShape) context.getPictogramElement();
 			SelectionStatement statement = (SelectionStatement) context.getDomainObject();
-			if (containerShape.getChildren().size() - 14 != statement.getCommands().size() * 7) {
+			if (containerShape.getChildren().size() - 16 != statement.getCommands().size() * 9) {
 				return Reason.createTrueReason("Number of Commands and Guards differ. Expected: "
 						+ statement.getCommands().size() + " " + containerShape.getChildren().size());
 			}
@@ -433,15 +469,11 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		if (id.equals(ID_MAIN_RECTANGLE)) {
 			ContainerShape containerShape = (ContainerShape) context.getPictogramElement();
 			SelectionStatement statement = (SelectionStatement) context.getDomainObject();
-			// 7 = number of graphics elements in update (vertical lines + blocks)
-			// 13 = number of graphics in doAdd (horizontal lines + header + name)
-			while (containerShape.getChildren().size() - 14 != statement.getCommands().size() * 7) {
-				// if (containerShape.getChildren().size() - 1 != statement.getCommands().size()
-				// * 4) {
-				EList<AbstractStatement> childStatements = ((SelectionStatement) context.getDomainObject())
-						.getCommands();
-				int newIndex = (containerShape.getChildren().size() - 14) / 7;
-				// int newIndex = childStatements.size() - 1;
+			// 9 = number of graphics elements in update (vertical lines + blocks)
+			// 16 = number of graphics in doAdd (horizontal lines + header + name)
+			while (containerShape.getChildren().size() - 16 != statement.getCommands().size() * 9) {
+				EList<AbstractStatement> childStatements = ((SelectionStatement) context.getDomainObject()).getCommands();
+				int newIndex = (containerShape.getChildren().size() - 16) / 9;
 				AbstractStatement childStatement = childStatements.get(newIndex);
 				Shape shapeText = Graphiti.getPeCreateService()
 						.createShape((ContainerShape) context.getPictogramElement(), true);
@@ -464,6 +496,19 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				preNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 				preNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 				link(shapeTextPre, childStatement.getPreCondition());
+				
+				Shape textShapePreConditionMod = Graphiti.getPeCreateService()
+						.createShape((ContainerShape) context.getPictogramElement(), true);
+				MultiText preConditionTextMod = Graphiti.getGaService().createMultiText(textShapePreConditionMod, "");
+				setId(preConditionTextMod, ID_PRE_MOD);
+				String modString = "";
+				for (String s : childStatement.getPreCondition().getModifiables()) {
+					modString += s + ", ";
+				}
+				preConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+				preConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+				preConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+				link(textShapePreConditionMod, childStatement.getPreCondition());
 
 				Shape shapeTextPost = Graphiti.getPeCreateService()
 						.createShape((ContainerShape) context.getPictogramElement(), false);
@@ -474,6 +519,19 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				postNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 				postNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 				link(shapeTextPost, childStatement.getPostCondition());
+				
+				Shape textShapePostConditionMod = Graphiti.getPeCreateService()
+						.createShape((ContainerShape) context.getPictogramElement(), true);
+				MultiText postConditionTextMod = Graphiti.getGaService().createMultiText(textShapePostConditionMod, "");
+				setId(postConditionTextMod, ID_POST_MOD);
+				modString = "";
+				for (String s : childStatement.getPostCondition().getModifiables()) {
+					modString += s + ", ";
+				}
+				postConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+				postConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+				postConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+				link(textShapePostConditionMod, childStatement.getPostCondition());
 
 				// vertical lines, that need to be added, when ExtraSelection is used:
 				Shape ver1Shape = peCreateService.createShape((ContainerShape) context.getPictogramElement(), false);

@@ -209,7 +209,7 @@ public class ConstructCodeBlock {
 		handleInnerLoops = true;
 		withInvariants = true;
 		
-		String modifiableVariables = Parser.getModifieableVarsFromConditionExceptLocals(formula.getStatement().getPostCondition().getName(), vars, null, returnVar);
+		String modifiableVariables = Parser.getModifieableVarsFromConditionExceptLocals(formula.getStatement().getPostCondition(), vars, null, returnVar);
 		modifiableVariables = modifiableVariables.replaceAll("\\)", "").replaceAll("\\(", "");
 		String postCondition = Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName());
 
@@ -314,7 +314,7 @@ public class ConstructCodeBlock {
 		withInvariants = false;
 
 		String modifiableVariables = Parser
-				.getModifieableVarsFromCondition(formula.getStatement().getPostCondition().getName());
+				.getModifieableVarsFromCondition(formula.getStatement().getPostCondition());
 		String postCondition = Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName());
 
 		String pre = createConditionJMLString(formula.getStatement().getPreCondition().getName(), renaming,
@@ -390,7 +390,7 @@ public class ConstructCodeBlock {
 		withInvariants = false;
 		
 		String modifiableVariables = Parser
-				.getModifieableVarsFromCondition(formula.getStatement().getPostCondition().getName());
+				.getModifieableVarsFromCondition(formula.getStatement().getPostCondition());
 		if (vars != null) {
 			for (JavaVariable actVar: vars.getVariables()) {
 				if (actVar.getKind().getName() != "PARAM") {

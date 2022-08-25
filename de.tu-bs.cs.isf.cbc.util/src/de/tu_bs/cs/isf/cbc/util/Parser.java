@@ -1,7 +1,6 @@
 package de.tu_bs.cs.isf.cbc.util;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -352,7 +351,7 @@ public class Parser {
 		}
 		return unmodifiedVariables;
 	}
-
+	
 	public static List<String> getModifiedVarsFromCondition(String condition) {
 		String variables = null;
 		List<String> modifiedVars = Lists.newArrayList();
@@ -370,20 +369,16 @@ public class Parser {
 		return modifiedVars;
 	}
 
-	public static String getModifieableVarsFromCondition(String condition) {//modifiable in assignable+++++++++++++++++++++++++++++++++++++++++++++++++++
-//		String variables = "\\\\everything;";
+	public static String getModifieableVarsFromCondition(Condition condition) {
 		String variables = "\\nothing";
-		if (condition.contains("modifiable(") && condition.split(";").length > 1) {
-			if(!condition.contains("modifiable(*)") && !condition.contains("nothing") ) {
-				variables = condition.split(";")[0];
-				if (variables != null) {
-					variables = variables.substring(variables.indexOf("(") + 1, variables.indexOf(")"));
-					variables = variables.replace(" ", "");
-					variables = variables.replace(System.getProperty("line.separator"), "");
-				}
-			} else
-				variables = "\\everything";
+		if (!condition.getModifiables().isEmpty()) {
+			variables = "";
+			for (String mod : condition.getModifiables()) {
+				variables += mod + ",";
+			}
+			variables = variables.substring(0, variables.length()-1);
 		}
+		
 		// remove return variable, as it must not be in assignables in java class
 		if (variables.endsWith(",ret") || variables.contains(",ret,")) variables = variables.replace(",ret", "");
 		if (variables.equals("ret")) variables = "\\nothing";
@@ -484,7 +479,7 @@ public class Parser {
 		return methodName;
 	}
 
-	public static String getModifieableVarsFromConditionExceptLocals(String condition, LinkedList<String> varsLinkedList, JavaVariables vars,
+	public static String getModifieableVarsFromConditionExceptLocals(Condition condition, LinkedList<String> varsLinkedList, JavaVariables vars,
 			JavaVariable returnVar) {
 		String variables = getModifieableVarsFromCondition(condition);
 		if(variables.contains("nothing") || variables.contains("everything")) {

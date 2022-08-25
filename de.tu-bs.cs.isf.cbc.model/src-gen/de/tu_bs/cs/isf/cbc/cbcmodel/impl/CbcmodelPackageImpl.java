@@ -388,6 +388,16 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * @generated
 	 */
 	@Override
+	public EAttribute getCondition_Modifiables() {
+		return (EAttribute)conditionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getAbstractStatement() {
 		return abstractStatementEClass;
 	}
@@ -985,6 +995,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 
 		conditionEClass = createEClass(CONDITION);
 		createEAttribute(conditionEClass, CONDITION__NAME);
+		createEAttribute(conditionEClass, CONDITION__MODIFIABLES);
 
 		abstractStatementEClass = createEClass(ABSTRACT_STATEMENT);
 		createEAttribute(abstractStatementEClass, ABSTRACT_STATEMENT__NAME);
@@ -1116,6 +1127,7 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 
 		initEClass(conditionEClass, Condition.class, "Condition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCondition_Name(), ecorePackage.getEString(), "name", null, 0, 1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCondition_Modifiables(), ecorePackage.getEString(), "modifiables", null, 0, -1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(abstractStatementEClass, AbstractStatement.class, "AbstractStatement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAbstractStatement_Name(), ecorePackage.getEString(), "name", null, 0, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -266,8 +266,8 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		String postFormula = Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName());
 		String pre = Parser.getConditionFromCondition(statement.getPreCondition().getName());
 		String post = Parser.getConditionFromCondition(statement.getPostCondition().getName());
-		List<String> modifiables = Parser.getModifiedVarsFromCondition(statement.getPostCondition().getName());
-
+		List<String> modifiables = statement.getPostCondition().getModifiables();
+		
 		String preInherited = applyLiskovInheritance(pre, preFormula, "pre");
 		String postInherited = applyLiskovInheritance(post, postFormula, "post");
 		String preInvariant = "";
@@ -347,7 +347,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 			for (int i = 0; i < refinements.size(); i++) {
 				if (!includeFormulaModifiable) {
 					compTechnique = refinements.get(i).getCompositionTechnique();
-					String modifiableOriginal = Parser.getModifieableVarsFromConditionExceptLocals(refinements.get(i).getStatement().getPostCondition().getName().replace("\n", "").replace("\r", ""), null, refinementsVars.get(i), null);
+					String modifiableOriginal = Parser.getModifieableVarsFromConditionExceptLocals(refinements.get(i).getStatement().getPostCondition(), null, refinementsVars.get(i), null);
 					List<String> modifiableList = new ArrayList<String>();
 					if (!modifiableOriginal.equals("")) {
 						modifiableList = Parser.getModifiedVarsFromCondition("modifiable(" + modifiableOriginal + ");");
@@ -355,7 +355,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 					modifiables = applyCompositionTechniqueOnModifiables(modifiableList, modifiableOriginal, compTechnique);
 					includeFormulaModifiable = true;
 				} else {
-					String modifiableOriginal = Parser.getModifieableVarsFromConditionExceptLocals(refinements.get(i).getStatement().getPostCondition().getName().replace("\n", "").replace("\r", ""), null, refinementsVars.get(i), null);
+					String modifiableOriginal = Parser.getModifieableVarsFromConditionExceptLocals(refinements.get(i).getStatement().getPostCondition(), null, refinementsVars.get(i), null);
 					modifiables = applyCompositionTechniqueOnModifiables(modifiables, modifiableOriginal, compTechnique);
 				}
 				if (compTechnique == CompositionTechnique.CONTRACT_OVERRIDING || (compTechnique == CompositionTechnique.EXPLICIT_CONTRACTING && !modifiables.contains(REGEX_ORIGINAL))) {

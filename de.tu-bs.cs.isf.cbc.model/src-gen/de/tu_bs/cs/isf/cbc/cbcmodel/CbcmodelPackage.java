@@ -196,13 +196,22 @@ public interface CbcmodelPackage extends EPackage {
 	int CONDITION__NAME = 0;
 
 	/**
+	 * The feature id for the '<em><b>Modifiables</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITION__MODIFIABLES = 1;
+
+	/**
 	 * The number of structural features of the '<em>Condition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITION_FEATURE_COUNT = 1;
+	int CONDITION_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Condition</em>' class.
@@ -1814,6 +1823,17 @@ public interface CbcmodelPackage extends EPackage {
 	EAttribute getCondition_Name();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Condition#getModifiables <em>Modifiables</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Modifiables</em>'.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Condition#getModifiables()
+	 * @see #getCondition()
+	 * @generated
+	 */
+	EAttribute getCondition_Modifiables();
+
+	/**
 	 * Returns the meta object for class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement <em>Abstract Statement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2540,6 +2560,14 @@ public interface CbcmodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CONDITION__NAME = eINSTANCE.getCondition_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Modifiables</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONDITION__MODIFIABLES = eINSTANCE.getCondition_Modifiables();
 
 		/**
 		 * The meta object literal for the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl <em>Abstract Statement</em>}' class.
