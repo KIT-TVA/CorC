@@ -50,6 +50,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 	
 	private IFileUtil fileHandler;
 	private String[] config;
+	public String predicatesPath = "";
 	
 	public GenerateCodeForVariationalVerification(IFeatureProvider fp) {
 		super(fp);
@@ -228,6 +229,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 				renaming = (Renaming) obj;
 			} else if (obj instanceof CbCFormula) {
 				formula = (CbCFormula) obj;
+				predicatesPath = formula.eResource().getURI().toString();
 			} else if (obj instanceof GlobalConditions) {
 				globalConditions = (GlobalConditions) obj;
 			}
@@ -281,28 +283,57 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 					List<String> method = new ArrayList<String>();
 					method.add(line);
 					method.add(lines.get(++i));
-					if (lines.get(++i).contains("original ") && lines.get(i).contains("@ requires")) {
+					
+					int depth = 0;
+					if ((lines.get(++i).contains("original ") || lines.get(i).contains("original;") || lines.get(i).contains("\\original_pre") || lines.get(i).contains("\\original_post")) && lines.get(i).contains("@ requires")) {
 						String temp = lines.get(i);
 						String[] splittedSignatureLine = lines.get(i + 4).split("\\(")[0].split(" ");
-						String methodName = splittedSignatureLine[splittedSignatureLine.length];
-						for (int j = 0; j < lines.size(); j++) {
-							if (lines.get(j).contains(" original_" + methodName) && lines.get(j).contains("\\{")) {
-								String newCondition = lines.get(j - 4).replace("\t", "").replace("@ requires ", "").trim().replace("\n", "");
-								temp = temp.replace("original", newCondition.substring(0, newCondition.length() - 1));
+						String methodName = splittedSignatureLine[splittedSignatureLine.length - 1];
+						while (temp.contains("original ") || temp.contains("original;")  || temp.contains("\\original_pre") || temp.contains("\\original_post")) {
+							depth++;
+							for (int j = 0; j < lines.size(); j++) {
+								String originalMethod = methodName;
+								for (int k = 0; k < depth; k++) originalMethod = "original_" + originalMethod; 
+								if (lines.get(j).contains(" " + originalMethod) && lines.get(j).contains("{")) {
+									if (temp.contains("\\original_pre")) {
+										String newCondition = lines.get(j - 4).replace("\t", "").replace("@ requires ", "").trim().replace("\n", "");
+										temp = temp.replace("\\original_pre", newCondition.substring(0, newCondition.length() - 1));
+									} else if (temp.contains("\\original_post")){
+										String newCondition = lines.get(j - 3).replace("\t", "").replace("@ ensures ", "").trim().replace("\n", "");
+										temp = temp.replace("\\original_post", newCondition.substring(0, newCondition.length() - 1));
+									} else {
+										String newCondition = lines.get(j - 4).replace("\t", "").replace("@ requires ", "").trim().replace("\n", "");
+										temp = temp.replace("original", newCondition.substring(0, newCondition.length() - 1));
+									}
+								}
 							}
 						}
 						method.add(temp);
 					} else {
 						method.add(lines.get(i));
 					}
-					if (lines.get(++i).contains("original ") && lines.get(i).contains("@ ensures")) {
+					depth = 0;
+					if ((lines.get(++i).contains("original ") || lines.get(i).contains("original;") || lines.get(i).contains("\\original_pre") || lines.get(i).contains("\\original_post")) && lines.get(i).contains("@ ensures")) {
 						String temp = lines.get(i);
 						String[] splittedSignatureLine = lines.get(i + 3).split("\\(")[0].split(" ");
 						String methodName = splittedSignatureLine[splittedSignatureLine.length - 1];
-						for (int j = 0; j < lines.size(); j++) {
-							if (lines.get(j).contains(" original_" + methodName) && lines.get(j).contains("{")) {
-								String newCondition = lines.get(j - 3).replace("\t", "").replace("@ ensures ", "").trim().replace("\n", "");
-								temp = temp.replace("original", newCondition.substring(0, newCondition.length() - 1));
+						while (temp.contains("original ") || temp.contains("original;") || temp.contains("\\original_pre") || temp.contains("\\original_post")) {
+							depth++;
+							for (int j = 0; j < lines.size(); j++) {
+								String originalMethod = methodName;
+								for (int k = 0; k < depth; k++) originalMethod = "original_" + originalMethod; 
+								if (lines.get(j).contains(" " + originalMethod) && lines.get(j).contains("{")) {
+									if (temp.contains("\\original_pre")) {
+										String newCondition = lines.get(j - 4).replace("\t", "").replace("@ requires ", "").trim().replace("\n", "");
+										temp = temp.replace("\\original_pre", newCondition.substring(0, newCondition.length() - 1));
+									} else if (temp.contains("\\original_post")){
+										String newCondition = lines.get(j - 3).replace("\t", "").replace("@ ensures ", "").trim().replace("\n", "");
+										temp = temp.replace("\\original_post", newCondition.substring(0, newCondition.length() - 1));
+									} else {
+										String newCondition = lines.get(j - 4).replace("\t", "").replace("@ requires ", "").trim().replace("\n", "");
+										temp = temp.replace("original", newCondition.substring(0, newCondition.length() - 1));
+									}
+								}
 							}
 						}
 						method.add(temp);

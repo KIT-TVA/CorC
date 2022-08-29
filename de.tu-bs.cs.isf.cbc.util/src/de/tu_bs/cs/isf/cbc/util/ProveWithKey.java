@@ -44,6 +44,8 @@ import de.uka.ilkd.key.proof.Proof;
 
 public class ProveWithKey {
 	public static final String REGEX_ORIGINAL = "original";
+	public static final String REGEX_ORIGINAL_PRE = "\\\\original_pre";
+	public static final String REGEX_ORIGINAL_POST = "\\\\original_post";
 	public static final String REGEX_RESULT = "\\\\result";
 
 	public static final Pattern REGEX_THIS_KEYWORD = Pattern.compile("(?<![a-zA-Z0-9])(this)(?![a-zA-Z0-9])");
@@ -59,7 +61,7 @@ public class ProveWithKey {
 	private IProgressMonitor monitor;
 	private String uri;
 	private CbCFormula formula;
-	private IFileUtil fileHandler;
+	private static IFileUtil fileHandler;
 	private String sourceFolder;
 	private boolean isVariationalProject;
 	private String configName;
@@ -69,12 +71,12 @@ public class ProveWithKey {
 	private static List<Predicate> predicates = null;
 	
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
-			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String configName) {
+			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String[] configName) {
 		this(statement, vars, conds, renaming, monitor, uri, formula, fileHandler, "", configName);
 	}
 
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
-			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String srcFolder, String configName) {
+			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String srcFolder, String[] config) {
 		this.statement = statement;	
 		this.vars = vars;
 		this.conds = conds;
@@ -82,10 +84,11 @@ public class ProveWithKey {
 		this.monitor = monitor;
 		this.uri = uri;
 		this.formula = formula;
-		this.fileHandler = fileHandler;
+		ProveWithKey.fileHandler = fileHandler;
 		this.sourceFolder = srcFolder;
 		this.isVariationalProject = false;
-		this.configName = configName.equals("") ? "" : ("/" + configName);
+		this.configName = "";
+		if (config != null) for (String s : config) this.configName += s;
 		IProject project = FileUtil.getProjectFromFileInProject(URI.createURI(uri));
 		try {
 			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
@@ -96,7 +99,7 @@ public class ProveWithKey {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		readPredicates();
+		readPredicates(config, formula, fileHandler.getLocationString(uri));
 	}
 	
 	public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, String callingClass, boolean forceProving) {
@@ -284,10 +287,10 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 			postInvariant += " & " + c.getName();
 		}
 		
-		if (refinements != null && pre.equals(preFormula)) { // TODO composition only for pre post of formula. Extend to every case
+		if (refinements != null && (pre.equals(preFormula) || formula.getCompositionTechnique().equals(CompositionTechnique.EXPLICIT_CONTRACTING))) { // TODO composition only for pre post of formula. Extend to every case
 			pre = composeContractForCbCDiagram(formula.getCompositionTechnique(), refinements, pre,	Parser.KEYWORD_JML_PRE, returnVariable);
 		}
-		if (refinements != null && post.equals(postFormula)) {
+		if (refinements != null && (post.equals(postFormula) || formula.getCompositionTechnique().equals(CompositionTechnique.EXPLICIT_CONTRACTING))) {
 			modifiables = composeModifiables(refinements, refinementsVars, modifiables, formula.getCompositionTechnique(), true);
 			post = composeContractForCbCDiagram(formula.getCompositionTechnique(), refinements, post, Parser.KEYWORD_JML_POST, returnVariable);
 		}
@@ -390,7 +393,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		return modifiables;
 	}
 
-	private static String applyCompositionTechnique(String condition, String conditionOriginal,	CompositionTechnique compositionTechnique) {
+	private static String applyCompositionTechnique(String keyword, String condition, String conditionOriginal,	CompositionTechnique compositionTechnique) {
 		String composedCondition = condition;
 		switch (compositionTechnique) {
 		case CONTRACT_OVERRIDING:
@@ -404,8 +407,17 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 			}
 			break;
 		case EXPLICIT_CONTRACTING:
-			Pattern pattern = Pattern.compile(REGEX_ORIGINAL);
+			Pattern pattern = null;
+			if (keyword.equals("requires")) {
+				pattern = Pattern.compile(REGEX_ORIGINAL_PRE);
+			} else {
+				pattern = Pattern.compile(REGEX_ORIGINAL_POST);
+			}
 			Matcher matcher = pattern.matcher(condition);
+			if (!matcher.find()) {
+				pattern = Pattern.compile(REGEX_ORIGINAL);
+				matcher = pattern.matcher(condition);
+			}
 			composedCondition = matcher.replaceAll(Matcher.quoteReplacement(conditionOriginal));
 		}
 		return composedCondition;
@@ -427,8 +439,8 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 				conditionOriginal = Parser.getConditionFromCondition(refinements.get(i).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", "");
 				break;
 			}
-			composedCondition = applyCompositionTechnique(composedCondition, conditionOriginal, compTechnique);
-			if (compTechnique == CompositionTechnique.CONTRACT_OVERRIDING || (compTechnique == CompositionTechnique.EXPLICIT_CONTRACTING && !composedCondition.contains(REGEX_ORIGINAL))) {
+			composedCondition = applyCompositionTechnique(keyword, composedCondition, conditionOriginal, compTechnique);
+			if (compTechnique == CompositionTechnique.CONTRACT_OVERRIDING || (compTechnique == CompositionTechnique.EXPLICIT_CONTRACTING && !composedCondition.contains(REGEX_ORIGINAL) && !composedCondition.contains(REGEX_ORIGINAL_POST) && !composedCondition.contains(REGEX_ORIGINAL_PRE))) {
 				return resolveResultKeyword(composedCondition, returnVariable);
 			}
 		}
@@ -514,7 +526,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 			} else if (keyword.equals("ensures")) {
 				conditionOriginal = Parser.rewriteConditionToJML(applyPredicates(Parser.getConditionFromCondition(refinements.get(i).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", "")));
 			}
-			composedCondition = applyCompositionTechnique(composedCondition, conditionOriginal, compTechnique);
+			composedCondition = applyCompositionTechnique(keyword, composedCondition, conditionOriginal, compTechnique);
 			if (compTechnique == CompositionTechnique.CONTRACT_OVERRIDING || (compTechnique == CompositionTechnique.EXPLICIT_CONTRACTING && !composedCondition.contains(REGEX_ORIGINAL))) {
 				return composedCondition;
 			}
@@ -736,11 +748,32 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		this.configName = "/" + configName;		
 	}
 	
-	private void readPredicates() {
-		String projectName = uri.split("/")[1];
-		String filePath = fileHandler.getLocationString(uri);
+	private static void readPredicates(String[] config, CbCFormula formula, String filePath) {
+		predicates = new ArrayList<Predicate>();
+		if (config == null || config.length == 0) return;
+		String[] splitUri = formula.eResource().getURI().toString().split("/features/");
+		String projectName = splitUri[0].split("/")[splitUri[0].split("/").length-1];
+		formula.eResource().getURI();
 		filePath = filePath.substring(0, filePath.indexOf(projectName)) + projectName + "/predicates.def";
-		predicates = fileHandler.readPredicates(filePath);
+		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
+		String configName = "";
+		for (String feature : config) configName += feature;
+		for (Predicate p : readPredicates) {
+			for (int i = 0; i < p.definitions.size(); i++) {
+				PredicateDefinition pDef = p.definitions.get(i);
+				if (configName.contains(pDef.definedInFeature) || pDef.definedInFeature.equals("default")) {
+					//TODO Max not safe, featurename könnte teilmenge eines anderen featurenamens sein
+					if (formula.getClassName().equals(pDef.definedInClass) || pDef.definedInClass.equals("default")) {
+						if (formula.getName().equals(pDef.definedInMethod) || pDef.definedInMethod.equals("default")) {
+							Predicate foundPredicate = new Predicate(p.getSignature(true));
+							foundPredicate.definitions.add(pDef);
+							predicates.add(foundPredicate);
+							break;
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	private String collectPredicates() {
