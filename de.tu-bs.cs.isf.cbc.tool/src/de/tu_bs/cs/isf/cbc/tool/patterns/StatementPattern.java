@@ -405,7 +405,7 @@ public class StatementPattern extends IdPattern implements IPattern {
 		}
 		if (Pattern.matches(".*original[(].*[)].*", value) == true) {
 			return "Please use an Original-Call Statement for an original-call";
-		} else if (Pattern.matches(".*[a-zA-Z0-9]+[(].*[)].*", value) == true) {
+		} else if (Pattern.matches(".*[a-zA-Z0-9]+[(].*[)].*", value) == true && !value.contains("\\old(")) {
 			return "Please use an Method-Call Statement for an method-call";
 		}
 		if (value.contains(";") && !CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(value)) {
