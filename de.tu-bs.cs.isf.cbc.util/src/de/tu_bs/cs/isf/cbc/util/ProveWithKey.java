@@ -427,19 +427,26 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		String composedCondition = condition;
 		CompositionTechnique compTechnique = compositionTechnique;
 		for (int i = 0; i < refinements.size(); i++) {
+			boolean originalPre = false;
+			boolean originalPost = false;
+			if (composedCondition.contains("\\original_pre")) {
+				originalPre = true;
+			} else if (composedCondition.contains("\\original_post")) {
+				originalPost = true;
+			}
+			
 			if (i != 0) {
 				refinements.get(i - 1).getCompositionTechnique();
 			}
 			String conditionOriginal = "";
-			switch (keyword) {
-			case "requires":
+			
+			if ((keyword.equals("requires") || originalPre) && !originalPost) {
 				conditionOriginal = Parser.getConditionFromCondition(refinements.get(i).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", "");
-				break;
-			case "ensures":
+				composedCondition = applyCompositionTechnique("requires", composedCondition, conditionOriginal, compTechnique);
+			} else {
 				conditionOriginal = Parser.getConditionFromCondition(refinements.get(i).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", "");
-				break;
+				composedCondition = applyCompositionTechnique("ensures", composedCondition, conditionOriginal, compTechnique);
 			}
-			composedCondition = applyCompositionTechnique(keyword, composedCondition, conditionOriginal, compTechnique);
 			if (compTechnique == CompositionTechnique.CONTRACT_OVERRIDING || (compTechnique == CompositionTechnique.EXPLICIT_CONTRACTING && !composedCondition.contains(REGEX_ORIGINAL) && !composedCondition.contains(REGEX_ORIGINAL_POST) && !composedCondition.contains(REGEX_ORIGINAL_PRE))) {
 				return resolveResultKeyword(composedCondition, returnVariable);
 			}
@@ -579,14 +586,14 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		return false;
 	}
 
-	public boolean proveCImpliesCWithKey(Condition preCondition, Condition postCondition) {
+	public boolean proveCImpliesCWithKey(List<CbCFormula> refinements, Condition preCondition, Condition postCondition) {
 		subProofName = "precondition";
-		File location = createProveCImpliesCWithKey(preCondition.getName(), postCondition.getName(), true);
+		File location = createProveCImpliesCWithKey(refinements, preCondition.getName(), postCondition.getName(), true);
 		Console.println("  Verify Pre -> Invariant");
 		return proveWithKey(location, false);
 	}
 
-	public File createProveCImpliesCWithKey(String preCondition, String postCondition, boolean override) {
+	public File createProveCImpliesCWithKey(List<CbCFormula> refinements, String preCondition, String postCondition, boolean override) {
 		KeYFileContent content = new KeYFileContent();
 		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
@@ -596,6 +603,11 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 
 		//content.setPreFromCondition(preCondition);
 		//content.setPostFromCondition(postCondition);
+		if (refinements != null && refinements.size() > 0 && formula.getCompositionTechnique().equals(CompositionTechnique.EXPLICIT_CONTRACTING)) {
+			JavaVariable returnVariable = content.readVariables(vars);
+			preCondition = composeContractForCbCDiagram(formula.getCompositionTechnique(), refinements, preCondition, Parser.KEYWORD_JML_PRE, returnVariable);
+			postCondition = composeContractForCbCDiagram(formula.getCompositionTechnique(), refinements, postCondition, Parser.KEYWORD_JML_POST, returnVariable);
+		}
 		content.setPreFromCondition(preCondition + applyLiskovInheritance(preCondition, Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre"));
 		content.setPostFromCondition(postCondition + applyLiskovInheritance(postCondition, Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName()), "post"));
 		content.rename(renaming);
@@ -614,15 +626,15 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		return keyFile;
 	}
 
-	public boolean provePostRepetitionWithKey(Condition invariant, Condition guard, Condition postCondition) {
+	public boolean provePostRepetitionWithKey(List<CbCFormula> refinements, Condition invariant, Condition guard, Condition postCondition) {
 		subProofName = "postcondition";
 		String pre = invariant.getName() + " & !(" + guard.getName() + ")";
-		File location = createProveCImpliesCWithKey(pre, postCondition.getName(), true);
+		File location = createProveCImpliesCWithKey(refinements, pre, postCondition.getName(), true);
 		Console.println("  Verify (Invariant & !Guard) -> Post");
 		return proveWithKey(location, false);
 	}
 
-	public boolean provePreSelWithKey(EList<Condition> guards, Condition preCondition) {
+	public boolean provePreSelWithKey(List<CbCFormula> refinements, EList<Condition> guards, Condition preCondition) {
 		String guardString = "";
 		if (guards != null && guards.get(0) != null) {
 			guardString = "((" + guards.get(0).getName() + ")";
@@ -633,7 +645,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		} else {
 			guardString = "true";
 		}
-		File location = createProveCImpliesCWithKey(preCondition.getName(), guardString, true);
+		File location = createProveCImpliesCWithKey(refinements, preCondition.getName(), guardString, true);
 		Console.println("  Verify Pre -> GvGvG...");
 		return proveWithKey(location, false);
 	}

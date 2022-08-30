@@ -313,10 +313,21 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		boolean provePre = selectionStatement.isPreProve();
 		if (!(selectionStatement.isProven() && provePre && true)) {
 			if (!selectionStatement.isPreProve()) {
-				EList<Condition> guards = selectionStatement.getGuards();
-				Condition preCondition = selectionStatement.getParent().getPreCondition();
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), featureConfigs[configNum]);
-				provePre = prove.provePreSelWithKey(guards, preCondition);
+				URI uRi = URI.createPlatformResourceURI(uri, true);
+				String callingFeature = uri.split("/")[3];
+				String callingClass = uri.split("/")[4];
+				String callingMethod = uri.split("/")[5].split("\\.")[0];
+				if (isVariational) {
+					String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true);
+					if (featureConfigsRelevant != null) {
+						String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
+						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
+						EList<Condition> guards = selectionStatement.getGuards();
+						Condition preCondition = selectionStatement.getParent().getPreCondition();
+						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), featureConfigs[configNum]);
+						provePre = prove.provePreSelWithKey(refinements, guards, preCondition);
+					}
+				}
 				if (configs == configNum) selectionStatement.setPreProve(provePre);
 			}
 			if (provePre && proven && true && configs == configNum) {
@@ -349,12 +360,26 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, false);
 			Variant variant = repStatement.getVariant();
 			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), featureConfigs[configNum]);
+			
+			URI uRi = URI.createPlatformResourceURI(uri, true);
+			String callingFeature = uri.split("/")[3];
+			String callingClass = uri.split("/")[4];
+			String callingMethod = uri.split("/")[5].split("\\.")[0];
+			List<CbCFormula> refinements = null;
+			if (isVariational) {
+				String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true);
+				if (featureConfigsRelevant != null) {
+					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
+					refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
+				}
+			}
+			
 			if (!provePre) {
-				provePre = prove.proveCImpliesCWithKey(preCondition, invariant);
+				provePre = prove.proveCImpliesCWithKey(refinements, preCondition, invariant);
 				if (configs == configNum) repStatement.setPreProven(provePre);
 			}
 			if (!provePost) {
-				provePost = prove.provePostRepetitionWithKey(invariant, guard, postCondition);
+				provePost = prove.provePostRepetitionWithKey(refinements, invariant, guard, postCondition);
 				if (configs == configNum) repStatement.setPostProven(provePost);
 			}
 			if (!proveVar) {
