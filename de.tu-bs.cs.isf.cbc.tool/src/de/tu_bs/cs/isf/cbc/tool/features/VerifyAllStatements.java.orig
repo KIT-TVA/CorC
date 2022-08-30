@@ -27,7 +27,6 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Composition3Statement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
@@ -37,7 +36,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.RepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
@@ -69,7 +67,6 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     static String configName = "";
     static VerifyStatement verifyStmt;
     static GenerateCodeForVariationalVerification genCode;
-    static String[][] featureConfigs;
     /**
      * Constructor of the class
      * @param fp	The FeatureProvider
@@ -119,19 +116,11 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		}
 		
 		if (isVariational) {
-<<<<<<< HEAD
 			Console.println("Starting variational verification...\n");
 			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 			String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 			String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 			String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
-=======
-			Console.println("--------------- Triggered variational verification ---------------");
-			String callingClass = uri.segment(uri.segmentCount()-2) + "";
-			String callingFeature = uri.segment(uri.segmentCount()-3) + "";
-			String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
-			featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false);				
->>>>>>> 315837a5 (fixed problem at variable predicate verification when generating composed class and thus error in verification of sorted.push; introduced original pre and post)
 			configs = featureConfigs.length-1;
 			for (int i = 0; i < featureConfigs.length; i++) {
 				configName = "";
@@ -201,11 +190,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			if (featureConfigsRelevant != null) {
 				String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-<<<<<<< HEAD
 					ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uRi.toPlatformString(true)), configName);
-=======
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), featureConfigs[configNum]);
->>>>>>> 315837a5 (fixed problem at variable predicate verification when generating composed class and thus error in verification of sorted.push; introduced original pre and post)
 					List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
 					List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], callingMethod);
 					proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, false);
@@ -233,13 +218,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			JavaVariables vars = extractor.getVars();
 			String uri = diagram.eResource().getURI().toPlatformString(true);
 			if (!isVariational) {
-<<<<<<< HEAD
 				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri), "");
 				proven = prove.proveStatementWithKey(returnStatement, false, FeatureUtil.getInstance().getCallingClass(URI.createPlatformResourceURI(uri, true)), false);
-=======
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), null);
-				proven = prove.proveStatementWithKey(returnStatement, false, URI.createPlatformResourceURI(uri, true).segment(URI.createPlatformResourceURI(uri, true).segmentCount() - 2), false);
->>>>>>> 315837a5 (fixed problem at variable predicate verification when generating composed class and thus error in verification of sorted.push; introduced original pre and post)
 			} else {
 				URI uRi = URI.createPlatformResourceURI(uri, true);
 				String callingFeature = FeatureUtil.getInstance().getCallingFeature(uRi);
@@ -255,11 +235,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant,	callingFeature, varM.contains(".") ? varMParts[0] : callingClass);
 					String[] variantsOriginal = verifyStmt.generateVariantsStringFromFeatureConfigs(originalFeatureConfigsRelevant, callingFeature, callingClass);
 					if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-<<<<<<< HEAD
 						ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uRi.toPlatformString(true)), configName);
-=======
-						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), featureConfigs[configNum]);
->>>>>>> 315837a5 (fixed problem at variable predicate verification when generating composed class and thus error in verification of sorted.push; introduced original pre and post)
 						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], varMParts[1].toLowerCase());
 						List<CbCFormula> refinementsOriginal = verifyStmt.generateCbCFormulasForRefinements(variantsOriginal[configNum], callingMethod);
 						List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], varMParts[1].toLowerCase());
@@ -309,13 +285,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
 			String uri = diagram.eResource().getURI().toPlatformString(true);
 			if (!isVariational) {
-<<<<<<< HEAD
 				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri), "");
 				proven = prove.proveStatementWithKey(returnStatement, false, FeatureUtil.getInstance().getCallingClass(URI.createPlatformResourceURI(uri, true)), false);
-=======
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), null);
-				proven = prove.proveStatementWithKey(returnStatement, false, URI.createPlatformResourceURI(uri, true).segment(URI.createPlatformResourceURI(uri, true).segmentCount() - 2), false);
->>>>>>> 315837a5 (fixed problem at variable predicate verification when generating composed class and thus error in verification of sorted.push; introduced original pre and post)
 			} else {
 				URI uRi = URI.createPlatformResourceURI(uri, true);
 				String callingFeature = FeatureUtil.getInstance().getCallingFeature(uRi);
@@ -326,11 +297,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 				if (featureConfigsRelevant != null) {
 					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 					if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-<<<<<<< HEAD
 						ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uRi.toPlatformString(true)), configName);
-=======
-						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), featureConfigs[configNum]);
->>>>>>> 315837a5 (fixed problem at variable predicate verification when generating composed class and thus error in verification of sorted.push; introduced original pre and post)
 						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
 						List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], callingMethod);
 						proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, false);
@@ -360,14 +327,28 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		boolean provePre = selectionStatement.isPreProve();
 		if (!(selectionStatement.isProven() && provePre && true)) {
 			if (!selectionStatement.isPreProve()) {
+<<<<<<< HEAD
 				EList<Condition> guards = selectionStatement.getGuards();
 				Condition preCondition = selectionStatement.getParent().getPreCondition();
-<<<<<<< HEAD
 				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(diagram.eResource().getURI().toPlatformString(true)), configName);
-=======
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), featureConfigs[configNum]);
->>>>>>> 315837a5 (fixed problem at variable predicate verification when generating composed class and thus error in verification of sorted.push; introduced original pre and post)
 				provePre = prove.provePreSelWithKey(guards, preCondition);
+=======
+				URI uRi = URI.createPlatformResourceURI(uri, true);
+				String callingFeature = uri.split("/")[3];
+				String callingClass = uri.split("/")[4];
+				String callingMethod = uri.split("/")[5].split("\\.")[0];
+				if (isVariational) {
+					String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true);
+					if (featureConfigsRelevant != null) {
+						String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
+						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
+						EList<Condition> guards = selectionStatement.getGuards();
+						Condition preCondition = selectionStatement.getParent().getPreCondition();
+						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), featureConfigs[configNum]);
+						provePre = prove.provePreSelWithKey(refinements, guards, preCondition);
+					}
+				}
+>>>>>>> 0717c421 (adjusted remaining verification types to support original_pre and original_post)
 				if (configs == configNum) selectionStatement.setPreProve(provePre);
 			}
 			if (provePre && proven && true && configs == configNum) {
@@ -402,13 +383,27 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(diagram.eResource().getURI().toPlatformString(true)), configName);
 =======
 			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), featureConfigs[configNum]);
->>>>>>> 315837a5 (fixed problem at variable predicate verification when generating composed class and thus error in verification of sorted.push; introduced original pre and post)
+			
+			URI uRi = URI.createPlatformResourceURI(uri, true);
+			String callingFeature = uri.split("/")[3];
+			String callingClass = uri.split("/")[4];
+			String callingMethod = uri.split("/")[5].split("\\.")[0];
+			List<CbCFormula> refinements = null;
+			if (isVariational) {
+				String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true);
+				if (featureConfigsRelevant != null) {
+					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
+					refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
+				}
+			}
+			
+>>>>>>> 0717c421 (adjusted remaining verification types to support original_pre and original_post)
 			if (!provePre) {
-				provePre = prove.proveCImpliesCWithKey(preCondition, invariant);
+				provePre = prove.proveCImpliesCWithKey(refinements, preCondition, invariant);
 				if (configs == configNum) repStatement.setPreProven(provePre);
 			}
 			if (!provePost) {
-				provePost = prove.provePostRepetitionWithKey(invariant, guard, postCondition);
+				provePost = prove.provePostRepetitionWithKey(refinements, invariant, guard, postCondition);
 				if (configs == configNum) repStatement.setPostProven(provePost);
 			}
 			if (!proveVar) {

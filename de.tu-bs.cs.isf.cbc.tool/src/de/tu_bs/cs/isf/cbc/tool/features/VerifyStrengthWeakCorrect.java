@@ -1,5 +1,7 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -110,20 +112,28 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 						String callingFeature = uri.segment(uri.segmentCount()-3) + "";
 						String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
 						String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false);				
+						String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true);
+						
 						GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
-						for (int i = 0; i < featureConfigs.length; i++) {
-							prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), featureConfigs[i]);
-							genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
-							String configName = "";
-							for (String s : featureConfigs[i]) configName += s;
-							prove.setConfigName(configName);
-							proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition());
-							proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition());
+						VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
+						
+						if (featureConfigs != null) {
+							String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
+							for (int i = 0; i < variants.length; i++) {
+								genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
+								prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), featureConfigs[i]);
+								List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i], callingMethod);
+								String configName = "";
+								for (String s : featureConfigs[i]) configName += s;
+								prove.setConfigName(configName);
+								proven1 = prove.proveCImpliesCWithKey(refinements, parent.getPreCondition(), statement.getPreCondition());
+								proven2 = prove.proveCImpliesCWithKey(refinements, statement.getPostCondition(), parent.getPostCondition());
+							}
 						}
 					} else {
 						Console.println("--------------- Triggered verification ---------------");
-						proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition());
-						proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition());
+						proven1 = prove.proveCImpliesCWithKey(null, parent.getPreCondition(), statement.getPreCondition());
+						proven2 = prove.proveCImpliesCWithKey(null, statement.getPostCondition(), parent.getPostCondition());
 					}		
 					Console.println("--------------- Verification completed --------------- ");
 					

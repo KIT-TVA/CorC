@@ -598,4 +598,84 @@ public class ProveWithKey {
 		}
 		return "";
 	}
+
+	public void setConfigName(String configName) {
+		this.configName = "/" + configName;		
+	}
+	
+	private static void readPredicates(String[] config, CbCFormula formula, String filePath) {
+		predicates = new ArrayList<Predicate>();
+		if (config == null || config.length == 0) return;
+		String[] splitUri = formula.eResource().getURI().toString().split("/features/");
+		String projectName = splitUri[0].split("/")[splitUri[0].split("/").length-1];
+		formula.eResource().getURI();
+		filePath = filePath.substring(0, filePath.indexOf(projectName)) + projectName + "/predicates.def";
+		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
+		String configName = "";
+		for (String feature : config) configName += feature;
+		for (Predicate p : readPredicates) {
+			for (int i = 0; i < p.definitions.size(); i++) {
+				PredicateDefinition pDef = p.definitions.get(i);
+				if (configName.contains(pDef.definedInFeature) || pDef.definedInFeature.equals("default")) {
+					//TODO Max not safe, featurename kannte teilmenge eines anderen featurenamens sein
+					if (formula.getClassName().equals(pDef.definedInClass) || pDef.definedInClass.equals("default")) {
+						if (formula.getName().equals(pDef.definedInMethod) || pDef.definedInMethod.equals("default")) {
+							Predicate foundPredicate = new Predicate(p.getSignature(true));
+							foundPredicate.definitions.add(pDef);
+							predicates.add(foundPredicate);
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	private String collectPredicates() {
+		String defString = "\\predicates {\n";
+		String rulesString = "\\rules {\n"; 
+		for (Predicate p : predicates) {
+			for (int i = 0; i < p.definitions.size(); i++) {
+				PredicateDefinition pDef = p.definitions.get(i);
+				if (configName.contains(pDef.definedInFeature) || pDef.definedInFeature.equals("default")) {
+					//TODO Max not safe, featurename kannte teilmenge eines anderen featurenamens sein
+					if (formula.getClassName().equals(pDef.definedInClass) || pDef.definedInClass.equals("default")) {
+						if (formula.getName().equals(pDef.definedInMethod) || pDef.definedInMethod.equals("default")) {
+							defString += p.printDefForKeY();
+							rulesString += p.printReplaceForKeY(i);
+							break;
+						}
+					}
+				}
+			}
+		}
+		return defString + "}\n\n" + rulesString + "}";
+	}
+	
+	private static String applyPredicates(String condition) {
+		if (predicates != null) {
+			for (Predicate p : predicates) {
+				while (condition.contains(p.name + "(")) {
+					int index = condition.indexOf(p.name + "(") + p.name.length() + 1;
+					int startIndex = index;
+					int bracketCounter = 0;
+					while (condition.charAt(index) != ')' || bracketCounter != 0) {
+						if (condition.charAt(index) == ')') bracketCounter--;
+						if (condition.charAt(index) == '(') bracketCounter++;
+						index++;
+					}
+					String toReplace = condition.substring(startIndex, index);
+					String def = p.definitions.get(0).getReplace(true);
+					String[] params = toReplace.split(",");
+					if (params.length == p.varsTerms.size()) {
+						for (int i = 0; i < params.length; i++) {		
+							def = def.replace(p.varsTerms.get(i).split(" ")[1], params[i].trim());
+						}
+					}
+					condition = condition.replace(p.name + "(" + toReplace + ")", def);
+				}
+			}
+		}
+		return condition;
+	}
 }
