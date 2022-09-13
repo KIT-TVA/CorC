@@ -232,7 +232,7 @@ public class PredicateManagementTypePage extends WizardPage {
 	
 	private void createTab(String signature, PredicateDefinition pDef, boolean  firstTab, boolean extraTab) {
 		TabItem tab = new TabItem(tab_folder, SWT.NONE);
-		tab.setText(pDef.name);
+		tab.setText(signature.substring(0, signature.indexOf("(")));
 		 
 	    // GROUP predicate information
 	    Group groupInfo = new Group(tab_folder, SWT.NULL);
@@ -245,18 +245,6 @@ public class PredicateManagementTypePage extends WizardPage {
 	    gridData_group_predicate_info.verticalAlignment = GridData.FILL;
 	    gridData_group_predicate_info.grabExcessHorizontalSpace = true;
 	    groupInfo.setLayoutData(gridData_group_predicate_info);
-	    
-	    // LABEL + INPUT name
-	    GridData gridData_label_name = new GridData();
-	    gridData_label_name.grabExcessHorizontalSpace = true;
-	    gridData_label_name.horizontalAlignment = GridData.FILL;
-	    gridData_label_name.horizontalSpan = 2;
-	    new Label(groupInfo, SWT.NULL).setText("Name:");
-	    Text nameField = new Text(groupInfo, SWT.SINGLE | SWT.BORDER);
-	    nameField.setLayoutData(gridData_label_name);
-	    nameField.setEnabled(true);
-	    nameField.setText(pDef != null ? pDef.name : "");
-	    nameField.setToolTipText("Provide name of definition of predicate");
 	    
 	    // LABEL + INPUT signature
 	    GridData gridData_label_signature = new GridData();
@@ -326,7 +314,6 @@ public class PredicateManagementTypePage extends WizardPage {
 	    buttonRestore.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event e) {
-				nameField.setText(pDef.name);
 				signatureField.setText(signature);
 				definitionField.setText(pDef.replace);
 			}
@@ -344,21 +331,8 @@ public class PredicateManagementTypePage extends WizardPage {
 					currentPDef = currentPredicate.definitions.get(tabIndex);
 				}
 				
-				String errorName = currentPDef.checkValidName(nameField.getText().trim());
 				String errorSignature = tabIndex == 0 ? currentPDef.checkValidSignature(signatureField.getText().trim()) : "";
 				String errorReplace = currentPDef.checkValidReplace(definitionField.getText().trim());
-				
-				if (!errorName.equals("")) {
-					displayError(label_error, errorName, false);
-					return;
-				}
-				
-				for (PredicateDefinition pDef : currentPredicate.definitions) {
-					if (nameField.getText().trim().equals(pDef.name) && !pDef.equals(currentPDef)) {
-						displayError(label_error, "Error: The chosen name is already used in another definition. Didn't save changes.", false);
-						return;
-					}
-				}
 				
 				if (!errorSignature.equals("")) {
 					displayError(label_error, errorSignature, false);
@@ -388,9 +362,9 @@ public class PredicateManagementTypePage extends WizardPage {
 					currentPredicate.name = signatureField.getText().trim().substring(0, signature.indexOf("("));
 					currentPredicate.resolveVars();
 				}
-				currentPDef.name = nameField.getText().trim(); 
+				currentPDef.name = "default"; 
 				
-				tab_folder.getItem(tabIndex).setText(currentPDef.name);
+				//tab_folder.getItem(tabIndex).setText(currentPDef.name);
 				int predIndex = predicatesList.getSelectionIndex();
 				updateList();
 				predicatesList.setSelection(predIndex);
@@ -504,7 +478,6 @@ public class PredicateManagementTypePage extends WizardPage {
      			+ "\r\n"
      			+ "---Predicate Properties---\r\n"
      			+ "Enables the definition of predicates. For the definition, the following fields have to be set:\r\n"
-     			+ "Name: Internal name of the predicate's definition. This name does not influence the construction or verification of programs containing the predicate.\r\n"
      			+ "Signature: Signature of the predicate in method signature style. Provide name and parameters. For every parameter, provide type and name. The parameter's order is considered when replacing predicates by their definition at verification time. Example: newPredicate(int[] array, int number, String word).\r\n"
      			+ "Definition: The definition a predicate should be replaced by. The parameters declared in the signature will be replaced by the parameters provided by the predicate call in the program when the verification is started. Be aware that bound variables (\\forall, \\exists) must not exist in the terms the parameters of the predicate are replaced by. It is not allowed to use the keyword \\old in the definition of a predicate. Please provide old values of a field or variable by adding a new parameter to the predicate's definition. Example: TODO.\r\n"
      			+ "Restore Definition: Values of the currently displayed definition are restored to the last saved state.\r\n"
@@ -514,15 +487,15 @@ public class PredicateManagementTypePage extends WizardPage {
         text.setLayoutData(new GridData(GridData.FILL_BOTH));
      	text.setBackground(new Color(255,255,255));
         
-     	StyleRange[] styles = new StyleRange[11];
-     	                         //AvailablePreds, PredProps, Name, Sign, SignEx, Def,  forExist, old,  DefEx, Res,  Save
-     	int[] starts = new int[]  {0,              367,       491,  643,  894,    947,  1196,     1328, 1482,  1489, 1593};
-     	int[] lengths = new int[] {26,             26,        5,    10,   50,     11,   16,       4,    4,     19,   16};
+     	StyleRange[] styles = new StyleRange[10];
+     	                         //AvailablePreds, PredProps, Sign, SignEx, Def,  forExist, old,  DefEx, Res,  Save
+     	int[] starts = new int[]  {0,              367,       491,  742,    795,  1044,     1176, 1330,  1337, 1441};
+     	int[] lengths = new int[] {26,             26,        10,   50,     11,   16,       4,    4,     19,   16};
      	for (int i = 0; i < styles.length; i++) {
      		styles[i] = new StyleRange();
      		styles[i].start = starts[i];
             styles[i].length = lengths[i];
-            if (i == 4 || i == 6 || i == 7 || i == 8) {
+            if (i == 3 || i == 5 || i == 6 || i == 7) {
             	styles[i].fontStyle = SWT.ITALIC;
             } else {
             	styles[i].fontStyle = SWT.BOLD;

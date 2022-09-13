@@ -22,7 +22,9 @@ public class Predicate {
 		varsTerms.clear();
 		String[] signatureSplit = this.signature.substring(this.signature.indexOf("(") + 1, this.signature.indexOf(")")).split(",");
 		for (int i = 0; i < signatureSplit.length; i++) {
-			varsTerms.add(signatureSplit[i].trim());
+			if (!signatureSplit[i].trim().equals("")) {
+				varsTerms.add(signatureSplit[i].trim());
+			}
 		}
 	}
 	
@@ -50,7 +52,9 @@ public class Predicate {
 	public String getFindTerm() {
 		String output = this.name + "(";
 		for (String var : varsTerms) {
-			output += var.split(" ")[1] + ", ";
+			if (!var.equals("")) {
+				output += var.split(" ")[1] + ", ";
+			}
 		}
 		return output.substring(0, output.length()-2) + ")";
 	}
