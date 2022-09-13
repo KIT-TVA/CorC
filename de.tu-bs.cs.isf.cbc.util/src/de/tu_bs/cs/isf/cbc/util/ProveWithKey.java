@@ -65,6 +65,7 @@ public class ProveWithKey {
 	private String sourceFolder;
 	private boolean isVariationalProject;
 	private String configName;
+	private static List configList;
 	private String problem;
 	private String helper;
 	private String subProofName = "";
@@ -87,6 +88,10 @@ public class ProveWithKey {
 		ProveWithKey.fileHandler = fileHandler;
 		this.sourceFolder = srcFolder;
 		this.isVariationalProject = false;
+		this.configList = new ArrayList<String>();
+		for (int i = 0; i < config.length; i++) {
+			this.configList.add(config[i]);
+		}
 		this.configName = "";
 		if (config != null) for (String s : config) this.configName += s;
 		IProject project = FileUtil.getProjectFromFileInProject(URI.createURI(uri));
@@ -773,8 +778,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		for (Predicate p : readPredicates) {
 			for (int i = 0; i < p.definitions.size(); i++) {
 				PredicateDefinition pDef = p.definitions.get(i);
-				if (configName.contains(pDef.definedInFeature) || pDef.definedInFeature.equals("default")) {
-					//TODO Max not safe, featurename könnte teilmenge eines anderen featurenamens sein
+				if (configList.contains(pDef.definedInFeature) || pDef.definedInFeature.equals("default")) {
 					if (formula.getClassName().equals(pDef.definedInClass) || pDef.definedInClass.equals("default")) {
 						if (formula.getName().equals(pDef.definedInMethod) || pDef.definedInMethod.equals("default")) {
 							Predicate foundPredicate = new Predicate(p.getSignature(true));
@@ -794,8 +798,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		for (Predicate p : predicates) {
 			for (int i = 0; i < p.definitions.size(); i++) {
 				PredicateDefinition pDef = p.definitions.get(i);
-				if (configName.contains(pDef.definedInFeature) || pDef.definedInFeature.equals("default")) {
-					//TODO Max not safe, featurename könnte teilmenge eines anderen featurenamens sein
+				if (configList.contains(pDef.definedInFeature) || pDef.definedInFeature.equals("default")) {
 					if (formula.getClassName().equals(pDef.definedInClass) || pDef.definedInClass.equals("default")) {
 						if (formula.getName().equals(pDef.definedInMethod) || pDef.definedInMethod.equals("default")) {
 							defString += p.printDefForKeY();

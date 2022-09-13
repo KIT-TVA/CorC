@@ -805,9 +805,9 @@ public class ConstructCodeBlock {
 						index++;
 					}
 					String toReplace = condition.substring(startIndex, index);
-					String def = p.definitions.get(0).getReplace(true);//TODO Max es wird immer erste def genommen
+					String def = p.definitions.get(0).getReplace(true);
 					String[] params = toReplace.split(",");
-					if (params.length == p.varsTerms.size()) {
+					if (params.length == p.varsTerms.size() && !toReplace.equals("")) {
 						for (int i = 0; i < params.length; i++) {		
 							def = def.replace(p.varsTerms.get(i).split(" ")[1], params[i].trim());
 						}

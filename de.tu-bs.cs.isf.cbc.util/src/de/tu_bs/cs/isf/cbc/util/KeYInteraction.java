@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
@@ -23,10 +24,12 @@ import de.uka.ilkd.key.control.KeYEnvironment;
 import de.uka.ilkd.key.gui.MainWindow;
 import de.uka.ilkd.key.java.abstraction.KeYJavaType;
 import de.uka.ilkd.key.logic.op.IObserverFunction;
+import de.uka.ilkd.key.proof.Node;
 import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.Statistics;
 import de.uka.ilkd.key.proof.init.ProofInputException;
 import de.uka.ilkd.key.proof.io.ProblemLoaderException;
+import de.uka.ilkd.key.rule.RuleApp;
 import de.uka.ilkd.key.settings.ChoiceSettings;
 import de.uka.ilkd.key.settings.ProofSettings;
 import de.uka.ilkd.key.speclang.Contract;
@@ -35,6 +38,7 @@ import de.uka.ilkd.key.util.KeYTypeUtil;
 import de.uka.ilkd.key.util.MiscTools;
 
 public class KeYInteraction {
+	static int num = 0;
 
 	public static Proof startKeyProof(File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
 			AbstractStatement statement, String problem, String uri) {
@@ -95,7 +99,35 @@ public class KeYInteraction {
 
 			// Show proof result
 			try {
+				
+				Consumer<RuleApp> rule = x -> System.out.println(x.rule().displayName());
+				proof.root().name();
+				Node n = proof.root();
+				while(n.childrenIterator().hasNext()) {
+					n = n.childrenIterator().next();
+					System.out.println(n.serialNr() + n.name());
+					if (n.name().trim().equals("containsOldElements")) {
+						break;
+					}
+				}
+				
+				proof.pruneProof(proof.root());
 				proof.saveToFile(location);
+				
+				
+				//KeYEnvironment<?> env2 = KeYEnvironment.load(location, classPaths, bootClassPath, includes);
+				//Proof proof2 = env.getLoadedProof();
+				//Node n2 = proof.root();
+				//while(n2.childrenIterator().hasNext()) {
+					//n2 = n2.childrenIterator().next();
+					//System.out.println(n2.serialNr() + n2.name());
+				//}
+				
+				
+				
+					
+				//proof.openGoals().head().appliedRuleApps().forEach(rule);
+				System.out.println("--------------------------------------------");
 
 				try {
 					// TODO: inlining may be important too
