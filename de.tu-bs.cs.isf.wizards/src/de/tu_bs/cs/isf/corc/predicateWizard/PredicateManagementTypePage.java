@@ -479,7 +479,7 @@ public class PredicateManagementTypePage extends WizardPage {
      			+ "---Predicate Properties---\r\n"
      			+ "Enables the definition of predicates. For the definition, the following fields have to be set:\r\n"
      			+ "Signature: Signature of the predicate in method signature style. Provide name and parameters. For every parameter, provide type and name. The parameter's order is considered when replacing predicates by their definition at verification time. Example: newPredicate(int[] array, int number, String word).\r\n"
-     			+ "Definition: The definition a predicate should be replaced by. The parameters declared in the signature will be replaced by the parameters provided by the predicate call in the program when the verification is started. Be aware that bound variables (\\forall, \\exists) must not exist in the terms the parameters of the predicate are replaced by. It is not allowed to use the keyword \\old in the definition of a predicate. Please provide old values of a field or variable by adding a new parameter to the predicate's definition. Example: TODO.\r\n"
+     			+ "Definition: The definition a predicate should be replaced by. The parameters declared in the signature will be replaced by the parameters provided by the predicate call in the program when the verification is started. Be aware that bound variables (\\forall, \\exists) must not exist in the terms the parameters of the predicate are replaced by. It is not allowed to use the keyword \\old in the definition of a predicate. Please provide old values of a field or variable by adding a new parameter to the predicate's definition. Example: data[data.length - 1] = newTop.\r\n"
      			+ "Restore Definition: Values of the currently displayed definition are restored to the last saved state.\r\n"
      			+ "Save Definition: Saves the current values of the currently displayed definition. Please consider error messages when saving definitions.");
         text.setEditable(false);
@@ -489,8 +489,8 @@ public class PredicateManagementTypePage extends WizardPage {
         
      	StyleRange[] styles = new StyleRange[10];
      	                         //AvailablePreds, PredProps, Sign, SignEx, Def,  forExist, old,  DefEx, Res,  Save
-     	int[] starts = new int[]  {0,              367,       491,  742,    795,  1044,     1176, 1330,  1337, 1441};
-     	int[] lengths = new int[] {26,             26,        10,   50,     11,   16,       4,    4,     19,   16};
+     	int[] starts = new int[]  {0,              367,       491,  742,    795,  1044,     1176, 1330,  1363, 1467};
+     	int[] lengths = new int[] {26,             26,        10,   50,     11,   16,       4,    30,    19,   16};
      	for (int i = 0; i < styles.length; i++) {
      		styles[i] = new StyleRange();
      		styles[i].start = starts[i];
