@@ -1,8 +1,5 @@
 package de.tu_bs.cs.isf.cbc.tool.propertiesview;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -21,17 +18,23 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
+import de.tu_bs.cs.isf.cbc.tool.helper.Predicate;
+import de.tu_bs.cs.isf.cbc.tool.helper.PredicateDefinition;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateMethodCallsToProve;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 /**
  * Class for the Code-Reader-Tab of the Properties-View. Formats CorC-Code to
@@ -41,7 +44,6 @@ import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
  */
 public class CodeReaderSection extends GFPropertySection implements ITabbedPropertyConstants {
 
-	final List<Button> buttons = new ArrayList<Button>();
 	// Defining the logical properties
 	private Composite parent;
 	private TabbedPropertySheetPage tabbedPropertySheetPage;
@@ -56,6 +58,9 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 	private StyledText codeText;
 	private Label codeLabel;
 
+	private Label predicateLabel;
+	private static List predicatesList;	
+	
 	private Label actionLabel;
 	private Button saveButton;
 
@@ -87,6 +92,18 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 		codeText.setText("Choose a code block");
 		codeText.setLayoutData(outputGridData);
 		codeText.setBackground(white);
+		
+		predicateLabel = new Label(composite, SWT.PUSH);
+		predicateLabel.setText("Available predicates: ");
+		predicateLabel.setBackground(white);
+		
+		GridData gridData_list_predicates = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
+		
+		gridData_list_predicates.horizontalAlignment = GridData.FILL;
+		predicatesList = new List(composite, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+		updateList();
+		gridData_list_predicates.heightHint = predicatesList.computeTrim(0, 0, 0, predicatesList.getItemHeight() * 5).height;
+		predicatesList.setLayoutData(gridData_list_predicates);
 
 		actionLabel = new Label(composite, SWT.PUSH);
 		actionLabel.setText("Action: ");
@@ -124,6 +141,49 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 		});
 	}
 
+	private void updateList() {
+		if (bo == null) return;
+		AbstractStatement stmt = null;
+		if (bo instanceof Condition) {
+			Condition cond = ((Condition) bo);
+			if (cond.eContainer() instanceof GlobalConditions) return; 
+			stmt = (AbstractStatement) cond.eContainer();
+		} else if (bo instanceof AbstractStatement) {
+			stmt = (AbstractStatement) bo;
+		} else if (bo instanceof CbCFormula) {
+			stmt = ((CbCFormula) bo).getStatement();
+		} else {
+			predicatesList.removeAll();
+			predicatesList.add("Select a condition");
+			return;
+		}
+		while (!(stmt.eContainer() instanceof CbCFormula)) {
+			stmt = (AbstractStatement) stmt.eContainer();
+		}
+		FileUtil fu = new FileUtil(stmt.eResource().getURI().toPlatformString(true));
+		CbCFormula formula = (CbCFormula) stmt.eContainer();
+		String path = fu.getLocationString(stmt.eResource().getURI().toPlatformString(true));
+		if (formula.getMethodObj() == null || formula.getMethodObj().getParentClass() == null || formula.getMethodObj().getParentClass().getFeature() == null || formula.getMethodObj().getParentClass().getFeature().equals("default")) {
+			path = path.substring(0, path.indexOf("/src/")) + "/predicates.def";
+		} else {
+			path = path.substring(0, path.indexOf("/features/")) + "/predicates.def";
+		}
+		java.util.List<Predicate> readPredicates = fu.readPredicates(path);
+		java.util.List<String> availablePreds = new java.util.ArrayList<String>();
+		if (readPredicates != null) {
+			for (Predicate p : readPredicates) {
+				for (PredicateDefinition pDef : p.definitions) {
+					availablePreds.add(p.getSignature(true) + (p.definitions.size() > 1 ? (": " + pDef.name) : ""));
+				}
+			}
+		}
+		String[] items = new String[availablePreds.size()];
+		for (int i = 0; i < availablePreds.size(); i++) {
+			items[i] = availablePreds.get(i);
+		}
+		predicatesList.setItems(items);
+	}
+
 	@Override
 	public void refresh() {
 		CbCDiagramTypeProvider test = new CbCDiagramTypeProvider();
@@ -149,6 +209,7 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 			parent.pack();
 			tabbedPropertySheetPage.resizeScrolledComposite();
 		}
+		updateList();
 	}
 
 	/**
