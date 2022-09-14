@@ -608,7 +608,6 @@ public class ProveWithKey {
 		if (config == null || config.length == 0) return;
 		String[] splitUri = formula.eResource().getURI().toString().split("/features/");
 		String projectName = splitUri[0].split("/")[splitUri[0].split("/").length-1];
-		formula.eResource().getURI();
 		filePath = filePath.substring(0, filePath.indexOf(projectName)) + projectName + "/predicates.def";
 		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
 		String configName = "";
