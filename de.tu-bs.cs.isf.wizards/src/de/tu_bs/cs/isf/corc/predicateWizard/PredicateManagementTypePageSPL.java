@@ -768,7 +768,7 @@ public class PredicateManagementTypePageSPL extends WizardPage {
      			+ "Enables the definition of predicates. For every predicate created, at least one definition has to be declared. New definitions can be added via the Add new tab. For every definition, the following fields have to be set:\r\n"
      			+ "Name: Internal name of the predicate's definition to differentiate the definitions. This name does not influence the construction or verification of programs containing the predicate.\r\n"
      			+ "Signature: Signature of the predicate in method signature style. Provide name and parameters. For every parameter, provide type and name. The parameter's order is considered when replacing predicates by their definition at verification time. The signature must not be edited in other than the first definition of a predicate. Example: newPredicate(int[] array, int number, String word).\r\n"
-     			+ "Definition: The definition a predicate should be replaced by. The parameters declared in the signature will be replaced by the parameters provided by the predicate call in the program when the verification is started. Be aware that bound variables (\\forall, \\exists) must not exist in the terms the parameters of the predicate are replaced by. It is not allowed to use the keyword \\old in the definition of a predicate. Please provide old values of a field or variable by adding a new parameter to the predicate's definition. Example: TODO.\r\n"
+     			+ "Definition: The definition a predicate should be replaced by. The parameters declared in the signature will be replaced by the parameters provided by the predicate call in the program when the verification is started. Be aware that bound variables (\\forall, \\exists) must not exist in the terms the parameters of the predicate are replaced by. It is not allowed to use the keyword \\old in the definition of a predicate. Please provide old values of a field or variable by adding a new parameter to the predicate's definition. Example: data[data.length - 1] = newTop.\r\n"
      			+ "Availability of Predicate: It is possible to define where a predicate's definition should be available. A definition can be bound to a feature, class, and method. Please notice, that for defining a class or method, a selection for the previous layer has to be made. For predicates containig more than one definition, every definition has to be defined for a single feature. The definition of classes and methods is optional in every case.\r\n"
      			+ "Delete Definition: Currently displayed definition is deleted. Only available if current predicate contains more than one definition. To delete a predicate, use delete button above predicates list.\r\n"
      			+ "Restore Definition: Values of the currently displayed definition are restored to the last saved state.\r\n"
@@ -780,8 +780,8 @@ public class PredicateManagementTypePageSPL extends WizardPage {
         
      	StyleRange[] styles = new StyleRange[14];
      	                         //AvailablePreds, PredProps, AddnewBtn, Name, Sign, SignEx, Def,  forExist, old,  DefEx, AvailPred, Del,  Res,  Save
-     	int[] starts = new int[]  {0,              367,       543,       616,  801,  1136,   1189, 1438,     1570, 1724,  1731,      2171, 2369, 2473};
-     	int[] lengths = new int[] {26,             26,        7,         5,    10,   50,     11,   16,       4,    4,     26,        18,   19,   16};
+     	int[] starts = new int[]  {0,              367,       543,       616,  801,  1136,   1189, 1438,     1570, 1724,  1757,      2197, 2395, 2499};
+     	int[] lengths = new int[] {26,             26,        7,         5,    10,   50,     11,   16,       4,    30,    26,        18,   19,   16};
      	for (int i = 0; i < styles.length; i++) {
      		styles[i] = new StyleRange();
      		styles[i].start = starts[i];
