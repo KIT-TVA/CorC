@@ -68,12 +68,18 @@ public class UpdateMethodCallsToProve {
 		IPath projectPath = projectResource.getLocation();
 		IPath modelPath = projectPath.append("model.xml");
 		IFile modelFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(modelPath);
+		if (modelFile == null) {
+			return;
+		}
 		Path path = Paths.get(modelFile.getLocationURI());
 		IFeatureModel featModel = FeatureModelManager.load(path);
 
 		// get current Feature
 		String feature = uri.segment(3);
 
+		// get current Class
+		String className = uri.segment(4);
+		
 		// get current Method
 		String method = uri.trimFileExtension().lastSegment().toLowerCase();
 
@@ -84,13 +90,21 @@ public class UpdateMethodCallsToProve {
 		IProject project = projectResource.getProject();
 		List<URI> validDiagramURIs = new ArrayList<URI>();
 		for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
-			IFolder folder = project.getFolder(("features/" + affectedOriginalFeatures.get(i) + "/diagram"));
+			IFolder folder = project.getFolder(("features/" + affectedOriginalFeatures.get(i) + "/" + className));
 			try {
 				for (int x = 0; x < folder.members().length; x++) {
 					if (folder.members()[x].getName().contains(".diagram")) {
-						String[] lastSegments = { affectedOriginalFeatures.get(i), "diagram",
-								folder.members()[x].getName() };
-						validDiagramURIs.add(uri.trimSegments(uri.segmentCount() - 3).appendSegments(lastSegments));
+						boolean isNotCbCClass = true;
+						for (IResource member : folder.members()) {
+							if (member.getName().contains(folder.members()[x].getName().replace(".diagram", ".cbcclass"))) {
+								isNotCbCClass = false;
+								break;
+							}
+						}
+						if (isNotCbCClass) {
+							String[] lastSegments = { affectedOriginalFeatures.get(i), className, folder.members()[x].getName() };
+							validDiagramURIs.add(uri.trimSegments(uri.segmentCount() - 3).appendSegments(lastSegments));
+						}
 					}
 				}
 			} catch (CoreException e) {
@@ -121,6 +135,8 @@ public class UpdateMethodCallsToProve {
 				}
 			} catch (final WrappedException e) {
 				e.printStackTrace();
+				validDiagramURIs.remove(i);
+				break;
 			}
 
 			// Get Diagram Pictograms
@@ -159,8 +175,10 @@ public class UpdateMethodCallsToProve {
 						((OriginalStatementImpl) bos.get(j)).setProven(false);
 					}
 				}
-				UpdateContext context = new UpdateContext(pes.get(j));
-				featureProvider.updateIfPossible(context);
+				if (hasMethod) {
+					UpdateContext context = new UpdateContext(pes.get(j));
+					featureProvider.updateIfPossible(context);
+				}
 			}
 			// Save URIs which implement a method-call
 			if (hasMethod == true) {

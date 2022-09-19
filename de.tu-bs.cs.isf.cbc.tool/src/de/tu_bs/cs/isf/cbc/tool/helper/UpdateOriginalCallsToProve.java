@@ -63,6 +63,9 @@ public class UpdateOriginalCallsToProve {
 		IPath projectPath = projectResource.getLocation();
 		IPath modelPath = projectPath.append("model.xml");
 		IFile modelFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(modelPath);
+		if (modelFile == null) {
+			return;
+		}
 		Path path = Paths.get(modelFile.getLocationURI());
 		IFeatureModel featModel = FeatureModelManager.load(path);
 
@@ -71,6 +74,9 @@ public class UpdateOriginalCallsToProve {
 
 		// get current Method
 		String method = uri.trimFileExtension().lastSegment();
+		
+		// get current Class
+		String className = uri.segment(uri.segmentCount() - 2);
 
 		// get all features which could be affected in reverse order
 		List<String> affectedOriginalFeatures = new ArrayList<String>();
@@ -81,7 +87,7 @@ public class UpdateOriginalCallsToProve {
 				// Checks if the method of the changed contract is part of a valid replacement
 				// for the possible affected method
 				FeatureModel fm = new FeatureModel(featModel.getFeatureOrderList().get(i));
-				fm.getOriginalFeatureNames(method);// Need to be updated internally in FeatureModel
+				fm.getOriginalFeatureNames(method, className);// Need to be updated internally in FeatureModel
 				List<String> affectedOriginalFeature = new ArrayList<String>();
 				affectedOriginalFeature.add(featModel.getFeatureOrderList().get(i));
 				List<String> replacementConfigs = fm.getFeatureConfigs(affectedOriginalFeature, "original");
@@ -98,7 +104,7 @@ public class UpdateOriginalCallsToProve {
 		// Get URIs for all features
 		List<URI> diagramURIs = new ArrayList<URI>();
 		for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
-			String[] lastSegments = { affectedOriginalFeatures.get(i), "diagram", uri.lastSegment() };
+			String[] lastSegments = { affectedOriginalFeatures.get(i), className, uri.lastSegment() };
 			diagramURIs.add(uri.trimSegments(uri.segmentCount() - 3).appendSegments(lastSegments));
 		}
 		// Throw out features which doesn't implement the method
@@ -111,7 +117,7 @@ public class UpdateOriginalCallsToProve {
 		// Get all valid URIs for all features
 		List<URI> validDiagramURIs = new ArrayList<URI>();
 		for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
-			String[] lastSegments = { affectedOriginalFeatures.get(i), "diagram", uri.lastSegment() };
+			String[] lastSegments = { affectedOriginalFeatures.get(i), className, uri.lastSegment() };
 			validDiagramURIs.add(uri.trimSegments(diagramURIs.get(i).segmentCount() - 3).appendSegments(lastSegments));
 		}
 		// Forall valid URIs

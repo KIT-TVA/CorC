@@ -65,12 +65,18 @@ public class UpdateContractsToProve {
 		IPath projectPath = projectResource.getLocation();
 		IPath modelPath = projectPath.append("model.xml");
 		IFile modelFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(modelPath);
+		if (modelFile == null) {
+			return;
+		}
 		Path path = Paths.get(modelFile.getLocationURI());
 		IFeatureModel featModel = FeatureModelManager.load(path);
 
 		// get current Feature
 		String feature = uri.segment(3);
 
+		// get current Class
+		String className = uri.segment(4);
+		
 		// get all features which could be affected due CompositionOrder
 		List<String> affectedOriginalFeatures = new ArrayList<String>();
 		for (int i = featModel.getFeatureOrderList().size() - 1; i > 0; i--) {
@@ -89,7 +95,7 @@ public class UpdateContractsToProve {
 		// Get URIs for all features
 		List<URI> diagramURIs = new ArrayList<URI>();
 		for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
-			String[] lastSegments = { affectedOriginalFeatures.get(i), "diagram", uri.lastSegment() };
+			String[] lastSegments = { affectedOriginalFeatures.get(i), className, uri.lastSegment() };
 			diagramURIs.add(uri.trimSegments(uri.segmentCount() - 3).appendSegments(lastSegments));
 		}
 		// Throw out features which doesn't implement the method
@@ -102,7 +108,7 @@ public class UpdateContractsToProve {
 		// Get all valid URIs for all features
 		List<URI> validDiagramURIs = new ArrayList<URI>();
 		for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
-			String[] lastSegments = { affectedOriginalFeatures.get(i), "diagram", uri.lastSegment() };
+			String[] lastSegments = { affectedOriginalFeatures.get(i), className, uri.lastSegment() };
 			validDiagramURIs.add(uri.trimSegments(diagramURIs.get(i).segmentCount() - 3).appendSegments(lastSegments));
 		}
 
@@ -165,15 +171,17 @@ public class UpdateContractsToProve {
 				for (int j = 0; j < pes.size(); j++) {
 					bos.add(test.getFeatureProvider().getBusinessObjectForPictogramElement(pes.get(j)));
 					// all rules which could be affected due contracting must be listed here
+					UpdateContext context = new UpdateContext(pes.get(j));
 					if (bos.get(j).getClass().equals(AbstractStatementImpl.class)) {
 						((AbstractStatementImpl) bos.get(j)).setProven(false);
+						featureProvider.updateIfPossible(context);
 					} else if (bos.get(j).getClass().equals(OriginalStatementImpl.class)) {
 						((OriginalStatementImpl) bos.get(j)).setProven(false);
+						featureProvider.updateIfPossible(context);
 					} else if (bos.get(j).getClass().equals(MethodStatementImpl.class)) {
 						((MethodStatementImpl) bos.get(j)).setProven(false);
+						featureProvider.updateIfPossible(context);
 					}
-					UpdateContext context = new UpdateContext(pes.get(j));
-					featureProvider.updateIfPossible(context);
 				}
 			}
 			// Save Diagram

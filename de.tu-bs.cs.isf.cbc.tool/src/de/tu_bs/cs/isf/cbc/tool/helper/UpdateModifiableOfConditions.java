@@ -1,9 +1,9 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.EObject;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
@@ -56,7 +56,7 @@ public class UpdateModifiableOfConditions {
 						statement.getPostCondition().getModifiables().add(mv);
 					}
 				}
-				Collections.sort(statement.getPostCondition().getModifiables());
+				ECollections.sort(statement.getPostCondition().getModifiables());
 				currentPost = statement.getPostCondition();
 				updateParent(statement);
 			} catch (ParserException e) {

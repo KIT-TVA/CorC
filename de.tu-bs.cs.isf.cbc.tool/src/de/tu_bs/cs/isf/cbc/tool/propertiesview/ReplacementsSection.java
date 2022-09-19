@@ -37,7 +37,7 @@ import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
 
 /**
  * Class for the Replacements-Tab of the Properties-View. Filter and shows valid
- * replacements of an original-call or mehtod call in the product line.
+ * replacements of an original-call or method call in the product line.
  * 
  * @author David
  */
@@ -97,7 +97,7 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 			return;
 		}
 		featureModel = new FeatureModel(currentFeature);
-		originalFeatureNames = featureModel.getOriginalFeatureNames(getCurrentMethod());
+		originalFeatureNames = featureModel.getOriginalFeatureNames(getCurrentMethod(), getCurrentClass());
 
 		// replacementLabel
 		replacementLabel = new Label(composite, SWT.PUSH);
@@ -260,7 +260,17 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 		IEditorPart activeEditor = activePage.getActiveEditor();
 		IEditorInput input = activeEditor.getEditorInput();
 		IResource diagramResource = input.getAdapter(IResource.class);
-		IResource featureResource = diagramResource.getParent().getParent(); // ->diagramFolder->featureFolder
+		IResource featureResource = diagramResource.getParent().getParent();
+		return featureResource.getName();
+	}
+	
+	public String getCurrentClass() {
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchPage activePage = window.getActivePage();
+		IEditorPart activeEditor = activePage.getActiveEditor();
+		IEditorInput input = activeEditor.getEditorInput();
+		IResource diagramResource = input.getAdapter(IResource.class);
+		IResource featureResource = diagramResource.getParent();
 		return featureResource.getName();
 	}
 

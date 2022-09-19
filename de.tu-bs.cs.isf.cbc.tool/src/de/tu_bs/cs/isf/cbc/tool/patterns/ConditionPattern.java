@@ -33,6 +33,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateMethodCallsToProve;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
 /**
@@ -130,11 +133,13 @@ public class ConditionPattern extends IdPattern implements IPattern {
 			MultiText nameText = (MultiText) context.getGraphicsAlgorithm();
 			Condition domainObject = (Condition) context.getDomainObject();
 			if (id.equals(ID_PRE_MOD) || id.equals(ID_POST_MOD) || id.equals(ID_OTHER_MOD)) {
-				String modString = "";
-				for (String s : domainObject.getModifiables()) {
-					modString += s + ", ";
+				if (!nameText.getValue().equals("")) {
+					String modString = "";
+					for (String s : domainObject.getModifiables()) {
+						modString += s + ", ";
+					}
+					nameText.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
 				}
-				nameText.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
 				return true;
 			}
 			if (domainObject.eContainer().getClass().equals(AbstractStatementImpl.class)
@@ -209,7 +214,7 @@ public class ConditionPattern extends IdPattern implements IPattern {
 		}
 		if (id.equals(ID_PRE_MOD) || id.equals(ID_POST_MOD) || id.equals(ID_OTHER_MOD)) {
 			if (value.length() > 0) {
-				if (!value.trim().matches("modifiable\\(\\w*[\\[\\]\\*]*(,\\s*\\w*[\\[\\]\\*]*)*\\);")) {
+				if (!value.trim().startsWith("modifiable(") || !value.trim().endsWith(");")) {
 					return "Does not match modifiable string";
 				}
 			}
@@ -240,13 +245,9 @@ public class ConditionPattern extends IdPattern implements IPattern {
 			TextImpl text = (TextImpl)shape.getGraphicsAlgorithm();
 			text.setValue("{" + condition.getName() + "}");
 		} else if (!(condition.eContainer() instanceof GlobalConditions)) {
-			// TODO: updateOriginalCallsToProve, updateMethodCallsToProve and
-			// updateContractsToProve
-			// needs to be triggered, when the whole diagram is saved and not exiting
-			// code-edit mode
-			//UpdateOriginalCallsToProve.updateOriginalCallsToProve(condition); TODO von max auskommentiert aufgrund nullpointerexception bei änderung einer bedingung
-			//UpdateMethodCallsToProve.updateMethodCallsToProve(condition); TODO von max auskommentiert aufgrund nullpointerexception bei änderung einer bedingung
-			//UpdateContractsToProve.updateContractsToProve(condition); TODO von max auskommentiert aufgrund nullpointerexception bei änderung einer bedingung
+			UpdateOriginalCallsToProve.updateOriginalCallsToProve(condition);
+			UpdateMethodCallsToProve.updateMethodCallsToProve(condition);
+			UpdateContractsToProve.updateContractsToProve(condition);
 			UpdateConditionsOfChildren.updateConditionsofChildren(condition);
 		} else if (condition.eContainer() instanceof GlobalConditions) {
 			CbCFormula formula = null;

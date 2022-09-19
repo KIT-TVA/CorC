@@ -505,7 +505,11 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				for (String s : childStatement.getPreCondition().getModifiables()) {
 					modString += s + ", ";
 				}
-				preConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+				if (newIndex == 0) {
+					preConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+				} else {
+					preConditionTextMod.setValue("");
+				}
 				preConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 				preConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 				link(textShapePreConditionMod, childStatement.getPreCondition());
@@ -525,10 +529,16 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				MultiText postConditionTextMod = Graphiti.getGaService().createMultiText(textShapePostConditionMod, "");
 				setId(postConditionTextMod, ID_POST_MOD);
 				modString = "";
-				for (String s : childStatement.getPostCondition().getModifiables()) {
-					modString += s + ", ";
+				if (childStatement.getParent() != null) {
+					for (String s : childStatement.getParent().getPostCondition().getModifiables()) {
+						modString += s + ", ";
+					}
 				}
-				postConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+				if (newIndex == 0) {
+					postConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+				} else {
+					postConditionTextMod.setValue("");
+				}
 				postConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 				postConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 				link(textShapePostConditionMod, childStatement.getPostCondition());
