@@ -1,37 +1,51 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="FactorialGraphical" proven="true">
-    <statement name="statement" id="35297a0c-d997-4e19-8169-2cb3ac87b0ea">
-      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="98761470-4318-40d2-8d22-e1e8eb38a03a" preProve="true">
+  <cbcmodel:CbCFormula name="FactorialGraphical" proven="true" comment="">
+    <statement name="statement" id="4de360db-fe15-4b56-b4fd-d70c21010ea7">
+      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="1371b114-1ad7-4f1c-8c79-0029b97fb0ea" preProve="true">
         <guards name="n = 0"/>
         <guards name="n = 1"/>
         <guards name="n >= 2"/>
-        <commands name="statement" id="80904a5f-ddf0-4a86-ac50-bfeb654c055e">
-          <refinement name="f = 1;" proven="true" id="5797169c-1ea3-46c8-9bf4-a7ecd9fd04b7">
-            <postCondition name="modifiable(f); &#xD;&#xA;f = frac(n)"/>
-            <preCondition name="modifiable(\nothing);(n >= 0) &amp; (n = 0)"/>
+        <commands name="statement" id="725745fa-0a37-4b9a-b814-6a9fe7f9f1f0">
+          <refinement name="f = 1;" proven="true" id="2e2f1799-f79e-4d3f-8205-261fd3cce41e">
+            <postCondition name="f = frac(n)">
+              <modifiables>f</modifiables>
+            </postCondition>
+            <preCondition name="(n >= 0) &amp; (n = 0)"/>
           </refinement>
-          <postCondition name="modifiable(f);&#xD;&#xA;f = frac(n)"/>
-          <preCondition name="modifiable(\nothing);(n >= 0) &amp; (n = 0)"/>
+          <postCondition name="f = frac(n)">
+            <modifiables>f</modifiables>
+          </postCondition>
+          <preCondition name="(n >= 0) &amp; (n = 0)"/>
         </commands>
-        <commands name="statement" id="d16a06bf-19ac-4439-afc8-c09b2dacf320">
-          <refinement name="f = 1;" proven="true" id="81986beb-7f16-40e4-926f-f3acc1bd6b16">
-            <postCondition name="modifiable(f);&#xD;&#xA;f = frac(n)"/>
-            <preCondition name="modifiable(\nothing);(n >= 0) &amp; (n = 1)"/>
+        <commands name="statement" id="9a6a80aa-099e-42fd-b994-180eb6d9f4d6">
+          <refinement name="f = 1;" proven="true" id="a36cd4bb-d923-4ae2-887a-bd39f0009448">
+            <postCondition name="f = frac(n)">
+              <modifiables>f</modifiables>
+            </postCondition>
+            <preCondition name="(n >= 0) &amp; (n = 1)"/>
           </refinement>
-          <postCondition name="modifiable(f);&#xD;&#xA;f = frac(n)"/>
-          <preCondition name="modifiable(\nothing);(n >= 0) &amp; (n = 1)"/>
+          <postCondition name="f = frac(n)">
+            <modifiables>f</modifiables>
+          </postCondition>
+          <preCondition name="(n >= 0) &amp; (n = 1)"/>
         </commands>
-        <commands name="statement" id="24fa673e-8679-4b17-ba8e-ce845885290b">
-          <refinement xsi:type="cbcmodel:MethodStatement" name="f = n*frac(n-1);" proven="true" id="cd331324-5815-4a0a-9e1a-ef2ae92f74ba">
-            <postCondition name="modifiable(f);&#xD;&#xA;f = frac(n)"/>
-            <preCondition name="modifiable(\nothing);(n >= 0) &amp; (n >= 2)"/>
+        <commands name="statement" id="bdd98861-2232-40db-a613-58a24720c9d5">
+          <refinement xsi:type="cbcmodel:MethodStatement" name="f = n*frac(n-1);" proven="true" id="1c978aff-4acc-444b-acb4-3c5e7a511b51">
+            <postCondition name="f = frac(n)">
+              <modifiables>f</modifiables>
+            </postCondition>
+            <preCondition name="(n >= 0) &amp; (n >= 2)"/>
           </refinement>
-          <postCondition name="modifiable(f);&#xD;&#xA;f = frac(n)"/>
-          <preCondition name="modifiable(\nothing);(n >= 0) &amp; (n >= 2)"/>
+          <postCondition name="f = frac(n)">
+            <modifiables>f</modifiables>
+          </postCondition>
+          <preCondition name="(n >= 0) &amp; (n >= 2)"/>
         </commands>
       </refinement>
-      <postCondition name="modifiable(f);&#xD;&#xA;f = frac(n)"/>
+      <postCondition name="f = frac(n)">
+        <modifiables>f</modifiables>
+      </postCondition>
       <preCondition name="n >= 0"/>
     </statement>
   </cbcmodel:CbCFormula>
