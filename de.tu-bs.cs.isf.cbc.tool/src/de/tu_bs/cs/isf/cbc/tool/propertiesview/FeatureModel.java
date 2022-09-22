@@ -161,7 +161,6 @@ public class FeatureModel {
 	public List<String> getOriginalFeatureNames(String methodName, String className) {
 		methodName = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
 		methodName += ".diagram";
-		className = "IntList";
 		for (int i = 0; i < featModel.getFeatureOrderList().size(); i++) {
 			if (featModel.getFeatureOrderList().get(i).equals(feature)) {
 				break;

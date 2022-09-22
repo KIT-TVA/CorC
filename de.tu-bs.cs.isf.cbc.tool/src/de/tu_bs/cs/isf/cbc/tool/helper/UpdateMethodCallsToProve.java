@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.internal.resources.Folder;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -90,20 +91,26 @@ public class UpdateMethodCallsToProve {
 		IProject project = projectResource.getProject();
 		List<URI> validDiagramURIs = new ArrayList<URI>();
 		for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
-			IFolder folder = project.getFolder(("features/" + affectedOriginalFeatures.get(i) + "/" + className));
+			IFolder featureModule = project.getFolder(("features/" + affectedOriginalFeatures.get(i)));
 			try {
-				for (int x = 0; x < folder.members().length; x++) {
-					if (folder.members()[x].getName().contains(".diagram")) {
-						boolean isNotCbCClass = true;
-						for (IResource member : folder.members()) {
-							if (member.getName().contains(folder.members()[x].getName().replace(".diagram", ".cbcclass"))) {
-								isNotCbCClass = false;
-								break;
+				for (int x = 0; x < featureModule.members().length; x++) {
+					IFolder classFolder = featureModule;
+					if (featureModule.members()[x] instanceof Folder) {
+						classFolder = (Folder) featureModule.members()[x];
+					}
+					for (int y = 0; y < classFolder.members().length; y++) {
+						if (classFolder.members()[y].getName().contains(".diagram")) {
+							boolean isNotCbCClass = true;
+							for (IResource member : classFolder.members()) {
+								if (member.getName().contains(classFolder.members()[y].getName().replace(".diagram", ".cbcclass"))) {
+									isNotCbCClass = false;
+									break;
+								}
 							}
-						}
-						if (isNotCbCClass) {
-							String[] lastSegments = { affectedOriginalFeatures.get(i), className, folder.members()[x].getName() };
-							validDiagramURIs.add(uri.trimSegments(uri.segmentCount() - 3).appendSegments(lastSegments));
+							if (isNotCbCClass) {
+								String[] lastSegments = { affectedOriginalFeatures.get(i), classFolder.getName(), classFolder.members()[y].getName() };
+								validDiagramURIs.add(uri.trimSegments(uri.segmentCount() - 3).appendSegments(lastSegments));
+							}
 						}
 					}
 				}
