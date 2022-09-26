@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="interestApplicationNextYear" proven="true" comment="" className="Application" methodName="interestApplicationNextYear">
+    <statement name="statement" id="d3753e88-fbee-4731-93f9-fee946464c9c">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="1af319fc-aada-4948-937e-e20502b33631">
+        <firstStatement name="statement1" id="23021eb6-4b38-40eb-aafb-7b3eac5ffaf2">
+          <refinement name="this.nextYear();" proven="true" id="04e5c126-72ab-4d0c-9707-b608226fd981">
+            <postCondition name="true"/>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="true"/>
+          <preCondition name="true"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="2d26b96f-46b5-4ed6-a296-f33ea75043ce">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="0796a6a4-efce-4284-afe2-95ece307a2c6">
+            <firstStatement name="statement1" id="ce383749-e3a9-4cb6-9167-c5837aaf3e9f">
+              <refinement name="account.balance += account.interest;" proven="true" id="d5f8247c-9a09-473e-9645-b0b8d7c9cffe">
+                <postCondition name="account.balance =&#xD;&#xA; \old(account.balance) +&#xD;&#xA;account.interest">
+                  <modifiables>account.balance</modifiables>
+                </postCondition>
+                <preCondition name="true"/>
+              </refinement>
+              <postCondition name="account.balance =&#xD;&#xA; \old(account.balance) +&#xD;&#xA;account.interest">
+                <modifiables>account.balance</modifiables>
+              </postCondition>
+              <preCondition name="true"/>
+            </firstStatement>
+            <secondStatement name="statement2" id="08fc7f55-726a-4902-9029-285db099c1a4">
+              <refinement name="account.interest = 0;" proven="true" id="51783da0-8b15-410f-823c-af69e7267f24">
+                <postCondition name="account.balance = \old(account.balance) + \old(account.interest) &amp; account.interest = 0">
+                  <modifiables>account.balance</modifiables>
+                  <modifiables>account.interest</modifiables>
+                </postCondition>
+                <preCondition name="account.balance =&#xD;&#xA; \old(account.balance) +&#xD;&#xA;account.interest">
+                  <modifiables>account.balance</modifiables>
+                </preCondition>
+              </refinement>
+              <postCondition name="account.balance = \old(account.balance) + \old(account.interest) &amp; account.interest = 0">
+                <modifiables>account.balance</modifiables>
+                <modifiables>account.interest</modifiables>
+              </postCondition>
+              <preCondition name="account.balance =&#xD;&#xA; \old(account.balance) +&#xD;&#xA;account.interest">
+                <modifiables>account.balance</modifiables>
+              </preCondition>
+            </secondStatement>
+            <intermediateCondition name="account.balance =&#xD;&#xA; \old(account.balance) +&#xD;&#xA;account.interest">
+              <modifiables>account.balance</modifiables>
+            </intermediateCondition>
+          </refinement>
+          <postCondition name="account.balance = \old(account.balance) + \old(account.interest) &amp; account.interest = 0">
+            <modifiables>account.balance</modifiables>
+            <modifiables>account.interest</modifiables>
+          </postCondition>
+          <preCondition name="true"/>
+        </secondStatement>
+        <intermediateCondition name="true"/>
+      </refinement>
+      <postCondition name="account.balance = \old(account.balance) + \old(account.interest) &amp; account.interest = 0">
+        <modifiables>account.balance</modifiables>
+        <modifiables>account.interest</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Application.cbcclass#//@methods.3"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

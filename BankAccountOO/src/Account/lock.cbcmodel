@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="lock" proven="true" comment="" className="Account" methodName="lock">
+    <statement name="statement" id="0e7b5ba0-9713-4bdb-b4fb-5d0d45ccf9fb">
+      <refinement name="lock = true;" proven="true" id="be02f767-507f-41b6-9ddc-cc9cfc403146">
+        <postCondition name="lock = TRUE">
+          <modifiables>lock</modifiables>
+        </postCondition>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="lock = TRUE">
+        <modifiables>lock</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Account.cbcclass#//@methods.6"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

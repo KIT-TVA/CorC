@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="IntList">
+  <fields type="int[]" name="data"/>
+  <methods cbcDiagramURI="push.diagram" name="push" returnType="void">
+    <cbcStartTriple href="push.cbcmodel#/0"/>
+    <parameters type="int" name="newTop"/>
+  </methods>
+  <methods cbcDiagramURI="pushCons.diagram" name="pushCons" returnType="void">
+    <cbcStartTriple href="pushCons.cbcmodel#/0"/>
+    <parameters type="int" name="newTop"/>
+  </methods>
+  <methods cbcDiagramURI="pushBase.diagram" name="pushBase" returnType="void">
+    <cbcStartTriple href="pushBase.cbcmodel#/0"/>
+    <parameters type="int" name="newTop"/>
+  </methods>
+  <methods cbcDiagramURI="sort.diagram" name="sort" returnType="void">
+    <cbcStartTriple href="sort.cbcmodel#/0"/>
+  </methods>
+  <classInvariants name="this != null"/>
+  <classInvariants name="data != null"/>
+</cbcclass:ModelClass>

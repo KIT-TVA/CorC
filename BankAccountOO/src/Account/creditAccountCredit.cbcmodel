@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="creditAccountCredit" proven="true" comment="" className="Account" methodName="creditAccountCredit">
+    <statement name="statement" id="2854bcd7-5d50-4764-a22e-314382c23a4d">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="balance >= amount;" proven="true" comment="returnStatement" id="68474e33-5921-44b3-b3f8-ce17a3075c7a">
+        <postCondition name="balance >= amount &lt;-> \result = TRUE">
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="amount > 0"/>
+      </refinement>
+      <postCondition name="balance >= amount &lt;-> \result = TRUE">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="amount > 0"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Account.cbcclass#//@methods.3"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

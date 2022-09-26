@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="interestCalculate" proven="true" comment="" className="Account" methodName="interestCalculate">
+    <statement name="statement" id="e7b802e3-1431-49cc-8da7-5bdacb42361e">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="balance * Account.INTEREST_RATE / 36500;" proven="true" comment="returnStatement" id="69013fd0-bf30-40ae-892e-2586483ddd99">
+        <postCondition name="(balance >= 0 -> \result >= 0) &amp; (balance &lt;= 0 -> \result &lt;= 0)">
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="(balance >= 0 -> \result >= 0) &amp; (balance &lt;= 0 -> \result &lt;= 0)">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Account.cbcclass#//@methods.4"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+  <cbcmodel:GlobalConditions>
+    <conditions name="Account.INTEREST_RATE = 2"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

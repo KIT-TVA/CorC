@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="isLocked" proven="true" comment="" className="Account" methodName="isLocked">
+    <statement name="statement" id="151feae8-7436-4b29-bfb7-b18c2953bf2d">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.lock;" proven="true" comment="returnStatement" id="48b3d5d7-f403-49d7-b2d9-f8b8a051dc65">
+        <postCondition name="\result = this.lock">
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="\result = this.lock">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Account.cbcclass#//@methods.5"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

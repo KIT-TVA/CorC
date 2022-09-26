@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="interestApplicationNextDay" proven="true" comment="" className="Application" methodName="interestApplicationNextDay">
+    <statement name="statement" id="12b985e6-82cc-440b-ac17-ca0c5afc7b08">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="457c3604-9058-4894-86be-6b750621376b">
+        <firstStatement name="statement1" id="dcb80c3f-7fe1-44a9-ad5a-4b2c15178eb7">
+          <refinement xsi:type="cbcmodel:MethodStatement" name="this.nextDay();" proven="true" id="e990d966-503d-4f1a-a3e0-f172b039e3ed">
+            <postCondition name="\old(this.account.interest) = account.interest &amp; account.withdraw = 0"/>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="\old(this.account.interest) = account.interest &amp; account.withdraw = 0"/>
+          <preCondition name="true"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="b59a1ee8-9154-4b55-b043-6fb21d6901f4">
+          <refinement name="account.interest += account.interestCalculate();" proven="true" id="d41fc9b8-7701-4c3d-adb1-5b046eebed8f">
+            <postCondition name="(account.balance >= 0 -> account.interest >= \old(this.account.interest))  &amp; (account.balance &lt;= 0 -> account.interest &lt;= \old(this.account.interest)) &amp; account.withdraw = 0">
+              <modifiables>account.interest</modifiables>
+            </postCondition>
+            <preCondition name="\old(this.account.interest) = account.interest &amp; account.withdraw = 0"/>
+          </refinement>
+          <postCondition name="(account.balance >= 0 -> account.interest >= \old(this.account.interest))  &amp; (account.balance &lt;= 0 -> account.interest &lt;= \old(this.account.interest)) &amp; account.withdraw = 0">
+            <modifiables>account.interest</modifiables>
+          </postCondition>
+          <preCondition name="\old(this.account.interest) = account.interest &amp; account.withdraw = 0"/>
+        </secondStatement>
+        <intermediateCondition name="\old(this.account.interest) = account.interest &amp; account.withdraw = 0"/>
+      </refinement>
+      <postCondition name="(account.balance >= 0 -> account.interest >= \old(this.account.interest))  &amp; (account.balance &lt;= 0 -> account.interest &lt;= \old(this.account.interest)) &amp; account.withdraw = 0">
+        <modifiables>account.interest</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Application.cbcclass#//@methods.2"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>
