@@ -3,7 +3,6 @@
  */
 package de.tu_bs.cs.isf.cbc.textual.tool.ui;
 
-import de.tu_bs.cs.isf.cbc.textual.tool.ui.AbstractDslUiModule;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor;
 

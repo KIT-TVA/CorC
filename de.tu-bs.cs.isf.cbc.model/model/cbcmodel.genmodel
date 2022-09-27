@@ -4,7 +4,8 @@
     editorDirectory="/de.tu-bs.cs.isf.cbc.model.editor/src-gen" modelPluginID="de.tu-bs.cs.isf.cbc.model"
     forceOverwrite="true" modelName="Cbcmodel" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     testsDirectory="/de.tu-bs.cs.isf.cbc.model.tests/src-gen" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="8.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+    complianceLevel="8.0" copyrightFields="false" usedGenPackages="../../de.tu_bs.cs.isf.cbc.cbcclass.model/model/cbcclass.genmodel#//cbcclass"
+    operationReflection="true" importOrganizing="true">
   <foreignModel>cbcmodel.ecore</foreignModel>
   <genPackages prefix="Cbcmodel" basePackage="de.tu_bs.cs.isf.cbc" disposableProviderFactory="true"
       ecorePackage="cbcmodel.ecore#/">
@@ -12,6 +13,9 @@
       <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/LOCAL"/>
       <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/PARAM"/>
       <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/RETURN"/>
+      <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/GLOBAL"/>
+      <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/GLOBAL_PARAM"/>
+      <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//VariableKind/RETURNPARAM"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="cbcmodel.ecore#//CompositionTechnique">
       <genEnumLiterals ecoreEnumLiteral="cbcmodel.ecore#//CompositionTechnique/CONTRACT_OVERRIDING"/>
@@ -26,12 +30,13 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/proven"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/comment"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/compositionTechnique"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/TaxMethod"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/className"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/methodName"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCFormula/methodObj"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//Condition">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/modifiables"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//AbstractStatement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/name"/>
@@ -41,6 +46,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//AbstractStatement/preCondition"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/proven"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/comment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/id"/>
+      <genOperations ecoreOperation="cbcmodel.ecore#//AbstractStatement/generateID"
+          body="if(id==null) id = java.util.UUID.randomUUID().toString();"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//SkipStatement"/>
     <genClasses ecoreClass="cbcmodel.ecore#//CompositionStatement">
@@ -53,31 +61,11 @@
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//SelectionStatement/commands"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//SelectionStatement/preProve"/>
     </genClasses>
-    <genClasses ecoreClass="cbcmodel.ecore#//RepetitionStatement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//RepetitionStatement/guard"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//RepetitionStatement/invariant"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//RepetitionStatement/startStatement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//RepetitionStatement/variant"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//RepetitionStatement/loopStatement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//RepetitionStatement/endStatement"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//RepetitionStatement/variantProven"/>
-    </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//MethodStatement"/>
     <genClasses ecoreClass="cbcmodel.ecore#//Variant">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Variant/name"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//ReturnStatement"/>
-    <genClasses ecoreClass="cbcmodel.ecore#//Method">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Method/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Method/code"/>
-    </genClasses>
-    <genClasses ecoreClass="cbcmodel.ecore#//Composition3Statement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Composition3Statement/thirdStatement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Composition3Statement/secondStatement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Composition3Statement/firstStatement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Composition3Statement/secondIntermediateCondition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Composition3Statement/firstIntermediateCondition"/>
-    </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//SmallRepetitionStatement">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//SmallRepetitionStatement/loopStatement"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//SmallRepetitionStatement/variant"/>
@@ -89,11 +77,15 @@
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//JavaVariables">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//JavaVariables/variables"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//JavaVariables/fields"
+          get="if (eDirectResource() != null) { &#x9;&#x9;&#x9;if (eDirectResource().getResourceSet() != null) { &#x9;&#x9;&#x9;&#x9;if (eDirectResource().getResourceSet().getResources() != null) { &#x9;&#x9;&#x9;&#x9;&#x9;EList&lt;Resource> resources = eDirectResource().getResourceSet().getResources(); &#x9;&#x9;&#x9;&#x9;&#x9;URI uri = eDirectResource().getURI(); &#x9;&#x9;&#x9;&#x9;&#x9;uri = uri.trimSegments(1); &#x9;&#x9;&#x9;&#x9;&#x9;uri = uri.appendSegment(uri.lastSegment() + &quot;.cbcclass&quot;); &#x9;&#x9;&#x9;&#x9;&#x9;for (Resource res : resources) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if (res.getURI().equals(uri)) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;EList&lt;EObject> content = res.getContents(); &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for (EObject o : content) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if (o instanceof ModelClass) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;return ((ModelClass) o).getFields(); &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;} &#x9;&#x9;}&#x9; &#x9;&#x9;if (fields == null) { &#x9;&#x9;&#x9;fields = new EObjectResolvingEList&lt;Field>(Field.class, this, CbcmodelPackage.JAVA_VARIABLES__FIELDS); &#x9;&#x9;} &#x9;&#x9;return fields;"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//JavaVariables/params"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//JavaVariable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/kind"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/displayedName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/displayedName"
+          get="return getKind() + &quot; &quot; + getName();"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//GlobalConditions">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//GlobalConditions/conditions"/>
@@ -107,19 +99,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Rename/newName"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//CbCProblem">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/method"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/globalcondition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/cbcformula"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/javaVariable"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/renaming"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCProblem/refinements"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//StrengthWeakStatement"/>
-    <genClasses ecoreClass="cbcmodel.ecore#//MethodRefinements">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//MethodRefinements/productvariants"/>
-    </genClasses>
-    <genClasses ecoreClass="cbcmodel.ecore#//ProductVariant">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//ProductVariant/refinementChain"/>
-    </genClasses>
+    <genClasses ecoreClass="cbcmodel.ecore#//OriginalStatement"/>
   </genPackages>
 </genmodel:GenModel>

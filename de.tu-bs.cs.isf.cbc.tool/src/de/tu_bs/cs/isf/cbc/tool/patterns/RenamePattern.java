@@ -204,6 +204,4 @@ public class RenamePattern extends IdPattern implements IPattern {
 			layoutPictogramElement(container);
 		}
 	}
-
 }
-

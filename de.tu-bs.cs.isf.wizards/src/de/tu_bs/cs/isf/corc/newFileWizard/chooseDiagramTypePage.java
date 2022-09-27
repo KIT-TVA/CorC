@@ -1,8 +1,13 @@
 package de.tu_bs.cs.isf.corc.newFileWizard;
 
+import java.util.LinkedList;
+import java.util.List;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -28,10 +33,16 @@ public class chooseDiagramTypePage extends WizardPage {
 	
 	public boolean corctextual = false;
 	public boolean corcdiagram = true;
+	public boolean corcclass = false;
+	
 	private String browsedPath = "";
 	public Text path;
 	public Text name;
 	public Label error;
+	
+	public static final String CORC_DIAGRAM = "CorC diagram";
+	public static final String CORC_TEXTUAL = "CorC textual";
+	public static final String CORC_CLASS = "CorC class diagram";
 	
 	protected chooseDiagramTypePage() {
 		super("new CorC file");
@@ -67,7 +78,7 @@ public class chooseDiagramTypePage extends WizardPage {
 		error.setForeground(redColor);
 		
 		//line that lets you choose the layout type:	
-		String[] diagramTypes = new String[] {"CorC diagram", "CorC textual"};
+		String[] diagramTypes = new String[] {CORC_DIAGRAM, CORC_TEXTUAL, CORC_CLASS};
 		combo.setItems(diagramTypes);
 		combo.setText("CorC diagram"); //standard value, if nothing was selected yet
 		//layout for the combo:
@@ -83,17 +94,24 @@ public class chooseDiagramTypePage extends WizardPage {
             public void widgetSelected(SelectionEvent e) {
                 int idx = combo.getSelectionIndex();
                 String diagramType = combo.getItem(idx);
-                if (diagramType.equals("CorC diagram")) {
+                if (diagramType.equals(CORC_DIAGRAM)) {
                 	corcdiagram = true;
                 	corctextual = false;
-                } else if (diagramType.equals("CorC textual")) {
+                	corcclass = false;
+                } else if (diagramType.equals(CORC_TEXTUAL)) {
                 	corcdiagram = false;
                 	corctextual = true;
+                	corcclass = false;
+                } else if (diagramType.equals(CORC_CLASS)) {
+                	corcdiagram = false;
+                	corctextual = false;
+                	corcclass = true;
                 }
             }
         });
 		
 		//line that lets you choose the diagram name:
+		// TODO: change constructor 
 		GridData nameData = new GridData();
 		nameData.horizontalAlignment = GridData.FILL;
 		nameData.grabExcessHorizontalSpace = true;
@@ -102,6 +120,7 @@ public class chooseDiagramTypePage extends WizardPage {
 		name.setText("newDiagram");
 		
 		//line that lets you choose the creation path:
+		// TODO: change constructor 
 		GridData pathData = new GridData();
 		pathData.horizontalAlignment = GridData.FILL;
 		pathData.grabExcessHorizontalSpace = true;
@@ -130,22 +149,29 @@ public class chooseDiagramTypePage extends WizardPage {
 		IWorkbench wb = PlatformUI.getWorkbench();
 		IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
 		IWorkbenchPage page = win.getActivePage();
-		ISelection selected = page.getSelection();
+		ISelection selection = page.getSelection();
 		
-		//cutting the toString from selection so it can be used as a path:
-		String oldselection = selected.toString();
-		String selection = oldselection.substring(2, oldselection.length() - 1); //cuts first two and the last character [X, ]
-		String currentPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
-		if (oldselection.charAt(1) == 'L' || oldselection.equals("<empty selection>") || !selection.contains("/")) {
-			error.setText("use the browse function to select a path");
-			path.setText("");
-		} else {
-			currentPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + selection;
-			setPageComplete(true);
-			error.setText("");
-			path.setText(currentPath);
+		List<IResource> resourceList = new LinkedList<>();
+
+		if (selection != null & selection instanceof IStructuredSelection) {
+			IStructuredSelection strucSelection = (IStructuredSelection) selection;
+			for (Object selectedElement : strucSelection.toList()) {
+				if (selectedElement instanceof IJavaElement) {
+					IResource res = ((IJavaElement) selectedElement).getResource();
+					resourceList.add(res);
+				} else if (selectedElement instanceof IResource) {
+					resourceList.add((IResource) selectedElement);
+				}
+			}
 		}
-	    	
+		if (!resourceList.isEmpty()) {
+			IResource fileTriggered = resourceList.get(0);
+			String absolutePath = fileTriggered.getLocationURI().toString();
+			path.setText(absolutePath.substring(6));
+			System.out.println();
+			setPageComplete(true);
+		}
+		
 		//SEPERATOR LINE:
 		GridData sepData = new GridData(GridData.FILL_HORIZONTAL);
 		sepData.horizontalSpan = columns;

@@ -31,5 +31,94 @@
             id="de.tu-bs.cs.isf.cbc.tool.imageProvider">
       </imageProvider>
    </extension>
-
+   <extension
+    point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+    <propertyContributor contributorId="cbc.PropertyContributor">
+        <propertyCategory category="Graphiti">
+        </propertyCategory>
+    </propertyContributor>
+</extension>
+      
+<extension
+      point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+   <propertyTabs
+          contributorId="cbc.PropertyContributor">
+    <propertyTab
+         category="Graphiti"
+         id="Configurations"
+         label="Configurations">
+    </propertyTab>
+    <propertyTab
+         category="Graphiti"
+         id="Replacements"
+         label="Replacements">
+    </propertyTab>
+    <propertyTab
+         category="Graphiti"
+         id="CodeReader"
+         label="Code Reader">
+    </propertyTab>
+    <propertyTab
+         category="Graphiti"
+         id="Inheritance"
+         label="Inheritance">
+    </propertyTab>
+    <propertyTab
+         category="Graphiti"
+         id="Basics"
+         label="Basics">
+    </propertyTab>
+   </propertyTabs>
+</extension>
+<extension
+      point="org.eclipse.ui.views.properties.tabbed.propertySections">
+    <propertySections
+          contributorId="cbc.PropertyContributor">
+        <propertySection
+              afterSection="Replacements"
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.ConfigurationsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterVariational"
+              id="Configurations"
+              tab="Configurations">
+        </propertySection>
+        <propertySection
+              afterSection="CodeReader"
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.ReplacementsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterVariational"
+              id="Replacements"
+              tab="Replacements">
+        </propertySection>
+        <propertySection
+              afterSection="Inheritance"
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.CodeReaderSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterCodeReader"
+              id="CodeReader"
+              tab="CodeReader">
+        </propertySection>
+        <propertySection
+              afterSection="Basics"
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.InheritanceSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilter"
+              id="Inheritance"
+              tab="Inheritance">
+        </propertySection>
+        <propertySection
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.BasicsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilter"
+              id="Basics"
+              tab="Basics">
+        </propertySection>
+    </propertySections>
+</extension>
+<extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            adaptable="true"
+            class="de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramDecorator"
+            id="de.tu-bs.cs.isf.cbc.tool.cbcDiagramDecorator"
+            label="CbCDiagramDecorator"
+            location="BOTTOM_LEFT"
+            state="true">
+      </decorator>
+   </extension>
 </plugin>

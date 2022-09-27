@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="stopRequestedAtCurrentFloor" className="Elevator" methodName="stopRequestedAtCurrentFloor">
+    <statement name="statement" id="6ea1c01f-12e5-4d76-93ac-68f9ec3db217">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="(this.env.getFloor(this.currentFloorID).hasCall() == true || this.floorButtons[this.currentFloorID] == true);" comment="returnStatement" id="9788c66a-ea79-46b4-b563-0b35fd6e7698">
+        <postCondition name="((this.env.getFloor(this.currentFloorID).hasCall() = TRUE)-> \result = TRUE)&amp; ((this.floorButtons[this.currentFloorID] = TRUE) -> \result = TRUE)&#xD;&#xA;&amp; &#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; this.floorButtons != null &amp; this.currentFloorID >= 0 &amp; this.currentFloorID &lt; this.env.floors.length&amp; this.currentFloorID &lt; this.floorButtons.length &amp; this.env.floors[this.currentFloorID] != null">
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="this.env != null &amp; this.env.floors != null &amp; this.floorButtons != null &amp; this.currentFloorID >= 0 &amp; this.currentFloorID &lt; this.env.floors.length&amp; this.currentFloorID &lt; this.floorButtons.length &amp; this.env.floors[this.currentFloorID] != null"/>
+      </refinement>
+      <postCondition name="((this.env.getFloor(this.currentFloorID).hasCall() = TRUE)-> \result = TRUE)&amp; ((this.floorButtons[this.currentFloorID] = TRUE) -> \result = TRUE)&#xD;&#xA;&amp; &#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; this.floorButtons != null &amp; this.currentFloorID >= 0 &amp; this.currentFloorID &lt; this.env.floors.length&amp; this.currentFloorID &lt; this.floorButtons.length &amp; this.env.floors[this.currentFloorID] != null">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="this.env != null &amp; this.env.floors != null &amp; this.floorButtons != null &amp; this.currentFloorID >= 0 &amp; this.currentFloorID &lt; this.env.floors.length&amp; this.currentFloorID &lt; this.floorButtons.length &amp; this.env.floors[this.currentFloorID] != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.12"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+  <cbcmodel:GlobalConditions>
+    <conditions name="this.currentFloorID &lt; this.floorButtons.length"/>
+    <conditions name="this.env.floors != null"/>
+    <conditions name="this.env.floors.&lt;created> = TRUE"/>
+    <conditions name="this.env.&lt;inv>"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="transactionAccountLock" proven="true" comment="" className="Account" methodName="transactionAccountLock">
+    <statement name="statement" id="8a829a6f-deb9-429a-94f0-723da016a81b">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="ae9a4f23-ef18-4e21-a971-1c91d99a810e">
+        <firstStatement name="statement1" id="2946645d-1e0c-4fc2-866a-de861110bf13">
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="0c66b34b-ea48-4b42-aee7-4134b31cf4ad" preProve="true">
+            <guards name="source.isLocked() = TRUE"/>
+            <guards name="source.isLocked() = FALSE"/>
+            <commands name="statement" id="45b5475e-d109-4fc5-8110-f0ef9c658479">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement" id="306634bb-d19d-462a-b563-e65ec75484c0">
+                <postCondition name="ret = TRUE -> source.isLocked() = TRUE&amp; destination.isLocked() = TRUE">
+                  <modifiables>ret</modifiables>
+                </postCondition>
+                <preCondition name="(true) &amp; (source.isLocked() = TRUE)"/>
+              </refinement>
+              <postCondition name="true">
+                <modifiables>ret</modifiables>
+              </postCondition>
+              <preCondition name="(true) &amp; (source.isLocked() = TRUE)"/>
+            </commands>
+            <commands name="statement" id="d89b807f-0fc6-4e4c-9791-93a877108109">
+              <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true" id="ea8c0bed-1da1-4a01-80c9-4b134b96a4db">
+                <postCondition name="true"/>
+                <preCondition name="(true) &amp; (source.isLocked() = FALSE)"/>
+              </refinement>
+              <postCondition name="true"/>
+              <preCondition name="(true) &amp; (source.isLocked() = FALSE)"/>
+            </commands>
+          </refinement>
+          <postCondition name="true">
+            <modifiables>ret</modifiables>
+          </postCondition>
+          <preCondition name="true"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="76a8e850-450e-4472-a4b7-555812d164e2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="79f4427b-2261-42ce-856a-2710abd2749f">
+            <firstStatement name="statement1" id="52ad9f8a-7b9b-4493-a96d-499a504a3ba4">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="031e7b98-128c-48a8-8878-27f7af02330e" preProve="true">
+                <guards name="destination.isLocked() = TRUE"/>
+                <guards name="destination.isLocked() = FALSE"/>
+                <commands name="statement" id="368c5123-c5a8-4464-93f0-0d0e4db11e62">
+                  <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement" id="47aca631-01d8-4630-b192-1ef39d11dd5f">
+                    <postCondition name="ret = TRUE -> source.isLocked() = TRUE&amp; destination.isLocked() = TRUE">
+                      <modifiables>ret</modifiables>
+                    </postCondition>
+                    <preCondition name="(true) &amp; (destination.isLocked() = TRUE)">
+                      <modifiables>ret</modifiables>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="true">
+                    <modifiables>ret</modifiables>
+                  </postCondition>
+                  <preCondition name="(true) &amp; (destination.isLocked() = TRUE)">
+                    <modifiables>ret</modifiables>
+                  </preCondition>
+                </commands>
+                <commands name="statement" id="fac7d1a8-7497-442c-8abf-341e597cdb74">
+                  <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true" id="be3ef610-36f2-4202-8662-fd225d682368">
+                    <postCondition name="true">
+                      <modifiables>ret</modifiables>
+                    </postCondition>
+                    <preCondition name="(true) &amp; (destination.isLocked() = FALSE)">
+                      <modifiables>ret</modifiables>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="true">
+                    <modifiables>ret</modifiables>
+                  </postCondition>
+                  <preCondition name="(true) &amp; (destination.isLocked() = FALSE)">
+                    <modifiables>ret</modifiables>
+                  </preCondition>
+                </commands>
+              </refinement>
+              <postCondition name="true">
+                <modifiables>ret</modifiables>
+              </postCondition>
+              <preCondition name="true">
+                <modifiables>ret</modifiables>
+              </preCondition>
+            </firstStatement>
+            <secondStatement name="statement2" id="060af47d-f16b-48b3-8d7e-0a7fc8df51fb">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="731ede84-6264-490d-8822-4d920fba5196">
+                <firstStatement name="statement1" id="a822e4d7-85de-4dae-98de-bc1504e9fc32">
+                  <refinement name="source.lock(); &#xD;&#xA;destination.lock(); ret = true;" proven="true" id="58724495-94f3-46b9-9704-344ebb3878ba">
+                    <postCondition name="ret = TRUE &amp; source.isLocked() = TRUE&amp; destination.isLocked() = TRUE">
+                      <modifiables>ret</modifiables>
+                    </postCondition>
+                    <preCondition name="true">
+                      <modifiables>ret</modifiables>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="ret = TRUE &amp; source.isLocked() = TRUE&amp; destination.isLocked() = TRUE">
+                    <modifiables>ret</modifiables>
+                  </postCondition>
+                  <preCondition name="true">
+                    <modifiables>ret</modifiables>
+                  </preCondition>
+                </firstStatement>
+                <secondStatement name="statement2" id="3b029369-6626-4a55-ad52-09e74bf466f8">
+                  <refinement xsi:type="cbcmodel:ReturnStatement" name="ret;" proven="true" comment="returnStatement" id="751f70ae-ad54-4952-9665-5d47c1f7c361">
+                    <postCondition name="ret = TRUE -> source.isLocked() = TRUE&amp; destination.isLocked() = TRUE">
+                      <modifiables>ret</modifiables>
+                    </postCondition>
+                    <preCondition name="ret = TRUE &amp; source.isLocked() = TRUE&amp; destination.isLocked() = TRUE">
+                      <modifiables>ret</modifiables>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="ret = TRUE -> source.isLocked() = TRUE&amp; destination.isLocked() = TRUE">
+                    <modifiables>ret</modifiables>
+                  </postCondition>
+                  <preCondition name="ret = TRUE &amp; source.isLocked() = TRUE&amp; destination.isLocked() = TRUE">
+                    <modifiables>ret</modifiables>
+                  </preCondition>
+                </secondStatement>
+                <intermediateCondition name="ret = TRUE &amp; source.isLocked() = TRUE&amp; destination.isLocked() = TRUE">
+                  <modifiables>ret</modifiables>
+                </intermediateCondition>
+              </refinement>
+              <postCondition name="ret = TRUE -> source.isLocked() = TRUE&amp; destination.isLocked() = TRUE">
+                <modifiables>ret</modifiables>
+              </postCondition>
+              <preCondition name="true">
+                <modifiables>ret</modifiables>
+              </preCondition>
+            </secondStatement>
+            <intermediateCondition name="true">
+              <modifiables>ret</modifiables>
+            </intermediateCondition>
+          </refinement>
+          <postCondition name="ret = TRUE -> source.isLocked() = TRUE&amp; destination.isLocked() = TRUE">
+            <modifiables>ret</modifiables>
+          </postCondition>
+          <preCondition name="true">
+            <modifiables>ret</modifiables>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="true">
+          <modifiables>ret</modifiables>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="ret = TRUE -> source.isLocked() = TRUE&amp; destination.isLocked() = TRUE">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Account.cbcclass#//@methods.8"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+  <cbcmodel:GlobalConditions>
+    <conditions name="Account source non-null"/>
+    <conditions name="Account destination non-null"/>
+    <conditions name="destination != source"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

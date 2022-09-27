@@ -5,10 +5,10 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 
 /**
@@ -47,7 +47,7 @@ public class RenameStatementFeature extends AbstractCustomFeature {
         PictogramElement[] pes = context.getPictogramElements();
         if (pes != null && pes.length == 1) {
             Object bo = getBusinessObjectForPictogramElement(pes[0]);
-            if (bo != null && bo.getClass().equals(AbstractStatementImpl.class) || bo instanceof ReturnStatement || bo instanceof MethodStatement || bo instanceof StrengthWeakStatement) {
+            if (bo != null && bo.getClass().equals(AbstractStatementImpl.class) || bo instanceof ReturnStatement || bo instanceof MethodStatement || bo instanceof StrengthWeakStatement|| bo instanceof OriginalStatement) {
                 ret = true;
             }
         }
@@ -59,13 +59,12 @@ public class RenameStatementFeature extends AbstractCustomFeature {
         PictogramElement[] pes = context.getPictogramElements();
         if (pes != null && pes.length == 1) {
             Object bo = getBusinessObjectForPictogramElement(pes[0]);
-            if (bo.getClass().equals(AbstractStatementImpl.class) || bo instanceof ReturnStatement || bo instanceof MethodStatement || bo instanceof StrengthWeakStatement) {
+            if (bo.getClass().equals(AbstractStatementImpl.class) || bo instanceof ReturnStatement || bo instanceof MethodStatement || bo instanceof StrengthWeakStatement|| bo instanceof OriginalStatement) {
             	IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
     			directEditingInfo.setMainPictogramElement(pes[0]);
     			directEditingInfo.setPictogramElement(pes[0]);
     			directEditingInfo.setGraphicsAlgorithm(pes[0].getGraphicsAlgorithm());
     			directEditingInfo.setActive(true);
-
             	getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refresh();
             }
         }

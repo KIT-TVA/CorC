@@ -3,7 +3,6 @@
  */
 package de.tu_bs.cs.isf.cbc.textual.tool.ui.contentassist;
 
-import de.tu_bs.cs.isf.cbc.textual.tool.ui.contentassist.AbstractDslProposalProvider;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;

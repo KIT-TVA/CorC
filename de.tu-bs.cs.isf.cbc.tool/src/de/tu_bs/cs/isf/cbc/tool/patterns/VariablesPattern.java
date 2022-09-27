@@ -1,10 +1,14 @@
 package de.tu_bs.cs.isf.cbc.tool.patterns;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -29,11 +33,19 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.PredefinedColoredAreas;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import helper.ClassUtil;
 
 /**
  * Class that creates the graphical representation of Methods
@@ -91,10 +103,19 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 		variable.setName("int a");
 		variable.setKind(VariableKind.LOCAL);
-		variable.setDisplayedName("int a");
 		variables.getVariables().add(variable);
 
 		try {
+			Resource resource = CbcModelUtil.getResource(getDiagram());
+			for(EObject c:resource.getContents()){
+				if(c instanceof CbCFormulaImpl) {
+					CbCFormula formula = (CbCFormula) c;
+					if(formula.getMethodObj()!= null) {
+						EList<Field> fields = formula.getMethodObj().getParentClass().getFields();
+						variables.eSet(CbcmodelPackage.eINSTANCE.getJavaVariables_Fields(), fields);
+					}
+				}
+			}
 			CbcModelUtil.saveVariablesToModelFile(variables, getDiagram());
 		} catch (CoreException | IOException e) {
 			e.printStackTrace();
@@ -111,7 +132,6 @@ public class VariablesPattern extends IdPattern implements IPattern {
 
 	@Override
 	public PictogramElement doAdd(IAddContext context) {
-
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
 		JavaVariables addedVariables = (JavaVariables) context.getNewObject();
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
@@ -155,14 +175,22 @@ public class VariablesPattern extends IdPattern implements IPattern {
 	@Override
 	protected boolean layout(IdLayoutContext context, String id) {
 		boolean changesDone = false;
-
 		GraphicsAlgorithm mainRectangle = context.getRootPictogramElement().getGraphicsAlgorithm();
-		JavaVariables variables = (JavaVariables) getBusinessObjectForPictogramElement(
-				context.getRootPictogramElement());
+		JavaVariables variables = (JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement());
+		EList<Field> inheritedFields = null;
+		if (getDiagram().eResource().getURI().isPlatform()) {
+			String featureName = ((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI().segment(((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI().segmentCount() - 3);
+			String className = ((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI().segment(((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI().segmentCount() - 2);
+			Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);
+			if (classResource != null &&((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
+				inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();	
+			}
+		}
+		int size = variables.getVariables().size() + (variables.getFields() != null ? variables.getFields().size() : 0) + (inheritedFields != null ? inheritedFields.size() : 0) + (variables.getParams() != null ? variables.getParams().size() : 0) ;
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		int height = mainRectangle.getHeight();
-		if (variables.getVariables().size() >= 1) {
-			height = height / (variables.getVariables().size() + 1);
+		if (size >= 1) {
+			height = height / (size + 1);
 		}
 
 		if (id.equals(ID_NAME_TEXT)) {
@@ -180,7 +208,6 @@ public class VariablesPattern extends IdPattern implements IPattern {
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		}
-
 		return changesDone;
 	}
 
@@ -188,30 +215,193 @@ public class VariablesPattern extends IdPattern implements IPattern {
 	protected IReason updateNeeded(IdUpdateContext context, String id) {
 		if (id.equals(ID_MAIN_RECTANGLE)) {
 			ContainerShape containerShape = (ContainerShape) context.getPictogramElement();
-			JavaVariables variables = (JavaVariables) context.getDomainObject();
-			if (containerShape.getChildren().size() - 2 != variables.getVariables().size()) {
-				return Reason.createTrueReason("Number of Variables differ. Expected: "
-						+ variables.getVariables().size() + " " + (containerShape.getChildren().size() - 2));
+			EList<JavaVariable> variables = ((JavaVariables) context.getDomainObject()).getVariables();
+			EList<Field> fields = ((JavaVariables) context.getDomainObject()).getFields();
+			EList<Parameter> params = ((JavaVariables) context.getDomainObject()).getParams();
+			EList<Field> inheritedFields = null;
+			String className = ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 2);
+			String featureName = ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 4).equals("features") ? ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 3) : "";
+			String methodName = getDiagram().eResource().getURI().trimFileExtension().segment(getDiagram().eResource().getURI().segmentCount()-1);
+			if (getDiagram().eResource().getURI().isPlatform()) {
+				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);
+				if (classResource != null && ((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
+					inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();	
+				}
 			}
+			// in some cases getFields/getParams do not return fields/params; backup via modelclass
+			if (fields.size() == 0 || params.size() == 0) {
+				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);				
+				if (classResource != null && classResource.getContents().get(0) instanceof ModelClass) {
+					ModelClass mc = (ModelClass) classResource.getContents().get(0);
+					fields = mc.getFields();
+					for (de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method m : mc.getMethods()) {
+						if (m.getName().equals(methodName)) {
+							params = m.getParameters();
+							break;
+						}
+					}
+				}			
+			}
+			
+			int size = variables.size() + fields.size() + params.size() + (inheritedFields != null ? inheritedFields.size() : 0);
+			if (containerShape.getChildren().size() - 2 != size) {
+				return Reason.createTrueReason("Number of Variables differ. Expected: " + size + " Actual: " + (containerShape.getChildren().size() - 2));
+			}
+			
+			List<Integer> found = new ArrayList<Integer>();
+			EList<Shape> shapes = containerShape.getChildren();
+			for (int i = 2; i < shapes.size(); i++) {
+				Shape shape = shapes.get(i);
+				EList<EObject> objects = shape.eContents();
+				for (int j = 0; j < objects.size(); j++) {
+					EObject obj = objects.get(j);
+					if (obj instanceof Text) {
+						for (int k = 0; k < fields.size(); k++) {
+							Field f = fields.get(k);
+							if (f.getDisplayedName().equalsIgnoreCase(((Text) obj).getValue())) {
+								found.add(k);
+								break;
+							}
+						}
+						if (inheritedFields != null) {
+						for (int k = 0; k < inheritedFields.size(); k++) {
+							Field f = inheritedFields.get(k);
+							if (f.getDisplayedName().equalsIgnoreCase(((Text) obj).getValue().replace(" inherited",""))) {
+								found.add(k + fields.size());
+								break;
+							}
+						}
+						}
+						for (int k = 0; k < params.size(); k++) {
+							Parameter p = params.get(k);
+							if ((("PARAM " + p.getType() + " " + p.getName()).equalsIgnoreCase(((Text) obj).getValue()) || ("RETURN " + p.getType() + " " + p.getName()).equalsIgnoreCase(((Text) obj).getValue()))) {
+								found.add(k + fields.size() + (inheritedFields != null ? inheritedFields.size() : 0));
+								break;
+							}
+						}
+						break;
+					}
+				}
+			}
+			if (found.size() != (fields.size() + params.size() + (inheritedFields != null ? inheritedFields.size() : 0))) {
+				return Reason.createTrueReason("Class fields differ from ModelClass.");
+			}	
 		}
+		updateGraphicsAlgorithmChildren(context.getGraphicsAlgorithm(), context);
 		return Reason.createFalseReason();
 	}
-
+	
 	@Override
-	protected boolean update(IdUpdateContext context, String id) {
+	public boolean update(IdUpdateContext context, String id) {
 		if (id.equals(ID_MAIN_RECTANGLE)) {
 			EList<JavaVariable> variables = ((JavaVariables) context.getDomainObject()).getVariables();
-			while (((ContainerShape) context.getPictogramElement()).getChildren().size() - 2 < variables.size()) {
-				int newIndex = ((ContainerShape) context.getPictogramElement()).getChildren().size() - 2;
-				JavaVariable variable = variables.get(newIndex);
-				Shape shapeText = Graphiti.getPeCreateService()
-						.createShape((ContainerShape) context.getPictogramElement(), true);
-				Text variableNameText = Graphiti.getGaService().createText(shapeText, variable.getDisplayedName());
-				setId(variableNameText, ID_VARIABLE_TEXT);
-				setIndex(variableNameText, newIndex);
-				variableNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-				variableNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-				link(shapeText, variable);
+			EList<Field> fields = ((JavaVariables) context.getDomainObject()).getFields();
+			EList<Parameter> params = ((JavaVariables) context.getDomainObject()).getParams();
+			EList<Field> inheritedFields = null;
+			String className = ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 2);
+			String featureName = ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 4).equals("features") ? ((JavaVariables) context.getDomainObject()).eResource().getURI().segment(((JavaVariables) context.getDomainObject()).eResource().getURI().segmentCount() - 3) : "";
+			String methodName = getDiagram().eResource().getURI().trimFileExtension().segment(getDiagram().eResource().getURI().segmentCount()-1);
+			if (getDiagram().eResource().getURI().isPlatform()) {
+				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);
+				if (classResource != null &&((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
+					inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();	
+				}
+			}
+			
+			// in some cases getFields/getParams do not return fields/params; backup via modelclass
+			if (fields.size() == 0 || params.size() == 0) {
+				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);				
+				if (classResource != null && classResource.getContents().get(0) instanceof ModelClass) {
+					ModelClass mc = (ModelClass) classResource.getContents().get(0);
+					fields = mc.getFields();
+					for (de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method m : mc.getMethods()) {
+						if (m.getName().equals(methodName)) {
+							params = m.getParameters();
+							break;
+						}
+					}
+				}			
+			}
+			
+			List<Integer> checkedShapes = new ArrayList<>();
+			checkedShapes.add(0);
+			checkedShapes.add(1);			
+			
+			for (int i = 0; i < params.size() + variables.size() + fields.size() + (inheritedFields != null ? inheritedFields.size() : 0); i++) {
+				Parameter param = null;
+				JavaVariable var = null;
+				Field field = null;
+				String name = "";
+				if (i < params.size()) {
+					param = params.get(i);
+					param.eResource();
+					if (!param.getName().equals("ret")) {
+						name = "PARAM " + param.getType() + " " + param.getName();
+					} else {
+						name = "RETURN " + param.getType() + " " + param.getName();
+					}
+				} else if (i < variables.size() + params.size()) {
+					var = variables.get(i - params.size());
+					name = var.getDisplayedName();
+				} else if (i < fields.size() + variables.size() + params.size()) {
+					field = fields.get(i - params.size() - variables.size());
+					name = field.getDisplayedName();
+				} else {
+					field = inheritedFields.get(i - params.size() - variables.size() - fields.size());
+					name = field.getDisplayedName();
+				}
+				EList<Shape> shapes = ((ContainerShape) context.getPictogramElement()).getChildren();
+				boolean check = false;
+				for (int j = 2; j < shapes.size(); j++) {
+					Shape shape = shapes.get(j);
+					Text text = (Text) shape.getGraphicsAlgorithm();
+					if (name.equals(text.getValue().replace(" inherited", ""))) {
+						check = true;
+						checkedShapes.add(j);
+						break;
+					}
+				}
+				if (!check) {
+					int newIndex = 0;
+					ContainerShape container = (ContainerShape) context.getPictogramElement();
+					for (Shape childShape : container.getChildren()) {
+						if (getIndex(childShape.getGraphicsAlgorithm()) >= newIndex) {
+							setIndex(childShape.getGraphicsAlgorithm(), getIndex(childShape.getGraphicsAlgorithm()) + 1);
+						}
+					}
+					Shape shapeText = Graphiti.getPeCreateService().createShape((ContainerShape) context.getPictogramElement(), true);
+					Text variableNameText = Graphiti.getGaService().createText(shapeText, (name + (i < (params.size() + variables.size() + fields.size()) ? "" : " inherited")));
+					setId(variableNameText, ID_VARIABLE_TEXT);
+					setIndex(variableNameText, newIndex);
+					variableNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+					variableNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+					link(shapeText, (param != null ? param : (var != null ? var : field)));
+					checkedShapes.add(shapes.size()-1);
+				}
+			}
+			
+			//delete shapes that didn't match any param, field or variable
+			EList<Shape> shapes = ((ContainerShape) context.getPictogramElement()).getChildren();
+			for (int i = 2; i < shapes.size(); i++) {
+				if (!checkedShapes.contains(i)) {
+					Shape shape = shapes.get(i);
+					int indexToDelete = getIndex(shape.getGraphicsAlgorithm());
+					for (Shape childShape : shapes) {
+						if (getIndex(childShape.getGraphicsAlgorithm()) > indexToDelete) {
+							setIndex(childShape.getGraphicsAlgorithm(),	getIndex(childShape.getGraphicsAlgorithm()) - 1);
+						}
+					}
+					EcoreUtil.delete(shape.getLink());
+					EcoreUtil.delete(shape);
+					for (int j = 0; j < checkedShapes.size(); j++) {
+						int oldVal = checkedShapes.get(j);
+						if (oldVal > i) {
+							int newVal = oldVal - 1;
+							checkedShapes.set(j, newVal);
+						}
+					}
+					i--;
+				}
 			}
 			return true;
 		}

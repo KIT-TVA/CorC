@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
-import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
+import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 
 public class VerifyWithKeYHandler extends AbstractHandler implements IHandler {
 
@@ -44,7 +44,7 @@ public class VerifyWithKeYHandler extends AbstractHandler implements IHandler {
 				IPath iLocation = Path.fromOSString(javaFileCopy.getAbsolutePath()); 
 				IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
 				ifile.refreshLocal(0, null);
-				ProveWithKey.createKeyProofUserstudy(javaFile, counter);
+				KeYInteraction.startKeYProofFirstContract(javaFile, counter);
 				counter++;
 			} catch (IOException | CoreException e1) {
 				e1.printStackTrace();

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="transactionAccountTransfer2" proven="true" comment="" className="Account" methodName="transactionAccountTransfer2">
+    <statement name="statement" id="f6aba22d-bc18-4bc8-993b-8349b3d71e8f">
+      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="28e3ca68-9b26-423f-a281-98e29d3f1c69" preProve="true">
+        <guards name="Account.lock(source, destination) = FALSE"/>
+        <guards name="Account.lock(source, destination) = TRUE"/>
+        <commands name="statement" id="b2f18d44-9417-4d3f-a4e4-79ba3222050d">
+          <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement" id="047ef463-9be9-40d6-958e-dd1923f3af17">
+            <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+              <modifiables>ret</modifiables>
+            </postCondition>
+            <preCondition name="(old_destination_balance = destination.balance&#xD;&#xA;&amp; old_source_balance = source.balance) &amp; (Account.lock(source, destination) = FALSE)"/>
+          </refinement>
+          <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+            <modifiables>ret</modifiables>
+            <modifiables>tmp</modifiables>
+            <modifiables>tmp2</modifiables>
+          </postCondition>
+          <preCondition name="(old_destination_balance = destination.balance&#xD;&#xA;&amp; old_source_balance = source.balance) &amp; (Account.lock(source, destination) = FALSE)"/>
+        </commands>
+        <commands name="statement" id="d6bc0738-8551-45ce-b96c-7f2fa5812f95">
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="db10a65b-20d5-433f-8aae-59b864be4090" preProve="true">
+            <guards name="amount &lt;= 0"/>
+            <guards name="amount > 0"/>
+            <commands name="statement" id="e3e882ab-8821-4678-824c-a8aeeb0c0c3a">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement" id="bcc8b061-dd66-483d-a400-1778928cb469">
+                <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+                  <modifiables>ret</modifiables>
+                </postCondition>
+                <preCondition name="((old_destination_balance = destination.balance&#xD;&#xA;&amp; old_source_balance = source.balance) &amp; (Account.lock(source, destination) = TRUE)) &amp; (amount &lt;= 0)"/>
+              </refinement>
+              <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+                <modifiables>ret</modifiables>
+                <modifiables>tmp</modifiables>
+                <modifiables>tmp2</modifiables>
+              </postCondition>
+              <preCondition name="((old_destination_balance = destination.balance&#xD;&#xA;&amp; old_source_balance = source.balance) &amp; (Account.lock(source, destination) = TRUE)) &amp; (amount &lt;= 0)"/>
+            </commands>
+            <commands name="statement" id="8194bd12-7fdb-4bab-834f-643140ef3823">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="9d5e601a-0135-420f-a103-36742ec17ae5">
+                <firstStatement name="statement1" id="39e09fa8-28d0-44f7-9252-463a4b9f9aa0">
+                  <refinement name="tmp = source.update(amount * -1);" proven="true" id="224115b3-6749-41a4-a798-85299d9040f5">
+                    <postCondition name="old_destination_balance = destination.balance&#xD;&#xA;&amp; (tmp = TRUE -> old_source_balance - amount = source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp; (tmp = FALSE -> old_source_balance = source.balance)&#xD;&#xA;&amp; amount > 0">
+                      <modifiables>tmp</modifiables>
+                    </postCondition>
+                    <preCondition name="((old_destination_balance = destination.balance&#xD;&#xA;&amp; old_source_balance = source.balance) &amp; (Account.lock(source, destination) = TRUE)) &amp; (amount > 0)"/>
+                  </refinement>
+                  <postCondition name="old_destination_balance = destination.balance&#xD;&#xA;&amp; (tmp = TRUE -> old_source_balance - amount = source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp; (tmp = FALSE -> old_source_balance = source.balance)&#xD;&#xA;&amp; amount > 0">
+                    <modifiables>tmp</modifiables>
+                  </postCondition>
+                  <preCondition name="((old_destination_balance = destination.balance&#xD;&#xA;&amp; old_source_balance = source.balance) &amp; (Account.lock(source, destination) = TRUE)) &amp; (amount > 0)"/>
+                </firstStatement>
+                <secondStatement name="statement2" id="ab40fc95-32dc-4ec5-936e-b07d52bf8f19">
+                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="273946eb-416a-4e45-886f-6288824ec823" preProve="true">
+                    <guards name="FALSE = tmp"/>
+                    <guards name="TRUE = tmp"/>
+                    <commands name="statement" id="de0fef85-b896-4e82-9f9e-b902000b9a10">
+                      <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement" id="ad9aa991-79f1-4798-993e-26566a06e717">
+                        <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+                          <modifiables>ret</modifiables>
+                          <modifiables>tmp</modifiables>
+                        </postCondition>
+                        <preCondition name="(old_destination_balance = destination.balance&#xD;&#xA;&amp; (tmp = TRUE -> old_source_balance - amount = source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp; (tmp = FALSE -> old_source_balance = source.balance)&#xD;&#xA;&amp; amount > 0) &amp; (FALSE = tmp)">
+                          <modifiables>tmp</modifiables>
+                        </preCondition>
+                      </refinement>
+                      <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+                        <modifiables>ret</modifiables>
+                        <modifiables>tmp</modifiables>
+                        <modifiables>tmp2</modifiables>
+                      </postCondition>
+                      <preCondition name="(old_destination_balance = destination.balance&#xD;&#xA;&amp; (tmp = TRUE -> old_source_balance - amount = source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp; (tmp = FALSE -> old_source_balance = source.balance)&#xD;&#xA;&amp; amount > 0) &amp; (FALSE = tmp)">
+                        <modifiables>tmp</modifiables>
+                      </preCondition>
+                    </commands>
+                    <commands name="statement" id="c1190672-ca9d-4621-8551-de2d7fd0a197">
+                      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="89e64993-6a34-4bf1-a7d8-461e5f53e592">
+                        <firstStatement name="statement1" id="b32eb8df-ee82-4b42-aea8-b42ab492bdf6">
+                          <refinement name="tmp2 = destination.update(amount);" proven="true" id="c9f20541-cd12-4a12-8d37-adf5098531df">
+                            <postCondition name="(tmp2 = TRUE -> &#xD;&#xA;old_destination_balance + amount =&#xD;&#xA; destination.balance) &amp;&#xD;&#xA; (tmp2 = FALSE -> old_destination_balance =&#xD;&#xA; destination.balance)&#xD;&#xA;&amp; (tmp = TRUE -> &#xD;&#xA;old_source_balance - amount =&#xD;&#xA; source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp;&#xD;&#xA; (tmp = FALSE -> old_source_balance =&#xD;&#xA; source.balance) &amp; tmp = TRUE&#xD;&#xA;&amp; amount > 0">
+                              <modifiables>tmp</modifiables>
+                              <modifiables>tmp2</modifiables>
+                              <modifiables>ret</modifiables>
+                            </postCondition>
+                            <preCondition name="(old_destination_balance = destination.balance&#xD;&#xA;&amp; (tmp = TRUE -> old_source_balance - amount = source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp; (tmp = FALSE -> old_source_balance = source.balance)&#xD;&#xA;&amp; amount > 0) &amp; (TRUE = tmp)">
+                              <modifiables>tmp</modifiables>
+                            </preCondition>
+                          </refinement>
+                          <postCondition name="(tmp2 = TRUE -> &#xD;&#xA;old_destination_balance + amount =&#xD;&#xA; destination.balance) &amp;&#xD;&#xA; (tmp2 = FALSE -> old_destination_balance =&#xD;&#xA; destination.balance)&#xD;&#xA;&amp; (tmp = TRUE -> &#xD;&#xA;old_source_balance - amount =&#xD;&#xA; source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp;&#xD;&#xA; (tmp = FALSE -> old_source_balance =&#xD;&#xA; source.balance) &amp; tmp = TRUE&#xD;&#xA;&amp; amount > 0">
+                            <modifiables>tmp</modifiables>
+                            <modifiables>tmp2</modifiables>
+                          </postCondition>
+                          <preCondition name="(old_destination_balance = destination.balance&#xD;&#xA;&amp; (tmp = TRUE -> old_source_balance - amount = source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp; (tmp = FALSE -> old_source_balance = source.balance)&#xD;&#xA;&amp; amount > 0) &amp; (TRUE = tmp)">
+                            <modifiables>tmp</modifiables>
+                          </preCondition>
+                        </firstStatement>
+                        <secondStatement name="statement2" id="bfdbd8d8-52e7-41ab-8ad3-0dd69a9bee7c">
+                          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="316f24e9-e470-4267-85d2-cc51df4fad7e" preProve="true">
+                            <guards name="FALSE = tmp2"/>
+                            <guards name="TRUE = tmp2"/>
+                            <commands name="statement" id="df65d3fe-4df7-44c9-91fe-ed8941f619bb">
+                              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="99e8da4c-2778-45ae-9886-031cd73d1e74">
+                                <firstStatement name="statement1" id="d04f7675-34a2-465a-8568-7b14c24cbaf5">
+                                  <refinement name="source.undoUpdate(amount * -1);" proven="true" id="57f9bbf9-7f54-408a-9dc4-777aa5c5e311">
+                                    <postCondition name="old_destination_balance =&#xD;&#xA; destination.balance &amp;&#xD;&#xA; old_source_balance =&#xD;&#xA; source.balance">
+                                      <modifiables>tmp</modifiables>
+                                      <modifiables>tmp2</modifiables>
+                                    </postCondition>
+                                    <preCondition name="((tmp2 = TRUE -> &#xD;&#xA;old_destination_balance + amount =&#xD;&#xA; destination.balance) &amp;&#xD;&#xA; (tmp2 = FALSE -> old_destination_balance =&#xD;&#xA; destination.balance)&#xD;&#xA;&amp; (tmp = TRUE -> &#xD;&#xA;old_source_balance - amount =&#xD;&#xA; source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp;&#xD;&#xA; (tmp = FALSE -> old_source_balance =&#xD;&#xA; source.balance) &amp; tmp = TRUE&#xD;&#xA;&amp; amount > 0) &amp; (FALSE = tmp2)">
+                                      <modifiables>tmp</modifiables>
+                                      <modifiables>tmp2</modifiables>
+                                    </preCondition>
+                                  </refinement>
+                                  <postCondition name="old_destination_balance =&#xD;&#xA; destination.balance &amp;&#xD;&#xA; old_source_balance =&#xD;&#xA; source.balance">
+                                    <modifiables>tmp</modifiables>
+                                    <modifiables>tmp2</modifiables>
+                                  </postCondition>
+                                  <preCondition name="((tmp2 = TRUE -> &#xD;&#xA;old_destination_balance + amount =&#xD;&#xA; destination.balance) &amp;&#xD;&#xA; (tmp2 = FALSE -> old_destination_balance =&#xD;&#xA; destination.balance)&#xD;&#xA;&amp; (tmp = TRUE -> &#xD;&#xA;old_source_balance - amount =&#xD;&#xA; source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp;&#xD;&#xA; (tmp = FALSE -> old_source_balance =&#xD;&#xA; source.balance) &amp; tmp = TRUE&#xD;&#xA;&amp; amount > 0) &amp; (FALSE = tmp2)">
+                                    <modifiables>tmp</modifiables>
+                                    <modifiables>tmp2</modifiables>
+                                  </preCondition>
+                                </firstStatement>
+                                <secondStatement name="statement2" id="364d4e7b-e02d-40eb-949a-52be36b298fa">
+                                  <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement" id="96f7ccd2-481b-42dc-a7e2-77d78c5f2940">
+                                    <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+                                      <modifiables>ret</modifiables>
+                                      <modifiables>tmp</modifiables>
+                                      <modifiables>tmp2</modifiables>
+                                    </postCondition>
+                                    <preCondition name="old_destination_balance =&#xD;&#xA; destination.balance &amp;&#xD;&#xA; old_source_balance =&#xD;&#xA; source.balance">
+                                      <modifiables>tmp</modifiables>
+                                      <modifiables>tmp2</modifiables>
+                                    </preCondition>
+                                  </refinement>
+                                  <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+                                    <modifiables>ret</modifiables>
+                                    <modifiables>tmp</modifiables>
+                                    <modifiables>tmp2</modifiables>
+                                  </postCondition>
+                                  <preCondition name="old_destination_balance =&#xD;&#xA; destination.balance &amp;&#xD;&#xA; old_source_balance =&#xD;&#xA; source.balance">
+                                    <modifiables>tmp</modifiables>
+                                    <modifiables>tmp2</modifiables>
+                                  </preCondition>
+                                </secondStatement>
+                                <intermediateCondition name="old_destination_balance =&#xD;&#xA; destination.balance &amp;&#xD;&#xA; old_source_balance =&#xD;&#xA; source.balance">
+                                  <modifiables>tmp</modifiables>
+                                  <modifiables>tmp2</modifiables>
+                                </intermediateCondition>
+                              </refinement>
+                              <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+                                <modifiables>ret</modifiables>
+                                <modifiables>tmp</modifiables>
+                                <modifiables>tmp2</modifiables>
+                              </postCondition>
+                              <preCondition name="((tmp2 = TRUE -> &#xD;&#xA;old_destination_balance + amount =&#xD;&#xA; destination.balance) &amp;&#xD;&#xA; (tmp2 = FALSE -> old_destination_balance =&#xD;&#xA; destination.balance)&#xD;&#xA;&amp; (tmp = TRUE -> &#xD;&#xA;old_source_balance - amount =&#xD;&#xA; source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp;&#xD;&#xA; (tmp = FALSE -> old_source_balance =&#xD;&#xA; source.balance) &amp; tmp = TRUE&#xD;&#xA;&amp; amount > 0) &amp; (FALSE = tmp2)">
+                                <modifiables>tmp</modifiables>
+                                <modifiables>tmp2</modifiables>
+                              </preCondition>
+                            </commands>
+                            <commands name="statement" id="76589514-01e9-49db-8a03-2fad53cc1251">
+                              <refinement xsi:type="cbcmodel:ReturnStatement" name="true;" proven="true" comment="returnStatement" id="6fa00b65-99dc-45b9-9dbc-a2ffa3a4ba1a">
+                                <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+                                  <modifiables>ret</modifiables>
+                                  <modifiables>tmp</modifiables>
+                                  <modifiables>tmp2</modifiables>
+                                </postCondition>
+                                <preCondition name="((tmp2 = TRUE -> &#xD;&#xA;old_destination_balance + amount =&#xD;&#xA; destination.balance) &amp;&#xD;&#xA; (tmp2 = FALSE -> old_destination_balance =&#xD;&#xA; destination.balance)&#xD;&#xA;&amp; (tmp = TRUE -> &#xD;&#xA;old_source_balance - amount =&#xD;&#xA; source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp;&#xD;&#xA; (tmp = FALSE -> old_source_balance =&#xD;&#xA; source.balance) &amp; tmp = TRUE&#xD;&#xA;&amp; amount > 0) &amp; (TRUE = tmp2)">
+                                  <modifiables>tmp</modifiables>
+                                  <modifiables>tmp2</modifiables>
+                                </preCondition>
+                              </refinement>
+                              <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+                                <modifiables>ret</modifiables>
+                                <modifiables>tmp</modifiables>
+                                <modifiables>tmp2</modifiables>
+                              </postCondition>
+                              <preCondition name="((tmp2 = TRUE -> &#xD;&#xA;old_destination_balance + amount =&#xD;&#xA; destination.balance) &amp;&#xD;&#xA; (tmp2 = FALSE -> old_destination_balance =&#xD;&#xA; destination.balance)&#xD;&#xA;&amp; (tmp = TRUE -> &#xD;&#xA;old_source_balance - amount =&#xD;&#xA; source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp;&#xD;&#xA; (tmp = FALSE -> old_source_balance =&#xD;&#xA; source.balance) &amp; tmp = TRUE&#xD;&#xA;&amp; amount > 0) &amp; (TRUE = tmp2)">
+                                <modifiables>tmp</modifiables>
+                                <modifiables>tmp2</modifiables>
+                              </preCondition>
+                            </commands>
+                          </refinement>
+                          <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+                            <modifiables>ret</modifiables>
+                            <modifiables>tmp</modifiables>
+                            <modifiables>tmp2</modifiables>
+                          </postCondition>
+                          <preCondition name="(tmp2 = TRUE -> &#xD;&#xA;old_destination_balance + amount =&#xD;&#xA; destination.balance) &amp;&#xD;&#xA; (tmp2 = FALSE -> old_destination_balance =&#xD;&#xA; destination.balance)&#xD;&#xA;&amp; (tmp = TRUE -> &#xD;&#xA;old_source_balance - amount =&#xD;&#xA; source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp;&#xD;&#xA; (tmp = FALSE -> old_source_balance =&#xD;&#xA; source.balance) &amp; tmp = TRUE&#xD;&#xA;&amp; amount > 0">
+                            <modifiables>tmp</modifiables>
+                            <modifiables>tmp2</modifiables>
+                          </preCondition>
+                        </secondStatement>
+                        <intermediateCondition name="(tmp2 = TRUE -> &#xD;&#xA;old_destination_balance + amount =&#xD;&#xA; destination.balance) &amp;&#xD;&#xA; (tmp2 = FALSE -> old_destination_balance =&#xD;&#xA; destination.balance)&#xD;&#xA;&amp; (tmp = TRUE -> &#xD;&#xA;old_source_balance - amount =&#xD;&#xA; source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp;&#xD;&#xA; (tmp = FALSE -> old_source_balance =&#xD;&#xA; source.balance) &amp; tmp = TRUE&#xD;&#xA;&amp; amount > 0">
+                          <modifiables>tmp</modifiables>
+                          <modifiables>tmp2</modifiables>
+                        </intermediateCondition>
+                      </refinement>
+                      <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+                        <modifiables>ret</modifiables>
+                        <modifiables>tmp</modifiables>
+                        <modifiables>tmp2</modifiables>
+                      </postCondition>
+                      <preCondition name="(old_destination_balance = destination.balance&#xD;&#xA;&amp; (tmp = TRUE -> old_source_balance - amount = source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp; (tmp = FALSE -> old_source_balance = source.balance)&#xD;&#xA;&amp; amount > 0) &amp; (TRUE = tmp)">
+                        <modifiables>tmp</modifiables>
+                      </preCondition>
+                    </commands>
+                  </refinement>
+                  <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+                    <modifiables>ret</modifiables>
+                    <modifiables>tmp</modifiables>
+                    <modifiables>tmp2</modifiables>
+                  </postCondition>
+                  <preCondition name="old_destination_balance = destination.balance&#xD;&#xA;&amp; (tmp = TRUE -> old_source_balance - amount = source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp; (tmp = FALSE -> old_source_balance = source.balance)&#xD;&#xA;&amp; amount > 0">
+                    <modifiables>tmp</modifiables>
+                  </preCondition>
+                </secondStatement>
+                <intermediateCondition name="old_destination_balance = destination.balance&#xD;&#xA;&amp; (tmp = TRUE -> old_source_balance - amount = source.balance &amp; source.balance >= source.OVERDRAFT_LIMIT) &amp; (tmp = FALSE -> old_source_balance = source.balance)&#xD;&#xA;&amp; amount > 0">
+                  <modifiables>tmp</modifiables>
+                </intermediateCondition>
+              </refinement>
+              <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+                <modifiables>ret</modifiables>
+                <modifiables>tmp</modifiables>
+                <modifiables>tmp2</modifiables>
+              </postCondition>
+              <preCondition name="((old_destination_balance = destination.balance&#xD;&#xA;&amp; old_source_balance = source.balance) &amp; (Account.lock(source, destination) = TRUE)) &amp; (amount > 0)"/>
+            </commands>
+          </refinement>
+          <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+            <modifiables>ret</modifiables>
+            <modifiables>tmp</modifiables>
+            <modifiables>tmp2</modifiables>
+          </postCondition>
+          <preCondition name="(old_destination_balance = destination.balance&#xD;&#xA;&amp; old_source_balance = source.balance) &amp; (Account.lock(source, destination) = TRUE)"/>
+        </commands>
+      </refinement>
+      <postCondition name="(\result = TRUE -> (old_destination_balance + amount = destination.balance)) &amp;&#xD;&#xA; (\result = TRUE ->&#xD;&#xA; (old_source_balance - amount = source.balance))&#xD;&#xA; &amp; (\result = FALSE -> (old_destination_balance = destination.balance))&#xD;&#xA; &amp; (\result = FALSE ->&#xD;&#xA; (old_source_balance = source.balance))">
+        <modifiables>ret</modifiables>
+        <modifiables>tmp</modifiables>
+        <modifiables>tmp2</modifiables>
+      </postCondition>
+      <preCondition name="old_destination_balance = destination.balance&#xD;&#xA;&amp; old_source_balance = source.balance"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Account.cbcclass#//@methods.9"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int old_destination_balance"/>
+    <variables name="int old_source_balance"/>
+    <variables name="boolean tmp"/>
+    <variables name="boolean tmp2"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="source != destination"/>
+    <conditions name="Account source non-null"/>
+    <conditions name="Account destination non-null"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

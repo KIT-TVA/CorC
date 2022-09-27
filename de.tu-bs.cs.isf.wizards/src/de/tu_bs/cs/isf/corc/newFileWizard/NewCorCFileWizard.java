@@ -26,13 +26,15 @@ import org.eclipse.ui.IWorkbench;
  */
 public class NewCorCFileWizard extends Wizard implements INewWizard {
 	
-	private chooseDiagramTypePage typePage = new chooseDiagramTypePage();
+	private chooseDiagramTypePage typePage;
 	private Resource diagramResource;
 	private Resource modelResource;
 	private Diagram diagram;
 	
+	
 	@Override
 	public void addPages() {
+		typePage = new chooseDiagramTypePage();
 		addPage(typePage);
 	}
 	@Override
@@ -100,6 +102,44 @@ public class NewCorCFileWizard extends Wizard implements INewWizard {
 			}
 			
 			return true;
+		} else if (typePage.corcclass) {
+			ResourceSet resourceSet = new ResourceSetImpl();
+			URI diagramuri = URI.createURI("file:/"+ typePage.path.getText() + "/" + typePage.name.getText());
+			URI modeluri = diagramuri;
+			diagramuri = diagramuri.appendFileExtension("diagram");		
+			modeluri = modeluri.appendFileExtension("cbcclass");
+			
+			//create the diagram and its file:
+			diagram = Graphiti.getPeCreateService().createDiagram("cbcclass", typePage.name.getText(), true);
+
+			diagramResource = resourceSet.createResource(diagramuri);
+			diagramResource.getContents().add(diagram);
+			
+			try {
+				diagramResource.save(Collections.EMPTY_MAP);
+				diagramResource.setTrackingModification(true);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			diagramResource = resourceSet.createResource(modeluri);
+			try {
+				diagramResource.save(Collections.EMPTY_MAP);
+				diagramResource.setTrackingModification(true);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			//refresh so you don't have to press f5
+			try {
+				ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+			
+			return true;
+			
+			
 		}
 		return false;
 	}

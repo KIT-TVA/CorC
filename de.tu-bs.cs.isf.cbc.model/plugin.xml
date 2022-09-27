@@ -6,12 +6,13 @@
 
 <plugin>
 
+
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated cbcmodel -->
+      <!-- @generated test -->
       <package
             uri="http://www.example.org/cbcmodel"
             class="de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage"
-            genModel="model/cbcmodel.genmodel"/>
+            genModel="model/test.genmodel"/>
    </extension>
 
 </plugin>

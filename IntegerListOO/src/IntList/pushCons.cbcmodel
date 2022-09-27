@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="pushCons" proven="true" comment="" className="IntList" methodName="pushCons">
+    <statement name="statement" id="d0e1843e-3466-499a-94ca-fbc71d7a7ccd">
+      <refinement xsi:type="cbcmodel:MethodStatement" name="self.pushBase(newTop);" proven="true" id="0543b7a8-3eb2-4c5d-9386-22a89e8fd11d">
+        <postCondition name="(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop"/>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="IntList.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+  <cbcmodel:GlobalConditions>
+    <conditions name="data != null"/>
+    <conditions name="data.length >= 0"/>
+    <conditions name="\old(data) = data"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

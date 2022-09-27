@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="getClientByAdress" proven="true" comment="" className="Client" methodName="getClientByAdress">
+    <statement name="statement" id="65286417-9088-4f58-9fad-0b1553df6eb3">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="b219160a-ae9e-49c7-8f50-abaef7d81f4b">
+        <firstStatement name="statement1" id="a22bfd45-c517-427f-b441-468b5083228a">
+          <refinement name="index = 0;&#xD;&#xA;result = null;" proven="true" id="c76e929a-be85-45f5-87e2-34d4b22c860a">
+            <postCondition name="index = 0&#xD;&#xA;&amp; Client.clients.&lt;created> = TRUE&#xD;&#xA;&amp; Client.clients.length >= 0&#xD;&#xA;&amp; Client.clients != null">
+              <modifiables>index</modifiables>
+              <modifiables>result</modifiables>
+            </postCondition>
+            <preCondition name="Client.clients != null"/>
+          </refinement>
+          <postCondition name="index = 0&#xD;&#xA;&amp; Client.clients.&lt;created> = TRUE&#xD;&#xA;&amp; Client.clients.length >= 0&#xD;&#xA;&amp; Client.clients != null">
+            <modifiables>index</modifiables>
+            <modifiables>result</modifiables>
+          </postCondition>
+          <preCondition name="Client.clients != null"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="66098040-4ea8-455a-8fdc-d555e73b0ecd">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="f33326a5-4b93-4078-8ad5-87466d129f65">
+            <firstStatement name="statement1" id="046fda2d-8dba-4445-a816-e9d822c14e58">
+              <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="45dd9702-759f-4dbf-8638-b178ba6bf107" variantProven="true" preProven="true" postProven="true">
+                <postCondition name="(\exists int k;((k>=0 &amp; k&lt;Client.clients.length &#xD;&#xA;&amp; Client.clients[k].getName() != null&#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                  <modifiables>index</modifiables>
+                  <modifiables>result</modifiables>
+                </postCondition>
+                <preCondition name="index = 0&#xD;&#xA;&amp; Client.clients.&lt;created> = TRUE&#xD;&#xA;&amp; Client.clients.length >= 0&#xD;&#xA;&amp; Client.clients != null">
+                  <modifiables>index</modifiables>
+                  <modifiables>result</modifiables>
+                </preCondition>
+                <loopStatement name="loop" id="caa82e3e-657f-446d-bec0-599dfb15e6d9">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="3aabdb61-6559-45b0-9b2c-92fecf7bf219">
+                    <firstStatement name="statement1" id="2b05f298-906f-437f-ab47-8c640a9f4bf6">
+                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="bfa0e677-c342-409a-ae38-6451f52ac004" preProve="true">
+                        <guards name="Client.clients[index] != null&amp;Client.clients[index].getName().equals(address) = TRUE"/>
+                        <guards name="!(Client.clients[index] != null&amp;Client.clients[index].getName().equals(address) = TRUE)"/>
+                        <commands name="statement" id="70a0e68d-bd15-48cf-8323-811771dc13df">
+                          <refinement name="result = Client.clients[index];" proven="true" id="149e8e57-95d7-4303-ac8d-2e0e0b24cbaf">
+                            <postCondition name="index >= 0 &amp;&#xD;&#xA;(\exists int k;((k>=0 &amp; k&lt;index &#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                              <modifiables>index</modifiables>
+                              <modifiables>result</modifiables>
+                            </postCondition>
+                            <preCondition name="((index >= 0 &amp;(\exists int k;(((k>=0 &amp; k&lt;index &amp; Client.clients[k].getName() != null&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k])))) &amp; (index &lt; Client.clients.length)) &amp; (Client.clients[index] != null&amp;Client.clients[index].getName().equals(address) = TRUE)">
+                              <modifiables>index</modifiables>
+                              <modifiables>result</modifiables>
+                            </preCondition>
+                          </refinement>
+                          <postCondition name="index >= 0 &amp;&#xD;&#xA;(\exists int k;((k>=0 &amp; k&lt;index &#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                            <modifiables>index</modifiables>
+                            <modifiables>result</modifiables>
+                          </postCondition>
+                          <preCondition name="((index >= 0 &amp;(\exists int k;(((k>=0 &amp; k&lt;index &amp; Client.clients[k].getName() != null&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k])))) &amp; (index &lt; Client.clients.length)) &amp; (Client.clients[index] != null&amp;Client.clients[index].getName().equals(address) = TRUE)">
+                            <modifiables>index</modifiables>
+                            <modifiables>result</modifiables>
+                          </preCondition>
+                        </commands>
+                        <commands name="statement" id="76481039-d408-48f3-b918-3c906de90159">
+                          <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true" id="b548a207-1750-46ee-86ee-a0814f81d1ef">
+                            <postCondition name="index >= 0 &amp;&#xD;&#xA;(\exists int k;((k>=0 &amp; k&lt;index &#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                              <modifiables>index</modifiables>
+                              <modifiables>result</modifiables>
+                            </postCondition>
+                            <preCondition name="((index >= 0 &amp;(\exists int k;(((k>=0 &amp; k&lt;index &amp; Client.clients[k].getName() != null&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k])))) &amp; (index &lt; Client.clients.length)) &amp; (!(Client.clients[index] != null&amp;Client.clients[index].getName().equals(address) = TRUE))">
+                              <modifiables>index</modifiables>
+                              <modifiables>result</modifiables>
+                            </preCondition>
+                          </refinement>
+                          <postCondition name="index >= 0 &amp;&#xD;&#xA;(\exists int k;((k>=0 &amp; k&lt;index &#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                            <modifiables>index</modifiables>
+                            <modifiables>result</modifiables>
+                          </postCondition>
+                          <preCondition name="((index >= 0 &amp;(\exists int k;(((k>=0 &amp; k&lt;index &amp; Client.clients[k].getName() != null&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k])))) &amp; (index &lt; Client.clients.length)) &amp; (!(Client.clients[index] != null&amp;Client.clients[index].getName().equals(address) = TRUE))">
+                            <modifiables>index</modifiables>
+                            <modifiables>result</modifiables>
+                          </preCondition>
+                        </commands>
+                      </refinement>
+                      <postCondition name="index >= 0 &amp;&#xD;&#xA;(\exists int k;((k>=0 &amp; k&lt;index &#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                        <modifiables>index</modifiables>
+                        <modifiables>result</modifiables>
+                      </postCondition>
+                      <preCondition name="(index >= 0 &amp;(\exists int k;(((k>=0 &amp; k&lt;index &amp; Client.clients[k].getName() != null&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k])))) &amp; (index &lt; Client.clients.length)">
+                        <modifiables>index</modifiables>
+                        <modifiables>result</modifiables>
+                      </preCondition>
+                    </firstStatement>
+                    <secondStatement name="statement2" id="314a44f5-b138-4c4b-9c2b-92bf430fe981">
+                      <refinement name="index++;" proven="true" id="f5915d92-2cc0-4955-9911-e5080dad082a">
+                        <postCondition name="index >= 0 &amp;(\exists int k;(((k>=0 &amp; k&lt;index &amp; Client.clients[k].getName() != null&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k])))">
+                          <modifiables>index</modifiables>
+                          <modifiables>result</modifiables>
+                        </postCondition>
+                        <preCondition name="index >= 0 &amp;&#xD;&#xA;(\exists int k;((k>=0 &amp; k&lt;index &#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                          <modifiables>index</modifiables>
+                          <modifiables>result</modifiables>
+                        </preCondition>
+                      </refinement>
+                      <postCondition name="index >= 0 &amp;(\exists int k;(((k>=0 &amp; k&lt;index &amp; Client.clients[k].getName() != null&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k])))">
+                        <modifiables>index</modifiables>
+                        <modifiables>result</modifiables>
+                        <modifiables>ret</modifiables>
+                      </postCondition>
+                      <preCondition name="index >= 0 &amp;&#xD;&#xA;(\exists int k;((k>=0 &amp; k&lt;index &#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                        <modifiables>index</modifiables>
+                        <modifiables>result</modifiables>
+                      </preCondition>
+                    </secondStatement>
+                    <intermediateCondition name="index >= 0 &amp;&#xD;&#xA;(\exists int k;((k>=0 &amp; k&lt;index &#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                      <modifiables>index</modifiables>
+                      <modifiables>result</modifiables>
+                    </intermediateCondition>
+                  </refinement>
+                  <postCondition name="index >= 0 &amp;(\exists int k;(((k>=0 &amp; k&lt;index &amp; Client.clients[k].getName() != null&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k])))">
+                    <modifiables>index</modifiables>
+                    <modifiables>result</modifiables>
+                    <modifiables>ret</modifiables>
+                  </postCondition>
+                  <preCondition name="(index >= 0 &amp;(\exists int k;(((k>=0 &amp; k&lt;index &amp; Client.clients[k].getName() != null&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k])))) &amp; (index &lt; Client.clients.length)">
+                    <modifiables>index</modifiables>
+                    <modifiables>result</modifiables>
+                  </preCondition>
+                </loopStatement>
+                <variant name="Client.clients.length - index"/>
+                <invariant name="index >= 0 &amp;(\exists int k;(((k>=0 &amp; k&lt;index &amp; Client.clients[k].getName() != null&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k])))"/>
+                <guard name="index &lt; Client.clients.length"/>
+              </refinement>
+              <postCondition name="(\exists int k;((k>=0 &amp; k&lt;Client.clients.length &#xD;&#xA;&amp; Client.clients[k].getName() != null&#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                <modifiables>index</modifiables>
+                <modifiables>result</modifiables>
+                <modifiables>ret</modifiables>
+              </postCondition>
+              <preCondition name="index = 0&#xD;&#xA;&amp; Client.clients.&lt;created> = TRUE&#xD;&#xA;&amp; Client.clients.length >= 0&#xD;&#xA;&amp; Client.clients != null">
+                <modifiables>index</modifiables>
+                <modifiables>result</modifiables>
+              </preCondition>
+            </firstStatement>
+            <secondStatement name="statement2" id="ecab0843-0977-4dd4-9e8b-ebfc7f1fdef8">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement" id="e8cce6ea-83cb-482c-8082-0f5bb8bb23e2">
+                <postCondition name="(\exists int k;((k>=0 &amp; k&lt;Client.clients.length  &#xD;&#xA;&amp; Client.clients[k].getName() != null &#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                  <modifiables>index</modifiables>
+                  <modifiables>result</modifiables>
+                  <modifiables>ret</modifiables>
+                </postCondition>
+                <preCondition name="(\exists int k;((k>=0 &amp; k&lt;Client.clients.length &#xD;&#xA;&amp; Client.clients[k].getName() != null&#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                  <modifiables>index</modifiables>
+                  <modifiables>result</modifiables>
+                  <modifiables>ret</modifiables>
+                </preCondition>
+              </refinement>
+              <postCondition name="(\exists int k;((k>=0 &amp; k&lt;Client.clients.length  &#xD;&#xA;&amp; Client.clients[k].getName() != null &#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                <modifiables>index</modifiables>
+                <modifiables>result</modifiables>
+                <modifiables>ret</modifiables>
+              </postCondition>
+              <preCondition name="(\exists int k;((k>=0 &amp; k&lt;Client.clients.length &#xD;&#xA;&amp; Client.clients[k].getName() != null&#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+                <modifiables>index</modifiables>
+                <modifiables>result</modifiables>
+                <modifiables>ret</modifiables>
+              </preCondition>
+            </secondStatement>
+            <intermediateCondition name="(\exists int k;((k>=0 &amp; k&lt;Client.clients.length &#xD;&#xA;&amp; Client.clients[k].getName() != null&#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+              <modifiables>index</modifiables>
+              <modifiables>result</modifiables>
+              <modifiables>ret</modifiables>
+            </intermediateCondition>
+          </refinement>
+          <postCondition name="(\exists int k;((k>=0 &amp; k&lt;Client.clients.length  &#xD;&#xA;&amp; Client.clients[k].getName() != null &#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+            <modifiables>index</modifiables>
+            <modifiables>result</modifiables>
+            <modifiables>ret</modifiables>
+          </postCondition>
+          <preCondition name="index = 0&#xD;&#xA;&amp; Client.clients.&lt;created> = TRUE&#xD;&#xA;&amp; Client.clients.length >= 0&#xD;&#xA;&amp; Client.clients != null">
+            <modifiables>index</modifiables>
+            <modifiables>result</modifiables>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="index = 0&#xD;&#xA;&amp; Client.clients.&lt;created> = TRUE&#xD;&#xA;&amp; Client.clients.length >= 0&#xD;&#xA;&amp; Client.clients != null">
+          <modifiables>index</modifiables>
+          <modifiables>result</modifiables>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="(\exists int k;((k>=0 &amp; k&lt;Client.clients.length  &#xD;&#xA;&amp; Client.clients[k].getName() != null &#xD;&#xA;&amp; Client.clients[k].getName().equals(address) = TRUE) -> result = Client.clients[k]))">
+        <modifiables>index</modifiables>
+        <modifiables>result</modifiables>
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="Client.clients != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Client.cbcclass#//@methods.8"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int index"/>
+    <variables name="Client result"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="address !=null &amp; address.&lt;created> = TRUE"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               label="File">
+            <command
+                  commandId="org.eclipse.ui.file.exit"
+                  label="Exit">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
    <extension
          point="org.eclipse.ui.commands">
       <command
@@ -87,6 +99,82 @@
      </menuContribution>
   </extension>
   
+  <extension point= "org.eclipse.ui.menus" >
+  <menuContribution 
+  locationURI = "popup:org.eclipse.ui.popup.any" >
+  <command commandId= "de.tu_bs.cs.isf.commands.toolbar.generateDiagramsFromClassCommand"> label="Generate CbC Diagrams from Class"
+  <visibleWhen>
+	<with variable="activeMenuSelection">
+		<iterate
+			ifEmpty="false">
+			<adapt type="org.eclipse.core.resources.IResource">
+				<test property="org.eclipse.core.resources.name" value="*.java" />
+			</adapt>
+		</iterate>
+	</with>
+  </visibleWhen>
+  </command>
+  </menuContribution>
+  <menuContribution
+        locationURI="popup:org.eclipse.ui.popup.any">
+     <command
+           commandId="de.tu_bs.cs.isf.commands.toolbar.generateClassesFromInterfacesCommand">
+        label="Generate CbC Diagrams from Class"
+        <visibleWhen>
+           <with
+                 variable="activeMenuSelection">
+              <iterate
+                    ifEmpty="false">
+                 <or>
+                    <adapt
+                          type="org.eclipse.core.resources.IProject">
+                    </adapt>
+                    <test
+                          property="org.eclipse.core.resources.name"
+                          value="*.tc">
+                    </test>
+                 </or>
+              </iterate>
+           </with>
+        </visibleWhen>
+     </command>
+  </menuContribution>
+  </extension>
   
+	<extension point="org.eclipse.ui.commands">
+	<command id="de.tu_bs.cs.isf.commands.toolbar.generateDiagramsFromClassCommand" defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateDiagramsFromClassHandler" name="Generate Diagrams from Class">
+	</command>
+ <command
+       defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateClassesFromInterfacesHandler"
+       id="de.tu_bs.cs.isf.commands.toolbar.generateClassesFromInterfacesCommand"
+       name="Check Trait Composition">
+ </command>
+	</extension>
+	
+	<extension point= "org.eclipse.ui.menus" >
+  <menuContribution 
+  locationURI = "popup:org.eclipse.ui.popup.any" >
+  <command commandId= "de.tu_bs.cs.isf.commands.toolbar.generateJavaCodeCommand"> label="Generate CbC Diagrams from Class"
+  <visibleWhen>
+	<with variable="activeMenuSelection">
+		<iterate
+			ifEmpty="false">
+				<or>
+				<test property="org.eclipse.core.resources.name" value="*.cbcmodel" />
+				<test property="org.eclipse.core.resources.name" value="*.cbcclass" />
+				<test property="org.eclipse.core.resources.name" value="*.diagram" />
+				</or>
+
+		</iterate>
+	</with>
+  </visibleWhen>
+  </command>
+  </menuContribution>
+  </extension>
+  
+	<extension point="org.eclipse.ui.commands">
+	<command id="de.tu_bs.cs.isf.commands.toolbar.generateJavaCodeCommand" defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateJavaCodeHandler" name="Generate Java Code">
+	</command>
+	</extension>
 
 </plugin>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="leaveElevator" proven="true" comment="" className="Person" methodName="leaveElevator">
+    <statement name="statement" id="2bb3d32f-e263-4798-8500-d76864298d2e">
+      <refinement name="this.destinationReached = true;" proven="true" id="bedbbfdb-979b-45f6-bcca-caef696180f7">
+        <postCondition name="this.destinationReached = TRUE">
+          <modifiables>this.destinationReached</modifiables>
+        </postCondition>
+        <preCondition name="this.destinationReached = FALSE"/>
+      </refinement>
+      <postCondition name="this.destinationReached = TRUE">
+        <modifiables>this.destinationReached</modifiables>
+      </postCondition>
+      <preCondition name="this.destinationReached = FALSE"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Person.cbcclass#//@methods.0"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

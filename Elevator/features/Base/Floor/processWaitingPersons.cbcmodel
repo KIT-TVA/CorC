@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="processWaitingPersons" className="Floor" methodName="processWaitingPersons">
+    <statement name="statement" id="29acca7e-6c3a-4c3c-ab81-eb0166e84afc">
+      <refinement xsi:type="cbcmodel:SkipStatement" name=";" id="25ba9708-0489-46e3-a587-e620b000c08f">
+        <postCondition name="this.waiting.isEmpty() = TRUE &amp; this.hasCall() = FALSE"/>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="this.waiting.isEmpty() = TRUE &amp; this.hasCall() = FALSE"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Floor.cbcclass#//@methods.5"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

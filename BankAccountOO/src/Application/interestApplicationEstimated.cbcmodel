@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="interestApplicationEstimated" className="Application" methodName="interestApplicationEstimated">
+    <statement name="Statement" id="6dc4e46d-8119-43c4-9fbe-e65c135de9c2">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="&#xD;&#xA;account.interest + daysLeft * account.interestCalculate();&#xD;&#xA;" comment="returnStatement" id="c1a0fa5d-99aa-47e5-894c-9ccab38d5b58">
+        <postCondition name="account.interestCalculate() >= 0 -> \result >= account.interest">
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="daysLeft > 0"/>
+      </refinement>
+      <postCondition name="account.interestCalculate() >= 0 -> \result >= account.interest">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="daysLeft > 0"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Application.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

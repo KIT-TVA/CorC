@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="nextDay" proven="true" comment="" className="Application" methodName="nextDay">
+    <statement name="statement" id="0ef0b425-448f-4d1e-b265-20b215db81ce">
+      <refinement name="account.withdraw = 0;" proven="true" id="bae37f18-ef95-44b2-8d81-efe22e7ec64c">
+        <postCondition name="account.withdraw = 0">
+          <modifiables>account.withdraw</modifiables>
+        </postCondition>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="account.withdraw = 0">
+        <modifiables>account.withdraw</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Application.cbcclass#//@methods.4"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

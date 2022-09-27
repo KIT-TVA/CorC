@@ -1,15 +1,14 @@
 package de.tu_bs.cs.isf.cbc.util;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
 
 import com.google.common.collect.Lists;
@@ -17,8 +16,11 @@ import com.google.common.collect.Lists;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 
 public class Parser {
 	public static final String KEYWORD_JML_PRE = "requires";
@@ -42,7 +44,7 @@ public class Parser {
 		}
 	}
 
-	public static List<String> findAllVariables(AbstractStatement abstractStatement, JavaVariables vars)
+	public static List<String> findAllVariables(AbstractStatement abstractStatement, JavaVariables vars, IFileUtil fileHandler)
 			throws ParserException {
 		String input = abstractStatement.getName().trim();
 		List<String> variableList = new LinkedList<String>();
@@ -52,9 +54,43 @@ public class Parser {
 		String[] statements = input.split(";");
 
 		for (String nextStatement : statements) {
+			String variable = "";
+			if(nextStatement.matches("(\\+\\+)(\\w+)")) {
+				variable = nextStatement.split("\\+\\+")[0];
+			} else if(nextStatement.matches("(\\-\\-)(\\w+)")) {
+				variable = nextStatement.split("\\-\\-")[0];
+			} else if(nextStatement.matches("(\\w+)(\\-\\-)")) {
+				variable = nextStatement.split("\\-\\-")[0];
+			} else if(nextStatement.matches("(\\w+)(\\+\\+)")) {
+				variable = nextStatement.split("\\+\\+")[0];
+			}
+			
+			if(!variable.isEmpty()) {
+				variableList.add(variable);
+				variable = "";
+			}
+				
 			if (nextStatement.contains("=")) {
-				String[] nextStatementTokens = nextStatement.split("=");
-				String variable = parseVariable(nextStatementTokens[0].trim());
+				String[] nextStatementTokens;
+				if(nextStatement.contains("*="))
+					nextStatementTokens = nextStatement.split("[*]=");
+				else if(nextStatement.contains("-="))
+					nextStatementTokens = nextStatement.split("[-]=");
+				else if(nextStatement.contains("+="))
+					nextStatementTokens = nextStatement.split("[+]=");
+				else if(nextStatement.contains("/="))
+					nextStatementTokens = nextStatement.split("[/]=");
+				else
+					nextStatementTokens = nextStatement.split("=");
+			    variable = parseVariable(nextStatementTokens[0].trim());
+				//add only variables of kind param or global
+				/*String typeOfVariable = getTypeOfVariable(variable, vars);
+				if(variable.startsWith("this.") || 
+						vars.getVariables().stream().filter(e -> e.getName().equals(typeOfVariable + " " + variable) 
+						&& e.getKind() == VariableKind.PARAM).count() > 0) {
+					variableList.add(variable);
+				}*/
+				//--------------------------------
 				variableList.add(variable);
 			}
 			if (nextStatement.contains(".") && nextStatement.contains("(")) {
@@ -65,13 +101,26 @@ public class Parser {
 					String variableName = nextStatementTokens[0];
 					String methodName = nextStatementTokens[1].replaceAll("\\(", "");
 					String variableType = getTypeOfVariable(variableName, vars);
-					IFile javaFile = FileUtil.getClassFile(variableType);
+					File javaFile = fileHandler.getClassFile(variableType);
 					if (javaFile != null) {
 						String assignablesFromMethodCall = getContentFromJML(javaFile, methodName,
-								KEYWORD_JML_MODIFIABLE);
+								KEYWORD_JML_MODIFIABLE, fileHandler);
 						if (!assignablesFromMethodCall.equals("")) {
 							for (String var : assignablesFromMethodCall.split(",")) {
-								variableList.add(variableName + "." + var);
+								/*if(vars.getVariables().stream().filter(e -> e.getName().equals(variableName) && e.getKind() == VariableKind.PARAM).count() > 0) {
+									variableList.add(variableName + "." + var);
+								}*/
+								if(nextStatement.trim().startsWith("this.")) {
+									if(!var.equals("\\nothing"))
+										variableList.add("this." + variableName + "." + var);
+									else
+										variableList.add("this." + variableName);
+								} else {
+									if(!var.equals("\\nothing"))
+										variableList.add(variableName + "." + var);
+									else
+										variableList.add(variableName);	
+								}
 							}
 						}
 					}
@@ -83,11 +132,13 @@ public class Parser {
 
 	}
 
-	private static String getTypeOfVariable(String variableName, JavaVariables vars) {
+	public static String getTypeOfVariable(String variableName, JavaVariables vars) {
+		variableName = variableName.replaceFirst("\\w+\\.", "");
+		variableName = variableName.replaceFirst("\\[\\w+\\]", "");
 		for (JavaVariable var : vars.getVariables()) {
 			String[] splittedName = var.getName().split(" ");
 			if (splittedName.length > 1) {
-				if (splittedName[1].equals(variableName)) {
+				if (splittedName[1].trim().equals(variableName.trim())) {
 					return splittedName[0];
 				}
 			}
@@ -95,52 +146,39 @@ public class Parser {
 		return null;
 	}
 
-	public static String getContentFromJML(IFile javaFile, String methodName, String keyword) {
+	public static String getContentFromJML(File javaFile, String methodName, String keyword, IFileUtil fileHandler) {
 		if (javaFile != null) {
-			List<String> linesOfFile = FileUtil.readFileInList(javaFile.getLocation().toOSString());
+			List<String> linesOfFile = fileHandler.readFileInList(javaFile.getAbsolutePath());
 			boolean methodFound = false;
 			for (int i = linesOfFile.size() - 1; i >= 0; i--) {
 				if (!methodFound) {
-					if (linesOfFile.get(i).contains(methodName + "(")) {
+					if (linesOfFile.get(i).contains(" " + methodName + "(") && !linesOfFile.get(i).contains(";")) {
 						methodFound = true;
 					}
 				} else {
 					String currLine = linesOfFile.get(i);
 					if (currLine.contains(keyword)) {
-						return currLine
-								.substring(currLine.indexOf(keyword) + keyword.length(), currLine.lastIndexOf(";"))
-								.trim();
+						if (currLine.substring(currLine.length() - 1).contains(";")) {
+							return currLine.substring(currLine.indexOf(keyword) + keyword.length(), currLine.lastIndexOf(";")).trim();
+						} else {
+							while (!linesOfFile.get(i + 1).substring(linesOfFile.get(i + 1).length() - 1).contains(";")) {
+								currLine += linesOfFile.get(i + 1);
+								i++;
+							}
+							currLine += linesOfFile.get(i + 1);
+							return currLine.substring(currLine.indexOf(keyword) + keyword.length(), currLine.lastIndexOf(";")).trim();
+						}
 					} else if (currLine.contains("}")) {
 						if (keyword == KEYWORD_JML_MODIFIABLE) {
 							return "";
 						} else {
 							return "true";
 						}
-
 					}
 				}
-
 			}
 		}
 		return "";
-
-	}
-
-	private static Set<String> parseRightVariables(String statement) {
-		Set<String> rightVariables = new HashSet<String>();
-		String[] inputTokens = statement.split("[\\+\\-\\*/\\(\\),]");
-
-		for (String inputToken : inputTokens) {
-			inputToken = inputToken.trim();
-
-			if (inputToken.matches("\\d+") || inputToken.matches("\\s*")) {
-			} else if (inputToken.matches("\\w+.*\\w+")) {
-				rightVariables.add(inputToken.split("\\.")[0].trim());
-			} else {
-				rightVariables.add(inputToken);
-			}
-		}
-		return rightVariables;
 	}
 
 	public String destructConditionAndReplace(Condition condition) throws ParserException {
@@ -249,28 +287,38 @@ public class Parser {
 			throw new ParserException("Variable not in format \"<type> <name>\"." + input);
 		}
 	}
+	
+	public static String rewriteJMLConditionToKeY(String condition) {
+		condition = condition.replaceAll("==>", "->");
+		condition = condition.replaceAll("<==>", "<->");
+		condition = condition.replaceAll("==", "=");
+		condition = condition.replaceAll("&&", "&");
+		condition = condition.replaceAll("(?<==\\s?)true", "TRUE");
+		condition = condition.replaceAll("(?<==\\s?)false", "FALSE");
+		condition = condition.replaceAll("(\\w*)\\sinstanceof\\s(\\w*)", "$2::instance($1) = TRUE");
+		return condition;
+	}
 
-	public static CompositionTechnique getCompositionTechniqueForMethod(IFile classFile, String methodName,
-			String keyword) {
-		List<String> linesOfFile = FileUtil.readFileInList(classFile.getLocation().toOSString());
-		boolean methodFound = false;
-		for (int i = linesOfFile.size() - 1; i >= 0; i--) {
-			if (!methodFound) {
-				if (linesOfFile.get(i).contains(methodName + "(")) {
-					methodFound = true;
-				}
-			} else {
-				String currLine = linesOfFile.get(i);
-				if (currLine.contains(keyword)) {
-					if (currLine.contains(ProveWithKey.REGEX_ORIGINAL)) {
-						return CompositionTechnique.EXPLICIT_CONTRACTING;
-					} else if (currLine.contains("conjunctive_contract")) {
-						return CompositionTechnique.CONJUNCTIVE_CONTRACTING;
-					}
-				}
+	public static CompositionTechnique getCompositionTechniqueForMethod(File classFile, String feature,
+			String keyword, String callingMethod, IFileUtil fileHandler, String callingClass) {
+		String path = classFile.getAbsolutePath();
+		String pathParts[] = path.split("\\\\"); //TODO replace with correct delimiter
+		String location = "";
+		for (int i = 0; i < pathParts.length - 2; i++) {
+			location += pathParts[i] + "\\"; //TODO replace with correct delimiter
+		}
+		location += "features\\" + feature.substring(0, 1).toUpperCase() + feature.substring(1) + "\\" + callingClass + "\\" + callingMethod + ".cbcmodel";
+		List<String> linesOfFile = fileHandler.readFileInList(location);
+		for (int i = 0; i < linesOfFile.size(); i++) {
+			String currLine = linesOfFile.get(i);
+			if (currLine.contains("EXPLICIT_CONTRACTING")) {
+				return CompositionTechnique.EXPLICIT_CONTRACTING;
+			} else if (currLine.contains("CONJUNCTIVE_CONTRACTING")) {
+				return CompositionTechnique.CONJUNCTIVE_CONTRACTING;
 			}
 
 		}
+
 		return CompositionTechnique.CONTRACT_OVERRIDING;
 	}
 
@@ -284,8 +332,10 @@ public class Parser {
 		return condition;
 	}
 
-	public static List<String> getUnmodifiedVars(List<String> modifiedVars, EList<JavaVariable> declaredVariables) {
+	public static List<String> getUnmodifiedVars(List<String> modifiedVars, JavaVariables vars) {
 		List<String> unmodifiedVariables = Lists.newArrayList();
+		EList<JavaVariable> declaredVariables = vars.getVariables();
+		EList<Parameter> declaredParameters = vars.getParams();
 		if (!modifiedVars.contains("\\everything")) {
 			for (JavaVariable var : declaredVariables) {
 				String varName = var.getName().split(" ")[1];
@@ -293,10 +343,15 @@ public class Parser {
 					unmodifiedVariables.add(var.getName());
 				}
 			}
+			for (Parameter param : declaredParameters) {
+				if (!modifiedVars.contains(param.getName())) {
+					unmodifiedVariables.add(param.getType() + " " + param.getName());
+				}
+			}
 		}
 		return unmodifiedVariables;
 	}
-
+	
 	public static List<String> getModifiedVarsFromCondition(String condition) {
 		String variables = null;
 		List<String> modifiedVars = Lists.newArrayList();
@@ -314,56 +369,79 @@ public class Parser {
 		return modifiedVars;
 	}
 
-	public static String getModifieableVarsFromCondition(String condition) {
-//		String variables = "\\\\everything;";
-		String variables = "\\everything";
-		if (condition.contains("modifiable(") && condition.split(";").length > 1) {
-			variables = condition.split(";")[0];
-			if (variables != null) {
-				variables = variables.substring(variables.indexOf("(") + 1, variables.indexOf(")"));
-				variables = variables.replace(" ", "");
-				variables = variables.replace(System.getProperty("line.separator"), "");
+	public static String getModifieableVarsFromCondition(Condition condition) {
+		String variables = "\\nothing";
+		if (!condition.getModifiables().isEmpty()) {
+			variables = "";
+			for (String mod : condition.getModifiables()) {
+				variables += mod + ",";
 			}
+			variables = variables.substring(0, variables.length()-1);
 		}
+		
+		// remove return variable, as it must not be in assignables in java class
+		if (variables.endsWith(",ret") || variables.contains(",ret,")) variables = variables.replace(",ret", "");
+		if (variables.equals("ret")) variables = "\\nothing";
+		if (variables.startsWith("ret,")) variables = variables.replace("ret,", "");
 		return variables;
 	}
-
-	public static String rewriteConditionToJML(String condition) {
+	
+	
+	public static String rewriteConditionToJML(String condition) {	
 		condition = condition.replaceAll("(?<!<|>|!|=)(\\s*=\\s*)(?!<|>|=)", " == ");
-//		condition = condition.replaceAll("(?<![!<>])=", "==");
 		condition = condition.replaceAll("->", "==>");
 		condition = condition.replaceAll("<->", "<==>");
 		condition = condition.replaceAll("&", "&&");
 		condition = condition.replace("|", "||");
 		condition = condition.replaceAll("(?<==\\s?)TRUE", "true");
 		condition = condition.replaceAll("(?<==\\s?)FALSE", "false");
-		condition = condition.replaceAll("(\\w*)::instance\\((\\w*)\\) = TRUE", "$2 instanceof $1");
-		return condition;
-	}
-
-	public static String rewriteJMLConditionToKeY(String condition) {
-
-		condition = condition.replaceAll("==>", "->");
-		condition = condition.replaceAll("<==>", "<->");
-		condition = condition.replaceAll("==", "=");
-		condition = condition.replaceAll("&&", "&");
-		condition = condition.replaceAll("(?<==\\s?)true", "TRUE");
-		condition = condition.replaceAll("(?<==\\s?)false", "FALSE");
-		condition = condition.replaceAll("(\\w*)\\sinstanceof\\s(\\w*)", "$2::instance($1) = TRUE");
+		condition = condition.replaceAll("(\\w*)::exactInstance\\((\\w*)\\)\\s*=\\s*TRUE", "$2 instanceof $1");
+		condition = condition.replaceAll(".<created>\\s*=\\s*TRUE", " != null");
+		condition = condition.replaceAll(".<created>\\s*=\\s*FALSE", " == null");
 		return condition;
 	}
 	
-	public static String getMethodStubFromFile(String className, String methodName) {
+	public static String processGlobalConditions(GlobalConditions globalConditions, LinkedList<String> localVars, String preCondition) {
+		String result = "";
+		HashSet<String> conditionsSet = new HashSet<>();
+		for (Condition c : globalConditions.getConditions()) {
+			// Check if condition contains local variables:
+			boolean isLocal = false;
+			for(String v : localVars) {
+				if (c.getName().contains(v.substring(v.indexOf(" ")).trim()))
+					isLocal = true;
+			}
+			if (preCondition.contains(c.getName()) || c.getName().contains("<inv>"))
+				continue;
+			if (!isLocal)
+				conditionsSet.add( rewriteConditionToJML(c.getName()) );
+			else {
+				Console.println("[WARNING] Did not add global condition '" + c.getName() + "' to JML annotation, because it contains access to a local variable.");
+			}
+		}		
+		for (String c: conditionsSet) {
+			if (result.isEmpty()) {
+				result += c;
+			}
+			else {
+				result += " & " + c;
+			}
+		}
+		
+		return result;
+	}
+	
+	public static String getMethodStubFromFile(String className, String methodName, IFileUtil fileHandler) {
 		String methodStub = "";
-		IFile file = FileUtil.getClassFile(className);
+		File file = fileHandler.getClassFile(className);
 		boolean methodFound = false;
 		int braketCounter = 0;
 		if (file != null) {
-			List<String> linesOfFile = FileUtil.readFileInList(file.getLocation().toOSString());
+			List<String> linesOfFile = fileHandler.readFileInList(file.getAbsolutePath());
 			for (int i = 0; i < linesOfFile.size(); i++) {
 				String currLine = linesOfFile.get(i);
 				if (!methodFound) {
-					if (currLine.contains(methodName + "(")) {
+					if (currLine.contains(" " + methodName + "(") && !currLine.contains(";")) {
 						methodFound = true;
 						methodStub = currLine;
 						braketCounter++;
@@ -385,25 +463,66 @@ public class Parser {
 		return methodStub;
 	}
 
-	// public static void main(String[] args) {
-	//
-	// AbstractStatement st = CbcmodelFactory.eINSTANCE.createAbstractStatement();
-	// Condition con = CbcmodelFactory.eINSTANCE.createCondition();
-	// String s = "int i = 5 + 2; do(x); int y = x(f(ff),g+1,h); int z = 7 - 4; int
-	// u = 8 / 5;";
-	// String c = "x & y | x";
-	// st.setName(s);
-	// con.setName(c);
-	// try {
-	// Parser p = new Parser();
-	// System.out.println(p.findAllVariables(st));
-	// p.addVariableStatementPairs(st);
-	// p.destructConditionAndReplace(con);
-	// System.out.println(p.destructConditionAndReplace(con));
-	// System.out.println(con);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// System.out.println("ende");
-	// }
+	public static String extractMethodNameFromStatemtent(String stmt) {
+		String methodName = "";
+		char stmtChar[] = stmt.toCharArray();
+		boolean name = false;
+		for (int i = stmtChar.length -1; i >= 0; i--) {
+			if (!name && stmtChar[i] == '(') {
+				name = true;
+			} else if (name && (Character.isLetter(stmtChar[i]) || stmtChar[i] == '.')) {
+				methodName = stmtChar[i] + methodName;
+			} else {
+				name = false;
+			}
+		}
+		return methodName;
+	}
+
+	public static String getModifieableVarsFromConditionExceptLocals(Condition condition, LinkedList<String> varsLinkedList, JavaVariables vars,
+			JavaVariable returnVar) {
+		String variables = getModifieableVarsFromCondition(condition);
+		if(variables.contains("nothing") || variables.contains("everything")) {
+			return variables;
+		} else {
+			String[] assignableVariables = variables.replaceAll("this\\.", "").split(",");
+			for (int i = 0; i < assignableVariables.length; i++) {
+				assignableVariables[i] = assignableVariables[i].replaceAll("\\[.*\\]", "\\[\\*\\]");//.split("\\.")[0];
+			}
+			variables = "";
+			for (String modVar : assignableVariables) {
+				boolean isLocal = false;
+				if (varsLinkedList != null && varsLinkedList.size() > 0) {
+					for (String var : varsLinkedList) {
+						if (modVar.replaceAll("\\[.*\\]", "").equals(var.split(" ")[1])) {
+							isLocal = true;
+						}
+					}
+				}
+				if (vars != null && vars.getVariables().size() > 0) {
+					for (JavaVariable var : vars.getVariables()) {
+						if (modVar.replaceAll("\\[.*\\]", "").equals(var.getName().split(" ")[1]) && var.getKind().equals(VariableKind.LOCAL)) {
+							isLocal = true;
+						}
+					}
+				}
+				if (returnVar != null) {
+					if (modVar.replaceAll("\\[.*\\]", "").equals(returnVar.getName().split(" ")[1])) {
+						isLocal = true;
+					}
+				}
+				if (!isLocal && !variables.contains(modVar)) {
+					if (variables.isEmpty()) {
+						variables = modVar;
+					} else {
+						variables = variables + "," + modVar;
+					}
+				}
+			}
+		}
+		if(variables.isEmpty()) {
+			return variables = "\\nothing";
+		}
+		return variables;
+	}
 }

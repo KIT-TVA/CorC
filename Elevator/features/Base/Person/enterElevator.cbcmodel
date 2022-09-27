@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="enterElevator" proven="true" comment="" className="Person" methodName="enterElevator">
+    <statement name="statement" id="8a655955-4320-4738-b82a-3a0cc7d635a9">
+      <refinement name="e.pressInLiftFloorButton(this.destination);" proven="true" id="0141206d-8e48-453a-a3ec-0e717487cad3">
+        <postCondition name="e.floorButtons[this.destination] = TRUE"/>
+        <preCondition name="e != null &amp; this.destination >= 0 &amp; this.destination &lt; e.floorButtons.length&amp; e.floorButtons != null&amp; e.floorButtons[this.destination] != null"/>
+      </refinement>
+      <postCondition name="e.floorButtons[this.destination] = TRUE"/>
+      <preCondition name="e != null &amp; this.destination >= 0 &amp; this.destination &lt; e.floorButtons.length&amp; e.floorButtons != null&amp; e.floorButtons[this.destination] != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Person.cbcclass#//@methods.7"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+  <cbcmodel:GlobalConditions>
+    <conditions name="Elevator e non-null"/>
+    <conditions name="e.&lt;inv>"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

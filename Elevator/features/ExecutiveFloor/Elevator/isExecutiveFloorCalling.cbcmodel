@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="isExecutiveFloorCalling" className="Elevator" methodName="isExecutiveFloorCalling">
+    <statement name="statement" id="fe817ee9-f336-49da-8b91-02b2d11a89f7">
+      <refinement xsi:type="cbcmodel:SkipStatement" name=";" id="64e4b0f6-4c9b-4cc0-a4e6-03f9d720a13a">
+        <postCondition name="this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
+        <preCondition name="this.env != null &amp; this.env.floors != null &amp; this.executiveFloor >= 0 &amp; this.env != null &amp; this.env.floors != null"/>
+      </refinement>
+      <postCondition name="this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
+      <preCondition name="this.env != null &amp; this.env.floors != null &amp; this.executiveFloor >= 0 &amp; this.env != null &amp; this.env.floors != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.2"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="Floor tmpFloor"/>
+    <variables name="int index"/>
+    <variables name="boolean result"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

@@ -1,43 +1,64 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.EObject;
 
-import com.google.common.collect.Lists;
-
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
+import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
+import de.tu_bs.cs.isf.cbc.util.IFileUtil;
 import de.tu_bs.cs.isf.cbc.util.Parser;
 import de.tu_bs.cs.isf.cbc.util.ParserException;
-import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies;
 
 public class UpdateModifiableOfConditions {
 	private static Condition currentPost = null;
 	private static JavaVariables vars = null;
+	private static IFileUtil fileUtil = null;
 
-	public static void updateAssignmentStatement(AbstractStatement statement) {
+	public static void setVars(JavaVariables vars) {
+		UpdateModifiableOfConditions.vars = vars;
+	}
+	
+	public static void updateAssignmentStatement(AbstractStatement statement, IFileUtil fileHandler) {
+		fileUtil = fileHandler;
+		updateAssignmentStatement(statement);
+	}
+	
+	private static void updateAssignmentStatement(AbstractStatement statement) {
 		copyModifiableVariables(statement.getPreCondition(), statement.getPostCondition());
-		if (statement.getName().contains(";")
-				&& CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-			List<String> modifiableVariables = getModifiableVariables(statement.getPreCondition());
-
+		if (statement.getName().contains(";") && CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 			try {
-				List<String> variablesInStatement = Parser.findAllVariables(statement, vars);
+				List<String> variablesInStatement = Parser.findAllVariables(statement, vars, fileUtil);
+				List<String> modifiableVariables = new ArrayList<>(statement.getPreCondition().getModifiables());
 				for (String var : variablesInStatement) {
 					if (!modifiableVariables.contains(var)) {
+						for (Field f : vars.getFields()) {
+							if (f.getName().equals(var) && f.getType().contains("[]") && !var.contains("[")) {
+								var = var + "[*]";
+							}
+						}
 						modifiableVariables.add(var);
 					}
 				}
-
-				addModifiableVariablesToStatement(statement.getPostCondition(), modifiableVariables);
+				if (statement instanceof ReturnStatement && variablesInStatement.size() == 0) modifiableVariables.add("ret"); 
+				statement.getPostCondition().getModifiables().clear();
+				for (String mv : modifiableVariables) {
+					if (!statement.getPostCondition().getModifiables().contains(mv)) {
+						statement.getPostCondition().getModifiables().add(mv);
+					}
+				}
+				ECollections.sort(statement.getPostCondition().getModifiables());
 				currentPost = statement.getPostCondition();
 				updateParent(statement);
 			} catch (ParserException e) {
@@ -76,13 +97,28 @@ public class UpdateModifiableOfConditions {
 				copyModifiableVariables(repStatement.getPreCondition(), repStatement.getPostCondition());
 				updateParent(repStatement);
 			} else if (parent instanceof SelectionStatement) {
-				SelectionStatement selStatement = (SelectionStatement) parent;
-				copyModifiableVariables(selStatement.getPreCondition(), selStatement.getPostCondition());
-				for (AbstractStatement subStatement : selStatement.getCommands()) {
-					if (parent.equals(subStatement)) {
-						copyModifiableVariables(currentPost, subStatement.getPostCondition());
+				SelectionStatement selStatement = (SelectionStatement) parent;//pre and post of selection are always null
+				copyModifiableVariables(selStatement.getPreCondition(), selStatement.getPostCondition());//?
+				if(statement.eContainer() instanceof SelectionStatement) {//abstract stmnt. embedded in Selection 
+					for (AbstractStatement subStatement : selStatement.getCommands()) {//update postcondition of the parent extraselection
+						if (!statement.equals(subStatement)) {//parent.equals(subStatement)
+							copySelectionModifiableVariables(subStatement.getPostCondition(), currentPost);
+						}
+					}
+				} else {//Abstract stmnt is child of Selection
+					for (AbstractStatement subStatement : selStatement.getCommands()) {//update postcondition of the parent extraselection
+						if (statement.eContainer().equals(subStatement)) {//update post condition of parent
+							copyModifiableVariables(currentPost, subStatement.getPostCondition());
+						}
+					}
+					for (AbstractStatement subStatement : selStatement.getCommands()) {//update postcondition of the parent extraselection
+						if (!statement.eContainer().equals(subStatement)) {//parent.equals(subStatement)
+							copySelectionModifiableVariables(subStatement.getPostCondition(), currentPost);
+						}
 					}
 				}
+				//show all modifiables of Selection
+				copyModifiableVariables(currentPost, selStatement.getCommands().get(0).getPostCondition());
 				updateParent(selStatement);
 			} else if (statement.getParent() instanceof StrengthWeakStatement) {
 				StrengthWeakStatement parentStatement = (StrengthWeakStatement) statement.getParent();
@@ -90,19 +126,16 @@ public class UpdateModifiableOfConditions {
 				updateParent(parentStatement);
 			}
 		}
-
 	}
 
 	private static void updatePreChild(AbstractStatement statement) {
 		if (statement.getRefinement() != null) {
 			AbstractStatement refinement = statement.getRefinement();
 			copyModifiableVariables(statement.getPreCondition(), refinement.getPreCondition());
-			copyModifiableVariables(statement.getPreCondition(),
-					((AbstractStatement) refinement.eContainer()).getPreCondition());
+			copyModifiableVariables(statement.getPreCondition(), ((AbstractStatement) refinement.eContainer()).getPreCondition());
 			if (refinement instanceof CompositionStatement) {
 				CompositionStatement subCompoStatement = (CompositionStatement) refinement;
-				copyModifiableVariables(((AbstractStatement) subCompoStatement.eContainer()).getPreCondition(),
-						subCompoStatement.getFirstStatement().getPreCondition());
+				copyModifiableVariables(((AbstractStatement) subCompoStatement.eContainer()).getPreCondition(), subCompoStatement.getFirstStatement().getPreCondition());
 				updatePreChild(subCompoStatement.getFirstStatement());
 				copyModifiableVariables(currentPost, subCompoStatement.getSecondStatement().getPostCondition());
 			} else if (refinement instanceof SelectionStatement) {
@@ -114,7 +147,6 @@ public class UpdateModifiableOfConditions {
 					} else {
 						copyModifiableVariables(statement.getPreCondition(), subSelStatement.getPostCondition());
 					}
-
 					updatePreChild(subSelStatement);
 				}
 			} else if (refinement instanceof SmallRepetitionStatement) {
@@ -136,78 +168,24 @@ public class UpdateModifiableOfConditions {
 		}
 	}
 
+	private static void copySelectionModifiableVariables(Condition copyFromCondition, Condition copyToCondition) {
+		if (copyFromCondition != null && copyToCondition != null && !copyFromCondition.getModifiables().isEmpty()) {
+			for (String c : copyFromCondition.getModifiables()) {
+				if (!copyToCondition.getModifiables().contains(c)) {
+					copyToCondition.getModifiables().add(c);
+				}
+			}
+		}
+	}
+	
 	private static void copyModifiableVariables(Condition copyFromCondition, Condition copyToCondition) {
-		if (copyFromCondition != null && copyToCondition != null
-				&& copyFromCondition.getName().contains("modifiable(")) {
-			String variables = null;
-			String[] splittedCondition = copyFromCondition.getName().split(";", 2);
-			if (splittedCondition.length > 1) {
-				variables = splittedCondition[0];
+		if (copyFromCondition != null && copyToCondition != null && !copyFromCondition.getModifiables().isEmpty()) {
+			List<String> temp = new ArrayList<>();
+			for (String s: copyFromCondition.getModifiables()) {
+				temp.add(s);
 			}
-			String conditionString = null;
-			String[] splittedCondition2 = copyToCondition.getName().split(";", 2);
-			if (splittedCondition2.length > 1) {
-				conditionString = splittedCondition2[1];
-			} else {
-				conditionString = splittedCondition2[0];
-			}
-			if (variables != null) {
-				copyToCondition
-						.setName(variables + ";" + System.getProperty("line.separator") + conditionString.trim());
-			} else {
-				copyToCondition.setName(conditionString.trim());
-			}
+			copyToCondition.getModifiables().clear();
+			copyToCondition.getModifiables().addAll(temp);
 		}
-
 	}
-
-	private static AbstractStatement getStatementToCopyHighVariables(AbstractStatement statement) {
-		if (statement instanceof CompositionStatement) {
-			return ((CompositionStatement) statement).getSecondStatement();
-
-		}
-		return statement;
-	}
-
-	private static void addModifiableVariablesToStatement(Condition condition, List<String> modifiableVariables) {
-		String variables = "";
-		String conditionString = condition.getName();
-		if (condition.getName().contains("modifiable(")) {
-			String[] splittedCondition = condition.getName().split(";", 2);
-			if (splittedCondition.length > 1) {
-				variables = splittedCondition[0];
-				conditionString = splittedCondition[1];
-			}
-		}
-		Collections.sort(modifiableVariables);
-		if (modifiableVariables.size() == 1) {
-			variables = "modifiable(" + modifiableVariables.get(0) + "); ";
-
-		} else if (modifiableVariables.size() > 1) {
-			variables = "modifiable(" + String.join(",", modifiableVariables) + "); ";
-		}
-		condition.setName(variables + conditionString);
-
-	}
-
-	public static List<String> getModifiableVariables(Condition condition) {
-		String variables = null;
-		List<String> variablesAsList = Lists.newArrayList();
-		if (condition.getName().contains("modifiable") & condition.getName().split(";").length > 1) {
-			variables = condition.getName().split(";")[0];
-		}
-		if (variables != null) {
-			variables = variables.substring(1);
-			variables = variables.substring(variables.indexOf("(") + 1, variables.indexOf(")"));
-			variables = variables.replace(" ", "");
-			variables = variables.replace(System.getProperty("line.separator"), "");
-			variablesAsList = Lists.newArrayList(variables.split(","));
-		}
-		return variablesAsList;
-	}
-
-	public static void setVars(JavaVariables vars) {
-		UpdateModifiableOfConditions.vars = vars;
-	}
-
 }

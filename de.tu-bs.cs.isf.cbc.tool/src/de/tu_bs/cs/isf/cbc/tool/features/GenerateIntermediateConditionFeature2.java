@@ -13,10 +13,10 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
-import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyAbstractAsynchronousCustomFeature;
-import de.tu_bs.cs.isf.toolkit.support.compare.CompareMethodBodies;
 
 /**
  * Class that generates the weakest precondition with key
@@ -88,7 +88,9 @@ public class GenerateIntermediateConditionFeature2 extends MyAbstractAsynchronou
 				String weakestPre = "";
 
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-					weakestPre = ProveWithKey.proveUseWeakestPreWithKey(statement, vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
+					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, null, new FileUtil(uriString), "");
+					weakestPre = prove.proveUseWeakestPreWithKey();
 				} else {
 					Console.println("Statement is not in correct format.");
 				}

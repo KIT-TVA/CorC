@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="getClientById" proven="true" comment="" className="Client" methodName="getClientById">
+    <statement name="statement" id="0a1e98d1-0441-42b0-b051-5bccf523e44b">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="&#xD;&#xA;Client.clients[id];&#xD;&#xA;" proven="true" comment="returnStatement" id="4c3e2897-9bf2-4f31-bd26-8bc76ba481e6">
+        <postCondition name="\result = Client.clients[id]">
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="Client.clients != null &amp; id >= 0 &amp; id &lt; Client.clients.length"/>
+      </refinement>
+      <postCondition name="\result = Client.clients[id]">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="Client.clients != null &amp; id >= 0 &amp; id &lt; Client.clients.length"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Client.cbcclass#//@methods.2"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

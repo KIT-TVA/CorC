@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: de.tu_bs.cs.isf.cbc.cbcclass.model;singleton:=true
+Automatic-Module-Name: de.tu_bs.cs.isf.cbc.cbcclass.model
+Bundle-Version: 0.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass,
+ de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl,
+ de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.util
+Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
+ de.tu-bs.cs.isf.cbc.model;visibility:=reexport,
+ org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy

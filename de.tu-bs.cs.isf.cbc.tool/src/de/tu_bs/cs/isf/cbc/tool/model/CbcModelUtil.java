@@ -16,12 +16,11 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
-import de.tu_bs.cs.isf.cbc.cbcmodel.MethodRefinements;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Method;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 
 public class CbcModelUtil {
@@ -29,11 +28,6 @@ public class CbcModelUtil {
 	public static void saveFormulaToModelFile(final CbCFormula formula, final Diagram d) throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(formula);
-	}
-	
-	public static void saveMethodToModelFile(final Method method, final Diagram d) throws CoreException, IOException {
-		Resource resource = getResource(d);
-		resource.getContents().add(method);
 	}
 	
 	public static void saveVariablesToModelFile(final JavaVariables variables, final Diagram d) throws CoreException, IOException {
@@ -56,6 +50,22 @@ public class CbcModelUtil {
 		}
 		return null;
 	}
+	
+	public static ModelClass readModelClass(URI uri) {
+		CbcmodelPackage.eINSTANCE.eClass();
+		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+		Map<String, Object> m = reg.getExtensionToFactoryMap();
+		m.put("cbcclass", new XMIResourceFactoryImpl());
+		ResourceSet rs = new ResourceSetImpl();
+		Resource r = rs.getResource(uri, true);
+		for (EObject obj :  r.getContents()) {
+			if (obj instanceof ModelClass) {
+				ModelClass modelclass = (ModelClass) obj;
+				return modelclass;
+			}
+		}
+		return null;
+	}
 
 	public static void saveGlobalConditionsToModelFile(GlobalConditions conditions, Diagram d) throws CoreException, IOException {
 		Resource resource = getResource(d);
@@ -65,11 +75,6 @@ public class CbcModelUtil {
 	public static void saveRenamingToModelFile(Renaming renaming, Diagram d) throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(renaming);
-	}
-	
-	public static void saveMethodRefinementsToModelFile(MethodRefinements refinements, Diagram d) throws CoreException, IOException {
-		Resource resource = getResource(d);
-		resource.getContents().add(refinements);
 	}
 	
 	public static Resource getResource(Diagram d) throws CoreException, IOException {

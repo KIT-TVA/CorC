@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,14 +23,27 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 
-public class FileUtil {
-	private static URI applicationUri = null;
+public class FileUtil implements IFileUtil{
+	
+	static String applicationUri;	
 
-	public static IFile getClassFile(String className) {
-		URI uriTrimmed = applicationUri.trimFragment();
+	public FileUtil(String applicationUri) {
+		this.applicationUri = applicationUri;
+	}
+	
+	public static void setApplicationUri(URI applicationUri) {
+		FileUtil.applicationUri = applicationUri.toString();
+	}
+
+	public File getClassFile(String className) {
+		URI uriTrimmed = URI.createPlatformResourceURI(applicationUri).trimFragment();
 		if (uriTrimmed.isPlatformResource()) {
 			String platformString = uriTrimmed.toPlatformString(true);
 			IResource fileResource = ResourcesPlugin.getWorkspace().getRoot().findMember(platformString);
@@ -41,12 +56,12 @@ public class FileUtil {
 		return null;
 	}
 
-	private static IFile traverseFolders(IContainer folder, String className) {
+	private File traverseFolders(IContainer folder, String className) {
 		try {
 			IResource[] members = folder.members();
 			for (final IResource resource : members) {
 				if (resource instanceof IContainer) {
-					IFile foundFile = traverseFolders((IContainer) resource, className);
+					File foundFile = traverseFolders((IContainer) resource, className);
 					if (foundFile != null) {
 						return foundFile;
 					}
@@ -54,71 +69,86 @@ public class FileUtil {
 
 					final IFile file = (IFile) resource;
 					if (file.getName().equals(className + ".java")) {
-						return file;
+						return file.getLocation().toFile();
 					}
 				}
 			}
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public static List<String> readFileInList(String path) {
-
+	public List<String> readFileInList(String path) {
 		List<String> lines = Collections.emptyList();
 		try {
-			lines = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
+			lines = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);//teilt jede Zeile ein und teilt somit auch ensures in mehrere Teile
 		}
-
 		catch (IOException e) {
-
-			// do something
 			e.printStackTrace();
 		}
 		return lines;
 	}
-
-	public static void setApplicationUri(URI applicationUri) {
-		FileUtil.applicationUri = applicationUri;
+	
+	public String getProjectLocation(String uriString) {
+		return getProjectLocationS(uriString).getLocation().toPortableString();
 	}
-
-	public static File writeFile(String problem, String location, int numberFile, boolean override) {
-		File keyFile = new File(location + "/prove" + numberFile + ".key");
-		File keyHelperFile = new File(location + "/helper.key");
-
-		if (!keyFile.exists() || override) {
-			try {
-				keyFile.getParentFile().mkdirs();
-				keyFile.createNewFile();
-				FileWriter fw = new FileWriter(keyFile);
-				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write(problem);
-
-				bw.close();
-
-				if (!keyHelperFile.exists()) {
-					keyHelperFile.createNewFile();
-				}
-				IWorkspace workspace = ResourcesPlugin.getWorkspace();
-				IPath iLocation = Path.fromOSString(keyFile.getAbsolutePath());
-				IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-				ifile.refreshLocal(0, null);
-				return keyFile;
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			} catch (CoreException e) {
-				e.printStackTrace();
+	
+	private static IProject getProjectLocationS(String uriPath) {
+		if (uriPath == null || uriPath.length() == 0) return null;
+		uriPath = uriPath.substring(1, uriPath.length());
+		int positionOfSlash = uriPath.indexOf('/') + 1;
+		String projectName = uriPath.substring(0, positionOfSlash-1);
+		uriPath = uriPath.substring(positionOfSlash, uriPath.length());
+		IProject thisProject = null;
+		for (IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+			if (p.getFile(new Path(uriPath)).exists() && p.getName().equalsIgnoreCase(projectName)) {
+				thisProject = p;
+				break;
 			}
 		}
-		return null;
+//			if (thisProject.getName().contains("Userstudy")) {
+//			File diagramFile = new File(thisProject.getLocation() + "/" + uriPath);
+//			File diagramFileCopy = new File(thisProject.getLocation() + "/src/saved/ExDia" + proofCounter +  ".diagram");
+//			File cbcFile = new File(thisProject.getLocation() + "/" + uriPath.substring(0, uriPath.indexOf(".")) + ".cbcmodel");
+//			File cbcFileCopy = new File(thisProject.getLocation() + "/src/saved/ExDia" + proofCounter +  ".cbcmodel");
+//			proofCounter++;
+//			try {
+//				IWorkspace workspace = ResourcesPlugin.getWorkspace();
+//				Files.copy(diagramFile.toPath(), diagramFileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//				Files.copy(cbcFile.toPath(), cbcFileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);  
+//				IPath iLocation = Path.fromOSString(diagramFileCopy.getAbsolutePath()); 
+//				IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
+//				ifile.refreshLocal(0, null);
+//				iLocation = Path.fromOSString(cbcFileCopy.getAbsolutePath()); 
+//				ifile = workspace.getRoot().getFileForLocation(iLocation);
+//				ifile.refreshLocal(0, null);
+//			} catch (IOException | CoreException e) {
+//				e.printStackTrace();
+//			}
+//		}
+		return thisProject;
 	}
-
+	
+	public static String getProjectLocation(URI uri) {
+		uri = uri.trimFragment();
+		String uriPath = uri.toPlatformString(true);
+		IProject project = getProjectLocationS(uriPath);
+		return project == null ? "" : project.getLocation().toPortableString();
+	}
+	
 	public static IProject getProject(URI uri) {
 		uri = uri.trimFragment();
 		String uriPath = uri.toPlatformString(true);
-
+		return getProjectLocationS(uriPath);
+	}
+	
+	public static IProject getProjectFromFileInProject(URI uri) {
+		uri = uri.trimFragment();
+		String uriPath = uri.toPlatformString(true);
+		if (uriPath == null) {
+			uriPath = uri.toString();
+		}
 		uriPath = uriPath.substring(1, uriPath.length());
 		int positionOfSlash = uriPath.indexOf('/') + 1;
 		uriPath = uriPath.substring(positionOfSlash, uriPath.length());
@@ -130,62 +160,40 @@ public class FileUtil {
 		}
 		return thisProject;
 	}
-
-	public static String generateComposedClass(IProject project, List<String> refinements, JavaVariables vars) {
-		String[] splittedRefinement = refinements.get(0).split("\\.");
-		String className = "Original" + splittedRefinement[0];
-		String composedClassName = splittedRefinement[0];
-		String methodName = splittedRefinement[1];
-		IFile file = getClassFile(className);
-		if (file == null) {
-			className = splittedRefinement[0];
-			file = getClassFile(className);
-		}
-		String methodStub = Parser.getMethodStubFromFile(className, methodName);
-		methodStub = methodStub.replaceFirst("(\\w*)\\(", "generated_$1(");
-		String methodPreCondition = ProveWithKey.composeContractForCalledOriginal(refinements, Parser.KEYWORD_JML_PRE);
-		String methodPostCondition = ProveWithKey.composeContractForCalledOriginal(refinements,
-				Parser.KEYWORD_JML_POST);
-		List<String> assignables = ProveWithKey.composeModifiables(refinements, new ArrayList<String>(), null, vars,
-				false);
-		String assignableString = "";
-		if (!assignables.isEmpty()) {
-			assignableString = "\n@assignable " + String.join(",", assignables) + ";";
-		}
-
-		List<String> lines = readFileInList(file.getLocation().toOSString());
-		String contentOriginal = "";
-
-		String content = "";
-		for (String line : lines) {
-			if (line.contains(" class ")) {
-				if (className == composedClassName) {
-					content += line + "\n\n /*@\n@ public normal_behavior\n@requires " + methodPreCondition
-							+ ";\n@ensures " + methodPostCondition + ";" + assignableString + "\n" + "@*/\n"
-							+ methodStub + "\n";
-					contentOriginal += line.replaceFirst(composedClassName, "Original" + composedClassName);
-				} else {
-					content += line.replaceFirst(className, composedClassName)
-							+ "\n\n /*@\n@ public normal_behavior\n@requires " + methodPreCondition + ";\n@ensures "
-							+ methodPostCondition + ";" + assignableString + "\n" + "@*/\n" + methodStub + "\n";
-					contentOriginal += line + "\n";
-				}
-
-			} else {
-				content += line + "\n";
-				contentOriginal += line + "\n";
+	
+	public static IProject getProjectFromProjectPath(String path) {
+		IProject thisProject = null;
+		for (IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+			if (p.getLocation().toPortableString().equals(path)) {
+				thisProject = p;
 			}
 		}
-		File generatedClass = new File(project.getLocation().toOSString() + "/src/" + composedClassName + ".java");
-		File originalClass = new File(project.getLocation().toOSString() + "/src-orig/" + className + ".java");
-		if (className != composedClassName) {
-			createFile(originalClass, contentOriginal);
+		return thisProject;
+	}
+	
+	public File writeFile(String problem, String location, boolean override, AbstractStatement statement, String subProofName) {
+		FileNameManager manager = new FileNameManager();
+		String keyFileName = manager.getFileName(problem, location, statement, subProofName);
+		
+		File keyFile = new File(location + keyFileName + ".key");
+
+		File keyHelperFile = new File(location + "/helper.key");
+		
+		if (!keyFile.exists() || override) {
+			if (!keyHelperFile.exists()) {
+				try {
+					keyHelperFile.getParentFile().mkdirs();
+					keyHelperFile.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return createFile(keyFile, problem);
 		}
-		File generatedFile = createFile(generatedClass, content);
-		return generatedFile.getName().substring(0, generatedFile.getName().indexOf("."));
+		return null;
 	}
 
-	private static File createFile(File file, String content) {
+	private File createFile(File file, String content) {
 		try {
 			file.getParentFile().mkdirs();
 			file.createNewFile();
@@ -202,13 +210,100 @@ public class FileUtil {
 			ifile.refreshLocal(0, null);
 			return file;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
+
+	@Override
+	public String generateComposedClass(String project, String composedClassName, String className, String content, String contentOriginal) {
+		File generatedClass = new File(getProjectLocation(project) + "/src_gen/" + composedClassName + ".java");
+		File originalClass = new File(getProjectLocation(project) + "/src-orig/" + className + ".java");
+		if (!className.contentEquals(composedClassName)) {
+			createFile(originalClass, contentOriginal);
+		}
+		File generatedFile = createFile(generatedClass, content);
+		return generatedFile.getName().substring(0, generatedFile.getName().indexOf("."));
+	}
+
+	private String getLastSegment(String uri) {
+		return URI.createURI(uri).trimFileExtension().lastSegment();
+	}
+	
+	private String trimSegment(String uriString, int number) {
+		URI uri = URI.createURI(uriString);
+		List<String> segments = new ArrayList<String>(Arrays.asList(uri.segments()));
+		segments.remove(number);
+		return String.join("/", segments);
+	}
+	
+	private String trimLastSegment(String uriString) {
+		URI uri = URI.createURI(uriString);
+		return trimSegment(uriString, uri.segmentCount() - 1);
+	}
+	
+	public String getLocationString(String uri) {
+		String uriWithoutProjectAndFileName = trimLastSegment(trimSegment(uri, 0));
+		return getProjectLocation(uri) + "/" + uriWithoutProjectAndFileName + "/prove" + getLastSegment(uri);
+	}
+	    
+    public static Collection<Resource> getCbCClasses(IProject p) {
+        final List<IFile> files = getFiles(p, ".cbcclass");
+        final List<Resource> cbcClassList = new ArrayList<Resource>();
+        final ResourceSet rSet = new ResourceSetImpl();
+        for (final IFile file : files) {
+             final Resource resource = getResourceFromFile(file, rSet);
+             if (resource != null) {
+            	 cbcClassList.add(resource);
+             }
+        }
+        return cbcClassList;
+     }
+	  
+    public static List<IFile> getJavaFilesFromProject(IProject p) {
+        return getFiles(p, ".java");
+     }
+    
+    public static List<IFile> getFiles(IContainer p, String fileExtension) {
+        final List<IFile> files = new ArrayList<IFile>();
+        try {
+             final IResource[] members = p.members();
+             for (final IResource resource : members) {
+                  if (resource instanceof IContainer) {
+                	  files.addAll(getFiles((IContainer) resource, fileExtension));
+                  } else if (resource instanceof IFile) {
+                      final IFile file = (IFile) resource;
+                      if (file.getName().endsWith(fileExtension)) {
+                    	  files.add(file);
+                      }
+                  }
+             }
+        } catch (final CoreException e) {
+                 e.printStackTrace();
+        }
+        return files;
+     }
+    
+    public static List<IFile> getFilesFromProject(IProject p, String fileExtension) {
+        return getFiles(p, fileExtension);
+     }
+	 
+    public static Resource getResourceFromFile(IFile file,
+            ResourceSet resourceSet) {
+    	// Get the URI of the model file.
+        final URI resourceURI = getFileURI(file, resourceSet);
+        // Demand load the resource for this file.
+        Resource resource = resourceSet.getResource(resourceURI, true);
+    	return resource;
+    }
+ 
+    private static URI getFileURI(IFile file, ResourceSet resourceSet) {
+       final String pathName = file.getLocation().toPortableString();
+       URI resourceURI = URI.createFileURI(pathName);
+       resourceURI = resourceSet.getURIConverter().normalize(resourceURI);
+       return resourceURI;
+    }
 
 }

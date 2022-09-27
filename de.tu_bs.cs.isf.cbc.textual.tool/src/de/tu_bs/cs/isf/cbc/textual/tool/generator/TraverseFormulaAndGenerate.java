@@ -35,6 +35,8 @@ import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 
 public class TraverseFormulaAndGenerate {
+	
+	//TODO Methodenaufrufe mit null ändern
 
 	private JavaVariables vars;
 	private GlobalConditions conds;
@@ -69,7 +71,7 @@ public class TraverseFormulaAndGenerate {
 
 	private void castStatementAndTraverse(AbstractStatement statement) {
 		if (statement.getClass().equals(AbstractStatementImpl.class)) {
-			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, uri, numberFile++, false);
+			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, null, uri, numberFile++, false, "", "", false);
 		} else if (statement instanceof SmallRepetitionStatement) {
 			SmallRepetitionStatement repetitionStatement = (SmallRepetitionStatement) statement;
 			traverseRepetitionStatement(repetitionStatement);
@@ -92,21 +94,21 @@ public class TraverseFormulaAndGenerate {
 				List<Condition> conds = mergeGlobalConditions(this.conds, condsFormula);
 				List<Rename> renaming = mergeRenaming(this.renaming, renamingFormula);
 				ProveWithKey.createProveMethodFormulaWithKey(formula.getPreCondition(), statement.getPreCondition(),
-						vars, conds, renaming, uri, numberFile++, false);
+						vars, null, conds, renaming, uri, numberFile++, false);
 				ProveWithKey.createProveMethodFormulaWithKey(statement.getPostCondition(), formula.getPostCondition(),
-						vars, conds, renaming, uri, numberFile++, false);
+						vars, null, conds, renaming, uri, numberFile++, false);
 			}
 		} else if (statement instanceof SkipStatement) {
-			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, uri, numberFile++, false);
+			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, null, uri, numberFile++, false, "", "", false);
 		} else if (statement instanceof ReturnStatement) {
-			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, uri, numberFile++, false);
+			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, null, uri, numberFile++, false, "", "", false);
 		} else if (statement instanceof StrengthWeakStatement) {
 			ProveWithKey.createProvePreImplPreWithKey(((AbstractStatement) statement.eContainer()).getPreCondition(),
 					statement.getPreCondition(), vars, conds, renaming, uri, numberFile++, false);
 			ProveWithKey.createProvePreImplPreWithKey(statement.getPostCondition(),
 					((AbstractStatement) statement.eContainer()).getPostCondition(), vars, conds, renaming, uri,
 					numberFile++, false);
-			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, uri, numberFile++, false);
+			ProveWithKey.createProveStatementWithKey(statement, vars, conds, renaming, null, null, uri, numberFile++, false, "", "", false);
 		}
 	}
 
@@ -118,12 +120,12 @@ public class TraverseFormulaAndGenerate {
 		loopStatement.setPostCondition(factory.createCondition());
 		loopStatement.getPostCondition().setName(repetitionStatement.getInvariant().getName());
 		ProveWithKey.createProvePreWithKey(repetitionStatement.getInvariant(), repetitionStatement.getPreCondition(),
-				vars, conds, renaming, uri, numberFile++, false);
+				vars, null, conds, renaming, uri, numberFile++, false);
 		ProveWithKey.createProvePostWithKey(repetitionStatement.getInvariant(), repetitionStatement.getGuard(),
-				repetitionStatement.getPostCondition(), vars, conds, renaming, uri, numberFile++, false);
+				repetitionStatement.getPostCondition(), null, vars, conds, renaming, uri, numberFile++, false);
 		String code = ConstructCodeBlock.constructCodeBlockAndVerify3(repetitionStatement);
 		ProveWithKey.createProveVariant2WithKey(code, repetitionStatement.getInvariant(),
-				repetitionStatement.getGuard(), repetitionStatement.getVariant(), vars, conds, renaming, uri,
+				repetitionStatement.getGuard(), repetitionStatement.getVariant(), null, vars, conds, renaming, uri,
 				numberFile++, false);
 
 		castStatementAndTraverse(loopStatement);
@@ -131,7 +133,7 @@ public class TraverseFormulaAndGenerate {
 
 	private void traverseSelectionStatement(SelectionStatement selectionStatement) {
 		ProveWithKey.createProvePreSelWithKey(selectionStatement.getGuards(), selectionStatement.getPreCondition(),
-				vars, conds, renaming, uri, numberFile++, false);
+				vars, null, conds, renaming, uri, numberFile++, false);
 		for (int i = 0; i < selectionStatement.getCommands().size(); i++) {
 			AbstractStatement childStatement = selectionStatement.getCommands().get(i);
 			Condition childGuard = selectionStatement.getGuards().get(i);

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="isDestinationReached" proven="true" comment="" className="Person" methodName="isDestinationReached">
+    <statement name="statement" id="9dc332cc-ae25-4ddb-8e22-1f84768a4c94">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.destinationReached;" proven="true" comment="returnStatement" id="56d7fe74-f107-4a06-be16-861d711cf082">
+        <postCondition name="\result != null &amp; \result = this.destinationReached&amp; (this.destinationReached = TRUE -> \result = TRUE)&amp; (this.destinationReached = FALSE-> \result = FALSE)">
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="\result != null &amp; \result = this.destinationReached&amp; (this.destinationReached = TRUE -> \result = TRUE)&amp; (this.destinationReached = FALSE-> \result = FALSE)">
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Person.cbcclass#//@methods.6"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

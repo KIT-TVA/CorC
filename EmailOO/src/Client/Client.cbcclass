@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Client">
+  <fields visibility="PRIVATE" type="String" name="name"/>
+  <fields visibility="PRIVATE" type="int" name="id"/>
+  <fields visibility="PRIVATE" type="Client[]" name="clients"/>
+  <fields visibility="PRIVATE" type="int" name="clientCounter"/>
+  <fields visibility="PRIVATE" type="int" name="old_clientCounter"/>
+  <methods cbcDiagramURI="getClientById.diagram" name="getClientById" returnType="Client" isStatic="true">
+    <cbcStartTriple href="getClientById.cbcmodel#/0"/>
+    <parameters type="int" name="id"/>
+    <parameters type="Client" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="getId.diagram" name="getId" returnType="int">
+    <cbcStartTriple href="getId.cbcmodel#/0"/>
+    <parameters type="int" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="getName.diagram" name="getName" returnType="String">
+    <cbcStartTriple href="getName.cbcmodel#/0"/>
+    <parameters type="String" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="getNameWithKeyword.diagram" name="getNameWithKeyword" returnType="String">
+    <cbcStartTriple href="getNameWithKeyword.cbcmodel#/0"/>
+    <parameters type="String" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="outgoing.diagram" name="outgoing" returnType="void" isStatic="true">
+    <cbcStartTriple href="outgoing.cbcmodel#/0"/>
+    <parameters type="Client" name="client"/>
+    <parameters type="Email" name="msg"/>
+  </methods>
+  <methods cbcDiagramURI="resetClients.diagram" name="resetClients" returnType="void" isStatic="true">
+    <cbcStartTriple href="resetClients.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="constructClient.diagram" name="constructClient" returnType="void">
+    <cbcStartTriple href="constructClient.cbcmodel#/0"/>
+    <parameters type="int" name="idx"/>
+    <parameters type="String" name="namex"/>
+  </methods>
+  <methods cbcDiagramURI="createClient.diagram" name="createClient" returnType="Client" isStatic="true">
+    <cbcStartTriple href="createClient.cbcmodel#/0"/>
+    <parameters type="String" name="name"/>
+    <parameters type="Client" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="getClientByAdress.diagram" name="getClientByAdress" returnType="Client" isStatic="true">
+    <cbcStartTriple href="getClientByAdress.cbcmodel#/0"/>
+    <parameters type="String" name="address"/>
+    <parameters type="Client" name="ret"/>
+  </methods>
+</cbcclass:ModelClass>

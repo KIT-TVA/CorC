@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="pressInLiftFloorButton" proven="true" comment="" className="Elevator" methodName="pressInLiftFloorButton">
+    <statement name="statement" id="b8a4bec1-3dbe-4c21-94c4-e15043fb55ab">
+      <refinement xsi:type="cbcmodel:OriginalStatement" name="this.original(floorID);" proven="true" id="579be635-67fc-4955-a787-4c83ad021cf7">
+        <postCondition name="this.floorButtons[floorID] = TRUE"/>
+        <preCondition name="this.floorButtons != null&amp; floorID >= 0&amp; floorID &lt; this.floorButtons.length&amp; this.floorButtons[floorID] != null"/>
+      </refinement>
+      <postCondition name="this.floorButtons[floorID] = TRUE"/>
+      <preCondition name="this.floorButtons != null&amp; floorID >= 0&amp; floorID &lt; this.floorButtons.length&amp; this.floorButtons[floorID] != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.0"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

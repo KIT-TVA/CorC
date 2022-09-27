@@ -1,18 +1,26 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
+import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
+import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
-import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyAbstractAsynchronousCustomFeature;
+import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 
 /**
  * Class that changes the abstract value of algorithms
@@ -68,6 +76,7 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 					JavaVariables vars = null;
 					GlobalConditions conds = null;
 					Renaming renaming = null;
+					CbCFormula formula = null;
 					for (Shape shape : getDiagram().getChildren()) {
 						Object obj = getBusinessObjectForPictogramElement(shape);
 						if (obj instanceof JavaVariables) {
@@ -76,14 +85,48 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 							conds = (GlobalConditions) obj;
 						} else if (obj instanceof Renaming) {
 							renaming = (Renaming) obj;
+						} else if (obj instanceof CbCFormula) {
+							formula = (CbCFormula) obj;
 						}
 					}
-					boolean prove1 = false;
-					boolean prove2 = false;
-					prove1 = ProveWithKey.provePreImplPreWithKey(parent.getPreCondition(), statement.getPreCondition(), vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
-					prove2 = ProveWithKey.provePostImplPostWithKey(parent.getPostCondition(), statement.getPostCondition(), vars, conds, renaming, getDiagram().eResource().getURI(), monitor);
+					if (!DataCollector.checkForId(statement)) return;
+					boolean proven1 = false;
+					boolean proven2 = false;
+					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
+					URI uri = getDiagram().eResource().getURI();
+					IProject project = FileUtil.getProjectFromFileInProject(uri);
+					boolean isVariational = false;
+					try {
+						if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
+							isVariational = true;
+						}
+					} catch (CoreException e) {
+						e.printStackTrace();
+					}
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), "");
+					if (isVariational) {
+						Console.println("--------------- Triggered variational verification ---------------");
+						String callingClass = uri.segment(uri.segmentCount()-2) + "";
+						String callingFeature = uri.segment(uri.segmentCount()-3) + "";
+						String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
+						String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false);				
+						GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
+						for (int i = 0; i < featureConfigs.length; i++) {
+							genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
+							String configName = "";
+							for (String s : featureConfigs[i]) configName += s;
+							prove.setConfigName(configName);
+							proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition());
+							proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition());
+						}
+					} else {
+						Console.println("--------------- Triggered verification ---------------");
+						proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition());
+						proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition());
+					}		
+					Console.println("--------------- Verification completed --------------- ");
 					
-					if (prove1 && prove2) {
+					if (proven1 && proven2) {
 						statement.setProven(true);
 					} else {
 						statement.setProven(false);

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="nextYear" proven="true" comment="" className="Application" methodName="nextYear">
+    <statement name="statement" id="d40a0d53-b383-475a-bf41-695230b6d918">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="f7eb9e6b-58fa-4d17-a152-f10eebe6c02c">
+        <firstStatement name="statement1" id="8e615649-579e-499e-9c0e-8405fa7ce868">
+          <refinement xsi:type="cbcmodel:OriginalStatement" name="original();" proven="true" id="9394c47a-0197-4610-af01-ac677cd12643">
+            <postCondition name="true"/>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="true"/>
+          <preCondition name="true"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="c0485f70-14fc-48ce-8b84-46b822967391">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="8014ba32-f43e-4753-8ffd-fee8b3acb64a">
+            <firstStatement name="statement1" id="98312f18-0904-4c97-885a-73a8bc880e99">
+              <refinement name="a.balance += a.interest;" proven="true" id="59858c68-845c-4576-84ba-f4bb1eaca897">
+                <postCondition name="a.balance =&#xD;&#xA; \old(a.balance) +&#xD;&#xA;a.interest">
+                  <modifiables>a.balance</modifiables>
+                </postCondition>
+                <preCondition name="true"/>
+              </refinement>
+              <postCondition name="a.balance =&#xD;&#xA; \old(a.balance) +&#xD;&#xA;a.interest">
+                <modifiables>a.balance</modifiables>
+              </postCondition>
+              <preCondition name="true"/>
+            </firstStatement>
+            <secondStatement name="statement2" id="5dc9ddfa-6a0d-4c48-812d-cd690aae1707">
+              <refinement name="a.interest = 0;" proven="true" id="90755112-f9cd-4162-8a70-e80a44bd04c2">
+                <postCondition name="a.balance = \old(a.balance) + \old(a.interest) &amp; a.interest = 0">
+                  <modifiables>a.balance</modifiables>
+                  <modifiables>a.interest</modifiables>
+                </postCondition>
+                <preCondition name="a.balance =&#xD;&#xA; \old(a.balance) +&#xD;&#xA;a.interest">
+                  <modifiables>a.balance</modifiables>
+                </preCondition>
+              </refinement>
+              <postCondition name="a.balance = \old(a.balance) + \old(a.interest) &amp; a.interest = 0">
+                <modifiables>a.balance</modifiables>
+                <modifiables>a.interest</modifiables>
+              </postCondition>
+              <preCondition name="a.balance =&#xD;&#xA; \old(a.balance) +&#xD;&#xA;a.interest">
+                <modifiables>a.balance</modifiables>
+              </preCondition>
+            </secondStatement>
+            <intermediateCondition name="a.balance =&#xD;&#xA; \old(a.balance) +&#xD;&#xA;a.interest">
+              <modifiables>a.balance</modifiables>
+            </intermediateCondition>
+          </refinement>
+          <postCondition name="a.balance = \old(a.balance) + \old(a.interest) &amp; a.interest = 0">
+            <modifiables>a.balance</modifiables>
+            <modifiables>a.interest</modifiables>
+          </postCondition>
+          <preCondition name="true"/>
+        </secondStatement>
+        <intermediateCondition name="true"/>
+      </refinement>
+      <postCondition name="a.balance = \old(a.balance) + \old(a.interest) &amp; a.interest = 0">
+        <modifiables>a.balance</modifiables>
+        <modifiables>a.interest</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Application.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

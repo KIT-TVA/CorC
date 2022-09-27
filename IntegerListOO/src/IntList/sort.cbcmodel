@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="sort" proven="true" comment="" className="IntList" methodName="sort">
+    <statement name="statement" id="71db6a60-4fb0-47d7-85ac-1256bb9990d6">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="333d4a87-cf09-4bee-abe7-f7f1ec9c92ab">
+        <firstStatement name="statement1" id="7e890287-320a-478f-ae6b-cf9ab8b04b60">
+          <refinement name="i = 0;" proven="true" id="8ff61343-3a7c-4c42-9a03-5f24daa86a62">
+            <postCondition name="i = 0">
+              <modifiables>i</modifiables>
+            </postCondition>
+            <preCondition name="data = \old(data)"/>
+          </refinement>
+          <postCondition name="i = 0">
+            <modifiables>i</modifiables>
+          </postCondition>
+          <preCondition name="data = \old(data)"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="b97afb09-0e7f-48d4-a382-4f548e02db06">
+          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="29e60a4f-a798-4dc2-bcfb-7d96d6622dc1" variantProven="true" preProven="true" postProven="true">
+            <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] &lt;= data[k+1])))">
+              <modifiables>i</modifiables>
+            </postCondition>
+            <preCondition name="i = 0">
+              <modifiables>i</modifiables>
+            </preCondition>
+            <loopStatement name="loop" id="524bf06e-473c-458a-ae10-d770af468f2f">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="c6aa8774-460b-4f99-a3fa-bf54bfcaaec8">
+                <firstStatement name="statement1" id="11101bdc-3b57-49ad-94d0-50a04e846458">
+                  <refinement name="j = data.length-2;" proven="true" id="53c0e0d4-c4c8-424d-854d-16d218e967d5">
+                    <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m])))) &amp; j = data.length-2">
+                      <modifiables>i</modifiables>
+                      <modifiables>j</modifiables>
+                    </postCondition>
+                    <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))) &amp; (i &lt; data.length)">
+                      <modifiables>i</modifiables>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m])))) &amp; j = data.length-2">
+                    <modifiables>i</modifiables>
+                    <modifiables>j</modifiables>
+                  </postCondition>
+                  <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))) &amp; (i &lt; data.length)">
+                    <modifiables>i</modifiables>
+                  </preCondition>
+                </firstStatement>
+                <secondStatement name="statement2" id="424332d9-eb67-4b11-8aaf-c02580560d20">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="043009c7-2761-4090-af0d-259b6f6da318">
+                    <firstStatement name="statement1" id="400ae43c-e943-4434-a487-c888c5bd3aea">
+                      <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="42fd1428-9225-4ecb-8479-64ed3b56cf72" variantProven="true" preProven="true" postProven="true">
+                        <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))">
+                          <modifiables>i</modifiables>
+                          <modifiables>j</modifiables>
+                        </postCondition>
+                        <preCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m])))) &amp; j = data.length-2">
+                          <modifiables>i</modifiables>
+                          <modifiables>j</modifiables>
+                        </preCondition>
+                        <loopStatement name="loop" id="174ee756-30e7-411e-8b55-50da9a1027e7">
+                          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="8917262e-0cdc-4b5d-9ba9-51e9f5a22342">
+                            <firstStatement name="statement1" id="e9cc62ab-2157-41ca-ae46-fbfdb70e50f2">
+                              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="b3ea111b-2033-4df9-b156-f0ce2033742d" preProve="true">
+                                <guards name="data[j] > data[j+1]"/>
+                                <guards name="data[j] &lt;= data[j+1]"/>
+                                <commands name="statement" id="700f411f-f8ee-4707-9f41-7edeea1ee6a4">
+                                  <refinement name="tmp = data[j];&#xD;&#xA;data[j] = data[j+1];&#xD;&#xA;data[j+1] = tmp;" proven="true" id="fe4ba352-9569-4b32-aac7-a535cfafd3da">
+                                    <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j] &lt;= data[h]))">
+                                      <modifiables>data[j+1]</modifiables>
+                                      <modifiables>data[j]</modifiables>
+                                      <modifiables>i</modifiables>
+                                      <modifiables>j</modifiables>
+                                      <modifiables>tmp</modifiables>
+                                    </postCondition>
+                                    <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] &lt;= data[h]))) &amp; (j>=i)) &amp; (data[j] > data[j+1])">
+                                      <modifiables>i</modifiables>
+                                      <modifiables>j</modifiables>
+                                    </preCondition>
+                                  </refinement>
+                                  <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j] &lt;= data[h]))">
+                                    <modifiables>data[j+1]</modifiables>
+                                    <modifiables>data[j]</modifiables>
+                                    <modifiables>i</modifiables>
+                                    <modifiables>j</modifiables>
+                                    <modifiables>tmp</modifiables>
+                                  </postCondition>
+                                  <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] &lt;= data[h]))) &amp; (j>=i)) &amp; (data[j] > data[j+1])">
+                                    <modifiables>i</modifiables>
+                                    <modifiables>j</modifiables>
+                                  </preCondition>
+                                </commands>
+                                <commands name="statement" id="9df5a09c-db8f-446e-a332-f9ef31ca1fcc">
+                                  <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true" id="48e7f8c6-dd16-4df0-8ec5-3e6e041cea9a">
+                                    <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j] &lt;= data[h]))">
+                                      <modifiables>i</modifiables>
+                                      <modifiables>j</modifiables>
+                                    </postCondition>
+                                    <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] &lt;= data[h]))) &amp; (j>=i)) &amp; (data[j] &lt;= data[j+1])">
+                                      <modifiables>i</modifiables>
+                                      <modifiables>j</modifiables>
+                                    </preCondition>
+                                  </refinement>
+                                  <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j] &lt;= data[h]))">
+                                    <modifiables>i</modifiables>
+                                    <modifiables>j</modifiables>
+                                  </postCondition>
+                                  <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] &lt;= data[h]))) &amp; (j>=i)) &amp; (data[j] &lt;= data[j+1])">
+                                    <modifiables>i</modifiables>
+                                    <modifiables>j</modifiables>
+                                  </preCondition>
+                                </commands>
+                              </refinement>
+                              <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j] &lt;= data[h]))">
+                                <modifiables>data[j+1]</modifiables>
+                                <modifiables>data[j]</modifiables>
+                                <modifiables>i</modifiables>
+                                <modifiables>j</modifiables>
+                                <modifiables>tmp</modifiables>
+                              </postCondition>
+                              <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] &lt;= data[h]))) &amp; (j>=i)">
+                                <modifiables>i</modifiables>
+                                <modifiables>j</modifiables>
+                              </preCondition>
+                            </firstStatement>
+                            <secondStatement name="statement2" id="f6ace76c-4ab7-40b0-a32e-a8288fd1a3d8">
+                              <refinement name="j--;" proven="true" id="a03cb51e-bc6f-4e03-9621-99c813867edc">
+                                <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] &lt;= data[h]))">
+                                  <modifiables>data[j+1]</modifiables>
+                                  <modifiables>data[j]</modifiables>
+                                  <modifiables>i</modifiables>
+                                  <modifiables>j</modifiables>
+                                  <modifiables>tmp</modifiables>
+                                </postCondition>
+                                <preCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j] &lt;= data[h]))">
+                                  <modifiables>data[j+1]</modifiables>
+                                  <modifiables>data[j]</modifiables>
+                                  <modifiables>i</modifiables>
+                                  <modifiables>j</modifiables>
+                                  <modifiables>tmp</modifiables>
+                                </preCondition>
+                              </refinement>
+                              <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] &lt;= data[h]))">
+                                <modifiables>data[j+1]</modifiables>
+                                <modifiables>data[j]</modifiables>
+                                <modifiables>i</modifiables>
+                                <modifiables>j</modifiables>
+                                <modifiables>tmp</modifiables>
+                              </postCondition>
+                              <preCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j] &lt;= data[h]))">
+                                <modifiables>data[j+1]</modifiables>
+                                <modifiables>data[j]</modifiables>
+                                <modifiables>i</modifiables>
+                                <modifiables>j</modifiables>
+                                <modifiables>tmp</modifiables>
+                              </preCondition>
+                            </secondStatement>
+                            <intermediateCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j] &lt;= data[h]))">
+                              <modifiables>data[j+1]</modifiables>
+                              <modifiables>data[j]</modifiables>
+                              <modifiables>i</modifiables>
+                              <modifiables>j</modifiables>
+                              <modifiables>tmp</modifiables>
+                            </intermediateCondition>
+                          </refinement>
+                          <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] &lt;= data[h]))">
+                            <modifiables>data[j+1]</modifiables>
+                            <modifiables>data[j]</modifiables>
+                            <modifiables>i</modifiables>
+                            <modifiables>j</modifiables>
+                            <modifiables>tmp</modifiables>
+                          </postCondition>
+                          <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] &lt;= data[h]))) &amp; (j>=i)">
+                            <modifiables>i</modifiables>
+                            <modifiables>j</modifiables>
+                          </preCondition>
+                        </loopStatement>
+                        <variant name="j+1"/>
+                        <invariant name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] &lt;= data[h]))"/>
+                        <guard name="j>=i"/>
+                      </refinement>
+                      <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))">
+                        <modifiables>data[j+1]</modifiables>
+                        <modifiables>data[j]</modifiables>
+                        <modifiables>i</modifiables>
+                        <modifiables>j</modifiables>
+                        <modifiables>tmp</modifiables>
+                      </postCondition>
+                      <preCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m])))) &amp; j = data.length-2">
+                        <modifiables>i</modifiables>
+                        <modifiables>j</modifiables>
+                      </preCondition>
+                    </firstStatement>
+                    <secondStatement name="statement2" id="21dd7ae0-0da0-4d1a-8521-aaf5bdc90a9a">
+                      <refinement name="i++;" proven="true" id="a1c8655a-fa84-47eb-9143-c2279a1e38c6">
+                        <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))">
+                          <modifiables>data[j+1]</modifiables>
+                          <modifiables>data[j]</modifiables>
+                          <modifiables>i</modifiables>
+                          <modifiables>j</modifiables>
+                          <modifiables>tmp</modifiables>
+                        </postCondition>
+                        <preCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))">
+                          <modifiables>data[j+1]</modifiables>
+                          <modifiables>data[j]</modifiables>
+                          <modifiables>i</modifiables>
+                          <modifiables>j</modifiables>
+                          <modifiables>tmp</modifiables>
+                        </preCondition>
+                      </refinement>
+                      <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))">
+                        <modifiables>data[j+1]</modifiables>
+                        <modifiables>data[j]</modifiables>
+                        <modifiables>i</modifiables>
+                        <modifiables>j</modifiables>
+                        <modifiables>tmp</modifiables>
+                      </postCondition>
+                      <preCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))">
+                        <modifiables>data[j+1]</modifiables>
+                        <modifiables>data[j]</modifiables>
+                        <modifiables>i</modifiables>
+                        <modifiables>j</modifiables>
+                        <modifiables>tmp</modifiables>
+                      </preCondition>
+                    </secondStatement>
+                    <intermediateCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))">
+                      <modifiables>data[j+1]</modifiables>
+                      <modifiables>data[j]</modifiables>
+                      <modifiables>i</modifiables>
+                      <modifiables>j</modifiables>
+                      <modifiables>tmp</modifiables>
+                    </intermediateCondition>
+                  </refinement>
+                  <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))">
+                    <modifiables>data[j+1]</modifiables>
+                    <modifiables>data[j]</modifiables>
+                    <modifiables>i</modifiables>
+                    <modifiables>j</modifiables>
+                    <modifiables>tmp</modifiables>
+                  </postCondition>
+                  <preCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m])))) &amp; j = data.length-2">
+                    <modifiables>i</modifiables>
+                    <modifiables>j</modifiables>
+                  </preCondition>
+                </secondStatement>
+                <intermediateCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m])))) &amp; j = data.length-2">
+                  <modifiables>i</modifiables>
+                  <modifiables>j</modifiables>
+                </intermediateCondition>
+              </refinement>
+              <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))">
+                <modifiables>data[j+1]</modifiables>
+                <modifiables>data[j]</modifiables>
+                <modifiables>i</modifiables>
+                <modifiables>j</modifiables>
+                <modifiables>tmp</modifiables>
+              </postCondition>
+              <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))) &amp; (i &lt; data.length)">
+                <modifiables>i</modifiables>
+              </preCondition>
+            </loopStatement>
+            <variant name="data.length-i"/>
+            <invariant name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] &lt;= data[m]))))"/>
+            <guard name="i &lt; data.length"/>
+          </refinement>
+          <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] &lt;= data[k+1])))">
+            <modifiables>data[j+1]</modifiables>
+            <modifiables>data[j]</modifiables>
+            <modifiables>i</modifiables>
+            <modifiables>j</modifiables>
+            <modifiables>tmp</modifiables>
+          </postCondition>
+          <preCondition name="i = 0">
+            <modifiables>i</modifiables>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="i = 0">
+          <modifiables>i</modifiables>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] &lt;= data[k+1])))">
+        <modifiables>data[j+1]</modifiables>
+        <modifiables>data[j]</modifiables>
+        <modifiables>i</modifiables>
+        <modifiables>j</modifiables>
+        <modifiables>tmp</modifiables>
+      </postCondition>
+      <preCondition name="data = \old(data)"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="IntList.cbcclass#//@methods.3"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int tmp"/>
+    <variables name="int j"/>
+    <variables name="int i"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="data != null"/>
+    <conditions name="i >= 0 &amp; i &lt;= data.length"/>
+    <conditions name="j &lt;= data.length-2 &amp; j >=i-1"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

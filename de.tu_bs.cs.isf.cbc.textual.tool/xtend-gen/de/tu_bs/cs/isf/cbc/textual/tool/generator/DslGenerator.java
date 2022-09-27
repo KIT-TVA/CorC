@@ -9,7 +9,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
-import de.tu_bs.cs.isf.cbc.textual.tool.generator.TraverseFormulaAndGenerate;
 import java.io.IOException;
 import java.util.Collections;
 import org.eclipse.core.resources.ResourcesPlugin;

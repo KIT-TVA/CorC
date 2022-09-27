@@ -22,7 +22,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
-import de.tu_bs.cs.isf.taxonomy.graphiti.features.MyAbstractAsynchronousCustomFeature;
 
 public class ExtractMethodStubsFeature extends MyAbstractAsynchronousCustomFeature {
 
@@ -61,8 +60,7 @@ public class ExtractMethodStubsFeature extends MyAbstractAsynchronousCustomFeatu
 			}
 		}
 		URI uri = getDiagram().eResource().getURI();
-		//TODO: naming MethodStubs.java
-		String location = FileUtil.getProject(uri).getLocation() + "/src/MethodStubs.java";
+		String location = FileUtil.getProjectLocation(uri) + "/src/MethodStubs.java";
 		String code = ConstructCodeBlock.constructMethodStubsForExport(formula, renaming, vars);
 		writeFile(location, code);
 	}
@@ -88,5 +86,4 @@ public class ExtractMethodStubsFeature extends MyAbstractAsynchronousCustomFeatu
 			e.printStackTrace();
 		}
 	}
-
 }

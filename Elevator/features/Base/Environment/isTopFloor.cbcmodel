@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="isTopFloor" proven="true" comment="" className="Environment" methodName="isTopFloor">
+    <statement name="statement" id="96614eff-b5d0-4979-8502-b84497fcc8c3">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="(id == this.floors.length - 1);" proven="true" comment="returnStatement" id="4300b49a-786e-4e66-9b06-ba2f093cda71">
+        <postCondition name="(id = (this.floors.length - 1) -> \result = TRUE)&#xD;&#xA;&amp; (id != (this.floors.length - 1) -> \result = FALSE)">
+          <modifiables>(id</modifiables>
+          <modifiables>ret</modifiables>
+        </postCondition>
+        <preCondition name="this.floors != null &amp; this.floors.length >= 0 &amp; id >= 0"/>
+      </refinement>
+      <postCondition name="(id = (this.floors.length - 1) -> \result = TRUE)&#xD;&#xA;&amp; (id != (this.floors.length - 1) -> \result = FALSE)">
+        <modifiables>(id</modifiables>
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="this.floors != null &amp; this.floors.length >= 0 &amp; id >= 0"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Environment.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

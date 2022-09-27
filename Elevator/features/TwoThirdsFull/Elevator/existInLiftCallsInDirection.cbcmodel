@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="existInLiftCallsInDirection" className="Elevator" methodName="existInLiftCallsInDirection">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:SkipStatement" name=";">
+        <postCondition name="(this.floorButtons != null &amp; d = 1 &amp; (\exists int k;((k>=this.getCurrentFloorID() &amp; k&lt;this.floorButtons.length &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true&#xA;&#x9;&amp; (this.floorButtons != null &amp; d = 0 &amp; (\exists int k;((k&lt;=this.getCurrentFloorID() &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true"/>
+        <preCondition name="this.floorButtons != null &amp; d >= 0 &amp; d&lt;= 1&amp; this.currentFloorID >= 0 &amp; d&lt;=1 &amp; this.floorButtons != null &amp; this != null"/>
+      </refinement>
+      <postCondition name="(this.floorButtons != null &amp; d = 1 &amp; (\exists int k;((k>=this.getCurrentFloorID() &amp; k&lt;this.floorButtons.length &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true&#xA;&#x9;&amp; (this.floorButtons != null &amp; d = 0 &amp; (\exists int k;((k&lt;=this.getCurrentFloorID() &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true"/>
+      <preCondition name="this.floorButtons != null &amp; d >= 0 &amp; d&lt;= 1&amp; this.currentFloorID >= 0 &amp; d&lt;=1 &amp; this.floorButtons != null &amp; this != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

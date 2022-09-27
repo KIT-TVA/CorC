@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="resetClients" proven="true" comment="" className="Client" methodName="resetClients">
+    <statement name="statement" id="3d27e21f-e511-45b3-bf43-46e17b3bee67">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="82410d34-2c97-4d96-895d-1bfbb1a43b58">
+        <firstStatement name="statement1" id="0bc141dd-3668-4bb6-87fe-7c4ea1009d06">
+          <refinement name="index = 0;&#xD;&#xA;Client.clientCounter = 1;" proven="true" id="b407357c-3047-432e-a752-0ac3eecac67d">
+            <postCondition name="index = 0 &amp; Client.clientCounter = 1">
+              <modifiables>Client.clientCounter</modifiables>
+              <modifiables>index</modifiables>
+            </postCondition>
+            <preCondition name="Client.clients != null&amp; Client.clientCounter >= 0 &amp; Client.clients != null"/>
+          </refinement>
+          <postCondition name="index = 0 &amp; Client.clientCounter = 1">
+            <modifiables>Client.clientCounter</modifiables>
+            <modifiables>index</modifiables>
+          </postCondition>
+          <preCondition name="Client.clients != null&amp; Client.clientCounter >= 0 &amp; Client.clients != null"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="a7478c46-cef7-4a25-bd7d-c7a54a6404fe">
+          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="dfea5ef0-1b06-42f8-a85c-346a7e4042b5" variantProven="true" preProven="true" postProven="true">
+            <postCondition name="(\forall int k;(((k>=0 &amp; k&lt;Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1">
+              <modifiables>Client.clientCounter</modifiables>
+              <modifiables>Client.clients[index]</modifiables>
+              <modifiables>index</modifiables>
+            </postCondition>
+            <preCondition name="index = 0 &amp; Client.clientCounter = 1">
+              <modifiables>Client.clientCounter</modifiables>
+              <modifiables>index</modifiables>
+            </preCondition>
+            <loopStatement name="loop" id="c0b1022b-f4a4-4743-9502-8289cc27e027">
+              <refinement name="Client.clients[index] = null;&#xD;&#xA;index++;" proven="true" id="ac7b3a67-b321-45f4-a369-f7472c02a6ac">
+                <postCondition name="(\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt; Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1&#xD;&#xA;&amp; index >= 0">
+                  <modifiables>Client.clientCounter</modifiables>
+                  <modifiables>Client.clients[index]</modifiables>
+                  <modifiables>index</modifiables>
+                </postCondition>
+                <preCondition name="((\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt; Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1&#xD;&#xA;&amp; index >= 0) &amp; (index &lt; Client.clients.length)">
+                  <modifiables>Client.clientCounter</modifiables>
+                  <modifiables>index</modifiables>
+                </preCondition>
+              </refinement>
+              <postCondition name="(\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt; Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1&#xD;&#xA;&amp; index >= 0">
+                <modifiables>Client.clientCounter</modifiables>
+                <modifiables>Client.clients[index]</modifiables>
+                <modifiables>index</modifiables>
+              </postCondition>
+              <preCondition name="((\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt; Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1&#xD;&#xA;&amp; index >= 0) &amp; (index &lt; Client.clients.length)">
+                <modifiables>Client.clientCounter</modifiables>
+                <modifiables>index</modifiables>
+              </preCondition>
+            </loopStatement>
+            <variant name="Client.clients.length-index"/>
+            <invariant name="(\forall int k;(((k>=0 &amp; k&lt;index &amp; k&lt; Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1&#xD;&#xA;&amp; index >= 0"/>
+            <guard name="index &lt; Client.clients.length"/>
+          </refinement>
+          <postCondition name="(\forall int k;(((k>=0 &amp; k&lt;Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1">
+            <modifiables>Client.clientCounter</modifiables>
+            <modifiables>Client.clients[index]</modifiables>
+            <modifiables>index</modifiables>
+          </postCondition>
+          <preCondition name="index = 0 &amp; Client.clientCounter = 1">
+            <modifiables>Client.clientCounter</modifiables>
+            <modifiables>index</modifiables>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="index = 0 &amp; Client.clientCounter = 1">
+          <modifiables>Client.clientCounter</modifiables>
+          <modifiables>index</modifiables>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="(\forall int k;(((k>=0 &amp; k&lt;Client.clients.length) -> Client.clients[k] = null))) &amp; Client.clientCounter = 1">
+        <modifiables>Client.clientCounter</modifiables>
+        <modifiables>Client.clients[index]</modifiables>
+        <modifiables>index</modifiables>
+      </postCondition>
+      <preCondition name="Client.clients != null&amp; Client.clientCounter >= 0 &amp; Client.clients != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Client.cbcclass#//@methods.5"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int index"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -41,6 +40,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 public class GenerateDiagramFromModel {
 
@@ -81,22 +81,27 @@ public class GenerateDiagramFromModel {
 		if (vars != null)
 			addElement(featureProvider, vars, diagram, 600, 20);
 		if (conds != null)
-		addElement(featureProvider, conds, diagram, 600, 220);
+			addElement(featureProvider, conds, diagram, 600, 220);
 		if (renaming != null)
-		addElement(featureProvider, renaming, diagram, 600, 420);
+			addElement(featureProvider, renaming, diagram, 600, 420);
+		//if(javaClass != null)
+			//addElement(featureProvider, javaClass, diagram, 600, 20);
 		
 		try {
 			diagramResource.save(Collections.EMPTY_MAP);
 			diagramResource.setTrackingModification(true);
-			IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
-			IPath iLocation = Path.fromOSString(uri.toFileString()); 
-			IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
+			String projectPath = FileUtil.getProjectLocation(diagram.eResource().getURI());
+			URI fullUri = URI.createURI("file:/" + projectPath.substring(0, projectPath.lastIndexOf("/") + 1) + uri.toString().replace("platform:/resource/", ""));
+			IPath iLocation = Path.fromOSString(fullUri.toFileString());
+			IFile ifile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(iLocation);
 			ifile.getParent().refreshLocal(1, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (CoreException e) {
 			e.printStackTrace();
-		} 
+		} catch (NullPointerException e) {
+			System.out.println("Local refresh not available!");
+		}
 	}
 
 	private void addFormula(IFeatureProvider featureProvider, CbCFormula formula, Diagram diagram, int x, int y) {

@@ -53,11 +53,8 @@ public class GetDiagramUtil {
        return ret;
     }
  
-    private static Diagram getDiagramFromFile(IFile file,
-                                              ResourceSet resourceSet) {
-       // Get the URI of the model file.
+    public static Diagram getDiagramFromFile(IFile file, ResourceSet resourceSet) {
        final URI resourceURI = getFileURI(file, resourceSet);
-       // Demand load the resource for this file.
        Resource resource;
        try {
             resource = resourceSet.getResource(resourceURI, true);
@@ -75,9 +72,15 @@ public class GetDiagramUtil {
        }
        return null;
     }
+    
+    public static Resource getResourceFromFile(IFile file, ResourceSet resourceSet) {
+    	final URI resourceURI = getFileURI(file, resourceSet);
+        Resource resource = resourceSet.getResource(resourceURI, true);
+    	return resource;
+    }
  
     private static URI getFileURI(IFile file, ResourceSet resourceSet) {
-       final String pathName = file.getFullPath().toString();
+       final String pathName = file.getLocation().toPortableString();
        URI resourceURI = URI.createFileURI(pathName);
        resourceURI = resourceSet.getURIConverter().normalize(resourceURI);
        return resourceURI;

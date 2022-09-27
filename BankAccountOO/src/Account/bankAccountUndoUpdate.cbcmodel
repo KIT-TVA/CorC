@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="bankAccountUndoUpdate" proven="true" comment="" className="Account" methodName="bankAccountUndoUpdate">
+    <statement name="statement" id="e730c7e0-e99a-46bf-82d0-8db669bda722">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="3ca6b41d-6824-4acc-9bd7-fab4648a7aa6">
+        <firstStatement name="statement1" id="ace53e81-1e06-4b6d-a2cb-22a7c0231b3a">
+          <refinement name="newBalance = balance - x;" proven="true" id="dd85cb33-5d78-431e-b409-4a70d8af965d">
+            <postCondition name="newBalance = balance - x">
+              <modifiables>newBalance</modifiables>
+            </postCondition>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="newBalance = balance - x">
+            <modifiables>newBalance</modifiables>
+          </postCondition>
+          <preCondition name="true"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="db1c19f7-a835-4aeb-950a-90421cd1669d">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="92d6df25-8ecd-4662-9588-b6623be5483b">
+            <firstStatement name="statement1" id="085256b6-5b8e-40d0-8075-d40a5bbb8e3a">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="87352543-2c68-401d-9fa2-62b4e17ef124" preProve="true">
+                <guards name="newBalance &lt; this.OVERDRAFT_LIMIT"/>
+                <guards name="newBalance >= this.OVERDRAFT_LIMIT"/>
+                <commands name="statement" id="8ebec41a-d1b3-4ced-8253-341488f99796">
+                  <refinement name="ret = false;" proven="true" id="6397e26c-64e6-4263-91f6-cdba68b933a7">
+                    <postCondition name="(ret = FALSE -> balance = \old(balance)) &amp; (ret = TRUE -> balance = \old(balance) - x)">
+                      <modifiables>newBalance</modifiables>
+                      <modifiables>ret</modifiables>
+                    </postCondition>
+                    <preCondition name="(newBalance = balance - x) &amp; (newBalance &lt; this.OVERDRAFT_LIMIT)">
+                      <modifiables>newBalance</modifiables>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="(ret = FALSE -> balance = \old(balance)) &amp; (ret = TRUE -> balance = \old(balance) - x)">
+                    <modifiables>balance</modifiables>
+                    <modifiables>newBalance</modifiables>
+                    <modifiables>ret</modifiables>
+                  </postCondition>
+                  <preCondition name="(newBalance = balance - x) &amp; (newBalance &lt; this.OVERDRAFT_LIMIT)">
+                    <modifiables>newBalance</modifiables>
+                  </preCondition>
+                </commands>
+                <commands name="statement" id="bbaeb94b-c741-4e5e-957f-5a9a5231f627">
+                  <refinement name="balance = newBalance;&#xD;&#xA;ret = true;" proven="true" id="fd6e282f-8007-4340-8dde-d28ee8cbb2c7">
+                    <postCondition name="(ret = FALSE -> balance = \old(balance)) &amp; (ret = TRUE -> balance = \old(balance) - x)">
+                      <modifiables>balance</modifiables>
+                      <modifiables>newBalance</modifiables>
+                      <modifiables>ret</modifiables>
+                    </postCondition>
+                    <preCondition name="(newBalance = balance - x) &amp; (newBalance >= this.OVERDRAFT_LIMIT)">
+                      <modifiables>newBalance</modifiables>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="(ret = FALSE -> balance = \old(balance)) &amp; (ret = TRUE -> balance = \old(balance) - x)">
+                    <modifiables>balance</modifiables>
+                    <modifiables>newBalance</modifiables>
+                    <modifiables>ret</modifiables>
+                  </postCondition>
+                  <preCondition name="(newBalance = balance - x) &amp; (newBalance >= this.OVERDRAFT_LIMIT)">
+                    <modifiables>newBalance</modifiables>
+                  </preCondition>
+                </commands>
+              </refinement>
+              <postCondition name="(ret = FALSE -> balance = \old(balance)) &amp; (ret = TRUE -> balance = \old(balance) - x)">
+                <modifiables>balance</modifiables>
+                <modifiables>newBalance</modifiables>
+                <modifiables>ret</modifiables>
+              </postCondition>
+              <preCondition name="newBalance = balance - x">
+                <modifiables>newBalance</modifiables>
+              </preCondition>
+            </firstStatement>
+            <secondStatement name="statement2" id="3f55bd9e-58ee-4aa6-bebc-4a4357273c6b">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="ret;" proven="true" comment="returnStatement" id="7cd0d232-c81c-4b55-b821-1df2ba317d3a">
+                <postCondition name="(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)">
+                  <modifiables>balance</modifiables>
+                  <modifiables>newBalance</modifiables>
+                  <modifiables>ret</modifiables>
+                </postCondition>
+                <preCondition name="(ret = FALSE -> balance = \old(balance)) &amp; (ret = TRUE -> balance = \old(balance) - x)">
+                  <modifiables>balance</modifiables>
+                  <modifiables>newBalance</modifiables>
+                  <modifiables>ret</modifiables>
+                </preCondition>
+              </refinement>
+              <postCondition name="(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)">
+                <modifiables>balance</modifiables>
+                <modifiables>newBalance</modifiables>
+                <modifiables>ret</modifiables>
+              </postCondition>
+              <preCondition name="(ret = FALSE -> balance = \old(balance)) &amp; (ret = TRUE -> balance = \old(balance) - x)">
+                <modifiables>balance</modifiables>
+                <modifiables>newBalance</modifiables>
+                <modifiables>ret</modifiables>
+              </preCondition>
+            </secondStatement>
+            <intermediateCondition name="(ret = FALSE -> balance = \old(balance)) &amp; (ret = TRUE -> balance = \old(balance) - x)">
+              <modifiables>balance</modifiables>
+              <modifiables>newBalance</modifiables>
+              <modifiables>ret</modifiables>
+            </intermediateCondition>
+          </refinement>
+          <postCondition name="(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)">
+            <modifiables>balance</modifiables>
+            <modifiables>newBalance</modifiables>
+            <modifiables>ret</modifiables>
+          </postCondition>
+          <preCondition name="newBalance = balance - x">
+            <modifiables>newBalance</modifiables>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="newBalance = balance - x">
+          <modifiables>newBalance</modifiables>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)">
+        <modifiables>balance</modifiables>
+        <modifiables>newBalance</modifiables>
+        <modifiables>ret</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Account.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int newBalance"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="OVERDRAFT_LIMIT = 0"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>
