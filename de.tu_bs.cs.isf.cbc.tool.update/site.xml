@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/de.tu_bs.cs.cbc.tool.feature_1.0.0.201906121002.jar" id="de.tu_bs.cs.cbc.tool.feature" version="1.0.0.201906121002">
+      <category name="CorC"/>
+   </feature>
+   <feature url="features/de.tu_bs.cs.isf.cbc.tooldependencies.feature_1.0.0.201906121002.jar" id="de.tu_bs.cs.isf.cbc.tooldependencies.feature" version="1.0.0.201906121002">
+      <category name="CorC"/>
+   </feature>
+   <category-def name="CorC" label="CorC"/>
+</site>
