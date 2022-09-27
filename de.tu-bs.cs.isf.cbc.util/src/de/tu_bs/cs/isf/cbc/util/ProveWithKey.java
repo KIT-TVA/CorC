@@ -203,7 +203,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		while (lines.get(i).contains(";")) {
 			String field = lines.get(i++).replace(";", "");
 			Field f = CbcclassFactory.eINSTANCE.createField();
-			String split[] = field.replace(" /*@spec_public@*/ ","").trim().split(" ");
+			String split[] = field.replace("/*@spec_public@*/ ","").trim().split(" ");
 			int pointer = 1;
 			switch (split[0].toLowerCase()) {
 			case "private":
@@ -236,7 +236,9 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 
 			f.setType(split[pointer++]);
 			f.setName(split[pointer]);
-			vars.getFields().add(f);
+			if (!f.getType().trim().equals("")) {
+				vars.getFields().add(f);
+			}
 		}
 		return vars;
 	}

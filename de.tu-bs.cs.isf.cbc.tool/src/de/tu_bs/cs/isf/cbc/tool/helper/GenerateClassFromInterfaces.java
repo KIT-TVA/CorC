@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.commons.layout.LayoutInformation;
 import org.emftext.language.java.arrays.ArrayDimension;
-import org.emftext.language.java.classifiers.impl.ClassImpl;
 import org.emftext.language.java.classifiers.impl.InterfaceImpl;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.ClassMethod;

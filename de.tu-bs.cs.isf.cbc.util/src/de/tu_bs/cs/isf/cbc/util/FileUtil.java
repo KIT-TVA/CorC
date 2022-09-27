@@ -244,15 +244,6 @@ public class FileUtil implements IFileUtil{
 		return trimSegment(uriString, uri.segmentCount() - 1);
 	}
 	
-	private String withoutFileExtention(String uri) {
-		return URI.createURI(uri).trimFileExtension().toPlatformString(true);
-	}
-	
-	private String getSegment(String uriString, int count) {
-		URI uri = URI.createURI(uriString);
-		return uri.segment(uri.segmentCount()-count);
-	}
-
 	public String getLocationString(String uri) {
 		String uriWithoutProjectAndFileName = trimLastSegment(trimSegment(uri, 0));
 		return getProjectLocation(uri) + "/" + uriWithoutProjectAndFileName + "/prove" + getLastSegment(uri);

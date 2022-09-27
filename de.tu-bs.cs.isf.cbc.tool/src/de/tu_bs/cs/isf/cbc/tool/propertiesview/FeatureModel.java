@@ -184,8 +184,7 @@ public class FeatureModel {
 	 * Method for returning all Features which could be in valid Replacements of
 	 * method-call
 	 */
-	public List<String> getMethodFeatureNames(String code) {
-		//TODO classname
+	public List<String> getMethodFeatureNames(String code, String className) {
 		methodFeatureNames.clear();
 		code = code.replaceAll("\n", "");
 		code = code.replaceAll("\r", "");
@@ -207,7 +206,7 @@ public class FeatureModel {
 		for (int i = 0; i < featModel.getFeatureOrderList().size(); i++) {
 			IPath methodPath = projectPath.append("features");
 			IPath methodPath2 = methodPath.append(featModel.getFeatureOrderList().get(i));
-			IPath methodPath3 = methodPath2.append("diagram");//TODO max
+			IPath methodPath3 = methodPath2.append(className);
 			IPath methodPath4 = methodPath3.append(methodName);
 			File tmpDir = new File(methodPath4.toString());
 			if (tmpDir.exists()) {

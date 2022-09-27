@@ -1,5 +1,9 @@
 package de.tu_bs.cs.isf.cbc.tool.patterns;
 
+import java.io.IOException;
+import java.util.Collections;
+
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -36,7 +40,6 @@ import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateMethodCallsToProve;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
-import de.tu_bs.cs.isf.cbc.util.Console;
 
 /**
  * Class that creates the graphical representation of Conditions
@@ -240,11 +243,20 @@ public class ConditionPattern extends IdPattern implements IPattern {
 			return;
 		}
 		condition.setName(value.trim());
+		URI peURI =	context.getPictogramElement().eResource().getURI();
 		if (condition.eContainer() instanceof ModelClass) {
 			ShapeImpl shape = (ShapeImpl)context.getPictogramElement();
 			TextImpl text = (TextImpl)shape.getGraphicsAlgorithm();
 			text.setValue("{" + condition.getName() + "}");
 		} else if (!(condition.eContainer() instanceof GlobalConditions)) {
+			if (peURI.lastSegment().contains(peURI.segment(peURI.segmentCount()-2))) { //change from CbCClass
+				try {
+					condition.eResource().save(Collections.EMPTY_MAP);
+					condition.eResource().setTrackingModification(true);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			UpdateOriginalCallsToProve.updateOriginalCallsToProve(condition);
 			UpdateMethodCallsToProve.updateMethodCallsToProve(condition);
 			UpdateContractsToProve.updateContractsToProve(condition);

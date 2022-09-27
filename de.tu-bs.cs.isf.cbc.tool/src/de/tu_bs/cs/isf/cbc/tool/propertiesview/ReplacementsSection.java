@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
@@ -31,6 +32,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.OriginalStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
@@ -225,7 +227,11 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 			buttons.clear();
 			outputText.setText("");
 			replacementText.setText("Method-Call");
-			methodFeatureNames = featureModel.getMethodFeatureNames(((MethodStatementImpl) bo).getName());
+			EObject tmpObj = ((MethodStatementImpl) bo).eContainer();
+			while (!(tmpObj.eContainer() instanceof CbCFormula)) {
+				tmpObj = tmpObj.eContainer();
+			}
+			methodFeatureNames = featureModel.getMethodFeatureNames(((MethodStatementImpl) bo).getName(), ((CbCFormula) tmpObj.eContainer()).getClassName());
 			if (methodFeatureNames.isEmpty()) {
 				generateButton.setEnabled(false);
 				Label hint = new Label(buttonGroup, SWT.PUSH);

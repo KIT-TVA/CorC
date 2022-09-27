@@ -42,7 +42,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.MethodStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.OriginalStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCFeatureProvider;
 
@@ -74,12 +73,6 @@ public class UpdateMethodCallsToProve {
 		}
 		Path path = Paths.get(modelFile.getLocationURI());
 		IFeatureModel featModel = FeatureModelManager.load(path);
-
-		// get current Feature
-		String feature = uri.segment(3);
-
-		// get current Class
-		String className = uri.segment(4);
 		
 		// get current Method
 		String method = uri.trimFileExtension().lastSegment().toLowerCase();
@@ -116,7 +109,7 @@ public class UpdateMethodCallsToProve {
 				}
 			} catch (CoreException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		}
 
@@ -179,7 +172,7 @@ public class UpdateMethodCallsToProve {
 					} else if (((CbCFormulaImpl) bos.get(j)).getStatement().getPostCondition().getName()
 							.contains(method)) {
 						hasMethod = true;
-						((OriginalStatementImpl) bos.get(j)).setProven(false);
+						((CbCFormulaImpl) bos.get(j)).setProven(false);
 					}
 				}
 				if (hasMethod) {

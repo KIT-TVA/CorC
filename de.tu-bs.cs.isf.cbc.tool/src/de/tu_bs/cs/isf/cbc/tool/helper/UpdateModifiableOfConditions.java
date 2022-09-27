@@ -12,6 +12,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
@@ -50,6 +51,7 @@ public class UpdateModifiableOfConditions {
 						modifiableVariables.add(var);
 					}
 				}
+				if (statement instanceof ReturnStatement && variablesInStatement.size() == 0) modifiableVariables.add("ret"); 
 				statement.getPostCondition().getModifiables().clear();
 				for (String mv : modifiableVariables) {
 					if (!statement.getPostCondition().getModifiables().contains(mv)) {

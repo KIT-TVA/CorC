@@ -10,7 +10,6 @@ import com.google.common.hash.Hashing;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.util.Console;
 import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.Statistics;
 

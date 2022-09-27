@@ -194,7 +194,6 @@ public class UpdateContractsToProve {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("okasaok");
 		// Setup Notification
 		if (!validDiagramsAffectedURIs.isEmpty())
 

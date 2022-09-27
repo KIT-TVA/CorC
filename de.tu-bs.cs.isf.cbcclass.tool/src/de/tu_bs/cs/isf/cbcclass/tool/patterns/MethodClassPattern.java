@@ -56,6 +56,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassImageProvider;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import helper.ClassUtil;
 import helper.ModelClassHelper;
@@ -240,7 +241,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 	public boolean canDirectEdit(IDirectEditingContext context) {
 		Object domainObject = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
-		if ((domainObject instanceof Method) && ga instanceof RoundedRectangle) {
+		if ((domainObject instanceof Method) && (ga instanceof RoundedRectangle || ga instanceof MultiText)) {
 			return true;
 		}
 		return false;
@@ -248,14 +249,24 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 
 	@Override
 	public String checkValueValid(String value, IDirectEditingContext context) {
-		String type = "(int|char|float|long|boolean|byte|short|double|([A-Z]\\w*))(\\[\\])?";
-		if (value == null || value.length() == 0) {
-			return "Methodsignature must not be empty";
-		} else if (value.length() > 0 && !value.trim()
-				.matches("(public\\s|private\\s|protected\\s)?" + "(static\\s)?"
-						+ "((void|int|char|float|long|boolean|byte|short|double|([A-Z]\\w*))(\\[\\])?)?(\\s)?[a-z]\\w*"
-						+ "\\(" + "((" + type + "\\s[A-Za-z]\\w*,(\\s)?)*(" + type + "\\s[A-Za-z]\\w*))?" + "\\)")) {
-			return "Signature must contain a name and parentheses with optional arguments";
+		Method method = (Method) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
+		if (ga instanceof RoundedRectangle) {
+			String type = "(int|char|float|long|boolean|byte|short|double|([A-Z]\\w*))(\\[\\])?";
+			if (value == null || value.length() == 0) {
+				return "Methodsignature must not be empty";
+			} else if (value.length() > 0 && !value.trim()
+					.matches("(public\\s|private\\s|protected\\s)?" + "(static\\s)?"
+							+ "((void|int|char|float|long|boolean|byte|short|double|([A-Z]\\w*))(\\[\\])?)?(\\s)?[a-z]\\w*"
+							+ "\\(" + "((" + type + "\\s[A-Za-z]\\w*,(\\s)?)*(" + type + "\\s[A-Za-z]\\w*))?" + "\\)")) {
+				return "Signature must contain a name and parentheses with optional arguments";
+			}
+		} else if (ga instanceof MultiText) {
+			value = "-" + value.trim().replaceAll(" ", "").replaceAll(",", "--") + "-";
+			for (Field f : method.getParentClass().getFields()) {
+				value = value.replaceAll("-" + f.getName() + "(\\[.*\\])*-", "");
+			}
+			if (value.replaceAll("-", "").length() != 0) return "Modifiables must only contain fields of this class";
 		}
 		return null;
 	}
@@ -308,7 +319,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		postText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		postText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 
-		Shape modShape = peCreateService.createShape(outerContainerShape, false);
+		Shape modShape = peCreateService.createShape(outerContainerShape, true);
 		MultiText modText = gaService.createMultiText(modShape,
 				"{" + (addedMethod.getAssignable() == null ? "" : addedMethod.getAssignable()) + "}");
 		setId(modText, ID_MOD_TEXT);
@@ -449,7 +460,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		if (id.equals(ID_IMAGE_PROVEN)) {
 			Method domainObject = (Method) context.getDomainObject();
 			Image image = (Image) context.getGraphicsAlgorithm();
-			String path = FileUtil.getProjectLocation(getDiagram().eResource().getURI())+ "/features/" + domainObject.getParentClass().getFeature() + "/" + domainObject.getCbcStartTriple().getClassName() + "/" + domainObject.getName() + ".cbcmodel";
+			String path = FileUtil.getProjectLocation(getDiagram().eResource().getURI())+ (domainObject.getParentClass().getFeature().equals("default") ? "/src" : "/features/" + domainObject.getParentClass().getFeature()) + "/" + domainObject.getCbcStartTriple().getClassName() + "/" + domainObject.getName() + ".cbcmodel";
 			File cbcmodelFile = new File(path);
 			if (cbcmodelFile.exists()) {
 				URI cbcmodelURI = URI.createFileURI(path);
@@ -496,6 +507,12 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			Method domainObject = (Method) context.getDomainObject();
 			if (!sigText.getValue().equals(domainObject.getSignature())) {
 				return Reason.createTrueReason("Signature is not up to date.");
+			}
+		} else if (id.equals(ID_MOD_TEXT)) {
+			MultiText modText = (MultiText) context.getGraphicsAlgorithm();
+			Method domainObject = (Method) context.getDomainObject();
+			if (!modText.getValue().equals(getModifiablesString(domainObject.getParentClass(), domainObject.getCbcStartTriple().getStatement().getPostCondition()))) {
+				return Reason.createTrueReason("Modifiables are not up to date.");
 			}
 		}
 		return Reason.createFalseReason();
@@ -564,10 +581,17 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 					return true;
 				}
 			}
+		} else if (id.equals(ID_MOD_TEXT) && context.getGraphicsAlgorithm() instanceof MultiText && context.getDomainObject() instanceof Method) {
+			MultiText modText = (MultiText) context.getGraphicsAlgorithm();
+			Method domainObject = (Method) context.getDomainObject();
+			if (!modText.getValue().equals(getModifiablesString(domainObject.getParentClass(), domainObject.getCbcStartTriple().getStatement().getPostCondition()))) {
+				modText.setValue(getModifiablesString(domainObject.getParentClass(), domainObject.getCbcStartTriple().getStatement().getPostCondition()));
+			}
+			return true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Method domainObject = (Method) context.getDomainObject();
 			Image image = (Image) context.getGraphicsAlgorithm();
-			String path = FileUtil.getProjectLocation(getDiagram().eResource().getURI())+ "/features/" + domainObject.getParentClass().getFeature() + "/" + domainObject.getCbcStartTriple().getClassName() + "/" + domainObject.getName() + ".cbcmodel";
+			String path = FileUtil.getProjectLocation(getDiagram().eResource().getURI())+ (domainObject.getParentClass().getFeature().equals("default") ? "/src" : "/features/" + domainObject.getParentClass().getFeature()) + "/" + domainObject.getCbcStartTriple().getClassName() + "/" + domainObject.getName() + ".cbcmodel";
 			File cbcmodelFile = new File(path);
 			if (cbcmodelFile.exists()) {
 				URI cbcmodelURI = URI.createFileURI(path);
@@ -588,19 +612,35 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 	@Override
 	public void setValue(String value, IDirectEditingContext context) {
 		Method method = (Method) getBusinessObjectForPictogramElement(context.getPictogramElement());
-		String oldName = method.getName();
-		String oldSignature = method.getSignature();
-		int oldParamSize = method.getParameters().size();
-		method.setSignature(value.trim());
-		if (!oldName.equals(method.getName())) {
-			method.setSignature(oldSignature);
-			JOptionPane.showMessageDialog(null, "Can not change name of method in the this state of CorC.");
-			return;
-		}
+		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
+		if (ga instanceof RoundedRectangle) {
+			String oldName = method.getName();
+			String oldSignature = method.getSignature();
+			int oldParamSize = method.getParameters().size();
+			method.setSignature(value.trim());
+			if (!oldName.equals(method.getName())) {
+				method.setSignature(oldSignature);
+				JOptionPane.showMessageDialog(null, "Can not change name of method in the this state of CorC.");
+				return;
+			}
 		
-		if (method.getParameters().size() != oldParamSize) {
-			URI urii = getDiagram().eResource().getURI();
-			ClassUtil.refreshProject(FileUtil.getProjectLocation(urii));
+			if (method.getParameters().size() != oldParamSize) {
+				URI urii = getDiagram().eResource().getURI();
+				ClassUtil.refreshProject(FileUtil.getProjectLocation(urii));
+			}
+		} else if (ga instanceof MultiText) {
+			String[] split = value.trim().split(",");
+			method.getCbcStartTriple().getStatement().getPostCondition().getModifiables().clear();
+			for (String s : split) {
+				if (!s.equals("")) method.getCbcStartTriple().getStatement().getPostCondition().getModifiables().add(s.trim());
+			}
+			try {
+				method.getCbcStartTriple().getStatement().getPostCondition().eResource().save(Collections.EMPTY_MAP);
+				method.getCbcStartTriple().getStatement().getPostCondition().eResource().setTrackingModification(true);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			UpdateConditionsOfChildren.updateConditionsofChildren(method.getCbcStartTriple().getStatement().getPostCondition());	
 		}
 		updatePictogramElement(((Shape) context.getPictogramElement()));		
 	}
@@ -608,7 +648,12 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 	@Override
 	public String getInitialValue(IDirectEditingContext context) {
 		Method method = (Method) getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return method.getSignature();
+		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
+		if (ga instanceof RoundedRectangle) {
+			return method.getSignature();
+		} else {
+			return getModifiablesString(method.getParentClass(), method.getCbcStartTriple().getStatement().getPostCondition());
+		}
 	}
 	
 	@Override
@@ -628,5 +673,27 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 				break;
 			}
 		}
+	}
+	
+	private String getModifiablesString(ModelClass parent, Condition condition) {
+		String modString = "";
+		if (condition.getModifiables() != null && condition.getModifiables().size() > 0) {
+			for (String mod : condition.getModifiables()) {
+				for (Field f : parent.getFields()) {
+					if (f.getName() != null) {
+						String fieldName = f.getName().replace("[", "").replace("]", "").trim();
+						if (mod.replace("this.","").startsWith(fieldName)) {
+							if (modString.length() != 0) {
+								modString = modString + ", " + mod.replace("this.","");
+							} else {
+								modString = mod.replace("this.","");
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
+		return modString;
 	}
 }

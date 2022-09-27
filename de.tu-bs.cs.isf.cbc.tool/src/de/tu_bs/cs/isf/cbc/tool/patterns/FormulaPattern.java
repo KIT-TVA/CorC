@@ -36,11 +36,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CompositionStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
 
