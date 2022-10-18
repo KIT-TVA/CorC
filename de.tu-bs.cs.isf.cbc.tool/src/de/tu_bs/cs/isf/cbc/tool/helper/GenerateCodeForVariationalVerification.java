@@ -44,7 +44,6 @@ import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.IFileUtil;
-import helper.ClassUtil;
 
 public class GenerateCodeForVariationalVerification extends MyAbstractAsynchronousCustomFeature{
 	

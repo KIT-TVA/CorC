@@ -15,5 +15,3 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  de.tu_bs.cs.isf.cbc.cbcclass.model;visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Import-Package: de.tu_bs.cs.isf.cbc.util,
- helper

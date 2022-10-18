@@ -56,7 +56,6 @@ import de.tu_bs.cs.isf.cbc.util.Console;
 
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCFeatureProvider;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import helper.ClassUtil;
 
 public class BasicsSection extends GFPropertySection implements ITabbedPropertyConstants {
 	

@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ClassTool
-Bundle-SymbolicName: de.tu-bs.cs.isf.cbcclass.tool; singleton:=true
+Bundle-Name: helper
+Bundle-SymbolicName: de.tu-bs.cs.isf.cbc.helper
 Bundle-Version: 1.0.0.qualifier
-Automatic-Module-Name: de.tu.bs.cs.isf.cbcclass.tool
+Automatic-Module-Name: de.tu.bs.cs.isf.cbc.helper
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.graphiti,
  org.eclipse.graphiti.ui,
@@ -14,8 +14,7 @@ Require-Bundle: org.eclipse.graphiti,
  org.eclipse.swt,
  org.eclipse.emf.transaction,
  org.eclipse.ui.workbench,
- org.eclipse.ui.views.properties.tabbed,
- de.tu-bs.cs.isf.cbc.helper
+ org.eclipse.ui.views.properties.tabbed
 Import-Package: de.tu_bs.cs.isf.cbc.tool.diagram,
  de.tu_bs.cs.isf.cbc.tool.features,
  de.tu_bs.cs.isf.cbc.tool.helper,
@@ -27,5 +26,4 @@ Import-Package: de.tu_bs.cs.isf.cbc.tool.diagram,
  org.eclipse.emf.ecore.xmi.impl,
  org.eclipse.graphiti.pattern;version="0.13.2",
  org.eclipse.graphiti.pattern.id
-Export-Package: de.tu_bs.cs.isf.cbcclass.tool.patterns,
- helper
+Export-Package: helper

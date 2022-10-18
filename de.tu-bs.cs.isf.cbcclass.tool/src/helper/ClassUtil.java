@@ -19,7 +19,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 
 import org.eclipse.emf.common.util.URI;
 
-public class ClassUtil {
+public abstract class ClassUtil implements IClassUtil{
 
 	private final static String ID_CBC_MODEL = ".cbcmodel";
 	private final static String ID_CBC_DIAGRAM = ".diagram";
@@ -29,7 +29,7 @@ public class ClassUtil {
 		
 	}	
 
-	public static IProject refreshProject(String path) {
+	public IProject refreshProject(String path) {
 		path = path.replace('\\', '/');
 		IProject thisProject = null;
 
@@ -48,7 +48,7 @@ public class ClassUtil {
 		return thisProject;
 	}
 	
-	public static Resource getCbcModelResource(String path, String methodName, String feature, String className) {		
+	public Resource getCbcModelResource(String path, String methodName, String feature, String className) {		
 		final List<IFile> filess = getFilesOfType(refreshProject(path), ID_CBC_MODEL);
 		final ResourceSet rSets = new ResourceSetImpl();
 		for (final IFile file : filess) {

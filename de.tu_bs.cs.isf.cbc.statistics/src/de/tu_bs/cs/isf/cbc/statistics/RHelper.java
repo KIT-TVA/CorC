@@ -84,7 +84,6 @@ public class RHelper {
 			String errorOutput = "Rscript not found. Please install and make sure to add to PATH variable.\n"
 					+ "  -> Eclipse may have to be restarted.";
 			System.out.println(errorOutput);
-			de.tu_bs.cs.isf.cbc.util.Console.println(errorOutput);
 			e.printStackTrace();
 			return false;
 		}
