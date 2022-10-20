@@ -44,14 +44,13 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl;
+import de.tu_bs.cs.isf.cbc.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
-
+import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCFeatureProvider;
@@ -260,7 +259,7 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 			public void run() {
 				boolean isVariational = false;
 				// update methodSignature, invariants, feature
-				if(((CbCFormulaImpl) bo).getMethodObj() instanceof MethodImpl) {
+				if(((CbCFormulaImpl) bo).getMethodObj() instanceof Method) {
 					Method methodObj = (Method) ((CbCFormulaImpl) bo).getMethodObj();
 					methodSignatureLabelText.setText(methodObj.getSignature());
 					classLabelText.setText(methodObj.getParentClass().getName() + (methodObj.getParentClass().getInheritsFrom() != null ? (" extends " + methodObj.getParentClass().getInheritsFrom().getName()) : ""));

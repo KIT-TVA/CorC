@@ -1,4 +1,4 @@
-package helper;
+package de.tu_bs.cs.isf.cbc.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
-import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 
 import org.eclipse.emf.common.util.URI;
 
@@ -29,7 +28,7 @@ public abstract class ClassUtil implements IClassUtil{
 		
 	}	
 
-	public IProject refreshProject(String path) {
+	public static IProject refreshProject(String path) {
 		path = path.replace('\\', '/');
 		IProject thisProject = null;
 
@@ -48,7 +47,7 @@ public abstract class ClassUtil implements IClassUtil{
 		return thisProject;
 	}
 	
-	public Resource getCbcModelResource(String path, String methodName, String feature, String className) {		
+	public static Resource getCbcModelResource(String path, String methodName, String feature, String className) {		
 		final List<IFile> filess = getFilesOfType(refreshProject(path), ID_CBC_MODEL);
 		final ResourceSet rSets = new ResourceSetImpl();
 		for (final IFile file : filess) {

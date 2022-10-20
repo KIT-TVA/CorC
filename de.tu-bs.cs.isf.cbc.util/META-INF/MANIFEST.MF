@@ -5,7 +5,6 @@ Bundle-SymbolicName: de.tu-bs.cs.isf.cbc.util
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: de.tu-bs.cs.isf.cbc.model;bundle-version="0.1.0",
- de.tu_bs.cs.isf.cbc.cbcclass.model,
  org.key_project.core,
  org.key_project.util,
  org.eclipse.core.resources,

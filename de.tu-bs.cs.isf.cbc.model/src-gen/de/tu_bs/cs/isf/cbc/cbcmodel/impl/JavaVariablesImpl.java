@@ -2,10 +2,10 @@
  */
 package de.tu_bs.cs.isf.cbc.cbcmodel.impl;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
+import de.tu_bs.cs.isf.cbc.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;

@@ -45,14 +45,14 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.graphiti.util.PredefinedColoredAreas;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 import de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassImageProvider;
-import helper.ClassUtil;
-import model.CbcClassUtil;
+import de.tu_bs.cs.isf.cbcclass.tool.helper.CbcClassUtil;
 
 public class ModelClassPattern extends IdPattern implements IPattern {
 

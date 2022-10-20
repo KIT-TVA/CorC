@@ -18,8 +18,8 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.IColorConstant;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.ModelClassImpl;
+import de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl;
+import de.tu_bs.cs.isf.cbc.cbcclass.impl.ModelClassImpl;
 
 /**
  * Class that creates the graphical representation of the parent hierarchy between Algorithms

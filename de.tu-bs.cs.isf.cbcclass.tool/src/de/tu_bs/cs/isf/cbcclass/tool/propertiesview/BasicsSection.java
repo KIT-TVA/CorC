@@ -25,13 +25,13 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
-import helper.ClassUtil;
 
 public class BasicsSection extends GFPropertySection implements ITabbedPropertyConstants {
 	Display display = Display.getCurrent();// for UI updating of back-process
@@ -51,8 +51,6 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 	private Label methodLabel;
 	private List methodList;
 	
-	private Object bo;
-
 	@Override
 	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
@@ -169,7 +167,7 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 	public void refresh() {
 		CbCDiagramTypeProvider diagramProvider = new CbCDiagramTypeProvider();
 		PictogramElement pe = getSelectedPictogramElement();
-		bo = diagramProvider.getFeatureProvider().getBusinessObjectForPictogramElement(pe);
+		diagramProvider.getFeatureProvider().getBusinessObjectForPictogramElement(pe);
 		if (pe instanceof Diagram) {
 			updateData(pe);
 		}

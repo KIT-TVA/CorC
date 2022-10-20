@@ -1,4 +1,4 @@
-package helper;
+package de.tu_bs.cs.isf.cbcclass.tool.helper;
 
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.Shape;

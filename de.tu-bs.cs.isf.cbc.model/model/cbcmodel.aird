@@ -776,7 +776,9 @@
     <semanticResources>pathmap:/javaclass/java.lang.IllegalAccessException.java</semanticResources>
     <semanticResources>platform:/resource/de.tu_bs.cs.isf.cbc.cbcclass.model/model/cbcclass.ecore</semanticResources>
     <semanticResources>platform:/resource/de.tu_bs.cs.isf.cbc.cbcclass.model/model/cbcclass.genmodel</semanticResources>
+    <semanticResources>cbcclass.ecore</semanticResources>
     <semanticResources>cbcmodel.genmodel</semanticResources>
+    <semanticResources>genmodel.genmodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_oNTJkRhnEeu74r7X1vovKw">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
       <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_rIM0cBhnEeu74r7X1vovKw" name="cbcmodel class diagram" repPath="#_rIKYMBhnEeu74r7X1vovKw">
@@ -1133,10 +1135,10 @@
           <styles xmi:type="notation:ShapeStyle" xmi:id="_tT0XdRhnEeu74r7X1vovKw" fontName="Segoe UI" fontHeight="8"/>
           <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tT0XdhhnEeu74r7X1vovKw" x="180"/>
         </children>
-        <children xmi:type="notation:Node" xmi:id="_tT0-hxhnEeu74r7X1vovKw" type="2003" element="_tSQ4QBhnEeu74r7X1vovKw">
+        <children xmi:type="notation:Node" xmi:id="_tT0-hxhnEeu74r7X1vovKw" type="2003">
           <children xmi:type="notation:Node" xmi:id="_tT1lkBhnEeu74r7X1vovKw" type="5007"/>
           <children xmi:type="notation:Node" xmi:id="_tT1lkRhnEeu74r7X1vovKw" type="7004">
-            <children xmi:type="notation:Node" xmi:id="_tUAksxhnEeu74r7X1vovKw" type="3010" element="_tS2HEBhnEeu74r7X1vovKw">
+            <children xmi:type="notation:Node" xmi:id="_tUAksxhnEeu74r7X1vovKw" type="3010">
               <styles xmi:type="notation:FontStyle" xmi:id="_tUAktBhnEeu74r7X1vovKw" fontName="Segoe UI" fontHeight="8"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_tUAktRhnEeu74r7X1vovKw"/>
             </children>
@@ -1146,10 +1148,10 @@
           <styles xmi:type="notation:ShapeStyle" xmi:id="_tT0-iBhnEeu74r7X1vovKw" fontName="Segoe UI" fontHeight="8"/>
           <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tT0-iRhnEeu74r7X1vovKw" x="605" y="320"/>
         </children>
-        <children xmi:type="notation:Node" xmi:id="_tT1llBhnEeu74r7X1vovKw" type="2003" element="_tSSGYBhnEeu74r7X1vovKw">
+        <children xmi:type="notation:Node" xmi:id="_tT1llBhnEeu74r7X1vovKw" type="2003">
           <children xmi:type="notation:Node" xmi:id="_tT1llxhnEeu74r7X1vovKw" type="5007"/>
           <children xmi:type="notation:Node" xmi:id="_tT1lmBhnEeu74r7X1vovKw" type="7004">
-            <children xmi:type="notation:Node" xmi:id="_tUAkthhnEeu74r7X1vovKw" type="3010" element="_tS2uIBhnEeu74r7X1vovKw">
+            <children xmi:type="notation:Node" xmi:id="_tUAkthhnEeu74r7X1vovKw" type="3010">
               <styles xmi:type="notation:FontStyle" xmi:id="_tUAktxhnEeu74r7X1vovKw" fontName="Segoe UI" fontHeight="8"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_tUAkuBhnEeu74r7X1vovKw"/>
             </children>
@@ -1496,7 +1498,7 @@
           <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_tUeexxhnEeu74r7X1vovKw" id="(0.5,0.0)"/>
           <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_tUeeyBhnEeu74r7X1vovKw" id="(0.5,1.0)"/>
         </edges>
-        <edges xmi:type="notation:Edge" xmi:id="_tUfF1hhnEeu74r7X1vovKw" type="4001" element="_tTSzABhnEeu74r7X1vovKw" source="_tTyiRBhnEeu74r7X1vovKw" target="_tT0-hxhnEeu74r7X1vovKw">
+        <edges xmi:type="notation:Edge" xmi:id="_tUfF1hhnEeu74r7X1vovKw" type="4001" source="_tTyiRBhnEeu74r7X1vovKw" target="_tT0-hxhnEeu74r7X1vovKw">
           <children xmi:type="notation:Node" xmi:id="_tUfF2hhnEeu74r7X1vovKw" type="6001">
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tUfF2xhnEeu74r7X1vovKw" x="4" y="-87"/>
           </children>
@@ -1512,7 +1514,7 @@
           <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_tUfF4BhnEeu74r7X1vovKw" id="(0.5,0.5)"/>
           <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_tUfF4RhnEeu74r7X1vovKw" id="(0.5,0.5)"/>
         </edges>
-        <edges xmi:type="notation:Edge" xmi:id="_tUfs4BhnEeu74r7X1vovKw" type="4001" element="_tTTaEBhnEeu74r7X1vovKw" source="_tTyiRBhnEeu74r7X1vovKw" target="_tT1llBhnEeu74r7X1vovKw">
+        <edges xmi:type="notation:Edge" xmi:id="_tUfs4BhnEeu74r7X1vovKw" type="4001" source="_tTyiRBhnEeu74r7X1vovKw" target="_tT1llBhnEeu74r7X1vovKw">
           <children xmi:type="notation:Node" xmi:id="_tUfs5BhnEeu74r7X1vovKw" type="6001">
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tUfs5RhnEeu74r7X1vovKw" y="-10"/>
           </children>
@@ -1940,7 +1942,7 @@
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
       </ownedElements>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_tSL_wBhnEeu74r7X1vovKw" name="CbCProblem" tooltipText="" outgoingEdges="_tTPvsBhnEeu74r7X1vovKw _tTQWwBhnEeu74r7X1vovKw _tTQ90BhnEeu74r7X1vovKw _tTRk4BhnEeu74r7X1vovKw _tTSzABhnEeu74r7X1vovKw _tTTaEBhnEeu74r7X1vovKw" width="12" height="10">
+    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_tSL_wBhnEeu74r7X1vovKw" name="CbCProblem" tooltipText="" outgoingEdges="_tTPvsBhnEeu74r7X1vovKw _tTQWwBhnEeu74r7X1vovKw _tTQ90BhnEeu74r7X1vovKw _tTRk4BhnEeu74r7X1vovKw" width="12" height="10">
       <target xmi:type="ecore:EClass" href="cbcmodel.ecore#//CbCProblem"/>
       <semanticElements xmi:type="ecore:EClass" href="cbcmodel.ecore#//CbCProblem"/>
       <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_tSMm0BhnEeu74r7X1vovKw" borderSize="1" borderSizeComputationExpression="1" backgroundStyle="Liquid" foregroundColor="255,252,216">

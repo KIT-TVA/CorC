@@ -35,7 +35,7 @@ public class FileUtil implements IFileUtil{
 	static String applicationUri;	
 
 	public FileUtil(String applicationUri) {
-		this.applicationUri = applicationUri;
+		FileUtil.applicationUri = applicationUri;
 	}
 	
 	public static void setApplicationUri(URI applicationUri) {

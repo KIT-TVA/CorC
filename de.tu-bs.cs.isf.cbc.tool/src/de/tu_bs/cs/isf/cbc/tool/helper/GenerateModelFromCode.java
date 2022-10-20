@@ -53,12 +53,12 @@ import org.emftext.language.java.types.impl.VoidImpl;
 import org.emftext.language.java.variables.LocalVariable;
 import org.emftext.language.java.variables.impl.VariableImpl;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
+import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassPackage;
+import de.tu_bs.cs.isf.cbc.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -403,14 +403,14 @@ public class GenerateModelFromCode {
 
 		for (JavaVariable v : variables.getVariables()) {
 			if (v.getKind().equals(VariableKind.PARAM)) {
-				de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter param = CbcclassFactory.eINSTANCE.createParameter();
+				de.tu_bs.cs.isf.cbc.cbcclass.Parameter param = CbcclassFactory.eINSTANCE.createParameter();
 				String[] nameSplitted = v.getName().split(" ");
 				param.setType(nameSplitted[nameSplitted.length-2]);
 				param.setName(nameSplitted[nameSplitted.length-1]);
 				method.getParameters().add(param);
 			} else if (v.getKind().equals(VariableKind.RETURN)) {
 				method.setReturnType(v.getName().substring(0, v.getName().indexOf(' ')));
-				de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter param = CbcclassFactory.eINSTANCE.createParameter();
+				de.tu_bs.cs.isf.cbc.cbcclass.Parameter param = CbcclassFactory.eINSTANCE.createParameter();
 				String[] nameSplitted = v.getName().split(" ");
 				param.setType(nameSplitted[nameSplitted.length-2]);
 				param.setName(nameSplitted[nameSplitted.length-1]);

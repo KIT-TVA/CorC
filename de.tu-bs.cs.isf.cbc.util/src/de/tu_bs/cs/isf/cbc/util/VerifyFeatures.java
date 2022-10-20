@@ -46,8 +46,6 @@ public class VerifyFeatures {
 	private static IFeatureModel featModel;
 	private static Configuration configuration;
 
-	private static ConfigurationAnalyzer configurationAnalyzer;
-
 	// calculates feature-configurations
 	public static String[][] verifyConfig(URI uri_new, String method, boolean original, String callingClass, boolean cleanFromIrrelevant) {
 		uri = uri_new;

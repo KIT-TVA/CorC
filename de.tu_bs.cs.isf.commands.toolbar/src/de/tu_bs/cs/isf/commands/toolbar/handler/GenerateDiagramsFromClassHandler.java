@@ -28,7 +28,7 @@ public class GenerateDiagramsFromClassHandler extends AbstractHandler {
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(res.getFullPath());
 
 			final String PARM_MSG = "de.tu_bs.cs.isf.commands.toolbar.msg";
-			String msg = event.getParameter(PARM_MSG);
+			event.getParameter(PARM_MSG);
 			
 			GenerateModelFromCode gmfc = new GenerateModelFromCode();
 			gmfc.execute(file);

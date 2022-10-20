@@ -31,21 +31,14 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 public class ConstructCodeBlock {
 
 	private static boolean handleInnerLoops = true;
-	private static boolean withInvariants = false;
 	private static Renaming renaming = null;
 	private static int positionIndex = 0;
 	private static String line;
 	private static BufferedReader br;
 	private static JavaVariable returnVariable = null;
-	private static boolean withAsserts = true;
 	
-	private static final Pattern REGEX_PRIMITIVE_INTEGERS = Pattern.compile("(byte|char|short|int|long)");
-	private static final Pattern REGEX_PRIMITIVE_FLOAT = Pattern.compile("(float|double)");
-
 	public static String constructCodeBlockAndVerify(AbstractStatement statement, boolean innerLoops) {
 		handleInnerLoops = innerLoops;
-		withInvariants = false;
-		withAsserts = false;
 		StringBuffer code = new StringBuffer();
 
 		if (statement instanceof SmallRepetitionStatement) {
@@ -207,8 +200,6 @@ public class ConstructCodeBlock {
 	public static String constructCodeBlockForExport(
 			CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString) {
 		handleInnerLoops = true;
-		withInvariants = true;
-		
 		String modifiableVariables = Parser.getModifieableVarsFromConditionExceptLocals(formula.getStatement().getPostCondition(), vars, null, returnVar);
 		modifiableVariables = modifiableVariables.replaceAll("\\)", "").replaceAll("\\(", "");
 		String postCondition = Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName());
@@ -311,8 +302,6 @@ public class ConstructCodeBlock {
 	// tabea
 	public static String constructMethodStubsForExport(CbCFormula formula, Renaming renaming, JavaVariables vars) {
 		handleInnerLoops = true;
-		withInvariants = false;
-
 		String modifiableVariables = Parser
 				.getModifieableVarsFromCondition(formula.getStatement().getPostCondition());
 		String postCondition = Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName());
@@ -387,8 +376,6 @@ public class ConstructCodeBlock {
 
 	public static String constructMethodStubsForExport(CbCFormula formula, Renaming renaming, JavaVariables vars, String feature, String project) {
 		handleInnerLoops = true;
-		withInvariants = false;
-		
 		String modifiableVariables = Parser
 				.getModifieableVarsFromCondition(formula.getStatement().getPostCondition());
 		if (vars != null) {

@@ -7,15 +7,13 @@ Automatic-Module-Name: de.tu.bs.cs.isf.cbcclass.tool
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.graphiti,
  org.eclipse.graphiti.ui,
- de.tu_bs.cs.isf.cbc.cbcclass.model,
  de.tu-bs.cs.isf.cbc.model,
  org.eclipse.emf.common,
  org.eclipse.graphiti.mm,
  org.eclipse.swt,
  org.eclipse.emf.transaction,
  org.eclipse.ui.workbench,
- org.eclipse.ui.views.properties.tabbed,
- de.tu-bs.cs.isf.cbc.helper
+ org.eclipse.ui.views.properties.tabbed
 Import-Package: de.tu_bs.cs.isf.cbc.tool.diagram,
  de.tu_bs.cs.isf.cbc.tool.features,
  de.tu_bs.cs.isf.cbc.tool.helper,
@@ -26,6 +24,6 @@ Import-Package: de.tu_bs.cs.isf.cbc.tool.diagram,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi.impl,
  org.eclipse.graphiti.pattern;version="0.13.2",
- org.eclipse.graphiti.pattern.id
-Export-Package: de.tu_bs.cs.isf.cbcclass.tool.patterns,
- helper
+ org.eclipse.graphiti.pattern.id,
+ de.tu_bs.cs.isf.cbc.cbcclass
+Export-Package: de.tu_bs.cs.isf.cbcclass.tool.patterns

@@ -1,4 +1,4 @@
-package helper;
+package de.tu_bs.cs.isf.cbcclass.tool.helper;
 
 
 public class ModelClassHelper {
