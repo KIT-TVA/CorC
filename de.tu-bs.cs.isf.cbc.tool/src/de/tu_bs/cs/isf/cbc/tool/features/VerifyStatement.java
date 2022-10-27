@@ -158,8 +158,8 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		String callingFeature = uri.segment(uri.segmentCount() - 3) + "";
 		String callingClass = uri.segment(uri.segmentCount() - 2) + "";
 		String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
-		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.trimFileExtension().segmentCount() - 1), true, callingClass, false);
-		String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true);
+		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.trimFileExtension().segmentCount() - 1), true, callingClass, false, null);
+		String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
 		
 		Console.println("--------------- Triggered variational verification ---------------");
 
@@ -175,7 +175,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true), formula, new FileUtil(uri.toPlatformString(true)), featureConfigs[i]);
 					List<CbCFormula> refinements = generateCbCFormulasForRefinements(variants[i], callingMethod);
 					List<JavaVariables> refinementsVars = generateJavaVariablesForRefinements(variants[i], callingMethod);
-					proven = prove.proveStatementWithKey(refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, true);
+					proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, true);
 				}
 			} else {
 				Console.println("  Statement is not in correct format.");

@@ -49,7 +49,7 @@ public class VerifyFeatures {
 	private static ConfigurationAnalyzer configurationAnalyzer;
 
 	// calculates feature-configurations
-	public static String[][] verifyConfig(URI uri_new, String method, boolean original, String callingClass, boolean cleanFromIrrelevant) {
+	public static String[][] verifyConfig(URI uri_new, String method, boolean original, String callingClass, boolean cleanFromIrrelevant, String methodOriginal) {
 		uri = uri_new;
 		thisProject = FileUtil.getProject(uri);
 		path = Paths.get(thisProject.getLocation() + "/model.xml");
@@ -76,7 +76,7 @@ public class VerifyFeatures {
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
-		checkConfigs(method, original, callingClass, cleanFromIrrelevant);
+		checkConfigs(method, methodOriginal != null ? true : original, callingClass, cleanFromIrrelevant, methodOriginal);
 		return configurations;
 	}
 
@@ -149,9 +149,9 @@ public class VerifyFeatures {
 	}
 
 	// removes irrelevant features and configurations from configurations-array
-	public static void checkConfigs(String method, boolean original, String className, boolean cleanFromIrrelevant) {
+	public static void checkConfigs(String method, boolean original, String className, boolean cleanFromIrrelevant, String methodOriginal) {
 		String varMClass = method.split("\\.")[0];
-		method = method.contains(".") ? method.split("\\.")[1] : method;
+		method = methodOriginal != null ? methodOriginal.split("\\.")[0] : method.contains(".") ? method.split("\\.")[1] : method;
 		// bring features to featuremodel-order
 		for (int i = 0; i < configurations.length; i++) {
 			configLn = new String[configurations[i].length];

@@ -108,7 +108,7 @@ public class ProveWithKey {
 	}
 	
 	public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, String callingClass, boolean forceProving) {
-		File location = createProveStatementWithKey(null, null, true, "", "", returnStatement, callingClass);
+		File location = createProveStatementWithKey(null, null, null, true, "", "", returnStatement, callingClass);
 		
 		// TODO: proving will only skip if already true
 		if (!forceProving) {
@@ -124,45 +124,25 @@ public class ProveWithKey {
 		
 		Console.println("  Verify Pre -> {Statement} Post");
 		return proveWithKey(location, inlining);
-}
-
-public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, boolean returnStatement, boolean inlining, String callingMethod, String varM, String callingClass, boolean forceProving) {
-		if (refinements == null || refinements.size() == 0) {
-			File location = createProveStatementWithKey(null, refinementsVars, true, callingMethod, varM, returnStatement, callingClass);
-			if (!forceProving) {
-				String problemHash = Hashing.sha256().hashString(problem, StandardCharsets.UTF_8).toString();
-				String filePath = location.getAbsolutePath().toString();
-				String proveFolderLocation = filePath.substring(0, filePath.lastIndexOf(File.separator));
-				FileNameManager fileManager = new FileNameManager();
-				if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation) && !isVariationalProject) {
-					Console.println("Already true... skip");
-					return true;
-				}
-			}
-			Console.println("  Verify Pre -> {Statement} Post");
-			return proveWithKey(location, inlining);
-		} else {
-			boolean proven = true;			
-				File location = createProveStatementWithKey(refinements, refinementsVars, true, callingMethod, varM, returnStatement, callingClass);
-				if (!forceProving) {
-					String problemHash = Hashing.sha256().hashString(problem, StandardCharsets.UTF_8).toString();
-					String filePath = location.getAbsolutePath().toString();
-					String proveFolderLocation = filePath.substring(0, filePath.lastIndexOf(File.separator));
-					FileNameManager fileManager = new FileNameManager();
-					if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation) && !isVariationalProject) {
-						Console.println("Already true... skip");
-						return true;
-					}
-				}
-				Console.println("  Verify Pre -> {Statement} Post");
-			if (!proveWithKey(location, inlining)) {
-				proven = false;
-			}
-			return proven;
-		}
 	}
 
-	public File createProveStatementWithKey(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, boolean override, String callingMethod, String varM, boolean returnStatement, String callingClass) {
+	public boolean proveStatementWithKey(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, boolean returnStatement, boolean inlining, String callingMethod, String varM, String callingClass, boolean forceProving) {
+		File location = createProveStatementWithKey(refinementsOriginal, refinements, refinementsVars, true, callingMethod, varM, returnStatement, callingClass);
+		if (!forceProving) {
+			String problemHash = Hashing.sha256().hashString(problem, StandardCharsets.UTF_8).toString();
+			String filePath = location.getAbsolutePath().toString();
+			String proveFolderLocation = filePath.substring(0, filePath.lastIndexOf(File.separator));
+			FileNameManager fileManager = new FileNameManager();
+			if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation) && !isVariationalProject) {
+				Console.println("Already true... skip");
+				return true;
+			}
+		}
+		Console.println("  Verify Pre -> {Statement} Post");
+		return proveWithKey(location, inlining);
+	}
+
+	public File createProveStatementWithKey(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, boolean override, String callingMethod, String varM, boolean returnStatement, String callingClass) {
 		String callingFeature = uri.split("/")[3];
 		KeYFileContent content = new KeYFileContent();
 		JavaVariables varsFromJavaClass = readFieldsFromClass(callingClass);
@@ -172,8 +152,8 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		JavaVariable returnVariable = content.readVariables(vars);
 		content.readGlobalConditions(conds);
 
-		readPrePostModVars(refinements, refinementsVars, returnVariable, content, callingClass);
-
+		readPrePostModVars(varM.length() == 0 ? refinements : refinementsOriginal, refinementsVars, returnVariable, content, callingClass);
+		
 		if (returnStatement) {
 			content.setStatement(";");
 			content.handleReturn(statement, returnVariable, formula);
@@ -182,7 +162,7 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		}
 
 		content.rename(renaming);
-		replaceOriginalInStatement(refinements, refinementsVars, callingMethod, content, varM, callingClass, callingFeature);
+		replaceOriginalInStatement(refinementsOriginal, refinements, refinementsVars, callingMethod, content, varM, callingClass, callingFeature);
 		content.replaceThisWithSelf();
 		content.addSelfForFields(vars);
 		content.addSelfForFields(varsFromJavaClass);
@@ -337,10 +317,10 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		return "";
 	}
 
-	public void replaceOriginalInStatement(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, String callingMethod, KeYFileContent content,
+	public void replaceOriginalInStatement(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, String callingMethod, KeYFileContent content,
 			String varM, String callingClass, String callingFeature) {
-		if (refinements != null && refinements.size() > 0 && (content.statement.contains("original(") || content.statement.contains("("))) {
-			generateComposedClass(refinements, refinementsVars, callingMethod, varM, callingClass, callingFeature);
+		if (refinements != null && refinements.size() > 0 && content.statement.contains("(")) {
+			generateComposedClass(refinementsOriginal, refinements, refinementsVars, callingMethod, varM, callingClass, callingFeature);
 			if (content.statement.contains("this.original")) {
 				content.statement = content.statement.replaceFirst("this.original", "self.original_" + callingMethod);
 			} else content.statement = content.statement.replaceFirst("original", "self" + ".original_" + callingMethod);
@@ -459,63 +439,74 @@ public boolean proveStatementWithKey(List<CbCFormula> refinements, List<JavaVari
 		return resolveResultKeyword(composedCondition, returnVariable);
 	}
 
-	public void generateComposedClass(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, String callingMethod, String varM, String callingClass, String callingFeature) {
+	public void generateComposedClass(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, String callingMethod, String varM, String callingClass, String callingFeature) {
+		boolean originalNecessary = refinementsOriginal != null;
+		int round = 0;
 		String className = varM.equals("") ? callingClass : varM.split("\\.")[0];
 		String methodName = varM.equals("") ? ("original_" + callingMethod) : varM.split("\\.")[1].toLowerCase();
-		File file = fileHandler.getClassFile(className);
-		String methodStub = Parser.getMethodStubFromFile(className, methodName, fileHandler).replaceAll("\n", "");
+		while (originalNecessary || round == 0) {
+			File file = fileHandler.getClassFile(className);
+			String methodStub = Parser.getMethodStubFromFile(className, methodName, fileHandler).replaceAll("\n", "");
 
-		String methodPreCondition = composeContractForCalledOriginal(refinements, Parser.KEYWORD_JML_PRE);
-		String methodPostCondition = composeContractForCalledOriginal(refinements, Parser.KEYWORD_JML_POST);
-		// adding of class invs is necessary as .key requires invs to be fulfilled, but called method(stub) does not
-		if (refinements != null && refinements.size() > 0) {
-			for (Condition c : readInvariantsFromClass(refinements.get(0).getClassName())) {
-				methodPostCondition = methodPostCondition + " && " + Parser.rewriteConditionToJML(c.getName());
-			}
-		}
-		
-		List<String> assignables = composeModifiables(refinements, refinementsVars, new ArrayList<String>(), null, false);
-		String assignableString = "";
-		if (!assignables.isEmpty()) {
-			assignableString = "@ assignable " + String.join(",", assignables) + ";";
-		}
-		if (vars != null) {
-			for (JavaVariable actVar : vars.getVariables()) {
-				if ((actVar.getKind().getName() != "PARAM")) {
-					String splitName[] = actVar.getName().split(" ");
-					assignableString = assignableString.replaceAll("," + splitName[splitName.length - 1], "");
-					assignableString = assignableString.replaceAll(splitName[splitName.length - 1] + ";", ";");
-					assignableString = assignableString.replaceAll(splitName[splitName.length - 1] + ",", "");
+			String methodPreCondition = composeContractForCalledOriginal(refinements, Parser.KEYWORD_JML_PRE);
+			String methodPostCondition = composeContractForCalledOriginal(refinements, Parser.KEYWORD_JML_POST);
+			// adding of class invs is necessary as .key requires invs to be fulfilled, but called method(stub) does not
+			if (refinements != null && refinements.size() > 0) {
+				for (Condition c : readInvariantsFromClass(refinements.get(0).getClassName())) {
+					methodPostCondition = methodPostCondition + " && " + Parser.rewriteConditionToJML(c.getName());
 				}
 			}
-		}
-		if (assignableString.trim().equals("@ assignable ;")) {
-			assignableString = "@ assignable \\nothing;";
-		}
-		assignableString = assignableString.replaceAll("\\)", "").replaceAll("\\(", "");
-
-		List<String> lines = fileHandler.readFileInList(file.getAbsolutePath());
-		String contentOriginal = "";
-
-		String content = "";
-		Collections.reverse(lines);
-		for (int i = 0; i < lines.size(); i++) {
-			String line = lines.get(i) + "";
-			if (line.contains(" " + methodName + "(") && line.contains(") {")) {
-				int index = lines.indexOf(line);
-				while (!lines.get(index + 1).contains("/*@")) {
-					lines.remove(index + 1);
+			
+			List<String> assignables = composeModifiables(refinements, refinementsVars, new ArrayList<String>(), null, false);
+			String assignableString = "";
+			if (!assignables.isEmpty()) {
+				assignableString = "@ assignable " + String.join(",", assignables) + ";";
+			}
+			if (vars != null) {
+				for (JavaVariable actVar : vars.getVariables()) {
+					if ((actVar.getKind().getName() != "PARAM")) {
+						String splitName[] = actVar.getName().split(" ");
+						assignableString = assignableString.replaceAll("," + splitName[splitName.length - 1], "");
+						assignableString = assignableString.replaceAll(splitName[splitName.length - 1] + ";", ";");
+						assignableString = assignableString.replaceAll(splitName[splitName.length - 1] + ",", "");
+					}
 				}
-				content = "    @ public normal_behavior\n    @ requires " + methodPreCondition + ";\n    @ ensures "
-						+ methodPostCondition + ";\n    " + assignableString + "\n" + "    @*/\n"
-						+ methodStub.substring(0, methodStub.indexOf("{") + 1) + "\n" + content;
-				contentOriginal = line + "\n" + contentOriginal;
-			} else {
-				content = line + "\n" + content;
-				contentOriginal = line + "\n" + contentOriginal;
+			}
+			if (assignableString.trim().equals("@ assignable ;")) {
+				assignableString = "@ assignable \\nothing;";
+			}
+			assignableString = assignableString.replaceAll("\\)", "").replaceAll("\\(", "");
+
+			List<String> lines = fileHandler.readFileInList(file.getAbsolutePath());
+			String contentOriginal = "";
+
+			String content = "";
+			Collections.reverse(lines);
+			for (int i = 0; i < lines.size(); i++) {
+				String line = lines.get(i) + "";
+				if (line.contains(" " + methodName + "(") && line.contains(") {")) {
+					int index = lines.indexOf(line);
+					while (!lines.get(index + 1).contains("/*@")) {
+						lines.remove(index + 1);
+					}
+					content = "    @ public normal_behavior\n    @ requires " + methodPreCondition + ";\n    @ ensures "
+							+ methodPostCondition + ";\n    " + assignableString + "\n" + "    @*/\n"
+							+ methodStub.substring(0, methodStub.indexOf("{") + 1) + "\n" + content;
+					contentOriginal = line + "\n" + contentOriginal;
+				} else {
+					content = line + "\n" + content;
+					contentOriginal = line + "\n" + contentOriginal;
+				}
+			}
+			fileHandler.generateComposedClass(uri, className, className, content, contentOriginal);
+			round++;
+			if (originalNecessary) {
+				methodName = "original_" + refinementsOriginal.get(0).getMethodName();
+				className = refinementsOriginal.get(0).getClassName();
+				refinements = refinementsOriginal;
+				if (round > 1) originalNecessary = false;
 			}
 		}
-		fileHandler.generateComposedClass(uri, className, className, content, contentOriginal);
 		return;
 	}
 
