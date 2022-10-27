@@ -114,7 +114,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			String callingClass = uri.segment(uri.segmentCount()-2) + "";
 			String callingFeature = uri.segment(uri.segmentCount()-3) + "";
 			String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
-			String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false);				
+			String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
 			configs = featureConfigs.length-1;
 			for (int i = 0; i < featureConfigs.length; i++) {
 				configName = "";
@@ -175,14 +175,14 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			String callingFeature = uri.split("/")[3];
 			String callingClass = uri.split("/")[4];
 			String callingMethod = uri.split("/")[5].split("\\.")[0];
-			String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true);
+			String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true, null);
 			if (featureConfigsRelevant != null) {
 				String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), configName);
 					List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
 					List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], callingMethod);
-					proven = prove.proveStatementWithKey(refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, false);
+					proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, false);
 				} else {
 					Console.println("  Statement is not in correct format.");
 				}
@@ -213,16 +213,20 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 				String callingClass = uri.split("/")[4];
 				String callingMethod = uri.split("/")[5].split("\\.")[0];
 				String varM = handleVarM(Parser.extractMethodNameFromStatemtent(statement.getName()), callingClass, vars);
-				String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, varM, false, callingClass, true);
+				String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, varM, false, callingClass, true, null);
+				String[][] originalFeatureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, varM, false, callingClass, true, uri.split("/")[5]);
+				
 				String varMParts[] = varM.split("\\.");
 
 				if (featureConfigsRelevant != null) {
 					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant,	callingFeature, varM.contains(".") ? varMParts[0] : callingClass);
+					String[] variantsOriginal = verifyStmt.generateVariantsStringFromFeatureConfigs(originalFeatureConfigsRelevant, callingFeature, callingClass);
 					if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), configName);
 						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], varMParts[1].toLowerCase());
+						List<CbCFormula> refinementsOriginal = verifyStmt.generateCbCFormulasForRefinements(variantsOriginal[configNum], callingMethod);
 						List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], varMParts[1].toLowerCase());
-						proven = prove.proveStatementWithKey(refinements, refinementsVars, returnStatement, false, callingMethod, varM, callingClass, false);
+						proven = prove.proveStatementWithKey(refinementsOriginal, refinements, refinementsVars, returnStatement, false, callingMethod, varM, callingClass, false);
 					} else {
 						Console.println("  Statement is not in correct format.");
 					}
@@ -276,15 +280,15 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 				String callingFeature = uri.split("/")[3];
 				String callingClass = uri.split("/")[4];
 				String callingMethod = uri.split("/")[5].split("\\.")[0];
-				String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true);
-
+				String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true, null);
+				
 				if (featureConfigsRelevant != null) {
 					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 					if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), configName);
 						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
 						List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], callingMethod);
-						proven = prove.proveStatementWithKey(refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, false);
+						proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, false);
 					} else {
 						Console.println("  Statement is not in correct format.");
 					}

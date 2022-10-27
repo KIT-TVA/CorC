@@ -142,8 +142,9 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 		String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
 		String varM = handleVarM(Parser.extractMethodNameFromStatemtent(statement.getName()), callingClass, vars);
 		String varMParts[] = varM.split("\\.");
-		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, varM, false, callingClass, false);
-		String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, varM, false, callingClass, true);
+		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, varM, false, callingClass, false, null);
+		String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, varM, false, callingClass, true, null);
+		String[][] originalFeatureConfigsRelevant = VerifyFeatures.verifyConfig(uri, varM, false, callingClass, true, uri.segment(uri.trimFileExtension().segmentCount() - 1));
 		
 		Console.println("--------------- Triggered variational verification ---------------");
 
@@ -151,6 +152,7 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 		
 		if (featureConfigs != null) {
 			String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, varM.contains(".") ? varMParts[0] : callingClass);
+			String[] variantsOriginal = verifyStmt.generateVariantsStringFromFeatureConfigs(originalFeatureConfigsRelevant, callingFeature, callingClass);
 			if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 				for (int i = 0; i < variants.length; i++) {
 					genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
@@ -158,8 +160,9 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 					for (String s : featureConfigs[i]) configName += s;
 					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true), formula, new FileUtil(uri.toPlatformString(true)), configName);
 					List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i], varMParts[1].toLowerCase());
+					List<CbCFormula> refinementsOriginal = verifyStmt.generateCbCFormulasForRefinements(variantsOriginal[i], callingMethod);
 					List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[i], varMParts[1].toLowerCase());
-					proven = prove.proveStatementWithKey(refinements, refinementsVars, returnStatement, false, callingMethod, varM, callingClass, true);
+					proven = prove.proveStatementWithKey(refinementsOriginal.isEmpty() ? null : refinementsOriginal, refinements, refinementsVars, returnStatement, false, callingMethod, varM, callingClass, true);
 				}
 			} else {
 				Console.println("  Statement is not in correct format.");
