@@ -116,11 +116,20 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		}
 		
 		if (isVariational) {
+<<<<<<< HEAD
 			Console.println("Starting variational verification...\n");
 			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 			String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 			String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 			String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
+=======
+			Console.println("--------------- Triggered variational verification ---------------");
+			String callingClass = uri.segment(uri.segmentCount()-2) + "";
+			String callingFeature = uri.segment(uri.segmentCount()-3) + "";
+			String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
+			featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
+
+>>>>>>> 293b7240 (Merged CorC2.0 with fix for method call statement containing original in condition)
 			configs = featureConfigs.length-1;
 			for (int i = 0; i < featureConfigs.length; i++) {
 				configName = "";
@@ -182,11 +191,19 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			return false;
 		if (!statement.isProven()) {
 			boolean proven = false;
+<<<<<<< HEAD
 			URI uRi = URI.createPlatformResourceURI(diagram.eResource().getURI().toPlatformString(true), true);
 			String callingFeature = FeatureUtil.getInstance().getCallingFeature(uRi);
 			String callingClass = FeatureUtil.getInstance().getCallingClass(uRi);
 			String callingMethod = FeatureUtil.getInstance().getCallingMethod(uRi);
 			String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, callingMethod, true, callingClass, true, null);
+=======
+			URI uRi = URI.createPlatformResourceURI(uri, true);
+			String callingFeature = uri.split("/")[3];
+			String callingClass = uri.split("/")[4];
+			String callingMethod = uri.split("/")[5].split("\\.")[0];
+			String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true, null);
+>>>>>>> 293b7240 (Merged CorC2.0 with fix for method call statement containing original in condition)
 			if (featureConfigsRelevant != null) {
 				String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
@@ -289,10 +306,17 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 				proven = prove.proveStatementWithKey(returnStatement, false, FeatureUtil.getInstance().getCallingClass(URI.createPlatformResourceURI(uri, true)), false);
 			} else {
 				URI uRi = URI.createPlatformResourceURI(uri, true);
+<<<<<<< HEAD
 				String callingFeature = FeatureUtil.getInstance().getCallingFeature(uRi);
 				String callingClass = FeatureUtil.getInstance().getCallingClass(uRi);
 				String callingMethod = FeatureUtil.getInstance().getCallingMethod(uRi);
 				String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, callingMethod, true, callingClass, true, null);
+=======
+				String callingFeature = uri.split("/")[3];
+				String callingClass = uri.split("/")[4];
+				String callingMethod = uri.split("/")[5].split("\\.")[0];
+				String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true, null);
+>>>>>>> 293b7240 (Merged CorC2.0 with fix for method call statement containing original in condition)
 				
 				if (featureConfigsRelevant != null) {
 					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
@@ -338,7 +362,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 				String callingClass = uri.split("/")[4];
 				String callingMethod = uri.split("/")[5].split("\\.")[0];
 				if (isVariational) {
-					String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true);
+					String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true, null);
 					if (featureConfigsRelevant != null) {
 						String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
@@ -348,7 +372,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 						provePre = prove.provePreSelWithKey(refinements, guards, preCondition);
 					}
 				}
->>>>>>> 0717c421 (adjusted remaining verification types to support original_pre and original_post)
+>>>>>>> 293b7240 (Merged CorC2.0 with fix for method call statement containing original in condition)
 				if (configs == configNum) selectionStatement.setPreProve(provePre);
 			}
 			if (provePre && proven && true && configs == configNum) {
@@ -390,20 +414,20 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			String callingMethod = uri.split("/")[5].split("\\.")[0];
 			List<CbCFormula> refinements = null;
 			if (isVariational) {
-				String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true);
+				String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true, null);
 				if (featureConfigsRelevant != null) {
 					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 					refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
 				}
 			}
 			
->>>>>>> 0717c421 (adjusted remaining verification types to support original_pre and original_post)
+>>>>>>> 293b7240 (Merged CorC2.0 with fix for method call statement containing original in condition)
 			if (!provePre) {
-				provePre = prove.proveCImpliesCWithKey(refinements, preCondition, invariant);
+				provePre = prove.proveCImpliesCWithKey(preCondition, invariant);
 				if (configs == configNum) repStatement.setPreProven(provePre);
 			}
 			if (!provePost) {
-				provePost = prove.provePostRepetitionWithKey(refinements, invariant, guard, postCondition);
+				provePost = prove.provePostRepetitionWithKey(invariant, guard, postCondition);
 				if (configs == configNum) repStatement.setPostProven(provePost);
 			}
 			if (!proveVar) {

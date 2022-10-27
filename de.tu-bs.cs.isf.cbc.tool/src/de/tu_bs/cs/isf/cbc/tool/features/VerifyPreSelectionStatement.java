@@ -119,8 +119,8 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 					String callingClass = uri.segment(uri.segmentCount()-2) + "";
 					String callingFeature = uri.segment(uri.segmentCount()-3) + "";
 					String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
-					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false);				
-					String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true);
+					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
+					String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
 					
 					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 					VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
