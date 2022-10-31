@@ -12,7 +12,7 @@ public interface IFileUtil {
 
 	public List<String> readFileInList(String path);
 
-	public File writeFile(String problem, String helper, String location, boolean override, AbstractStatement statement, String subProofName);
+	public File writeFile(String proofType, String problem, String helper, String location, boolean override, AbstractStatement statement, String subProofName);
 
 	public String getProjectLocation(String uri);
 

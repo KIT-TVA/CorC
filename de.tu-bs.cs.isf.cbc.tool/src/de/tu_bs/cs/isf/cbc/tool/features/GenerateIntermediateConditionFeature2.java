@@ -16,6 +16,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 
 /**
@@ -89,7 +90,7 @@ public class GenerateIntermediateConditionFeature2 extends MyAbstractAsynchronou
 
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, null, new FileUtil(uriString), null);
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, null, new FileUtil(uriString), null, KeYInteraction.ABSTRACT_PROOF_FULL);
 					weakestPre = prove.proveUseWeakestPreWithKey();
 				} else {
 					Console.println("Statement is not in correct format.");

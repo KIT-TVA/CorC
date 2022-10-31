@@ -2,9 +2,12 @@ package de.tu_bs.cs.isf.cbc.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -21,9 +24,12 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
 import de.uka.ilkd.key.control.KeYEnvironment;
+import de.uka.ilkd.key.control.ProofControl;
 import de.uka.ilkd.key.gui.MainWindow;
 import de.uka.ilkd.key.java.abstraction.KeYJavaType;
 import de.uka.ilkd.key.logic.op.IObserverFunction;
+import de.uka.ilkd.key.macros.CompleteAbstractProofMacro;
+import de.uka.ilkd.key.macros.ContinueAbstractProofMacro;
 import de.uka.ilkd.key.proof.Node;
 import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.Statistics;
@@ -32,16 +38,21 @@ import de.uka.ilkd.key.proof.io.ProblemLoaderException;
 import de.uka.ilkd.key.rule.RuleApp;
 import de.uka.ilkd.key.settings.ChoiceSettings;
 import de.uka.ilkd.key.settings.ProofSettings;
+import de.uka.ilkd.key.settings.StrategySettings;
 import de.uka.ilkd.key.speclang.Contract;
 import de.uka.ilkd.key.strategy.StrategyProperties;
 import de.uka.ilkd.key.util.KeYTypeUtil;
 import de.uka.ilkd.key.util.MiscTools;
 
 public class KeYInteraction {
-	static int num = 0;
-
-	public static Proof startKeyProof(File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
-			AbstractStatement statement, String problem, String uri) {
+	public static int num = 0;
+	
+	public final static String ABSTRACT_PROOF_FULL = "abstract_full_proof";
+	public final static String ABSTRACT_PROOF_BEGIN = "abstract_proof_begin";
+	public final static String ABSTRACT_PROOF_COMPLETE = "abstract_proof_complete";
+	
+	public static Proof startKeyProof(String proofType, File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
+			AbstractStatement statement, String problem, String uri, String forbiddenRules) {
 		Proof proof = null;
 		List<File> classPaths = null; // Optionally: Additional specifications
 										// for API classes
@@ -49,6 +60,7 @@ public class KeYInteraction {
 									// specifications for Java API
 		List<File> includes = null; // Optionally: Additional includes to
 									// consider
+		
 		try {
 			// Ensure that Taclets are parsed
 			if (!ProofSettings.isChoiceSettingInitialised()) {
@@ -76,58 +88,62 @@ public class KeYInteraction {
 			sp.setProperty(StrategyProperties.QUERY_OPTIONS_KEY, StrategyProperties.QUERY_RESTRICTED);//
 			sp.setProperty(StrategyProperties.NON_LIN_ARITH_OPTIONS_KEY, StrategyProperties.NON_LIN_ARITH_DEF_OPS);
 			sp.setProperty(StrategyProperties.STOPMODE_OPTIONS_KEY, StrategyProperties.STOPMODE_NONCLOSE);
+			sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FIRST_ORDER_GOALS_FORBIDDEN, "true");
+			sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, forbiddenRules);
+			sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, forbiddenRules);
+			//sp.setProperty(StrategyProperties.QUERY_OPTIONS_KEY, StrategyProperties.QUERY_ON);
+			//sp.setProperty(StrategyProperties.QUERYAXIOM_OPTIONS_KEY, StrategyProperties.QUERYAXIOM_OFF);
 			proof.getSettings().getStrategySettings().setActiveStrategyProperties(sp);
+			
 			// Make sure that the new options are used
 			int maxSteps = Integer.MAX_VALUE;
 			ProofSettings.DEFAULT_SETTINGS.getStrategySettings().setMaxSteps(maxSteps);
 			ProofSettings.DEFAULT_SETTINGS.getStrategySettings().setActiveStrategyProperties(sp);
 			proof.getSettings().getStrategySettings().setMaxSteps(maxSteps);
 			proof.setActiveStrategy(proof.getServices().getProfile().getDefaultStrategyFactory().create(proof, sp));
-			// Start auto mode
-			Console.println("  Start proof: " + location.getName());
-			if (monitor != null) {
-				env.getUi().getProofControl().startAutoMode(proof);
-				while (env.getUi().getProofControl().isInAutoMode()) {
-					if (monitor.isCanceled()) {
-						env.getUi().getProofControl().stopAndWaitAutoMode();
-						Console.println("  Proof is canceled.");
+
+			// Handle type of proof
+			ProofControl proofControl = env.getProofControl();
+			switch (proofType) {
+			case ABSTRACT_PROOF_FULL:
+				Console.println("  Start proof: " + location.getName());
+				if (monitor != null) {
+					env.getUi().getProofControl().startAutoMode(proof);
+					while (env.getUi().getProofControl().isInAutoMode()) {
+						if (monitor.isCanceled()) {
+							env.getUi().getProofControl().stopAndWaitAutoMode();
+							Console.println("  Proof is canceled.");
+						}
 					}
+				} else {
+					env.getUi().getProofControl().startAndWaitForAutoMode(proof);
 				}
-			} else {
-				env.getUi().getProofControl().startAndWaitForAutoMode(proof);
-			}
+				break;
+			case ABSTRACT_PROOF_BEGIN:
+				Console.println("  Start abstract proof: " + location.getName());
+		        proofControl.runMacro(proof.root(), new ContinueAbstractProofMacro(), null);
+		        proofControl.waitWhileAutoMode();
+				break;
+			case ABSTRACT_PROOF_COMPLETE:
+				Console.println("  Finish abstract proof: " + location.getName());
+		        proofControl.runMacro(proof.root(), new CompleteAbstractProofMacro(), null);
+		        proofControl.waitWhileAutoMode();
+				break;
+			}			
 
 			// Show proof result
 			try {
-				
+				//DEBUG
 				Consumer<RuleApp> rule = x -> System.out.println(x.rule().displayName());
 				proof.root().name();
 				Node n = proof.root();
 				while(n.childrenIterator().hasNext()) {
 					n = n.childrenIterator().next();
 					System.out.println(n.serialNr() + n.name());
-					if (n.name().trim().equals("containsOldElements")) {
-						break;
-					}
-				}
-				
-				proof.pruneProof(proof.root());
+				}		
+				System.out.println("-----------------------");
+				//DEBUG
 				proof.saveToFile(location);
-				
-				
-				//KeYEnvironment<?> env2 = KeYEnvironment.load(location, classPaths, bootClassPath, includes);
-				//Proof proof2 = env.getLoadedProof();
-				//Node n2 = proof.root();
-				//while(n2.childrenIterator().hasNext()) {
-					//n2 = n2.childrenIterator().next();
-					//System.out.println(n2.serialNr() + n2.name());
-				//}
-				
-				
-				
-					
-				//proof.openGoals().head().appliedRuleApps().forEach(rule);
-				System.out.println("--------------------------------------------");
 
 				try {
 					// TODO: inlining may be important too

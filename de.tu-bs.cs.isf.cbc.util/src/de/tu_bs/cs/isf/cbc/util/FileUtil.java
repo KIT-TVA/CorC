@@ -151,14 +151,35 @@ public class FileUtil implements IFileUtil{
 		return thisProject;
 	}
 	
-	public File writeFile(String problem, String helper, String location, boolean override, AbstractStatement statement, String subProofName) {
+	public File writeFile(String proofType, String problem, String helper, String location, boolean override, AbstractStatement statement, String subProofName) {
 		FileNameManager manager = new FileNameManager();
-		String keyFileName = manager.getFileName(problem, location, statement, subProofName);
 		
-		File keyFile = new File(location + keyFileName + ".key");
+		String keyFileName = "";		
+		File keyFile = null;
+		File keyHelperFile = null;
+		switch (proofType) {
+			case KeYInteraction.ABSTRACT_PROOF_FULL:
+				keyFileName = manager.getFileName(problem, location, statement, subProofName);
+				keyFile = new File(location + keyFileName + ".key");
+				keyHelperFile = new File(location + "/helper.key");
+				break;
+			case KeYInteraction.ABSTRACT_PROOF_BEGIN:
+				keyFileName = manager.getFileName(problem, location + "/partialProofs", statement, subProofName);
+				keyFile = new File(location + "/partialProofs/" + keyFileName + ".key");
+				keyHelperFile = new File(location + "/partialProofs/helper.key");
+				break;
+			case KeYInteraction.ABSTRACT_PROOF_COMPLETE:
+				keyFileName = manager.getFileName(problem, location + "/partialProofs", statement, subProofName);
+				keyFile = new File(location + "/partialProofs/" + keyFileName + ".key");
+				keyHelperFile = new File(location + "/partialProofs/helper.key");
+				if (!keyFile.exists()) {
+					Console.println("Begin of partial proof does not exist!");
+					return null;
+				}
+				createFile(keyHelperFile, helper);
+				return keyFile;
+		}
 
-		File keyHelperFile = new File(location + "/helper.key");
-		
 		if (!keyFile.exists() || override) {
 			if (!keyHelperFile.exists() || override) {
 				try {

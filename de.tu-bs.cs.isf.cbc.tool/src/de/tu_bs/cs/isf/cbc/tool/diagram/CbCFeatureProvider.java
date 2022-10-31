@@ -48,6 +48,8 @@ import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveRepetitionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.intermediate.AboveSelectionFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.intermediate.BelowImplementationFeature;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeFromModel;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyMethodCallStatementPartialProofBegin;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyMethodCallStatementPartialProofComplete;
 import de.tu_bs.cs.isf.cbc.tool.patterns.CompositionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConditionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConnectionPattern;
@@ -126,6 +128,8 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 				new VerifyStatement(this),
 				new VerifyOriginalCallStatement(this),
 				new VerifyMethodCallStatement(this),
+				new VerifyMethodCallStatementPartialProofBegin(this),
+				new VerifyMethodCallStatementPartialProofComplete(this),
 				new VerifyPreRepetitionStatement(this), 
 				new VerifyPostRepetitionStatement(this),
 				new VerifyPreSelectionStatement(this), 
