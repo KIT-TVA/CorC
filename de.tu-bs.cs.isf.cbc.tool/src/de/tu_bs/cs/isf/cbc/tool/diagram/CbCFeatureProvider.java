@@ -50,6 +50,22 @@ import de.tu_bs.cs.isf.cbc.tool.features.intermediate.BelowImplementationFeature
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeFromModel;
 import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyMethodCallStatementPartialProofBegin;
 import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyMethodCallStatementPartialProofComplete;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyOriginalCallStatementPartialProofBegin;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyOriginalCallStatementPartialProofComplete;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyPostRepetitionStatementPartialProofBegin;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyPostRepetitionStatementPartialProofComplete;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyPreRepetitionStatementPartialProofBegin;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyPreRepetitionStatementPartialProofComplete;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyPreSelectionStatementPartialProofBegin;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyPreSelectionStatementPartialProofComplete;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyStatementPartialProofBegin;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyStatementPartialProofComplete;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyStrengthWeakCorrectPartialProofBegin;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyStrengthWeakCorrectPartialProofComplete;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyVariantWithInnerLoopsPartialProofBegin;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyVariantWithInnerLoopsPartialProofComplete;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyVariantWithoutInnerLoopsPartialProofBegin;
+import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyVariantWithoutInnerLoopsPartialProofComplete;
 import de.tu_bs.cs.isf.cbc.tool.patterns.CompositionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConditionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConnectionPattern;
@@ -126,16 +142,32 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 				new GenerateCodeFromModel(this),
 				new GenerateTextualRepresentation(this), 
 				new VerifyStatement(this),
+				new VerifyStatementPartialProofBegin(this),
+				new VerifyStatementPartialProofComplete(this),
 				new VerifyOriginalCallStatement(this),
+				new VerifyOriginalCallStatementPartialProofBegin(this),
+				new VerifyOriginalCallStatementPartialProofComplete(this),
 				new VerifyMethodCallStatement(this),
 				new VerifyMethodCallStatementPartialProofBegin(this),
 				new VerifyMethodCallStatementPartialProofComplete(this),
 				new VerifyPreRepetitionStatement(this), 
+				new VerifyPreRepetitionStatementPartialProofBegin(this), 
+				new VerifyPreRepetitionStatementPartialProofComplete(this), 
 				new VerifyPostRepetitionStatement(this),
+				new VerifyPostRepetitionStatementPartialProofBegin(this),
+				new VerifyPostRepetitionStatementPartialProofComplete(this),
 				new VerifyPreSelectionStatement(this), 
+				new VerifyPreSelectionStatementPartialProofBegin(this), 
+				new VerifyPreSelectionStatementPartialProofComplete(this), 
 				new VerifyStrengthWeakCorrect(this),
+				new VerifyStrengthWeakCorrectPartialProofBegin(this),
+				new VerifyStrengthWeakCorrectPartialProofComplete(this),
 				new VerifyVariantWithInnerLoops(this), 
+				new VerifyVariantWithInnerLoopsPartialProofBegin(this), 
+				new VerifyVariantWithInnerLoopsPartialProofComplete(this), 
 				new VerifyVariantWithoutInnerLoops(this), //!
+				new VerifyVariantWithoutInnerLoopsPartialProofBegin(this), //!
+				new VerifyVariantWithoutInnerLoopsPartialProofComplete(this), //!
 				new EditCommentFeature(this),
 				new EditCompositionTechniqueOfFormula(this), //!
 				new ChangeNameOfFormulaFeature(this),
