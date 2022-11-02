@@ -51,7 +51,7 @@ public class KeYInteraction {
 	public final static String ABSTRACT_PROOF_BEGIN = "abstract_proof_begin";
 	public final static String ABSTRACT_PROOF_COMPLETE = "abstract_proof_complete";
 	
-	public static Proof startKeyProof(String proofType, File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
+	public static Proof startKeyProof(String proofType, boolean executeProof, File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
 			AbstractStatement statement, String problem, String uri, String forbiddenRules) {
 		Proof proof = null;
 		List<File> classPaths = null; // Optionally: Additional specifications
@@ -120,12 +120,16 @@ public class KeYInteraction {
 				}
 				break;
 			case ABSTRACT_PROOF_BEGIN:
-				Console.println("  Start abstract proof: " + location.getName());
+				Console.println("  Start partial proof: " + location.getName());
+		        if (!executeProof) {
+		        	Console.println("    Proof not executed due to existing begin of proof.");
+		        	break;
+		        }
 		        proofControl.runMacro(proof.root(), new ContinueAbstractProofMacro(), null);
 		        proofControl.waitWhileAutoMode();
 				break;
 			case ABSTRACT_PROOF_COMPLETE:
-				Console.println("  Finish abstract proof: " + location.getName());
+				Console.println("  Finish partial proof: " + location.getName());
 		        proofControl.runMacro(proof.root(), new CompleteAbstractProofMacro(), null);
 		        proofControl.waitWhileAutoMode();
 				break;

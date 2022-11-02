@@ -64,7 +64,7 @@ public class ProveWithKey {
 	private static IFileUtil fileHandler;
 	private String sourceFolder;
 	private boolean isVariationalProject;
-	private String configName;
+	private static String configName;
 	private static List configList;
 	private String problem;
 	private String helper;
@@ -72,14 +72,16 @@ public class ProveWithKey {
 	private static String proofType;
 	private static List<Predicate> predicates = null;
 	private static String predicatesForKeY = "";
+	private static boolean genericProof = false;
+	private static int configNum;
 	
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
-			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String[] configName, String proofType) {
-		this(statement, vars, conds, renaming, monitor, uri, formula, fileHandler, "", configName, proofType);
+			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String[] configName, int configNum, String proofType) {
+		this(statement, vars, conds, renaming, monitor, uri, formula, fileHandler, "", configName, configNum, proofType);
 	}
 
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
-			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String srcFolder, String[] config, String proofType) {
+			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String srcFolder, String[] config, int configNum, String proofType) {
 		this.statement = statement;	
 		this.vars = vars;
 		this.conds = conds;
@@ -95,6 +97,7 @@ public class ProveWithKey {
 			this.configList.add(config[i]);
 		}
 		this.configName = "";
+		this.configNum = configNum;
 		this.proofType = proofType;
 		if (config != null) for (String s : config) this.configName += s;
 		IProject project = FileUtil.getProjectFromFileInProject(URI.createURI(uri));
@@ -180,8 +183,8 @@ public class ProveWithKey {
 		//}
 		helper = collectPredicates();
 		
-		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(proofType, problem, helper, location, override, statement, subProofName);
+		String location = fileHandler.getLocationString(uri) + (!proofType.equals(KeYInteraction.ABSTRACT_PROOF_FULL) && genericProof ? "" : configName);
+		File keyFile = fileHandler.writeFile(proofType, problem, helper, location, override, statement, subProofName, (genericProof && configNum != 0), configName);
 		return keyFile;
 	}
 
@@ -265,6 +268,8 @@ public class ProveWithKey {
 		String postFormula = Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName());
 		String pre = Parser.getConditionFromCondition(statement.getPreCondition().getName());
 		String post = Parser.getConditionFromCondition(statement.getPostCondition().getName());
+		String preOld = pre;
+		String postOld = post;
 		List<String> modifiables = Parser.getModifiedVarsFromCondition(statement.getPostCondition().getName());
 
 		String preInherited = applyLiskovInheritance(pre, preFormula, "pre");
@@ -286,8 +291,8 @@ public class ProveWithKey {
 			post = composeContractForCbCDiagram(formula.getCompositionTechnique(), refinements, post, Parser.KEYWORD_JML_POST, returnVariable);
 		}
 
-		pre = "(" + pre + preInherited + ")";
-		post = "(" + post + postInherited + ")";
+		pre = preInherited.length() != 0 ? ("(" + pre + preInherited + ")") : pre;
+		post = postInherited.length() != 0 ? ("(" + post + postInherited + ")") : post;
 		if (pre.equals(preFormula)) pre += preInvariant;
 		if (pre.equals(preFormula)) post += postInvariant;
 		
@@ -302,6 +307,11 @@ public class ProveWithKey {
 		}
 		if (post == null || post.length() == 0) {
 			content.setPost("true");
+		}
+		if (!preOld.equals(pre) || !postOld.equals(post)) {
+			genericProof = false;
+		} else {
+			genericProof = true;
 		}
 	}
 
@@ -579,11 +589,11 @@ public class ProveWithKey {
 	
 	public static boolean proveWithKey(File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula, AbstractStatement statement, String problem, String uri) {
 		Proof proof = null;
-		proof = KeYInteraction.startKeyProof(proofType, location, null, inlining, formula, statement, problem, uri, predicatesForKeY);
+		proof = KeYInteraction.startKeyProof(proofType, (genericProof ? (configNum == 0 ? true : false) : true), location, null, inlining, formula, statement, problem, uri, predicatesForKeY);
  		if (proof != null) {
 			boolean closed = proof.openGoals().isEmpty();
 			if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) && !closed) {
-				Console.println("Proof stopped with " + proof.openGoals().size() + " open goals.\n");
+				Console.println("  Proof stopped with " + proof.openGoals().size() + " open goals.\n");
 			} else {
 				Console.println("Proof is closed: " + closed + "\n");
 			}			
@@ -630,8 +640,8 @@ public class ProveWithKey {
 		//}
 		helper = collectPredicates();
 		
-		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(proofType, problem, helper, location, override, statement, subProofName);
+		String location = fileHandler.getLocationString(uri) + (!proofType.equals(KeYInteraction.ABSTRACT_PROOF_FULL) && genericProof ? "" : configName);
+		File keyFile = fileHandler.writeFile(proofType, problem, helper, location, override, statement, subProofName, (genericProof && configNum != 0), configName);
 		return keyFile;
 	}
 
@@ -690,9 +700,8 @@ public class ProveWithKey {
 			problem = content.getKeYStatementContent();
 		//}		
 		helper = collectPredicates();
-		
-		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(proofType, problem, helper, location, override, statement, subProofName);
+		String location = fileHandler.getLocationString(uri) + (!proofType.equals(KeYInteraction.ABSTRACT_PROOF_FULL) && genericProof ? "" : configName);
+		File keyFile = fileHandler.writeFile(proofType, problem, helper, location, override, statement, subProofName, (genericProof && configNum != 0), configName);
 		return keyFile;
 	}
 
@@ -725,13 +734,13 @@ public class ProveWithKey {
 		//}
 		helper = collectPredicates();
 		
-		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(proofType, problem, helper, location, override, statement, subProofName);
+		String location = fileHandler.getLocationString(uri) + (!proofType.equals(KeYInteraction.ABSTRACT_PROOF_FULL) && genericProof ? "" : configName);
+		File keyFile = fileHandler.writeFile(proofType, problem, helper, location, override, statement, subProofName, (genericProof && configNum != 0), configName);
 		return keyFile;
 	}
 
 	public String createWPWithKey(File location) {
-		Proof proof = KeYInteraction.startKeyProof(proofType, location, monitor, false, formula, statement, problem, uri, predicatesForKeY);
+		Proof proof = KeYInteraction.startKeyProof(proofType, true, location, monitor, false, formula, statement, problem, uri, predicatesForKeY);
 		if (proof != null) {
 			String wp = "";
 			Iterator<Goal> it = proof.openGoals().iterator();

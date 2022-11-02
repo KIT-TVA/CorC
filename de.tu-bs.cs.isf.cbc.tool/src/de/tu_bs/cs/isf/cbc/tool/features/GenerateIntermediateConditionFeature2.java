@@ -90,7 +90,7 @@ public class GenerateIntermediateConditionFeature2 extends MyAbstractAsynchronou
 
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, null, new FileUtil(uriString), null, KeYInteraction.ABSTRACT_PROOF_FULL);
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, null, new FileUtil(uriString), null, 0, KeYInteraction.ABSTRACT_PROOF_FULL);
 					weakestPre = prove.proveUseWeakestPreWithKey();
 				} else {
 					Console.println("Statement is not in correct format.");

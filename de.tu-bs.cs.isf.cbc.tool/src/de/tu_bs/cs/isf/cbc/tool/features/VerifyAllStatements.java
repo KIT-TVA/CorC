@@ -182,7 +182,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			if (featureConfigsRelevant != null) {
 				String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), featureConfigs[configNum], KeYInteraction.ABSTRACT_PROOF_FULL);
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), featureConfigs[configNum], configNum, KeYInteraction.ABSTRACT_PROOF_FULL);
 					List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
 					List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], callingMethod);
 					proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, false);
@@ -208,7 +208,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		if (!statement.isProven()) {
 			boolean proven = false;
 			if (!isVariational) {
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), null, KeYInteraction.ABSTRACT_PROOF_FULL);
+				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), null, 0, KeYInteraction.ABSTRACT_PROOF_FULL);
 				proven = prove.proveStatementWithKey(returnStatement, false, URI.createPlatformResourceURI(uri, true).segment(URI.createPlatformResourceURI(uri, true).segmentCount() - 2), false);
 			} else {
 				URI uRi = URI.createPlatformResourceURI(uri, true);
@@ -225,7 +225,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant,	callingFeature, varM.contains(".") ? varMParts[0] : callingClass);
 					String[] variantsOriginal = verifyStmt.generateVariantsStringFromFeatureConfigs(originalFeatureConfigsRelevant, callingFeature, callingClass);
 					if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), featureConfigs[configNum], KeYInteraction.ABSTRACT_PROOF_FULL);
+						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), featureConfigs[configNum], configNum, KeYInteraction.ABSTRACT_PROOF_FULL);
 						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], varMParts[1].toLowerCase());
 						List<CbCFormula> refinementsOriginal = verifyStmt.generateCbCFormulasForRefinements(variantsOriginal[configNum], callingMethod);
 						List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], varMParts[1].toLowerCase());
@@ -276,7 +276,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		if (!statement.isProven()) {
 			boolean proven = false;
 			if (!isVariational) {
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), null, KeYInteraction.ABSTRACT_PROOF_FULL);
+				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), null, 0, KeYInteraction.ABSTRACT_PROOF_FULL);
 				proven = prove.proveStatementWithKey(returnStatement, false, URI.createPlatformResourceURI(uri, true).segment(URI.createPlatformResourceURI(uri, true).segmentCount() - 2), false);
 			} else {
 				URI uRi = URI.createPlatformResourceURI(uri, true);
@@ -288,7 +288,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 				if (featureConfigsRelevant != null) {
 					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 					if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), featureConfigs[configNum], KeYInteraction.ABSTRACT_PROOF_FULL);
+						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), featureConfigs[configNum], configNum, KeYInteraction.ABSTRACT_PROOF_FULL);
 						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
 						List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], callingMethod);
 						proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, false);
@@ -330,7 +330,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
 						EList<Condition> guards = selectionStatement.getGuards();
 						Condition preCondition = selectionStatement.getParent().getPreCondition();
-						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), featureConfigs[configNum], KeYInteraction.ABSTRACT_PROOF_FULL);
+						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), featureConfigs[configNum], configNum, KeYInteraction.ABSTRACT_PROOF_FULL);
 						provePre = prove.provePreSelWithKey(refinements, guards, preCondition);
 					}
 				}
@@ -365,7 +365,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			Condition postCondition = repStatement.getParent().getPostCondition();
 			String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, false);
 			Variant variant = repStatement.getVariant();
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), featureConfigs[configNum], KeYInteraction.ABSTRACT_PROOF_FULL);
+			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), featureConfigs[configNum], configNum, KeYInteraction.ABSTRACT_PROOF_FULL);
 			
 			URI uRi = URI.createPlatformResourceURI(uri, true);
 			String callingFeature = uri.split("/")[3];

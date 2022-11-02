@@ -108,7 +108,7 @@ public class GenerateClassFromInterfaces {
 					for (int i = 0; i < abstractMethod.getPreCondition().size(); i++) {
 						JavaVariables vars = parametersToJavaVars(abstractMethod);
 						GlobalConditions conds = CbcmodelFactory.eINSTANCE.createGlobalConditions();
-						ProveWithKey proveImplication = new ProveWithKey(null, vars, conds, null, null, path, null, new FileUtil(path), "/src_key", null, KeYInteraction.ABSTRACT_PROOF_FULL);
+						ProveWithKey proveImplication = new ProveWithKey(null, vars, conds, null, null, path, null, new FileUtil(path), "/src_key", null, 0, KeYInteraction.ABSTRACT_PROOF_FULL);
 						proveImplication.proveCImpliesCWithKey(null, createConditionForKeY(abstractMethod.getPreCondition().get(i), vars, conds), createConditionForKeY(concreteMethod.getPreCondition().get(i), vars, conds));
 						proveImplication.proveCImpliesCWithKey(null, createConditionForKeY(concreteMethod.getPostCondition().get(i), vars, conds), createConditionForKeY(abstractMethod.getPostCondition().get(i), vars, conds));
 					}

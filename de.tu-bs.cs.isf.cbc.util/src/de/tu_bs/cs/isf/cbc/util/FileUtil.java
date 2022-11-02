@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.IntPredicate;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -151,7 +152,7 @@ public class FileUtil implements IFileUtil{
 		return thisProject;
 	}
 	
-	public File writeFile(String proofType, String problem, String helper, String location, boolean override, AbstractStatement statement, String subProofName) {
+	public File writeFile(String proofType, String problem, String helper, String location, boolean override, AbstractStatement statement, String subProofName, boolean proofExists, String configName) {
 		FileNameManager manager = new FileNameManager();
 		
 		String keyFileName = "";		
@@ -167,17 +168,36 @@ public class FileUtil implements IFileUtil{
 				keyFileName = manager.getFileName(problem, location + "/partialProofs", statement, subProofName);
 				keyFile = new File(location + "/partialProofs/" + keyFileName + ".key");
 				keyHelperFile = new File(location + "/partialProofs/helper.key");
+				if (proofExists) {
+					return keyFile;
+				}
 				break;
 			case KeYInteraction.ABSTRACT_PROOF_COMPLETE:
 				keyFileName = manager.getFileName(problem, location + "/partialProofs", statement, subProofName);
-				keyFile = new File(location + "/partialProofs/" + keyFileName + ".key");
-				keyHelperFile = new File(location + "/partialProofs/helper.key");
-				if (!keyFile.exists()) {
-					Console.println("Begin of partial proof does not exist!");
-					return null;
+				String[] locationSplit = location.split("/");
+				if (!contains(locationSplit[locationSplit.length-1], i -> Character.isLetter(i) && Character.isUpperCase(i))) {
+					keyFile = new File(location + configName + "/" + keyFileName + ".key");
+					keyHelperFile = new File(location + configName + "/helper.key");
+					File keyFileBegin = new File(location + "/partialProofs/" + keyFileName + ".key");
+					try {
+						problem = Files.readString(keyFileBegin.toPath());
+					} catch (IOException e) {
+						Console.println("Begin of partial proof does not exist!");
+						return null;
+					}
+					override = true;
+				} else {
+					keyFile = new File(location + "/" + keyFileName + ".key");
+					keyHelperFile = new File(location + "/helper.key");
+					File keyFileBegin = new File(location + "/partialProofs/" + keyFileName + ".key");
+					try {
+						problem = Files.readString(keyFileBegin.toPath());
+					} catch (IOException e) {
+						Console.println("Begin of partial proof does not exist!");
+						return null;
+					}
+					override = true;
 				}
-				createFile(keyHelperFile, helper);
-				return keyFile;
 		}
 
 		if (!keyFile.exists() || override) {
@@ -193,6 +213,10 @@ public class FileUtil implements IFileUtil{
 			return createFile(keyFile, problem);
 		}
 		return null;
+	}
+	
+	private boolean contains(String value, IntPredicate predicate) {
+	    return value.chars().anyMatch(predicate);
 	}
 
 	private File createFile(File file, String content) {

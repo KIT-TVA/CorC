@@ -128,7 +128,7 @@ public class VerifyMethodCallStatementPartialProofBegin extends MyAbstractAsynch
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
 			String callingClass = uri.segment(uri.segmentCount() - 2) + "";
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, platformUri, formula, new FileUtil(platformUri), null, KeYInteraction.ABSTRACT_PROOF_BEGIN);
+			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, platformUri, formula, new FileUtil(platformUri), null, 0, KeYInteraction.ABSTRACT_PROOF_BEGIN);
 			proven = prove.proveStatementWithKey(returnStatement, false, callingClass, true);
 		} else {
 			Console.println("Statement is not in correct format.");
@@ -161,7 +161,7 @@ public class VerifyMethodCallStatementPartialProofBegin extends MyAbstractAsynch
 					genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
 					String configName = "";
 					for (String s : featureConfigs[i]) configName += s;
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true), formula, new FileUtil(uri.toPlatformString(true)), featureConfigs[i], KeYInteraction.ABSTRACT_PROOF_BEGIN);
+					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true), formula, new FileUtil(uri.toPlatformString(true)), featureConfigs[i], i, KeYInteraction.ABSTRACT_PROOF_BEGIN);
 					List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i], varMParts[1].toLowerCase());
 					List<CbCFormula> refinementsOriginal = verifyStmt.generateCbCFormulasForRefinements(variantsOriginal[i], callingMethod);
 					List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[i], varMParts[1].toLowerCase());
