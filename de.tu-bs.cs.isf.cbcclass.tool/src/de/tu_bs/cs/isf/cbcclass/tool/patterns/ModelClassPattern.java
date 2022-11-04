@@ -431,6 +431,12 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 			List<Condition> inheritedInvs = new ArrayList<Condition>();
 			List<Field> inheritedFields = new ArrayList<Field>();
 			if (modelClass.getInheritsFrom() != null) {
+				for (int i = 0; i < modelClass.getInheritsFrom().getFields().size(); i++) {
+					if (modelClass.getInheritsFrom().getFields().get(i).getName() == null) {
+						modelClass.getInheritsFrom().getFields().remove(i);
+						i--;
+					}
+				}
 				inheritedInvs = modelClass.getInheritsFrom().getClassInvariants();
 				inheritedFields = modelClass.getInheritsFrom().getFields();
 			}
