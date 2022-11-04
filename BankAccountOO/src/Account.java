@@ -1,6 +1,6 @@
 public class Account {
+	
 	public int OVERDRAFT_LIMIT = 0;
-
 	public static int INTEREST_RATE = 2;
 	public static int DAILY_LIMIT = -1000;
 	public int balance = 0;

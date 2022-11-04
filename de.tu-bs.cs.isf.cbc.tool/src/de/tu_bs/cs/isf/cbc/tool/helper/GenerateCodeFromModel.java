@@ -99,10 +99,7 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 		
 		URI uri = getDiagram().eResource().getURI();
 		String location = FileUtil.getProjectLocation(uri);
-		for(int i = 2; i < uri.segments().length - 2; i++) {
-			location += File.separator + uri.segment(i);
-		}
-		location += File.separator + (formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName()) + ".java";
+		location += "/src-gen" + File.separator + (formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName()) + ".java";
 		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString);
 		writeFile(location, code, formula.getMethodObj() != null ? formula.getMethodObj().getParentClass().getPackage() : "", formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName(), signatureString, globalVariables);
 	}
@@ -113,6 +110,7 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 		File javaFile = new File(location);
 		try {
 			if (!javaFile.exists()) {
+				javaFile.getParentFile().mkdirs();
 				javaFile.createNewFile();
 			} else {
 				newCode = ConstructCodeBlock.editCodeBlockForExport(code, javaFile, signature, globalVariables);
