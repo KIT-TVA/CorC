@@ -94,7 +94,7 @@ public class FileUtil implements IFileUtil{
 		return getProjectLocationS(uriString).getLocation().toPortableString();
 	}
 	
-	private static IProject getProjectLocationS(String uriPath) {
+	public static IProject getProjectLocationS(String uriPath) {
 		if (uriPath == null || uriPath.length() == 0) return null;
 		uriPath = uriPath.substring(1, uriPath.length());
 		int positionOfSlash = uriPath.indexOf('/') + 1;

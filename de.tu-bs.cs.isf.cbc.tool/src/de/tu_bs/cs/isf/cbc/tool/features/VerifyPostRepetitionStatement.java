@@ -108,7 +108,7 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 					String callingClass = uri.segment(uri.segmentCount()-2) + "";
 					String callingFeature = uri.segment(uri.segmentCount()-3) + "";
 					String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
-					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false);				
+					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
 					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 					for (int i = 0; i < featureConfigs.length; i++) {
 						genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);

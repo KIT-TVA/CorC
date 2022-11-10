@@ -249,9 +249,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 
 	@Override
 	public String checkValueValid(String value, IDirectEditingContext context) {
-		Method method = (Method) getBusinessObjectForPictogramElement(context.getPictogramElement());
-		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
-		if (ga instanceof RoundedRectangle) {
+		if (context == null) {
 			String type = "(int|char|float|long|boolean|byte|short|double|([A-Z]\\w*))(\\[\\])?";
 			if (value == null || value.length() == 0) {
 				return "Methodsignature must not be empty";
@@ -261,7 +259,8 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 							+ "\\(" + "((" + type + "\\s[A-Za-z]\\w*,(\\s)?)*(" + type + "\\s[A-Za-z]\\w*))?" + "\\)")) {
 				return "Signature must contain a name and parentheses with optional arguments";
 			}
-		} else if (ga instanceof MultiText) {
+		} else {
+			Method method = (Method) getBusinessObjectForPictogramElement(context.getPictogramElement());
 			value = "-" + value.trim().replaceAll(" ", "").replaceAll(",", "--") + "-";
 			for (Field f : method.getParentClass().getFields()) {
 				value = value.replaceAll("-" + f.getName() + "(\\[.*\\])*-", "");
