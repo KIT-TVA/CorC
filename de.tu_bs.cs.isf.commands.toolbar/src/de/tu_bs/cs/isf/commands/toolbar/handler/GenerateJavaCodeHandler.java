@@ -98,7 +98,7 @@ public class GenerateJavaCodeHandler extends AbstractHandler {
 				location = location.substring(0, location.indexOf("/features/"));
 			else 
 				location = location.substring(0, location.indexOf("/src/"));
-			location += "/src-gen" + File.separator + (formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName()) + ".java";
+			location += "/code-gen" + File.separator + (formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName()) + ".java";
 			String code = ConstructCodeBlock.constructCodeBlockForExport(formula, null, null, localVariables, returnVariable, signatureString);
 			writeFile(location, code, formula.getMethodObj() != null ? formula.getMethodObj().getParentClass().getPackage() : "", formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName(), signatureString, globalVariables);
 		}

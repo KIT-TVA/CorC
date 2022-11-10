@@ -99,7 +99,7 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 		
 		URI uri = getDiagram().eResource().getURI();
 		String location = FileUtil.getProjectLocation(uri);
-		location += "/src-gen" + File.separator + (formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName()) + ".java";
+		location += "/code-gen" + File.separator + (formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName()) + ".java";
 		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString);
 		writeFile(location, code, formula.getMethodObj() != null ? formula.getMethodObj().getParentClass().getPackage() : "", formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName(), signatureString, globalVariables);
 	}

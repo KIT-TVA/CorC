@@ -67,7 +67,7 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 			
 			String dirPath = iFile.getLocation().toString();
 			dirPath = dirPath.substring(0, dirPath.indexOf("/configs/"));
-			dirPath += "/src-gen/" + iFile.getName().replace("." + iFile.getFileExtension(), "");
+			dirPath += "/products-gen/" + iFile.getName().replace("." + iFile.getFileExtension(), "");
 			deleteExistingClasses(dirPath);
 			
 			FileUtil fileHandler = new FileUtil("");			
@@ -111,7 +111,7 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 				String codeFields = "";
 				String codeInvariants = "";
 				String location = dirPath + "/" + className + ".java";
-				String helperLocation = iFile.getLocation().toString().replace("configs/" + path[path.length-1], "src/").replace("src-gen", "src") + className + "_helper.java";
+				String helperLocation = iFile.getLocation().toString().replace("configs/" + path[path.length-1], "src/").replace("products-gen", "src") + className + "_helper.java";
 				String classHeader = "public class " + className + " {\n";
 				boolean alreadyInherited = false;
 				for (int i = config.size()-1; i >= 0; i--) {
@@ -258,7 +258,7 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 
 		try {
 			if (!javaFile.exists()) {
-				dir.mkdir();
+				dir.mkdirs();
 			}
 			String content = code;
 			FileWriter fw = new FileWriter(javaFile);
