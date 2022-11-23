@@ -310,23 +310,56 @@ public class ConstructCodeBlock {
 		String filePath = formula.eResource().getURI().toString();
 		filePath = filePath.substring(6, filePath.indexOf(projectName)) + projectName + "/predicates.def";
 		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
-		String configName = "";
-		for (String feature : config) configName += feature;
 		for (Predicate p : readPredicates) {
+			Predicate currentP = new Predicate(p.getSignature(true));
 			for (int i = 0; i < p.definitions.size(); i++) {
 				PredicateDefinition pDef = p.definitions.get(i);
-				if (configName.contains(pDef.definedInFeature) || pDef.definedInFeature.equals("default")) {
-					//TODO Max not safe, featurename könnte teilmenge eines anderen featurenamens sein
-					if (formula.getClassName().equals(pDef.definedInClass) || pDef.definedInClass.equals("default")) {
-						if (formula.getName().equals(pDef.definedInMethod) || pDef.definedInMethod.equals("default")) {
-							Predicate foundPredicate = new Predicate(p.getSignature(true));
-							foundPredicate.definitions.add(pDef);
-							predicates.add(foundPredicate);
-							break;
-						}
-					}
+				String expression = pDef.presenceCondition;
+				for (String feature : config) expression = expression.replaceAll(feature, "true");
+				if (expression.equals("") || evaluateFormula(expression.replaceAll("!true", "false").trim())) {
+					currentP.definitions.add(pDef);
 				}
 			}
+			if (currentP.definitions.size() != 0) predicates.add(currentP);
+		}
+	}
+	
+	private static boolean evaluateFormula(String ex) {
+		ex = ex.trim();
+		if (ex.equals("true")) return true;
+		if (ex.equals("false")) return false;
+		if (ex.equals("()")) return false;
+		
+		if (ex.startsWith("true")) {
+			if (ex.charAt(5) == '&' && ex.charAt(6) == '&') {
+				return evaluateFormula(ex.replaceFirst("true && ", ""));
+			} else if (ex.charAt(5) == '|' && ex.charAt(6) == '|') {
+				return true;
+			} else if (ex.charAt(5) == '-' && ex.charAt(6) == '>') {
+				return evaluateFormula(ex.replaceFirst("true -> ", ""));
+			} else {
+				return false;
+			}
+		} else if (ex.startsWith("false")) {
+			if (ex.charAt(6) == '&' && ex.charAt(7) == '&') {
+				return false;
+			} else if (ex.charAt(6) == '|' && ex.charAt(7) == '|') {
+				return evaluateFormula(ex.replaceFirst("false \\|\\| ", ""));
+			} else if (ex.charAt(6) == '-' && ex.charAt(7) == '>') {
+				return true;
+			} else {
+				return false;
+			}
+		} else if (ex.startsWith("(")) {
+			int i = ex.length() - 1;
+			while (ex.charAt(i) != ')' && i > 1) i--;
+			boolean innerEval = evaluateFormula(ex.substring(1, i));
+			ex = ex.replace(ex.substring(0, i+1), innerEval ? "true" : "false");
+			return evaluateFormula(ex);
+		} else if (ex.startsWith("!")) {
+			return !evaluateFormula(ex.substring(1));
+		} else {
+			return false;
 		}
 	}
 
@@ -805,7 +838,10 @@ public class ConstructCodeBlock {
 						index++;
 					}
 					String toReplace = condition.substring(startIndex, index);
-					String def = p.definitions.get(0).getReplace(true);
+					String def = "";
+					for (PredicateDefinition pDef : p.definitions) {
+						def += def.length() == 0 ? pDef.getReplace(true) : " & " + pDef.getReplace(true); 
+					}
 					String[] params = toReplace.split(",");
 					if (params.length == p.varsTerms.size() && !toReplace.equals("")) {
 						for (int i = 0; i < params.length; i++) {		

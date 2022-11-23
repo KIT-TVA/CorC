@@ -12,6 +12,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -805,19 +809,55 @@ public class ProveWithKey {
 		filePath = filePath.substring(0, filePath.indexOf(projectName)) + projectName + "/predicates.def";
 		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
 		for (Predicate p : readPredicates) {
+			Predicate currentP = new Predicate(p.getSignature(true));
 			for (int i = 0; i < p.definitions.size(); i++) {
 				PredicateDefinition pDef = p.definitions.get(i);
-				if (configList.contains(pDef.definedInFeature) || pDef.definedInFeature.equals("default")) {
-					if (formula.getClassName().equals(pDef.definedInClass) || pDef.definedInClass.equals("default")) {
-						if (formula.getName().equals(pDef.definedInMethod) || pDef.definedInMethod.equals("default")) {
-							Predicate foundPredicate = new Predicate(p.getSignature(true));
-							foundPredicate.definitions.add(pDef);
-							predicates.add(foundPredicate);
-							break;
-						}
-					}
+				String expression = pDef.presenceCondition;
+				for (String feature : config) expression = expression.replaceAll(feature, "true");
+				if (expression.equals("") || evaluateFormula(expression.replaceAll("!true", "false").trim())) {
+					currentP.definitions.add(pDef);
 				}
 			}
+			if (currentP.definitions.size() != 0) predicates.add(currentP);
+		}
+	}
+	
+	private static boolean evaluateFormula(String ex) {
+		ex = ex.trim();
+		if (ex.equals("true")) return true;
+		if (ex.equals("false")) return false;
+		if (ex.equals("()")) return false;
+		
+		if (ex.startsWith("true")) {
+			if (ex.charAt(5) == '&' && ex.charAt(6) == '&') {
+				return evaluateFormula(ex.replaceFirst("true && ", ""));
+			} else if (ex.charAt(5) == '|' && ex.charAt(6) == '|') {
+				return true;
+			} else if (ex.charAt(5) == '-' && ex.charAt(6) == '>') {
+				return evaluateFormula(ex.replaceFirst("true -> ", ""));
+			} else {
+				return false;
+			}
+		} else if (ex.startsWith("false")) {
+			if (ex.charAt(6) == '&' && ex.charAt(7) == '&') {
+				return false;
+			} else if (ex.charAt(6) == '|' && ex.charAt(7) == '|') {
+				return evaluateFormula(ex.replaceFirst("false \\|\\| ", ""));
+			} else if (ex.charAt(6) == '-' && ex.charAt(7) == '>') {
+				return true;
+			} else {
+				return false;
+			}
+		} else if (ex.startsWith("(")) {
+			int i = ex.length() - 1;
+			while (ex.charAt(i) != ')' && i > 1) i--;
+			boolean innerEval = evaluateFormula(ex.substring(1, i));
+			ex = ex.replace(ex.substring(0, i+1), innerEval ? "true" : "false");
+			return evaluateFormula(ex);
+		} else if (ex.startsWith("!")) {
+			return !evaluateFormula(ex.substring(1));
+		} else {
+			return false;
 		}
 	}
 	
@@ -826,20 +866,9 @@ public class ProveWithKey {
 		String rulesString = "\\rules {\n"; 
 		predicatesForKeY ="";
 		for (Predicate p : predicates) {
-			for (int i = 0; i < p.definitions.size(); i++) {
-				PredicateDefinition pDef = p.definitions.get(i);
-				if (configList.contains(pDef.definedInFeature) || pDef.definedInFeature.equals("default")) {
-					if (formula.getClassName().equals(pDef.definedInClass) || pDef.definedInClass.equals("default")) {
-						if (formula.getName().equals(pDef.definedInMethod) || pDef.definedInMethod.equals("default")) {
-							defString += p.printDefForKeY();
-							rulesString += p.printReplaceForKeY(i);
-							predicatesForKeY = predicatesForKeY.length() == 0 ? p.name : predicatesForKeY + "," + p.name;
-							if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN)) predicatesForKeY += ",original,original_pre,original_post";
-							break;
-						}
-					}
-				}
-			}
+			defString += p.printDefForKeY();
+			rulesString += p.printReplaceForKeY();				
+			predicatesForKeY = predicatesForKeY.length() == 0 ? p.name : predicatesForKeY + "," + p.name;
 		}
 		if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN)) {
 			defString += "\toriginal_pre;\n" + "\toriginal_post;\n";
@@ -853,6 +882,7 @@ public class ProveWithKey {
 					+ "		\\replacewith (true)\r\n"
 					+ "		\\heuristics(simplify)\r\n"
 					+ "	};\r\n";
+			predicatesForKeY += predicatesForKeY.length() == 0 ? "original,original_pre,original_post" : ",original,original_pre,original_post";
 		}
 		return defString + "}\n\n" + rulesString + "}";
 	}
