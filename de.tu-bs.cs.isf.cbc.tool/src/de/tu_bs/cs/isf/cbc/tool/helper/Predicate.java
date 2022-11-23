@@ -62,7 +62,7 @@ public class Predicate {
 	public String print() {
 		String output = "";
 		for (PredicateDefinition pDef : definitions) {
-			output += "\t" + signature + "; //" + pDef.definedInFeature + ":" + pDef.definedInClass + ":" + pDef.definedInMethod + ":" + pDef.name + "\n";
+			output += "\t" + signature + "; //" + pDef.name + ":" + pDef.presenceCondition + "\n";
 			output += "\t\\replacewith (" + pDef.replace + ")\n";
 		}
 		return output;
@@ -72,26 +72,35 @@ public class Predicate {
 		return "\t" + this.getSignature(false) + ";\n";
 	}
 
-	public String printReplaceForKeY(int defNum) {
+	public String printReplaceForKeY() {
 		String output = "\t" + this.name + "{\n";
 		for (String s : varsTerms) {
 			output += "\t\t\\schemaVar \\term " + s + ";\n";
 		}
-		for (String s : definitions.get(defNum).varsBound) {
-			output += "\t\t\\schemaVar \\variable " + s + ";\n";
-		}
+		for (PredicateDefinition def : definitions) {
+			for (String s : def.varsBound) {
+				output += "\t\t\\schemaVar \\variable " + s + ";\n";
+			}
+		}		
 		output += "\t\t\\find (" + getFindTerm() + ")\n";
-		if (!definitions.get(defNum).varsBound.isEmpty() && !varsTerms.isEmpty()) {
-			output += "\t\t\\varcond (";
-			for (String free : definitions.get(defNum).varsBound) {
-				for (String term : varsTerms) {
-					output += "\\notFreeIn(" + free.split(" ")[1] + ", " + term.split(" ")[1] + "), ";
+		String freeIn = "\t\t\\varcond (";
+		for (PredicateDefinition def : definitions) {
+			if (!def.varsBound.isEmpty() && !varsTerms.isEmpty()) {
+				for (String free : def.varsBound) {
+					for (String term : varsTerms) {
+						freeIn += "\\notFreeIn(" + free.split(" ")[1] + ", " + term.split(" ")[1] + "), ";
+					}
 				}
 			}
-			if (output.endsWith(", ")) output = output.substring(0, output.length() - 2);
-			output += ")\n";
+			if (freeIn.endsWith(", ")) freeIn = freeIn.substring(0, freeIn.length() - 2);
+			freeIn += ")\n";
 		}
-		output += "\t\t\\replacewith (" + definitions.get(defNum).getReplace(false) + ")\n";
+		output += freeIn.contains("notFreeIn") ? freeIn : "";
+		String replaceString = "";
+		for (PredicateDefinition def : definitions) {
+			replaceString += replaceString.length() == 0 ? def.getReplace(false) : " & " + def.getReplace(false);
+		}
+		output += "\t\t\\replacewith (" + replaceString + ")\n";
 		output += "\t\t\\heuristics(simplify)\n\t};\n\n";
 		return output;
 	}

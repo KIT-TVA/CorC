@@ -7,33 +7,22 @@ public class PredicateDefinition {
 	
 	public String name;
 	public String replace;
-	public String definedInFeature;
-	public String definedInClass;
-	public String definedInMethod;
+	public String presenceCondition;
 	public List<String> varsBound;
 	private String type = "(int|char|float|long|boolean|byte|short|double|([A-Z]\\w*))(\\[\\])?";
 	
 	public PredicateDefinition(String replace, String defined) {
 		this.varsBound = new ArrayList<>();
 		setReplace(replace);
-		this.definedInFeature = defined.trim().split(":")[0];
-		this.definedInClass = defined.trim().split(":")[1];
-		this.definedInMethod = defined.trim().split(":")[2];
-		this.name = defined.trim().split(":")[3];
+		this.name = defined.trim().split(":")[0];
+		this.presenceCondition = defined.trim().split(":").length > 1 ? defined.trim().split(":")[1] : "";
 	}	
-	
-	public String getDefinedInFeature() {
-		return definedInFeature.equals("default") ? "All features" : definedInFeature;
-	}
-	
-	public String getDefinedInClass() {
-		return definedInClass.equals("default") ? "All classes" : definedInClass;
-	}
-	
-	public String getDefinedInMethod() {
-		return definedInMethod.equals("default") ? "All methods" : definedInMethod;
-	}
 
+	public void setPresenceCondition(String pc) {
+		this.presenceCondition = pc;
+		return;
+	}
+	
 	public String setReplace(String replace) {
 		String copy = replace;
 		varsBound.clear();
@@ -93,6 +82,13 @@ public class PredicateDefinition {
 	public String checkValidReplace(String toCheck) {
 		if (toCheck == null || toCheck.length() == 0) {
 			return "Error: Definition must not be empty. Didn't save changes.";
+		}
+		return "";
+	}
+	
+	public String checkValidPresenceCondition(String toCheck) {
+		if (toCheck.contains(":")) {
+			return "Error: Presence condition must not contain ':'. Didn't save changes.";
 		}
 		return "";
 	}
