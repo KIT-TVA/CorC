@@ -198,7 +198,8 @@ public class PredicateManagementTypePageSPL extends WizardPage {
 			@Override
 			public void handleEvent(Event e) {
 				for (Predicate p : predicates) {
-					if (p.getSignature(false).equals(predicatesList.getSelection()[0])) {
+					String selection = predicatesList.getSelection()[0].substring(0, predicatesList.getSelection()[0].indexOf(" ["));
+					if (p.getSignature(false).equals(selection)) {
 						int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the predicate " + p.getSignature(true) + " ?", "Delete", JOptionPane.YES_NO_OPTION);
 						if (input == JOptionPane.YES_OPTION) {
 							predicates.remove(p);
@@ -223,7 +224,8 @@ public class PredicateManagementTypePageSPL extends WizardPage {
 	
 	private void loadTabFolder() {
 		for (Predicate p : predicates) {
-    		if ((p.getSignature(false).equals(predicatesList.getSelection()[0]))) {
+			String selection = predicatesList.getSelection()[0].substring(0, predicatesList.getSelection()[0].indexOf(" ["));
+    		if ((p.getSignature(false).equals(selection))) {
     			currentPredicate = p;
     			boolean firstTab = true;
     			for (PredicateDefinition pDef : p.definitions) {
@@ -573,12 +575,12 @@ public class PredicateManagementTypePageSPL extends WizardPage {
 				
 				tab_folder.getItem(tabIndex).setText(currentPDef.name);
 				int predIndex = predicatesList.getSelectionIndex();
-				updateList();
 				predicatesList.setSelection(predIndex);
 				if (newTabNecessary) {
 					createTab(currentPredicate.getSignature(true), null, false, true);
 					currentPredicate.definitions.add(currentPDef);
 				}
+				updateList();
 				displayError(label_error, "Saved changes.", true);
 			}
 		});
@@ -589,7 +591,7 @@ public class PredicateManagementTypePageSPL extends WizardPage {
 	private void updateList() {
 		String[] preds = new String[predicates.size()];
 		for (int i = 0; i < predicates.size(); i++) {
-			preds[i] = predicates.get(i).getSignature(false);
+			preds[i] = predicates.get(i).getSignature(false) + " [" + predicates.get(i).definitions.size() + "]";
 		}
 		predicatesList.setItems(preds);
 	}
