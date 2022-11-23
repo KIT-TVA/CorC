@@ -126,12 +126,13 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 							String configName = "";
 							for (String s : featureConfigs[i]) configName += s;
 							prove.setConfigName(configName);
-							proven = prove.provePostRepetitionWithKey(refinements, statement.getInvariant(), statement.getGuard(), parent.getPostCondition());
+							proven = prove.provePostRepetitionWithKey(refinements, statement.getInvariant(), statement.getGuard(), parent.getPostCondition(), callingClass);
 						}
 					}
 				} else {
 					Console.println("--------------- Triggered verification ---------------");
-					proven = prove.provePostRepetitionWithKey(null, statement.getInvariant(), statement.getGuard(), parent.getPostCondition());
+					String callingClass = uri.segment(uri.segmentCount() - 2) + "";
+					proven = prove.provePostRepetitionWithKey(null, statement.getInvariant(), statement.getGuard(), parent.getPostCondition(), callingClass);
 				}		
 				Console.println("--------------- Verification completed --------------- ");
 								

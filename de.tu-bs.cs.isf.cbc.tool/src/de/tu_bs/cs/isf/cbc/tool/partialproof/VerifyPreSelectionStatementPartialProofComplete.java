@@ -122,12 +122,13 @@ public class VerifyPreSelectionStatementPartialProofComplete extends MyAbstractA
 							String configName = "";
 							for (String s : featureConfigs[i]) configName += s;
 							prove.setConfigName(configName);
-							proven = prove.provePreSelWithKey(refinements, statement.getGuards(), parent.getPreCondition());
+							proven = prove.provePreSelWithKey(refinements, statement.getGuards(), parent.getPreCondition(), callingClass);
 						}
 					}
 				} else {
 					Console.println("--------------- Triggered verification ---------------");
-					proven = prove.provePreSelWithKey(null, statement.getGuards(), parent.getPreCondition());
+					String callingClass = uri.segment(uri.segmentCount() - 2) + "";
+					proven = prove.provePreSelWithKey(null, statement.getGuards(), parent.getPreCondition(), callingClass);
 					}		
 				Console.println("--------------- Verification completed --------------- ");
 						

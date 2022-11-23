@@ -127,14 +127,15 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 								String configName = "";
 								for (String s : featureConfigs[i]) configName += s;
 								prove.setConfigName(configName);
-								proven1 = prove.proveCImpliesCWithKey(refinements, parent.getPreCondition(), statement.getPreCondition());
-								proven2 = prove.proveCImpliesCWithKey(refinements, statement.getPostCondition(), parent.getPostCondition());
+								proven1 = prove.proveCImpliesCWithKey(refinements, parent.getPreCondition(), statement.getPreCondition(), callingClass);
+								proven2 = prove.proveCImpliesCWithKey(refinements, statement.getPostCondition(), parent.getPostCondition(), callingClass);
 							}
 						}
 					} else {
 						Console.println("--------------- Triggered verification ---------------");
-						proven1 = prove.proveCImpliesCWithKey(null, parent.getPreCondition(), statement.getPreCondition());
-						proven2 = prove.proveCImpliesCWithKey(null, statement.getPostCondition(), parent.getPostCondition());
+						String callingClass = uri.segment(uri.segmentCount() - 2) + "";
+						proven1 = prove.proveCImpliesCWithKey(null, parent.getPreCondition(), statement.getPreCondition(), callingClass);
+						proven2 = prove.proveCImpliesCWithKey(null, statement.getPostCondition(), parent.getPostCondition(), callingClass);
 					}		
 					Console.println("--------------- Verification completed --------------- ");
 					

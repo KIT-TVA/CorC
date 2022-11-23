@@ -63,21 +63,27 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 	
 	public void generate(IPath location, String callingFeature, String callingClass, String callingMethod, String[] config) {
 		this.config = config;
-		String output = "++++++++++ Next configuration: ";
-		for (int j = 0; j < config.length; j++) {
-			if (j == config.length - 1) {
-				output += config[j];
-			} else {
-				output += config[j] + ", ";
-			}
-		}
-		Console.println(output + " ++++++++++");
+		printConfigToConsole(config, false);
 		deleteExistingClasses(location + "/src_gen/");
 		writeFile(location + "/src_gen/" + callingClass + ".java", "public class " + callingClass + " {\n}");
 		generateClasses(location + "/src_gen/", config, callingFeature, callingClass, callingMethod.toLowerCase());
 		resolveRemainingExplicitOriginalInCondition(location + "/src_gen/");
 	}
 	
+	public void printConfigToConsole(String[] conf, boolean proofBegin) {
+		String output = "++++++++++ Next configuration: ";
+		for (int j = 0; j < conf.length; j++) {
+			if (j == conf.length - 1) {
+				output += conf[j];
+			} else {
+				output += conf[j] + ", ";
+			}
+		}
+		Console.println(output + " ++++++++++");
+		if (proofBegin) Console.println("  Proof ist not executed due to existing proof begin.");
+		return;
+	}
+
 	private void deleteExistingClasses(String classDirectory) {
 		File dir = new File(classDirectory);
 		String[] filesInDir = dir.list();

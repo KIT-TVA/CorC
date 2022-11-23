@@ -116,18 +116,23 @@ public class VerifyPostRepetitionStatementPartialProofBegin extends MyAbstractAs
 					if (featureConfigs != null) {
 						String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 						for (int i = 0; i < variants.length; i++) {
+							if (i > 0) {
+								genCode.printConfigToConsole(featureConfigs[i], true);
+								continue;
+							}
 							genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
 							prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), featureConfigs[i], i, KeYInteraction.ABSTRACT_PROOF_BEGIN);
 							List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i], callingMethod);
 							String configName = "";
 							for (String s : featureConfigs[i]) configName += s;
 							prove.setConfigName(configName);
-							proven = prove.provePostRepetitionWithKey(refinements, statement.getInvariant(), statement.getGuard(), parent.getPostCondition());
+							proven = prove.provePostRepetitionWithKey(refinements, statement.getInvariant(), statement.getGuard(), parent.getPostCondition(), callingClass);
 						}
 					}
 				} else {
 					Console.println("--------------- Triggered verification ---------------");
-					proven = prove.provePostRepetitionWithKey(null, statement.getInvariant(), statement.getGuard(), parent.getPostCondition());
+					String callingClass = uri.segment(uri.segmentCount() - 2) + "";
+					proven = prove.provePostRepetitionWithKey(null, statement.getInvariant(), statement.getGuard(), parent.getPostCondition(), callingClass);
 				}		
 				Console.println("--------------- Verification completed --------------- ");
 								

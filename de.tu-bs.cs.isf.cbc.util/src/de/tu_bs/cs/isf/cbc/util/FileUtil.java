@@ -152,7 +152,7 @@ public class FileUtil implements IFileUtil{
 		return thisProject;
 	}
 	
-	public File writeFile(String proofType, String problem, String helper, String location, boolean override, AbstractStatement statement, String subProofName, boolean proofExists, String configName) {
+	public File writeFile(String proofType, String problem, String helper, String location, boolean override, AbstractStatement statement, String subProofName, boolean proofExists, String configName, List<String> originalPrePost) {
 		FileNameManager manager = new FileNameManager();
 		
 		String keyFileName = "";		
@@ -165,40 +165,36 @@ public class FileUtil implements IFileUtil{
 				keyHelperFile = new File(location + "/helper.key");
 				break;
 			case KeYInteraction.ABSTRACT_PROOF_BEGIN:
-				keyFileName = manager.getFileName(problem, location + "/partialProofs", statement, subProofName);
-				keyFile = new File(location + "/partialProofs/" + keyFileName + ".key");
-				keyHelperFile = new File(location + "/partialProofs/helper.key");
+				keyFileName = manager.getFileName(problem, location, statement, subProofName);
+				keyFile = new File(location + "/" + keyFileName + ".key");
+				keyHelperFile = new File(location + "/helper.key");
 				if (proofExists) {
 					return keyFile;
 				}
 				break;
 			case KeYInteraction.ABSTRACT_PROOF_COMPLETE:
-				keyFileName = manager.getFileName(problem, location + "/partialProofs", statement, subProofName);
-				String[] locationSplit = location.split("/");
-				if (!contains(locationSplit[locationSplit.length-1], i -> Character.isLetter(i) && Character.isUpperCase(i))) {
-					keyFile = new File(location + configName + "/" + keyFileName + ".key");
-					keyHelperFile = new File(location + configName + "/helper.key");
-					File keyFileBegin = new File(location + "/partialProofs/" + keyFileName + ".key");
-					try {
-						problem = Files.readString(keyFileBegin.toPath());
-					} catch (IOException e) {
-						Console.println("Begin of partial proof does not exist!");
-						return null;
+				keyFileName = manager.getFileName(problem, location, statement, subProofName);
+				keyFile = new File(location + "/" + keyFileName + ".key");
+				keyHelperFile = new File(location + "/helper.key");
+				String[] split = location.split("/");
+				String proveFolder = split[split.length-1];
+				File keyFileBegin = new File(location.trim().replace(proveFolder, proveFolder.replace(configName, "")) + "/" + keyFileName + ".key");
+				List<String> begin = readFileInList(keyFileBegin.toPath().toString());
+				problem = "";
+				for (String line : begin) {
+					if (!line.startsWith(" (builtin \"Use Operation Contract\"")) {
+						problem += line + "\n";
+					} else {
+						problem += "\n ) }";
+						break;
 					}
-					override = true;
-				} else {
-					keyFile = new File(location + "/" + keyFileName + ".key");
-					keyHelperFile = new File(location + "/helper.key");
-					File keyFileBegin = new File(location + "/partialProofs/" + keyFileName + ".key");
-					try {
-						problem = Files.readString(keyFileBegin.toPath());
-					} catch (IOException e) {
-						Console.println("Begin of partial proof does not exist!");
-						return null;
-					}
-					override = true;
 				}
-		}
+				if (originalPrePost != null) {
+					problem = problem.replaceAll("original_pre", originalPrePost.get(0)).replaceAll("original_post", originalPrePost.get(1));
+				}
+				override = true;
+				break;
+			}
 
 		if (!keyFile.exists() || override) {
 			if (!keyHelperFile.exists() || override) {

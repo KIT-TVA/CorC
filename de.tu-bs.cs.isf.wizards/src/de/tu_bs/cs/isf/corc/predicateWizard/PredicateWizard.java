@@ -3,11 +3,7 @@ package de.tu_bs.cs.isf.corc.predicateWizard;
 import java.net.URI;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
 
 
 public class PredicateWizard extends Wizard{

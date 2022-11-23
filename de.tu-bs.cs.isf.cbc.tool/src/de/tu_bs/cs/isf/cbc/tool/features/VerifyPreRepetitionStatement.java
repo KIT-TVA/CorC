@@ -126,12 +126,13 @@ public class VerifyPreRepetitionStatement extends MyAbstractAsynchronousCustomFe
 							String configName = "";
 							for (String s : featureConfigs[i]) configName += s;
 							prove.setConfigName(configName);
-							proven = prove.proveCImpliesCWithKey(refinements, parent.getPreCondition(), statement.getInvariant());
-							}
+							proven = prove.proveCImpliesCWithKey(refinements, parent.getPreCondition(), statement.getInvariant(), callingClass);
+						}
 					}
 				} else {
 					Console.println("--------------- Triggered verification ---------------");
-					proven = prove.proveCImpliesCWithKey(null, parent.getPreCondition(), statement.getInvariant());
+					String callingClass = uri.segment(uri.segmentCount() - 2) + "";
+					proven = prove.proveCImpliesCWithKey(null, parent.getPreCondition(), statement.getInvariant(), callingClass);
 				}		
 				Console.println("--------------- Verification completed --------------- ");
 								

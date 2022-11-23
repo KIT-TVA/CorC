@@ -2,12 +2,9 @@ package de.tu_bs.cs.isf.cbc.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -28,7 +25,6 @@ import de.uka.ilkd.key.control.ProofControl;
 import de.uka.ilkd.key.gui.MainWindow;
 import de.uka.ilkd.key.java.abstraction.KeYJavaType;
 import de.uka.ilkd.key.logic.op.IObserverFunction;
-import de.uka.ilkd.key.macros.CompleteAbstractProofMacro;
 import de.uka.ilkd.key.macros.ContinueAbstractProofMacro;
 import de.uka.ilkd.key.proof.Node;
 import de.uka.ilkd.key.proof.Proof;
@@ -38,7 +34,6 @@ import de.uka.ilkd.key.proof.io.ProblemLoaderException;
 import de.uka.ilkd.key.rule.RuleApp;
 import de.uka.ilkd.key.settings.ChoiceSettings;
 import de.uka.ilkd.key.settings.ProofSettings;
-import de.uka.ilkd.key.settings.StrategySettings;
 import de.uka.ilkd.key.speclang.Contract;
 import de.uka.ilkd.key.strategy.StrategyProperties;
 import de.uka.ilkd.key.util.KeYTypeUtil;
@@ -51,7 +46,7 @@ public class KeYInteraction {
 	public final static String ABSTRACT_PROOF_BEGIN = "abstract_proof_begin";
 	public final static String ABSTRACT_PROOF_COMPLETE = "abstract_proof_complete";
 	
-	public static Proof startKeyProof(String proofType, boolean executeProof, File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
+	public static Proof startKeyProof(String proofType, File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
 			AbstractStatement statement, String problem, String uri, String forbiddenRules) {
 		Proof proof = null;
 		List<File> classPaths = null; // Optionally: Additional specifications
@@ -77,6 +72,7 @@ public class KeYInteraction {
 			// Load source code
 			KeYEnvironment<?> env = KeYEnvironment.load(location, classPaths, bootClassPath, includes);
 			proof = env.getLoadedProof();
+						
 			// Set proof strategy options
 			StrategyProperties sp = proof.getSettings().getStrategySettings().getActiveStrategyProperties();
 			if (inlining)
@@ -89,8 +85,13 @@ public class KeYInteraction {
 			sp.setProperty(StrategyProperties.NON_LIN_ARITH_OPTIONS_KEY, StrategyProperties.NON_LIN_ARITH_DEF_OPS);
 			sp.setProperty(StrategyProperties.STOPMODE_OPTIONS_KEY, StrategyProperties.STOPMODE_NONCLOSE);
 			sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FIRST_ORDER_GOALS_FORBIDDEN, "true");
-			sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, forbiddenRules);
-			sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, forbiddenRules);
+			if (proofType.equals(ABSTRACT_PROOF_BEGIN)) {
+				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, forbiddenRules + ",expand_def,cut,cut_direct"); //default
+				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, forbiddenRules + ",definition_axiom,ifthenelse_split"); //default
+			} else {
+				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, "");
+				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, "");
+			}
 			//sp.setProperty(StrategyProperties.QUERY_OPTIONS_KEY, StrategyProperties.QUERY_ON);
 			//sp.setProperty(StrategyProperties.QUERYAXIOM_OPTIONS_KEY, StrategyProperties.QUERYAXIOM_OFF);
 			proof.getSettings().getStrategySettings().setActiveStrategyProperties(sp);
@@ -121,23 +122,28 @@ public class KeYInteraction {
 				break;
 			case ABSTRACT_PROOF_BEGIN:
 				Console.println("  Start partial proof: " + location.getName());
-		        if (!executeProof) {
-		        	Console.println("    Proof not executed due to existing begin of proof.");
-		        	break;
-		        }
 		        proofControl.runMacro(proof.root(), new ContinueAbstractProofMacro(), null);
-		        proofControl.waitWhileAutoMode();
+		        proofControl.waitWhileAutoMode();		        
 				break;
 			case ABSTRACT_PROOF_COMPLETE:
 				Console.println("  Finish partial proof: " + location.getName());
-		        proofControl.runMacro(proof.root(), new CompleteAbstractProofMacro(), null);
-		        proofControl.waitWhileAutoMode();
-				break;
+				if (monitor != null) {
+					env.getUi().getProofControl().startAutoMode(proof);
+					while (env.getUi().getProofControl().isInAutoMode()) {
+						if (monitor.isCanceled()) {
+							env.getUi().getProofControl().stopAndWaitAutoMode();
+							Console.println("  Proof is canceled.");
+						}
+					}
+				} else {
+					env.getUi().getProofControl().startAndWaitForAutoMode(proof);
+				}
+		        break;
 			}			
 
 			// Show proof result
 			try {
-				//DEBUG
+				//DEBUG START
 				Consumer<RuleApp> rule = x -> System.out.println(x.rule().displayName());
 				proof.root().name();
 				Node n = proof.root();
@@ -146,23 +152,18 @@ public class KeYInteraction {
 					System.out.println(n.serialNr() + n.name());
 				}		
 				System.out.println("-----------------------");
-				//DEBUG
+				//DEBUG END
 				proof.saveToFile(location);
-
 				try {
 					// TODO: inlining may be important too
 					DataCollector collector = new DataCollector();
 					collector.collectCorcStatistics(proof, formula, statement, problem, uri);
 				} catch (RuntimeException e) {
-						Console.println(
-								"Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer.");	
+						Console.println("Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer.");	
 				}
-
-//				printStatistics(proof, inlining);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		} catch (ProblemLoaderException e) {
 			Console.println("  Exception at '" + e.getCause() + "'");
 			e.printStackTrace();

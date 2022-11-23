@@ -338,10 +338,18 @@ public class KeYFileContent {
 		post = "(" + variant + ") <variant & " + variant + ">=0";
 	}
 	
-	public void extractOldKeywordVariables() {
+	public void extractOldKeywordVariables(JavaVariables vars) {
 		String condition = pre + post + globalConditions;
 		// Clear the list of replacements
 		replacements.clear();
+		if (vars != null) { // All fields and params have to be added to create an old variable due to partial proof for variable predicates
+			for (Parameter p : vars.getParams()) {
+				replacements.put(p.getName(), "\\old(" + p.getName() + ")");
+			}
+			for (Field f : vars.getFields()) {
+				replacements.put("self." + f.getName(), "\\old(self." + f.getName() + ")");
+			}			
+		}
 		ArrayList<Integer> beginIndizes = new ArrayList<>();
 		ArrayList<Integer> endIndizes = new ArrayList<>();
 		int openParenthesisCounter = 0;
@@ -529,11 +537,12 @@ public class KeYFileContent {
 				 * Class.varName => we got the class name! But no VarType
 				 */
 				// EDIT: counterForVarNaming didn't exist until VarCorC OO, Hashmap needs more detailed key, as only varname_oldVal may not be unique
-				String varNameWithOldSuffix = var.substring(var.lastIndexOf(" ") + 1) + counterForVarNaming + OLD_VARS_SUFFIX;
+				// EDIT2: disabled numbering due to partial proofs
+				String varNameWithOldSuffix = var.substring(var.lastIndexOf(" ") + 1) /*+ counterForVarNaming*/ + OLD_VARS_SUFFIX;
 				// Add new modified replacements to map.
 //				Console.println("Adding new Replacement: (" + varNameWithOldSuffix + ", " + replacements.get(varUsedInOldContext) + ")");
 				newReplacements.put(varNameWithOldSuffix, replacements.get(varUsedInOldContext));
-				programVariables += var.replace("static", "").replace(" non-null", "") + counterForVarNaming + OLD_VARS_SUFFIX + "; ";
+				programVariables += var.replace("static", "").replace(" non-null", "") /*+ counterForVarNaming*/ + OLD_VARS_SUFFIX + "; ";
 				if (!pre.contains("\\old(" + varUsedInOldContext + ")"))
 					assignment += "||" + varNameWithOldSuffix + ":=" + varUsedInOldContext;
 				// if variable is an Array add <created> condition for key
@@ -545,12 +554,24 @@ public class KeYFileContent {
 		replacements = newReplacements;
 	}
 	
-	public void handleOld(CbCFormula formula, JavaVariables vars) {
-		extractOldKeywordVariables();
+	public void handleOld(boolean abstractProof, CbCFormula formula, JavaVariables vars) {
+		extractOldKeywordVariables(abstractProof ? vars : null);
 		addOldVariables(formula, vars);
 		pre = replaceOldKeyword(pre);
 		post= replaceOldKeyword(post);
 		globalConditions = replaceOldKeyword(globalConditions);
+		if (abstractProof) {
+			for (Parameter p: vars.getParams()) {
+				programVariables += p.getType() + " "  + p.getName() + "_oldVal; ";
+				assignment += "||" + p.getName() + "_oldVal:=" + p.getName();
+			}
+			for (Field f : vars.getFields()) {
+				if (!programVariables.contains("self." + f.getName() + "_oldVal")) {
+					programVariables += f.getType() + " " + f.getName() + "_oldVal; ";
+					assignment += "||" + f.getName() + "_oldVal:=self." + f.getName();
+				}
+			}
+		}
 	}
 	
 	public String replaceOldKeyword(String condition) {

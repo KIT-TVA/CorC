@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
-import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 
 public class VerifyWithKeYHandler extends AbstractHandler implements IHandler {
 

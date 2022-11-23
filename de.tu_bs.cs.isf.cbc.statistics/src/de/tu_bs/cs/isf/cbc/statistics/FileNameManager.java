@@ -40,8 +40,10 @@ public class FileNameManager {
 			cleanKeyFiles(location, root);
 		}
 		// if there exists a KeY file with same problem hash -> get the existing name
-		File keyFile = getAlreadyProvenKeyFile(problem, statement, location);
-
+		File keyFile = null;
+		if (problem != null) {
+			keyFile = getAlreadyProvenKeyFile(problem, statement, location);
+		}
 
 		String statementKind = statement.eClass().getName();
 

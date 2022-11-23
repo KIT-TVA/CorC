@@ -171,8 +171,6 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 				for (int i = 0; i < variants.length; i++) {
 					genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
-					String configName = "";
-					for (String s : featureConfigs[i]) configName += s;
 					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true), formula, new FileUtil(uri.toPlatformString(true)), featureConfigs[i], i, KeYInteraction.ABSTRACT_PROOF_FULL);
 					List<CbCFormula> refinements = generateCbCFormulasForRefinements(variants[i], callingMethod);
 					List<JavaVariables> refinementsVars = generateJavaVariablesForRefinements(variants[i], callingMethod);

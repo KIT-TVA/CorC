@@ -121,6 +121,10 @@ public class VerifyVariantWithInnerLoopsPartialProofBegin extends MyAbstractAsyn
 					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 					for (int i = 0; i < featureConfigs.length; i++) {
 						prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), featureConfigs[i], i, KeYInteraction.ABSTRACT_PROOF_BEGIN);
+						if (i > 0) {
+							genCode.printConfigToConsole(featureConfigs[i], true);
+							continue;
+						}
 						genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
 						String configName = "";
 						for (String s : featureConfigs[i]) configName += s;

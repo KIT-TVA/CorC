@@ -331,7 +331,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 						EList<Condition> guards = selectionStatement.getGuards();
 						Condition preCondition = selectionStatement.getParent().getPreCondition();
 						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), featureConfigs[configNum], configNum, KeYInteraction.ABSTRACT_PROOF_FULL);
-						provePre = prove.provePreSelWithKey(refinements, guards, preCondition);
+						provePre = prove.provePreSelWithKey(refinements, guards, preCondition, callingClass);
 					}
 				}
 				if (configs == configNum) selectionStatement.setPreProve(provePre);
@@ -381,11 +381,11 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			}
 			
 			if (!provePre) {
-				provePre = prove.proveCImpliesCWithKey(refinements, preCondition, invariant);
+				provePre = prove.proveCImpliesCWithKey(refinements, preCondition, invariant, callingClass);
 				if (configs == configNum) repStatement.setPreProven(provePre);
 			}
 			if (!provePost) {
-				provePost = prove.provePostRepetitionWithKey(refinements, invariant, guard, postCondition);
+				provePost = prove.provePostRepetitionWithKey(refinements, invariant, guard, postCondition, callingClass);
 				if (configs == configNum) repStatement.setPostProven(provePost);
 			}
 			if (!proveVar) {
