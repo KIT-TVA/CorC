@@ -40,18 +40,18 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getCbcDiagramURI <em>Cbc Diagram URI</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getName <em>Name</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getAssignable <em>Assignable</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getCbcStartTriple <em>Cbc Start Triple</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getParentClass <em>Parent Class</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getPrecondition <em>Precondition</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getPostcondition <em>Postcondition</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getReturnType <em>Return Type</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getParameters <em>Parameters</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getVisibility <em>Visibility</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#getSignature <em>Signature</em>}</li>
- *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.MethodImpl#isIsStatic <em>Is Static</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl#getCbcDiagramURI <em>Cbc Diagram URI</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl#getName <em>Name</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl#getAssignable <em>Assignable</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl#getCbcStartTriple <em>Cbc Start Triple</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl#getParentClass <em>Parent Class</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl#getPrecondition <em>Precondition</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl#getPostcondition <em>Postcondition</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl#getReturnType <em>Return Type</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl#getVisibility <em>Visibility</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl#getSignature <em>Signature</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl#isIsStatic <em>Is Static</em>}</li>
  * </ul>
  *
  * @generated
@@ -246,8 +246,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		String oldCbcDiagramURI = cbcDiagramURI;
 		cbcDiagramURI = newCbcDiagramURI;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__CBC_DIAGRAM_URI,
-					oldCbcDiagramURI, cbcDiagramURI));
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__CBC_DIAGRAM_URI, oldCbcDiagramURI, cbcDiagramURI));
 	}
 
 	/**
@@ -293,8 +292,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		String oldAssignable = assignable;
 		assignable = newAssignable;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__ASSIGNABLE, oldAssignable,
-					assignable));
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__ASSIGNABLE, oldAssignable, assignable));
 	}
 
 	/**
@@ -305,12 +303,11 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	@Override
 	public CbCFormula getCbcStartTriple() {
 		if (cbcStartTriple != null && cbcStartTriple.eIsProxy()) {
-			InternalEObject oldCbcStartTriple = (InternalEObject) cbcStartTriple;
-			cbcStartTriple = (CbCFormula) eResolveProxy(oldCbcStartTriple);
+			InternalEObject oldCbcStartTriple = (InternalEObject)cbcStartTriple;
+			cbcStartTriple = (CbCFormula)eResolveProxy(oldCbcStartTriple);
 			if (cbcStartTriple != oldCbcStartTriple) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, CbcclassPackage.METHOD__CBC_START_TRIPLE,
-							oldCbcStartTriple, cbcStartTriple));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, CbcclassPackage.METHOD__CBC_START_TRIPLE, oldCbcStartTriple, cbcStartTriple));
 			}
 		}
 		return cbcStartTriple;
@@ -334,12 +331,8 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		CbCFormula oldCbcStartTriple = cbcStartTriple;
 		cbcStartTriple = newCbcStartTriple;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-					CbcclassPackage.METHOD__CBC_START_TRIPLE, oldCbcStartTriple, newCbcStartTriple);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__CBC_START_TRIPLE, oldCbcStartTriple, newCbcStartTriple);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -354,17 +347,14 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		if (newCbcStartTriple != cbcStartTriple) {
 			NotificationChain msgs = null;
 			if (cbcStartTriple != null)
-				msgs = ((InternalEObject) cbcStartTriple).eInverseRemove(this, CbcmodelPackage.CB_CFORMULA__METHOD_OBJ,
-						CbCFormula.class, msgs);
+				msgs = ((InternalEObject)cbcStartTriple).eInverseRemove(this, CbcmodelPackage.CB_CFORMULA__METHOD_OBJ, CbCFormula.class, msgs);
 			if (newCbcStartTriple != null)
-				msgs = ((InternalEObject) newCbcStartTriple).eInverseAdd(this, CbcmodelPackage.CB_CFORMULA__METHOD_OBJ,
-						CbCFormula.class, msgs);
+				msgs = ((InternalEObject)newCbcStartTriple).eInverseAdd(this, CbcmodelPackage.CB_CFORMULA__METHOD_OBJ, CbCFormula.class, msgs);
 			msgs = basicSetCbcStartTriple(newCbcStartTriple, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__CBC_START_TRIPLE,
-					newCbcStartTriple, newCbcStartTriple));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__CBC_START_TRIPLE, newCbcStartTriple, newCbcStartTriple));
 	}
 
 	/**
@@ -374,9 +364,8 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 */
 	@Override
 	public ModelClass getParentClass() {
-		if (eContainerFeatureID() != CbcclassPackage.METHOD__PARENT_CLASS)
-			return null;
-		return (ModelClass) eInternalContainer();
+		if (eContainerFeatureID() != CbcclassPackage.METHOD__PARENT_CLASS) return null;
+		return (ModelClass)eInternalContainer();
 	}
 
 	/**
@@ -385,7 +374,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 * @generated
 	 */
 	public NotificationChain basicSetParentClass(ModelClass newParentClass, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject) newParentClass, CbcclassPackage.METHOD__PARENT_CLASS, msgs);
+		msgs = eBasicSetContainer((InternalEObject)newParentClass, CbcclassPackage.METHOD__PARENT_CLASS, msgs);
 		return msgs;
 	}
 
@@ -396,22 +385,19 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 */
 	@Override
 	public void setParentClass(ModelClass newParentClass) {
-		if (newParentClass != eInternalContainer()
-				|| (eContainerFeatureID() != CbcclassPackage.METHOD__PARENT_CLASS && newParentClass != null)) {
+		if (newParentClass != eInternalContainer() || (eContainerFeatureID() != CbcclassPackage.METHOD__PARENT_CLASS && newParentClass != null)) {
 			if (EcoreUtil.isAncestor(this, newParentClass))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newParentClass != null)
-				msgs = ((InternalEObject) newParentClass).eInverseAdd(this, CbcclassPackage.MODEL_CLASS__METHODS,
-						ModelClass.class, msgs);
+				msgs = ((InternalEObject)newParentClass).eInverseAdd(this, CbcclassPackage.MODEL_CLASS__METHODS, ModelClass.class, msgs);
 			msgs = basicSetParentClass(newParentClass, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__PARENT_CLASS, newParentClass,
-					newParentClass));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__PARENT_CLASS, newParentClass, newParentClass));
 	}
 
 	/**
@@ -422,9 +408,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	@Override
 	public Condition getPrecondition() {
 		Condition precondition = basicGetPrecondition();
-		return precondition != null && precondition.eIsProxy()
-				? (Condition) eResolveProxy((InternalEObject) precondition)
-				: precondition;
+		return precondition != null && precondition.eIsProxy() ? (Condition)eResolveProxy((InternalEObject)precondition) : precondition;
 	}
 
 	/**
@@ -456,9 +440,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	@Override
 	public Condition getPostcondition() {
 		Condition postcondition = basicGetPostcondition();
-		return postcondition != null && postcondition.eIsProxy()
-				? (Condition) eResolveProxy((InternalEObject) postcondition)
-				: postcondition;
+		return postcondition != null && postcondition.eIsProxy() ? (Condition)eResolveProxy((InternalEObject)postcondition) : postcondition;
 	}
 
 	/**
@@ -502,8 +484,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		String oldReturnType = returnType;
 		returnType = newReturnType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__RETURN_TYPE, oldReturnType,
-					returnType));
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__RETURN_TYPE, oldReturnType, returnType));
 	}
 
 	/**
@@ -514,8 +495,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	@Override
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
-			parameters = new EObjectContainmentEList<Parameter>(Parameter.class, this,
-					CbcclassPackage.METHOD__PARAMETERS);
+			parameters = new EObjectContainmentEList<Parameter>(Parameter.class, this, CbcclassPackage.METHOD__PARAMETERS);
 		}
 		return parameters;
 	}
@@ -540,8 +520,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		Visibility oldVisibility = visibility;
 		visibility = newVisibility == null ? VISIBILITY_EDEFAULT : newVisibility;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__VISIBILITY, oldVisibility,
-					visibility));
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__VISIBILITY, oldVisibility, visibility));
 	}
 
 	/**
@@ -678,8 +657,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 		boolean oldIsStatic = isStatic;
 		isStatic = newIsStatic;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__IS_STATIC, oldIsStatic,
-					isStatic));
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__IS_STATIC, oldIsStatic, isStatic));
 	}
 
 	/**
@@ -690,15 +668,14 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case CbcclassPackage.METHOD__CBC_START_TRIPLE:
-			if (cbcStartTriple != null)
-				msgs = ((InternalEObject) cbcStartTriple).eInverseRemove(this, CbcmodelPackage.CB_CFORMULA__METHOD_OBJ,
-						CbCFormula.class, msgs);
-			return basicSetCbcStartTriple((CbCFormula) otherEnd, msgs);
-		case CbcclassPackage.METHOD__PARENT_CLASS:
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			return basicSetParentClass((ModelClass) otherEnd, msgs);
+			case CbcclassPackage.METHOD__CBC_START_TRIPLE:
+				if (cbcStartTriple != null)
+					msgs = ((InternalEObject)cbcStartTriple).eInverseRemove(this, CbcmodelPackage.CB_CFORMULA__METHOD_OBJ, CbCFormula.class, msgs);
+				return basicSetCbcStartTriple((CbCFormula)otherEnd, msgs);
+			case CbcclassPackage.METHOD__PARENT_CLASS:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetParentClass((ModelClass)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -711,12 +688,12 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case CbcclassPackage.METHOD__CBC_START_TRIPLE:
-			return basicSetCbcStartTriple(null, msgs);
-		case CbcclassPackage.METHOD__PARENT_CLASS:
-			return basicSetParentClass(null, msgs);
-		case CbcclassPackage.METHOD__PARAMETERS:
-			return ((InternalEList<?>) getParameters()).basicRemove(otherEnd, msgs);
+			case CbcclassPackage.METHOD__CBC_START_TRIPLE:
+				return basicSetCbcStartTriple(null, msgs);
+			case CbcclassPackage.METHOD__PARENT_CLASS:
+				return basicSetParentClass(null, msgs);
+			case CbcclassPackage.METHOD__PARAMETERS:
+				return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -729,9 +706,8 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-		case CbcclassPackage.METHOD__PARENT_CLASS:
-			return eInternalContainer().eInverseRemove(this, CbcclassPackage.MODEL_CLASS__METHODS, ModelClass.class,
-					msgs);
+			case CbcclassPackage.METHOD__PARENT_CLASS:
+				return eInternalContainer().eInverseRemove(this, CbcclassPackage.MODEL_CLASS__METHODS, ModelClass.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -744,36 +720,33 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case CbcclassPackage.METHOD__CBC_DIAGRAM_URI:
-			return getCbcDiagramURI();
-		case CbcclassPackage.METHOD__NAME:
-			return getName();
-		case CbcclassPackage.METHOD__ASSIGNABLE:
-			return getAssignable();
-		case CbcclassPackage.METHOD__CBC_START_TRIPLE:
-			if (resolve)
-				return getCbcStartTriple();
-			return basicGetCbcStartTriple();
-		case CbcclassPackage.METHOD__PARENT_CLASS:
-			return getParentClass();
-		case CbcclassPackage.METHOD__PRECONDITION:
-			if (resolve)
-				return getPrecondition();
-			return basicGetPrecondition();
-		case CbcclassPackage.METHOD__POSTCONDITION:
-			if (resolve)
-				return getPostcondition();
-			return basicGetPostcondition();
-		case CbcclassPackage.METHOD__RETURN_TYPE:
-			return getReturnType();
-		case CbcclassPackage.METHOD__PARAMETERS:
-			return getParameters();
-		case CbcclassPackage.METHOD__VISIBILITY:
-			return getVisibility();
-		case CbcclassPackage.METHOD__SIGNATURE:
-			return getSignature();
-		case CbcclassPackage.METHOD__IS_STATIC:
-			return isIsStatic();
+			case CbcclassPackage.METHOD__CBC_DIAGRAM_URI:
+				return getCbcDiagramURI();
+			case CbcclassPackage.METHOD__NAME:
+				return getName();
+			case CbcclassPackage.METHOD__ASSIGNABLE:
+				return getAssignable();
+			case CbcclassPackage.METHOD__CBC_START_TRIPLE:
+				if (resolve) return getCbcStartTriple();
+				return basicGetCbcStartTriple();
+			case CbcclassPackage.METHOD__PARENT_CLASS:
+				return getParentClass();
+			case CbcclassPackage.METHOD__PRECONDITION:
+				if (resolve) return getPrecondition();
+				return basicGetPrecondition();
+			case CbcclassPackage.METHOD__POSTCONDITION:
+				if (resolve) return getPostcondition();
+				return basicGetPostcondition();
+			case CbcclassPackage.METHOD__RETURN_TYPE:
+				return getReturnType();
+			case CbcclassPackage.METHOD__PARAMETERS:
+				return getParameters();
+			case CbcclassPackage.METHOD__VISIBILITY:
+				return getVisibility();
+			case CbcclassPackage.METHOD__SIGNATURE:
+				return getSignature();
+			case CbcclassPackage.METHOD__IS_STATIC:
+				return isIsStatic();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -787,43 +760,43 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case CbcclassPackage.METHOD__CBC_DIAGRAM_URI:
-			setCbcDiagramURI((String) newValue);
-			return;
-		case CbcclassPackage.METHOD__NAME:
-			setName((String) newValue);
-			return;
-		case CbcclassPackage.METHOD__ASSIGNABLE:
-			setAssignable((String) newValue);
-			return;
-		case CbcclassPackage.METHOD__CBC_START_TRIPLE:
-			setCbcStartTriple((CbCFormula) newValue);
-			return;
-		case CbcclassPackage.METHOD__PARENT_CLASS:
-			setParentClass((ModelClass) newValue);
-			return;
-		case CbcclassPackage.METHOD__PRECONDITION:
-			setPrecondition((Condition) newValue);
-			return;
-		case CbcclassPackage.METHOD__POSTCONDITION:
-			setPostcondition((Condition) newValue);
-			return;
-		case CbcclassPackage.METHOD__RETURN_TYPE:
-			setReturnType((String) newValue);
-			return;
-		case CbcclassPackage.METHOD__PARAMETERS:
-			getParameters().clear();
-			getParameters().addAll((Collection<? extends Parameter>) newValue);
-			return;
-		case CbcclassPackage.METHOD__VISIBILITY:
-			setVisibility((Visibility) newValue);
-			return;
-		case CbcclassPackage.METHOD__SIGNATURE:
-			setSignature((String) newValue);
-			return;
-		case CbcclassPackage.METHOD__IS_STATIC:
-			setIsStatic((Boolean) newValue);
-			return;
+			case CbcclassPackage.METHOD__CBC_DIAGRAM_URI:
+				setCbcDiagramURI((String)newValue);
+				return;
+			case CbcclassPackage.METHOD__NAME:
+				setName((String)newValue);
+				return;
+			case CbcclassPackage.METHOD__ASSIGNABLE:
+				setAssignable((String)newValue);
+				return;
+			case CbcclassPackage.METHOD__CBC_START_TRIPLE:
+				setCbcStartTriple((CbCFormula)newValue);
+				return;
+			case CbcclassPackage.METHOD__PARENT_CLASS:
+				setParentClass((ModelClass)newValue);
+				return;
+			case CbcclassPackage.METHOD__PRECONDITION:
+				setPrecondition((Condition)newValue);
+				return;
+			case CbcclassPackage.METHOD__POSTCONDITION:
+				setPostcondition((Condition)newValue);
+				return;
+			case CbcclassPackage.METHOD__RETURN_TYPE:
+				setReturnType((String)newValue);
+				return;
+			case CbcclassPackage.METHOD__PARAMETERS:
+				getParameters().clear();
+				getParameters().addAll((Collection<? extends Parameter>)newValue);
+				return;
+			case CbcclassPackage.METHOD__VISIBILITY:
+				setVisibility((Visibility)newValue);
+				return;
+			case CbcclassPackage.METHOD__SIGNATURE:
+				setSignature((String)newValue);
+				return;
+			case CbcclassPackage.METHOD__IS_STATIC:
+				setIsStatic((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -836,42 +809,42 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case CbcclassPackage.METHOD__CBC_DIAGRAM_URI:
-			setCbcDiagramURI(CBC_DIAGRAM_URI_EDEFAULT);
-			return;
-		case CbcclassPackage.METHOD__NAME:
-			setName(NAME_EDEFAULT);
-			return;
-		case CbcclassPackage.METHOD__ASSIGNABLE:
-			setAssignable(ASSIGNABLE_EDEFAULT);
-			return;
-		case CbcclassPackage.METHOD__CBC_START_TRIPLE:
-			setCbcStartTriple((CbCFormula) null);
-			return;
-		case CbcclassPackage.METHOD__PARENT_CLASS:
-			setParentClass((ModelClass) null);
-			return;
-		case CbcclassPackage.METHOD__PRECONDITION:
-			setPrecondition((Condition) null);
-			return;
-		case CbcclassPackage.METHOD__POSTCONDITION:
-			setPostcondition((Condition) null);
-			return;
-		case CbcclassPackage.METHOD__RETURN_TYPE:
-			setReturnType(RETURN_TYPE_EDEFAULT);
-			return;
-		case CbcclassPackage.METHOD__PARAMETERS:
-			getParameters().clear();
-			return;
-		case CbcclassPackage.METHOD__VISIBILITY:
-			setVisibility(VISIBILITY_EDEFAULT);
-			return;
-		case CbcclassPackage.METHOD__SIGNATURE:
-			setSignature(SIGNATURE_EDEFAULT);
-			return;
-		case CbcclassPackage.METHOD__IS_STATIC:
-			setIsStatic(IS_STATIC_EDEFAULT);
-			return;
+			case CbcclassPackage.METHOD__CBC_DIAGRAM_URI:
+				setCbcDiagramURI(CBC_DIAGRAM_URI_EDEFAULT);
+				return;
+			case CbcclassPackage.METHOD__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case CbcclassPackage.METHOD__ASSIGNABLE:
+				setAssignable(ASSIGNABLE_EDEFAULT);
+				return;
+			case CbcclassPackage.METHOD__CBC_START_TRIPLE:
+				setCbcStartTriple((CbCFormula)null);
+				return;
+			case CbcclassPackage.METHOD__PARENT_CLASS:
+				setParentClass((ModelClass)null);
+				return;
+			case CbcclassPackage.METHOD__PRECONDITION:
+				setPrecondition((Condition)null);
+				return;
+			case CbcclassPackage.METHOD__POSTCONDITION:
+				setPostcondition((Condition)null);
+				return;
+			case CbcclassPackage.METHOD__RETURN_TYPE:
+				setReturnType(RETURN_TYPE_EDEFAULT);
+				return;
+			case CbcclassPackage.METHOD__PARAMETERS:
+				getParameters().clear();
+				return;
+			case CbcclassPackage.METHOD__VISIBILITY:
+				setVisibility(VISIBILITY_EDEFAULT);
+				return;
+			case CbcclassPackage.METHOD__SIGNATURE:
+				setSignature(SIGNATURE_EDEFAULT);
+				return;
+			case CbcclassPackage.METHOD__IS_STATIC:
+				setIsStatic(IS_STATIC_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -884,31 +857,30 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case CbcclassPackage.METHOD__CBC_DIAGRAM_URI:
-			return CBC_DIAGRAM_URI_EDEFAULT == null ? cbcDiagramURI != null
-					: !CBC_DIAGRAM_URI_EDEFAULT.equals(cbcDiagramURI);
-		case CbcclassPackage.METHOD__NAME:
-			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		case CbcclassPackage.METHOD__ASSIGNABLE:
-			return ASSIGNABLE_EDEFAULT == null ? assignable != null : !ASSIGNABLE_EDEFAULT.equals(assignable);
-		case CbcclassPackage.METHOD__CBC_START_TRIPLE:
-			return cbcStartTriple != null;
-		case CbcclassPackage.METHOD__PARENT_CLASS:
-			return getParentClass() != null;
-		case CbcclassPackage.METHOD__PRECONDITION:
-			return basicGetPrecondition() != null;
-		case CbcclassPackage.METHOD__POSTCONDITION:
-			return basicGetPostcondition() != null;
-		case CbcclassPackage.METHOD__RETURN_TYPE:
-			return RETURN_TYPE_EDEFAULT == null ? returnType != null : !RETURN_TYPE_EDEFAULT.equals(returnType);
-		case CbcclassPackage.METHOD__PARAMETERS:
-			return parameters != null && !parameters.isEmpty();
-		case CbcclassPackage.METHOD__VISIBILITY:
-			return visibility != VISIBILITY_EDEFAULT;
-		case CbcclassPackage.METHOD__SIGNATURE:
-			return SIGNATURE_EDEFAULT == null ? getSignature() != null : !SIGNATURE_EDEFAULT.equals(getSignature());
-		case CbcclassPackage.METHOD__IS_STATIC:
-			return isStatic != IS_STATIC_EDEFAULT;
+			case CbcclassPackage.METHOD__CBC_DIAGRAM_URI:
+				return CBC_DIAGRAM_URI_EDEFAULT == null ? cbcDiagramURI != null : !CBC_DIAGRAM_URI_EDEFAULT.equals(cbcDiagramURI);
+			case CbcclassPackage.METHOD__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case CbcclassPackage.METHOD__ASSIGNABLE:
+				return ASSIGNABLE_EDEFAULT == null ? assignable != null : !ASSIGNABLE_EDEFAULT.equals(assignable);
+			case CbcclassPackage.METHOD__CBC_START_TRIPLE:
+				return cbcStartTriple != null;
+			case CbcclassPackage.METHOD__PARENT_CLASS:
+				return getParentClass() != null;
+			case CbcclassPackage.METHOD__PRECONDITION:
+				return basicGetPrecondition() != null;
+			case CbcclassPackage.METHOD__POSTCONDITION:
+				return basicGetPostcondition() != null;
+			case CbcclassPackage.METHOD__RETURN_TYPE:
+				return RETURN_TYPE_EDEFAULT == null ? returnType != null : !RETURN_TYPE_EDEFAULT.equals(returnType);
+			case CbcclassPackage.METHOD__PARAMETERS:
+				return parameters != null && !parameters.isEmpty();
+			case CbcclassPackage.METHOD__VISIBILITY:
+				return visibility != VISIBILITY_EDEFAULT;
+			case CbcclassPackage.METHOD__SIGNATURE:
+				return SIGNATURE_EDEFAULT == null ? getSignature() != null : !SIGNATURE_EDEFAULT.equals(getSignature());
+			case CbcclassPackage.METHOD__IS_STATIC:
+				return isStatic != IS_STATIC_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -920,8 +892,7 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (cbcDiagramURI: ");

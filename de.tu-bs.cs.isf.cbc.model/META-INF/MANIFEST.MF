@@ -7,7 +7,7 @@ Bundle-Version: 0.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: de.tu_bs.cs.isf.cbc.cbcclass,
  de.tu_bs.cs.isf.cbc.cbcclass.impl,
  de.tu_bs.cs.isf.cbc.cbcclass.util,
