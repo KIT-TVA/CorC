@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Wizards
+Bundle-SymbolicName: de.tu-bs.cs.isf.wizards;singleton:=true
+Bundle-Version: 1.0.0.202211291052
+Automatic-Module-Name: de.tu.bs.cs.isf.wizards
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Import-Package: com.google.common.io;version="2.2.0",de.tu_bs.cs.isf.cbc
+ .cbcmodel,org.apache.xmlgraphics.fonts;version="2.6.0",org.eclipse.core
+ .resources,org.eclipse.core.runtime;version="3.5.0",org.eclipse.e4.ui.c
+ ss.swt,org.eclipse.emf.ecore.resource,org.eclipse.emf.ecore.resource.im
+ pl,org.eclipse.graphiti.features.context;version="0.13.2",org.eclipse.g
+ raphiti.mm.pictograms;version="0.13.2",org.eclipse.graphiti.services;ve
+ rsion="0.13.2",org.eclipse.jdt.core,org.eclipse.jface.dialogs,org.eclip
+ se.jface.viewers,org.eclipse.jface.wizard,org.osgi.framework;version="1
+ .8.0"
+Export-Package: de.tu_bs.cs.isf.corc.exampleWizard,de.tu_bs.cs.isf.corc.
+ newFileWizard
+Require-Bundle: org.eclipse.emf.common;bundle-version="2.12.0",org.eclip
+ se.jface,org.eclipse.ui.workbench
+
