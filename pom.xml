@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.tu-bs.cbc</groupId>
+  <artifactId>CorC-feat-autobuild_final</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <properties>
+    <tycho.version>2.7.5</tycho.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <eclipse-repo.url>https://download.eclipse.org/releases/latest</eclipse-repo.url>
+  </properties>
+
+  <repositories>
+  	<repository>
+    	<id>eclipse-release</id>
+	    <url>${eclipse-repo.url}</url>
+	    <layout>p2</layout>
+  	</repository>
+  	<repository>
+	    <id>key</id>
+	    <url>https://formal.kastel.kit.edu/key/download/releases/2.6/eclipse/</url>
+	    <layout>p2</layout>
+  	</repository>
+  	<repository>
+	    <id>graphiti</id>
+	    <url>https://download.eclipse.org/graphiti/updates/0.18.0/</url>
+	    <layout>p2</layout>
+  	</repository>
+  	<repository>
+    	<id>emftext</id>
+	    <url>http://update.emftext.org/release/</url>
+	    <layout>p2</layout>
+  	</repository>
+  	<repository>
+	    <id>featureIDE</id>
+	    <url>http://featureide.cs.ovgu.de/update/v3/</url>
+	    <layout>p2</layout>
+  	</repository>
+  	<repository>
+	    <id>mylyn</id>
+	    <url>https://download.eclipse.org/mylyn/snapshots/weekly/</url>
+	    <layout>p2</layout>
+  	</repository>
+  	<repository>
+	    <id>jamopp</id>
+	    <url>http://update.jamopp.org/release/</url>
+	    <layout>p2</layout>
+  	</repository>
+  	<repository>
+	  	<id>justj</id>
+	  	<url>https://download.eclipse.org/justj/jres/17/updates/release/latest/</url>
+	  	<layout>p2</layout>
+  	</repository>
+  </repositories>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-p2-director-plugin</artifactId>
+            <version>${tycho.version}</version>
+          </plugin>
+
+          <plugin>
+            <groupId>org.eclipse.tycho.extras</groupId>
+            <artifactId>tycho-eclipserun-plugin</artifactId>
+            <version>3.0.0</version>
+          </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>2.7.5</version>
+        <extensions>true</extensions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.eclipse.tycho.extras</groupId>
+        <artifactId>tycho-eclipserun-plugin</artifactId>
+        <version>3.0.0</version>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-packaging-plugin</artifactId>
+          <version>${tycho.version}</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <id>package-feature</id>
+              <configuration>
+                <finalName>${project.artifactId}_${unqualifiedVersion}.${buildQualifier}</finalName>
+            </configuration>
+        </execution>
+      </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+        <!-- Optional set the Java version you are using-->
+        <!--<executionEnvironment>JavaSE-17</executionEnvironment>-->
+          <environments>
+              <environment>
+                <os>linux</os>
+                <ws>gtk</ws>
+                <arch>x86_64</arch>
+              </environment>
+              <environment>
+                <os>win32</os>
+                <ws>win32</ws>
+                <arch>x86_64</arch>
+              </environment>
+              <environment>
+              <os>macosx</os>
+                <ws>cocoa</ws>
+                <arch>x86_64</arch>
+              </environment>
+          </environments>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <modules>
+    <module>de.tu-bs.cs.isf.cbc.model</module>
+    <module>de.tu-bs.cs.isf.cbc.tool</module>
+    <module>de.tu-bs.cs.isf.cbc.util</module>
+    <module>de.tu-bs.cs.isf.cbcclass.tool</module>
+    <module>de.tu-bs.cs.isf.wizards</module>
+    <module>de.tu_bs.cs.isf.cbc.statistics</module>
+    <module>de.tu_bs.cs.isf.cbc.statistics.ui</module>
+    <module>de.tu_bs.cs.isf.commands.toolbar</module>
+  </modules>
+</project>
