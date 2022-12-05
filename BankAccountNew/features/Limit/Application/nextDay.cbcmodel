@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="nextDay" proven="true" compositionTechnique="EXPLICIT_CONTRACTING" className="Application" methodName="nextDay">
+    <statement name="statement" id="e62758a4-8f15-4371-96f1-3d65e8a9ba23">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="e1f55470-4e59-45ab-83b5-100fceb7e5c5">
+        <firstStatement name="statement1" id="ebaddd26-654d-45e0-a41a-8dcd3f2e76a4">
+          <refinement xsi:type="cbcmodel:OriginalStatement" name="original();" proven="true" id="f50ab6d1-f29d-4f28-8a96-c36885954d5b">
+            <postCondition name="\original_post"/>
+            <preCondition name="\original_pre"/>
+          </refinement>
+          <postCondition name="\original_post"/>
+          <preCondition name="\original_pre"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="7d5ee713-3f5e-4fd9-892c-a7e32e89482b">
+          <refinement name="a.withdraw = 0;" proven="true" id="e8bf2a8d-121f-41fd-b3f1-4a6b54e73d55">
+            <postCondition name="a.withdraw = 0"/>
+            <preCondition name="\original_post"/>
+          </refinement>
+          <postCondition name="a.withdraw = 0"/>
+          <preCondition name="\original_post"/>
+        </secondStatement>
+        <intermediateCondition name="\original_post"/>
+      </refinement>
+      <postCondition name="a.withdraw = 0"/>
+      <preCondition name="\original_pre"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Application.cbcclass#//@methods.0"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

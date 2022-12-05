@@ -1,0 +1,18 @@
++-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+
+\predicates {
+	limitNotExceeded(int withdraw, int limit); //daily:DailyLimit && Limit
+	\replacewith (withdraw < limit)
+	limitNotExceeded(int withdraw, int limit); //hourly:HourlyLimit && Limit
+	\replacewith (withdraw < limit/24)
+	limitExceeded(int withdraw, int limit); //daily:DailyLimit && Limit
+	\replacewith (withdraw >= limit)
+	limitExceeded(int withdraw, int limit); //hourly:HourlyLimit && Limit
+	\replacewith (withdraw >= limit/24)
+	balanceChangedResult(boolean res, int newBalance, int oldBalance, int amount); //default:
+	\replacewith ((res = FALSE -> newBalance = oldBalance) & (res = TRUE -> newBalance = oldBalance + amount))
+	withdrawChangedResult(boolean res, int newWithdraw, int oldWithdraw); //default:true
+	\replacewith ((res = FALSE -> (newWithdraw = oldWithdraw)) & (res = TRUE -> (newWithdraw <= oldWithdraw)))
+	withdrawChangedUndoResult(boolean res, int newWithdraw, int oldWithdraw); //default:true
+	\replacewith ((res = FALSE -> newWithdraw = oldWithdraw) &  (res = TRUE -> newWithdraw >= oldWithdraw))
+}
++-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+
