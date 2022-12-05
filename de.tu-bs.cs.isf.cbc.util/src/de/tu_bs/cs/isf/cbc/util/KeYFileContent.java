@@ -537,12 +537,12 @@ public class KeYFileContent {
 				 * Class.varName => we got the class name! But no VarType
 				 */
 				// EDIT: counterForVarNaming didn't exist until VarCorC OO, Hashmap needs more detailed key, as only varname_oldVal may not be unique
-				// EDIT2: disabled numbering due to partial proofs
-				String varNameWithOldSuffix = var.substring(var.lastIndexOf(" ") + 1) /*+ counterForVarNaming*/ + OLD_VARS_SUFFIX;
+				// EDIT2: numbering has to be disabled to support using multiple predicates with same variable in \\old
+				String varNameWithOldSuffix = var.substring(var.lastIndexOf(" ") + 1) + counterForVarNaming + OLD_VARS_SUFFIX;
 				// Add new modified replacements to map.
 //				Console.println("Adding new Replacement: (" + varNameWithOldSuffix + ", " + replacements.get(varUsedInOldContext) + ")");
 				newReplacements.put(varNameWithOldSuffix, replacements.get(varUsedInOldContext));
-				programVariables += var.replace("static", "").replace(" non-null", "") /*+ counterForVarNaming*/ + OLD_VARS_SUFFIX + "; ";
+				programVariables += var.replace("static", "").replace(" non-null", "") + counterForVarNaming + OLD_VARS_SUFFIX + "; ";
 				if (!pre.contains("\\old(" + varUsedInOldContext + ")"))
 					assignment += "||" + varNameWithOldSuffix + ":=" + varUsedInOldContext;
 				// if variable is an Array add <created> condition for key

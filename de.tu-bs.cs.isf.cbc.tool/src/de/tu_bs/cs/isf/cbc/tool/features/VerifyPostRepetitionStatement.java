@@ -69,6 +69,7 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
+		long startTime = System.nanoTime();
 		monitor.beginTask("Verify", IProgressMonitor.UNKNOWN);
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
@@ -144,6 +145,9 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 				updatePictogramElement(((Shape)pes[0]).getContainer());
 			}
 		}
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime) / 1000000;
+		Console.println("--------------- Verification completed --------------- " + duration + "ms");
 		monitor.done();
 	}
 }

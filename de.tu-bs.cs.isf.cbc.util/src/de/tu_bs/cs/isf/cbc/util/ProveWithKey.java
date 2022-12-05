@@ -350,7 +350,7 @@ public class ProveWithKey {
 	}
 
 	List<String> composeModifiables(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, List<String> modifiables,	CompositionTechnique compTechnique, boolean includeFormulaModifiable) {
-		if (refinements != null && refinements.size() > 0) {
+		if (refinements != null && refinements.size() > 0 && refinementsVars != null && refinementsVars.size() > 0) {
 			for (int i = 0; i < refinements.size(); i++) {
 				if (!includeFormulaModifiable) {
 					compTechnique = refinements.get(i).getCompositionTechnique();
@@ -467,7 +467,7 @@ public class ProveWithKey {
 	}
 
 	public void generateComposedClass(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, String callingMethod, String varM, String callingClass, String callingFeature) {
-		boolean originalNecessary = refinementsOriginal != null;
+		boolean originalNecessary = refinementsOriginal != null && refinementsOriginal.size() > 0;
 		int round = 0;
 		String className = varM.equals("") ? callingClass : varM.split("\\.")[0];
 		String methodName = varM.equals("") ? ("original_" + callingMethod) : varM.split("\\.")[1].toLowerCase();
@@ -633,13 +633,13 @@ public class ProveWithKey {
 
 			//content.setPreFromCondition(preCondition);
 			//content.setPostFromCondition(postCondition);
+			JavaVariable returnVariable = content.readVariables(vars);
 			if (refinements != null && refinements.size() > 0 && formula.getCompositionTechnique().equals(CompositionTechnique.EXPLICIT_CONTRACTING)) {
-				JavaVariable returnVariable = content.readVariables(vars);
 				preCondition = composeContractForCbCDiagram(formula.getCompositionTechnique(), refinements, preCondition, Parser.KEYWORD_JML_PRE, returnVariable);
 				postCondition = composeContractForCbCDiagram(formula.getCompositionTechnique(), refinements, postCondition, Parser.KEYWORD_JML_POST, returnVariable);
 			}
-			content.setPreFromCondition(preCondition + applyLiskovInheritance(preCondition, Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre"));
-			content.setPostFromCondition(postCondition + applyLiskovInheritance(postCondition, Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName()), "post"));
+			content.setPreFromCondition(resolveResultKeyword(preCondition, returnVariable) + applyLiskovInheritance(preCondition, Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre"));
+			content.setPostFromCondition(resolveResultKeyword(postCondition, returnVariable) + applyLiskovInheritance(postCondition, Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName()), "post"));
 			content.rename(renaming);
 			content.replaceThisWithSelf();
 			content.addSelfForFields(vars);
@@ -812,9 +812,9 @@ public class ProveWithKey {
 			Predicate currentP = new Predicate(p.getSignature(true));
 			for (int i = 0; i < p.definitions.size(); i++) {
 				PredicateDefinition pDef = p.definitions.get(i);
-				String expression = pDef.presenceCondition;
-				for (String feature : config) expression = expression.replaceAll(feature, "true");
-				if (expression.equals("") || evaluateFormula(expression.replaceAll("!true", "false").trim())) {
+				String expression = " " + pDef.presenceCondition + " ";
+				for (String feature : config) expression = expression.replaceAll(" " + feature + " ", " true ");
+				if (expression.trim().equals("") || evaluateFormula(expression.replaceAll("!true", "false").trim())) {
 					currentP.definitions.add(pDef);
 				}
 			}

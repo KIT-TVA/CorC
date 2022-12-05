@@ -314,9 +314,9 @@ public class ConstructCodeBlock {
 			Predicate currentP = new Predicate(p.getSignature(true));
 			for (int i = 0; i < p.definitions.size(); i++) {
 				PredicateDefinition pDef = p.definitions.get(i);
-				String expression = pDef.presenceCondition;
-				for (String feature : config) expression = expression.replaceAll(feature, "true");
-				if (expression.equals("") || evaluateFormula(expression.replaceAll("!true", "false").trim())) {
+				String expression = " " + pDef.presenceCondition + " ";
+				for (String feature : config) expression = expression.replaceAll(" " + feature + " ", " true ");
+				if (expression.trim().equals("") || evaluateFormula(expression.replaceAll("!true", "false").trim())) {
 					currentP.definitions.add(pDef);
 				}
 			}
@@ -619,7 +619,7 @@ public class ConstructCodeBlock {
 		if (!statement.getCommands().isEmpty()) {
 			String guard = statement.getGuards().get(0).getName();
 
-			guard = rewriteGuardToJavaCode(guard);
+			guard = rewriteGuardToJavaCode(applyPredicates(guard));
 
 			if(guard.trim().equals("TRUE"))
 				guard = "true";
@@ -655,7 +655,7 @@ public class ConstructCodeBlock {
 		for (int i = 1; i < statement.getCommands().size(); i++) {
 			String guard = statement.getGuards().get(i).getName();
 			// guard = guard.replaceAll("\\s=\\s", "==");
-			guard = rewriteGuardToJavaCode(guard);
+			guard = rewriteGuardToJavaCode(applyPredicates(guard));
 			
 			if(guard.trim().equals("TRUE"))
 				guard = "true";

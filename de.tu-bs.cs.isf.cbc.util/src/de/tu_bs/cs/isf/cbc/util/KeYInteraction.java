@@ -25,6 +25,7 @@ import de.uka.ilkd.key.control.ProofControl;
 import de.uka.ilkd.key.gui.MainWindow;
 import de.uka.ilkd.key.java.abstraction.KeYJavaType;
 import de.uka.ilkd.key.logic.op.IObserverFunction;
+import de.uka.ilkd.key.macros.CompleteAbstractProofMacro;
 import de.uka.ilkd.key.macros.ContinueAbstractProofMacro;
 import de.uka.ilkd.key.proof.Node;
 import de.uka.ilkd.key.proof.Proof;
@@ -127,18 +128,9 @@ public class KeYInteraction {
 				break;
 			case ABSTRACT_PROOF_COMPLETE:
 				Console.println("  Finish partial proof: " + location.getName());
-				if (monitor != null) {
-					env.getUi().getProofControl().startAutoMode(proof);
-					while (env.getUi().getProofControl().isInAutoMode()) {
-						if (monitor.isCanceled()) {
-							env.getUi().getProofControl().stopAndWaitAutoMode();
-							Console.println("  Proof is canceled.");
-						}
-					}
-				} else {
-					env.getUi().getProofControl().startAndWaitForAutoMode(proof);
-				}
-		        break;
+				proofControl.runMacro(proof.root(), new CompleteAbstractProofMacro(), null);
+		        proofControl.waitWhileAutoMode();		        
+				break;
 			}			
 
 			// Show proof result
@@ -149,9 +141,13 @@ public class KeYInteraction {
 				Node n = proof.root();
 				while(n.childrenIterator().hasNext()) {
 					n = n.childrenIterator().next();
-					System.out.println(n.serialNr() + n.name());
+					//System.out.println(n.serialNr() + n.name()); //TODO debug
 				}		
-				System.out.println("-----------------------");
+				//System.out.println("-----------------------");
+				//System.out.println("	Proof Type: " + proofType);
+				System.out.println("	Proof nodes: " + proof.countNodes());
+				System.out.println("time: " + proof.getAutoModeTime());
+				//System.out.println("-----------------------");
 				//DEBUG END
 				proof.saveToFile(location);
 				try {
@@ -159,7 +155,7 @@ public class KeYInteraction {
 					DataCollector collector = new DataCollector();
 					collector.collectCorcStatistics(proof, formula, statement, problem, uri);
 				} catch (RuntimeException e) {
-						Console.println("Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer.");	
+						//Console.println("Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer.");	
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

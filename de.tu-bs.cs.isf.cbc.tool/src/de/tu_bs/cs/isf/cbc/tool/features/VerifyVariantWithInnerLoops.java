@@ -70,6 +70,7 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
+		long startTime = System.nanoTime();
 		monitor.beginTask("Verify variant", IProgressMonitor.UNKNOWN);
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
@@ -152,6 +153,9 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 				updatePictogramElement(((Shape)pes[0]).getContainer());
 			}
 		}
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime) / 1000000;
+		Console.println("--------------- Verification completed --------------- " + duration + "ms");
 		monitor.done();
 	}
 }

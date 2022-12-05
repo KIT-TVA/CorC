@@ -309,7 +309,7 @@ public class PredicateManagementTypePageSPL extends WizardPage {
 	    new Label(groupConfig, SWT.NULL).setText("Presence condition:");
 	    Text presenceField = new Text(groupConfig, SWT.SINGLE | SWT.BORDER);
 	    presenceField.setLayoutData(gridData_label_presence);
-	    presenceField.setText(pDef.presenceCondition);
+	    presenceField.setText(pDef != null ? pDef.presenceCondition : "true");
 	    presenceField.setToolTipText("Provide logical formula expressing where this definition should be available.");
 	    
 		// COMPOSITE error/restore/save
@@ -588,7 +588,7 @@ public class PredicateManagementTypePageSPL extends WizardPage {
      	
      	StyledText text = new StyledText(shell, SWT.MULTI | SWT.BORDER | SWT.WRAP);
      	text.setText("---Available Predicates---\r\n"
-     			+ "Displays all predicates of the project the currently selected file is part of. Predicates can be added and deleted using the buttons above the list of predicates. The list displays the signature of the available predicates without the parameter's names. It is not possible to create duplicate predicates, even if the parameters differ.\r\n"
+     			+ "Displays all predicates of the project the currently selected file is part of. Predicates can be added and deleted using the buttons above the list of predicates. The list displays the signature of the available predicates without the parameter's names and the number of definitions. It is not possible to create duplicate predicates, even if the parameters differ.\r\n"
      			+ "\r\n"
      			+ "---Predicate Properties---\r\n"
      			+ "Enables the definition of predicates. For every predicate created, at least one definition has to be declared. New definitions can be added via the Add new tab. For every definition, the following fields have to be set:\r\n"
@@ -606,8 +606,8 @@ public class PredicateManagementTypePageSPL extends WizardPage {
         
      	StyleRange[] styles = new StyleRange[15];
      	                         //AvailablePreds, PredProps, AddnewBtn, Name, Sign, SignEx, Def,  forExist, old,  DefEx, AvailPred, AvailEx, Del,  Res,  Save
-     	int[] starts = new int[]  {0,              367,       543,       616,  801,  1136,   1189, 1438,     1570, 1724,  1757,      2021,    2070, 2267, 2371};
-     	int[] lengths = new int[] {26,             26,        7,         5,    10,   50,     11,   16,       4,    30,    26,        46,      18,   19,   16};
+     	int[] starts = new int[]  {0,              397,       573,       646,  831,  1166,   1219, 1468,     1600, 1754,  1787,      2051,    2100, 2297, 2401};
+     	int[] lengths = new int[] {26,             26,        7,         5,    10,   50,     11,   16,       4,    30,    26,        46,      18,   20,   17};
      	for (int i = 0; i < styles.length; i++) {
      		styles[i] = new StyleRange();
      		styles[i].start = starts[i];

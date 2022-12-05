@@ -64,6 +64,7 @@ public class VerifyStrengthWeakCorrectPartialProofBegin extends MyAbstractAsynch
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
+		long startTime = System.nanoTime();
 		monitor.beginTask("Verify strengtening and weakening", IProgressMonitor.UNKNOWN);
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
@@ -148,6 +149,9 @@ public class VerifyStrengthWeakCorrectPartialProofBegin extends MyAbstractAsynch
 				}
 			}
 		}
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime) / 1000000;
+		Console.println("--------------- Verification completed --------------- " + duration + "ms");
 		monitor.done();
 	}
 }
