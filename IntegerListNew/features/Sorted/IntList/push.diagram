@@ -47,7 +47,7 @@
       <businessObjects href="push.cbcmodel#/0"/>
     </link>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="217" height="101" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{sorted(data)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="217" height="101" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_pre &amp; &#xD;&#xA;sorted(data)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -64,7 +64,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.0"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="217" height="101" x="434" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{original &amp; sorted(data)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="217" height="101" x="434" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post &amp; sorted(data)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -351,7 +351,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.1"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="65" x="250" y="166" horizontalAlignment="ALIGNMENT_CENTER" value="{containsOldElements(data,\old(data))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="65" x="250" y="166" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -373,7 +373,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="375" height="65" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{sorted(data)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="375" height="65" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_pre &amp; &#xD;&#xA;sorted(data)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -381,7 +381,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="375" height="65" x="375" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{original &amp; sorted(data)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="375" height="65" x="375" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post &amp; sorted(data)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -524,7 +524,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="143" height="91" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="sorted(data)">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="143" height="91" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="\original_pre &amp; &#xD;&#xA;sorted(data)">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -532,7 +532,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="143" height="91" x="286" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="containsOldElements(data,\old(data))">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="143" height="91" x="286" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="\original_post">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -642,7 +642,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="91" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="containsOldElements(data,\old(data))">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="91" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="\original_post">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -650,7 +650,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="91" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="original &amp; sorted(data)">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="91" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="\original_post &amp; sorted(data)">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>

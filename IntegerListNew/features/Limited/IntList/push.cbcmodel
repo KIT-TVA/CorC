@@ -35,5 +35,6 @@
   <cbcmodel:GlobalConditions>
     <conditions name="data != null"/>
     <conditions name="data.length >= 0"/>
+    <conditions name="LIMIT > data.length"/>
   </cbcmodel:GlobalConditions>
 </xmi:XMI>

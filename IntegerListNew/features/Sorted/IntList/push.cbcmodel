@@ -5,24 +5,24 @@
       <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="4b5214d0-1e5f-4b3d-887d-4926f41abece">
         <firstStatement name="statement1" id="9eb8fc60-3938-459c-b648-91ae20b44a51">
           <refinement xsi:type="cbcmodel:OriginalStatement" name="original(newTop);" proven="true" id="50242c34-4fb4-44ea-bc1f-2e345a5822be">
-            <postCondition name="containsOldElements(data,\old(data))"/>
-            <preCondition name="sorted(data)"/>
+            <postCondition name="\original_post"/>
+            <preCondition name="\original_pre &amp; &#xD;&#xA;sorted(data)"/>
           </refinement>
-          <postCondition name="containsOldElements(data,\old(data))"/>
-          <preCondition name="sorted(data)"/>
+          <postCondition name="\original_post"/>
+          <preCondition name="\original_pre &amp; &#xD;&#xA;sorted(data)"/>
         </firstStatement>
         <secondStatement name="statement2" id="4ba86ebe-7f93-42a5-8ccb-71898c736079">
           <refinement xsi:type="cbcmodel:MethodStatement" name="sort();" proven="true" id="45332cbe-2a59-4f27-a273-6ceee96e4057">
-            <postCondition name="original &amp; sorted(data)"/>
-            <preCondition name="containsOldElements(data,\old(data))"/>
+            <postCondition name="\original_post &amp; sorted(data)"/>
+            <preCondition name="\original_post"/>
           </refinement>
-          <postCondition name="original &amp; sorted(data)"/>
-          <preCondition name="containsOldElements(data,\old(data))"/>
+          <postCondition name="\original_post &amp; sorted(data)"/>
+          <preCondition name="\original_post"/>
         </secondStatement>
-        <intermediateCondition name="containsOldElements(data,\old(data))"/>
+        <intermediateCondition name="\original_post"/>
       </refinement>
-      <postCondition name="original &amp; sorted(data)"/>
-      <preCondition name="sorted(data)"/>
+      <postCondition name="\original_post &amp; sorted(data)"/>
+      <preCondition name="\original_pre &amp; &#xD;&#xA;sorted(data)"/>
     </statement>
     <preCondition name="pre"/>
     <postCondition name="post"/>
