@@ -397,11 +397,13 @@ public class KeYFileContent {
 	public void addOldVariables(CbCFormula formula, JavaVariables vars) {
 		Map<String, String> newReplacements = new HashMap<>();
 		// Add new old variables to variable List
-		int counterForVarNaming = 0;
 		for (String varUsedInOldContext : replacements.keySet()) {
-			counterForVarNaming++;
 			// Get variable name with variable kind
 			String var = "";
+			String object = varUsedInOldContext.contains("self.") ? varUsedInOldContext.replaceFirst("self.", "") : "";
+			if (object.length() > 0 && object.contains(".")) { 
+				object = object.substring(0, object.lastIndexOf('.')).replaceAll("\\.", ""); 
+			} else object = "";
 			String lastVarUsedInOldContext = varUsedInOldContext.substring(varUsedInOldContext.lastIndexOf(".") + 1);
 			// Replace brackets
 			lastVarUsedInOldContext = lastVarUsedInOldContext.replaceAll("\\[.*\\]", "");
@@ -536,13 +538,11 @@ public class KeYFileContent {
 				 * What about access to static variables from other classes?
 				 * Class.varName => we got the class name! But no VarType
 				 */
-				// EDIT: counterForVarNaming didn't exist until VarCorC OO, Hashmap needs more detailed key, as only varname_oldVal may not be unique
-				// EDIT2: numbering has to be disabled to support using multiple predicates with same variable in \\old
-				String varNameWithOldSuffix = var.substring(var.lastIndexOf(" ") + 1) + counterForVarNaming + OLD_VARS_SUFFIX;
+				String varNameWithOldSuffix = object + var.substring(var.lastIndexOf(" ") + 1) + OLD_VARS_SUFFIX;
 				// Add new modified replacements to map.
 //				Console.println("Adding new Replacement: (" + varNameWithOldSuffix + ", " + replacements.get(varUsedInOldContext) + ")");
 				newReplacements.put(varNameWithOldSuffix, replacements.get(varUsedInOldContext));
-				programVariables += var.replace("static", "").replace(" non-null", "") + counterForVarNaming + OLD_VARS_SUFFIX + "; ";
+				programVariables += var.replace("static", "").replace(" non-null", "").replaceFirst(" ", " " + object) + OLD_VARS_SUFFIX + "; ";
 				if (!pre.contains("\\old(" + varUsedInOldContext + ")"))
 					assignment += "||" + varNameWithOldSuffix + ":=" + varUsedInOldContext;
 				// if variable is an Array add <created> condition for key
