@@ -79,7 +79,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 				output += conf[j] + ", ";
 			}
 		}
-		Console.println(output + " ++++++++++");
+		//Console.println(output + " ++++++++++");
 		if (proofBegin) Console.println("  Proof ist not executed due to existing proof begin.");
 		return;
 	}

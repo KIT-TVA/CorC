@@ -102,7 +102,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="80" y="270" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="80" y="270" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -144,7 +144,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.1"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{true}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_pre}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -161,7 +161,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.interest);&#xD;&#xA;(a.balance >= 0 -> a.interest >= \old(this.a.interest)) &amp; (a.balance &lt;= 0 -> a.interest &lt;= \old(this.a.interest))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{(a.balance >= 0 -> a.interest >= \old(this.a.interest)) &amp; (a.balance &lt;= 0 -> a.interest &lt;= \old(this.a.interest))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -226,7 +226,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -278,7 +278,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.0"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{true}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_pre}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -295,7 +295,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.balance,a.interest);&#xD;&#xA;a.balance = \old(a.balance) + \old(a.interest) &amp; a.interest = 0}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{a.balance = \old(a.balance) + \old(a.interest) &amp; a.interest = 0}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>

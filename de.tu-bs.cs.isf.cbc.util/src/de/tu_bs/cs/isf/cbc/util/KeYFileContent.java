@@ -554,7 +554,7 @@ public class KeYFileContent {
 		replacements = newReplacements;
 	}
 	
-	public void handleOld(boolean abstractProof, CbCFormula formula, JavaVariables vars) {
+	public void handleOld(boolean abstractProof, CbCFormula formula, JavaVariables vars, JavaVariables fieldsFromJavaClass) {
 		extractOldKeywordVariables(abstractProof ? vars : null);
 		addOldVariables(formula, vars);
 		pre = replaceOldKeyword(pre);
@@ -565,10 +565,12 @@ public class KeYFileContent {
 				programVariables += p.getType() + " "  + p.getName() + "_oldVal; ";
 				assignment += "||" + p.getName() + "_oldVal:=" + p.getName();
 			}
-			for (Field f : vars.getFields()) {
-				if (!programVariables.contains("self." + f.getName() + "_oldVal")) {
-					programVariables += f.getType() + " " + f.getName() + "_oldVal; ";
-					assignment += "||" + f.getName() + "_oldVal:=self." + f.getName();
+			if (fieldsFromJavaClass != null) {
+				for (Field f : fieldsFromJavaClass.getFields()) {
+					if (!programVariables.contains("self." + f.getName() + "_oldVal")) {
+						programVariables += f.getType() + " " + f.getName() + "_oldVal; ";
+						assignment += "||" + f.getName() + "_oldVal:=self." + f.getName();
+					}
 				}
 			}
 		}

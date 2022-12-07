@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="transfer" proven="true" compositionTechnique="EXPLICIT_CONTRACTING" className="Transaction" methodName="transfer">
+  <cbcmodel:CbCFormula name="transfer" compositionTechnique="EXPLICIT_CONTRACTING" className="Transaction" methodName="transfer">
     <statement name="statement" id="38f5dd24-659e-4174-9777-449989acd791">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="bab58347-87fb-4a09-ae93-bfc949758547">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="bab58347-87fb-4a09-ae93-bfc949758547">
         <firstStatement name="statement1" id="4ab1c2f3-f2f8-42f8-a1ec-ae3ad2b3c5e5">
-          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="f47ab7c7-9b97-4d8d-a427-ee9287a9a8b0" preProve="true">
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" id="f47ab7c7-9b97-4d8d-a427-ee9287a9a8b0" preProve="true">
             <guards name="amount &lt;= 0"/>
             <guards name="amount > 0"/>
             <commands name="statement" id="90d9b5d2-82d5-441d-88bf-a6ff025097dc">
-              <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement" id="e19bfbd0-8640-438c-b4f3-a5a80c168228">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" comment="returnStatement" id="e19bfbd0-8640-438c-b4f3-a5a80c168228">
                 <postCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
                 <preCondition name="modifiable(\nothing);(source != destination) &amp; (amount &lt;= 0)"/>
               </refinement>

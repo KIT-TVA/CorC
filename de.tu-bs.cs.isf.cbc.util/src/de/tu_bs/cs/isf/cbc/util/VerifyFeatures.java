@@ -48,6 +48,13 @@ public class VerifyFeatures {
 
 	private static ConfigurationAnalyzer configurationAnalyzer;
 
+	public static List<String> getAllFeatures(String splitUri) {
+		thisProject = FileUtil.getProject("/" + splitUri + "/model.xml");
+		path = Paths.get(thisProject.getLocation() + "/model.xml");
+		IFeatureModel featureModel = FeatureModelManager.load(path);
+		return featureModel.getFeatureOrderList();
+	}
+	
 	// calculates feature-configurations
 	public static String[][] verifyConfig(URI uri_new, String method, boolean original, String callingClass, boolean cleanFromIrrelevant, String methodOriginal) {
 		uri = uri_new;

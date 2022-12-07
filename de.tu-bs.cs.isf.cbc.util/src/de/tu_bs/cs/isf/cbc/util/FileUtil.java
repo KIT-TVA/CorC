@@ -124,6 +124,10 @@ public class FileUtil implements IFileUtil{
 		return getProjectLocationS(uriPath);
 	}
 	
+	public static IProject getProject(String uriPath) {
+		return getProjectLocationS(uriPath);
+	}
+	
 	public static IProject getProjectFromFileInProject(URI uri) {
 		uri = uri.trimFragment();
 		String uriPath = uri.toPlatformString(true);

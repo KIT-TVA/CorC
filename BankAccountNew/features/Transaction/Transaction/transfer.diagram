@@ -6,7 +6,7 @@
   </link>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="150" x="20" y="20" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="980" height="209" x="-40" y="20" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -47,7 +47,7 @@
       <businessObjects href="transfer.cbcmodel#/0"/>
     </link>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="90" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{source != destination}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="326" height="149" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{source != destination}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -55,7 +55,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="90" x="100" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="326" height="149" x="326" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementNameText"/>
       </graphicsAlgorithm>
       <link>
@@ -64,7 +64,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.16"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="90" x="200" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="326" height="149" x="652" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -72,12 +72,12 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="300" height="30" y="5" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Formula">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="980" height="30" y="5" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Formula">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="nameText"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="280" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="960" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -85,17 +85,17 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="326" height="20" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="200" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="326" height="20" x="652" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="100" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="326" height="20" x="326" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="stHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -103,34 +103,34 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
         <points y="40"/>
-        <points x="300" y="40"/>
+        <points x="980" y="40"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor2Line"/>
         <points y="60"/>
-        <points x="300" y="60"/>
+        <points x="980" y="60"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
-        <points x="100" y="40"/>
-        <points x="100" y="150"/>
+        <points x="326" y="40"/>
+        <points x="326" y="209"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
-        <points x="200" y="40"/>
-        <points x="200" y="150"/>
+        <points x="652" y="40"/>
+        <points x="652" y="209"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="100" x="600" y="20" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="130" x="970" y="20" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -171,7 +171,7 @@
       <businessObjects href="transfer.cbcmodel#/1"/>
     </link>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="26" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variablesName"/>
       </graphicsAlgorithm>
       <link>
@@ -181,12 +181,12 @@
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
-        <points y="20"/>
-        <points x="200" y="20"/>
+        <points y="26"/>
+        <points x="200" y="26"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC Account source">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="26" y="104" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC Account source">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="3"/>
       </graphicsAlgorithm>
@@ -195,7 +195,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC Account destination">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="26" y="78" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC Account destination">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
       </graphicsAlgorithm>
@@ -204,7 +204,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="PARAM int amount">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="26" y="52" horizontalAlignment="ALIGNMENT_CENTER" value="PARAM int amount">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -213,7 +213,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="20" horizontalAlignment="ALIGNMENT_CENTER" value="RETURN boolean ret">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="26" y="26" horizontalAlignment="ALIGNMENT_CENTER" value="RETURN boolean ret">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -224,7 +224,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="500" height="300" x="210" y="210" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="1162" height="260" x="429" y="260" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -266,7 +266,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.16"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="statement1">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="387" height="80" y="180" horizontalAlignment="ALIGNMENT_CENTER" value="statement1">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -275,7 +275,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.13"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" x="166" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="{amount > 0}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="387" height="80" x="387" y="180" horizontalAlignment="ALIGNMENT_CENTER" value="{amount > 0}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -283,7 +283,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" x="332" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="statement2">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="387" height="80" x="774" y="180" horizontalAlignment="ALIGNMENT_CENTER" value="statement2">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -292,12 +292,12 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.12"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="500" height="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Composition">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="1162" height="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Composition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="nameText"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{source != destination}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="581" height="80" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{source != destination}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -305,7 +305,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="581" height="80" x="581" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -313,7 +313,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="480" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="1142" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -321,27 +321,27 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="250" height="20" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="581" height="20" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="250" height="20" x="250" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="581" height="20" x="581" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 1">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="387" height="20" y="160" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 1">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1Header"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" x="332" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 2">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="387" height="20" x="774" y="160" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 2">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2Header"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" x="166" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="intermediate condition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="387" height="20" x="387" y="160" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="intermediate condition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="intermediateCondHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -349,55 +349,55 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
         <points y="60"/>
-        <points x="500" y="60"/>
+        <points x="1162" y="60"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor2Line"/>
         <points y="80"/>
-        <points x="500" y="80"/>
+        <points x="1162" y="80"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor3Line"/>
-        <points y="180"/>
-        <points x="500" y="180"/>
+        <points y="160"/>
+        <points x="1162" y="160"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor4Line"/>
-        <points y="200"/>
-        <points x="500" y="200"/>
+        <points y="180"/>
+        <points x="1162" y="180"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
-        <points x="250" y="60"/>
-        <points x="250" y="180"/>
+        <points x="581" y="60"/>
+        <points x="581" y="160"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
-        <points x="166" y="180"/>
-        <points x="166" y="300"/>
+        <points x="387" y="160"/>
+        <points x="387" y="260"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver3Line"/>
-        <points x="332" y="180"/>
-        <points x="332" y="300"/>
+        <points x="774" y="160"/>
+        <points x="774" y="260"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="200" height="300" x="70" y="570" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="450" height="270" x="-40" y="260" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -439,12 +439,12 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.13"/>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="200" height="40" horizontalAlignment="ALIGNMENT_CENTER" value="SelectionStatement IF..FI">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="450" height="40" horizontalAlignment="ALIGNMENT_CENTER" value="SelectionStatement IF..FI">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="nameText"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="180" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="430" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -452,83 +452,83 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="guards">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="450" height="20" y="42" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="guards">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="guardHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="105" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="450" height="20" y="99" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="170" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statements">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="450" height="20" y="156" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statements">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="235" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="450" height="20" y="213" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
-        <points y="40"/>
-        <points x="200" y="40"/>
+        <points y="42"/>
+        <points x="450" y="42"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor2Line"/>
-        <points y="60"/>
-        <points x="200" y="60"/>
+        <points y="62"/>
+        <points x="450" y="62"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor3Line"/>
-        <points y="105"/>
-        <points x="200" y="105"/>
+        <points y="99"/>
+        <points x="450" y="99"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor4Line"/>
-        <points y="125"/>
-        <points x="200" y="125"/>
+        <points y="119"/>
+        <points x="450" y="119"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor5Line"/>
-        <points y="170"/>
-        <points x="200" y="170"/>
+        <points y="156"/>
+        <points x="450" y="156"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor6Line"/>
-        <points y="190"/>
-        <points x="200" y="190"/>
+        <points y="176"/>
+        <points x="450" y="176"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor7Line"/>
-        <points y="235"/>
-        <points x="200" y="235"/>
+        <points y="213"/>
+        <points x="450" y="213"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor8Line"/>
-        <points y="255"/>
-        <points x="200" y="255"/>
+        <points y="233"/>
+        <points x="450" y="233"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" y="190" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="225" height="37" y="176" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementSelNameText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -538,7 +538,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.15"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" y="125" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(source != destination) &amp; (amount &lt;= 0)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="225" height="37" y="119" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(source != destination) &amp; (amount &lt;= 0)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -547,7 +547,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="200" height="45" y="255" horizontalAlignment="ALIGNMENT_CENTER" value="{amount > 0}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="450" height="37" y="233" horizontalAlignment="ALIGNMENT_CENTER" value="{amount > 0}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -574,7 +574,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="amount &lt;= 0">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="225" height="37" y="62" horizontalAlignment="ALIGNMENT_CENTER" value="amount &lt;= 0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSelText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -583,7 +583,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" x="100" y="190" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="225" height="37" x="225" y="176" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementSelNameText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -593,7 +593,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.14"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" x="100" y="125" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(source != destination) &amp; (amount > 0)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="225" height="37" x="225" y="119" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(source != destination) &amp; (amount > 0)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -614,28 +614,28 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
-        <points x="100" y="60"/>
-        <points x="100" y="105"/>
+        <points x="225" y="62"/>
+        <points x="225" y="99"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
-        <points x="100" y="125"/>
-        <points x="100" y="170"/>
+        <points x="225" y="119"/>
+        <points x="225" y="156"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver3Line"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
-        <points x="100" y="190"/>
-        <points x="100" y="235"/>
+        <points x="225" y="176"/>
+        <points x="225" y="213"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" x="100" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="amount > 0">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="225" height="37" x="225" y="62" horizontalAlignment="ALIGNMENT_CENTER" value="amount > 0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSelText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -646,7 +646,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="100" x="20" y="930" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="671" height="240" x="-40" y="560" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -688,7 +688,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.15"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="100" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="false;">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="223" height="200" x="223" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="false;">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
       </graphicsAlgorithm>
       <link>
@@ -697,7 +697,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(source != destination) &amp; (amount &lt;= 0)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="223" height="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(source != destination) &amp; (amount &lt;= 0)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -705,7 +705,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="223" height="200" x="446" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -713,7 +713,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="280" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="651" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -721,17 +721,17 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="100" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="ReturnStatement">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="223" height="20" x="223" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="ReturnStatement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="223" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="200" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="223" height="20" x="446" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -739,27 +739,27 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="headerSeparater"/>
         <points y="40"/>
-        <points x="300" y="40"/>
+        <points x="671" y="40"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preSep"/>
-        <points x="200"/>
-        <points x="200" y="100"/>
+        <points x="446"/>
+        <points x="446" y="240"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postSep"/>
-        <points x="100"/>
-        <points x="100" y="100"/>
+        <points x="223"/>
+        <points x="223" y="240"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="150" x="340" y="740" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="320" height="141" x="-40" y="829" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -801,7 +801,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.14"/>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="300" height="30" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Skip">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="320" height="30" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Skip">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementNameText"/>
       </graphicsAlgorithm>
       <link>
@@ -809,7 +809,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="80" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(source != destination) &amp; (amount > 0)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="160" height="71" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(source != destination) &amp; (amount > 0)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preNameText"/>
       </graphicsAlgorithm>
       <link>
@@ -817,7 +817,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="80" x="150" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{amount > 0}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="160" height="71" x="160" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{amount > 0}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postNameText"/>
       </graphicsAlgorithm>
       <link>
@@ -825,7 +825,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="280" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="300" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -833,47 +833,47 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="150" height="20" x="150" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="160" height="20" x="160" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="150" height="20" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="160" height="20" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="sepLeft"/>
-        <points x="150" y="40"/>
-        <points x="150" y="150"/>
+        <points x="160" y="40"/>
+        <points x="160" y="141"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="sepRight"/>
-        <points x="300" y="40"/>
-        <points x="300" y="150"/>
+        <points x="320" y="40"/>
+        <points x="320" y="141"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="sepHeader1"/>
         <points y="40"/>
-        <points x="300" y="40"/>
+        <points x="320" y="40"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="sepHeader"/>
         <points y="60"/>
-        <points x="300" y="60"/>
+        <points x="320" y="60"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="500" height="300" x="950" y="580" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="949" height="271" x="641" y="540" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -915,7 +915,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.12"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="statement1">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="85" y="186" horizontalAlignment="ALIGNMENT_CENTER" value="statement1">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -924,7 +924,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.11"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" x="166" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(ret, source.balance, \old(source.balance), -amount)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="85" x="316" y="186" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(ret, source.balance, \old(source.balance), -amount)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -932,7 +932,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" x="332" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="statement2">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="85" x="632" y="186" horizontalAlignment="ALIGNMENT_CENTER" value="statement2">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -941,12 +941,12 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.10"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="500" height="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Composition">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="949" height="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Composition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="nameText"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{amount > 0}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="474" height="85" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{amount > 0}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -954,7 +954,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="474" height="85" x="474" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -962,7 +962,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="480" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="929" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -970,27 +970,27 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="250" height="20" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="474" height="20" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="250" height="20" x="250" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="474" height="20" x="474" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 1">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" y="166" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 1">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1Header"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" x="332" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 2">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" x="632" y="166" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 2">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2Header"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" x="166" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="intermediate condition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" x="316" y="166" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="intermediate condition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="intermediateCondHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -998,55 +998,55 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
         <points y="60"/>
-        <points x="500" y="60"/>
+        <points x="949" y="60"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor2Line"/>
         <points y="80"/>
-        <points x="500" y="80"/>
+        <points x="949" y="80"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor3Line"/>
-        <points y="180"/>
-        <points x="500" y="180"/>
+        <points y="166"/>
+        <points x="949" y="166"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor4Line"/>
-        <points y="200"/>
-        <points x="500" y="200"/>
+        <points y="186"/>
+        <points x="949" y="186"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
-        <points x="250" y="60"/>
-        <points x="250" y="180"/>
+        <points x="474" y="60"/>
+        <points x="474" y="166"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
-        <points x="166" y="180"/>
-        <points x="166" y="300"/>
+        <points x="316" y="166"/>
+        <points x="316" y="271"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver3Line"/>
-        <points x="332" y="180"/>
-        <points x="332" y="300"/>
+        <points x="632" y="166"/>
+        <points x="632" y="271"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="100" x="770" y="940" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="341" height="140" x="290" y="830" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -1088,7 +1088,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.11"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="100" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="ret = source.update(amount * -1);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="113" height="100" x="113" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="ret = source.update(amount * -1);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
       </graphicsAlgorithm>
       <link>
@@ -1097,7 +1097,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="amount > 0">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="113" height="100" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="amount > 0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -1105,7 +1105,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="balanceChangedResult(ret, source.balance, \old(source.balance), -amount)">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="113" height="100" x="226" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="balanceChangedResult(ret, source.balance, \old(source.balance), -amount)">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -1113,7 +1113,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="280" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="321" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -1121,22 +1121,22 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="100" y="5" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Method-Call">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="113" height="20" x="113" y="5" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Method-Call">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="100" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Statement">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="113" height="20" x="113" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Statement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader2"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="113" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="200" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="113" height="20" x="226" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -1144,27 +1144,27 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="headerSeparater"/>
         <points y="40"/>
-        <points x="300" y="40"/>
+        <points x="341" y="40"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preSep"/>
-        <points x="200"/>
-        <points x="200" y="100"/>
+        <points x="226"/>
+        <points x="226" y="140"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postSep"/>
-        <points x="100"/>
-        <points x="100" y="100"/>
+        <points x="113"/>
+        <points x="113" y="140"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="500" height="300" x="1330" y="940" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="949" height="270" x="641" y="830" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -1206,7 +1206,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.10"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="statement1">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="85" y="185" horizontalAlignment="ALIGNMENT_CENTER" value="statement1">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1215,7 +1215,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.7"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" x="166" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="{ret = TRUE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="85" x="316" y="185" horizontalAlignment="ALIGNMENT_CENTER" value="{ret = TRUE}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -1223,7 +1223,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" x="332" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="statement2">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="85" x="632" y="185" horizontalAlignment="ALIGNMENT_CENTER" value="statement2">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1232,12 +1232,12 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.6"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="500" height="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Composition">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="949" height="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Composition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="nameText"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(ret, source.balance, \old(source.balance), -amount)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="474" height="85" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(ret, source.balance, \old(source.balance), -amount)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1245,7 +1245,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="474" height="85" x="474" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1253,7 +1253,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="480" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="929" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -1261,27 +1261,27 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="250" height="20" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="474" height="20" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="250" height="20" x="250" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="474" height="20" x="474" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 1">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" y="165" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 1">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1Header"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" x="332" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 2">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" x="632" y="165" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 2">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2Header"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" x="166" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="intermediate condition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" x="316" y="165" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="intermediate condition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="intermediateCondHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -1289,55 +1289,55 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
         <points y="60"/>
-        <points x="500" y="60"/>
+        <points x="949" y="60"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor2Line"/>
         <points y="80"/>
-        <points x="500" y="80"/>
+        <points x="949" y="80"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor3Line"/>
-        <points y="180"/>
-        <points x="500" y="180"/>
+        <points y="165"/>
+        <points x="949" y="165"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor4Line"/>
-        <points y="200"/>
-        <points x="500" y="200"/>
+        <points y="185"/>
+        <points x="949" y="185"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
-        <points x="250" y="60"/>
-        <points x="250" y="180"/>
+        <points x="474" y="60"/>
+        <points x="474" y="165"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
-        <points x="166" y="180"/>
-        <points x="166" y="300"/>
+        <points x="316" y="165"/>
+        <points x="316" y="270"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver3Line"/>
-        <points x="332" y="180"/>
-        <points x="332" y="300"/>
+        <points x="632" y="165"/>
+        <points x="632" y="270"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="200" height="300" x="1170" y="1300" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="672" height="340" x="-40" y="1000" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -1379,12 +1379,12 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.7"/>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="200" height="40" horizontalAlignment="ALIGNMENT_CENTER" value="SelectionStatement IF..FI">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="672" height="40" horizontalAlignment="ALIGNMENT_CENTER" value="SelectionStatement IF..FI">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="nameText"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="180" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="652" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -1392,22 +1392,22 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="guards">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="672" height="20" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="guards">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="guardHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="105" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="672" height="20" y="115" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="170" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statements">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="672" height="20" y="190" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statements">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="235" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="672" height="20" y="265" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -1415,60 +1415,60 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
         <points y="40"/>
-        <points x="200" y="40"/>
+        <points x="672" y="40"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor2Line"/>
         <points y="60"/>
-        <points x="200" y="60"/>
+        <points x="672" y="60"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor3Line"/>
-        <points y="105"/>
-        <points x="200" y="105"/>
+        <points y="115"/>
+        <points x="672" y="115"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor4Line"/>
-        <points y="125"/>
-        <points x="200" y="125"/>
+        <points y="135"/>
+        <points x="672" y="135"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor5Line"/>
-        <points y="170"/>
-        <points x="200" y="170"/>
+        <points y="190"/>
+        <points x="672" y="190"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor6Line"/>
-        <points y="190"/>
-        <points x="200" y="190"/>
+        <points y="210"/>
+        <points x="672" y="210"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor7Line"/>
-        <points y="235"/>
-        <points x="200" y="235"/>
+        <points y="265"/>
+        <points x="672" y="265"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor8Line"/>
-        <points y="255"/>
-        <points x="200" y="255"/>
+        <points y="285"/>
+        <points x="672" y="285"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" y="190" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="336" height="55" y="210" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementSelNameText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -1478,7 +1478,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.8"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" y="125" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(ret, source.balance, \old(source.balance), -amount)) &amp; (ret = FALSE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="336" height="55" y="135" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(ret, source.balance, \old(source.balance), -amount)) &amp; (ret = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -1487,7 +1487,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="200" height="45" y="255" horizontalAlignment="ALIGNMENT_CENTER" value="{ret = TRUE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="672" height="55" y="285" horizontalAlignment="ALIGNMENT_CENTER" value="{ret = TRUE}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -1514,7 +1514,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="ret = FALSE">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="336" height="55" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="ret = FALSE">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSelText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -1523,7 +1523,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" x="100" y="190" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="336" height="55" x="336" y="210" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementSelNameText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -1533,7 +1533,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.9"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" x="100" y="125" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(ret, source.balance, \old(source.balance), -amount)) &amp; (ret = TRUE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="336" height="55" x="336" y="135" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(ret, source.balance, \old(source.balance), -amount)) &amp; (ret = TRUE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -1554,28 +1554,28 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
-        <points x="100" y="60"/>
-        <points x="100" y="105"/>
+        <points x="336" y="60"/>
+        <points x="336" y="115"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
-        <points x="100" y="125"/>
-        <points x="100" y="170"/>
+        <points x="336" y="135"/>
+        <points x="336" y="190"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver3Line"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
-        <points x="100" y="190"/>
-        <points x="100" y="235"/>
+        <points x="336" y="210"/>
+        <points x="336" y="265"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" x="100" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="ret = TRUE">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="336" height="55" x="336" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="ret = TRUE">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSelText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -1586,7 +1586,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="100" x="820" y="1460" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="672" height="240" x="-39" y="1370" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -1628,7 +1628,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.8"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="100" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="false;">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="224" height="200" x="224" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="false;">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
       </graphicsAlgorithm>
       <link>
@@ -1637,7 +1637,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(ret, source.balance, \old(source.balance), -amount)) &amp; (ret = FALSE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="224" height="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(ret, source.balance, \old(source.balance), -amount)) &amp; (ret = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -1645,7 +1645,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="224" height="200" x="448" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -1653,7 +1653,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="280" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="652" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -1661,17 +1661,17 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="100" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="ReturnStatement">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="224" height="20" x="224" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="ReturnStatement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="224" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="200" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="224" height="20" x="448" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -1679,27 +1679,27 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="headerSeparater"/>
         <points y="40"/>
-        <points x="300" y="40"/>
+        <points x="672" y="40"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preSep"/>
-        <points x="200"/>
-        <points x="200" y="100"/>
+        <points x="448"/>
+        <points x="448" y="240"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postSep"/>
-        <points x="100"/>
-        <points x="100" y="100"/>
+        <points x="224"/>
+        <points x="224" y="240"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="150" x="1420" y="1440" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="672" height="130" x="-39" y="1640" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -1741,7 +1741,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.9"/>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="300" height="30" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Skip">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="672" height="30" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Skip">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementNameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1749,7 +1749,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="80" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(ret, source.balance, \old(source.balance), -amount)) &amp; (ret = TRUE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="336" height="60" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(ret, source.balance, \old(source.balance), -amount)) &amp; (ret = TRUE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preNameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1757,7 +1757,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="80" x="150" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{ret = TRUE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="336" height="60" x="336" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{ret = TRUE}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postNameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1765,7 +1765,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="280" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="652" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -1773,47 +1773,47 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="150" height="20" x="150" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="336" height="20" x="336" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="150" height="20" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="336" height="20" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="sepLeft"/>
-        <points x="150" y="40"/>
-        <points x="150" y="150"/>
+        <points x="336" y="40"/>
+        <points x="336" y="130"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="sepRight"/>
-        <points x="300" y="40"/>
-        <points x="300" y="150"/>
+        <points x="672" y="40"/>
+        <points x="672" y="130"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="sepHeader1"/>
         <points y="40"/>
-        <points x="300" y="40"/>
+        <points x="672" y="40"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="sepHeader"/>
         <points y="60"/>
-        <points x="300" y="60"/>
+        <points x="672" y="60"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="500" height="300" x="1780" y="1300" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="950" height="270" x="641" y="1120" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -1855,7 +1855,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.6"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="statement1">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="85" y="185" horizontalAlignment="ALIGNMENT_CENTER" value="statement1">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1864,7 +1864,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.5"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" x="166" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="85" x="316" y="185" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -1872,7 +1872,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" x="332" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="statement2">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="85" x="632" y="185" horizontalAlignment="ALIGNMENT_CENTER" value="statement2">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1881,12 +1881,12 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.4"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="500" height="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Composition">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="950" height="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Composition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="nameText"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{ret = TRUE}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="475" height="85" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{ret = TRUE}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1894,7 +1894,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="475" height="85" x="475" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1902,7 +1902,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="480" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="930" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -1910,27 +1910,27 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="250" height="20" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="475" height="20" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="250" height="20" x="250" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="475" height="20" x="475" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 1">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" y="165" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 1">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1Header"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" x="332" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 2">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" x="632" y="165" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 2">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2Header"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" x="166" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="intermediate condition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" x="316" y="165" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="intermediate condition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="intermediateCondHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -1938,55 +1938,55 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
         <points y="60"/>
-        <points x="500" y="60"/>
+        <points x="950" y="60"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor2Line"/>
         <points y="80"/>
-        <points x="500" y="80"/>
+        <points x="950" y="80"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor3Line"/>
-        <points y="180"/>
-        <points x="500" y="180"/>
+        <points y="165"/>
+        <points x="950" y="165"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor4Line"/>
-        <points y="200"/>
-        <points x="500" y="200"/>
+        <points y="185"/>
+        <points x="950" y="185"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
-        <points x="250" y="60"/>
-        <points x="250" y="180"/>
+        <points x="475" y="60"/>
+        <points x="475" y="165"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
-        <points x="166" y="180"/>
-        <points x="166" y="300"/>
+        <points x="316" y="165"/>
+        <points x="316" y="270"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver3Line"/>
-        <points x="332" y="180"/>
-        <points x="332" y="300"/>
+        <points x="632" y="165"/>
+        <points x="632" y="270"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="100" x="1700" y="1640" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="949" height="110" x="641" y="1420" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -2028,7 +2028,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.5"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="100" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="ret = destination.update(amount);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="70" x="316" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="ret = destination.update(amount);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
       </graphicsAlgorithm>
       <link>
@@ -2037,7 +2037,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="ret = TRUE">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="70" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="ret = TRUE">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -2045,7 +2045,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="70" x="632" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -2053,7 +2053,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="280" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="929" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -2061,22 +2061,22 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="100" y="5" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Method-Call">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" x="316" y="5" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Method-Call">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="100" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Statement">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" x="316" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Statement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader2"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="200" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" x="632" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -2084,27 +2084,27 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="headerSeparater"/>
         <points y="40"/>
-        <points x="300" y="40"/>
+        <points x="949" y="40"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preSep"/>
-        <points x="200"/>
-        <points x="200" y="100"/>
+        <points x="632"/>
+        <points x="632" y="110"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postSep"/>
-        <points x="100"/>
-        <points x="100" y="100"/>
+        <points x="316"/>
+        <points x="316" y="110"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="200" height="300" x="2190" y="1630" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="948" height="370" x="641" y="1560" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -2146,12 +2146,12 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.4"/>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="200" height="40" horizontalAlignment="ALIGNMENT_CENTER" value="SelectionStatement IF..FI">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="948" height="40" horizontalAlignment="ALIGNMENT_CENTER" value="SelectionStatement IF..FI">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="nameText"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="180" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="928" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -2159,83 +2159,83 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="guards">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="948" height="20" y="42" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="guards">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="guardHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="105" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="948" height="20" y="124" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="170" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statements">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="948" height="20" y="206" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statements">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="20" y="235" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="948" height="20" y="288" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
-        <points y="40"/>
-        <points x="200" y="40"/>
+        <points y="42"/>
+        <points x="948" y="42"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor2Line"/>
-        <points y="60"/>
-        <points x="200" y="60"/>
+        <points y="62"/>
+        <points x="948" y="62"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor3Line"/>
-        <points y="105"/>
-        <points x="200" y="105"/>
+        <points y="124"/>
+        <points x="948" y="124"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor4Line"/>
-        <points y="125"/>
-        <points x="200" y="125"/>
+        <points y="144"/>
+        <points x="948" y="144"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor5Line"/>
-        <points y="170"/>
-        <points x="200" y="170"/>
+        <points y="206"/>
+        <points x="948" y="206"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor6Line"/>
-        <points y="190"/>
-        <points x="200" y="190"/>
+        <points y="226"/>
+        <points x="948" y="226"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor7Line"/>
-        <points y="235"/>
-        <points x="200" y="235"/>
+        <points y="288"/>
+        <points x="948" y="288"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor8Line"/>
-        <points y="255"/>
-        <points x="200" y="255"/>
+        <points y="308"/>
+        <points x="948" y="308"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" y="190" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="474" height="62" y="226" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementSelNameText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -2245,7 +2245,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.3"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" y="125" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)) &amp; (ret = TRUE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="474" height="62" y="144" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)) &amp; (ret = TRUE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -2254,7 +2254,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="200" height="45" y="255" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="948" height="62" y="308" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -2281,7 +2281,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="ret = TRUE">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="474" height="62" y="62" horizontalAlignment="ALIGNMENT_CENTER" value="ret = TRUE">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSelText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -2290,7 +2290,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" x="100" y="190" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="474" height="62" x="474" y="226" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementSelNameText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -2300,7 +2300,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.2"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" x="100" y="125" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)) &amp; (ret = FALSE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="474" height="62" x="474" y="144" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)) &amp; (ret = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -2321,28 +2321,28 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
-        <points x="100" y="60"/>
-        <points x="100" y="105"/>
+        <points x="474" y="62"/>
+        <points x="474" y="124"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
-        <points x="100" y="125"/>
-        <points x="100" y="170"/>
+        <points x="474" y="144"/>
+        <points x="474" y="206"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver3Line"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
-        <points x="100" y="190"/>
-        <points x="100" y="235"/>
+        <points x="474" y="226"/>
+        <points x="474" y="288"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="45" x="100" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="ret = FALSE">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="474" height="62" x="474" y="62" horizontalAlignment="ALIGNMENT_CENTER" value="ret = FALSE">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSelText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -2353,7 +2353,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="680" height="281" x="1480" y="1820" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="673" height="240" x="-40" y="1800" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -2395,7 +2395,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.3"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="226" height="241" x="226" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="true;">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="224" height="200" x="224" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="true;">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
       </graphicsAlgorithm>
       <link>
@@ -2404,7 +2404,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="226" height="241" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)) &amp; (ret = TRUE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="224" height="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)) &amp; (ret = TRUE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -2412,7 +2412,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="226" height="241" x="452" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="224" height="200" x="448" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -2420,7 +2420,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="660" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="653" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -2428,17 +2428,17 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="226" height="20" x="226" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="ReturnStatement">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="224" height="20" x="224" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="ReturnStatement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="226" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="224" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="226" height="20" x="452" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="224" height="20" x="448" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -2446,27 +2446,27 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="headerSeparater"/>
         <points y="40"/>
-        <points x="680" y="40"/>
+        <points x="673" y="40"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preSep"/>
-        <points x="452"/>
-        <points x="452" y="281"/>
+        <points x="448"/>
+        <points x="448" y="240"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postSep"/>
-        <points x="226"/>
-        <points x="226" y="281"/>
+        <points x="224"/>
+        <points x="224" y="240"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="500" height="300" x="2210" y="1960" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="948" height="260" x="641" y="1950" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -2508,7 +2508,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.2"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="statement1">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="80" y="180" horizontalAlignment="ALIGNMENT_CENTER" value="statement1">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -2517,7 +2517,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.1"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" x="166" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="{true}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="80" x="316" y="180" horizontalAlignment="ALIGNMENT_CENTER" value="{true}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -2525,7 +2525,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="100" x="332" y="200" horizontalAlignment="ALIGNMENT_CENTER" value="statement2">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="316" height="80" x="632" y="180" horizontalAlignment="ALIGNMENT_CENTER" value="statement2">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -2534,12 +2534,12 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.0"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="500" height="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Composition">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="948" height="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Composition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="nameText"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)) &amp; (ret = FALSE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="474" height="80" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)) &amp; (ret = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -2547,7 +2547,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="100" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="474" height="80" x="474" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -2555,7 +2555,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="480" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="928" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -2563,27 +2563,27 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="250" height="20" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="474" height="20" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="250" height="20" x="250" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="474" height="20" x="474" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 1">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" y="160" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 1">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1Header"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" x="332" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 2">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" x="632" y="160" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 2">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2Header"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="166" height="20" x="166" y="180" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="intermediate condition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="316" height="20" x="316" y="160" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="intermediate condition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="intermediateCondHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -2591,55 +2591,55 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
         <points y="60"/>
-        <points x="500" y="60"/>
+        <points x="948" y="60"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor2Line"/>
         <points y="80"/>
-        <points x="500" y="80"/>
+        <points x="948" y="80"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor3Line"/>
-        <points y="180"/>
-        <points x="500" y="180"/>
+        <points y="160"/>
+        <points x="948" y="160"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor4Line"/>
-        <points y="200"/>
-        <points x="500" y="200"/>
+        <points y="180"/>
+        <points x="948" y="180"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
-        <points x="250" y="60"/>
-        <points x="250" y="180"/>
+        <points x="474" y="60"/>
+        <points x="474" y="160"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
-        <points x="166" y="180"/>
-        <points x="166" y="300"/>
+        <points x="316" y="160"/>
+        <points x="316" y="260"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="ver3Line"/>
-        <points x="332" y="180"/>
-        <points x="332" y="300"/>
+        <points x="632" y="160"/>
+        <points x="632" y="260"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="100" x="1810" y="2120" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="671" height="140" x="-39" y="2070" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -2681,7 +2681,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.1"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="100" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="ret = source.undoUpdate(amount * -1);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="223" height="100" x="223" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="ret = source.undoUpdate(amount * -1);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
       </graphicsAlgorithm>
       <link>
@@ -2690,7 +2690,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(\nothing);(balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)) &amp; (ret = FALSE)">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="223" height="100" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(\nothing);(balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)) &amp; (ret = FALSE)">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -2698,7 +2698,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="223" height="100" x="446" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="true">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -2706,7 +2706,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="280" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="651" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -2714,22 +2714,22 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="100" y="5" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Method-Call">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="223" height="20" x="223" y="5" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Method-Call">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="100" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Statement">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="223" height="20" x="223" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Statement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader2"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="223" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="200" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="223" height="20" x="446" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -2737,27 +2737,27 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="headerSeparater"/>
         <points y="40"/>
-        <points x="300" y="40"/>
+        <points x="671" y="40"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preSep"/>
-        <points x="200"/>
-        <points x="200" y="100"/>
+        <points x="446"/>
+        <points x="446" y="140"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postSep"/>
-        <points x="100"/>
-        <points x="100" y="100"/>
+        <points x="223"/>
+        <points x="223" y="140"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="300" height="100" x="2770" y="2130" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="1626" height="130" x="-39" y="2240" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -2799,7 +2799,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.0"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="100" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="false;">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="542" height="90" x="542" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="false;">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
       </graphicsAlgorithm>
       <link>
@@ -2808,7 +2808,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{true}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="542" height="90" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{true}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -2816,7 +2816,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="60" x="200" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="542" height="90" x="1084" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -2824,7 +2824,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="280" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="1606" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -2832,17 +2832,17 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="100" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="ReturnStatement">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="542" height="20" x="542" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="ReturnStatement">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="542" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="100" height="20" x="200" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="542" height="20" x="1084" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
       </graphicsAlgorithm>
     </children>
@@ -2850,27 +2850,27 @@
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="headerSeparater"/>
         <points y="40"/>
-        <points x="300" y="40"/>
+        <points x="1626" y="40"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preSep"/>
-        <points x="200"/>
-        <points x="200" y="100"/>
+        <points x="1084"/>
+        <points x="1084" y="130"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postSep"/>
-        <points x="100"/>
-        <points x="100" y="100"/>
+        <points x="542"/>
+        <points x="542" y="130"/>
       </graphicsAlgorithm>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="100" x="940" y="140" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="129" x="1190" y="20" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -2911,7 +2911,7 @@
       <businessObjects href="transfer.cbcmodel#/2"/>
     </link>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="33" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Global Conditions">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="43" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Global Conditions">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="globalConditionsName"/>
       </graphicsAlgorithm>
       <link>
@@ -2921,12 +2921,12 @@
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
-        <points y="33"/>
-        <points x="200" y="33"/>
+        <points y="43"/>
+        <points x="200" y="43"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="200" height="33" y="33" horizontalAlignment="ALIGNMENT_CENTER" value="source.&lt;inv>">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="200" height="43" y="43" horizontalAlignment="ALIGNMENT_CENTER" value="source.&lt;inv>">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="globalcondition"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -2935,7 +2935,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="200" height="33" y="66" horizontalAlignment="ALIGNMENT_CENTER" value="destination.&lt;inv>">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="200" height="43" y="86" horizontalAlignment="ALIGNMENT_CENTER" value="destination.&lt;inv>">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="globalcondition"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>

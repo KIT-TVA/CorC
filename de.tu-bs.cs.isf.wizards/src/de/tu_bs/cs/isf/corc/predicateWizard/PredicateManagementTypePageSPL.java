@@ -595,7 +595,7 @@ public class PredicateManagementTypePageSPL extends WizardPage {
      			+ "Name: Internal name of the predicate's definition to differentiate the definitions. This name does not influence the construction or verification of programs containing the predicate.\r\n"
      			+ "Signature: Signature of the predicate in method signature style. Provide name and parameters. For every parameter, provide type and name. The parameter's order is considered when replacing predicates by their definition at verification time. The signature must not be edited in other than the first definition of a predicate. Example: newPredicate(int[] array, int number, String word).\r\n"
      			+ "Definition: The definition a predicate should be replaced by. The parameters declared in the signature will be replaced by the parameters provided by the predicate call in the program when the verification is started. Be aware that bound variables (\\forall, \\exists) must not exist in the terms the parameters of the predicate are replaced by. It is not allowed to use the keyword \\old in the definition of a predicate. Please provide old values of a field or variable by adding a new parameter to the predicate's definition. Example: data[data.length - 1] = newTop.\r\n"
-     			+ "Availability of Predicate: It is possible to define when a predicate's definition should be available. Formulate presence conditions using feature's names and symbols &&, ||, ->, and !. Use space between every feature and symbol. Paranthesis are allowed. Example: featureA && featureB || (featureC -> featureD).\r\n"
+     			+ "Availability of Predicate: It is possible to define when a predicate's definition should be available. Formulate presence conditions using feature's names and symbols &, |, ->, and !. Use space between every feature and symbol. Paranthesis are allowed. Example: featureA & featureB | (featureC -> featureD).\r\n"
      			+ "Delete Definition: Currently displayed definition is deleted. Only available if current predicate contains more than one definition. To delete a predicate, use delete button above predicates list.\r\n"
      			+ "Restore Definition: Values of the currently displayed definition are restored to the last saved state.\r\n"
      			+ "Save Definition: Saves the current values of the currently displayed definition. Please consider error messages when saving definitions.");
@@ -606,8 +606,8 @@ public class PredicateManagementTypePageSPL extends WizardPage {
         
      	StyleRange[] styles = new StyleRange[15];
      	                         //AvailablePreds, PredProps, AddnewBtn, Name, Sign, SignEx, Def,  forExist, old,  DefEx, AvailPred, AvailEx, Del,  Res,  Save
-     	int[] starts = new int[]  {0,              397,       573,       646,  831,  1166,   1219, 1468,     1600, 1754,  1787,      2051,    2100, 2297, 2401};
-     	int[] lengths = new int[] {26,             26,        7,         5,    10,   50,     11,   16,       4,    30,    26,        46,      18,   20,   17};
+     	int[] starts = new int[]  {0,              397,       573,       646,  831,  1166,   1219, 1468,     1600, 1754,  1787,      2049,    2096, 2293, 2397};
+     	int[] lengths = new int[] {26,             26,        7,         5,    10,   50,     11,   16,       4,    30,    26,        44,      18,   20,   17};
      	for (int i = 0; i < styles.length; i++) {
      		styles[i] = new StyleRange();
      		styles[i].start = starts[i];

@@ -145,8 +145,8 @@ public class KeYInteraction {
 				}		
 				//System.out.println("-----------------------");
 				//System.out.println("	Proof Type: " + proofType);
-				System.out.println("	Proof nodes: " + proof.countNodes());
-				System.out.println("time: " + proof.getAutoModeTime());
+				//System.out.println("	Proof nodes: " + proof.countNodes());
+				Console.println("time: " + proof.getAutoModeTime() + "        nodes:" + proof.countNodes());
 				//System.out.println("-----------------------");
 				//DEBUG END
 				proof.saveToFile(location);

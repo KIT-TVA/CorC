@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -315,7 +317,12 @@ public class ConstructCodeBlock {
 			for (int i = 0; i < p.definitions.size(); i++) {
 				PredicateDefinition pDef = p.definitions.get(i);
 				String expression = " " + pDef.presenceCondition + " ";
-				for (String feature : config) expression = expression.replaceAll(" " + feature + " ", " true ");
+				List<String> allFeatures = VerifyFeatures.getAllFeatures(projectName);
+				for (String feature : config) {
+					expression = expression.replaceAll(" " + feature + " ", " true ");
+					allFeatures.remove(feature);
+				}
+				for (String feature : allFeatures) expression = expression.replaceAll(" !" + feature + " ", " true ");
 				if (expression.trim().equals("") || evaluateFormula(expression.replaceAll("!true", "false").trim())) {
 					currentP.definitions.add(pDef);
 				}
@@ -329,11 +336,13 @@ public class ConstructCodeBlock {
 		if (ex.equals("true")) return true;
 		if (ex.equals("false")) return false;
 		if (ex.equals("()")) return false;
+		if (ex.equals("!false")) return true;
+		if (ex.equals("!true")) return false;
 		
 		if (ex.startsWith("true")) {
-			if (ex.charAt(5) == '&' && ex.charAt(6) == '&') {
-				return evaluateFormula(ex.replaceFirst("true && ", ""));
-			} else if (ex.charAt(5) == '|' && ex.charAt(6) == '|') {
+			if (ex.charAt(5) == '&') {
+				return evaluateFormula(ex.replaceFirst("true & ", ""));
+			} else if (ex.charAt(5) == '|') {
 				return true;
 			} else if (ex.charAt(5) == '-' && ex.charAt(6) == '>') {
 				return evaluateFormula(ex.replaceFirst("true -> ", ""));
@@ -341,10 +350,10 @@ public class ConstructCodeBlock {
 				return false;
 			}
 		} else if (ex.startsWith("false")) {
-			if (ex.charAt(6) == '&' && ex.charAt(7) == '&') {
+			if (ex.charAt(6) == '&') {
 				return false;
-			} else if (ex.charAt(6) == '|' && ex.charAt(7) == '|') {
-				return evaluateFormula(ex.replaceFirst("false \\|\\| ", ""));
+			} else if (ex.charAt(6) == '|') {
+				return evaluateFormula(ex.replaceFirst("false \\| ", ""));
 			} else if (ex.charAt(6) == '-' && ex.charAt(7) == '>') {
 				return true;
 			} else {

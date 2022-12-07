@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="update" proven="true" compositionTechnique="EXPLICIT_CONTRACTING" className="Account" methodName="update">
+  <cbcmodel:CbCFormula name="update" compositionTechnique="EXPLICIT_CONTRACTING" className="Account" methodName="update">
     <statement name="statement" id="18cc8c40-5d94-4ff1-8d2a-9f71938fe1bc">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="0d3e896d-23fb-4fb2-99b5-ba10767ff02f">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="0d3e896d-23fb-4fb2-99b5-ba10767ff02f">
         <firstStatement name="statement1" id="1e68a039-108e-46b6-9cde-6a25c202a832">
           <refinement name="newWithdraw = withdraw;" proven="true" id="0f129f73-4318-468a-b64f-54f416cdc1f6">
             <postCondition name="newWithdraw = withdraw"/>
@@ -12,7 +12,7 @@
           <preCondition name="\original_pre"/>
         </firstStatement>
         <secondStatement name="statement2" id="62c619e8-d262-45b3-8f46-600068dd04ab">
-          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="a54ee45b-e858-4c8d-8044-e72c942c026e">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="a54ee45b-e858-4c8d-8044-e72c942c026e">
             <firstStatement name="statement1" id="3262a1b4-f8e9-4715-b415-9ad1d2a6c9aa">
               <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="4a8fdae6-39bb-4b5b-96ec-73ff287beda2" preProve="true">
                 <guards name="x &lt; 0"/>
@@ -69,7 +69,7 @@
               <preCondition name="newWithdraw = withdraw"/>
             </firstStatement>
             <secondStatement name="statement2" id="abf9cd79-e46b-4bc3-ae86-209861f3e63d">
-              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="dea72b5f-d5a7-4d82-93b7-d1b87106f166">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="dea72b5f-d5a7-4d82-93b7-d1b87106f166">
                 <firstStatement name="statement1" id="f93e8549-3964-483a-9907-a6931ee48784">
                   <refinement xsi:type="cbcmodel:OriginalStatement" name="ret = original(x);" proven="true" id="745b2354-3b8d-4952-9ac8-01b66bc99a4f">
                     <postCondition name="newWithdraw &lt;= withdraw &amp; \original_post"/>
@@ -79,7 +79,7 @@
                   <preCondition name="newWithdraw &lt;= withdraw"/>
                 </firstStatement>
                 <secondStatement name="statement2" id="f4797b93-c4c2-4e2b-8a07-2befbad3e64f">
-                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="2368a00c-41dd-4229-a643-bb504460e637" preProve="true">
+                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" id="2368a00c-41dd-4229-a643-bb504460e637" preProve="true">
                     <guards name="ret = FALSE"/>
                     <guards name="ret = TRUE"/>
                     <commands name="statement" id="5e551560-b273-48c9-b130-54c3a6b29a92">
@@ -91,24 +91,24 @@
                       <preCondition name="modifiable(\nothing);(newWithdraw &lt;= withdraw &amp; \original_post) &amp; (ret = FALSE)"/>
                     </commands>
                     <commands name="statement" id="ed07b13c-5709-47dc-bd3a-ef75d7f0dd7d">
-                      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="431fd8e7-7016-4651-b7ae-acb1a7350d08">
+                      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="431fd8e7-7016-4651-b7ae-acb1a7350d08">
                         <firstStatement name="statement1" id="8b084d5e-3004-4377-a4c5-34084bb93d72">
-                          <refinement name="withdraw = newWithdraw;" proven="true" id="a4aabd11-2bb6-4c2a-93c4-d8440601367a">
-                            <postCondition name="withdraw &#xD;&#xA;&lt;= \old(withdraw) &amp; balance = \old(balance) + x"/>
+                          <refinement name="withdraw = newWithdraw;" id="a4aabd11-2bb6-4c2a-93c4-d8440601367a">
+                            <postCondition name="withdraw &lt;= \old(withdraw) &amp; balance = \old(balance) + x"/>
                             <preCondition name="modifiable(\nothing);(newWithdraw &lt;= withdraw &amp; \original_post) &amp; (ret = TRUE)"/>
                           </refinement>
-                          <postCondition name="withdraw &#xD;&#xA;&lt;= \old(withdraw) &amp; balance = \old(balance) + x"/>
+                          <postCondition name="withdraw &lt;= \old(withdraw) &amp; balance = \old(balance) + x"/>
                           <preCondition name="modifiable(\nothing);(newWithdraw &lt;= withdraw &amp; \original_post) &amp; (ret = TRUE)"/>
                         </firstStatement>
                         <secondStatement name="statement2" id="0c947011-d3f0-469c-aff3-58b43ff7dd3b">
                           <refinement xsi:type="cbcmodel:ReturnStatement" name="true;" proven="true" comment="returnStatement" id="adbd78bd-a713-4213-b5b6-01ea2ec693e8">
                             <postCondition name="\original_post  &amp; withdrawChangedResult(\result, withdraw, \old(withdraw))"/>
-                            <preCondition name="withdraw &#xD;&#xA;&lt;= \old(withdraw) &amp; balance = \old(balance) + x"/>
+                            <preCondition name="withdraw &lt;= \old(withdraw) &amp; balance = \old(balance) + x"/>
                           </refinement>
                           <postCondition name="\original_post  &amp; withdrawChangedResult(\result, withdraw, \old(withdraw))"/>
-                          <preCondition name="withdraw &#xD;&#xA;&lt;= \old(withdraw) &amp; balance = \old(balance) + x"/>
+                          <preCondition name="withdraw &lt;= \old(withdraw) &amp; balance = \old(balance) + x"/>
                         </secondStatement>
-                        <intermediateCondition name="withdraw &#xD;&#xA;&lt;= \old(withdraw) &amp; balance = \old(balance) + x"/>
+                        <intermediateCondition name="withdraw &lt;= \old(withdraw) &amp; balance = \old(balance) + x"/>
                       </refinement>
                       <postCondition name="\original_post  &amp; withdrawChangedResult(\result, withdraw, \old(withdraw))"/>
                       <preCondition name="modifiable(\nothing);(newWithdraw &lt;= withdraw &amp; \original_post) &amp; (ret = TRUE)"/>

@@ -41,10 +41,10 @@ public class Account {
 		newWithdraw = withdraw;
 		if (x < 0) {
 			newWithdraw -= x;
-			if (newWithdraw < DAILY_LIMIT) {
+			if (newWithdraw < DAILY_LIMIT/24) {
 				ret = false;
 				return ret;
-			} else if (newWithdraw >= DAILY_LIMIT) {
+			} else if (newWithdraw >= DAILY_LIMIT/24) {
 				;
 			}
 		} else if (x >= 0) {
@@ -94,10 +94,10 @@ public class Account {
 		newWithdraw = withdraw;
 		if (x < 0) {
 			newWithdraw += x;
-			if (newWithdraw < DAILY_LIMIT) {
+			if (newWithdraw < DAILY_LIMIT/24) {
 				ret = false;
 				return ret;
-			} else if (newWithdraw >= DAILY_LIMIT) {
+			} else if (newWithdraw >= DAILY_LIMIT/24) {
 				;
 			}
 		} else if (x >= 0) {
