@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cbcmodel" nsURI="http://www.example.org/cbcmodel" nsPrefix="de.tu-bs.cs.isf.cbc.cbcmodel">
+  <eClassifiers xsi:type="ecore:EClass" name="CbCFormula">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statement" lowerBound="1"
+        eType="#//AbstractStatement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preCondition" lowerBound="1"
+        eType="#//Condition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postCondition" lowerBound="1"
+        eType="#//Condition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="proven" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="compositionTechnique" eType="#//CompositionTechnique"
+        defaultValueLiteral="CONTRACT_OVERRIDING"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodObj" eType="ecore:EClass cbcclass.ecore#//Method"
+        eOpposite="cbcclass.ecore#//Method/cbcStartTriple"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Condition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifiables" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractStatement">
+    <eOperations name="generateID" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refinement" eType="#//AbstractStatement"
+        containment="true" eOpposite="#//AbstractStatement/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//AbstractStatement"
+        eOpposite="#//AbstractStatement/refinement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postCondition" eType="#//Condition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preCondition" eType="#//Condition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="proven" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SkipStatement" eSuperTypes="#//AbstractStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositionStatement" eSuperTypes="#//AbstractStatement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="firstStatement" lowerBound="1"
+        eType="#//AbstractStatement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="secondStatement" lowerBound="1"
+        eType="#//AbstractStatement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateCondition"
+        lowerBound="1" eType="#//Condition" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SelectionStatement" eSuperTypes="#//AbstractStatement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guards" upperBound="-1"
+        eType="#//Condition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commands" upperBound="-1"
+        eType="#//AbstractStatement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preProve" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodStatement" eSuperTypes="#//AbstractStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Variant">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReturnStatement" eSuperTypes="#//AbstractStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SmallRepetitionStatement" eSuperTypes="#//AbstractStatement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loopStatement" lowerBound="1"
+        eType="#//AbstractStatement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variant" lowerBound="1"
+        eType="#//Variant" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invariant" lowerBound="1"
+        eType="#//Condition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" lowerBound="1" eType="#//Condition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="variantProven" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preProven" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="postProven" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaVariables">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="#//JavaVariable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
+        eType="ecore:EClass cbcclass.ecore#//Field">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="if (eDirectResource() != null) { &#x9;&#x9;&#x9;if (eDirectResource().getResourceSet() != null) { &#x9;&#x9;&#x9;&#x9;if (eDirectResource().getResourceSet().getResources() != null) { &#x9;&#x9;&#x9;&#x9;&#x9;EList&lt;Resource> resources = eDirectResource().getResourceSet().getResources(); &#x9;&#x9;&#x9;&#x9;&#x9;URI uri = eDirectResource().getURI(); &#x9;&#x9;&#x9;&#x9;&#x9;uri = uri.trimSegments(1); &#x9;&#x9;&#x9;&#x9;&#x9;uri = uri.appendSegment(uri.lastSegment() + &quot;.cbcclass&quot;); &#x9;&#x9;&#x9;&#x9;&#x9;for (Resource res : resources) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if (res.getURI().equals(uri)) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;EList&lt;EObject> content = res.getContents(); &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for (EObject o : content) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if (o instanceof ModelClass) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;return ((ModelClass) o).getFields(); &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;} &#x9;&#x9;}&#x9; &#x9;&#x9;if (fields == null) { &#x9;&#x9;&#x9;fields = new EObjectResolvingEList&lt;Field>(Field.class, this, CbcmodelPackage.JAVA_VARIABLES__FIELDS); &#x9;&#x9;} &#x9;&#x9;return fields;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="ecore:EClass cbcclass.ecore#//Parameter" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaVariable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="int a"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" unique="false" eType="#//VariableKind"
+        defaultValueLiteral="LOCAL"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="displayedName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" volatile="true" transient="true" defaultValueLiteral="kind + &quot; &quot; + name"
+        unsettable="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="return getKind() + &quot; &quot; + getName();"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlobalConditions">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conditions" upperBound="-1"
+        eType="#//Condition" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Renaming">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rename" upperBound="-1"
+        eType="#//Rename" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rename">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="function" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="newName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CbCProblem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="globalcondition" eType="#//GlobalConditions"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cbcformula" lowerBound="1"
+        eType="#//CbCFormula" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="javaVariable" eType="#//JavaVariables"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="renaming" eType="#//Renaming"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StrengthWeakStatement" eSuperTypes="#//AbstractStatement"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="VariableKind">
+    <eLiterals name="LOCAL" literal="LOCAL"/>
+    <eLiterals name="PARAM" value="1" literal="PARAM"/>
+    <eLiterals name="RETURN" value="2" literal="RETURN"/>
+    <eLiterals name="GLOBAL" value="3"/>
+    <eLiterals name="GLOBAL_PARAM" value="4" literal="GLOBAL_PARAM"/>
+    <eLiterals name="RETURNPARAM" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CompositionTechnique">
+    <eLiterals name="CONTRACT_OVERRIDING"/>
+    <eLiterals name="EXPLICIT_CONTRACTING" value="1"/>
+    <eLiterals name="CONJUNCTIVE_CONTRACTING" value="2" literal="CONJUNCTIVE_CONTRACTING"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OriginalStatement" eSuperTypes="#//AbstractStatement"/>
+</ecore:EPackage>
