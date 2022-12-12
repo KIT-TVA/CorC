@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>de.tu-bs.cbc</groupId>
+    <artifactId>CorC-feat-autobuild_final</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>de.tu-bs.cbc</groupId>
+  <artifactId>de.tu_bs.cs.isf.cbc.statistics</artifactId>
+  <version>1.0.0</version>
+  <packaging>eclipse-plugin</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>mwe2Launcher</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</mainClass>
+          <arguments>
+            <argument>/${project.basedir}/src/Model.mwe2</argument>
+            <argument>-p</argument>
+            <argument>rootPath=/${project.basedir}/..</argument>
+          </arguments>
+          <classpathScope>compile</classpathScope>
+          <includePluginDependencies>true</includePluginDependencies>
+          <cleanupDaemonThreads>false</cleanupDaemonThreads><!-- see https://bugs.eclipse.org/bugs/show_bug.cgi?id=475098#c3 -->
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.eclipse.xtext</groupId>
+            <artifactId>xtext-antlr-generator</artifactId>
+            <version>2.1.1</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.xtend</groupId>
+        <artifactId>xtend-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <filesets combine.children="append">
+            <fileset>
+              <directory>${basedir}/../de.tu_bs.cs.isf.cbc.statistics/src-gen/</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

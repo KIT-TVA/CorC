@@ -1,0 +1,18 @@
+module Model
+
+Workflow {
+	
+	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
+    platformUri=".."
+	}
+
+	component = org.eclipse.emf.mwe.utils.DirectoryCleaner {
+    directory ="src-gen"
+	}
+
+	component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
+    generateCustomClasses = false
+    genModel = "platform:/resource/de.tu_bs.cs.isf.cbc.statistics/model/cbcstatistics.genmodel"
+    srcPath = "platform:/resource/de.tu_bs.cs.isf.cbc.statistics/src" 
+	}
+}
