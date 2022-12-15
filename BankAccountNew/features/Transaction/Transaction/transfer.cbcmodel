@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="transfer" compositionTechnique="EXPLICIT_CONTRACTING" className="Transaction" methodName="transfer">
+  <cbcmodel:CbCFormula name="transfer" proven="true" compositionTechnique="EXPLICIT_CONTRACTING" className="Transaction" methodName="transfer">
     <statement name="statement" id="38f5dd24-659e-4174-9777-449989acd791">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="bab58347-87fb-4a09-ae93-bfc949758547">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="bab58347-87fb-4a09-ae93-bfc949758547">
         <firstStatement name="statement1" id="4ab1c2f3-f2f8-42f8-a1ec-ae3ad2b3c5e5">
-          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" id="f47ab7c7-9b97-4d8d-a427-ee9287a9a8b0" preProve="true">
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="f47ab7c7-9b97-4d8d-a427-ee9287a9a8b0" preProve="true">
             <guards name="amount &lt;= 0"/>
             <guards name="amount > 0"/>
             <commands name="statement" id="90d9b5d2-82d5-441d-88bf-a6ff025097dc">
-              <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" comment="returnStatement" id="e19bfbd0-8640-438c-b4f3-a5a80c168228">
-                <postCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement" id="e19bfbd0-8640-438c-b4f3-a5a80c168228">
+                <postCondition name="transferPerformed(\result, destination.balance, \old(destination.balance), source.balance, \old(source.balance), amount)"/>
                 <preCondition name="modifiable(\nothing);(source != destination) &amp; (amount &lt;= 0)"/>
               </refinement>
               <postCondition name="amount > 0"/>
@@ -45,7 +45,7 @@
                     <guards name="ret = TRUE"/>
                     <commands name="statement" id="4b108857-34b3-40d7-a586-0bc622632057">
                       <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement" id="023da084-0b88-468e-a09e-2da3057bf944">
-                        <postCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                        <postCondition name="transferPerformed(\result, destination.balance, \old(destination.balance), source.balance, \old(source.balance), amount)"/>
                         <preCondition name="modifiable(\nothing);(balanceChangedResult(ret, source.balance, \old(source.balance), -amount)) &amp; (ret = FALSE)"/>
                       </refinement>
                       <postCondition name="ret = TRUE"/>
@@ -79,10 +79,10 @@
                         <guards name="ret = FALSE"/>
                         <commands name="statement" id="bbcf7c8d-3e91-4157-b8ae-ba4c24e592d1">
                           <refinement xsi:type="cbcmodel:ReturnStatement" name="true;" proven="true" comment="returnStatement" id="be6c40c1-7279-499f-8355-7c1b57eba203">
-                            <postCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                            <postCondition name="transferPerformed(\result, destination.balance, \old(destination.balance), source.balance, \old(source.balance), amount)"/>
                             <preCondition name="modifiable(\nothing);(balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)) &amp; (ret = TRUE)"/>
                           </refinement>
-                          <postCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                          <postCondition name="transferPerformed(\result, destination.balance, \old(destination.balance), source.balance, \old(source.balance), amount)"/>
                           <preCondition name="modifiable(\nothing);(balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)) &amp; (ret = TRUE)"/>
                         </commands>
                         <commands name="statement" id="28eb508c-dc61-4f1b-9d6a-6a1fc4edd153">
@@ -97,39 +97,39 @@
                             </firstStatement>
                             <secondStatement name="statement2" id="e4d96b43-e492-402b-8059-38ca35c42dbb">
                               <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement" id="2bf43638-7331-4708-9c06-c7235bb91c13">
-                                <postCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                                <postCondition name="transferPerformed(\result, destination.balance, \old(destination.balance), source.balance, \old(source.balance), amount)"/>
                                 <preCondition name="true"/>
                               </refinement>
-                              <postCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                              <postCondition name="transferPerformed(\result, destination.balance, \old(destination.balance), source.balance, \old(source.balance), amount)"/>
                               <preCondition name="true"/>
                             </secondStatement>
                             <intermediateCondition name="true"/>
                           </refinement>
-                          <postCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                          <postCondition name="transferPerformed(\result, destination.balance, \old(destination.balance), source.balance, \old(source.balance), amount)"/>
                           <preCondition name="modifiable(\nothing);(balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)) &amp; (ret = FALSE)"/>
                         </commands>
                       </refinement>
-                      <postCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                      <postCondition name="transferPerformed(\result, destination.balance, \old(destination.balance), source.balance, \old(source.balance), amount)"/>
                       <preCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)"/>
                     </secondStatement>
                     <intermediateCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)"/>
                   </refinement>
-                  <postCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                  <postCondition name="transferPerformed(\result, destination.balance, \old(destination.balance), source.balance, \old(source.balance), amount)"/>
                   <preCondition name="ret = TRUE"/>
                 </secondStatement>
                 <intermediateCondition name="ret = TRUE"/>
               </refinement>
-              <postCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+              <postCondition name="transferPerformed(\result, destination.balance, \old(destination.balance), source.balance, \old(source.balance), amount)"/>
               <preCondition name="balanceChangedResult(ret, source.balance, \old(source.balance), -amount)"/>
             </secondStatement>
             <intermediateCondition name="balanceChangedResult(ret, source.balance, \old(source.balance), -amount)"/>
           </refinement>
-          <postCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+          <postCondition name="transferPerformed(\result, destination.balance, \old(destination.balance), source.balance, \old(source.balance), amount)"/>
           <preCondition name="amount > 0"/>
         </secondStatement>
         <intermediateCondition name="amount > 0"/>
       </refinement>
-      <postCondition name="balanceChangedResult(\result, destination.balance, \old(destination.balance), amount)&#xD;&#xA;&amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+      <postCondition name="transferPerformed(\result, destination.balance, \old(destination.balance), source.balance, \old(source.balance), amount)"/>
       <preCondition name="source != destination"/>
     </statement>
     <preCondition name="pre"/>

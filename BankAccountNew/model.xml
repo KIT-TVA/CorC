@@ -12,10 +12,10 @@
 	</properties>
 	<struct>
 		<and mandatory="true" name="BankAccount">
-			<alt name="Limit">
+			<or name="Limit">
 				<feature name="HourlyLimit"/>
 				<feature name="DailyLimit"/>
-			</alt>
+			</or>
 			<feature name="Interest"/>
 			<feature name="Transaction"/>
 		</and>

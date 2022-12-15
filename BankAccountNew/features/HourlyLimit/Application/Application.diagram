@@ -144,16 +144,16 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.0"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{true}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_pre}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@preCondition"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@preCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="150" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="public void nextDay()">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="150" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="public void nextHour()">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="signatureText"/>
       </graphicsAlgorithm>
       <link>
@@ -161,11 +161,11 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(a.withdraw);&#xD;&#xA;a.withdraw = 0}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{a.withdrawHourly = 0}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@postCondition"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@postCondition"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>

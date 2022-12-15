@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="nextDay" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.4/@link //@children.1/@link //@children.1/@children.0/@link //@children.2/@link //@children.2/@children.1/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.4/@link //@children.2/@children.5/@link //@children.2/@children.6/@link //@children.3/@link //@children.3/@children.0/@link //@children.3/@children.1/@link //@children.3/@children.2/@link //@children.3/@children.3/@link //@children.4/@link //@children.4/@children.0/@link //@children.4/@children.1/@link //@children.4/@children.2/@link //@children.4/@children.3/@link" version="0.18.0">
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="nextHour" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.4/@link //@children.1/@link //@children.1/@children.0/@link //@children.2/@link //@children.2/@children.1/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.4/@link //@children.2/@children.5/@link //@children.2/@children.6/@link //@children.3/@link //@children.3/@children.0/@link //@children.3/@children.1/@link //@children.3/@children.2/@link //@children.3/@children.3/@link //@children.4/@link //@children.4/@children.0/@link //@children.4/@children.1/@link //@children.4/@children.2/@link //@children.4/@children.3/@link" version="0.18.0">
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <link>
-    <businessObjects href="nextDay.cbcmodel#/0"/>
+    <businessObjects href="nextHour.cbcmodel#/0"/>
   </link>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
@@ -44,14 +44,14 @@
       </renderingStyle>
     </graphicsAlgorithm>
     <link>
-      <businessObjects href="nextDay.cbcmodel#/0"/>
+      <businessObjects href="nextHour.cbcmodel#/0"/>
     </link>
     <children visible="true" active="true">
       <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="163" height="131" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_pre}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@preCondition"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@preCondition"/>
       </link>
     </children>
     <children visible="true" active="true">
@@ -59,7 +59,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementNameText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.0"/>
     </children>
@@ -68,7 +68,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@postCondition"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@postCondition"/>
       </link>
     </children>
     <children visible="true">
@@ -81,7 +81,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0"/>
+        <businessObjects href="nextHour.cbcmodel#/0"/>
       </link>
     </children>
     <children visible="true">
@@ -168,14 +168,14 @@
       </renderingStyle>
     </graphicsAlgorithm>
     <link>
-      <businessObjects href="nextDay.cbcmodel#/1"/>
+      <businessObjects href="nextHour.cbcmodel#/1"/>
     </link>
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="100" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variablesName"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/1"/>
+        <businessObjects href="nextHour.cbcmodel#/1"/>
       </link>
     </children>
     <children visible="true">
@@ -226,7 +226,7 @@
       </renderingStyle>
     </graphicsAlgorithm>
     <link>
-      <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement"/>
+      <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement"/>
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.0"/>
     <children visible="true" active="true">
@@ -234,7 +234,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1NameText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@firstStatement"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@firstStatement"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.1"/>
     </children>
@@ -243,7 +243,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@intermediateCondition"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@intermediateCondition"/>
       </link>
     </children>
     <children visible="true" active="true">
@@ -251,7 +251,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2NameText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@secondStatement"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@secondStatement"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.2"/>
     </children>
@@ -265,7 +265,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@firstStatement/@preCondition"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@firstStatement/@preCondition"/>
       </link>
     </children>
     <children visible="true">
@@ -273,7 +273,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@secondStatement/@postCondition"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@secondStatement/@postCondition"/>
       </link>
     </children>
     <children visible="true">
@@ -281,7 +281,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement"/>
       </link>
     </children>
     <children visible="true">
@@ -399,15 +399,15 @@
       </renderingStyle>
     </graphicsAlgorithm>
     <link>
-      <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement"/>
+      <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement"/>
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.2"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="193" height="101" x="193" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="a.interest += a.interestCalculateDaily();">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="193" height="101" x="193" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="a.interest += a.interestCalculateHourly();">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
@@ -416,7 +416,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@preCondition"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@preCondition"/>
       </link>
     </children>
     <children visible="true">
@@ -424,7 +424,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@postCondition"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@postCondition"/>
       </link>
     </children>
     <children visible="true">
@@ -432,7 +432,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement"/>
       </link>
     </children>
     <children visible="true">
@@ -517,7 +517,7 @@
       </renderingStyle>
     </graphicsAlgorithm>
     <link>
-      <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement"/>
+      <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement"/>
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.1"/>
     <children visible="true" active="true">
@@ -525,7 +525,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement"/>
       </link>
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
@@ -534,7 +534,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement/@preCondition"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement/@preCondition"/>
       </link>
     </children>
     <children visible="true">
@@ -542,7 +542,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement/@postCondition"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement/@postCondition"/>
       </link>
     </children>
     <children visible="true">
@@ -550,7 +550,7 @@
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="nextDay.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement"/>
+        <businessObjects href="nextHour.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement"/>
       </link>
     </children>
     <children visible="true">

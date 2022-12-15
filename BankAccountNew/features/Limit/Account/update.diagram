@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="update" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.4/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.3/@link //@children.1/@children.4/@link //@children.1/@children.5/@link //@children.2/@link //@children.2/@children.1/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.4/@link //@children.2/@children.5/@link //@children.2/@children.6/@link //@children.3/@link //@children.3/@children.0/@link //@children.3/@children.1/@link //@children.3/@children.2/@link //@children.3/@children.3/@link //@children.4/@link //@children.4/@children.1/@link //@children.4/@children.0/@link //@children.4/@children.2/@link //@children.4/@children.4/@link //@children.4/@children.5/@link //@children.4/@children.6/@link //@children.5/@link //@children.5/@children.1/@link //@children.5/@children.14/@link //@children.5/@children.15/@link //@children.5/@children.16/@link //@children.5/@children.20/@link //@children.5/@children.21/@link //@children.5/@children.22/@link //@children.5/@children.23/@link //@children.5/@children.27/@link //@children.6/@link //@children.6/@children.0/@link //@children.6/@children.1/@link //@children.6/@children.2/@link //@children.6/@children.3/@link //@children.7/@link //@children.7/@children.1/@link //@children.7/@children.0/@link //@children.7/@children.2/@link //@children.7/@children.4/@link //@children.7/@children.5/@link //@children.7/@children.6/@link //@children.8/@link //@children.8/@children.0/@link //@children.8/@children.1/@link //@children.8/@children.2/@link //@children.8/@children.3/@link //@children.9/@link //@children.9/@children.1/@link //@children.9/@children.14/@link //@children.9/@children.15/@link //@children.9/@children.16/@link //@children.9/@children.20/@link //@children.9/@children.21/@link //@children.9/@children.22/@link //@children.9/@children.23/@link //@children.9/@children.27/@link //@children.10/@link //@children.10/@children.0/@link //@children.10/@children.1/@link //@children.10/@children.2/@link //@children.10/@children.3/@link //@children.11/@link //@children.11/@children.0/@link //@children.11/@children.1/@link //@children.11/@children.2/@link //@children.11/@children.3/@link //@children.12/@link //@children.12/@children.1/@link //@children.12/@children.0/@link //@children.12/@children.2/@link //@children.12/@children.4/@link //@children.12/@children.5/@link //@children.12/@children.6/@link //@children.13/@link //@children.13/@children.0/@link //@children.13/@children.1/@link //@children.13/@children.2/@link //@children.13/@children.3/@link //@children.14/@link //@children.14/@children.1/@link //@children.14/@children.14/@link //@children.14/@children.15/@link //@children.14/@children.16/@link //@children.14/@children.20/@link //@children.14/@children.21/@link //@children.14/@children.22/@link //@children.14/@children.23/@link //@children.14/@children.27/@link //@children.15/@link //@children.15/@children.0/@link //@children.15/@children.1/@link //@children.15/@children.2/@link //@children.15/@children.3/@link //@children.16/@link //@children.16/@children.1/@link //@children.16/@children.0/@link //@children.16/@children.2/@link //@children.16/@children.4/@link //@children.16/@children.5/@link //@children.16/@children.6/@link //@children.17/@link //@children.17/@children.0/@link //@children.17/@children.1/@link //@children.17/@children.2/@link //@children.17/@children.3/@link //@children.18/@link //@children.18/@children.0/@link //@children.18/@children.1/@link //@children.18/@children.2/@link //@children.18/@children.3/@link //@children.1/@children.6/@link" version="0.18.0">
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="update" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.4/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.3/@link //@children.1/@children.4/@link //@children.2/@link //@children.2/@children.1/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.4/@link //@children.2/@children.5/@link //@children.2/@children.6/@link //@children.3/@link //@children.3/@children.0/@link //@children.3/@children.1/@link //@children.3/@children.2/@link //@children.3/@children.3/@link //@children.4/@link //@children.4/@children.1/@link //@children.4/@children.0/@link //@children.4/@children.2/@link //@children.4/@children.4/@link //@children.4/@children.5/@link //@children.4/@children.6/@link //@children.5/@link //@children.5/@children.1/@link //@children.5/@children.14/@link //@children.5/@children.15/@link //@children.5/@children.16/@link //@children.5/@children.20/@link //@children.5/@children.21/@link //@children.5/@children.22/@link //@children.5/@children.23/@link //@children.5/@children.27/@link //@children.6/@link //@children.6/@children.0/@link //@children.6/@children.1/@link //@children.6/@children.2/@link //@children.6/@children.3/@link //@children.7/@link //@children.7/@children.1/@link //@children.7/@children.0/@link //@children.7/@children.2/@link //@children.7/@children.4/@link //@children.7/@children.5/@link //@children.7/@children.6/@link //@children.8/@link //@children.8/@children.0/@link //@children.8/@children.1/@link //@children.8/@children.2/@link //@children.8/@children.3/@link //@children.9/@link //@children.9/@children.1/@link //@children.9/@children.14/@link //@children.9/@children.15/@link //@children.9/@children.16/@link //@children.9/@children.20/@link //@children.9/@children.21/@link //@children.9/@children.22/@link //@children.9/@children.23/@link //@children.9/@children.27/@link //@children.10/@link //@children.10/@children.0/@link //@children.10/@children.1/@link //@children.10/@children.2/@link //@children.10/@children.3/@link //@children.11/@link //@children.11/@children.0/@link //@children.11/@children.1/@link //@children.11/@children.2/@link //@children.11/@children.3/@link //@children.12/@link //@children.12/@children.1/@link //@children.12/@children.0/@link //@children.12/@children.2/@link //@children.12/@children.4/@link //@children.12/@children.5/@link //@children.12/@children.6/@link //@children.13/@link //@children.13/@children.0/@link //@children.13/@children.1/@link //@children.13/@children.2/@link //@children.13/@children.3/@link //@children.14/@link //@children.14/@children.1/@link //@children.14/@children.14/@link //@children.14/@children.15/@link //@children.14/@children.16/@link //@children.14/@children.20/@link //@children.14/@children.21/@link //@children.14/@children.22/@link //@children.14/@children.23/@link //@children.14/@children.27/@link //@children.15/@link //@children.15/@children.0/@link //@children.15/@children.1/@link //@children.15/@children.2/@link //@children.15/@children.3/@link //@children.16/@link //@children.16/@children.1/@link //@children.16/@children.0/@link //@children.16/@children.2/@link //@children.16/@children.4/@link //@children.16/@children.5/@link //@children.16/@children.6/@link //@children.17/@link //@children.17/@children.0/@link //@children.17/@children.1/@link //@children.17/@children.2/@link //@children.17/@children.3/@link //@children.18/@link //@children.18/@children.0/@link //@children.18/@children.1/@link //@children.18/@children.2/@link //@children.18/@children.3/@link //@children.1/@children.5/@link //@children.1/@children.6/@link //@children.1/@children.7/@link //@children.1/@children.8/@link //@children.1/@children.9/@link" version="0.18.0">
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <link>
     <businessObjects href="update.cbcmodel#/0"/>
   </link>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="561" height="141" x="20" y="20" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="561" height="141" x="20" y="20" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -64,7 +64,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.15"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="187" height="81" x="374" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdraw, \old(withdraw))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="187" height="81" x="374" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdrawDaily, \old(withdrawDaily), withdrawHourly, \old(withdrawHourly))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -77,7 +77,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="541" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="541" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -171,7 +171,7 @@
       <businessObjects href="update.cbcmodel#/1"/>
     </link>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="23" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="15" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variablesName"/>
       </graphicsAlgorithm>
       <link>
@@ -181,12 +181,39 @@
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
-        <points y="23"/>
-        <points x="200" y="23"/>
+        <points y="15"/>
+        <points x="200" y="15"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="23" y="115" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC int withdraw">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="15" y="120" horizontalAlignment="ALIGNMENT_CENTER" value="PARAM int x">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="7"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="Account.cbcclass#//@methods.0/@parameters.0"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="15" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="RETURN boolean ret">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="6"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="Account.cbcclass#//@methods.0/@parameters.1"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="15" y="90" horizontalAlignment="ALIGNMENT_CENTER" value="LOCAL int newWithdrawHourly">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="5"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="update.cbcmodel#/1/@variables.0"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="15" y="75" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC final int DAILY_LIMIT">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="4"/>
       </graphicsAlgorithm>
@@ -195,45 +222,45 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="23" y="92" horizontalAlignment="ALIGNMENT_CENTER" value="PARAM int x">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="15" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC final int HOURLY_LIMIT">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="3"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="Account.cbcclass#//@methods.0/@parameters.0"/>
+        <businessObjects href="Account.cbcclass#//@fields.2"/>
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="23" y="69" horizontalAlignment="ALIGNMENT_CENTER" value="RETURN boolean ret">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="15" y="45" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC int withdrawDaily">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="Account.cbcclass#//@methods.0/@parameters.1"/>
+        <businessObjects href="Account.cbcclass#//@fields.0"/>
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="23" y="46" horizontalAlignment="ALIGNMENT_CENTER" value="LOCAL int newWithdraw">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="15" y="30" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC int withdrawHourly">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="update.cbcmodel#/1/@variables.0"/>
+        <businessObjects href="Account.cbcclass#//@fields.3"/>
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="23" y="23" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC final int DAILY_LIMIT">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="15" y="15" horizontalAlignment="ALIGNMENT_CENTER" value="LOCAL int newWithdrawDaily">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
       <link>
-        <businessObjects href="Account.cbcclass#//@fields.1"/>
+        <businessObjects href="update.cbcmodel#/1/@variables.1"/>
       </link>
     </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="731" height="201" x="380" y="180" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="731" height="201" x="380" y="180" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -284,7 +311,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.14"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="243" height="50" x="243" y="151" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw = withdraw}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="243" height="50" x="243" y="151" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdrawDaily = withdrawDaily&#xD;&#xA;&amp; newWithdrawHourly = withdrawHourly}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -314,7 +341,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="365" height="50" x="365" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdraw, \old(withdraw))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="365" height="50" x="365" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdrawDaily, \old(withdrawDaily), withdrawHourly, \old(withdrawHourly))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -322,7 +349,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="711" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="711" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -448,7 +475,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.14"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="130" height="91" x="130" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="newWithdraw = withdraw;">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="130" height="91" x="130" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="newWithdrawDaily = withdrawDaily;&#xD;&#xA;newWithdrawHourly = withdrawHourly;">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
       </graphicsAlgorithm>
       <link>
@@ -465,7 +492,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="130" height="91" x="260" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw = withdraw}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="130" height="91" x="260" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdrawDaily = withdrawDaily&#xD;&#xA;&amp; newWithdrawHourly = withdrawHourly}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -519,7 +546,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="732" height="200" x="380" y="400" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="732" height="200" x="380" y="400" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -570,7 +597,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.12"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="244" height="50" x="244" y="150" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw &lt;= withdraw}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="244" height="50" x="244" y="150" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdrawDaily &lt;= withdrawDaily &amp; newWithdrawHourly &lt;= withdrawHourly}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -592,7 +619,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="366" height="50" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw = withdraw}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="366" height="50" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdrawDaily = withdrawDaily&#xD;&#xA;&amp; newWithdrawHourly = withdrawHourly}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -600,7 +627,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="366" height="50" x="366" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdraw, \old(withdraw))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="366" height="50" x="366" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdrawDaily, \old(withdrawDaily), withdrawHourly, \old(withdrawHourly))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -608,7 +635,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="712" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="712" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -833,7 +860,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.10"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="50" y="130" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw = withdraw) &amp; (x &lt; 0)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="50" y="130" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdrawDaily = withdrawDaily&#xD;&#xA;&amp; newWithdrawHourly = withdrawHourly) &amp; (x &lt; 0)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -842,7 +869,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="500" height="50" y="270" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw &lt;= withdraw}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="500" height="50" y="270" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdrawDaily &lt;= withdrawDaily &amp; newWithdrawHourly &lt;= withdrawHourly}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -888,7 +915,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.11"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="50" x="250" y="130" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw = withdraw) &amp; (x >= 0)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="50" x="250" y="130" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdrawDaily = withdrawDaily&#xD;&#xA;&amp; newWithdrawHourly = withdrawHourly) &amp; (x >= 0)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -897,7 +924,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw &lt;= withdraw}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdrawDaily &lt;= withdrawDaily &amp; newWithdrawHourly &lt;= withdrawHourly}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -991,7 +1018,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="155" height="71" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw = withdraw) &amp; (x >= 0)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="155" height="71" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdrawDaily = withdrawDaily&#xD;&#xA;&amp; newWithdrawHourly = withdrawHourly) &amp; (x >= 0)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preNameText"/>
       </graphicsAlgorithm>
       <link>
@@ -999,7 +1026,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="155" height="71" x="155" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw &lt;= withdraw}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="155" height="71" x="155" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdrawDaily &lt;= withdrawDaily &amp; newWithdrawHourly &lt;= withdrawHourly}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postNameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1106,7 +1133,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.8"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="55" x="166" y="156" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw = withdraw + x &amp; x&lt;0}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="55" x="166" y="156" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdrawDaily,newWithdrawHourly);&#xD;&#xA;newWithdrawHourly = withdrawHourly + x &amp;&#xD;&#xA;newWithdrawDaily = withdrawDaily + x &amp; x&lt;0}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -1128,7 +1155,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="55" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw = withdraw) &amp; (x &lt; 0)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="55" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdrawDaily = withdrawDaily&#xD;&#xA;&amp; newWithdrawHourly = withdrawHourly) &amp; (x &lt; 0)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1136,7 +1163,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="55" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw &lt;= withdraw}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="55" x="250" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdrawDaily &lt;= withdrawDaily &amp; newWithdrawHourly &lt;= withdrawHourly}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1270,7 +1297,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.8"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="71" x="166" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="newWithdraw += x;">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="71" x="166" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="newWithdrawDaily += x;&#xD;&#xA;newWithdrawHourly += x;">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
       </graphicsAlgorithm>
       <link>
@@ -1279,7 +1306,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="71" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw = withdraw) &amp; (x &lt; 0)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="71" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdrawDaily = withdrawDaily&#xD;&#xA;&amp; newWithdrawHourly = withdrawHourly) &amp; (x &lt; 0)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -1287,7 +1314,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="71" x="332" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw = withdraw + x &amp; x&lt;0}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="71" x="332" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdrawDaily,newWithdrawHourly);&#xD;&#xA;newWithdrawHourly = withdrawHourly + x &amp;&#xD;&#xA;newWithdrawDaily = withdrawDaily + x &amp; x&lt;0}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -1482,7 +1509,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.6"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="80" y="160" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw = withdraw + x &amp; x&lt;0) &amp; (limitNotExceeded(newWithdraw, DAILY_LIMIT))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="80" y="160" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdrawDaily,newWithdrawHourly);(newWithdrawHourly = withdrawHourly + x &amp;&#xD;&#xA;newWithdrawDaily = withdrawDaily + x &amp; x&lt;0) &amp; (!limitExceeded(newWithdrawDaily, newWithdrawHourly, DAILY_LIMIT, HOURLY_LIMIT))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -1491,7 +1518,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="500" height="80" y="360" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw &lt;= withdraw}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="500" height="80" y="360" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdrawDaily &lt;= withdrawDaily &amp; newWithdrawHourly &lt;= withdrawHourly}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -1518,7 +1545,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="80" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="limitNotExceeded(newWithdraw, DAILY_LIMIT)">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="80" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="!limitExceeded(newWithdrawDaily, newWithdrawHourly, DAILY_LIMIT, HOURLY_LIMIT)">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSelText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -1537,7 +1564,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.7"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="80" x="250" y="160" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw = withdraw + x &amp; x&lt;0) &amp; (limitExceeded(newWithdraw, DAILY_LIMIT))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="80" x="250" y="160" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdrawDaily,newWithdrawHourly);(newWithdrawHourly = withdrawHourly + x &amp;&#xD;&#xA;newWithdrawDaily = withdrawDaily + x &amp; x&lt;0) &amp; (limitExceeded(newWithdrawDaily, newWithdrawHourly, DAILY_LIMIT, HOURLY_LIMIT))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -1546,7 +1573,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw &lt;= withdraw}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdrawDaily &lt;= withdrawDaily &amp; newWithdrawHourly &lt;= withdrawHourly}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -1579,7 +1606,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="80" x="250" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="limitExceeded(newWithdraw, DAILY_LIMIT)">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="80" x="250" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="limitExceeded(newWithdrawDaily, newWithdrawHourly, DAILY_LIMIT, HOURLY_LIMIT)">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSelText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -1641,7 +1668,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="156" height="131" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw = withdraw + x &amp; x&lt;0) &amp; (limitNotExceeded(newWithdraw, DAILY_LIMIT))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="156" height="131" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdrawDaily,newWithdrawHourly);(newWithdrawHourly = withdrawHourly + x &amp;&#xD;&#xA;newWithdrawDaily = withdrawDaily + x &amp; x&lt;0) &amp; (!limitExceeded(newWithdrawDaily, newWithdrawHourly, DAILY_LIMIT, HOURLY_LIMIT))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -1649,7 +1676,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="156" height="131" x="312" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdraw, \old(withdraw))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="156" height="131" x="312" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdrawDaily, \old(withdrawDaily), withdrawHourly, \old(withdrawHourly))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -1753,7 +1780,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="205" height="100" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw = withdraw + x &amp; x&lt;0) &amp; (limitExceeded(newWithdraw, DAILY_LIMIT))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="205" height="100" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(newWithdrawDaily,newWithdrawHourly);(newWithdrawHourly = withdrawHourly + x &amp;&#xD;&#xA;newWithdrawDaily = withdrawDaily + x &amp; x&lt;0) &amp; (limitExceeded(newWithdrawDaily, newWithdrawHourly, DAILY_LIMIT, HOURLY_LIMIT))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preNameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1761,7 +1788,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="205" height="100" x="205" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw &lt;= withdraw}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="205" height="100" x="205" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdrawDaily &lt;= withdrawDaily &amp; newWithdrawHourly &lt;= withdrawHourly}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postNameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1817,7 +1844,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="730" height="200" x="380" y="620" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="730" height="200" x="380" y="620" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -1868,7 +1895,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.5"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="243" height="50" x="243" y="150" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw &lt;= withdraw &amp; \original_post}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="243" height="50" x="243" y="150" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdrawDaily &lt;= withdrawDaily &amp; &#xD;&#xA;newWithdrawHourly &lt;= withdrawHourly &amp; \original_post}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -1890,7 +1917,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="365" height="50" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdraw &lt;= withdraw}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="365" height="50" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{newWithdrawDaily &lt;= withdrawDaily &amp; newWithdrawHourly &lt;= withdrawHourly}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1898,7 +1925,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="365" height="50" x="365" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdraw, \old(withdraw))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="365" height="50" x="365" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdrawDaily, \old(withdrawDaily), withdrawHourly, \old(withdrawHourly))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1906,7 +1933,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="710" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="710" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -2041,7 +2068,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="110" height="101" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="newWithdraw &lt;= withdraw">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="110" height="101" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="newWithdrawDaily &lt;= withdrawDaily &amp; newWithdrawHourly &lt;= withdrawHourly">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -2049,7 +2076,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="110" height="101" x="220" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="newWithdraw &lt;= withdraw &amp; \original_post">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="110" height="101" x="220" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="newWithdrawDaily &lt;= withdrawDaily &amp; &#xD;&#xA;newWithdrawHourly &lt;= withdrawHourly &amp; \original_post">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -2108,7 +2135,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="378" height="420" x="730" y="850" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="378" height="420" x="730" y="850" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -2155,7 +2182,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="358" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="358" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -2249,7 +2276,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.3"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="189" height="75" y="155" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw &lt;= withdraw &amp; \original_post) &amp; (ret = FALSE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="189" height="75" y="155" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdrawDaily &lt;= withdrawDaily &amp; &#xD;&#xA;newWithdrawHourly &lt;= withdrawHourly &amp; \original_post) &amp; (ret = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -2258,7 +2285,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="378" height="75" y="345" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdraw, \old(withdraw))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="378" height="75" y="345" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdrawDaily, \old(withdrawDaily), withdrawHourly, \old(withdrawHourly))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -2304,7 +2331,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.2"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="189" height="75" x="189" y="155" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw &lt;= withdraw &amp; \original_post) &amp; (ret = TRUE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="189" height="75" x="189" y="155" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdrawDaily &lt;= withdrawDaily &amp; &#xD;&#xA;newWithdrawHourly &lt;= withdrawHourly &amp; \original_post) &amp; (ret = TRUE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -2313,7 +2340,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdraw, \old(withdraw))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdrawDaily, \old(withdrawDaily), withdrawHourly, \old(withdrawHourly))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -2408,7 +2435,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="110" height="140" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw &lt;= withdraw &amp; \original_post) &amp; (ret = FALSE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="110" height="140" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdrawDaily &lt;= withdrawDaily &amp; &#xD;&#xA;newWithdrawHourly &lt;= withdrawHourly &amp; \original_post) &amp; (ret = FALSE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -2416,7 +2443,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="110" height="140" x="220" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdraw, \old(withdraw))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="110" height="140" x="220" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdrawDaily, \old(withdrawDaily), withdrawHourly, \old(withdrawHourly))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -2470,7 +2497,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="730" height="220" x="381" y="1280" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="730" height="220" x="381" y="1280" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -2521,7 +2548,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.1"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="243" height="60" x="243" y="160" horizontalAlignment="ALIGNMENT_CENTER" value="{withdraw &lt;= \old(withdraw) &amp; balance = \old(balance) + x}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="243" height="60" x="243" y="160" horizontalAlignment="ALIGNMENT_CENTER" value="{withdrawHourly &lt;= \old(withdrawHourly)  &amp; withdrawDaily &lt;= \old(withdrawDaily) &amp; balance = \old(balance) + x}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -2543,7 +2570,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="365" height="60" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw &lt;= withdraw &amp; \original_post) &amp; (ret = TRUE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="365" height="60" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdrawDaily &lt;= withdrawDaily &amp; &#xD;&#xA;newWithdrawHourly &lt;= withdrawHourly &amp; \original_post) &amp; (ret = TRUE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -2551,7 +2578,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="365" height="60" x="365" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdraw, \old(withdraw))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="365" height="60" x="365" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdrawDaily, \old(withdrawDaily), withdrawHourly, \old(withdrawHourly))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -2559,7 +2586,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="710" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="710" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -2643,7 +2670,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="362" height="191" x="382" y="1520" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="362" height="191" x="382" y="1520" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -2685,7 +2712,7 @@
     </link>
     <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.1"/>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="120" height="151" x="120" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="withdraw = newWithdraw;">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="120" height="151" x="120" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="withdrawDaily = newWithdrawDaily; &#xD;&#xA;withdrawHourly = newWithdrawHourly;">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
       </graphicsAlgorithm>
       <link>
@@ -2694,7 +2721,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="120" height="151" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdraw &lt;= withdraw &amp; \original_post) &amp; (ret = TRUE)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="120" height="151" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(newWithdrawDaily &lt;= withdrawDaily &amp; &#xD;&#xA;newWithdrawHourly &lt;= withdrawHourly &amp; \original_post) &amp; (ret = TRUE)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -2702,7 +2729,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="120" height="151" x="240" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{withdraw &lt;= \old(withdraw) &amp; balance = \old(balance) + x}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="120" height="151" x="240" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{withdrawHourly &lt;= \old(withdrawHourly)  &amp; withdrawDaily &lt;= \old(withdrawDaily) &amp; balance = \old(balance) + x}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -2710,7 +2737,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="342" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="342" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -2807,7 +2834,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="220" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{withdraw &lt;= \old(withdraw) &amp; balance = \old(balance) + x}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="220" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{withdrawHourly &lt;= \old(withdrawHourly)  &amp; withdrawDaily &lt;= \old(withdrawDaily) &amp; balance = \old(balance) + x}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -2815,7 +2842,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="220" x="232" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdraw, \old(withdraw))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="220" x="232" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{\original_post  &amp; withdrawChangedResult(\result, withdrawDaily, \old(withdrawDaily), withdrawHourly, \old(withdrawHourly))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>

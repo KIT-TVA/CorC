@@ -1,18 +1,20 @@
 +-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+
 \predicates {
-	limitNotExceeded(int withdraw, int limit); //daily:DailyLimit & Limit
-	\replacewith (withdraw < limit)
-	limitNotExceeded(int withdraw, int limit); //hourly:HourlyLimit & Limit
-	\replacewith (withdraw < limit/24)
-	limitExceeded(int withdraw, int limit); //daily:DailyLimit & Limit
-	\replacewith (withdraw >= limit)
-	limitExceeded(int withdraw, int limit); //hourly:HourlyLimit & Limit
-	\replacewith (withdraw >= limit/24)
-	balanceChangedResult(boolean res, int newBalance, int oldBalance, int amount); //default:true
+	limitExceeded(int withdrawDaily, int withdrawHourly, int limitD, int limitH); //daily:DailyLimit & Limit
+	\replacewith (withdrawDaily >= limitD)
+	limitExceeded(int withdrawDaily, int withdrawHourly, int limitD, int limitH); //hourly:HourlyLimit & Limit
+	\replacewith (withdrawHourly >= limitH)
+	balanceChangedResult(boolean res, int newBalance, int oldBalance, int amount); //default:BankAccount
 	\replacewith ((res = FALSE -> newBalance = oldBalance) & (res = TRUE -> newBalance = oldBalance + amount))
-	withdrawChangedResult(boolean res, int newWithdraw, int oldWithdraw); //default:true
-	\replacewith ((res = FALSE -> (newWithdraw = oldWithdraw)) & (res = TRUE -> (newWithdraw <= oldWithdraw)))
-	withdrawChangedUndoResult(boolean res, int newWithdraw, int oldWithdraw); //default:true
-	\replacewith ((res = FALSE -> newWithdraw = oldWithdraw) &  (res = TRUE -> newWithdraw >= oldWithdraw))
+	withdrawChangedResult(boolean res, int newWithdrawD, int oldWithdrawD, int newWithdrawH, int oldWithdrawH); //daily:Limit & DailyLimit
+	\replacewith ((res = FALSE -> (newWithdrawD = oldWithdrawD)) & (res = TRUE -> (newWithdrawD <= oldWithdrawD)))
+	withdrawChangedResult(boolean res, int newWithdrawD, int oldWithdrawD, int newWithdrawH, int oldWithdrawH); //hourly:Limit & HourlyLimit
+	\replacewith ((res = FALSE -> (newWithdrawH = oldWithdrawH)) & (res = TRUE -> (newWithdrawH <= oldWithdrawH)))
+	withdrawChangedUndoResult(boolean res, int newWithdrawD, int oldWithdrawD, int newWithdrawH, int oldWithdrawH); //daily:Limit & DailyLimit
+	\replacewith ((res = FALSE -> newWithdrawD = oldWithdrawD) &  (res = TRUE -> newWithdrawD >= oldWithdrawD))
+	withdrawChangedUndoResult(boolean res, int newWithdrawD, int oldWithdrawD, int newWithdrawH, int oldWithdrawH); //hourly:Limit & HourlyLimit
+	\replacewith ((res = FALSE -> newWithdrawH = oldWithdrawH) &  (res = TRUE -> newWithdrawH >= oldWithdrawH))
+	transferPerformed(boolean res, int newDest, int oldDest, int newSource, int oldSource, int amount); //default:Transaction
+	\replacewith (res = TRUE -> (oldSource - amount = newSource) & res = FALSE -> (oldSource = newSource) & res = TRUE -> (oldDest + amount = newDest) & res = FALSE -> (newDest = oldDest))
 }
 +-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+
