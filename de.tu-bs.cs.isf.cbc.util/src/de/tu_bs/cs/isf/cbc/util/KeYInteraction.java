@@ -136,7 +136,7 @@ public class KeYInteraction {
 			// Show proof result
 			try {
 				//DEBUG START
-				Consumer<RuleApp> rule = x -> System.out.println(x.rule().displayName());
+				/*Consumer<RuleApp> rule = x -> System.out.println(x.rule().displayName());
 				proof.root().name();
 				Node n = proof.root();
 				while(n.childrenIterator().hasNext()) {
@@ -147,7 +147,7 @@ public class KeYInteraction {
 				//System.out.println("	Proof Type: " + proofType);
 				//System.out.println("	Proof nodes: " + proof.countNodes());
 				Console.println("time: " + proof.getAutoModeTime() + "        nodes:" + proof.countNodes());
-				//System.out.println("-----------------------");
+				//System.out.println("-----------------------");*/
 				//DEBUG END
 				proof.saveToFile(location);
 				try {

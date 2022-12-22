@@ -606,7 +606,7 @@ public class ProveWithKey {
 			if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) && !closed) {
 				Console.println("  Proof stopped with " + proof.openGoals().size() + " open goals.\n");
 			} else {
-				Console.println("Proof is closed: " + closed + "\n");
+			Console.println("Proof is closed: " + closed + "\n");
 			}			
 			return closed;
 		}
@@ -932,6 +932,8 @@ public class ProveWithKey {
 		    }
 			
 		}		
+		refinedPre = refinedPre.replaceAll("this.", "self.");
+		refinedPost = refinedPost.replaceAll("this.", "self.");
 		List<String> ret = new ArrayList<>();
 		ret.add(refinedPre);
 		ret.add(refinedPost);
@@ -940,19 +942,23 @@ public class ProveWithKey {
 
 	private String replaceOld(String condition) {
 		while (condition.contains("\\old(")) {
+			boolean rememberPara = false;
 			int start = condition.indexOf("\\old(");
 			String toReplace = "\\old(";
 			for (int i = start + 5; i < condition.length(); i++) {
 				toReplace += condition.charAt(i);
-				if (condition.charAt(i) == ')' || condition.charAt(i) == '.') {
+				if ((condition.charAt(i) == ')' || condition.charAt(i) == '.') && !toReplace.endsWith("this.")) {
+					if (condition.substring(i+1).startsWith("size()")) rememberPara = true;
 					break;
 				}
 			}
-			String var = toReplace.replace("\\old(", "").replace(")", "").replace(".", "");
+			String var = toReplace.replace("this.", "").replace("\\old(", "").replace(")", "").replace(".", "");
 			if (toReplace.endsWith(")")) {
 				condition = condition.replace(toReplace, var + "_oldVal");
+			} else if (toReplace.endsWith(".") && rememberPara) {
+				condition = condition.replace(toReplace + "size())", var + "_oldVal.size()");
 			} else if (toReplace.endsWith(".")) {
-				condition = condition.replace(toReplace, var + "_oldVal.");
+				condition = condition.replace(toReplace, var + "_oldVal");
 			}
 		}
 		return condition;

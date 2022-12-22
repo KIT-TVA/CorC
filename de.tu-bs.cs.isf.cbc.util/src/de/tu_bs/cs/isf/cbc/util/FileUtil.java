@@ -194,7 +194,13 @@ public class FileUtil implements IFileUtil{
 					}
 				}
 				if (originalPrePost != null) {
-					problem = problem.replaceAll("original_pre", originalPrePost.get(0)).replaceAll("original_post", originalPrePost.get(1));
+					problem = problem.replaceAll("original_pre\n", originalPrePost.get(0));
+					problem = problem.replaceAll("original_post\n", originalPrePost.get(1));
+					problem = problem.replaceAll("original_pre ", originalPrePost.get(0));
+					problem = problem.replaceAll("original_post ", originalPrePost.get(1));
+					problem = problem.replaceAll("original_pre\\)", originalPrePost.get(0) + ")");
+					problem = problem.replaceAll("original_post\\)", originalPrePost.get(1) + ")");
+					
 				}
 				override = true;
 				break;

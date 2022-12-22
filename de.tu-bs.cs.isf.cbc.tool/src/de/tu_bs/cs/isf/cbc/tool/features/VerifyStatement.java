@@ -162,7 +162,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.trimFileExtension().segmentCount() - 1), true, callingClass, false, null);
 		String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
 		
-		//Console.println("--------------- Triggered variational verification ---------------");
+		Console.println("--------------- Triggered variational verification ---------------");
 
 		// do for found configurations
 		GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
