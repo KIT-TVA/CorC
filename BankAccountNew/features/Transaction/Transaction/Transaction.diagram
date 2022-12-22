@@ -179,7 +179,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(ret);&#xD;&#xA;\result = TRUE -> (\old(destination.balance) + amount = destination.balance)&#xD;&#xA;&#x9;  &amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(destination.balance) = destination.balance) &#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{transferPerformed(\result, destination.balance, \old(destination.balance), source.balance, \old(source.balance), amount)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
