@@ -130,7 +130,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="91" x="440" y="20" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="101" x="440" y="20" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -171,7 +171,7 @@
       <businessObjects href="nextYear.cbcmodel#/1"/>
     </link>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="45" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="50" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variablesName"/>
       </graphicsAlgorithm>
       <link>
@@ -181,12 +181,12 @@
     <children visible="true">
       <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
-        <points y="45"/>
-        <points x="200" y="45"/>
+        <points y="50"/>
+        <points x="200" y="50"/>
       </graphicsAlgorithm>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="45" y="45" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC Account a">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="50" y="50" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC Account a">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
