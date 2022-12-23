@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Elevator" feature="Empty">
+  <methods cbcDiagramURI="leaveElevator.diagram" name="leaveElevator" returnType="boolean">
+    <cbcStartTriple href="leaveElevator.cbcmodel#/0"/>
+    <parameters type="Person" name="p"/>
+    <parameters type="boolean" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="pressInLiftFloorButton.diagram" name="pressInLiftFloorButton" returnType="void">
+    <cbcStartTriple href="pressInLiftFloorButton.cbcmodel#/0"/>
+    <parameters type="int" name="floorID"/>
+  </methods>
+</cbcclass:ModelClass>

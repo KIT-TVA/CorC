@@ -1,0 +1,1340 @@
+<?xml version="1.0" encoding="ASCII"?>
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="stopRequestedAtCurrentFloor" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.4/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.3/@link //@children.1/@children.4/@link //@children.2/@link //@children.2/@children.1/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.4/@link //@children.2/@children.5/@link //@children.2/@children.6/@link //@children.3/@link //@children.3/@children.1/@link //@children.3/@children.0/@link //@children.3/@children.2/@link //@children.3/@children.4/@link //@children.3/@children.5/@link //@children.3/@children.6/@link //@children.4/@link //@children.4/@children.0/@link //@children.4/@children.1/@link //@children.4/@children.2/@link //@children.4/@children.3/@link //@children.5/@link //@children.5/@children.0/@link //@children.5/@children.1/@link //@children.5/@children.2/@link //@children.5/@children.3/@link //@children.6/@link //@children.6/@children.1/@link //@children.6/@children.14/@link //@children.6/@children.15/@link //@children.6/@children.16/@link //@children.6/@children.20/@link //@children.6/@children.21/@link //@children.6/@children.22/@link //@children.6/@children.23/@link //@children.6/@children.27/@link //@children.7/@link //@children.7/@children.0/@link //@children.7/@children.1/@link //@children.7/@children.2/@link //@children.7/@children.3/@link //@children.8/@link //@children.8/@children.0/@link //@children.8/@children.1/@link //@children.8/@children.2/@link //@children.8/@children.3/@link" version="0.18.0">
+  <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
+  <link>
+    <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0"/>
+  </link>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="1001" height="201" x="20" y="20" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0"/>
+    </link>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="333" height="141" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{this.currentFloorID >= 0}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@preCondition"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="333" height="141" x="333" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statementNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement"/>
+      </link>
+      <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.6"/>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="333" height="141" x="666" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="{(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> \result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> \result = this.original_stopRequestedAtCurrentFloor()}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@postCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="1001" height="30" y="5" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Formula">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameText"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="981" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="333" height="20" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="333" height="20" x="666" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="333" height="20" x="333" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="stHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
+        <points y="40"/>
+        <points x="1001" y="40"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor2Line"/>
+        <points y="60"/>
+        <points x="1001" y="60"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
+        <points x="333" y="40"/>
+        <points x="333" y="201"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
+        <points x="666" y="40"/>
+        <points x="666" y="201"/>
+      </graphicsAlgorithm>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="200" height="100" x="1030" y="20" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/1"/>
+    </link>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="25" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Variables">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variablesName"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/1"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
+        <points y="25"/>
+        <points x="200" y="25"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="25" y="75" horizontalAlignment="ALIGNMENT_CENTER" value="PRIVATE int executiveFloor">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="2"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="Elevator.cbcclass#//@fields.0"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="25" y="50" horizontalAlignment="ALIGNMENT_CENTER" value="RETURN boolean ret">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="Elevator.cbcclass#//@methods.2/@parameters.0"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="200" height="25" y="25" horizontalAlignment="ALIGNMENT_CENTER" value="LOCAL boolean result">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="variable"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/1/@variables.0"/>
+      </link>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="1210" height="271" x="20" y="240" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.6"/>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="403" height="85" y="186" horizontalAlignment="ALIGNMENT_CENTER" value="statement1">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1NameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@firstStatement"/>
+      </link>
+      <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.4"/>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="403" height="85" x="403" y="186" horizontalAlignment="ALIGNMENT_CENTER" value="{result = FALSE}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@intermediateCondition"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="403" height="85" x="806" y="186" horizontalAlignment="ALIGNMENT_CENTER" value="statement2">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2NameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement"/>
+      </link>
+      <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.5"/>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="1210" height="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Composition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameText"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="605" height="85" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{this.currentFloorID >= 0}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@firstStatement/@preCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="605" height="85" x="605" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> \result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> \result = this.original_stopRequestedAtCurrentFloor()}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@postCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="1190" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="605" height="20" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="605" height="20" x="605" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="403" height="20" y="166" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 1">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1Header"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="403" height="20" x="806" y="166" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 2">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2Header"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="403" height="20" x="403" y="166" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="intermediate condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="intermediateCondHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
+        <points y="60"/>
+        <points x="1210" y="60"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor2Line"/>
+        <points y="80"/>
+        <points x="1210" y="80"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor3Line"/>
+        <points y="166"/>
+        <points x="1210" y="166"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor4Line"/>
+        <points y="186"/>
+        <points x="1210" y="186"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
+        <points x="605" y="60"/>
+        <points x="605" y="166"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
+        <points x="403" y="166"/>
+        <points x="403" y="271"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver3Line"/>
+        <points x="806" y="166"/>
+        <points x="806" y="271"/>
+      </graphicsAlgorithm>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="960" height="381" x="270" y="540" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.5"/>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="320" height="140" y="241" horizontalAlignment="ALIGNMENT_CENTER" value="statement1">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1NameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement"/>
+      </link>
+      <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.2"/>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="320" height="140" x="320" y="241" horizontalAlignment="ALIGNMENT_CENTER" value="{(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xD;&#xA; &amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.original_stopRequestedAtCurrentFloor()}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@intermediateCondition"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="320" height="140" x="640" y="241" horizontalAlignment="ALIGNMENT_CENTER" value="statement2">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2NameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@secondStatement"/>
+      </link>
+      <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.3"/>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="960" height="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Composition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameText"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="480" height="140" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{result = FALSE}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@preCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="480" height="140" x="480" y="80" horizontalAlignment="ALIGNMENT_CENTER" value="{(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> \result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> \result = this.original_stopRequestedAtCurrentFloor()}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@secondStatement/@postCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="940" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="480" height="20" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="480" height="20" x="480" y="60" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="320" height="20" y="221" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 1">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statement1Header"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="320" height="20" x="640" y="221" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement 2">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statement2Header"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="320" height="20" x="320" y="221" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="intermediate condition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="intermediateCondHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
+        <points y="60"/>
+        <points x="960" y="60"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor2Line"/>
+        <points y="80"/>
+        <points x="960" y="80"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor3Line"/>
+        <points y="221"/>
+        <points x="960" y="221"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor4Line"/>
+        <points y="241"/>
+        <points x="960" y="241"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
+        <points x="480" y="60"/>
+        <points x="480" y="221"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
+        <points x="320" y="221"/>
+        <points x="320" y="381"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver3Line"/>
+        <points x="640" y="221"/>
+        <points x="640" y="381"/>
+      </graphicsAlgorithm>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="241" height="131" x="20" y="540" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.4"/>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="80" height="91" x="80" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="result = false;">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement"/>
+      </link>
+      <anchors xsi:type="pi:ChopboxAnchor"/>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="80" height="91" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{this.currentFloorID >= 0}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement/@preCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="80" height="91" x="160" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{result = FALSE}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement/@postCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="221" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@firstStatement/@refinement"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="80" height="20" x="80" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="80" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="80" height="20" x="160" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="headerSeparater"/>
+        <points y="40"/>
+        <points x="241" y="40"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preSep"/>
+        <points x="160"/>
+        <points x="160" y="131"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postSep"/>
+        <points x="80"/>
+        <points x="80" y="131"/>
+      </graphicsAlgorithm>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="640" height="262" x="590" y="949" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@secondStatement/@refinement"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.3"/>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="213" height="222" x="213" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="result;">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@secondStatement/@refinement"/>
+      </link>
+      <anchors xsi:type="pi:ChopboxAnchor"/>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="213" height="222" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xD;&#xA; &amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.original_stopRequestedAtCurrentFloor()}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@secondStatement/@refinement/@preCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="213" height="222" x="426" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> \result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> \result = this.original_stopRequestedAtCurrentFloor()}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@secondStatement/@refinement/@postCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="620" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@secondStatement/@refinement"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="213" height="20" x="213" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="ReturnStatement">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="213" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="213" height="20" x="426" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="headerSeparater"/>
+        <points y="40"/>
+        <points x="640" y="40"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preSep"/>
+        <points x="426"/>
+        <points x="426" y="262"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postSep"/>
+        <points x="213"/>
+        <points x="213" y="262"/>
+      </graphicsAlgorithm>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="561" height="492" x="20" y="949" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.2"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="561" height="40" horizontalAlignment="ALIGNMENT_CENTER" value="SelectionStatement IF..FI">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="nameText"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="541" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="561" height="20" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="guards">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="guardHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="561" height="20" y="153" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="561" height="20" y="266" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statements">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="561" height="20" y="379" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor1Line"/>
+        <points y="40"/>
+        <points x="561" y="40"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor2Line"/>
+        <points y="60"/>
+        <points x="561" y="60"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor3Line"/>
+        <points y="153"/>
+        <points x="561" y="153"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor4Line"/>
+        <points y="173"/>
+        <points x="561" y="173"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor5Line"/>
+        <points y="266"/>
+        <points x="561" y="266"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor6Line"/>
+        <points y="286"/>
+        <points x="561" y="286"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor7Line"/>
+        <points y="379"/>
+        <points x="561" y="379"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="hor8Line"/>
+        <points y="399"/>
+        <points x="561" y="399"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="280" height="93" y="286" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statementSelNameText"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.0"/>
+      </link>
+      <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.1"/>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="280" height="93" y="173" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE)}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.0/@preCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="561" height="93" y="399" horizontalAlignment="ALIGNMENT_CENTER" value="{(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xD;&#xA; &amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.original_stopRequestedAtCurrentFloor()}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.0/@postCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver3Line"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="280" height="93" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSelText"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@guards.0"/>
+      </link>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="280" height="93" x="280" y="286" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statementSelNameText"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.1"/>
+      </link>
+      <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.0"/>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="280" height="93" x="280" y="173" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE)}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.1/@preCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" horizontalAlignment="ALIGNMENT_CENTER" value="{(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xD;&#xA; &amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.original_stopRequestedAtCurrentFloor()}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.1/@postCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver1Line"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        <points x="280" y="60"/>
+        <points x="280" y="153"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver2Line"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        <points x="280" y="173"/>
+        <points x="280" y="266"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="ver3Line"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+        <points x="280" y="286"/>
+        <points x="280" y="379"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="280" height="93" x="280" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionSelText"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@guards.1"/>
+      </link>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="1210" height="150" x="20" y="1510" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.0/@refinement"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.1"/>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="1210" height="30" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="Skip">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statementNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.0/@refinement"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="605" height="80" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE)}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.0/@refinement/@preCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="605" height="80" x="605" y="70" horizontalAlignment="ALIGNMENT_CENTER" value="{(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xD;&#xA; &amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.original_stopRequestedAtCurrentFloor()}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postNameText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.0/@refinement/@postCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="1190" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.0/@refinement"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="605" height="20" x="605" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="605" height="20" y="40" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="sepLeft"/>
+        <points x="605" y="40"/>
+        <points x="605" y="150"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="sepRight"/>
+        <points x="1210" y="40"/>
+        <points x="1210" y="150"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="sepHeader1"/>
+        <points y="40"/>
+        <points x="1210" y="40"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="sepHeader"/>
+        <points y="60"/>
+        <points x="1210" y="60"/>
+      </graphicsAlgorithm>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="640" height="261" x="590" y="1240" cornerHeight="20" cornerWidth="20">
+      <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
+      <renderingStyle>
+        <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
+          <adaptedGradientColoredAreas styleAdaption="0">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="212" green="231" blue="248"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="250" green="251" blue="252"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="1">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="129" green="185" blue="234"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="170" green="208" blue="242"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+          <adaptedGradientColoredAreas styleAdaption="2">
+            <gradientColor>
+              <start locationType="LOCATION_TYPE_ABSOLUTE_START" locationValue="0">
+                <color red="187" green="218" blue="247"/>
+              </start>
+              <end locationType="LOCATION_TYPE_ABSOLUTE_END" locationValue="0">
+                <color red="197" green="224" blue="247"/>
+              </end>
+            </gradientColor>
+          </adaptedGradientColoredAreas>
+        </adaptedGradientColoredAreas>
+      </renderingStyle>
+    </graphicsAlgorithm>
+    <link>
+      <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.1/@refinement"/>
+    </link>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.0"/>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="213" height="221" x="213" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="result = true;">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statementText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.1/@refinement"/>
+      </link>
+      <anchors xsi:type="pi:ChopboxAnchor"/>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="213" height="221" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(\nothing);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE)}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.1/@refinement/@preCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="213" height="221" x="426" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xD;&#xA; &amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.original_stopRequestedAtCurrentFloor()}">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.1/@refinement/@postCondition"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="620" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="stopRequestedAtCurrentFloor.cbcmodel#/0/@statement/@refinement/@secondStatement/@refinement/@firstStatement/@refinement/@commands.1/@refinement"/>
+      </link>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="213" height="20" x="213" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="statement">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="statementHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="213" height="20" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="precondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="213" height="20" x="426" y="20" font="//@fonts.0" horizontalAlignment="ALIGNMENT_CENTER" value="postcondition">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postHeader"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="headerSeparater"/>
+        <points y="40"/>
+        <points x="640" y="40"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="preSep"/>
+        <points x="426"/>
+        <points x="426" y="261"/>
+      </graphicsAlgorithm>
+    </children>
+    <children visible="true">
+      <graphicsAlgorithm xsi:type="al:Polyline" lineWidth="1" filled="false" transparency="0.0">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="postSep"/>
+        <points x="213"/>
+        <points x="213" y="261"/>
+      </graphicsAlgorithm>
+    </children>
+  </children>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.6/@children.21/@anchors.0" end="//@children.8/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.6/@children.14/@anchors.0" end="//@children.7/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@children.0/@anchors.0" end="//@children.6/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@children.2/@anchors.0" end="//@children.5/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@children.0/@anchors.0" end="//@children.4/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.2/@children.2/@anchors.0" end="//@children.3/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@children.1/@anchors.0" end="//@children.2/@anchors.0">
+    <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.4" lineStyle="UNSPECIFIED">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <colors red="227" green="238" blue="249"/>
+  <colors red="255" green="255" blue="255"/>
+  <colors green="127"/>
+  <colors red="255"/>
+  <colors/>
+  <fonts name="Arial" size="9" bold="true"/>
+</pi:Diagram>

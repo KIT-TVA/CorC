@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="createFloor" proven="true" className="Floor" methodName="createFloor">
+    <statement name="statement" id="b6039770-33b5-41cf-b501-fd199faeea78">
+      <refinement name="this.thisFloorID = idx;&#xD;&#xA;this.env = envx;&#xD;&#xA;this.waiting = new ArrayList();" proven="true" id="4824f0ed-eb6e-4d02-9da6-8ea208523878">
+        <postCondition name="envx != null &amp; idx != null &amp; this.thisFloorID = idx &amp; this.env = envx &amp; this.waiting != null"/>
+        <preCondition name="envx != null&amp; idx >= 0"/>
+      </refinement>
+      <postCondition name="envx != null &amp; idx != null &amp; this.thisFloorID = idx &amp; this.env = envx &amp; this.waiting != null"/>
+      <preCondition name="envx != null&amp; idx >= 0"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Floor.cbcclass#//@methods.2"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+  <cbcmodel:GlobalConditions>
+    <conditions name="envx != null"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

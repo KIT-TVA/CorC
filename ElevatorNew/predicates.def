@@ -1,0 +1,16 @@
++-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+
+\predicates {
+	retBlocked(boolean ret, boolean blocked); //default:Base
+	\replacewith ((blocked = TRUE -> ret = TRUE) & (blocked = FALSE -> ret = FALSE))
+	reversed(int heading, int res); //default:Base
+	\replacewith ((heading = 0 -> res = 1) & (heading = 1 -> res = 0))
+	topFloor(int ident, int noFloors, boolean res); //default:Base
+	\replacewith ((ident = (noFloors - 1) -> res = TRUE) & (ident != (noFloors - 1) -> res = FALSE))
+	floorIsCalled(boolean elevCall, boolean res); //default:Base
+	\replacewith ((elevCall = TRUE -> res = TRUE) & (elevCall = FALSE -> res = FALSE))
+	retDestinationReached(boolean destReached, boolean res); //default:Base
+	\replacewith (res = destReached & (destReached = TRUE -> res = TRUE) & (destReached = FALSE-> res = FALSE))
+	retExecutiveFloor(int fID, int eFloor, boolean res); //default:Base & ExecutiveFloor
+	\replacewith ((fID = eFloor -> res = TRUE) & (fID != eFloor -> res = FALSE))
+}
++-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+

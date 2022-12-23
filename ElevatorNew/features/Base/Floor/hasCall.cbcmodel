@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="hasCall" proven="true" className="Floor" methodName="hasCall">
+    <statement name="statement" id="0b813ceb-1c8a-4a56-82e3-c49b506f1cc0">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.elevatorCall;" proven="true" comment="returnStatement" id="84f10803-e253-4c4d-bc0e-b060f6c2c729">
+        <postCondition name="floorIsCalled(this.elevatorCall, \result)"/>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="floorIsCalled(this.elevatorCall, \result)"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Floor.cbcclass#//@methods.4"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>
