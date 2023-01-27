@@ -24,6 +24,7 @@ public class Features {
 	private final String callingMethod;
 	private final String[][] featureConfigs;
 	private int curConfig = -1;
+	private int curFeature = 0;
 	private int configs = -1;
 	
 	public Features(final URI uri) {
@@ -43,6 +44,10 @@ public class Features {
 		return this.callingFeature;
 	}
 	
+	public int getCurFeatureIndex() {
+		return this.curFeature;
+	}
+	
 	public String getCallingMethod() {
 		return this.callingMethod;
 	}
@@ -60,6 +65,7 @@ public class Features {
 	
 	public String[] getNextConfig() {
 		if (++curConfig != configs) {
+			curFeature = featureConfigs[curConfig].length;
 			return featureConfigs[curConfig];
 		} else {
 			return null;
@@ -132,5 +138,27 @@ public class Features {
 
 	public int getSize() {
 		return featureConfigs.length;
+	}
+
+	public String getPrevFeature() {
+		if (curFeature == 0) {
+			curFeature = featureConfigs[curConfig].length;
+		}
+		if (--curFeature != 0) {
+			return featureConfigs[curConfig][curFeature];
+		} else {
+			return null;
+		}
+	}
+	
+	public String getNextFeature() {
+		if (curFeature == featureConfigs[curConfig].length) {
+			curFeature = 0;
+		}
+		if (++curFeature != featureConfigs[curConfig].length) {
+			return featureConfigs[curConfig][curFeature];
+		} else {
+			return null;
+		}
 	}
 }

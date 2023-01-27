@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -44,7 +46,11 @@ public class TestUtilSPL {
 		if (!condition.contains("original")) {
 			return condition;
 		}
-		String refFeature = getRefFeature(features, features.getCurConfig());
+		final String nextFeature = features.getPrevFeature();
+		if (nextFeature == null) {
+			return "";
+		}
+		String refFeature = getRefFeature(features, nextFeature, features.getCurConfig());
 		// get formula of method in feature *refFeature*
 		CbCFormula originalFormula = features.loadFormulaFromFeature(fp, refFeature, features.getCallingClass(), features.getCallingMethod());
 		if (originalFormula == null) {
@@ -57,9 +63,13 @@ public class TestUtilSPL {
 		} else {
 			originalCondition = originalFormula.getStatement().getPostCondition().getName();
 		}
-		condition = condition.replaceAll("original", "(" + originalCondition + ")");
-		// handle any inner original calls
-		condition = handleOriginalCondition(fp, originalCondition, isPreCon, features);
+		condition = condition.substring(0, condition.indexOf("original")) 
+				+ "(" + originalCondition + ")" 
+				+ condition.substring(condition.indexOf("original") 
+						+ "original".length(), condition.length());
+		//condition = condition.replaceAll("original", "(" + originalCondition + ")");
+		// handle any inner original calls TODO?
+		// condition = handleOriginalCondition(fp, originalCondition, isPreCon, features);
 		return condition;
 	}
 	
@@ -120,19 +130,23 @@ public class TestUtilSPL {
 		return vars;
 	}
 	
-	public static void handleOriginalCode(final IFeatureProvider fp, final URI projectPath, String code, final Features features, final List<MethodCode> newMethods, String signature, final JavaVariables vars) throws ReferenceException {
-		if (!code.contains("original(")) {
+	public static void handleOriginalCode(final IFeatureProvider fp, final URI projectPath, String code, final Features features, final List<MethodHandler> newMethods, String signature, final JavaVariables vars) throws ReferenceException {
+		if (!code.contains("original")) {
 			return;
 		}
-		String refFeature = getRefFeature(features, features.getCurConfig());
+		String nextFeature = features.getPrevFeature();
+		if (nextFeature == null) {
+			return;
+		}
+		String refFeature = getRefFeature(features, nextFeature, features.getCurConfig());
 		CbCFormula originalFormula = features.loadFormulaFromFeature(fp, refFeature, features.getCallingClass(), features.getCallingMethod());
 		Diagram test;
 		String refCode = TestAndAssertionGenerator.genDiagramCode(originalFormula, null);
 		signature = signature.substring(0, signature.indexOf(features.getCallingMethod())) 
 				+ "original_" 
 				+ signature.substring(signature.indexOf(features.getCallingMethod()) , signature.length());
-		String methodName = Util.getMethodNameFromSig(signature);
-		code = code.replaceAll("original", methodName);
+		String methodName = MethodHandler.getMethodNameFromSig(signature);
+		refCode = refCode.replaceAll("original", "original_" + methodName);
 		refCode = signature + "{\n"
 				+ "\t" + refCode + "}\n";
 		var classVars = readFieldsFromClass(features.getCallingClass(), projectPath.toPlatformString(false));
@@ -140,7 +154,7 @@ public class TestUtilSPL {
 		addFields(vars, classVars);
 		refCode = Variable.prefixAllVariables(refCode, classVars);
 		refCode = Util.indentCode(refCode, 0);
-		newMethods.add(new MethodCode(signature, refCode));
+		newMethods.add(new MethodHandler(signature, refCode));
 		handleOriginalCode(fp, projectPath, refCode, features, newMethods, signature, vars);
 	}
 	
@@ -161,15 +175,79 @@ public class TestUtilSPL {
 		destination.getFields().addAll(toAdd);
 	}
 	
-	private static String getRefFeature(final Features features, String[] curConfig) throws ReferenceException {
+	private static String getRefFeature(final Features features, final String callingFeature, String[] curConfig) throws ReferenceException {
 		String configName = features.getConfigName(curConfig);
-		int index = features.getFeatureIndex(curConfig, features.getCallingFeature());
+		int index = features.getFeatureIndex(curConfig, callingFeature);
 		if (index == -1) {
-			throw new ReferenceException("Feature '" + features.getCallingFeature() + "' couldn't be found in the current config '" + configName + "'");
+			throw new ReferenceException("Feature '" + callingFeature + "' couldn't be found in the current config '" + configName + "'");
 		} else if (index == 0) {
 			throw new ReferenceException(originalBaseMsg);
 		}
 		index--;
 		return curConfig[index];
+	}
+	
+	private static List<String> getAbstractFunctionCalls(final String code) {
+		final var calls = new ArrayList<String>();
+		final Pattern p = Pattern.compile("\\s*\\w+\\(");
+		final Matcher m = p.matcher(code);
+		
+		while (m.find()) {
+			final String functionName = m.group(0).substring(0, m.group(0).indexOf('(')).trim();
+			if (functionName.contains("original")) {
+				continue;
+			}
+			String methodSig;
+			if(!(methodSig = MethodHandler.methodExists(code, functionName)).isEmpty()) {
+				continue;
+			}
+			calls.add(functionName);
+		}
+		return calls;
+	}
+
+	/**
+	 * Handles abstract function calls inside a SPL. A function is abstract if it's definition depends on the configuration it is called in.
+	 * For example, if the function 'sort' in the feature 'sorted' is called, the configuration must contain feature 'increasing' or 
+	 * feature 'decreasing'. The definition of the function 'sort' will then be extracted from the one existing in the current configuration.
+	 * @param fp
+	 * @param projectPath
+	 * @param code
+	 * @param features
+	 */
+	public static List<MethodHandler> handleAbstractMethodCalls(final IFeatureProvider fp, final URI projectPath, final String code, final Features features, final List<MethodHandler> newMethods) {
+		final var methodNames = getAbstractFunctionCalls(code);
+		final var relevantFeatures = new ArrayList<String>();
+		TestAndAssertionGenerator tg = new TestAndAssertionGenerator(fp);
+		
+		String next;
+		while ((next = features.getNextFeature()) != null) {
+			relevantFeatures.add(next);
+		}
+		for (var mName : methodNames) {
+			for (var feature : relevantFeatures) {
+				Diagram diag = Util.loadDiagramFromClass(projectPath, "features/" + feature, mName);
+				if (diag == null) {
+					continue;
+				}
+				String functionCode = tg.genCode(diag, true);
+				String sig = MethodHandler.getSignatureFromCode(functionCode);
+				if (functionCode.isEmpty()) {
+					continue;
+				}
+				boolean alreadyAdded = false;
+				for (var m : newMethods) {
+					if (m.getSignature().equals(sig)) {
+						alreadyAdded = true;
+					}
+				}
+				if (alreadyAdded) {
+					break;
+				}
+				MethodHandler mCode = new MethodHandler(sig, functionCode);
+				newMethods.add(mCode);
+			}
+		}
+		return newMethods;
 	}
 }

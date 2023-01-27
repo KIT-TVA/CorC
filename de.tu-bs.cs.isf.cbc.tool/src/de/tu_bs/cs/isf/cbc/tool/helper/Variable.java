@@ -73,6 +73,9 @@ public class Variable {
 	
 	public static boolean containsVar(final List<Variable> lst, final Variable toFind) {
 		for (int i = 0; i < lst.size(); i++) {
+			if (toFind.getType().isEmpty() && lst.get(i).getName().equals(toFind.getName())) {
+				return true;
+			}
 			if (lst.get(i).getType().equals(toFind.getType()) && lst.get(i).getName().equals(toFind.getName())) {
 				return true;
 			}

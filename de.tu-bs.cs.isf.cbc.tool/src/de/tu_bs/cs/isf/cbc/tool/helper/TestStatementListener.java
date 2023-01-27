@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.swt.graphics.Color;
@@ -176,8 +177,12 @@ public class TestStatementListener extends TestAndAssertionListener {
 			  methodCode = removeHelperLines(methodCode);
 			  methodCode = Util.removeTabs(methodCode);
 			  methodCode = Util.insertTabs(methodCode, 1);
-			  context.getFailedTests().addResult(context.getPassedTests().getAllResults().stream().findFirst().get());
 			  Console.println(methodCode + "\n");
+			  try {
+				  context.getFailedTests().addResult(context.getPassedTests().getAllResults().stream().findFirst().get());
+			  } catch (NoSuchElementException e) {
+				  e.printStackTrace();
+			  }
 			  return;
 		  }
 		  if (skippedTests == 1) {

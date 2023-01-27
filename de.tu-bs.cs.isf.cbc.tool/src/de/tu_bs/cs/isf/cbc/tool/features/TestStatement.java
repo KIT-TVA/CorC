@@ -41,11 +41,11 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.Branch;
 import de.tu_bs.cs.isf.cbc.tool.helper.BranchType;
-import de.tu_bs.cs.isf.cbc.tool.helper.ClassCode;
+import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.JavaCondition;
-import de.tu_bs.cs.isf.cbc.tool.helper.MethodCode;
+import de.tu_bs.cs.isf.cbc.tool.helper.MethodHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolver;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolverException;
 import de.tu_bs.cs.isf.cbc.tool.helper.ReferenceException;
@@ -177,20 +177,20 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		Console.println("Time needed: " + duration + "ms");
 	}	
 	
-	private boolean saveConfig(final CbCFormula formula, final Features features) {
+	public boolean saveConfig(final CbCFormula formula, final Features features) {
 		// get className
 		final String className = getClassName(formula);
 		// get current config name
 		final String currentConfigName = features.getCurConfigName();
 		// copy test contents to new file with config name
-		var code = ClassCode.classExists(this.projectPath, className);
+		var code = ClassHandler.classExists(this.projectPath, className);
 		if (!Util.createFile(projectPath, currentConfigName, code)) {
 			return false;
 		}
 		return true;
 	}
 	
-	private boolean testPath(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, final boolean returnStatement, final Features features) {
+	public boolean testPath(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, final boolean returnStatement, final Features features) {
 		Console.println(" > Testing path:", blue);
 		Console.println("\t" + getStatementPath(statement));
 		try {
@@ -263,7 +263,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	
 	private String insertOldVars(String code, final String postCon, final List<Variable> initializedVars, final JavaVariables vars, final String preCon, final List<InputData> data, final TestAndAssertionGenerator generator) throws UnexpectedTokenException {
 		var allVars = Variable.getAllVars(vars);
-		Tokenizer tokenizer = new Tokenizer(postCon);
+		Tokenizer tokenizer = new Tokenizer(preCon + " " + postCon);
 		Token token;
 		try {
 			while ((token = tokenizer.genNext()) != null) {
@@ -278,11 +278,11 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 					}
 					// if name is actually a class
 					String classCode;
-					if (!(classCode = ClassCode.classExists(this.projectPath, name)).isEmpty()) {
+					if (!(classCode = ClassHandler.classExists(this.projectPath, name)).isEmpty()) {
 						// get the identifier after the first '.'
 						String identifier = token.getValue().substring(token.getValue().indexOf("."), token.getValue().length());
-						final var variable = new Variable(name, "old_" + name);
 						final var idVariable = new Variable("", name + identifier);
+						final var variable = new Variable(name, "old_" + name);
 						final String classInit = name + " " + "old_" + name + " = new " + name + "();\n";
 						if (!Variable.containsVar(initializedVars, idVariable)) {												
 							code = "old_" + name + identifier + " = " + name + identifier + ";\n" + code;
@@ -301,13 +301,20 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 						continue;
 					}
 					for (var v : allVars) {
+						final var variable = new Variable(v.getType(), "old_" + name);
 						if (v.getName().equals(name)) {
-							final var variable = new Variable(v.getType(), "old_" + name); //v.name
 							if (Variable.containsVar(initializedVars, variable)) {
 								continue;
 							}
 							initializedVars.add(variable);
 							code = v.getType() + " " + "old_" + name + " = " + v.getName() + ";\n" + code;
+						}
+					}
+					// happens when a variable isn't defined in the current diagram
+					final var variable = new Variable("", "old_" + name);
+					if (!Variable.containsVar(initializedVars, variable)) {
+						if (!name.contains("[")) {
+							code = "var old_" + name + " = " + name + ";\n" + code;
 						}
 					}
 				}
@@ -640,6 +647,8 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			childStatements.add(statement);
 		} else if (statement instanceof MethodStatement) {
 			childStatements.add(statement);
+		} else if (statement instanceof OriginalStatement) {
+			childStatements.add(statement);
 		}
 		for (EObject s : statement.eContents()) {
 			getChildStatements(s, childStatements);
@@ -725,7 +734,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return className;
 	}
 	
-	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException {
+	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException {		
 		final String className = getClassName(formula);
 		String statementName = statement.getName().trim();
 
@@ -738,9 +747,16 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		if (code.isEmpty()) {
 			return false;
 		}
-		final var originalMethods = new ArrayList<MethodCode>();
+		final var originalMethods = new ArrayList<MethodHandler>();
+		final var abstractMethods = new ArrayList<MethodHandler>();
 		if (features != null && code.contains("original") || statementName.contains("original")) {
 			TestUtilSPL.handleOriginalCode(fp, projectPath, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, originalMethods, formula.getMethodObj().getSignature(), vars);
+			code = code.replaceAll("original\\(", originalMethods.get(0).getMethodName() + "(");
+			// TODO: ignore methods that are not abstract
+			TestUtilSPL.handleAbstractMethodCalls(fp, projectPath, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, abstractMethods);
+			for (var originalMethod : originalMethods) {
+				TestUtilSPL.handleAbstractMethodCalls(fp, projectPath, originalMethod.getInnerCode(), features, abstractMethods);
+			}
 		}
 		// now add pre conditions of selection as assertions
 		// get all vars used in the code
@@ -793,7 +809,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		var fullMethod = constructDummyMethod(code, javaCondition, data);
 		// handle original call in the statement
 		if (features != null) {
-			statementName = statementName.replaceAll("original", "original_" + Util.getMethodNameFromSig(formula.getMethodObj().getSignature()));
+			statementName = statementName.replaceAll("original", "original_" + MethodHandler.getMethodNameFromSig(formula.getMethodObj().getSignature()));
 		}
 		// insert statement to the code
 		if (isReturnStatement) {
@@ -808,6 +824,8 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		fullMethod = fullMethod.replaceAll("self\\.", "this.");
 		// place original methods inside the dependencies
 		placeOriginalMethods(dependencies, className, originalMethods);
+		// place abstract methods inside the dependencies
+		placeAbstractMethods(dependencies, className, abstractMethods);
 		// place dummy method inside code
 		final List<String> codes = new ArrayList<String>();
 		codes.addAll(dependencies.stream().map(cc -> cc.getCode()).toList());
@@ -821,14 +839,22 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			setPathTested(statement, true);
 		} else {
 			setPathTested(statement, false);
-		}	
+		}
 		return true;
 	}
 	
-	private void placeOriginalMethods(final List<ClassCode> dependencies, final String className, final ArrayList<MethodCode> originalMethods) {
+	private void placeOriginalMethods(final List<ClassHandler> dependencies, final String className, final ArrayList<MethodHandler> originalMethods) {
 		for (var classCode : dependencies) {
 			if (classCode.getClassName().equals(className)) {
 				classCode.addMethods(originalMethods);
+			}
+		}
+	}
+	
+	private void placeAbstractMethods(final List<ClassHandler> dependencies, final String className, final ArrayList<MethodHandler> abstractMethods) {
+		for (var classCode : dependencies) {
+			if (classCode.getClassName().equals(className)) {
+				classCode.addMethods(abstractMethods);
 			}
 		}
 	}

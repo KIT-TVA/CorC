@@ -229,7 +229,7 @@ public class TestAndAssertionListener implements ITestListener {
 	  private HashMap<String, String> getAllBranches(String className, String testName) {
 		  var branches = new HashMap<String, String>();
 		  final var code = loadCode(className);
-		  final var methodCode = Util.getMethodCode(code, Util.getMethodSignature(code, testName));
+		  final var methodCode = MethodHandler.getBySignature(code, Util.getMethodSignature(code, testName));
 		  final Pattern p = Pattern.compile("\\w+branch\\w+");
 		  final Matcher m = p.matcher(methodCode);
 		  String[] branchParts;

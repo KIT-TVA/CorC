@@ -13,6 +13,8 @@ import java.util.stream.Stream;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -272,22 +274,6 @@ public class Util {
 		return code + Util.getTabs(numTabs) + PRECHECKS_END + toAppend;
 	}
 	
-	public static Diagram loadDiagramFromClass(final URI projectPath, final String folderName, final String className, final String diagramName) {
-		if (className.isBlank() || diagramName.isBlank()) {
-			return null;
-		}
-		final ResourceSet rSet = new ResourceSetImpl();
-		final IContainer folder = FileUtil.getProject(projectPath).getFolder(folderName);
-		if (folder == null) {
-			return null;
-		}
-		final IFile file = FileUtil.getProject(projectPath).getFolder("src/" + className).getFile(diagramName + ".diagram");
-		if (file == null) {
-			return null;
-		}
-		return GetDiagramUtil.getDiagramFromFile(file, rSet);
-	}
-	
 	/**
 	 * Returns a string of all preconditions in JavaDL syntax or empty string, when there is no precondition.
 	 * @param globalConditions
@@ -344,21 +330,7 @@ public class Util {
 		for (int i = 0; i < num; i++) out+="\t";
 		return out;
 	}
-	
-	public static String getMethodCode(final String code, final String methodSignature) {
-		if (!code.contains(methodSignature)) {
-			return "";
-		}
-		final int startIndex = code.indexOf(methodSignature);
-		String methodCode = code.substring(startIndex, code.length());
-		int closingBracketIndex = findClosingBracketIndex(code, startIndex + methodCode.indexOf('{'), '{');
-		if (closingBracketIndex == - 1) {
-			closingBracketIndex = code.length() - 1;
-		}
-		methodCode = code.substring(startIndex, closingBracketIndex + 1);
-		return methodCode;
-	}
-	
+
 	public static int findClosingBracketIndex(final String code, final int bracketIndex, char bracket) {
 		char closingBracket;
 		int bracketCounter = 1;
@@ -381,14 +353,6 @@ public class Util {
 			}
 		}
 		return -1;
-	}
-	
-	public static String getMethodNameFromSig(String sig) {
-		if (sig.isBlank()) {
-			return "";
-		}
-		final String[] splitter = sSplit(sig, "\\s");	
-		return splitter[splitter.length - 1].substring(0, splitter[splitter.length - 1].indexOf('('));
 	}
 	
 	/**
@@ -521,5 +485,60 @@ public class Util {
 	public static boolean writeToFile(final URI projectPath, final String className, String content) {
 		writeToFile(FileUtil.getProjectLocation(projectPath) + "\\tests", className, content);
 		return true;
+	}
+	
+	private static IFile findDiagram(IContainer folder, String diagramName) {
+		try {
+			IResource[] members = folder.members();
+			for (final IResource resource : members) {
+				if (resource instanceof IContainer) {
+					IFile foundFile = findDiagram((IContainer) resource, diagramName);
+					if (foundFile != null) {
+						return foundFile;
+					}
+				} else if (resource instanceof IFile) {
+
+					final IFile file = (IFile) resource;
+					if (file.getName().equals(diagramName + ".diagram")) {
+						return file;
+					}
+				}
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static Diagram loadDiagramFromClass(final URI projectPath, final String folderName, final String className, final String diagramName) {
+		if (className.isBlank() || diagramName.isBlank()) {
+			return null;
+		}
+		final ResourceSet rSet = new ResourceSetImpl();
+		final IContainer folder = FileUtil.getProject(projectPath).getFolder(folderName);
+		if (folder == null) {
+			return null;
+		}
+		final IFile file = FileUtil.getProject(projectPath).getFolder("src/" + className).getFile(diagramName + ".diagram");
+		if (file == null) {
+			return null;
+		}
+		return GetDiagramUtil.getDiagramFromFile(file, rSet);
+	}
+	
+	public static Diagram loadDiagramFromClass(final URI projectPath, final String folderName, final String diagramName) {
+		if (diagramName.isBlank()) {
+			return null;
+		}
+		final ResourceSet rSet = new ResourceSetImpl();
+		final IContainer folder = FileUtil.getProject(projectPath).getFolder(folderName);
+		if (folder == null) {
+			return null;
+		}
+		final IFile file = findDiagram(folder, diagramName);
+		if (file == null) {
+			return null;
+		}
+		return GetDiagramUtil.getDiagramFromFile(file, rSet);
 	}
 }

@@ -1,6 +1,7 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -15,10 +16,12 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
+import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.ReferenceException;
 import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.Util;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 /**
  * Feature for testing all statements.
@@ -84,21 +87,40 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 				formula = (CbCFormula) obj;
 			}
 		}	
+		
 		final TestStatement ts = new TestStatement(fp);
 		uri = getUri(diag);
 		ts.setUri(uri);
 		Util.clearLog(diag.eResource().getURI());
 		var allStatements = TestStatement.collectAllStatements(formula);
-		for (var statement : allStatements) {
-			Console.println(" > Testing path:", blue);
-			Console.println("\t" + ts.getStatementPath(statement));
-			try {
-				ts.testStatement((AbstractStatement)statement, vars, conds, formula, statement instanceof ReturnStatement);
-			} catch (TestAndAssertionGeneratorException |TestStatementException | ReferenceException | UnexpectedTokenException e) {
-				Console.println(e.getMessage());
-				e.printStackTrace();
-				return;
+		final IProject project = FileUtil.getProjectFromFileInProject(uri);		
+		Features features = null;
+		try {
+			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
+				features = new Features(uri);
+			} else {
+				features = null;
 			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		
+		if (features == null) {
+			for (var statement : allStatements) {
+				returnStatement = statement instanceof ReturnStatement;
+				ts.testPath((AbstractStatement)statement, vars, conds, formula, returnStatement, features);
+			}
+			return;
+		}
+		Console.println("[SPL detected]", blue);
+		for (int i = 0; i < features.getSize(); i++) {
+			features.getNextConfig();
+			Console.println(" > Configuration: [" + features.getConfigRep() + "]", blue);
+			for (var statement : allStatements) {
+				returnStatement = statement instanceof ReturnStatement;
+				ts.testPath((AbstractStatement)statement, vars, conds, formula, returnStatement, features);
+			}
+			ts.saveConfig(formula, features);
 		}
 	}
 

@@ -73,12 +73,12 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.Branch;
 import de.tu_bs.cs.isf.cbc.tool.helper.BranchType;
-import de.tu_bs.cs.isf.cbc.tool.helper.ClassCode;
+import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputDataTupel;
 import de.tu_bs.cs.isf.cbc.tool.helper.JavaCondition;
-import de.tu_bs.cs.isf.cbc.tool.helper.MethodCode;
+import de.tu_bs.cs.isf.cbc.tool.helper.MethodHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolver;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolverException;
 import de.tu_bs.cs.isf.cbc.tool.helper.TestAndAssertionListener;
@@ -218,9 +218,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		var className = code2.split("public\\sclass\\s", 2)[1].split("\\s", 2)[0];
 		className = className.replaceAll("\\{", "");		
 		var code = genCode(methodToGenerate, true);
-		final var methodSig = MethodCode.getSignatureFromCode(code);
+		final var methodSig = MethodHandler.getSignatureFromCode(code);
 		code = code.replaceAll("self\\.", "this.");
-		List<ClassCode> classCodes; 
+		List<ClassHandler> classCodes; 
 		try {
 			classCodes = genAllDependenciesOfMethod(code, methodSig, className, formula.getStatement().getPostCondition().getName());
 		} catch (TestAndAssertionGeneratorException e) {
@@ -913,7 +913,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			return "";
 		}
 		*/
-		if (!onlyMethod && !(existingCode = ClassCode.classExists(this.projectPath, className)).equals("")) {
+		if (!onlyMethod && !(existingCode = ClassHandler.classExists(this.projectPath, className)).equals("")) {
 			// make sure the constructor is present
 			constructorCode = generateConstructor(className, gVars);
 			if (!containsConstructor(existingCode, constructorCode)) {
@@ -957,7 +957,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			}
 		}
 
-		if (returnVariable != null && !Util.getMethodCode(code.toString(), signatureString).contains(returnVariable.getName())) {
+		if (returnVariable != null && !MethodHandler.getBySignature(code.toString(), signatureString).contains(returnVariable.getName())) {
 			code.append(returnVariable.getName() + ";\n");
 			code = insertTabs(code);
 		}
@@ -1793,7 +1793,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		tng.run();
 	}
 	
-	private String genCode(Diagram diagram, boolean onlyMethod) {
+	public String genCode(Diagram diagram, boolean onlyMethod) {
 		String signatureString;
 		final LinkedList<String> localVariables = new LinkedList<String>();
 		JavaVariable returnVariable = null;
@@ -2013,7 +2013,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		
 		if (!m.find()) {
 			// try searching in the entire class
-			classCode = ClassCode.classExists(this.projectPath, className);
+			classCode = ClassHandler.classExists(this.projectPath, className);
 			return extractVarType(classCode, varName);
 		}
 		var firstOccurence = code.substring(0, m.start() + (m.end() - m.start() - 1));
@@ -2033,7 +2033,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				return varType;
 			} else {
 				// check if it's a class
-				if (!ClassCode.classExists(this.projectPath, foundVarName).isEmpty()) {
+				if (!ClassHandler.classExists(this.projectPath, foundVarName).isEmpty()) {
 					return foundVarName;
 				}
 				// check if it's declared in a parameter
@@ -2046,7 +2046,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				}
 				// word before *varName* is not a type, meaning *varName* is a static class variable.
 				// get code of the current class.
-				classCode = ClassCode.classExists(this.projectPath, className);
+				classCode = ClassHandler.classExists(this.projectPath, className);
 				// find the variable
 				varType = extractVarType(classCode, varName);
 				if (varType.equals("")) {
@@ -2076,7 +2076,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			// is either a static class variable or a field.
 			int charIndexBefore = code.indexOf(varName) - 1;
 			if (charIndexBefore == -1) {
-				classCode = ClassCode.classExists(this.projectPath, className);
+				classCode = ClassHandler.classExists(this.projectPath, className);
 				// static variable
 				varType = extractVarType(classCode, varName);
 				if (varType.equals("")) {
@@ -2304,7 +2304,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	}
 	
 	private List<String> getDependencies(final String className, List<String> output) {
-		String code = ClassCode.classExists(this.projectPath, className);
+		String code = ClassHandler.classExists(this.projectPath, className);
 		
 		if (output == null) {
 			output = new ArrayList<String>();
@@ -2429,7 +2429,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return true;
 	}
 	
-	public boolean compileFileContents2(List<ClassCode> fileContents, String methodToGenerate, final List<String> options) throws TestAndAssertionGeneratorException {
+	public boolean compileFileContents2(List<ClassHandler> fileContents, String methodToGenerate, final List<String> options) throws TestAndAssertionGeneratorException {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
 		StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
@@ -2475,7 +2475,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return compileFileContents(fileContents, methodToGenerate, null);
 	}
 	
-	public boolean compileFileContents2(List<ClassCode> fileContents, String methodToGenerate) throws TestAndAssertionGeneratorException {
+	public boolean compileFileContents2(List<ClassHandler> fileContents, String methodToGenerate) throws TestAndAssertionGeneratorException {
 		return compileFileContents2(fileContents, methodToGenerate, null);
 	}
 	
@@ -2520,16 +2520,16 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * @return Contents of the classes.
 	 * @throws TestAndAssertionGeneratorException 
 	 */
-	public List<ClassCode> genAllDependenciesOfMethod(String methodCode, final String methodSignature, String className, String postCondition) throws TestAndAssertionGeneratorException
+	public List<ClassHandler> genAllDependenciesOfMethod(String methodCode, final String methodSignature, String className, String postCondition) throws TestAndAssertionGeneratorException
 	{
 		var innerMethod = methodCode.substring(methodCode.indexOf('{') + 1, methodCode.lastIndexOf('}'));
 		// add postCondition to the code in case there are method calls in there too
 		innerMethod += "\n" + postCondition;
 		innerMethod = innerMethod.replaceAll("\\\\", "");
 		var allDiagramNames = getCalledMethods(methodCode, innerMethod, className);//getDiagramNamesFromCalledMethods(methodCode, className);
-		final var classCodes = new ArrayList<ClassCode>();
-		ArrayList<MethodCode> newMethodCodes = new ArrayList<MethodCode>();
-		final var addedMethods = new HashMap<String, List<MethodCode>>();
+		final var classCodes = new ArrayList<ClassHandler>();
+		ArrayList<MethodHandler> newMethodCodes = new ArrayList<MethodHandler>();
+		final var addedMethods = new HashMap<String, List<MethodHandler>>();
 		final ArrayList<String> addedClassNames = new ArrayList<String>();
 		methodCode = methodCode.trim();
 		final var lst = new ArrayList<String>();
@@ -2547,7 +2547,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			for (var methodSig : lst) {
 				if (methodSig.contains("{")) {
 					keyToRemove = methodSig;
-					methodSig = MethodCode.getSignatureFromCode(methodSig);
+					methodSig = MethodHandler.getSignatureFromCode(methodSig);
 					methodSigToAdd = methodSig;
 					allDiagramNames.get(curClassName).remove(keyToRemove);
 					allDiagramNames.get(curClassName).add(methodSigToAdd);
@@ -2561,7 +2561,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 					if (innerClass.getClassName().equals(curClassName)) {
 						// means there were more needed methods for class *curClassName*
 						if (addedMethods.get(curClassName) == null) {
-							addedMethods.put(curClassName, new ArrayList<MethodCode>());
+							addedMethods.put(curClassName, new ArrayList<MethodHandler>());
 						}	
 						for (final var newM : innerClass.getAllMethods()) {
 							boolean added = false;
@@ -2583,7 +2583,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 							// class was not a outer dependency
 							allDiagramNames.put(innerClass.getClassName(), new ArrayList<String>());
 						}
-						for (MethodCode m : innerClass.getAllMethods()) {
+						for (MethodHandler m : innerClass.getAllMethods()) {
 							allDiagramNames.get(innerClass.getClassName()).add(m.getCode());
 						}
 					}
@@ -2596,13 +2596,13 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				continue;
 			}
 			
-			var clazz = new ClassCode(curClassName, this.projectPath);
+			var clazz = new ClassHandler(curClassName, this.projectPath);
 			
 			// look if methodCode starts with {, it means it comes from statement testing
 			// and we do not want to add that partial method.
 			if (curClassName.equals(className) && !methodCode.trim().startsWith("{")) {
 				// add the original calling method here as well
-				MethodCode callingMethod = new MethodCode(methodSignature == null ? "" : methodSignature, methodCode);
+				MethodHandler callingMethod = new MethodHandler(methodSignature == null ? "" : methodSignature, methodCode);
 				newMethodCodes.add(callingMethod);
 			}
 			
@@ -2626,7 +2626,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		}
 		if (classCodes.isEmpty() || !addedClassNames.contains(className)) {
 			// means the method itself has no dependencies.
-			var clazz = new ClassCode(className, this.projectPath);
+			var clazz = new ClassHandler(className, this.projectPath);
 			if (methodSignature != null) {
 				clazz.addMethod(methodSignature, methodCode);
 			}
@@ -2640,7 +2640,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			var classes = getUsedClasses(classCodes.get(i).getCode());
 			for (var clazz : classes) {
 				if (!addedClassNames.contains(clazz)) {
-					var c = new ClassCode(clazz, this.projectPath);
+					var c = new ClassHandler(clazz, this.projectPath);
 					classCodes.add(c);
 					addedClassNames.add(clazz);
 				}
@@ -2668,12 +2668,12 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return classes;
 	}
 			
-	private ArrayList<ClassCode> genMethodDependencies2(String className, String methodSig, ArrayList<ClassCode> methodCodes) {
+	private ArrayList<ClassHandler> genMethodDependencies2(String className, String methodSig, ArrayList<ClassHandler> methodCodes) {
 		String methodCode;
 		HashMap<String, ArrayList<String>> calledMethods;
 		
 		if (methodCodes == null) {
-			methodCodes = new ArrayList<ClassCode>();
+			methodCodes = new ArrayList<ClassHandler>();
 		}
 
 		for (var clazz : methodCodes) {
@@ -2697,7 +2697,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			}
 		}
 		if (classIndex == -1) {
-			methodCodes.add(new ClassCode(className, this.projectPath));
+			methodCodes.add(new ClassHandler(className, this.projectPath));
 			classIndex = methodCodes.size() - 1;
 		}
 		methodCodes.get(classIndex).addMethod(methodSig, methodCode);
@@ -2727,7 +2727,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			return "";
 		}	
 		
-		var code = ClassCode.classExists(this.projectPath, className);
+		var code = ClassHandler.classExists(this.projectPath, className);
 		if (code.isEmpty()) {
 			return "";
 		}
@@ -2853,7 +2853,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			return "";
 		}	
 		
-		final var code = ClassCode.classExists(this.projectPath, className);
+		final var code = ClassHandler.classExists(this.projectPath, className);
 		if (code.isEmpty()) {
 			return "";
 		}
@@ -2861,7 +2861,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		if (isConstructor) {
 			methodCode = getConstructorCode(signature);	
 		} else {
-			methodCode = Util.getMethodCode(code, signature);	
+			methodCode = MethodHandler.getBySignature(code, signature);	
 		}	
 		return methodCode;
 	}
@@ -2901,7 +2901,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		} else if (isConstructor) {
 			return getConstructorCode(signature);
 		} else {
-			diagram = loadDiagramFromClass(className, Util.getMethodNameFromSig(signature));
+			diagram = loadDiagramFromClass(className, MethodHandler.getMethodNameFromSig(signature));
 			if (diagram == null) {
 				// try to load the code from the java src folder
 				return getCodeOfSignatureOfLoadedFile(className, signature, isConstructor);
@@ -2980,7 +2980,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * @return a map of containing every class that has at least one called method. 
 	 * Map contains mapping from the classes to their called methods.
 	 */
-	private HashMap<String, ArrayList<String>> getCalledMethods(String code, String matchee, String className) {
+	public HashMap<String, ArrayList<String>> getCalledMethods(String code, String matchee, String className) {
 		final HashMap<String, ArrayList<String>> output = new HashMap<String, ArrayList<String>>();
 		int start = matchee.indexOf("(");
 		while (start != -1) {

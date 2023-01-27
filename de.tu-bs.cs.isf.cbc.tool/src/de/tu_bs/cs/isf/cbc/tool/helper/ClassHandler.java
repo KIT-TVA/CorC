@@ -21,15 +21,15 @@ import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGeneratorException;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
-public class ClassCode {
+public class ClassHandler {
 	private String className;
-	private List<MethodCode> methods = new ArrayList<MethodCode>();
+	private List<MethodHandler> methods = new ArrayList<MethodHandler>();
 	private List<Variable> globalVars = new ArrayList<Variable>();
 	private URI projectUri;
 	private List<String> projectJavaFiles;
 	private List<String> projectInternalClasses;
 	
-	public ClassCode(final String className, final URI projectUri) {
+	public ClassHandler(final String className, final URI projectUri) {
 		this.className = className;
 		this.projectUri = projectUri;
 		try {
@@ -320,15 +320,15 @@ public class ClassCode {
 		if (containsMethod(signature)) {
 			return false;
 		}
-		methods.add(new MethodCode(signature, innerCode));
+		methods.add(new MethodHandler(signature, innerCode));
 		return true;
 	}
 	
-	public boolean addMethod(final MethodCode method) {
+	public boolean addMethod(final MethodHandler method) {
 		return addMethod(method.getSignature(), method.getInnerCode());
 	}
 	
-	public MethodCode getMethod(final String signature) {
+	public MethodHandler getMethod(final String signature) {
 		for (var m : methods) {
 			if (m.getSignature().equals(signature)) {
 				return m;
@@ -362,7 +362,7 @@ public class ClassCode {
 		return found;
 	}
 	
-	public boolean containsMethod(final MethodCode method) {
+	public boolean containsMethod(final MethodHandler method) {
 		return containsMethod(method.getSignature());
 	}
 
@@ -375,11 +375,11 @@ public class ClassCode {
 		return false;
 	}
 
-	public List<MethodCode> getAllMethods() {
+	public List<MethodHandler> getAllMethods() {
 		return methods;
 	}
 
-	public void addMethods(ArrayList<MethodCode> newMethods) {
+	public void addMethods(ArrayList<MethodHandler> newMethods) {
 		for (final var method : newMethods) {
 			if (!containsMethod(method)) {
 				addMethod(method);

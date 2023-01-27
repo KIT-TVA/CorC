@@ -133,7 +133,7 @@ public class TranslatedPredicate {
 		}
 		return null;
 	}
-		
+			
 	private void translatePredicate(Node pred) {
 		BranchType type;
 		String branchCondition;
@@ -166,6 +166,9 @@ public class TranslatedPredicate {
 			branchCondition = pred.getLeft().getRep();
 			this.branches.push(new Branch(type, branchCondition, dummy));
 			translatePredicate(pred.getRight());
+		} else if (pred.getType() == TokenType.OR) {
+			// TODO handle quantor node used with '|' (like forall... | exists...)
+			
 		} else {
 			type = BranchType.NONE;
 			branchCondition = pred.getRep();
