@@ -51,6 +51,13 @@ public class Features {
 		return this.uri;
 	}
 	
+	public String[] getCurConfig() {
+		if (curConfig == featureConfigs.length) {
+			return null;
+		}
+		return featureConfigs[curConfig];
+	}
+	
 	public String[] getNextConfig() {
 		if (++curConfig != configs) {
 			return featureConfigs[curConfig];
@@ -75,10 +82,8 @@ public class Features {
 		return -1;
 	}
 	
-	public CbCFormula loadFormulaFromFeature(final IFeatureProvider fp, final String featureName, final String className, final String methodSignature) {
-		final String methodName = TestAndAssertionGenerator.getMethodNameFromSig(methodSignature);
-		
-		if (featureName.isBlank() || methodSignature.isBlank()) {
+	public CbCFormula loadFormulaFromFeature(final IFeatureProvider fp, final String featureName, final String className, final String methodName) {		
+		if (featureName.isBlank() || methodName.isBlank()) {
 			return null;
 		}
 		final ResourceSet rSet = new ResourceSetImpl();
@@ -101,5 +106,20 @@ public class Features {
 			}
 		}	
 		return formula;
+	}
+
+	public String getConfigRep() {
+		if (curConfig >= featureConfigs.length) {
+			return null;
+		}
+		String rep = "";
+		for (int i = 1; i < featureConfigs[curConfig].length; i++) {
+			rep += ", " + featureConfigs[curConfig][i];
+		}
+		return featureConfigs[curConfig][0] + rep;
+	}
+
+	public int getSize() {
+		return featureConfigs.length;
 	}
 }

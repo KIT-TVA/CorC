@@ -142,7 +142,6 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				Features features = null;
 				try {
 					if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
-						Console.println("[SPL detected]", blue);
 						features = new Features(uri);
 					} else {
 						features = null;
@@ -150,16 +149,16 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
-				Console.println(" > Testing path:", blue);
-				Console.println("\t" + getStatementPath(statement));
-				try {
-					testStatement(statement, vars, conds, formula, returnStatement, features);
-				} catch (TestAndAssertionGeneratorException | TestStatementException | ReferenceException e) {
-					Console.println(e.getMessage());
-					e.printStackTrace();
-					return;
-				}
-				
+				if (features != null) {
+					Console.println("[SPL detected]", blue);
+					for (int i = 0; i < features.getSize(); i++) {
+						features.getNextConfig();
+						Console.println(" > Configuration: [" + features.getConfigRep() + "]", blue);
+						testPath(statement, vars, conds, formula, returnStatement, features);
+					}		
+				} else {
+					testPath(statement, vars, conds, formula, returnStatement, features);
+				}				
 				// update pictogram
 				updatePictogramElement(((Shape) pes[0]).getContainer());
 			}
@@ -170,6 +169,18 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		Console.println("Testing finished.");
 		Console.println("Time needed: " + duration + "ms");
 	}	
+	
+	private void testPath(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, final boolean returnStatement, final Features features) {
+		Console.println(" > Testing path:", blue);
+		Console.println("\t" + getStatementPath(statement));
+		try {
+			testStatement(statement, vars, conds, formula, returnStatement, features);
+		} catch (TestAndAssertionGeneratorException | TestStatementException | ReferenceException e) {
+			Console.println(e.getMessage());
+			e.printStackTrace();
+			return;
+		}
+	}
 	
 	public static void setPathTested(EObject selectedStatement, boolean status) {
 		EObject cur = selectedStatement;
@@ -861,9 +872,6 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			}
 			// now add pre conditions of selection as assertions
 			var preCon = statement.getPreCondition().getName();
-			if (preCon.contains("modifiable")) {
-				preCon = preCon.split(";", 2)[1];
-			}
 			
 			// get all vars used in the code
 			final List<Variable> usedVars = getUsedVars(code.replaceAll(Pattern.quote(STATEMENT_PH), statement.getName().trim()), vars);
@@ -880,7 +888,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			
 			if (features != null) {
 				boolean isPreCon = false;
-				postCon = TestUtilSPL.handleOriginalCondition(fp, postCon, isPreCon, formula.getMethodObj().getSignature(), features);
+				postCon = TestUtilSPL.handleOriginalCondition(fp, postCon, isPreCon, features, features.getCurConfig());
 			}
 			postCon = postCon.replaceAll("this\\.", "");
 			final List<Variable> usedVarsPostCon = getUsedVars(postCon, vars);

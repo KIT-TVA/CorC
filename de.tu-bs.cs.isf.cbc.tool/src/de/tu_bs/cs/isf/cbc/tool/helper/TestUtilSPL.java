@@ -26,24 +26,15 @@ public class TestUtilSPL {
 	 * @return The new condition in which all occurrences of the original keywords were replaced.
 	 * @throws ReferenceException
 	 */
-	public static String handleOriginalCondition(IFeatureProvider fp, String condition, boolean isPreCon, final String signature, final Features features) throws ReferenceException {
+	public static String handleOriginalCondition(final IFeatureProvider fp, String condition, boolean isPreCon, final Features features, final String[] curConfig) throws ReferenceException {
 		if (!condition.contains("original")) {
 			return condition;
 		}
-		final String[] curConfig = features.getNextConfig();
-		String configName = features.getConfigName(curConfig);
-		int index = features.getFeatureIndex(curConfig, features.getCallingFeature());
-		if (index == -1) {
-			throw new ReferenceException("Feature '" + features.getCallingFeature() + "' couldn't be found in the current config '" + configName + "'");
-		} else if (index == 0) {
-			throw new ReferenceException(originalBaseMsg);
-		}
-		index--;
-		String refFeature = curConfig[index];
+		String refFeature = getRefFeature(features, curConfig);
 		// get diagram of method with signature *signature* in feature *refFeature*
-		CbCFormula originalFormula = features.loadFormulaFromFeature(fp, refFeature, features.getCallingClass(), signature);
+		CbCFormula originalFormula = features.loadFormulaFromFeature(fp, refFeature, features.getCallingClass(), features.getCallingMethod());
 		if (originalFormula == null) {
-			throw new ReferenceException("Formula of method with signature '" + signature + "' in feature '" + refFeature + "' couldn't be found.");
+			throw new ReferenceException("Formula of method '" + features.getCallingMethod() + "' in feature '" + refFeature + "' couldn't be found.");
 		}
 		// get the condition
 		String originalCondition = "";
@@ -54,7 +45,24 @@ public class TestUtilSPL {
 		}
 		condition = condition.replaceAll("original", "(" + originalCondition + ")");
 		// handle any inner original calls
-		condition = handleOriginalCondition(fp, originalCondition, isPreCon, signature, features);
+		condition = handleOriginalCondition(fp, originalCondition, isPreCon, features, curConfig);
 		return condition;
+	}
+	
+	public static String handleOriginalCode(final IFeatureProvider fp, String code, final Features features) {
+		
+		return null;
+	}
+	
+	private static String getRefFeature(final Features features, String[] curConfig) throws ReferenceException {
+		String configName = features.getConfigName(curConfig);
+		int index = features.getFeatureIndex(curConfig, features.getCallingFeature());
+		if (index == -1) {
+			throw new ReferenceException("Feature '" + features.getCallingFeature() + "' couldn't be found in the current config '" + configName + "'");
+		} else if (index == 0) {
+			throw new ReferenceException(originalBaseMsg);
+		}
+		index--;
+		return curConfig[index];
 	}
 }
