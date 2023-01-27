@@ -480,7 +480,7 @@ public class PreConditionSolver {
 		return true;
     }
     
-    public List<InputData> solve(final String preCon) throws Exception {
+    public List<InputData> solve(final String preCon) throws PreConditionSolverException {
 		final List<InputData> output = new ArrayList<InputData>();
 		final var vars = new ArrayList<Expr>();
     	ConditionParser p = new ConditionParser();
@@ -492,7 +492,7 @@ public class PreConditionSolver {
     		}
     		finalCondition = makeCondition(tree);
 			if (!(finalCondition instanceof BoolExpr)) {
-				throw new PreConditionSolverException("PreConditionSolverError: Couldn't translate given precondition to the solver's syntax.");
+				throw new PreConditionSolverException("Couldn't translate given precondition to the solver's syntax.");
 			}
     	} catch (Exception e) {
     		throw e;

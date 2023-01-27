@@ -38,6 +38,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateMethodCallsToProve;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
 
 /**
  * Class that creates the graphical representation of Conditions
@@ -47,8 +50,9 @@ import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
  */
 public class ConditionPattern extends IdPattern implements IPattern {
 
-	// private static final String ID_NAME_TEXT = "conditionNameText";
-	// private static final String ID_MAIN_RECTANGLE = "mainRectangle";
+	private static final String ID_PRE_MOD = "preConditionModifiables";
+	private static final String ID_POST_MOD = "postConditionModifiables";
+	private static final String ID_OTHER_MOD = "otherConditionModifiables";
 
 	/**
 	 * Constructor of the class
@@ -81,8 +85,7 @@ public class ConditionPattern extends IdPattern implements IPattern {
 	public Object[] create(ICreateContext context) {
 		Condition condition = CbcmodelFactory.eINSTANCE.createCondition();
 		condition.setName("{}");
-		GlobalConditions conditions = (GlobalConditions) getBusinessObjectForPictogramElement(
-				context.getTargetContainer());
+		GlobalConditions conditions = (GlobalConditions) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		conditions.getConditions().add(condition);
 		updatePictogramElement(context.getTargetContainer());
 		return new Object[] { condition };
@@ -108,12 +111,23 @@ public class ConditionPattern extends IdPattern implements IPattern {
 		if (context.getGraphicsAlgorithm() instanceof MultiText) {
 			MultiText nameText = (MultiText) context.getGraphicsAlgorithm();
 			Condition domainObject = (Condition) context.getDomainObject();
+			if (id.equals(ID_PRE_MOD) || id.equals(ID_POST_MOD) || id.equals(ID_OTHER_MOD)) {
+				String modString = "";
+				for (String s : domainObject.getModifiables()) {
+					modString += s + ", ";
+				}
+				modString = "modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");";
+				if (!(modString.equals(nameText.getValue()))) {
+					return Reason.createTrueReason("Name differs. Expected: '" + modString + "'");
+				} else {
+					return Reason.createFalseReason();
+				}
+			}
 			if (domainObject.getName() == null || !(domainObject.getName().equals(nameText.getValue())
 					|| nameText.getValue().equals("{" + domainObject.getName() + "}"))) {
 				return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getName() + "'");
 			}
 		}
-
 		return Reason.createFalseReason();
 	}
 
@@ -122,6 +136,16 @@ public class ConditionPattern extends IdPattern implements IPattern {
 		if (context.getGraphicsAlgorithm() instanceof MultiText) {
 			MultiText nameText = (MultiText) context.getGraphicsAlgorithm();
 			Condition domainObject = (Condition) context.getDomainObject();
+			if (id.equals(ID_PRE_MOD) || id.equals(ID_POST_MOD) || id.equals(ID_OTHER_MOD)) {
+				if (!nameText.getValue().equals("")) {
+					String modString = "";
+					for (String s : domainObject.getModifiables()) {
+						modString += s + ", ";
+					}
+					nameText.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+				}
+				return true;
+			}
 			if (domainObject.eContainer().getClass().equals(AbstractStatementImpl.class)
 					|| domainObject.eContainer().getClass().equals(SkipStatementImpl.class)
 					|| domainObject.eContainer().getClass().equals(ReturnStatementImpl.class)
@@ -174,34 +198,41 @@ public class ConditionPattern extends IdPattern implements IPattern {
 	}
 
 	@Override
-	public String getInitialValue(IDirectEditingContext context) {
+	public String getInitialValue(IDirectEditingContext context, String id) {
 		Condition condition = (Condition) getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return System.getProperty("line.separator") + condition.getName() + System.getProperty("line.separator");
+		if (id.equals(ID_PRE_MOD) || id.equals(ID_POST_MOD) || id.equals(ID_OTHER_MOD)) {
+			String modString = "";
+			for (String s : condition.getModifiables()) {
+				modString += s + ", ";
+			}			
+			return System.getProperty("line.separator") + ("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");") + System.getProperty("line.separator");
+		} else {
+			return System.getProperty("line.separator") + condition.getName() + System.getProperty("line.separator");
+		}
 	}
 
 	@Override
-	public String checkValueValid(String value, IDirectEditingContext context) {
+	public String checkValueValid(String value, IDirectEditingContext context, String id) {
 		if (value == null) {
-			return "Condition must not be empty";
+			return "Must not be empty";
 		}
-		if (value.length() > 0) {
-			if (value.contains("modifiable(")) {
-				String[] valueSplitted = value.split(";");
-				if (valueSplitted.length > 1
-						&& !valueSplitted[0].trim().matches("modifiable\\(\\w+[\\[\\]\\*]*(,\\w+[\\[\\]\\*]*)*\\)")) {
-					return null;// "modifiable variables must be defined as: modifiable(x,y,z,...);";
-				} else if ((value.contains("forall") || value.contains("exists"))) {
-					return null;
+		if (id.equals(ID_PRE_MOD) || id.equals(ID_POST_MOD) || id.equals(ID_OTHER_MOD)) {
+			if (value.length() > 0) {
+				if (!value.trim().startsWith("modifiable(") || !value.trim().endsWith(");")) {
+					return "Does not match modifiable string";
 				}
+			}
+		} else {
+			if (value.length() > 0) {
+				// valid string for condition or global condition
 			}
 		}
 		return null;
 	}
 
 	@Override
-	public void setValue(String value, IDirectEditingContext context) {
+	public void setValue(String value, IDirectEditingContext context, String id) {
 		Condition condition = (Condition) getBusinessObjectForPictogramElement(context.getPictogramElement());
-		condition.setName(value.trim());
 		var container = condition.eContainer().eContainer();
 		if (container != null) {
 			if (container.eContainer() instanceof AbstractStatement) {
@@ -209,19 +240,35 @@ public class ConditionPattern extends IdPattern implements IPattern {
 				TestStatement.setPathTested(TestStatement.getPathLeaf(container), false);
 			}
 		}
+		
+		if (id.equals(ID_PRE_MOD) || id.equals(ID_POST_MOD) || id.equals(ID_OTHER_MOD)) {
+			String[] split = value.trim().replace("modifiable(", "").replace(");", "").split(",");
+			condition.getModifiables().clear();
+			for (String s : split) {
+				if (!s.equals("")) condition.getModifiables().add(s.trim());
+			}
+			UpdateConditionsOfChildren.updateConditionsofChildren(condition);
+			updatePictogramElement(context.getPictogramElement());
+			return;
+		}
+		condition.setName(value.trim());
 		URI peURI =	context.getPictogramElement().eResource().getURI();
 		if (condition.eContainer() instanceof ModelClass) {
 			ShapeImpl shape = (ShapeImpl)context.getPictogramElement();
 			TextImpl text = (TextImpl)shape.getGraphicsAlgorithm();
 			text.setValue("{" + condition.getName() + "}");
 		} else if (!(condition.eContainer() instanceof GlobalConditions)) {
-			// TODO: updateOriginalCallsToProve, updateMethodCallsToProve and
-			// updateContractsToProve
-			// needs to be triggered, when the whole diagram is saved and not exiting
-			// code-edit mode
-			//UpdateOriginalCallsToProve.updateOriginalCallsToProve(condition); TODO von max auskommentiert aufgrund nullpointerexception bei �nderung einer bedingung
-			//UpdateMethodCallsToProve.updateMethodCallsToProve(condition); TODO von max auskommentiert aufgrund nullpointerexception bei �nderung einer bedingung
-			//UpdateContractsToProve.updateContractsToProve(condition); TODO von max auskommentiert aufgrund nullpointerexception bei �nderung einer bedingung
+			if (peURI.lastSegment().contains(peURI.segment(peURI.segmentCount()-2))) { //change from CbCClass
+				try {
+					condition.eResource().save(Collections.EMPTY_MAP);
+					condition.eResource().setTrackingModification(true);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			UpdateOriginalCallsToProve.updateOriginalCallsToProve(condition);
+			UpdateMethodCallsToProve.updateMethodCallsToProve(condition);
+			UpdateContractsToProve.updateContractsToProve(condition);
 			UpdateConditionsOfChildren.updateConditionsofChildren(condition);
 		} else if (condition.eContainer() instanceof GlobalConditions) {
 			CbCFormula formula = null;

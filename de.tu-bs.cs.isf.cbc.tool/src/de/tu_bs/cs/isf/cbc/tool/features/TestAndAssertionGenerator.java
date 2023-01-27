@@ -76,6 +76,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputDataTupel;
 import de.tu_bs.cs.isf.cbc.tool.helper.JavaCondition;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolver;
+import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolverException;
 import de.tu_bs.cs.isf.cbc.tool.helper.TestAndAssertionListener;
 import de.tu_bs.cs.isf.cbc.tool.helper.TestCaseData;
 import de.tu_bs.cs.isf.cbc.tool.helper.Util;
@@ -207,10 +208,23 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		String code2 = genCode(methodToGenerate);		
 		var className = code2.split("public\\sclass\\s", 2)[1].split("\\s", 2)[0];
 		className = className.replaceAll("\\{", "");		
-		var code = genCode(methodToGenerate, true);					
-		List<String> classCodes = genAllDependenciesOfMethod(code, className, formula.getStatement().getPostCondition().getName());
-
-		if(!compileFileContents(classCodes, methodToGenerate.getName())) {
+		var code = genCode(methodToGenerate, true);			
+		List<String> classCodes; 
+		try {
+			classCodes = genAllDependenciesOfMethod(code, className, formula.getStatement().getPostCondition().getName());
+		} catch (TestAndAssertionGeneratorException e) {
+			Console.println(e.getMessage());
+			e.printStackTrace();
+			return;
+		}
+		
+		try {
+			if(!compileFileContents(classCodes, methodToGenerate.getName())) {
+				return;
+			}
+		} catch (TestAndAssertionGeneratorException e) {
+			Console.println(e.getMessage());
+			Console.println("Execution of the test generator failed.");
 			return;
 		}
 		// get code of class to be tested
@@ -221,14 +235,14 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		}
 
 		List<TestCaseData> inputs;
+		String testFileContent;
+		
 		try {
 			inputs = genInputs(parseConditions(globalConditions, formula.getStatement().getPreCondition()), vars, code2, signatureString, returnVariable);
-		} catch (TestAndAssertionGeneratorException e) {
+			testFileContent = genTestCases(className, inputs, formula.getStatement().getPostCondition(), globalConditions, formula);
+		} catch (TestAndAssertionGeneratorException | PreConditionSolverException | TestStatementException e) {
 			Console.println(e.getMessage());
-			return;
-		}
-		String testFileContent = genTestCases(className, inputs, formula.getStatement().getPostCondition(), globalConditions, formula);
-		if (testFileContent.isEmpty()) {
+			e.printStackTrace();
 			return;
 		}
 		writeToFile(className + "Test", testFileContent);
@@ -501,11 +515,12 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	//| End of copied code from existing methods.													 |
 	//================================================================================================
 	
-	private static String constructCodeBlockOfChildStatement(final AbstractStatement refinement, final String id) {
+	private static String constructCodeBlockOfChildStatement(final AbstractStatement refinement, final String id) throws TestAndAssertionGeneratorException {
 		if (id == null) {
 			//Console.clear();
 			Console.println("Please add IDs to the diagram.");
-			return "TestAndAssertionError: An ID was null.";
+			throw new TestAndAssertionGeneratorException("An ID was null.");
+			//return "TestAndAssertionError: An ID was null.";
 		}
 		if (id.equals(refinement.getId())) {
 			return STATEMENT_PH + "\n";
@@ -568,7 +583,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return null;
 	}
 	
-	private static String constructSelection(final SelectionStatement statement, final String id) {
+	private static String constructSelection(final SelectionStatement statement, final String id) throws TestAndAssertionGeneratorException {
 		StringBuffer buffer = new StringBuffer();
 
 		if (!statement.getCommands().isEmpty()) {
@@ -588,7 +603,11 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				for (int i = 0; i < positionIndex; i++) {
 					buffer.append("\t");
 				}
-				buffer.append(constructCodeBlockOfChildStatement(statement.getCommands().get(0).getRefinement(), id));
+				try {
+					buffer.append(constructCodeBlockOfChildStatement(statement.getCommands().get(0).getRefinement(), id));
+				} catch (TestAndAssertionGeneratorException e) {
+					throw e;
+				}
 				positionIndex--;
 				for (int i = 0; i < positionIndex; i++) {
 					buffer.append("\t");
@@ -647,29 +666,31 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return buffer.toString();
 	}
 
-	private static String constructComposition(final CompositionStatement statement, final String id) {
+	private static String constructComposition(final CompositionStatement statement, final String id) throws TestAndAssertionGeneratorException {
 		StringBuffer buffer = new StringBuffer();
-		
-		if (statement.getFirstStatement().getRefinement() != null) {
-			buffer.append(constructCodeBlockOfChildStatement(statement.getFirstStatement().getRefinement(), id));
-		} else {
-			buffer.append(constructCodeBlockOfChildStatement(statement.getFirstStatement(), id));
+		try {
+			if (statement.getFirstStatement().getRefinement() != null) {
+				buffer.append(constructCodeBlockOfChildStatement(statement.getFirstStatement().getRefinement(), id));
+			} else {
+				buffer.append(constructCodeBlockOfChildStatement(statement.getFirstStatement(), id));
+			}
+	
+			for (int i = 0; i < positionIndex; i++) {
+				buffer.append("\t");
+			}
+			
+			if (statement.getSecondStatement().getRefinement() != null) {
+				buffer.append(constructCodeBlockOfChildStatement(statement.getSecondStatement().getRefinement(), id));
+			} else {
+				buffer.append(constructCodeBlockOfChildStatement(statement.getSecondStatement(), id));
+			}
+		} catch (TestAndAssertionGeneratorException e) {
+			throw e;
 		}
-
-		for (int i = 0; i < positionIndex; i++) {
-			buffer.append("\t");
-		}
-		
-		if (statement.getSecondStatement().getRefinement() != null) {
-			buffer.append(constructCodeBlockOfChildStatement(statement.getSecondStatement().getRefinement(), id));
-		} else {
-			buffer.append(constructCodeBlockOfChildStatement(statement.getSecondStatement(), id));
-		}
-		
 		return buffer.toString();
 	}
 	
-	private static String constructSmallRepetition(final SmallRepetitionStatement statement, final String id) {
+	private static String constructSmallRepetition(final SmallRepetitionStatement statement, final String id) throws TestAndAssertionGeneratorException {
 		StringBuffer buffer = new StringBuffer();
 
 		String guard = statement.getGuard().getName();
@@ -685,10 +706,14 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		for (int i = 0; i < positionIndex; i++) {
 			buffer.append("\t");
 		}
-		if (statement.getLoopStatement().getRefinement() != null) {
-			buffer.append(constructCodeBlockOfChildStatement(statement.getLoopStatement().getRefinement(), id));
-		} else {
-			buffer.append(constructCodeBlockOfChildStatement(statement.getLoopStatement(), id));
+		try {
+			if (statement.getLoopStatement().getRefinement() != null) {
+				buffer.append(constructCodeBlockOfChildStatement(statement.getLoopStatement().getRefinement(), id));
+			} else {
+				buffer.append(constructCodeBlockOfChildStatement(statement.getLoopStatement(), id));
+			}
+		} catch (TestAndAssertionGeneratorException e) {
+			throw e;
 		}
 		positionIndex--;
 		for (int i = 0; i < positionIndex; i++) {
@@ -704,15 +729,24 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return out;
 	}
 	
-	static public String genCodeUntilStatement(final CbCFormula formula, final AbstractStatement statement) {
+	static public String genCodeUntilStatement(final CbCFormula formula, final AbstractStatement statement) throws TestAndAssertionGeneratorException {
 		var code = new StringBuffer();
 		String s;
 		if (formula.getStatement().getRefinement() != null) {
-			s = constructCodeBlockOfChildStatement(formula.getStatement().getRefinement(), statement.getId());
-			code.append(s);
+			try {
+				s = constructCodeBlockOfChildStatement(formula.getStatement().getRefinement(), statement.getId());
+				code.append(s);
+			} catch (TestAndAssertionGeneratorException e) {
+				throw e;
+			}
 		} else {
-			s = constructCodeBlockOfChildStatement(formula.getStatement(), statement.getId());
-			code.append(s); 
+			try {
+				s = constructCodeBlockOfChildStatement(formula.getStatement(), statement.getId());
+				code.append(s); 
+			} catch (TestAndAssertionGeneratorException e) {
+				Console.println(e.getMessage());
+				throw e;
+			}
 		}
 		// now remove all code that comes after the statement
 		var cur = code.toString();
@@ -1209,13 +1243,14 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		
 	}
 	
-	private List<String> getUsedVars(final String code, final String signature, final JavaVariables vars) {
+	private List<String> getUsedVars(final String code, final String signature, final JavaVariables vars) throws TestAndAssertionGeneratorException {
 		assert(code.contains(signature));
 		var usedVars = new ArrayList<String>();
 		String relevantCode = "";
 		if (code.indexOf(signature) == -1) {
-			Console.println("TestAndAssertionGeneratorError: The signature " + signature + " couldn't be found.");
-			return null;
+			//Console.println("TestAndAssertionGeneratorError: The signature " + signature + " couldn't be found.");
+			throw new TestAndAssertionGeneratorException("The signature " + signature + " couldn't be found.");
+			//return null;
 		}
 		relevantCode = code.substring(code.indexOf(signature), code.length());
 		int methodEndIndex = findMethodEndIndex(relevantCode, signature);
@@ -1280,8 +1315,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * @param returnVariable
 	 * @return
 	 * @throws TestAndAssertionGeneratorException 
+	 * @throws PreConditionSolverException 
 	 */
-	public List<TestCaseData> genInputs(final String preconditions, final JavaVariables vars, final String code, final String signature, final JavaVariable returnVariable) throws TestAndAssertionGeneratorException {
+	public List<TestCaseData> genInputs(final String preconditions, final JavaVariables vars, final String code, final String signature, final JavaVariable returnVariable) throws TestAndAssertionGeneratorException, PreConditionSolverException {
 		List<String> globalVarsOfClass = new ArrayList<String>();
 		List<String> usedVars;
 		List<String> params;
@@ -1335,9 +1371,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			solver.showWarnings(false);
 			try {
 				solverData = solver.solve(preconditions);
-			} catch (Exception e) {
-				Console.println(e.getMessage());
-				throw new TestAndAssertionGeneratorException("Inputs couldn't be generated.");
+			} catch (PreConditionSolverException e) {
+				throw e;
 			}
 		}
 		// for every variable that is inside solverData, use those values, for every other variable use default values.
@@ -1520,6 +1555,17 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			+ c.substring(m.end(), c.length());
 			m = p.matcher(c);
 		}
+		
+		p = Pattern.compile("pow\\([^\\,]+\\,\\s*[^\\,]+\\)");
+		m = p.matcher(c);		
+		while (m.find()) {
+			if (m.start() > 0 && c.charAt(m.start() - 1) == '.') {
+				continue;
+			}
+			final String innerPart = m.group(0).substring(m.group(0).indexOf("(") + 1, m.group(0).indexOf(")"));
+			c = c.substring(0, m.start()) + "Math.pow(" + innerPart + ")" + c.substring(m.end(), c.length());
+			m = p.matcher(c);
+		}		
 		return c;
 	}
 		
@@ -1746,7 +1792,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return output;
 	}
 	
-	private String genTestCases(final String className, final List<TestCaseData> inputs, final Condition postCondition, final GlobalConditions conds, final CbCFormula formula) {
+	private String genTestCases(final String className, final List<TestCaseData> inputs, final Condition postCondition, final GlobalConditions conds, final CbCFormula formula) throws TestStatementException {
 		var instanceName = Character.toLowerCase(className.charAt(0)) + className.substring(1, className.length());
 		if (inputs.isEmpty()) {
 			Console.println("TestAndAssertionInfo: No input data was generated.");
@@ -1806,7 +1852,11 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			// add precondition checks
 			var programPreConsStr = formula.getStatement().getPreCondition().getName();
 			var programPreCons = translateConditionToJava(programPreConsStr, instanceName, test.getInputDataTupel().getGlobalVars(), this.projectPath);
-			code.append(TestStatement.insertPreconditionChecks("\n\n", programPreCons, 2).replaceFirst("\\n", ""));
+			try {
+				code.append(TestStatement.insertPreconditionChecks("\n\n", programPreCons, 2).replaceFirst("\\n", ""));
+			} catch (TestStatementException e) {
+				throw e;
+			}
 			
 			// add method call
 			if (test.getReturnType().equals("void")) {
@@ -2616,7 +2666,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return true;
 	}
 	
-	public boolean compileFileContents(List<String> fileContents, String methodToGenerate, final List<String> options) {
+	public boolean compileFileContents(List<String> fileContents, String methodToGenerate, final List<String> options) throws TestAndAssertionGeneratorException {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
 		StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
@@ -2627,8 +2677,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		for (var code : fileContents) {
 			code = code.trim();
 			if (code.isEmpty()) {
-				Console.println("TestAndAssertionError: Couldn't generate Code.");
-				return false;
+				throw new TestAndAssertionGeneratorException("Found an empty class code.");
 			}
 			var className = code.split("public\\sclass\\s")[1].split("\\s", 2)[0];
 			className = className.replaceAll("\\{", "");
@@ -2664,7 +2713,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return true;
 	}
 	
-	public boolean compileFileContents(List<String> fileContents, String methodToGenerate) {
+	public boolean compileFileContents(List<String> fileContents, String methodToGenerate) throws TestAndAssertionGeneratorException {
 		return compileFileContents(fileContents, methodToGenerate, null);
 	}
 	
@@ -2703,8 +2752,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * @param methodCode The code of the method for which to get the dependencies.
 	 * @param className The name of the class which contains *MethodCode*.
 	 * @return Contents of the classes.
+	 * @throws TestAndAssertionGeneratorException 
 	 */
-	public List<String> genAllDependenciesOfMethod (String methodCode, String className, String postCondition)
+	public List<String> genAllDependenciesOfMethod (String methodCode, String className, String postCondition) throws TestAndAssertionGeneratorException
 	{
 		var innerMethod = methodCode.substring(methodCode.indexOf('{') + 1, methodCode.lastIndexOf('}'));
 		// add postCondition to the code in case there are method calls in there too
@@ -2770,10 +2820,14 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				continue;
 			}
 			// insert the calling method as well
-			if (curClassName.equals(className)) {
-				classCode = genEmptyClass(curClassName, methodCode);
-			} else {
-				classCode = genEmptyClass(curClassName, "");
+			try {
+				if (curClassName.equals(className)) {
+					classCode = genEmptyClass(curClassName, methodCode);
+				} else {
+					classCode = genEmptyClass(curClassName, "");
+				}
+			} catch (TestAndAssertionGeneratorException e) {
+				throw e;
 			}
 			
 			if (curClassName.equals(className)) {
@@ -2962,7 +3016,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return output;
 	}
 	
-	private String genEmptyClass(String className, String methodCode) {
+	private String genEmptyClass(String className, String methodCode) throws TestAndAssertionGeneratorException {
 		StringBuffer code = new StringBuffer();
 		String classCode;
 		List<String> gVars;
@@ -2979,8 +3033,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			gVars = getGvarsOfCbCClass(className);
 		}
 		if (gVars == null) {
-			Console.println("TestAndAssertionGeneratorError: Couldn't get global variables of class '" + className + "'.");
-			return "";
+			throw new TestAndAssertionGeneratorException("Couldn't get global variables of class '" + className + "'.");
 		}
 		// last element is the globalVariables str.
 		//globalVariables = gVars.get(gVars.size() - 1);

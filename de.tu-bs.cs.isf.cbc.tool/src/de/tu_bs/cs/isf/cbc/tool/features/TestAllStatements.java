@@ -74,7 +74,13 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		for (var statement : allStatements) {
 			Console.println(" > Testing path:", blue);
 			Console.println("\t" + ts.getStatementPath(statement));
-			ts.testStatement((AbstractStatement)statement, vars, conds, formula, statement instanceof ReturnStatement);
+			try {
+				ts.testStatement((AbstractStatement)statement, vars, conds, formula, statement instanceof ReturnStatement);
+			} catch (TestAndAssertionGeneratorException |TestStatementException e) {
+				Console.println(e.getMessage());
+				e.printStackTrace();
+				return;
+			}
 		}
 		
 		long endTime = System.nanoTime();

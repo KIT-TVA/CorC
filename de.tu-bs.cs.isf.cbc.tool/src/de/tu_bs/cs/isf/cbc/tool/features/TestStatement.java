@@ -41,6 +41,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.BranchType;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.JavaCondition;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolver;
+import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolverException;
 import de.tu_bs.cs.isf.cbc.tool.helper.TestStatementListener;
 import de.tu_bs.cs.isf.cbc.tool.helper.Token;
 import de.tu_bs.cs.isf.cbc.tool.helper.TokenType;
@@ -134,7 +135,13 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				
 				Console.println(" > Testing path:", blue);
 				Console.println("\t" + getStatementPath(statement));
-				testStatement(statement, vars, conds, formula, returnStatement);
+				try {
+					testStatement(statement, vars, conds, formula, returnStatement);
+				} catch (TestAndAssertionGeneratorException | TestStatementException e) {
+					Console.println(e.getMessage());
+					e.printStackTrace();
+					return;
+				}
 				
 				// update pictogram
 				updatePictogramElement(((Shape) pes[0]).getContainer());
@@ -479,7 +486,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return dependencies;
 	}
 	
-	private boolean compile(final List<String> dependencies, final String className, final String methodName, final TestAndAssertionGenerator generator) {		
+	private boolean compile(final List<String> dependencies, final String className, final String methodName, final TestAndAssertionGenerator generator) throws TestAndAssertionGeneratorException {		
 		var pathOfPlugins = System.getProperty("osgi.syspath");
 		var file = new File(pathOfPlugins);
 		List<String> testNgFiles = Arrays.asList(file.list()).stream().filter(s -> s.contains("org.testng_")).toList();
@@ -488,8 +495,12 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		
 		// compile dependencies
 		var options = Arrays.asList("-cp", pathOfPlugins + "/" + highestVersion);
-		if(dependencies.size() > 0 && !generator.compileFileContents(dependencies, methodName, options)) {
-			return false;
+		try {
+			if(dependencies.size() > 0 && !generator.compileFileContents(dependencies, methodName, options)) {
+				return false;
+			}
+		} catch (TestAndAssertionGeneratorException e) {
+			throw e;
 		}
 		return true;
 	}
@@ -536,12 +547,13 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	 * @param code
 	 * @param javaCondition
 	 * @return
+	 * @throws TestStatementException 
 	 */
-	public static String insertPreconditionChecks(String code, JavaCondition javaCondition, int numTabs) {
+	public static String insertPreconditionChecks(String code, JavaCondition javaCondition, int numTabs) throws TestStatementException {
 		// always put the checks between arrange and act parts
 		Branch branch;
 		if (!code.contains("\n\n")) {
-			Console.println("TestStatementError: Couldn't check whether the preconditions of the program are satisfied.");
+			throw new TestStatementException("Couldn't check whether the preconditions of the program are satisfied.");
 		}
 		// assumes the parts are separated by an empty line
 		int pos = code.indexOf("\n\n") + 1;
@@ -791,9 +803,10 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				preConditions = cleanCondition(formula.getStatement().getPreCondition().getName(), className, generator);
 				try {
 					data = preSolver.solve(preConditions);
-				} catch (Exception e) {
+				} catch (PreConditionSolverException e) {
 					Console.println(e.getMessage());
-					Console.println("TestStatementError: Couldn't parse preconditions of neither the statement nor the formula.");
+					e.printStackTrace();
+					Console.println("TestStatement: Couldn't parse preconditions of neither the statement nor the formula.");
 					Console.println("TestStatement: Consider using 'usePreConditions(false)' in 'PreConditionSolver'.");
 					return null;
 				}
@@ -810,7 +823,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return condition;
 	}
 	
-	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement) {
+	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement) throws TestAndAssertionGeneratorException, TestStatementException {
 		final String className;
 
 		if (formula.getClassName().isEmpty()) {
@@ -822,7 +835,12 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		generator.setProjectPath(this.projectPath);		
 					
 		// generate the code until the selection
-		var code = TestAndAssertionGenerator.genCodeUntilStatement(formula, statement);
+		String code;
+		try {
+			code = TestAndAssertionGenerator.genCodeUntilStatement(formula, statement);
+		} catch (TestAndAssertionGeneratorException e) {
+			throw e;
+		}
 		if (code.isEmpty()) {
 			return false;
 		}
@@ -859,8 +877,12 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		code = removeTabs(code);
 		// insert fixture for variables used in the statement and the post condition
 		code = insertFixture(code, data, Variable.getAllGVars(vars), usedVars, vars, postCon, allPreConditions, generator);	
-		// insert precondition checks		
-		code = insertPreconditionChecks(code, programPreCons, 0);
+		// insert precondition checks
+		try {
+			code = insertPreconditionChecks(code, programPreCons, 0);
+		} catch (TestStatementException e) {
+			throw e;
+		}
 		// handle the post condition and translate it to JavaCondition
 		var javaCondition = generator.translateConditionToJava(postCon, "", data, this.projectPath);
 		// generate dependencies as well (method call ect.)
