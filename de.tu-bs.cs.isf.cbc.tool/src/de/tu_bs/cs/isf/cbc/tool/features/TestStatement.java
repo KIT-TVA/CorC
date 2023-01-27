@@ -750,6 +750,8 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			childStatements.add(statement);
 		} else if (statement instanceof ReturnStatement) {
 			childStatements.add(statement);
+		} else if (statement instanceof MethodStatement) {
+			childStatements.add(statement);
 		}
 		for (EObject s : statement.eContents()) {
 			getChildStatements(s, childStatements);

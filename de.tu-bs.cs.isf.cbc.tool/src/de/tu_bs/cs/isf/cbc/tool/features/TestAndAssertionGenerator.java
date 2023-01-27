@@ -733,6 +733,30 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return out;
 	}
 	
+	// TODO: test this
+	static private int findFirstOpenLoop(String code) {
+		int start = code.indexOf("while");
+		int oBracket = 0;
+		int cBracket = 0;
+		
+		if (start == -1) {
+			return -1;
+		}
+		while (cBracket != -1) {
+			oBracket = code.substring(start, code.length()).indexOf("{");
+			if (oBracket == -1) {
+				return -1;
+			}
+			cBracket = findClosingBracketIndex(code, oBracket + start, '{');
+			if (cBracket == -1) {
+				return oBracket + start;
+			}
+			code = code.substring(cBracket, code.length());
+			start = 0;
+		}
+		return -1;
+	}
+	
 	static public String genCodeUntilStatement(final CbCFormula formula, final AbstractStatement statement) throws TestAndAssertionGeneratorException {
 		var code = new StringBuffer();
 		String s;
@@ -759,11 +783,11 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		}
 		String beforeStatement = cur.substring(0, cur.indexOf(STATEMENT_PH));
 		String afterStatement;
-		int lastLoopIndex = beforeStatement.lastIndexOf("while (");
-		if (lastLoopIndex != -1 && countBrackets(beforeStatement, '{') > 0) {
-			String helper = cur.substring(lastLoopIndex, cur.length());
-			int startIndex = helper.indexOf("{");
-			int endIndex = findClosingBracketIndex(cur, lastLoopIndex + startIndex, '{');
+		// TODO: test this part
+		int loopIndex = findFirstOpenLoop(beforeStatement);
+		//int lastLoopIndex = beforeStatement.lastIndexOf("while (");
+		if (loopIndex != -1 && countBrackets(beforeStatement, '{') > 0) {
+			int endIndex = findClosingBracketIndex(cur, loopIndex, '{');
 			afterStatement = cur.substring(endIndex + 1, cur.length());
 			cur = cur.substring(0, endIndex + 1);
 		} else {			
