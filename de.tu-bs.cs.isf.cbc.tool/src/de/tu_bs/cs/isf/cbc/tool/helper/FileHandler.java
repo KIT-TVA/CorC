@@ -190,17 +190,18 @@ public class FileHandler {
 	}
 	
 	public static boolean isSPL(final URI projectPath) {
-		var project = FileUtil.getProject(projectPath);
-		if (project == null) {
+		final var project = FileUtil.getProject(projectPath);
+		
+		try {
+			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
 			return false;
 		}
-		if (!project.exists(new Path("/features/"))) {
-			return false;
-		}
-		if (!project.exists(new Path("/model.xml"))) {
-			return false;
-		}	
-		return true;
 	}
 	
 	public static boolean saveConfig(final URI projectPath, final CbCFormula formula, final Features features, boolean isTestCase) {

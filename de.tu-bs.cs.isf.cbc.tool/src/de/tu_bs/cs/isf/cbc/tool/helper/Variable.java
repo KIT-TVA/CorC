@@ -123,7 +123,7 @@ public class Variable {
 				continue;
 			}
 			String variable = parts[i-1];
-			if (i > 0 && !parts[i-2].isEmpty()) {
+			if (i > 0 && !parts[i-2].isEmpty() && parts[i-2].charAt(parts[i-2].length()-1) != ';') {
 				continue;
 			}
 			int index = code.indexOf(variable + " ");

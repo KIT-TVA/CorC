@@ -65,7 +65,8 @@ public class Features {
 	
 	public String[] getNextConfig() {
 		if (++curConfig != configs) {
-			curFeature = featureConfigs[curConfig].length;
+			//curFeature = featureConfigs[curConfig].length;
+			this.setFeatureIndex(callingFeature);
 			return featureConfigs[curConfig];
 		} else {
 			return null;
@@ -162,5 +163,15 @@ public class Features {
 		} else {
 			return null;
 		}
+	}
+
+	public boolean setFeatureIndex(String feature) {
+		for (int i = 0; i < this.getCurConfig().length; i++) {
+			if (this.getCurConfig()[i].equals(feature)) {
+				this.curFeature = i+1;
+				return true;
+			}
+		}
+		return false;
 	}
 }

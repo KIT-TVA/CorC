@@ -37,8 +37,15 @@ public class TestStatementListener extends TestAndAssertionListener {
 			  }
 		  }
 		  var classCode = getClassCode(className);
-		  int offset = getLineCount(classCode) - getLineCount(methodCode);
-		  return errorLineNr - offset;
+		  var lines = classCode.split("\\n");
+		  var line = lines[errorLineNr-1].trim();
+		  var methodLines = methodCode.split("\\n");
+		  for (int i = 0; i < methodLines.length; i++) {
+			  if (methodLines[i].trim().equals(line)) {
+				  return i;
+			  }
+		  }
+		  return -1;
 	}
 	
 	/*
@@ -144,10 +151,10 @@ public class TestStatementListener extends TestAndAssertionListener {
 		//  var statementLineNr = getStatementLineNr(className, methodCode);
 		//  var statementLine = getLine(methodCode, statementLineNr);
 		  var stackTrace = result.getThrowable().getStackTrace();
-		  int errorLineNr = getErrorLineNr(stackTrace, className, methodName, methodCode);
 		  methodCode = removeHelperLines(methodCode);
 		  methodCode = CodeHandler.removeTabs(methodCode).trim();
 		  methodCode = CodeHandler.insertTabs(methodCode, 1);
+		  int errorLineNr = getErrorLineNr(stackTrace, className, methodName, methodCode);
 		  var lineToHighlight = getLine(methodCode, errorLineNr);
 		  methodCode = methodCode.substring(0, methodCode.indexOf(lineToHighlight)) + "  -->" + methodCode.substring(methodCode.indexOf(lineToHighlight), methodCode.length());
 		  printLines(methodCode);

@@ -87,21 +87,95 @@ public class TranslatedPredicate {
 	}
 	
 	private String genExists(final Branch branch) {
-		return 	"for (" + branch.getIterType() + " " + branch.getIterName() + " = " 
+		String firstCondition = removeIdentifier(branch.getIterConditions().get(0), branch.getIterName());
+		String initialValue = getIterValue(firstCondition);
+		String secondCondition = removeIdentifier(branch.getIterConditions().get(1), branch.getIterName());
+		String lastValue = getIterValue(secondCondition);
+		branch.getIterConditions().remove(0);
+		branch.getIterConditions().remove(0);
+		String exists = "for (" + branch.getIterType() + " " + branch.getIterName() + " = " 
+				+ initialValue + "; " + branch.getIterName() + " < " + lastValue + "; "
+				+ branch.getIterName() + "++" + ") " + "{\n";
+		if (!branch.getIterConditions().isEmpty()) {
+			exists += "if (" + branch.getIterConditions().stream().reduce((f, s) -> f + " && " + s).get() + ") {\n";
+		}
+		exists += "exists" + this.branchNr + " = true;\n}\n";
+		if (!branch.getIterConditions().isEmpty()) {
+			exists += "}\n";
+		}
+		exists += genAssertion("exists" + this.branchNr + " == true")
+				+ "\nexists" + this.branchNr + " = false;";
+		return exists;
+		/*return 	"for (" + branch.getIterType() + " " + branch.getIterName() + " = " 
 				+ Variable.getWrapper(branch.getIterType()) + ".MIN_VALUE; " + branch.getIterName() + " < " + Variable.getWrapper(branch.getIterType()) + ".MAX_VALUE; " 
 				+ branch.getIterName() + "++" + ")" + "{\n" 
 				+ "if (" + branch.getIterConditions().stream().reduce((f, s) -> f + " && " + s).get() + ") {\n"
 				+ "exists" + this.branchNr + " = true;\n"
 				+ "}\n}\n" 
 				+ genAssertion("exists" + this.branchNr + " == true")
-				+ "\nexists" + this.branchNr + " = false;";
+				+ "\nexists" + this.branchNr + " = false;";*/
+	}
+		
+	private String genForAll(final Branch branch) {
+		String firstCondition = removeIdentifier(branch.getIterConditions().get(0), branch.getIterName());
+		String initialValue = getIterValue(firstCondition);
+		String secondCondition = removeIdentifier(branch.getIterConditions().get(1), branch.getIterName());
+		String lastValue = getIterValue(secondCondition);
+		branch.getIterConditions().remove(0);
+		branch.getIterConditions().remove(0);
+		String forLoop = "for (" + branch.getIterType() + " " + branch.getIterName() + " = " 
+				+ initialValue + "; " + branch.getIterName() + " < " + lastValue + "; "
+				+ branch.getIterName() + "++" + ") " + "{\n";
+		if (!branch.getIterConditions().isEmpty()) {
+			//forLoop += "if (" + branch.getIterConditions().stream().reduce((f, s) -> f + " && " + s).get() + ") {\n";
+		}
+		return 	forLoop;
+	} // Variable.getWrapper(branch.getIterType()) + ".MAX_VALUE; "
+	
+	private String removeIdentifier(String str, String identifier) {
+		List<Integer> positions = new ArrayList<Integer>();
+		String originalStr = str;
+		int offset = 0;
+		
+		while(str.length() > 0) {
+			int start = str.indexOf(identifier);
+			if (start == -1) {
+				break;
+			}
+			int end = start + identifier.length();
+			if (start > 0 && Character.isAlphabetic(str.charAt(start-1))) {
+				str = str.substring(end, str.length());
+				offset += end+1;
+				continue;
+			}
+			if (end < str.length() && Character.isAlphabetic(str.charAt(end))) {
+				str = str.substring(end, str.length());
+				offset += end+1;
+				continue;
+			}
+			positions.add(start+offset);
+			if (end >= str.length()) {
+				break;
+			}
+			str = str.substring(end, str.length());
+		}
+		
+		for (var i : positions) {
+			originalStr = originalStr.substring(0, i) 
+					+ originalStr.substring(i + identifier.length(), originalStr.length());
+		}
+		
+		return originalStr;
 	}
 	
-	private String genForAll(final Branch branch) {
-		return 	"for (" + branch.getIterType() + " " + branch.getIterName() + " = " 
-				+ Variable.getWrapper(branch.getIterType()) + ".MIN_VALUE; " + branch.getIterName() + " < " + Variable.getWrapper(branch.getIterType()) + ".MAX_VALUE; " 
-				+ branch.getIterName() + "++" + ")" + "{\n" 
-				+ "if (" + branch.getIterConditions().stream().reduce((f, s) -> f + " && " + s).get() + ") {\n";
+	private String getIterValue(String condition) {
+		condition = condition.replaceAll("<", "");
+		condition = condition.replaceAll("\\s", "");
+		condition = condition.replaceAll(">", "");
+		condition = condition.replaceAll("=", "");
+		condition = condition.replaceAll("\\(", "");
+		condition = condition.replaceAll("\\)", "");
+		return condition;
 	}
 	
 	private void getIterConditions(Node node, final List<String> lst) {
@@ -155,7 +229,7 @@ public class TranslatedPredicate {
 				branch.setIterConditions(iterConditions);
 				this.branches.push(branch);
 				if (nextImpl != null) {
-					translatePredicate(nextImpl);
+					translatePredicate(nextImpl.getRight());
 				}
 			}
 		} else if (pred.getType() == TokenType.IMPL) {
@@ -169,10 +243,10 @@ public class TranslatedPredicate {
 			this.branches.push(new Branch(type, branchCondition, dummy));
 			translatePredicate(pred.getRight());
 		} else if (pred.getType() == TokenType.OR) {
-			type = BranchType.OR;
+			/*type = BranchType.OR;
 			branchCondition = pred.getLeft().getRep();
 			this.branches.push(new Branch(type, branchCondition, dummy));
-			translatePredicate(pred.getRight());
+			translatePredicate(pred.getRight());*/
 		} else {
 			type = BranchType.NONE;
 			branchCondition = pred.getRep();

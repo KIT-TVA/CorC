@@ -159,7 +159,7 @@ public class TestUtilSPL {
 		var classVars = readFieldsFromClass(features.getCallingClass(), projectPath.toPlatformString(false));
 		//vars.getFields().addAll(classVars.getFields());
 		//addFields(vars, classVars);
-		refCode = Variable.prefixAllVariables(refCode, classVars);
+		refCode = Variable.prefixAllVariables(CodeHandler.indentCode(refCode, 0), classVars);
 		refCode = CodeHandler.indentCode(refCode, 0);
 		newMethods.add(new MethodHandler(signature, refCode));
 		handleOriginalCode(fp, projectPath, refCode, features, newMethods, signature, vars);
