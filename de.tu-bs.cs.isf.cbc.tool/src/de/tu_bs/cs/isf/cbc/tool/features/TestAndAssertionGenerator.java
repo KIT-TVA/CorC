@@ -35,6 +35,8 @@ import javax.tools.ToolProvider;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -75,6 +77,8 @@ import de.tu_bs.cs.isf.cbc.tool.helper.Branch;
 import de.tu_bs.cs.isf.cbc.tool.helper.BranchType;
 import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.ConditionHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputDataTupel;
@@ -84,6 +88,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolver;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolverException;
 import de.tu_bs.cs.isf.cbc.tool.helper.TestAndAssertionListener;
 import de.tu_bs.cs.isf.cbc.tool.helper.TestCaseData;
+import de.tu_bs.cs.isf.cbc.tool.helper.TestStatementListener;
 import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Variable;
@@ -182,7 +187,6 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			signatureString = formula.getMethodObj().getSignature();
 		}
 		
-		JavaVariable returnVariable = null;
 		int counter = 0;
 		LinkedList<String> localVariables = new LinkedList<String>();
 		for(int i = 0; i < vars.getVariables().size(); i++) {
@@ -202,18 +206,41 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				localVariables.add(currentVariable.getName().replace("non-null", ""));
 			}
 		}
-		var tmp2 = vars.getParams();
-		for (Parameter v : tmp2) {
-			int a = 0;
-		}
 		for (Field field : vars.getFields()) {
 			if (field.getName() == null) { 
 				continue;
 			}
 			globalVars.add(field.getName().replace("non-null ", ""));
 		}			
-		long startTime = System.nanoTime();		
-		Console.clear();
+		long startTime = System.nanoTime();	
+		Console.clear();	
+		Features features = null;
+		if (FileHandler.isSPL(uri)) {
+			features = new Features(uri);
+		} else {
+			features = null;
+		}
+		if (features != null) {
+			Console.println("[SPL detected]", TestStatement.blue);
+			for (int i = 0; i < features.getSize(); i++) {
+				features.getNextConfig();
+				Console.println(" > Configuration: [" + features.getConfigRep() + "]", TestStatement.blue);
+				if (!test(uri, formula, vars, globalConditions, signatureString, globalVars, features)) {
+					continue;
+				}
+				// save configuration in a separate file
+				FileHandler.saveConfig(uri, formula, features, true);
+			}		
+		} else {
+			test(uri, formula, vars, globalConditions, signatureString, globalVars, features);
+		}	
+		
+		long endTime = System.nanoTime();
+		double elapsedTime = (endTime - startTime) / 1000000;
+		Console.println("Total time needed: " + (int)elapsedTime + "ms");
+	}
+	
+	private boolean test(final URI uri, final CbCFormula formula, final JavaVariables vars, final GlobalConditions globalConditions, final String signatureString, final List<String> globalVars, final Features features) {
 		var methodToGenerate = getDiagram();			
 		String code2 = genCode(methodToGenerate);		
 		var className = code2.split("public\\sclass\\s", 2)[1].split("\\s", 2)[0];
@@ -222,22 +249,24 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		final var methodSig = MethodHandler.getSignatureFromCode(code);
 		code = code.replaceAll("self\\.", "this.");
 		List<ClassHandler> classCodes; 
+		final String postCon = ConditionHandler.replaceResultKeyword(formula.getStatement().getPostCondition().getName(), returnVariable);
+		
 		try {
-			classCodes = genAllDependenciesOfMethod(code, methodSig, className, formula.getStatement().getPostCondition().getName());
+			classCodes = genAllDependenciesOfMethod(code, methodSig, className, postCon);
 		} catch (TestAndAssertionGeneratorException e) {
-			Console.println(e.getMessage());
+			Console.println(e.getMessage(), TestStatementListener.red);
 			e.printStackTrace();
-			return;
+			return false;
 		}
 		
 		try {
 			if(!compileFileContents2(classCodes, methodToGenerate.getName())) {
-				return;
+				return false;
 			}
 		} catch (TestAndAssertionGeneratorException e) {
-			Console.println(e.getMessage());
+			Console.println(e.getMessage(), TestStatementListener.red);
 			Console.println("Execution of the test generator failed.");
-			return;
+			return false;
 		}
 		// get code of class to be tested
 		for (var clazz : classCodes) {
@@ -254,25 +283,23 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			if (inputs.isEmpty()) {
 				Console.println("TestAndAssertionGeneratorInfo: There are no controllable inputs for method " + methodToGenerate.getName() + ".");
 				Console.println("Nothing to test.");
-				return;
+				return false;
 			}
-			testFileContent = genTestCases(className, inputs, formula.getStatement().getPostCondition(), globalConditions, formula);
+			testFileContent = genTestCases(className, inputs, postCon, globalConditions, formula);
 		} catch (TestAndAssertionGeneratorException | PreConditionSolverException | TestStatementException e) {
-			Console.println(e.getMessage());
+			Console.println(e.getMessage(), TestStatementListener.red);
 			e.printStackTrace();
-			return;
+			return false;
 		} catch (UnexpectedTokenException e) {
-			Console.println(e.getMessage());
+			Console.println(e.getMessage(), TestStatementListener.red);
 			e.printStackTrace();
-			return;
+			return false;
 		}
 		FileHandler.writeToFile(this.projectPath, className + "Test", testFileContent);
 		Console.clear();
 		Console.println("Start testing...");  
 		executeTestCases("file://" + FileUtil.getProjectLocation(uri) + "/tests/", className + "Test", globalVars, inputs);
-		long endTime = System.nanoTime();
-		double elapsedTime = (endTime - startTime) / 1000000;
-		Console.println("Total time needed: " + (int)elapsedTime + "ms");
+		return true;
 	}
 	
 	//================================================================================================
@@ -892,7 +919,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * @param gVars
 	 * @return the generated java code if the method wasn't generated before. Else it returns an empty string.
 	 */
-	private String generateCode(CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString, String globalVariables, List<String> gVars, boolean onlyMethod, String customReturnName) {	
+	private String generateCode(CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString, String globalVariables, List<String> gVars, boolean onlyMethod) {	
 		String existingCode = "";
 		String constructorCode;
 		StringBuffer code = new StringBuffer();
@@ -965,28 +992,13 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 
 		String s = genDiagramCode(formula, renaming);
 		code.append(s);
-		
-		if (!customReturnName.isEmpty()) {
-			var end = code.lastIndexOf("return");
-			var newCode = "";
-			if (end != -1) {
-				newCode = code.toString().substring(0, end);
-				newCode += "result = " +  customReturnName + ";\n" 
-						+ "\t\t" + code.toString().substring(end, code.toString().length());
-			} else {
-				newCode = code.toString();
-				newCode += "\t\tresult = " +  customReturnName + ";\n";
-			}
-			code = new StringBuffer(newCode);
-		}
-		
-		
+			
 		//Pattern void_pattern = Pattern.compile("(?<![a-zA-Z0-9])(void)(?![a-zA-Z0-9])");
 		//Pattern return_pattern = Pattern.compile("(?<![a-zA-Z0-9])(return)(?![a-zA-Z0-9])");
 		var methodCode = code.toString().substring(code.indexOf(signatureString), code.length());
 		int closingBracket = methodCode.contains("}") ? methodCode.lastIndexOf('}') : 0;
 		var lastPartOfMethod = methodCode.substring(closingBracket, methodCode.length());
-		if (returnVariable != null && !lastPartOfMethod.contains("return result")) {
+		if (returnVariable != null && !lastPartOfMethod.contains("return " + returnVariable.getName().split("\\s")[1])) {
 			//if (!void_pattern.matcher(signatureString).find() && !return_pattern.matcher(code.toString()).find()) {
 			var splitter = code.toString().trim().split(";");
 			if (!splitter[splitter.length - 1].contains("return")) {
@@ -1008,7 +1020,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			code.append("\n}");
 		}
 
-		returnVariable = null;
+		//returnVariable = null;
 		return code.toString();
 	}
 	
@@ -1392,255 +1404,14 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		}
 		return output;
 	}
-	
-	private static String replacePrimitives(String input) {
-		input = input.replace("instanceof byte", "instanceof Byte");
-		input = input.replace("instanceof short", "instanceof Short");
-		input = input.replace("instanceof int", "instanceof Integer");
-		input = input.replace("instanceof long", "instanceof Long");
-		input = input.replace("instanceof char", "instanceof Character");
-		input = input.replace("instanceof string", "instanceof String");
-		input = input.replace("instanceof boolean", "instanceof Boolean");
-		return input;
-	}
-	
-	private static String addInstanceNameToMethod(String condition, final String instanceName, final List<String> methodLst) {
-		final var methods = new ArrayList<String>();
-		methods.addAll(methodLst);
-		int startIndex = 0;
-		int offset = 0;
-		for (int m = 0; m < methods.size(); m++) {
-			var curMethod = methods.get(m);
-			String params = curMethod.substring(curMethod.indexOf('('), curMethod.indexOf(')') + 1);
-			String methodName = curMethod.split("\\s")[2];
-			methodName = methodName.substring(0, methodName.indexOf('('));
-			methodName += params;
-			methods.set(m, methodName.trim());
-		}
-		for (var method : methods) {
-			Pattern p = Pattern.compile(Pattern.quote(method));
-			Matcher m = p.matcher(condition);
-			while (m.find()) {
-				startIndex = m.start() + offset;
-				if (startIndex == 0 || condition.charAt(startIndex - 1) != '.') {			
-					// make sure the string is not a substring of a bigger word
-					if (startIndex > 0) {
-						if (Character.isAlphabetic(condition.charAt(startIndex - 1))) continue;
-					}
-					if (m.end() + 1 < condition.length()) {
-						if (Character.isAlphabetic(condition.charAt(m.end() + 1))) continue;
-					}
-					var prevLen = condition.length();
-					condition = condition.substring(0, startIndex) 
-							+ instanceName + "." + m.group(0) + condition.substring(m.end(), condition.length());
-					offset += condition.length() - prevLen;
-				}				
-			}
-			offset = 0;
-		}
-		return condition;
-	}
-	
-	private static String addInstanceNameToVar(String condition, final String instanceName, final List<InputData> globalVars) {
-		for (var globalVar: globalVars) {
-			Pattern p = Pattern.compile("^" + Pattern.quote(globalVar.getName()) + "\\W|\\W" + Pattern.quote(globalVar.getName()) + "$|" + "\\W" + Pattern.quote(globalVar.getName()) + "\\W");
-			Matcher m = p.matcher(condition);
-			int start = -1;
-			
-			while (m.find()) {
-				if (condition.charAt(m.start()) == '.') continue;
-				if (m.start() == 0) {
-					if (Character.isAlphabetic(condition.charAt(m.start()))) {
-						start = 0;
-					} else {
-						start = 1;
-					}
-					condition = condition.substring(0, start) + instanceName + "." + m.group(0).substring(start, m.end() - 1) + condition.substring(m.end() - 1, condition.length());
-				} else {
-					if (condition.substring(0, m.start() + 1).endsWith("old(")) continue;
-					condition = condition.substring(0, m.start() + 1) 
-							+ instanceName + "." + condition.substring(m.start() + 1, m.end() - 1) + condition.substring(m.end() - 1, condition.length());	
-				}
-				m = p.matcher(condition);
-			}
-		}
-		return condition;
-	}
-	
-	private static String replaceMathFuncs(String c) {
-		Pattern p = Pattern.compile("max\\([^\\,]+\\,\\s*[^\\,]+\\,\\s*[^\\,]+\\,\\s*[^\\,\\)]+\\)");
-		Matcher m = p.matcher(c);
-		
-		while (m.find()) {
-			final String innerPart = m.group(0).substring(m.group(0).indexOf("(") + 1, m.group(0).indexOf(")"));
-			final String[] params = innerPart.split("\\,");
-			c = c.substring(0, m.start()) + "IntStream.of(" + params[0].trim() + ").boxed().toList().subList(" + params[1].strip() + ", " + params[2].strip() + ").stream().max(Integer::compare).get() == " 
-			+ params[0].trim() 
-			+ "[" + params[3].trim() 
-			+ "]" + c.substring(m.end(), c.length());
-			m = p.matcher(c);
-		}
-		
-		p = Pattern.compile("appears\\([^\\,]+\\,\\s*[^\\,]+\\,\\s*[^\\,]+\\,\\s*[^\\,\\)]+\\)");
-		m = p.matcher(c);		
-		while (m.find()) {
-			final String innerPart = m.group(0).substring(m.group(0).indexOf("(") + 1, m.group(0).indexOf(")"));
-			final String[] params = innerPart.split("\\,");
-			c = c.substring(0, m.start()) + "IntStream.of(" + params[0].strip() + ")" 
-			+ ".boxed().toList().subList(" + params[2].strip() + ", " + params[3].strip() 
-			+ ").contains(" + params[1].strip() + ")" 
-			+ c.substring(m.end(), c.length());
-			m = p.matcher(c);
-		}
-		
-		p = Pattern.compile("pow\\([^\\,]+\\,\\s*[^\\,]+\\)");
-		m = p.matcher(c);		
-		while (m.find()) {
-			if (m.start() > 0 && c.charAt(m.start() - 1) == '.') {
-				continue;
-			}
-			final String innerPart = m.group(0).substring(m.group(0).indexOf("(") + 1, m.group(0).indexOf(")"));
-			c = c.substring(0, m.start()) + "Math.pow(" + innerPart + ")" + c.substring(m.end(), c.length());
-			m = p.matcher(c);
-		}		
-		return c;
-	}
-		
-	public String translateCondition(final String condition, String instanceName, List<InputData> gVars, boolean replaceMathFuncs) {
-		String c = condition;
-		//c = c.replaceAll("[a-z]\\w*\\.", ""); 
-
-		if (c.contains("modifiable")) {
-			c = c.split("\\;", 2)[1].trim();
-		}
-		//c = c.replaceAll("this\\.\\s*", instanceName + "\\."); 
-		c = c.replaceAll("(?<!<|>|!|=)(\\s*=\\s*)(?!<|>|=)", " == ");
-		c = c.replaceAll("(?<==\\s?)TRUE", "true");
-		c = c.replaceAll("(?<==\\s?)FALSE", "false");
-		c = c.replaceAll(".<created>\\s*=\\s*TRUE", " != null");
-		c = c.replaceAll(".<created>\\s*=\\s*FALSE", " == null");
-		//c = c.replaceAll("this\\.", instanceName + ".");
-		c = replacePrimitives(c);
-		if (replaceMathFuncs) {
-			c = replaceMathFuncs(c);
-		}
-		// place instanceName before each gVar and method
-		if (!instanceName.isEmpty()) {
-			c = c.replaceAll("(\\W)this(\\W)", "$1" + instanceName + "$2");
-			c = c.replaceAll("this$", instanceName);
-			c = c.replaceAll("^this", instanceName);
-			c = addInstanceNameToVar(c, instanceName, gVars);
-			var className = Character.toUpperCase(instanceName.charAt(0)) + instanceName.substring(1, instanceName.length());
-			c = addInstanceNameToMethod(c, instanceName, getAllMethodsOfClass(className, projectPath));
-		}
-		return c;
-	}
-	
-	public String translateCondition(final String condition, String instanceName, List<InputData> gVars) {
-		return translateCondition(condition, instanceName, gVars, true);
-	}
-	
-	public Node parseCondition(final String condition, String instanceName, List<InputData> gVars) throws UnexpectedTokenException {
-		String c = translateCondition(condition, instanceName, gVars);
-		ConditionParser parser = new ConditionParser();
-		var tree = parser.parse(c);
-		return tree;
-	}
-
-	/**
-	 * Translates condition from JavaDL into Java and returns the resulting java condition.
-	 * @param condition
-	 * @param instanceName
-	 * @param gVars
-	 * @param projectPath
-	 * @return
-	 * @throws UnexpectedTokenException 
-	 */
-	public JavaCondition translateConditionToJava(String condition, String instanceName, List<InputData> gVars, final URI projectPath) throws UnexpectedTokenException {
-		var tree = parseCondition(condition, instanceName, gVars);
-		JavaCondition javaCondition = new JavaCondition(tree);
-		return javaCondition;
-	}
-	
-	private String initializeOldVars(final String postCondition, String classVarStr, int numTabs, List<String> paramNames) {
-		// TODO: old keyword can be used for none instance variables as well like for parameters for example. (example diagram: transfer)
-		String output = "";
-		var tabs = "";
-		var postConditionStr = postCondition;
-		String oldVarStr;
-		int varEndIndex;
-		int indexOfOld = postConditionStr.indexOf("old_");
-		String varStr;
-		
-		
-		for (int i = 0; i < numTabs; i++) tabs += "\t";
-		
-		while (indexOfOld != -1) {
-			oldVarStr = postConditionStr.substring(indexOfOld, postConditionStr.length());
-			varEndIndex = oldVarStr.split("[^\\w]")[0].length();
-			if (varEndIndex == -1) {
-				oldVarStr = oldVarStr.substring(0, oldVarStr.length());
-				postConditionStr = "";
-			}
-			else {
-				oldVarStr = oldVarStr.substring(0, varEndIndex);
-				postConditionStr = postConditionStr.substring(indexOfOld + varEndIndex, postConditionStr.length());
-			}
-			if (!output.contains(oldVarStr)) {
-				varStr = oldVarStr.split("old\\_")[1];
-				if (paramNames.contains(varStr) || varStr.toLowerCase().equals(classVarStr)) {
-					output += tabs + "var " + oldVarStr + " = " + varStr.toLowerCase() + ";\n";
-				} else {
-					output += tabs + "var " + oldVarStr + " = " + classVarStr + "." + varStr + ";\n";
-				}
-			}
-			indexOfOld = postConditionStr.indexOf("old_");
-		}
-		output += "\n";
-		return output;
-	}
-	
-	private static List<String> getAllMethodsOfCode(final String code) {
-		final var output = new ArrayList<String>();
-		int startingBracketIndex;
-		int closingBracketIndex;
-		Pattern p = Pattern.compile("\\w+\\s\\w+\\s\\w+\\(.*\\)\\s*\\{");
-		Matcher m = p.matcher(code);
-		
-		
-		while (m.find()) {
-			startingBracketIndex =  m.start() + m.group(0).indexOf('{');
-			closingBracketIndex = CodeHandler.findClosingBracketIndex(code, startingBracketIndex, '{');
-			output.add(code.substring(m.start(), closingBracketIndex + 1));
-		}
-		return output;
-	}
-	
-	private static List<String> getAllMethodsOfClass(final String className, final URI projectPath) {
-		final var output = new ArrayList<String>();
-		final var javaFile = new File(FileUtil.getProjectLocation(projectPath) + "\\tests\\" + className + ".java");
-		
-		
-		if (!javaFile.exists()){
-			return output;
-	    }
-		try {			
-			var code = Files.readString(javaFile.toPath());
-			return getAllMethodsOfCode(code);
-		} catch (IOException e) {
-			Console.println(e.getMessage());
-		}
-		return null;
-	}
-	
-	private String genTestCases(final String className, final List<TestCaseData> inputs, final Condition postCondition, final GlobalConditions conds, final CbCFormula formula) throws TestStatementException, UnexpectedTokenException {
+				
+	private String genTestCases(final String className, final List<TestCaseData> inputs, final String postCondition, final GlobalConditions conds, final CbCFormula formula) throws TestStatementException, UnexpectedTokenException {
 		var instanceName = Character.toLowerCase(className.charAt(0)) + className.substring(1, className.length());
 		if (inputs.isEmpty()) {
 			Console.println("TestAndAssertionInfo: No input data was generated.");
 			return "";
 		}
-		var translatedPostCondition = translateConditionToJava(postCondition.getName().trim(), instanceName, inputs.get(0).getInputDataTupel().getGlobalVars(), this.projectPath);
-		var allAttrNames = new ArrayList<String>();
+		var translatedPostCondition = ConditionHandler.translateConditionToJava(projectPath, postCondition, instanceName, inputs.get(0).getInputDataTupel().getGlobalVars());
 				
 		StringBuffer code = new StringBuffer();
 		code.append("import java.util.stream.IntStream;\n");
@@ -1683,7 +1454,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			}
 
 			// generate variables for old vars
-			var oldVarsStr = initializeOldVars(translatedPostCondition.getRep(), instanceName, 2, test.getInputDataTupel().getParameterNames());
+			var oldVarsStr = ConditionHandler.initializeOldVars(translatedPostCondition.getRep(), instanceName, 2, test.getInputDataTupel().getParameterNames());
 			if (!oldVarsStr.equals("")) {
 				code.append(oldVarsStr);
 			} else {
@@ -1692,7 +1463,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			
 			// add precondition checks
 			var programPreConsStr = formula.getStatement().getPreCondition().getName();
-			var programPreCons = translateConditionToJava(programPreConsStr, instanceName, test.getInputDataTupel().getGlobalVars(), this.projectPath);
+			var programPreCons = ConditionHandler.translateConditionToJava(this.projectPath, programPreConsStr, instanceName, test.getInputDataTupel().getGlobalVars());
 			try {
 				code.append(CodeHandler.insertPreconditionChecks("\n\n", programPreCons, 2).replaceFirst("\\n", ""));
 			} catch (TestStatementException e) {
@@ -1704,12 +1475,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				code.append("\t\t" + instanceName + "." + test.getTesteeName() + test.getInputDataTupel().getParametersNameRep() + ";\n\n");
 			} else {
 				code.append("\t\t" + test.getReturnType() + " " + test.getReturnVar() + " = " + instanceName + "." + test.getTesteeName() + test.getInputDataTupel().getParametersNameRep() + ";\n");
-				// also make sure the result keyword can be handled
-				if (!test.getReturnVar().equals("result")) {
-					code.append("\t\t" + "var result = " + test.getReturnVar() + ";\n");
-				}
-				code.append("\t\t" + "context.setAttribute(\"" + test.getTestNumber() + "result\", result);\n\n");
-				allAttrNames.add("result");
+				code.append("\t\t" + "context.setAttribute(\"" + test.getTestNumber() + "result\", " + test.getReturnVar() + ");\n\n");
 			}
 				
 			int branchCounter = 0;
@@ -1864,10 +1630,6 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			if (currentVariable.getKind() == VariableKind.RETURN) {
 				var varName = currentVariable.getName().replace("non-null", "").split("\\s")[1];
 				var varType = currentVariable.getName().split("\\s")[0];
-				if (!varName.equals("result")) {
-					localVariables.add(varType + " result");
-					customReturnName = varName;
-				}
 				localVariables.add(currentVariable.getName().replace("non-null", ""));
 				counter++;
 				if(!signatureString.substring(0, signatureString.indexOf('(')).contains(currentVariable.getName().replace("non-null", "").trim().split("\\s")[0])) {
@@ -1908,7 +1670,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			}
 		}
 		
-		return generateCode(formula, globalConditions, renaming, localVariables, returnVariable, signatureString, globalVariables, vars.getFields().stream().map(f -> f.getType() + " " + f.getName()).toList(), onlyMethod, customReturnName);
+		return generateCode(formula, globalConditions, renaming, localVariables, returnVariable, signatureString, globalVariables, vars.getFields().stream().map(f -> f.getType() + " " + f.getName()).toList(), onlyMethod);
 	}
 	
 	private String genCode(Diagram diagram) {
@@ -2190,7 +1952,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	public HashMap<String, String> getDiagramNamesFromCalledMethods(final String code, final String className) {
 		final HashMap<String, String> output = new HashMap<String, String>();
 		final Pattern methodCallPattern = Pattern.compile("\\w+\\.\\w+\\(");	
-		var methods = getAllMethodsOfCode(code);
+		var methods = ConditionHandler.getAllMethodsOfCode(code);
 
 		
 		for (final var method : methods) {
@@ -2414,6 +2176,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				Console.println();
 				Console.println(" > Syntax error detected.", red);
 				Console.println("\t" + errorMsg.toString());
+				FileHandler.log(dependencies.get(0));
 				Console.println();
 			}
 			for (var code : fileContents) {

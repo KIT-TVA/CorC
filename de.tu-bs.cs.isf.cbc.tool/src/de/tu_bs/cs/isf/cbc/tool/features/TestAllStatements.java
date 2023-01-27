@@ -93,18 +93,12 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		ts.setUri(uri);
 		FileHandler.clearLog(diag.eResource().getURI());
 		var allStatements = TestStatement.collectAllStatements(formula);
-		final IProject project = FileUtil.getProjectFromFileInProject(uri);		
 		Features features = null;
-		try {
-			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
-				features = new Features(uri);
-			} else {
-				features = null;
-			}
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-		
+		if (FileHandler.isSPL(uri)) {
+			features = new Features(uri);
+		} else {
+			features = null;
+		}	
 		if (features == null) {
 			for (var statement : allStatements) {
 				returnStatement = statement instanceof ReturnStatement;
@@ -120,7 +114,7 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 				returnStatement = statement instanceof ReturnStatement;
 				ts.testPath((AbstractStatement)statement, vars, conds, formula, returnStatement, features);
 			}
-			ts.saveConfig(formula, features);
+			FileHandler.saveConfig(uri, formula, features, false);
 		}
 	}
 

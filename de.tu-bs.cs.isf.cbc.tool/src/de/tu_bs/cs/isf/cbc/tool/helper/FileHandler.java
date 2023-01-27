@@ -15,11 +15,14 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
@@ -186,5 +189,35 @@ public class FileHandler {
 		return GetDiagramUtil.getDiagramFromFile(file, rSet);
 	}
 	
-	// TODO: Search CBCclass loader in workspace
+	public static boolean isSPL(final URI projectPath) {
+		var project = FileUtil.getProject(projectPath);
+		if (project == null) {
+			return false;
+		}
+		if (!project.exists(new Path("/features/"))) {
+			return false;
+		}
+		if (!project.exists(new Path("/model.xml"))) {
+			return false;
+		}	
+		return true;
+	}
+	
+	public static boolean saveConfig(final URI projectPath, final CbCFormula formula, final Features features, boolean isTestCase) {
+		// get className
+		final String className = ClassHandler.getClassName(formula);
+		// get current config name
+		final String currentConfigName = features.getCurConfigName();
+		// copy test contents to new file with config name
+		String code;
+		if (isTestCase) {
+			code = ClassHandler.classExists(projectPath, className + "Test");
+		} else {
+			code = ClassHandler.classExists(projectPath, className);
+		}
+		if (!createFile(projectPath, currentConfigName, code)) {
+			return false;
+		}
+		return true;
+	}
 }

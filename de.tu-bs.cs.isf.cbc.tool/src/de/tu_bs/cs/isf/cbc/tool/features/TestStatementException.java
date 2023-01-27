@@ -4,6 +4,6 @@ public class TestStatementException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	public TestStatementException (String msg) {
-		super(msg);
+		super("TestStatementException: " + msg);
 	}
 }

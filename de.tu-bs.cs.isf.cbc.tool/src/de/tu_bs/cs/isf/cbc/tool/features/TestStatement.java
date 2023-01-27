@@ -47,6 +47,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.Branch;
 import de.tu_bs.cs.isf.cbc.tool.helper.BranchType;
 import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.ConditionHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.JavaCondition;
@@ -146,16 +147,11 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				uri = getDiagram().eResource().getURI();
 				this.projectPath = uri;
 				FileHandler.clearLog(this.projectPath);
-				final IProject project = FileUtil.getProjectFromFileInProject(uri);		
 				Features features = null;
-				try {
-					if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
-						features = new Features(uri);
-					} else {
-						features = null;
-					}
-				} catch (CoreException e) {
-					e.printStackTrace();
+				if (FileHandler.isSPL(uri)) {
+					features = new Features(uri);
+				} else {
+					features = null;
 				}
 				if (features != null) {
 					Console.println("[SPL detected]", blue);
@@ -166,7 +162,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 							continue;
 						}
 						// save configuration in a separate file
-						saveConfig(formula, features);
+						FileHandler.saveConfig(uri, formula, features, false);
 					}		
 				} else {
 					testPath(statement, vars, conds, formula, returnStatement, features);
@@ -181,20 +177,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		Console.println("Testing finished.");
 		Console.println("Time needed: " + duration + "ms");
 	}	
-	
-	public boolean saveConfig(final CbCFormula formula, final Features features) {
-		// get className
-		final String className = getClassName(formula);
-		// get current config name
-		final String currentConfigName = features.getCurConfigName();
-		// copy test contents to new file with config name
-		var code = ClassHandler.classExists(this.projectPath, className);
-		if (!FileHandler.createFile(projectPath, currentConfigName, code)) {
-			return false;
-		}
-		return true;
-	}
-	
+		
 	public boolean testPath(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, final boolean returnStatement, final Features features) {
 		Console.println(" > Testing path:", blue);
 		Console.println("\t" + getStatementPath(statement));
@@ -202,7 +185,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			testStatement(statement, vars, conds, formula, returnStatement, features);
 			return true;
 		} catch (TestAndAssertionGeneratorException | TestStatementException | ReferenceException | UnexpectedTokenException e) {
-			Console.println(e.getMessage());
+			Console.println(e.getMessage(), TestStatementListener.red);
 			e.printStackTrace();
 			return false;
 		}
@@ -266,7 +249,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return usedVars;
 	}
 	
-	private String insertOldVars(String code, final String postCon, final List<Variable> initializedVars, final JavaVariables vars, final String preCon, final List<InputData> data, final TestAndAssertionGenerator generator) throws UnexpectedTokenException {
+	private String insertOldVars(String code, final String postCon, final List<Variable> initializedVars, final JavaVariables vars, final String preCon, final List<InputData> data) throws UnexpectedTokenException {
 		var allVars = Variable.getAllVars(vars);
 		Tokenizer tokenizer = new Tokenizer(preCon + " " + postCon);
 		Token token;
@@ -355,10 +338,10 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return code;
 	}
 		
-	private String insertFixture(String code, final List<InputData> data, final List<Variable> gVars, final List<Variable> usedVars, final JavaVariables vars, final String postCon, final String preCon, final TestAndAssertionGenerator generator) throws UnexpectedTokenException {
+	private String insertFixture(String code, final List<InputData> data, final List<Variable> gVars, final List<Variable> usedVars, final JavaVariables vars, final String postCon, final String preCon) throws UnexpectedTokenException {
 		final var initializedVars = new ArrayList<Variable>();
 		code = "\n" + code;
-		code = insertOldVars(code, postCon, initializedVars, vars, preCon, data, generator);
+		code = insertOldVars(code, postCon, initializedVars, vars, preCon, data);
 		code = insertParams(code, usedVars, initializedVars, data);
 		
 		for (int i = 0; i < data.size(); i++) {
@@ -519,19 +502,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			return true;
 		}
 	}
-		
-	private static String getNumTabs(String code) {
-		String out = "";
-		int bracketNum = CodeHandler.countBrackets(code, '{');
-		if (bracketNum <= 0) {
-			return "";
-		}
-		for (int i = 0; i < bracketNum; i++) {
-			out += "\t";
-		}
-		return out;
-	}
-		
+			
 	private String getAllPreConditions(EObject statement, final GlobalConditions conds) {
 		String preCon = ((AbstractStatement)statement).getPreCondition().getName();
 		if (preCon.contains("modifiable")) {
@@ -682,7 +653,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	 * @return Generated data.
 	 * @throws UnexpectedTokenException 
 	 */
-	private List<InputData> genInputs(String preConditions, final String className, final AbstractStatement statement, final CbCFormula formula, final JavaVariables vars, final TestAndAssertionGenerator generator) throws UnexpectedTokenException {
+	private List<InputData> genInputs(String preConditions, final String className, final AbstractStatement statement, final CbCFormula formula, final JavaVariables vars) throws UnexpectedTokenException {
 		final PreConditionSolver preSolver = new PreConditionSolver(vars);
 		List<InputData> data;
 		try {
@@ -697,7 +668,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		// if there is still no solution, return false	
 		if (data == null) {
 			Console.println("TestStatementInfo: Couldn't generate data using all preconditions. Falling back to the precondition of the statement under test.");
-			preConditions = cleanCondition(statement.getPreCondition().getName(), className, generator);
+			preConditions = ConditionHandler.cleanCondition(projectPath, statement.getPreCondition().getName(), className);
 			try {
 				data = preSolver.solve(preConditions);
 			} catch (Exception e) {
@@ -706,7 +677,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			}
 			if (data == null) {
 				Console.println("TestStatementInfo: Couldn't generate data using the precondition of the statement under test. Falling back to the precondition of the formula.");
-				preConditions = cleanCondition(formula.getStatement().getPreCondition().getName(), className, generator);
+				preConditions = ConditionHandler.cleanCondition(projectPath, formula.getStatement().getPreCondition().getName(), className);
 				try {
 					data = preSolver.solve(preConditions);
 				} catch (PreConditionSolverException e) {
@@ -721,24 +692,6 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return data;
 	}
 		
-	private String cleanCondition(String condition, final String className, final TestAndAssertionGenerator generator) {
-		condition = generator.translateCondition(condition, "this", new ArrayList<InputData>(), false);
-		condition = CodeHandler.removeFunctions(condition);
-		condition = CodeHandler.removeFloatingClosingBrackets(condition);
-		condition = CodeHandler.removeDotIdentifiers(condition, className);
-		return condition;
-	}
-	
-	private String getClassName(final CbCFormula formula) {
-		final String className;
-		if (formula.getClassName().isEmpty()) {
-			className = TestAndAssertionGenerator.GENERATED_CLASSNAME;
-		} else {
-			className = formula.getClassName();
-		}
-		return className;
-	}
-	
 	private List<JavaVariable> addBaseVars(final JavaVariables vars) {
 		var addedFields = new ArrayList<JavaVariable>();
 		IProject p = FileUtil.getProject(projectPath);
@@ -754,23 +707,34 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return addedFields;
 	}
 	
+	private void restoreVars(final Features features, final JavaVariables toRestore, final List<JavaVariable> oldVars) {
+		if (features != null) {
+			toRestore.getVariables().clear();
+			toRestore.getVariables().addAll(oldVars);
+		}
+	}
+		
 	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException {		
-		final var addedVariables = new ArrayList<JavaVariable>();
-		final String className = getClassName(formula);
+		final JavaVariable returnVar = Variable.getReturnVar(vars);
+		final String className = ClassHandler.getClassName(formula);
 		String statementName = statement.getName().trim();
+		TestAndAssertionGenerator generator = new TestAndAssertionGenerator(fp);
+		generator.setProjectPath(projectPath);
+		
+		var oldVars = new ArrayList<JavaVariable>();
+		oldVars.addAll(vars.getVariables());
 		
 		// make sure vars contains base variables as well
 		if (features != null) {
-			addedVariables.addAll(addBaseVars(vars));
+			addBaseVars(vars);
 		}
-
-		final TestAndAssertionGenerator generator = new TestAndAssertionGenerator(fp);
-		generator.setProjectPath(this.projectPath);		
-					
+						
 		// generate the code until the selection
 		String code;
 		code = TestAndAssertionGenerator.genCodeUntilStatement(formula, statement);
 		if (code.isEmpty()) {
+			// remove temporarily added vars
+			restoreVars(features, vars, oldVars);
 			return false;
 		}
 		final var originalMethods = new ArrayList<MethodHandler>();
@@ -789,9 +753,11 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		final List<Variable> usedVars = getUsedVars(code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), vars);
 		// use PreconditionSolver to solve preconditions and determine values for all variables
 		var allPreConditions = getAllPreConditions(statement, conds);
-		allPreConditions = cleanCondition(allPreConditions, className, generator);
-		final List<InputData> data = genInputs(allPreConditions, className, statement, formula, vars, generator);
+		allPreConditions = ConditionHandler.cleanCondition(projectPath, allPreConditions, className);
+		final List<InputData> data = genInputs(allPreConditions, className, statement, formula, vars);
 		if (data == null) {
+			// remove temporarily added vars
+			restoreVars(features, vars, oldVars);
 			return false;
 		}
 		var programPreConsStr = formula.getStatement().getPreCondition().getName();//TestAndAssertionGenerator.parseConditions2(conds, formula.getStatement().getPreCondition());
@@ -802,8 +768,10 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			isPreCon = false;
 			postCon = TestUtilSPL.handleOriginalCondition(fp, postCon, isPreCon, features);
 		}
-		final var programPreCons = generator.translateConditionToJava(programPreConsStr, "", data, this.projectPath);	
+		final var programPreCons = ConditionHandler.translateConditionToJava(projectPath, programPreConsStr, "", data);	
 		postCon = postCon.replaceAll("this\\.", "");
+		// replace the keyword \result
+		postCon = ConditionHandler.replaceResultKeyword(postCon, returnVar);
 		final List<Variable> usedVarsPostCon = getUsedVars(postCon, vars);
 		final List<Variable> usedVarsPreCon = getUsedVars(programPreConsStr, vars);
 		usedVarsPostCon.addAll(usedVarsPreCon);
@@ -814,11 +782,11 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		}
 		code = CodeHandler.removeTabs(code);
 		// insert fixture for variables used in the statement and the post condition
-		code = insertFixture(code, data, Variable.getAllGVars(vars), usedVars, vars, postCon, allPreConditions, generator);	
+		code = insertFixture(code, data, ClassHandler.getGvarsOfCbCClassAsVar(projectPath, className), usedVars, vars, postCon, allPreConditions);	
 		// insert precondition checks
 		code = CodeHandler.insertPreconditionChecks(code, programPreCons, 0);
 		// handle the post condition and translate it to JavaCondition
-		var javaCondition = generator.translateConditionToJava(postCon, "", data, this.projectPath);
+		var javaCondition = ConditionHandler.translateConditionToJava(projectPath, postCon, "", data);
 		// generate dependencies as well (method call ect.)
 		var innerMethod = "{\n" + code + "\n}";
 		var codeWoHelper = replaceHelper(innerMethod, statementName);
@@ -839,10 +807,16 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		}
 		// insert statement to the code
 		if (isReturnStatement) {
-			if (Variable.containsVarDefinition(code, "result")) {
-				fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), "result = " + statementName);
+			if (returnVar == null) {
+				// remove temporarily added vars
+				restoreVars(features, vars, oldVars);
+				throw new TestStatementException("Return variable not found. Please make sure that one is defined in the diagram.");
+			}
+			String returnVarName = returnVar.getName().split("\\s")[1];
+			if (Variable.containsVarDefinition(code, returnVarName)) {
+				fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), returnVarName + " = " + statementName);
 			} else {
-				fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), "var result = " + statementName);
+				fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), "var " + returnVarName + " = " + statementName);
 			}
 		} else {
 			fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), statementName);
@@ -856,13 +830,14 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		final List<String> codes = new ArrayList<String>();
 		codes.addAll(dependencies.stream().map(cc -> cc.getCode()).toList());
 		placeDummyMethod(codes, className, innerMethod.replaceAll(Pattern.quote(STATEMENT_PH), statementName), fullMethod);	
+		
+		// remove temporarily added vars		
+		restoreVars(features, vars, oldVars);
+		
 		// compile
 		if(!compile(codes, className, formula.getMethodName(), generator)) {
 			return false;
-		}
-		// remove temporarily added vars
-		vars.getVariables().removeAll(addedVariables);
-		
+		}		
 		// use testng to execute the file and check the statement
 		if (executeTest(className, generator)) {
 			setPathTested(statement, true);

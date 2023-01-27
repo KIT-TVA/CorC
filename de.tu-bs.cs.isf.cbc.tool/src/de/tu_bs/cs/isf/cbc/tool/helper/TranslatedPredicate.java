@@ -54,6 +54,8 @@ public class TranslatedPredicate {
 				code += genExists(branch);
 			} else if (branch.getType() == BranchType.FORALL) {
 				code += genForAll(branch);
+			} else if (branch.getType() == BranchType.OR) {
+				// TODO handle quantor node used with '|' (like forall... | exists...)
 			}
 		}
 		code = closeBrackets(code);
@@ -167,8 +169,10 @@ public class TranslatedPredicate {
 			this.branches.push(new Branch(type, branchCondition, dummy));
 			translatePredicate(pred.getRight());
 		} else if (pred.getType() == TokenType.OR) {
-			// TODO handle quantor node used with '|' (like forall... | exists...)
-			
+			type = BranchType.OR;
+			branchCondition = pred.getLeft().getRep();
+			this.branches.push(new Branch(type, branchCondition, dummy));
+			translatePredicate(pred.getRight());
 		} else {
 			type = BranchType.NONE;
 			branchCondition = pred.getRep();

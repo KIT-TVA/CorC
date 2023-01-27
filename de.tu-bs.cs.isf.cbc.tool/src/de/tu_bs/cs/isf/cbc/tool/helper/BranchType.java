@@ -9,5 +9,6 @@ public enum BranchType {
 	EQUI,
 	FORALL,
 	EXISTS,
-	NONE
+	NONE, 
+	OR
 }

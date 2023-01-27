@@ -102,7 +102,9 @@ public class Features {
 			return null;
 		}
 		final Diagram diag = GetDiagramUtil.getDiagramFromFile(file, rSet);
-		
+		if (diag == null) {
+			return null;
+		}
 		CbCFormula formula = null;
 		for (Shape shape : diag.getChildren()) {
 			Object obj = fp.getBusinessObjectForPictogramElement(shape);

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
@@ -19,6 +21,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
 import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
+import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 /**
@@ -140,6 +143,10 @@ public class TestUtilSPL {
 		}
 		String refFeature = getRefFeature(features, nextFeature, features.getCurConfig());
 		CbCFormula originalFormula = features.loadFormulaFromFeature(fp, refFeature, features.getCallingClass(), features.getCallingMethod());
+		if (originalFormula == null) {
+			handleOriginalCode(fp, projectPath, code, features, newMethods, signature, vars);
+			return;
+		}
 		Diagram test;
 		String refCode = TestAndAssertionGenerator.genDiagramCode(originalFormula, null);
 		signature = signature.substring(0, signature.indexOf(features.getCallingMethod())) 
@@ -150,8 +157,8 @@ public class TestUtilSPL {
 		refCode = signature + "{\n"
 				+ "\t" + refCode + "}\n";
 		var classVars = readFieldsFromClass(features.getCallingClass(), projectPath.toPlatformString(false));
-		vars.getFields().addAll(classVars.getFields());
-		addFields(vars, classVars);
+		//vars.getFields().addAll(classVars.getFields());
+		//addFields(vars, classVars);
 		refCode = Variable.prefixAllVariables(refCode, classVars);
 		refCode = CodeHandler.indentCode(refCode, 0);
 		newMethods.add(new MethodHandler(signature, refCode));

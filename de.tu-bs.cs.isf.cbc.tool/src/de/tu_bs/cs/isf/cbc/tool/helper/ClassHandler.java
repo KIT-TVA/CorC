@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.JavaVariableImpl;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
@@ -215,6 +216,30 @@ public class ClassHandler {
 		return cleanedOutput;
 	}
 	
+	public static List<Variable> getGvarsOfCbCClassAsVar(final URI projectUri, String className) {
+		final List<Variable> globalVars = new ArrayList<Variable>();
+		Collection<Resource> resources = FileUtil.getCbCClasses(FileUtil.getProject(projectUri));
+		for (Resource resource : resources) {
+			for (EObject object : resource.getContents()) {
+				if (object instanceof ModelClass) {
+					ModelClass modelClass = (ModelClass) object;
+					if (modelClass.getName().equals(className)) {
+						var fields = modelClass.getFields();
+						for (Field field : fields) {
+							if (field.getName() == null || field.getType() == null) {
+								continue;
+							}
+							Variable v = new Variable(field.getType(), field.getName());
+							globalVars.add(v);
+						}
+						return globalVars;
+					}
+				}
+			}
+		}
+		return null;	
+	}
+		
 	public static List<String> getGvarsOfCbCClass(final URI projectUri, String className) {
 		final List<String> globalVars = new ArrayList<String>();
 		Collection<Resource> resources = FileUtil.getCbCClasses(FileUtil.getProject(projectUri));
@@ -406,5 +431,15 @@ public class ClassHandler {
 				addMethod(method);
 			}
 		}
+	}
+	
+	public static String getClassName(final CbCFormula formula) {
+		final String className;
+		if (formula.getClassName().isEmpty()) {
+			className = TestAndAssertionGenerator.GENERATED_CLASSNAME;
+		} else {
+			className = formula.getClassName();
+		}
+		return className;
 	}
 }

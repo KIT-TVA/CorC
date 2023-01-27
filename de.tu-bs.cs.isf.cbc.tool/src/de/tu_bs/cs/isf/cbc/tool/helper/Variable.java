@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
+
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 
@@ -121,8 +123,14 @@ public class Variable {
 				continue;
 			}
 			String variable = parts[i-1];
+			if (i > 0 && !parts[i-2].isEmpty()) {
+				continue;
+			}
 			int index = code.indexOf(variable + " ");
-			while (index > 0 && Character.isAlphabetic(code.charAt(index-1))) {
+			if (index > 1 && !Character.isSpace(code.charAt(index-2))) {
+				continue;
+			}
+			while (index > 0 && Character.isLetter(code.charAt(index-1))) {
 				index = code.indexOf(variable + " ");
 			}
 			if (containsVarDefinition(code, variable)) {
@@ -138,6 +146,9 @@ public class Variable {
 					break;
 				}
 			}
+			if (CodeHandler.countBrackets(code.substring(0, index), '{') > 1) {
+				continue;
+			}
 			if (!isWord) {
 				continue;
 			}
@@ -148,9 +159,7 @@ public class Variable {
 				continue;
 			}
 			addedVars.add(variable);
-			code = code.substring(0, index) 
-					+ "var " 
-					+ code.substring(index, code.length());
+			code = code.substring(0, index) + "var " + code.substring(index, code.length());
 		}
 		return code;
 	}
@@ -237,6 +246,15 @@ public class Variable {
 			}
 		}
 		return allVars;
+	}
+	
+	public static JavaVariable getReturnVar(final JavaVariables vars) {
+		for (var v : vars.getVariables()) {
+			if (v.getKind() == VariableKind.RETURN) {
+				return v;
+			}
+		}
+		return null;
 	}
 	
 	public static List<String> getVarNames(final String assertion, final List<String> globalVarNames, final List<String> parameterVarNames, final String instanceName) {
