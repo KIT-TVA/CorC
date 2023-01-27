@@ -660,7 +660,8 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		try {
 			data = preSolver.solve(preConditions);
 		} catch (Exception e) {
-			Console.println(e.getMessage());
+			Console.println(e.getClass().getName() + ": " + e.getMessage(), TestStatementListener.red);
+			e.printStackTrace();
 			data = null;
 		}
 		// fallback strategy:
@@ -673,7 +674,8 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			try {
 				data = preSolver.solve(preConditions);
 			} catch (Exception e) {
-				Console.println(e.getMessage());
+				Console.println(e.getClass().getName() + ": " + e.getMessage(), TestStatementListener.red);
+				e.printStackTrace();
 				data = null;
 			}
 			if (data == null) {
@@ -682,7 +684,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				try {
 					data = preSolver.solve(preConditions);
 				} catch (PreConditionSolverException e) {
-					Console.println(e.getMessage());
+					Console.println(e.getClass().getName() + ": " + e.getMessage(), TestStatementListener.red);
 					e.printStackTrace();
 					Console.println("TestStatement: Couldn't parse preconditions of neither the statement nor the formula.");
 					Console.println("TestStatement: Consider using 'usePreConditions(false)' in 'PreConditionSolver'.");

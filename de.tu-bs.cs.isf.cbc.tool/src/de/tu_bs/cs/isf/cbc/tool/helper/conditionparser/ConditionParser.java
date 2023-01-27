@@ -48,7 +48,11 @@ public class ConditionParser {
 	// TODO: Check this for all possibilities
 	private String removeCorCKeywords(String postCondition) {
 		int start = postCondition.indexOf("<");
-		int end = postCondition.indexOf(">");
+		if (start == -1) {
+			return postCondition;
+		}
+		String helper = postCondition.substring(start, postCondition.length());
+		int end = helper.indexOf(">") + start;
 		String toCheck = postCondition;
 		String word = null;
 		int len = 0;
@@ -68,10 +72,15 @@ public class ConditionParser {
 				}
 				postCondition = postCondition.substring(0, start + postCondition.length() - toCheck.length()) 
 						+ postCondition.substring(end + 1 + postCondition.length() - toCheck.length(), postCondition.length());
+				start = end;
 			}
-			toCheck = toCheck.substring(end + 1, toCheck.length());
+			toCheck = toCheck.substring(start + 1, toCheck.length());
 			start = toCheck.indexOf("<");
-			end = toCheck.indexOf(">");
+			if (start == -1) {
+				break;
+			}
+			helper = toCheck.substring(start, toCheck.length());
+			end = helper.indexOf(">") + start;
 		}
 		return postCondition;
 	}
