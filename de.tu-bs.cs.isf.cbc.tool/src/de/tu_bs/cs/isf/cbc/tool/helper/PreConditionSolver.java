@@ -328,7 +328,7 @@ public class PreConditionSolver {
     	return curVal + evalIndexTree(indexTree.getLeft(), vars, model) + evalIndexTree(indexTree.getRight(), vars, model);
     }
     
-    private boolean constructData(Expr v, List<InputData> output, final ArrayList<Expr> vars, final Model model) throws PreConditionSolverException, IdentifierNotFoundException {
+    private boolean constructData(Expr v, List<InputData> output, final ArrayList<Expr> vars, final Model model) throws PreConditionSolverException, IdentifierNotFoundException, UnexpectedTokenException {
 		boolean valueIsSet = false;
 		boolean found = false;
 		var value = model.evaluate(v, false);
@@ -480,7 +480,7 @@ public class PreConditionSolver {
 		return true;
     }
     
-    public List<InputData> solve(final String preCon) throws PreConditionSolverException {
+    public List<InputData> solve(final String preCon) throws PreConditionSolverException, UnexpectedTokenException {
 		final List<InputData> output = new ArrayList<InputData>();
 		final var vars = new ArrayList<Expr>();
     	ConditionParser p = new ConditionParser();

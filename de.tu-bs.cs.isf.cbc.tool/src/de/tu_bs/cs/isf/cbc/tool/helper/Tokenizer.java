@@ -112,6 +112,10 @@ public class Tokenizer {
 			var tok = makeIdentifier();
 			value += tok.getValue();
 			getNext();
+			if (current == '[' || current == '.') {
+				tok = makeIdentifier();
+				value += tok.getValue();
+			}
 		}
 		return new Token(TokenType.KEY, value);
 	}
@@ -168,8 +172,9 @@ public class Tokenizer {
 	/**
 	 * For generating a stream of tokens.
 	 * @return
+	 * @throws UnexpectedTokenException 
 	 */
-	public Token genNext() {
+	public Token genNext() throws UnexpectedTokenException {
 		if (!hasChar()) {
 			return null;
 		}
@@ -236,11 +241,11 @@ public class Tokenizer {
 		}
 		else {
 			// not implemented
-			return null;
+			throw new UnexpectedTokenException(current);
 		}
 	}
 	
-	public List<Token> genTokens() {
+	public List<Token> genTokens() throws UnexpectedTokenException {
 		var tokens = new ArrayList<Token>();
 		while (hasChar()) {
 			if (Arrays.asList("+", "*", "/", "%").contains("" + current)) {
@@ -292,7 +297,7 @@ public class Tokenizer {
 			}
 			else {
 				// not implemented
-				return null;
+				throw new UnexpectedTokenException(current);
 			}
 		}
 		return tokens;

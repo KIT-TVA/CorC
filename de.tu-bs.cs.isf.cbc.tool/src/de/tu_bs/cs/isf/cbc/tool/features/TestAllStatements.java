@@ -16,6 +16,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.ReferenceException;
+import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.Util;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
@@ -93,7 +94,7 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 			Console.println("\t" + ts.getStatementPath(statement));
 			try {
 				ts.testStatement((AbstractStatement)statement, vars, conds, formula, statement instanceof ReturnStatement);
-			} catch (TestAndAssertionGeneratorException |TestStatementException | ReferenceException e) {
+			} catch (TestAndAssertionGeneratorException |TestStatementException | ReferenceException | UnexpectedTokenException e) {
 				Console.println(e.getMessage());
 				e.printStackTrace();
 				return;

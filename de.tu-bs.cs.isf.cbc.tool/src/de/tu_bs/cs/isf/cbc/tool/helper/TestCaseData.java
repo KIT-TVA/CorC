@@ -17,6 +17,7 @@ public class TestCaseData {
 		this.nameOfTestee = nameOfTestee;
 		this.numberOfTest = numberOfTest;
 		this.testeeReturnType = testeeReturnType;
+		this.returnVar = testeeReturnVar;
 	}
 	
 	public int getTestNumber() {

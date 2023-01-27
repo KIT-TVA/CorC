@@ -143,8 +143,8 @@ public class TestStatementListener extends TestAndAssertionListener {
 		//  var statementLineNr = getStatementLineNr(className, methodCode);
 		//  var statementLine = getLine(methodCode, statementLineNr);
 		  methodCode = removeHelperLines(methodCode);
-		  methodCode = TestStatement.removeTabs(methodCode).trim();
-		  methodCode = TestStatement.insertTabs(methodCode, 1);
+		  methodCode = Util.removeTabs(methodCode).trim();
+		  methodCode = Util.insertTabs(methodCode, 1);
 		  var stackTrace = result.getThrowable().getStackTrace();
 		  int errorLineNr = getErrorLineNr(stackTrace, className, methodName, methodCode);
 		  var lineToHighlight = getLine(methodCode, errorLineNr);
@@ -174,8 +174,8 @@ public class TestStatementListener extends TestAndAssertionListener {
 							  className.length()).split("Test")[0] + ".java");
 			  methodCode = methodCode.substring(methodCode.indexOf("{") + 2, methodCode.lastIndexOf("}"));
 			  methodCode = removeHelperLines(methodCode);
-			  methodCode = TestStatement.removeTabs(methodCode);
-			  methodCode = TestStatement.insertTabs(methodCode, 1);
+			  methodCode = Util.removeTabs(methodCode);
+			  methodCode = Util.insertTabs(methodCode, 1);
 			  context.getFailedTests().addResult(context.getPassedTests().getAllResults().stream().findFirst().get());
 			  Console.println(methodCode + "\n");
 			  return;

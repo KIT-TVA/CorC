@@ -14,10 +14,31 @@ public class Variable {
 	private String type;
 	private String name;
 	private VariableKind kind = null;
+	private String value;
+	private String modifier;
 	
 	public Variable(String type, String name) {
 		this.type = type;
 		this.name = name;
+		this.modifier = "";
+	}
+	
+	public Variable(String modifier, String type, String name) {
+		this.modifier = modifier;
+		this.type = type;
+		this.name = name;
+	}
+	
+	public String getModifier() {
+		return this.modifier;
+	}
+	
+	public void setValue(String value) {
+		this.value = value;
+	}
+	
+	public String getValue() {
+		return this.value;
 	}
 	
 	public String getName() {
@@ -34,6 +55,19 @@ public class Variable {
 
 	public VariableKind getKind() {
 		return kind;
+	}
+	
+	public static String getWrapper(String primitiveType) {
+		switch (primitiveType) {
+			case "short":
+				return "Short";
+			case "int":
+				return "Integer";
+			case "long":
+				return "Long";
+			default:
+				return null;
+		}
 	}
 	
 	public static boolean containsVar(final List<Variable> lst, final Variable toFind) {

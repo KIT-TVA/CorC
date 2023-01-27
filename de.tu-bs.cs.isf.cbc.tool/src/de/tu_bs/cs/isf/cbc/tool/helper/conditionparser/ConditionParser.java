@@ -3,6 +3,7 @@ package de.tu_bs.cs.isf.cbc.tool.helper.conditionparser;
 import de.tu_bs.cs.isf.cbc.tool.helper.Token;
 import de.tu_bs.cs.isf.cbc.tool.helper.TokenType;
 import de.tu_bs.cs.isf.cbc.tool.helper.Tokenizer;
+import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import java.util.Arrays;
 
@@ -78,7 +79,7 @@ public class ConditionParser {
 		return postCondition;
 	}
 	
-	public Node parse(String postCondition) {
+	public Node parse(String postCondition) throws UnexpectedTokenException {
 		postCondition = prepareCondition(postCondition);
 		tokenizer = new Tokenizer(postCondition);
 		//var allTokens = tokenizer.genTokens();
@@ -96,7 +97,7 @@ public class ConditionParser {
 	}
 	
 	// C :-> P & C | P
-	private Node parseCondition() {
+	private Node parseCondition() throws UnexpectedTokenException {
 		var p = parsePredicate();
 		if (curToken == null) {
 			return p;
@@ -111,7 +112,7 @@ public class ConditionParser {
 	}
 	
 	// P :-> A -> P | A <-> P | A & P | A or P | A {REL} P | A | {KEY_Q}{ID}{ID};(P)
-	private Node parsePredicate() {
+	private Node parsePredicate() throws UnexpectedTokenException {
 		var a = parseAtom();
 		if (curToken == null) {
 			return a;
@@ -165,7 +166,7 @@ public class ConditionParser {
 	}
 	
 	// M :-> {ID} {OP} M | {INT} {OP} M | {ID} | {INT}
-	private Node parseM() {
+	private Node parseM() throws UnexpectedTokenException {
 		// TODO: this doesn't account for associativity.
 		OpNode opNode = new OpNode();
 		if (curToken == null) {
@@ -218,7 +219,7 @@ public class ConditionParser {
 	}
 	
 	// A :-> (C) | {ID} {REL} M | M {REL} {ID} | {ID} = {BOOL} | {ID} != {BOOL} | !{bool/{ID}} | {bool/{ID}} | M
-	private Node parseAtom() {
+	private Node parseAtom() throws UnexpectedTokenException {
 		var m = parseM();
 		if (curToken == null) {
 			return m;
@@ -289,7 +290,7 @@ public class ConditionParser {
 		}
 	}
 	
-	public void nextToken() {
+	public void nextToken() throws UnexpectedTokenException {
 		curToken = nextToken;
 		nextToken = tokenizer.genNext();
 	}

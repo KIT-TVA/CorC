@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.BinaryNode;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.Node;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.QuantorNode;
 
@@ -14,12 +15,12 @@ import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.QuantorNode;
  */
 public class JavaCondition {
 	final private List<Node> predicates;
-	final private List<Branch> branches;
+	final private List<TranslatedPredicate> translatedPredicates;
 	final private Node root;
 	int pos;
 	
 	public JavaCondition(Node root) {
-		branches = new ArrayList<Branch>();
+		translatedPredicates = new ArrayList<TranslatedPredicate>();
 		predicates = new ArrayList<Node>();
 		pos = 0;
 		this.root = root;
@@ -63,8 +64,17 @@ public class JavaCondition {
 		List<String> branchAssertions = new ArrayList<String>();
 		final Pattern p = Pattern.compile("\\w+\\.\\s*\\<\\s*\\w+\\s*\\>");
 		Matcher m;
+		int branchNr = 0;
+		
+		var testung = "";
 		
 		for (var pred : predicates) {
+			TranslatedPredicate trans = new TranslatedPredicate(pred, branchNr);
+			this.translatedPredicates.add(trans);
+			branchNr++;
+			/*
+			//translatePredicate(pred);
+			// TODO: write function that translates each predicate correctly..
 			// ignore corc keywords until they are supported by the generator
 			m = p.matcher(pred.getRep());
 			if (m.find()) {
@@ -79,7 +89,9 @@ public class JavaCondition {
 					branchCondition = "";
 					var branch = new Branch(type, branchCondition, branchAssertions);
 					getAtomReps(pred, branchAssertions);
-					getAtomReps(nextImpl.getRight(), quantorBodyConditions);
+					if (nextImpl != null) {
+						getAtomReps(nextImpl.getRight(), quantorBodyConditions);
+					}
 					for (var rep : branchAssertions) {
 						if (!quantorBodyConditions.contains(rep)) {
 							iterConditions.add(rep);
@@ -108,7 +120,7 @@ public class JavaCondition {
 				this.branches.add(new Branch(type, branchCondition, branchAssertions));
 				//Console.println("JavaConditionError: Branch type couldn't be identified.");
 			}
-			branchAssertions.clear();
+			branchAssertions.clear(); */
 		}
 	}
 	
@@ -125,20 +137,20 @@ public class JavaCondition {
 	}
 	
 	private boolean hasNext() {
-		return pos < branches.size();
+		return pos < translatedPredicates.size();
 	}
 	
 	public List<String> getBranchConditions() {
 		final var output = new ArrayList<String>();
-		for (var b : branches) {
-			output.add(b.getBranchCondition());
+		for (var b : translatedPredicates) {
+			//output.add(b.getBranchCondition());
 		}
 		return output;
 	}
 	
-	public Branch getNext() {
+	public TranslatedPredicate getNext() {
 		if (hasNext()) {
-			final var branch = branches.get(pos);
+			final var branch = translatedPredicates.get(pos);
 			pos++;
 			return branch;
 		}

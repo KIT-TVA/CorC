@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,9 +41,11 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.Branch;
 import de.tu_bs.cs.isf.cbc.tool.helper.BranchType;
+import de.tu_bs.cs.isf.cbc.tool.helper.ClassCode;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.JavaCondition;
+import de.tu_bs.cs.isf.cbc.tool.helper.MethodCode;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolver;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolverException;
 import de.tu_bs.cs.isf.cbc.tool.helper.ReferenceException;
@@ -51,6 +54,8 @@ import de.tu_bs.cs.isf.cbc.tool.helper.TestUtilSPL;
 import de.tu_bs.cs.isf.cbc.tool.helper.Token;
 import de.tu_bs.cs.isf.cbc.tool.helper.TokenType;
 import de.tu_bs.cs.isf.cbc.tool.helper.Tokenizer;
+import de.tu_bs.cs.isf.cbc.tool.helper.TranslatedPredicate;
+import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.Util;
 import de.tu_bs.cs.isf.cbc.tool.helper.Variable;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.ConditionParser;
@@ -65,8 +70,6 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	private final String DUMMY_SIGNATURE = "public void dummyMethod(ITestContext context)";
 	private final String STATEMENT_PH = "<statement>";
 	public static final String EXECUTED_TAG = "context.setAttribute(\"executed\", \"\");";
-	public static final String PRECHECKS_START = "//[checks]";
-	public static final String PRECHECKS_END = "//[end_checks]";
 	public static final Color blue = new Color(new RGB(10, 10, 200));
 	private URI projectPath;
 	private final IFeatureProvider fp;
@@ -175,7 +178,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		Console.println("\t" + getStatementPath(statement));
 		try {
 			testStatement(statement, vars, conds, formula, returnStatement, features);
-		} catch (TestAndAssertionGeneratorException | TestStatementException | ReferenceException e) {
+		} catch (TestAndAssertionGeneratorException | TestStatementException | ReferenceException | UnexpectedTokenException e) {
 			Console.println(e.getMessage());
 			e.printStackTrace();
 			return;
@@ -240,55 +243,59 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return usedVars;
 	}
 	
-	private String insertOldVars(String code, final String postCon, final List<Variable> initializedVars, final JavaVariables vars, final String preCon, final List<InputData> data, final TestAndAssertionGenerator generator) {
+	private String insertOldVars(String code, final String postCon, final List<Variable> initializedVars, final JavaVariables vars, final String preCon, final List<InputData> data, final TestAndAssertionGenerator generator) throws UnexpectedTokenException {
 		var allVars = Variable.getAllVars(vars);
 		Tokenizer tokenizer = new Tokenizer(postCon);
 		Token token;
-		while ((token = tokenizer.genNext()) != null) {
-			if (token.getType() == TokenType.KEY && token.getValue().contains("old_")) {
-				// initialize the old var
-				String name;
-				if (token.getValue().contains(".")) {
-					// we want the first identifier
-					name = token.getValue().substring("old_".length(), token.getValue().indexOf("."));
-				} else {
-					name = token.getValue().substring("old_".length(), token.getValue().length());
-				}
-				// if name is actually a class
-				String classCode;
-				if (!(classCode = generator.classExists(name)).isEmpty()) {
-					// get the identifier after the first '.'
-					String identifier = token.getValue().substring(token.getValue().indexOf("."), token.getValue().length());
-					final var variable = new Variable(name, "old_" + name);
-					final var idVariable = new Variable("", name + identifier);
-					final String classInit = name + " " + "old_" + name + " = new " + name + "();\n";
-					if (!Variable.containsVar(initializedVars, idVariable)) {												
-						code = "old_" + name + identifier + " = " + name + identifier + ";\n" + code;
-						if (Variable.containsVar(initializedVars, variable)) {
-							// need to replace the class init to the beginning
-							code = code.replaceFirst(Pattern.quote(classInit), "");
-							code = classInit + code;
+		try {
+			while ((token = tokenizer.genNext()) != null) {
+				if (token.getType() == TokenType.KEY && token.getValue().contains("old_")) {
+					// initialize the old var
+					String name;
+					if (token.getValue().contains(".")) {
+						// we want the first identifier
+						name = token.getValue().substring("old_".length(), token.getValue().indexOf("."));
+					} else {
+						name = token.getValue().substring("old_".length(), token.getValue().length());
+					}
+					// if name is actually a class
+					String classCode;
+					if (!(classCode = ClassCode.classExists(this.projectPath, name)).isEmpty()) {
+						// get the identifier after the first '.'
+						String identifier = token.getValue().substring(token.getValue().indexOf("."), token.getValue().length());
+						final var variable = new Variable(name, "old_" + name);
+						final var idVariable = new Variable("", name + identifier);
+						final String classInit = name + " " + "old_" + name + " = new " + name + "();\n";
+						if (!Variable.containsVar(initializedVars, idVariable)) {												
+							code = "old_" + name + identifier + " = " + name + identifier + ";\n" + code;
+							if (Variable.containsVar(initializedVars, variable)) {
+								// need to replace the class init to the beginning
+								code = code.replaceFirst(Pattern.quote(classInit), "");
+								code = classInit + code;
+							}
+							initializedVars.add(idVariable);
 						}
-						initializedVars.add(idVariable);
-					}
-					if (Variable.containsVar(initializedVars, variable)) {
-						continue;
-					}
-					initializedVars.add(variable);
-					code = classInit + code;
-					continue;
-				}
-				for (var v : allVars) {
-					if (v.getName().equals(name)) {
-						final var variable = new Variable(v.getType(), "old_" + name); //v.name
 						if (Variable.containsVar(initializedVars, variable)) {
 							continue;
 						}
 						initializedVars.add(variable);
-						code = v.getType() + " " + "old_" + name + " = " + v.getName() + ";\n" + code;
+						code = classInit + code;
+						continue;
+					}
+					for (var v : allVars) {
+						if (v.getName().equals(name)) {
+							final var variable = new Variable(v.getType(), "old_" + name); //v.name
+							if (Variable.containsVar(initializedVars, variable)) {
+								continue;
+							}
+							initializedVars.add(variable);
+							code = v.getType() + " " + "old_" + name + " = " + v.getName() + ";\n" + code;
+						}
 					}
 				}
 			}
+		} catch (UnexpectedTokenException e) {
+			throw e;
 		}
 		return code;
 	}
@@ -318,7 +325,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return code;
 	}
 		
-	private String insertFixture(String code, final List<InputData> data, final List<Variable> gVars, final List<Variable> usedVars, final JavaVariables vars, final String postCon, final String preCon, final TestAndAssertionGenerator generator) {
+	private String insertFixture(String code, final List<InputData> data, final List<Variable> gVars, final List<Variable> usedVars, final JavaVariables vars, final String postCon, final String preCon, final TestAndAssertionGenerator generator) throws UnexpectedTokenException {
 		final var initializedVars = new ArrayList<Variable>();
 		code = "\n" + code;
 		code = insertOldVars(code, postCon, initializedVars, vars, preCon, data, generator);
@@ -384,88 +391,15 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return code;
 	}
 	
-	public static String insertTabs(String code, int numTabs) {
-		StringBuffer out = new StringBuffer();
-		var lines = code.split("\\n");
-		int counter = 0;
-		for (int i = 0; i < lines.length; i++) {
-			lines[i] = TestAndAssertionGenerator.getTabs(numTabs) + lines[i];
-			if (counter > 0) {
-				out.append("\n");
-			}
-			out.append(lines[i]);
-			counter++;
-		}
-		return out.toString();
-	}
-	
-	private String insertAssertion(final String code, final String innerMethod, final String assertion) {
-		return code.substring(0, code.indexOf(STATEMENT_PH) + STATEMENT_PH.length()) 
-				+ "\n"
-				+ getNumTabs("{" + code.substring(0, code.indexOf(STATEMENT_PH)) + innerMethod)
-				+ "Assert.assertTrue(" + assertion + ");" 
-				+ code.substring(code.indexOf(STATEMENT_PH) + STATEMENT_PH.length(), code.length());
-	}
-	
-	private String insertBranch(final String code, final String innerMethod, final String branchCon, final String assertion) {
-		return code.substring(0, code.indexOf(STATEMENT_PH) + STATEMENT_PH.length())
-				+ "\n" 
-				+ getNumTabs("{" + code.substring(0, code.indexOf(STATEMENT_PH)) + innerMethod)
-				+ "if (" + branchCon + ")" + " Assert.assertTrue(" + assertion + ");" 
-				+ code.substring(code.indexOf(STATEMENT_PH) + STATEMENT_PH.length(), code.length());
-	}
-	
-	public static String getWrapper(String primitiveType) {
-		switch (primitiveType) {
-			case "short":
-				return "Short";
-			case "int":
-				return "Integer";
-			case "long":
-				return "Long";
-			default:
-				return null;
-		}
-	}
-	
-	private String insertExists(final String code, final String innerMethod, final Branch branch) {
-		String numTabs = getNumTabs("{" + code.substring(0, code.indexOf(STATEMENT_PH)) + innerMethod);
-		return code.substring(0, code.indexOf(STATEMENT_PH) + STATEMENT_PH.length())
-				+ "\n" 
-				+ numTabs
-				+ "boolean exists = false;\n"
-				+ numTabs
-				+ "for (" + branch.getIterType() + " " + branch.getIterName() + " = " 
-				+ getWrapper(branch.getIterType()) + ".MIN_VALUE; " + branch.getIterName() + " < " + getWrapper(branch.getIterType()) + ".MAX_VALUE; " 
-				+ branch.getIterName() + "++" + ")" + "{\n" 
-				+ numTabs + "\t"
-				+ "if (" + branch.getIterConditions().stream().reduce((f, s) -> f + " && " + s).get() + ") {\n"
-				+ branch.getQuantorBodyConditions().stream().map(c -> numTabs + "\t\t" + "if(" + c + ") exists = true; break;\n").reduce((f, s) -> f + s).get()
-				+ numTabs + "\t" + "}\n " + numTabs + "}\n"
-				+ numTabs + "Assert.assertTrue(exists);\n"
-				+ code.substring(code.indexOf(STATEMENT_PH) + STATEMENT_PH.length(), code.length());
-	}
-	
-	private String insertForAll(final String code, final String innerMethod, final Branch branch) {
-		String numTabs = getNumTabs("{" + code.substring(0, code.indexOf(STATEMENT_PH)) + innerMethod);
-		return code.substring(0, code.indexOf(STATEMENT_PH) + STATEMENT_PH.length())
-				+ "\n" 
-				+ numTabs
-				+ "for (" + branch.getIterType() + " " + branch.getIterName() + " = " 
-				+ getWrapper(branch.getIterType()) + ".MIN_VALUE; " + branch.getIterName() + " < " + getWrapper(branch.getIterType()) + ".MAX_VALUE; " 
-				+ branch.getIterName() + "++" + ")" + "{\n" 
-				+ numTabs + "\t"
-				+ "if (" + branch.getIterConditions().stream().reduce((f, s) -> f + " && " + s).get() + ") {\n"
-				+ branch.getQuantorBodyConditions().stream().map(c -> numTabs + "\t\t" + "Assert.assertTrue(" + c + ");\n").reduce((f, s) -> f + s).get()
-				+ numTabs + "\t" + "}\n " + numTabs + "}\n"
-				+ code.substring(code.indexOf(STATEMENT_PH) + STATEMENT_PH.length(), code.length());
-	}
-	
 	private String constructDummyMethod(String innerMethod, final JavaCondition javaCondition, final List<InputData> data) {
-		innerMethod = insertTabs(innerMethod, 2);
-		var code = "\t@Test\n\t" + DUMMY_SIGNATURE + " {\n" + innerMethod.substring(1, innerMethod.length());
-		Branch branch;
+		var code = "@Test\n" + DUMMY_SIGNATURE + " {\n" + innerMethod.substring(0, innerMethod.length()); // 1, ...
+		TranslatedPredicate branch;
 		while ((branch = javaCondition.getNext()) != null) {
+			code = code.substring(0, code.indexOf(STATEMENT_PH) + STATEMENT_PH.length()) 
+					+ "\n"
+					+ branch.getRep()
+					+ code.substring(code.indexOf(STATEMENT_PH) + STATEMENT_PH.length(), code.length());
+			/*
 			if (branch.getType() == BranchType.NONE) {
 				for (var assertion : branch.getAssertions()) {
 					code = insertAssertion(code, innerMethod, assertion);
@@ -484,9 +418,10 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				code = insertExists(code, innerMethod, branch);
 			} else if (branch.getType() == BranchType.FORALL) {
 				code = insertForAll(code, innerMethod, branch);
-			}
+			}*/
 		}
-		code += "\n\t}";
+		code += "\n}";
+		code = Util.indentCode(code, 1);
 		return code;
 	}
 	
@@ -523,12 +458,8 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		
 		// compile dependencies
 		var options = Arrays.asList("-cp", pathOfPlugins + "/" + highestVersion);
-		try {
-			if(dependencies.size() > 0 && !generator.compileFileContents(dependencies, methodName, options)) {
-				return false;
-			}
-		} catch (TestAndAssertionGeneratorException e) {
-			throw e;
+		if(dependencies.size() > 0 && !generator.compileFileContents(dependencies, methodName, options)) {
+			return false;
 		}
 		return true;
 	}
@@ -557,7 +488,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		
 	private static String getNumTabs(String code) {
 		String out = "";
-		int bracketNum = TestAndAssertionGenerator.countBrackets(code, '{');
+		int bracketNum = Util.countBrackets(code, '{');
 		if (bracketNum <= 0) {
 			return "";
 		}
@@ -566,58 +497,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		}
 		return out;
 	}
-	
-	/**
-	 * Inserts checks into *code* that makes sure every precondition contained in *javaCondition* is satisfied by the data in *code*.
-	 * Idea:
-	 * Invert all conditions in *javaCondition* and use ifs to check if any inverted condition is true. 
-	 * If so set an attribute, that notifies testng to skip this test/statement testing.
-	 * @param code
-	 * @param javaCondition
-	 * @return
-	 * @throws TestStatementException 
-	 */
-	public static String insertPreconditionChecks(String code, JavaCondition javaCondition, int numTabs) throws TestStatementException {
-		// always put the checks between arrange and act parts
-		Branch branch;
-		if (!code.contains("\n\n")) {
-			throw new TestStatementException("Couldn't check whether the preconditions of the program are satisfied.");
-		}
-		// assumes the parts are separated by an empty line
-		int pos = code.indexOf("\n\n") + 1;
-		String toAppend = code.substring(pos, code.length());
-		code = code.substring(0, pos) + TestAndAssertionGenerator.getTabs(numTabs) + PRECHECKS_START + "\n";
-			
-		while ((branch = javaCondition.getNext()) != null) {
-			if (branch.getType() == BranchType.NONE) {
-				for (var assertion : branch.getAssertions()) {
-					code += TestAndAssertionGenerator.getTabs(numTabs) + "if(!(" + assertion + ")) " + "context.setAttribute(\"skip\", \"" + assertion + "\");" + "\n";
-				}
-			}
-		}
 		
-		return code + TestAndAssertionGenerator.getTabs(numTabs) + PRECHECKS_END + toAppend;
-	}
-			
-	public static String removeTabs(final String code) {
-		var lines = Stream.of(code.split("\\n")).toList();
-		final StringBuffer buf = new StringBuffer();
-		for (var line : lines) {
-			line = line.stripLeading();
-			if (line.contains("}")) {
-				if (line.indexOf("}") + 1 < line.length() && line.charAt(line.indexOf("}") + 1) == ';') {
-					buf.append(TestAndAssertionGenerator.getTabs(TestAndAssertionGenerator.countBrackets(buf.toString(), '{')) + line + "\n");
-				} else {
-					buf.append(TestAndAssertionGenerator.getTabs(TestAndAssertionGenerator.countBrackets(buf.toString(), '{') - 1) + line + "\n");
-				}
-			} else {
-				buf.append(TestAndAssertionGenerator.getTabs(TestAndAssertionGenerator.countBrackets(buf.toString(), '{')) + line + "\n");
-			}
-		}
-		
-		return buf.toString();
-	}
-	
 	private String getAllPreConditions(EObject statement, final GlobalConditions conds) {
 		String preCon = ((AbstractStatement)statement).getPreCondition().getName();
 		if (preCon.contains("modifiable")) {
@@ -720,47 +600,6 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return path;
 	}
 	
-	private String removeDotIdentifiers(String condition, String className) {
-		condition = condition.replaceAll("\\s\\.", "");
-		condition = condition.replaceAll(className + "\\.", "");
-		condition = condition.replaceAll("this\\.", "");
-		return condition;
-	}
-	
-	private String removeFunctions(String condition) {
-		Pattern p = Pattern.compile("IntStream");
-		Matcher m = p.matcher(condition);
-		
-		while (m.find()) {
-			String helper = condition.substring(0, m.start());
-			int start = helper.lastIndexOf("&");
-			helper = condition.substring(m.start(), condition.length());
-			int end = helper.indexOf("&") + m.start();
-			if (start == -1) {
-				condition = condition.substring(end + 1, condition.length());
-			} else if (end == -1) {
-				condition = condition.substring(0, start);
-			} else {
-				condition = condition.substring(0, start) + condition.substring(end, condition.length());
-			}
-			m = p.matcher(condition);
-		}
-		return condition;
-	}
-	
-	private String removeFloatingClosingBrackets(String condition) {
-		int bracketCounter = 0;
-		for (int i = 0; i < condition.length(); i++) {
-			if (condition.charAt(i) == '(') bracketCounter++;
-			else if (condition.charAt(i) == ')') bracketCounter--;
-			if (bracketCounter < 0) {
-				bracketCounter++;
-				condition = condition.substring(0, i) + " " + condition.substring(i + 1, condition.length());
-			}
-		}
-		return condition;
-	}
-	
 	private String insertExecutedTag(String code) {
 		return code.substring(0, code.indexOf(STATEMENT_PH)) 
 				+ EXECUTED_TAG
@@ -805,8 +644,9 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	 * @param vars
 	 * @param generator
 	 * @return Generated data.
+	 * @throws UnexpectedTokenException 
 	 */
-	private List<InputData> genInputs(String preConditions, final String className, final AbstractStatement statement, final CbCFormula formula, final JavaVariables vars, final TestAndAssertionGenerator generator) {
+	private List<InputData> genInputs(String preConditions, final String className, final AbstractStatement statement, final CbCFormula formula, final JavaVariables vars, final TestAndAssertionGenerator generator) throws UnexpectedTokenException {
 		final PreConditionSolver preSolver = new PreConditionSolver(vars);
 		List<InputData> data;
 		try {
@@ -847,115 +687,148 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		
 	private String cleanCondition(String condition, final String className, final TestAndAssertionGenerator generator) {
 		condition = generator.translateCondition(condition, "this", new ArrayList<InputData>(), false);
-		condition = removeFunctions(condition);
-		condition = removeFloatingClosingBrackets(condition);
-		condition = removeDotIdentifiers(condition, className);
+		condition = Util.removeFunctions(condition);
+		condition = Util.removeFloatingClosingBrackets(condition);
+		condition = Util.removeDotIdentifiers(condition, className);
 		return condition;
 	}
 	
-	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException {
+	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException {
 		final String className;
-		try {
-			if (formula.getClassName().isEmpty()) {
-				className = TestAndAssertionGenerator.GENERATED_CLASSNAME;
-			} else {
-				className = formula.getClassName();
-			}
-			final TestAndAssertionGenerator generator = new TestAndAssertionGenerator(fp);
-			generator.setProjectPath(this.projectPath);		
-						
-			// generate the code until the selection
-			String code;
-			code = TestAndAssertionGenerator.genCodeUntilStatement(formula, statement);
-			if (code.isEmpty()) {
-				return false;
-			}
-			// now add pre conditions of selection as assertions
-			var preCon = statement.getPreCondition().getName();
-			
-			// get all vars used in the code
-			final List<Variable> usedVars = getUsedVars(code.replaceAll(Pattern.quote(STATEMENT_PH), statement.getName().trim()), vars);
-			// use PreconditionSolver to solve preconditions and determine values for all variables
-			var allPreConditions = getAllPreConditions(statement, conds);
-			allPreConditions = cleanCondition(allPreConditions, className, generator);
-			final List<InputData> data = genInputs(allPreConditions, className, statement, formula, vars, generator);
-			if (data == null) {
-				return false;
-			}
-			final var programPreConsStr = formula.getStatement().getPreCondition().getName();//TestAndAssertionGenerator.parseConditions2(conds, formula.getStatement().getPreCondition());
-			final var programPreCons = generator.translateConditionToJava(programPreConsStr, "", data, this.projectPath);
-			var postCon = statement.getPostCondition().getName();
-			
-			if (features != null) {
-				boolean isPreCon = false;
-				postCon = TestUtilSPL.handleOriginalCondition(fp, postCon, isPreCon, features, features.getCurConfig());
-			}
-			postCon = postCon.replaceAll("this\\.", "");
-			final List<Variable> usedVarsPostCon = getUsedVars(postCon, vars);
-			final List<Variable> usedVarsPreCon = getUsedVars(programPreConsStr, vars);
-			usedVarsPostCon.addAll(usedVarsPreCon);
-			for (var v : usedVarsPostCon) {
-				if(!Variable.containsVar(usedVars, v)) {
-					usedVars.add(v);
-				}
-			}
-			code = removeTabs(code);
-			// insert fixture for variables used in the statement and the post condition
-			code = insertFixture(code, data, Variable.getAllGVars(vars), usedVars, vars, postCon, allPreConditions, generator);	
-			// insert precondition checks
-			code = insertPreconditionChecks(code, programPreCons, 0);
-			// handle the post condition and translate it to JavaCondition
-			var javaCondition = generator.translateConditionToJava(postCon, "", data, this.projectPath);
-			// generate dependencies as well (method call ect.)
-			var innerMethod = "{\n" + code + "\n}";
-			var codeWoHelper = innerMethod.replaceAll(Pattern.quote(STATEMENT_PH), statement.getName().trim());
-			codeWoHelper = codeWoHelper.replaceAll("self\\.", "this.");
-			codeWoHelper = codeWoHelper.substring(0, codeWoHelper.indexOf(PRECHECKS_START)) + codeWoHelper.substring(codeWoHelper.indexOf(PRECHECKS_END) + PRECHECKS_END.length());
-			//codeWoHelper = codeWoHelper.substring(0, codeWoHelper.length() - 1) + 
-			var dependencies = generator.genAllDependenciesOfMethod(codeWoHelper, className, statement.getPostCondition().getName());	
-			// insert an executed tag so that we can determine if the statement was executed
-			code = insertExecutedTag(code);
-			//code = insertAssertions(code, preJavaCondition);
-			code = removeTabs(code);
-			// get path to statement
-			final var path = getStatementPath(statement);
-			code = code + "context.setAttribute(\"path\", \"" + path + "\");\n";
-			// insert assertions for the post condition
-			var fullMethod = constructDummyMethod(code, javaCondition, data);
-			// insert statement to the code
-			if (isReturnStatement) {
-				if (Variable.containsVarDefinition(code, "result")) {
-					fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), "result = " + statement.getName().trim());
-				} else {
-					fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), "var result = " + statement.getName().trim());
-				}
-			} else {
-				fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), statement.getName().trim());
-			}
-			fullMethod = fullMethod.replaceAll("self\\.", "this.");
-			// place dummy method inside code
-			placeDummyMethod(dependencies, className, innerMethod.replaceAll(Pattern.quote(STATEMENT_PH), statement.getName().trim()), fullMethod);	
-			// compile
-			if(!compile(dependencies, className, formula.getMethodName(), generator)) {
-				return false;
-			}
-			// use testng to execute the file and check the statement
-			if (executeTest(className, generator)) {
-				setPathTested(statement, true);
-			} else {
-				setPathTested(statement, false);
-			}	
-		} catch (TestAndAssertionGeneratorException e1) {
-			throw e1;
-		} catch (ReferenceException e2) {
-			throw e2;
-		} catch (TestStatementException e3) {
-			throw e3;
+		String statementName = statement.getName().trim();
+
+		if (formula.getClassName().isEmpty()) {
+			className = TestAndAssertionGenerator.GENERATED_CLASSNAME;
+		} else {
+			className = formula.getClassName();
 		}
+		final TestAndAssertionGenerator generator = new TestAndAssertionGenerator(fp);
+		generator.setProjectPath(this.projectPath);		
+					
+		// generate the code until the selection
+		String code;
+		code = TestAndAssertionGenerator.genCodeUntilStatement(formula, statement);
+		if (code.isEmpty()) {
+			return false;
+		}
+		final var originalMethods = new ArrayList<MethodCode>();
+		if (features != null && code.contains("original") || statementName.contains("original")) {
+			TestUtilSPL.handleOriginalCode(fp, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, originalMethods, formula.getMethodObj().getSignature());
+		}
+		// now add pre conditions of selection as assertions
+		// get all vars used in the code
+		final List<Variable> usedVars = getUsedVars(code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), vars);
+		// use PreconditionSolver to solve preconditions and determine values for all variables
+		var allPreConditions = getAllPreConditions(statement, conds);
+		allPreConditions = cleanCondition(allPreConditions, className, generator);
+		final List<InputData> data = genInputs(allPreConditions, className, statement, formula, vars, generator);
+		if (data == null) {
+			return false;
+		}
+		var programPreConsStr = formula.getStatement().getPreCondition().getName();//TestAndAssertionGenerator.parseConditions2(conds, formula.getStatement().getPreCondition());
+		var postCon = statement.getPostCondition().getName();	
+		if (features != null) {
+			boolean isPreCon = true;
+			programPreConsStr = TestUtilSPL.handleOriginalCondition(fp, programPreConsStr, isPreCon, features);
+			isPreCon = false;
+			postCon = TestUtilSPL.handleOriginalCondition(fp, postCon, isPreCon, features);
+		}
+		final var programPreCons = generator.translateConditionToJava(programPreConsStr, "", data, this.projectPath);	
+		postCon = postCon.replaceAll("this\\.", "");
+		final List<Variable> usedVarsPostCon = getUsedVars(postCon, vars);
+		final List<Variable> usedVarsPreCon = getUsedVars(programPreConsStr, vars);
+		usedVarsPostCon.addAll(usedVarsPreCon);
+		for (var v : usedVarsPostCon) {
+			if(!Variable.containsVar(usedVars, v)) {
+				usedVars.add(v);
+			}
+		}
+		code = Util.removeTabs(code);
+		// insert fixture for variables used in the statement and the post condition
+		code = insertFixture(code, data, Variable.getAllGVars(vars), usedVars, vars, postCon, allPreConditions, generator);	
+		// insert precondition checks
+		code = Util.insertPreconditionChecks(code, programPreCons, 0);
+		// handle the post condition and translate it to JavaCondition
+		var javaCondition = generator.translateConditionToJava(postCon, "", data, this.projectPath);
+		// generate dependencies as well (method call ect.)
+		var innerMethod = "{\n" + code + "\n}";
+		var codeWoHelper = replaceHelper(innerMethod, statementName);
+		//codeWoHelper = codeWoHelper.substring(0, codeWoHelper.length() - 1) + 
+		var dependencies = generator.genAllDependenciesOfMethod(codeWoHelper, null, className, statement.getPostCondition().getName());	
+		// insert an executed tag so that we can determine if the statement was executed
+		code = insertExecutedTag(code);
+		//code = insertAssertions(code, preJavaCondition);
+		code = Util.removeTabs(code);
+		// get path to statement
+		final var path = getStatementPath(statement);
+		code = code + "context.setAttribute(\"path\", \"" + path + "\");\n";
+		// insert assertions for the post condition
+		var fullMethod = constructDummyMethod(code, javaCondition, data);
+		// handle original call in the statement
+		if (features != null) {
+			statementName = statementName.replaceAll("original", "original_" + Util.getMethodNameFromSig(formula.getMethodObj().getSignature()));
+		}
+		// insert statement to the code
+		if (isReturnStatement) {
+			if (Variable.containsVarDefinition(code, "result")) {
+				fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), "result = " + statementName);
+			} else {
+				fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), "var result = " + statementName);
+			}
+		} else {
+			fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), statementName);
+		}
+		fullMethod = fullMethod.replaceAll("self\\.", "this.");
+		// place original methods inside the dependencies
+		placeOriginalMethods(dependencies, className, originalMethods);
+		// place dummy method inside code
+		final List<String> codes = new ArrayList<String>();
+		codes.addAll(dependencies.stream().map(cc -> cc.getCode()).toList());
+		placeDummyMethod(codes, className, innerMethod.replaceAll(Pattern.quote(STATEMENT_PH), statementName), fullMethod);	
+		// compile
+		if(!compile(codes, className, formula.getMethodName(), generator)) {
+			return false;
+		}
+		// use testng to execute the file and check the statement
+		if (executeTest(className, generator)) {
+			setPathTested(statement, true);
+		} else {
+			setPathTested(statement, false);
+		}	
 		return true;
 	}
 	
-	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException {		
+	private void placeOriginalMethods(final List<ClassCode> dependencies, final String className, final ArrayList<MethodCode> originalMethods) {
+		for (var classCode : dependencies) {
+			if (classCode.getClassName().equals(className)) {
+				classCode.addMethods(originalMethods);
+			}
+		}
+	}
+
+	private String removeKeyword(String code, final String keyWord) {
+		int start = code.indexOf(keyWord);
+		while (start != -1) {
+			int end = start + keyWord.length();
+			if (code.charAt(end) == '(') {
+				end = Util.findClosingBracketIndex(code, end, '(');
+			}
+			code = code.substring(0, start) + code.substring(end+1, code.length());
+			start = code.indexOf(keyWord);
+		}
+		return code;
+	}
+	
+	private String replaceHelper(String code, String statementName) {
+		statementName = statementName.trim();
+		code = code.replaceAll(Pattern.quote(STATEMENT_PH), statementName);
+		code = removeKeyword(code, "original");
+		code = code.replaceAll("self\\.", "this.");
+		code = code.substring(0, code.indexOf(Util.PRECHECKS_START)) + code.substring(code.indexOf(Util.PRECHECKS_END) + Util.PRECHECKS_END.length());
+		return code;
+	}
+	
+	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException {		
 		return testStatement(statement, vars, conds, formula, isReturnStatement, null);
 	}
 

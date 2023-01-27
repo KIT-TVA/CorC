@@ -20,6 +20,10 @@ public class QuantorNode implements Node {
 		this.conditions = null;
 	}
 	
+	public Node getConditions() {
+		return this.conditions;
+	}
+	
 	public void addIteratorType(Token itType) {
 		iteratorType = itType;
 	}
