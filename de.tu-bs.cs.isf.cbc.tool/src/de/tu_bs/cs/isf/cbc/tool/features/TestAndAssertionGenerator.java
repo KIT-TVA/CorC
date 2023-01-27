@@ -244,6 +244,11 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		
 		try {
 			inputs = genInputs(parseConditions(globalConditions, formula.getStatement().getPreCondition()), vars, code2, signatureString, returnVariable);
+			if (inputs.isEmpty()) {
+				Console.println("TestAndAssertionGeneratorInfo: There are no controllable inputs for method " + methodToGenerate.getName() + ".");
+				Console.println("Nothing to test.");
+				return;
+			}
 			testFileContent = genTestCases(className, inputs, formula.getStatement().getPostCondition(), globalConditions, formula);
 		} catch (TestAndAssertionGeneratorException | PreConditionSolverException | TestStatementException e) {
 			Console.println(e.getMessage());
@@ -990,7 +995,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 					var defaultValue = genDefaultInputForVar(var, null).get(0);
 					var = var + " = " + defaultValue;
 				}*/
-				var defaultValue = genDefaultInputForVar(var, null).get(0);
+				var defaultValue = InputData.getDefaultValue(var.split(" ")[0]);//genDefaultInputForVar(var, null).get(0);
 				code.append(var + " = " + defaultValue + ";\n");
 				code = insertTabs(code);
 			}
@@ -1049,16 +1054,13 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return code.toString();
 	}
 	
-	public boolean writeToFile(String className, String content) {
+	public static boolean writeToFile(String location, String className, String content) {
 		try {
-			var dir = new File(FileUtil.getProjectLocation(this.projectPath) + "\\tests");	
+			var dir = new File(location);	
 			if (!dir.exists()) {
 				dir.mkdirs();
 			}
-			var javaFile = new File(FileUtil.getProjectLocation(this.projectPath) + "\\tests\\" + className + ".java");
-			if (className.contains(".xml")) {
-				javaFile = new File(FileUtil.getProjectLocation(this.projectPath) + "\\tests\\" + className);
-			}
+			var javaFile = new File(location + "\\" + className + ".java");
 			if (!javaFile.exists()) {
 				javaFile.createNewFile();
 			} 
@@ -1068,6 +1070,11 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			e.printStackTrace();
 			return false;
 		}
+		return true;
+	}
+	
+	public boolean writeToFile(String className, String content) {
+		writeToFile(FileUtil.getProjectLocation(this.projectPath) + "\\tests", className, content);
 		return true;
 	}
 	
@@ -2592,12 +2599,12 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return target;
 	}
 	
-	private Diagram loadDiagramFromClass(String className, String diagramName) {
+	public static Diagram loadDiagramFromClass(final URI projectPath, final String folderName, final String className, final String diagramName) {
 		if (className.isBlank() || diagramName.isBlank()) {
 			return null;
 		}
 		final ResourceSet rSet = new ResourceSetImpl();
-		final IContainer folder = FileUtil.getProject(projectPath).getFolder(className);
+		final IContainer folder = FileUtil.getProject(projectPath).getFolder(folderName);
 		if (folder == null) {
 			return null;
 		}
@@ -2606,6 +2613,10 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			return null;
 		}
 		return GetDiagramUtil.getDiagramFromFile(file, rSet);
+	}
+	
+	private Diagram loadDiagramFromClass(String className, String diagramName) {
+		return loadDiagramFromClass(this.projectPath, className, className, diagramName);
 	}
 	
 	private List<String> findAllDistinctWords(String code, char wordDelim) {
@@ -2806,6 +2817,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	}
 
 	/**
+	 * TODO: original call
+	 * TODO: method call, that is not implemented in current class but in a more specific class (sorted -> increasing, decreasing)
 	 * Gets all dependencies (method calls and constructor calls) inside *methodCode*.
 	 * @param methodCode The code of the method for which to get the dependencies.
 	 * @param className The name of the class which contains *MethodCode*.
@@ -3115,7 +3128,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return code.toString();
 	}
 	
-	private String getMethodNameFromSig(String sig) {
+	public static String getMethodNameFromSig(String sig) {
 		if (sig.isBlank()) {
 			return "";
 		}
