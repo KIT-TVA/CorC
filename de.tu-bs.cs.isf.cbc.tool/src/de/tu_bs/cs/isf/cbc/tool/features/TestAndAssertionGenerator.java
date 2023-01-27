@@ -86,9 +86,11 @@ import de.tu_bs.cs.isf.cbc.tool.helper.JavaCondition;
 import de.tu_bs.cs.isf.cbc.tool.helper.MethodHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolver;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolverException;
+import de.tu_bs.cs.isf.cbc.tool.helper.ReferenceException;
 import de.tu_bs.cs.isf.cbc.tool.helper.TestAndAssertionListener;
 import de.tu_bs.cs.isf.cbc.tool.helper.TestCaseData;
 import de.tu_bs.cs.isf.cbc.tool.helper.TestStatementListener;
+import de.tu_bs.cs.isf.cbc.tool.helper.TestUtilSPL;
 import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Variable;
@@ -220,27 +222,32 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		} else {
 			features = null;
 		}
-		if (features != null) {
-			Console.println("[SPL detected]", TestStatement.blue);
-			for (int i = 0; i < features.getSize(); i++) {
-				features.getNextConfig();
-				Console.println(" > Configuration: [" + features.getConfigRep() + "]", TestStatement.blue);
-				if (!test(uri, formula, vars, globalConditions, signatureString, globalVars, features)) {
-					continue;
-				}
-				// save configuration in a separate file
-				FileHandler.saveConfig(uri, formula, features, true);
-			}		
-		} else {
-			test(uri, formula, vars, globalConditions, signatureString, globalVars, features);
-		}	
-		
+		try {
+			if (features != null) {
+				Console.println("[SPL detected]", TestStatement.blue);
+				for (int i = 0; i < features.getSize(); i++) {
+					features.getNextConfig();
+					Console.println(" > Configuration: [" + features.getConfigRep() + "]", TestStatement.blue);
+					if (!test(uri, formula, vars, globalConditions, signatureString, globalVars, features)) {
+						continue;
+					}
+					// save configuration in a separate file
+					FileHandler.saveConfig(uri, formula, features, true);
+				}		
+			} else {
+				test(uri, formula, vars, globalConditions, signatureString, globalVars, features);
+			}	
+		} catch (ReferenceException | TestAndAssertionGeneratorException | PreConditionSolverException | UnexpectedTokenException | TestStatementException e) {
+			Console.println(e.getMessage(), TestStatementListener.red);
+			e.printStackTrace();
+			return;
+		}
 		long endTime = System.nanoTime();
 		double elapsedTime = (endTime - startTime) / 1000000;
 		Console.println("Total time needed: " + (int)elapsedTime + "ms");
 	}
 	
-	private boolean test(final URI uri, final CbCFormula formula, final JavaVariables vars, final GlobalConditions globalConditions, final String signatureString, final List<String> globalVars, final Features features) {
+	private boolean test(final URI uri, final CbCFormula formula, final JavaVariables vars, final GlobalConditions globalConditions, final String signatureString, final List<String> globalVars, final Features features) throws ReferenceException, TestAndAssertionGeneratorException, PreConditionSolverException, UnexpectedTokenException, TestStatementException {
 		var methodToGenerate = getDiagram();			
 		String code2 = genCode(methodToGenerate);		
 		var className = code2.split("public\\sclass\\s", 2)[1].split("\\s", 2)[0];
@@ -248,24 +255,26 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		var code = genCode(methodToGenerate, true);
 		final var methodSig = MethodHandler.getSignatureFromCode(code);
 		code = code.replaceAll("self\\.", "this.");
+		// handle original and abstract method calls
+		final var originalMethods = new ArrayList<MethodHandler>();
+		final var abstractMethods = new ArrayList<MethodHandler>();
+		if (FileHandler.isSPL(uri)) {
+			TestUtilSPL.handleOriginalCode(this.getFeatureProvider(), projectPath, code, features, originalMethods, formula.getMethodObj().getSignature(), vars);
+			code = code.replaceAll("original\\(", originalMethods.get(0).getMethodName() + "(");
+			// TODO: ignore methods that are not abstract
+			TestUtilSPL.handleAbstractMethodCalls(this.getFeatureProvider(), projectPath, code, features, abstractMethods);
+			for (var originalMethod : originalMethods) {
+				TestUtilSPL.handleAbstractMethodCalls(this.getFeatureProvider(), projectPath, originalMethod.getInnerCode(), features, abstractMethods);
+			}
+		}
 		List<ClassHandler> classCodes; 
 		final String postCon = ConditionHandler.replaceResultKeyword(formula.getStatement().getPostCondition().getName(), returnVariable);
 		
-		try {
-			classCodes = genAllDependenciesOfMethod(code, methodSig, className, postCon);
-		} catch (TestAndAssertionGeneratorException e) {
-			Console.println(e.getMessage(), TestStatementListener.red);
-			e.printStackTrace();
-			return false;
+		classCodes = genAllDependenciesOfMethod(code, methodSig, className, postCon);
+		if (FileHandler.isSPL(uri)) {
+			TestUtilSPL.addNewMethods(classCodes, className, originalMethods, abstractMethods);
 		}
-		
-		try {
-			if(!compileFileContents2(classCodes, methodToGenerate.getName())) {
-				return false;
-			}
-		} catch (TestAndAssertionGeneratorException e) {
-			Console.println(e.getMessage(), TestStatementListener.red);
-			Console.println("Execution of the test generator failed.");
+		if(!compileFileContents2(classCodes, methodToGenerate.getName())) {
 			return false;
 		}
 		// get code of class to be tested
@@ -278,30 +287,21 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		List<TestCaseData> inputs;
 		String testFileContent;
 		
-		try {
-			inputs = genInputs(ConditionParser.parseConditions(globalConditions, formula.getStatement().getPreCondition()), vars, code2, signatureString, returnVariable);
-			if (inputs.isEmpty()) {
-				Console.println("TestAndAssertionGeneratorInfo: There are no controllable inputs for method " + methodToGenerate.getName() + ".");
-				Console.println("Nothing to test.");
-				return false;
-			}
-			testFileContent = genTestCases(className, inputs, postCon, globalConditions, formula);
-		} catch (TestAndAssertionGeneratorException | PreConditionSolverException | TestStatementException e) {
-			Console.println(e.getMessage(), TestStatementListener.red);
-			e.printStackTrace();
-			return false;
-		} catch (UnexpectedTokenException e) {
-			Console.println(e.getMessage(), TestStatementListener.red);
-			e.printStackTrace();
+		inputs = genInputs(ConditionParser.parseConditions(globalConditions, formula.getStatement().getPreCondition()), vars, code2, signatureString, returnVariable);
+		if (inputs.isEmpty()) {
+			Console.println("TestAndAssertionGeneratorInfo: There are no controllable inputs for method " + methodToGenerate.getName() + ".");
+			Console.println("Nothing to test.");
 			return false;
 		}
+		testFileContent = genTestCases(className, inputs, postCon, globalConditions, formula);
+		testFileContent = CodeHandler.addInstanceNameToFields(ClassHandler.getClassByName(classCodes, className), testFileContent);
 		FileHandler.writeToFile(this.projectPath, className + "Test", testFileContent);
 		Console.clear();
 		Console.println("Start testing...");  
 		executeTestCases("file://" + FileUtil.getProjectLocation(uri) + "/tests/", className + "Test", globalVars, inputs);
 		return true;
 	}
-	
+
 	//================================================================================================
 	//| Start of copied code from existing methods.												 	 |
 	//================================================================================================
@@ -2688,6 +2688,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				Object obj = getBusinessObjectForPictogramElement(shape);
 				if (obj instanceof JavaVariables) {
 					vars = (JavaVariables) obj;
+					break;
 				}
 			}	
 
@@ -2773,6 +2774,14 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				fullId++;
 				final String methodCallStr = matchee.substring(fullId, end+1);
 				final String fullIdStr = matchee.substring(fullId, start);
+				if (fullIdStr.contains("original")) {
+					if (showWarnings) {
+						Console.println("TestAndAssertionWarning: Found unhandled 'original' keyword.");
+					}
+					matchee = matchee.replaceFirst("\\(", "");
+					start = matchee.indexOf("(");
+					continue;
+				}
 				long numDots = fullIdStr.chars().filter(c -> c == '.').count();
 				if (numDots == 2) {
 					final var methodCallParts = methodCallStr.split("\\.", 3);

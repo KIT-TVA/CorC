@@ -458,6 +458,10 @@ public class ClassHandler {
 		}
 	}
 	
+	public List<Variable> getFields() {
+		return this.globalVars;
+	}
+	
 	public static String getClassName(final CbCFormula formula) {
 		final String className;
 		if (formula.getClassName().isEmpty()) {
@@ -466,5 +470,14 @@ public class ClassHandler {
 			className = formula.getClassName();
 		}
 		return className;
+	}
+	
+	public static ClassHandler getClassByName(final List<ClassHandler> classes, final String className) {
+		for (int i = 0; i < classes.size(); i++) {
+			if (classes.get(i).getClassName().equals(className)) {
+				return classes.get(i);
+			}
+		}
+		return null;
 	}
 }

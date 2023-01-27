@@ -269,4 +269,14 @@ public class TestUtilSPL {
 		}
 		return newMethods;
 	}
+
+	public static void addNewMethods(final List<ClassHandler> classCodes, final String className, final ArrayList<MethodHandler> originalMethods,
+			final ArrayList<MethodHandler> abstractMethods) {
+		for (int i = 0; i < classCodes.size(); i++) {
+			if (classCodes.get(i).getClassName().equals(className)) {
+				classCodes.get(i).addMethods(originalMethods);
+				classCodes.get(i).addMethods(abstractMethods);
+			}
+		}
+	}
 }

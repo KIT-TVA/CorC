@@ -1,6 +1,7 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -274,5 +275,56 @@ public final class CodeHandler {
 		}
 		
 		return code + CodeHandler.getTabs(numTabs) + PRECHECKS_END + toAppend;
+	}
+	
+	public static String addInstanceNameToFields(ClassHandler classByName, String code) {
+		String instanceName = Character.toLowerCase(classByName.getClassName().charAt(0)) 
+				+ classByName.getClassName().substring(1, classByName.getClassName().length());
+		int offset = 0;
+		
+		for (var fieldName : classByName.getFields()) {
+			var occurences = findOccurences(code, fieldName.getName());
+			for (int o : occurences) {
+				o += offset;
+				code = code.substring(0, o) 
+						+ instanceName + "."
+						+ code.substring(o, code.length());
+				offset += classByName.getClassName().length() + 1;
+			}
+		}
+		return code;
+	}
+
+	private static List<Integer> findOccurences(String code, final String word) {
+		final List<Integer> indicies = new ArrayList<Integer>();
+		String originalCode = code;
+		int start = code.indexOf(word);
+		int end = start + word.length();
+		int offset = 0;
+		
+		while (start != -1) {
+			if (start > 0 && !Character.isJavaIdentifierPart(code.charAt(start-1)) && code.charAt(start-1) != '.') {
+				if (end == code.length()) {
+					indicies.add(start + offset);
+				} else {
+					if (!Character.isJavaIdentifierPart(code.charAt(end))) {
+						indicies.add(start + offset);
+					}
+				}
+			} else if (start == 0) {
+				if (end == code.length()) {
+					indicies.add(start + offset);
+				} else {
+					if (!Character.isJavaIdentifierPart(code.charAt(end))) {
+						indicies.add(start + offset);
+					}
+				}
+			}
+			code = code.substring(end, code.length());
+			start = code.indexOf(word);
+			offset = originalCode.length() - code.length();
+			end = start + word.length();
+		}
+		return indicies;
 	}
 }

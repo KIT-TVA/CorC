@@ -484,6 +484,7 @@ public class PreConditionSolver {
 		final List<InputData> output = new ArrayList<InputData>();
 		final var vars = new ArrayList<Expr>();
     	ConditionParser p = new ConditionParser();
+    	// remove <...> keywords from precon
     	var tree = p.parse(preCon);
     	Expr finalCondition;
     	try {

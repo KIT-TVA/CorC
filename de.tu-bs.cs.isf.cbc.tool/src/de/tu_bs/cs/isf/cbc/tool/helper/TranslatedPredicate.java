@@ -91,12 +91,12 @@ public class TranslatedPredicate {
 		String initialValue = getIterValue(firstCondition);
 		String secondCondition = removeIdentifier(branch.getIterConditions().get(1), branch.getIterName());
 		String lastValue = getIterValue(secondCondition);
-		branch.getIterConditions().remove(0);
-		branch.getIterConditions().remove(0);
+		//branch.getIterConditions().remove(0);
+		//branch.getIterConditions().remove(0);
 		String exists = "for (" + branch.getIterType() + " " + branch.getIterName() + " = " 
 				+ initialValue + "; " + branch.getIterName() + " < " + lastValue + "; "
 				+ branch.getIterName() + "++" + ") " + "{\n";
-		if (!branch.getIterConditions().isEmpty()) {
+		if (branch.getIterConditions().size() > 2) {
 			exists += "if (" + branch.getIterConditions().stream().reduce((f, s) -> f + " && " + s).get() + ") {\n";
 		}
 		exists += "exists" + this.branchNr + " = true;\n}\n";
@@ -121,12 +121,12 @@ public class TranslatedPredicate {
 		String initialValue = getIterValue(firstCondition);
 		String secondCondition = removeIdentifier(branch.getIterConditions().get(1), branch.getIterName());
 		String lastValue = getIterValue(secondCondition);
-		branch.getIterConditions().remove(0);
-		branch.getIterConditions().remove(0);
+		//branch.getIterConditions().remove(0);
+		//branch.getIterConditions().remove(0);
 		String forLoop = "for (" + branch.getIterType() + " " + branch.getIterName() + " = " 
 				+ initialValue + "; " + branch.getIterName() + " < " + lastValue + "; "
 				+ branch.getIterName() + "++" + ") " + "{\n";
-		if (!branch.getIterConditions().isEmpty()) {
+		if (branch.getIterConditions().size() > 2) {
 			//forLoop += "if (" + branch.getIterConditions().stream().reduce((f, s) -> f + " && " + s).get() + ") {\n";
 		}
 		return 	forLoop;
