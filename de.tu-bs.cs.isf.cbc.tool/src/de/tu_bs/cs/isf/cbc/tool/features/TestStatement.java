@@ -25,11 +25,13 @@ import org.testng.TestNG;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlSuite.ParallelMode;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
@@ -737,24 +739,29 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return className;
 	}
 	
-	private void addBaseVars(final JavaVariables vars) {
+	private List<JavaVariable> addBaseVars(final JavaVariables vars) {
+		var addedFields = new ArrayList<JavaVariable>();
 		IProject p = FileUtil.getProject(projectPath);
 		var newFields = ClassHandler.getFields(projectPath);
+		
 		for (var field : newFields) {
 			var newVar = CbcmodelFactory.eINSTANCE.createJavaVariable();
 			newVar.setKind(VariableKind.GLOBAL);
 			newVar.setName(field.getName());
 			vars.getVariables().add(newVar);
+			addedFields.add(newVar);
 		}
+		return addedFields;
 	}
 	
 	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException {		
+		final var addedVariables = new ArrayList<JavaVariable>();
 		final String className = getClassName(formula);
 		String statementName = statement.getName().trim();
 		
 		// make sure vars contains base variables as well
 		if (features != null) {
-			addBaseVars(vars);
+			addedVariables.addAll(addBaseVars(vars));
 		}
 
 		final TestAndAssertionGenerator generator = new TestAndAssertionGenerator(fp);
@@ -853,6 +860,9 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		if(!compile(codes, className, formula.getMethodName(), generator)) {
 			return false;
 		}
+		// remove temporarily added vars
+		vars.getVariables().removeAll(addedVariables);
+		
 		// use testng to execute the file and check the statement
 		if (executeTest(className, generator)) {
 			setPathTested(statement, true);
