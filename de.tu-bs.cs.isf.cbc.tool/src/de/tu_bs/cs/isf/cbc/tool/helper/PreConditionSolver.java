@@ -321,7 +321,7 @@ public class PreConditionSolver {
     				curVal = evalIndexTree(curNode.getLeft(), vars, model) % evalIndexTree(curNode.getRight(), vars, model);
     		}
     	} else {
-    		throw new PreConditionSolverException("Found invalid symbol in array index '" + indexTree.getRep() + "'.");
+    		throw new PreConditionSolverException(ExceptionMessages.invalidSymbol(indexTree.getRep()));
     	}
     	int leftTreeVal = evalIndexTree(indexTree.getLeft(), vars, model);
     	int rightTreeVal = evalIndexTree(indexTree.getRight(), vars, model);
@@ -461,7 +461,7 @@ public class PreConditionSolver {
 				}
 			}
 		} else {
-			throw new PreConditionSolverException("No variables were given.");
+			throw new PreConditionSolverException(ExceptionMessages.noVarsGiven());
 		}
 		if (found) {
 			return false;
@@ -493,7 +493,7 @@ public class PreConditionSolver {
     		}
     		finalCondition = makeCondition(tree);
 			if (!(finalCondition instanceof BoolExpr)) {
-				throw new PreConditionSolverException("Couldn't translate given precondition to the solver's syntax.");
+				throw new PreConditionSolverException(ExceptionMessages.translateToSolverSyntax());
 			}
     	} catch (Exception e) {
     		throw e;

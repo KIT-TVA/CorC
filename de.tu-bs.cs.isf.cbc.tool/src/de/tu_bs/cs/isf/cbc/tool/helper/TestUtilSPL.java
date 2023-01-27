@@ -18,6 +18,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
+import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGeneratorException;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 /**
@@ -53,7 +54,7 @@ public class TestUtilSPL {
 		// get formula of method in feature *refFeature*
 		CbCFormula originalFormula = features.loadFormulaFromFeature(fp, refFeature, features.getCallingClass(), features.getCallingMethod());
 		if (originalFormula == null) {
-			throw new ReferenceException("Formula of method '" + features.getCallingMethod() + "' in feature '" + refFeature + "' couldn't be found.");
+			throw new ReferenceException(ExceptionMessages.formulaNotFound(features.getCallingMethod(), refFeature));
 		}
 		// get the condition
 		String originalCondition = "";
@@ -177,7 +178,7 @@ public class TestUtilSPL {
 		String configName = features.getConfigName(curConfig);
 		int index = features.getFeatureIndex(curConfig, callingFeature);
 		if (index == -1) {
-			throw new ReferenceException("Feature '" + callingFeature + "' couldn't be found in the current config '" + configName + "'");
+			throw new ReferenceException(ExceptionMessages.featureNotFound(callingFeature, configName));
 		} else if (index == 0) {
 			throw new ReferenceException(originalBaseMsg);
 		}
@@ -212,8 +213,9 @@ public class TestUtilSPL {
 	 * @param projectPath
 	 * @param code
 	 * @param features
+	 * @throws TestAndAssertionGeneratorException 
 	 */
-	public static List<MethodHandler> handleAbstractMethodCalls(final IFeatureProvider fp, final URI projectPath, final String code, final Features features, final List<MethodHandler> newMethods) {
+	public static List<MethodHandler> handleAbstractMethodCalls(final IFeatureProvider fp, final URI projectPath, final String code, final Features features, final List<MethodHandler> newMethods) throws TestAndAssertionGeneratorException {
 		final var methodNames = getAbstractFunctionCalls(code);
 		final var relevantFeatures = new ArrayList<String>();
 		TestAndAssertionGenerator tg = new TestAndAssertionGenerator(fp);

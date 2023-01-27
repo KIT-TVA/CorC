@@ -41,10 +41,10 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.ConditionHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.JavaCondition;
-import de.tu_bs.cs.isf.cbc.tool.helper.JavaConditionReworked;
 import de.tu_bs.cs.isf.cbc.tool.helper.MethodHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolver;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolverException;
@@ -54,7 +54,6 @@ import de.tu_bs.cs.isf.cbc.tool.helper.TestUtilSPL;
 import de.tu_bs.cs.isf.cbc.tool.helper.Token;
 import de.tu_bs.cs.isf.cbc.tool.helper.TokenType;
 import de.tu_bs.cs.isf.cbc.tool.helper.Tokenizer;
-import de.tu_bs.cs.isf.cbc.tool.helper.TranslatedPredicate;
 import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Variable;
@@ -404,13 +403,10 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	
 	private String constructDummyMethod(String innerMethod, final JavaCondition javaCondition, final List<InputData> data) {
 		var code = "@Test\n" + DUMMY_SIGNATURE + " {\n" + innerMethod.substring(0, innerMethod.length()); // 1, ...
-		TranslatedPredicate branch;
-		while ((branch = javaCondition.getNext()) != null) {
-			code = code.substring(0, code.indexOf(STATEMENT_PH) + STATEMENT_PH.length()) 
-					+ "\n"
-					+ branch.getRep()
-					+ code.substring(code.indexOf(STATEMENT_PH) + STATEMENT_PH.length(), code.length());
-		}
+		code = code.substring(0, code.indexOf(STATEMENT_PH) + STATEMENT_PH.length()) 
+				+ "\n"
+				+ javaCondition.get()
+				+ code.substring(code.indexOf(STATEMENT_PH) + STATEMENT_PH.length(), code.length());
 		code += "\n}";
 		code = CodeHandler.indentCode(code, 1);
 		return code;
@@ -753,7 +749,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			restoreVars(features, vars, oldVars);
 			return false;
 		}
-		var programPreConsStr = formula.getStatement().getPreCondition().getName();//TestAndAssertionGenerator.parseConditions2(conds, formula.getStatement().getPreCondition());
+		var programPreConsStr = formula.getStatement().getPreCondition().getName();
 		var postCon = statement.getPostCondition().getName();	
 		if (features != null) {
 			boolean isPreCon = true;
@@ -803,7 +799,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			if (returnVar == null) {
 				// remove temporarily added vars
 				restoreVars(features, vars, oldVars);
-				throw new TestStatementException("Return variable not found. Please make sure that one is defined in the diagram.");
+				throw new TestStatementException(ExceptionMessages.ret);
 			}
 			String returnVarName = returnVar.getName().split("\\s")[1];
 			if (Variable.containsVarDefinition(code, returnVarName)) {

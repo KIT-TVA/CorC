@@ -87,7 +87,7 @@ public class ClassHandler {
 			}
 		}
 		if (gVars == null) {
-			throw new IdentifierNotFoundException("Couldn't get global variables of class '" + className + "'.");
+			throw new IdentifierNotFoundException(ExceptionMessages.gVarsOfClass(className));
 		}
 		// generate global vars and fields
 		for (int i = 0; i < gVars.size(); i++) {
@@ -265,7 +265,7 @@ public class ClassHandler {
 				}
 			}
 		}
-		return null;	
+		return globalVars;	
 	}
 		
 	public static List<String> getGvarsOfCbCClass(final URI projectUri, String className) {

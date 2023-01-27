@@ -65,10 +65,11 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.ConditionHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputDataTupel;
-import de.tu_bs.cs.isf.cbc.tool.helper.JavaConditionReworked;
+import de.tu_bs.cs.isf.cbc.tool.helper.JavaCondition;
 import de.tu_bs.cs.isf.cbc.tool.helper.MethodHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolver;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolverException;
@@ -125,7 +126,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
-		/*
+/*
 			Node tree;
 			try {
 				tree = ConditionHandler.parseCondition(projectPath, "(\\forall int k; (0 <= k & k < \\old(data).length -> (\\exists int z; (0 <= z & z < data.length & data[z] = \\old(data)[k]))))& ((\\forall int k; (0 <= k & k < data.length-1 -> (data[k] >= data[k+1]))) | (\\forall int k; (0 <= k & k < data.length-1 -> (data[k] <= data[k+1]))))", "", null);
@@ -136,7 +137,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		*/
+*/
+		
 	
 		
 		
@@ -579,8 +581,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		if (id == null) {
 			//Console.clear();
 			Console.println("Please add IDs to the diagram.");
-			throw new TestAndAssertionGeneratorException("An ID was null.");
-			//return "TestAndAssertionError: An ID was null.";
+			throw new TestAndAssertionGeneratorException(ExceptionMessages.idNull);
 		}
 		if (id.equals(refinement.getId())) {
 			return STATEMENT_PH + "\n";
@@ -930,8 +931,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * @param globalVariables
 	 * @param gVars
 	 * @return the generated java code if the method wasn't generated before. Else it returns an empty string.
+	 * @throws TestAndAssertionGeneratorException 
 	 */
-	private String generateCode(CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString, String globalVariables, List<String> gVars, boolean onlyMethod) {	
+	private String generateCode(CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString, String globalVariables, List<String> gVars, boolean onlyMethod) throws TestAndAssertionGeneratorException {	
 		String existingCode = "";
 		String constructorCode;
 		StringBuffer code = new StringBuffer();
@@ -948,11 +950,6 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		}
 		
 		// first check if the method already exists
-		/*
-		if (methodExists(className, signatureString)) {
-			return "";
-		}
-		*/
 		if (!onlyMethod && !(existingCode = ClassHandler.classExists(this.projectPath, className)).equals("")) {
 			// make sure the constructor is present
 			constructorCode = generateConstructor(className, gVars);
@@ -979,18 +976,11 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			
 		// generate method
 		code.append("\n\n\t" + signatureString + " {\n");
-		//System.out.println(System.getProperties());
 		positionIndex = 2;//2
 		code = insertTabs(code);
 		
 		for(String var : vars) {//declare variables
 			if(!var.contains("old_")) {
-				// initialize return value if present because the compiler could be
-				// throwing not initialized exception when if branches are present
-				/*if (var.split("\\s")[1].equals("result")) {
-					var defaultValue = genDefaultInputForVar(var, null).get(0);
-					var = var + " = " + defaultValue;
-				}*/
 				var defaultValue = InputData.getDefaultValue(var.split(" ")[0]);//genDefaultInputForVar(var, null).get(0);
 				code.append(var + " = " + defaultValue + ";\n");
 				code = insertTabs(code);
@@ -1005,8 +995,6 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		String s = genDiagramCode(formula, renaming);
 		code.append(s);
 			
-		//Pattern void_pattern = Pattern.compile("(?<![a-zA-Z0-9])(void)(?![a-zA-Z0-9])");
-		//Pattern return_pattern = Pattern.compile("(?<![a-zA-Z0-9])(return)(?![a-zA-Z0-9])");
 		var methodCode = code.toString().substring(code.indexOf(signatureString), code.length());
 		int closingBracket = methodCode.contains("}") ? methodCode.lastIndexOf('}') : 0;
 		var lastPartOfMethod = methodCode.substring(closingBracket, methodCode.length());
@@ -1018,21 +1006,14 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			}
 			//} else if (code.toString().)
 		} else if (returnVariable == null && !formula.getMethodObj().getReturnType().equals("void")) {
-			var splitter = code.toString().trim().split(";");
-			if (!splitter[splitter.length - 1].contains("return")) {
-				code.append("\t\treturn result;\n");
-			}
+			throw new TestAndAssertionGeneratorException(ExceptionMessages.ret);
 		}
 		code.append("\t}");//}
-		
-		//code = insertSeparator(code);
 		
 		if (!onlyMethod || !existingCode.equals("")) {
 			// close class
 			code.append("\n}");
 		}
-
-		//returnVariable = null;
 		return code.toString();
 	}
 	
@@ -1226,9 +1207,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		var usedVars = new ArrayList<String>();
 		String relevantCode = "";
 		if (code.indexOf(signature) == -1) {
-			//Console.println("TestAndAssertionGeneratorError: The signature " + signature + " couldn't be found.");
-			throw new TestAndAssertionGeneratorException("The signature " + signature + " couldn't be found.");
-			//return null;
+			throw new TestAndAssertionGeneratorException(ExceptionMessages.sigNotFound(signature));
 		}
 		relevantCode = code.substring(code.indexOf(signature), code.length());
 		int methodEndIndex = findMethodEndIndex(relevantCode, signature);
@@ -1462,7 +1441,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			}
 
 			// generate variables for old vars
-			var oldVarsStr = ConditionHandler.initializeOldVars(translatedPostCondition.getRep(), instanceName, 2, test.getInputDataTupel().getParameterNames());
+			var oldVarsStr = ConditionHandler.initializeOldVars(translatedPostCondition.get(), instanceName, 2, test.getInputDataTupel().getParameterNames());
 			if (!oldVarsStr.equals("")) {
 				code.append(oldVarsStr);
 			} else {
@@ -1487,15 +1466,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			}
 			
 			// add post condition
-			int branchCounter = 0;
-			var pred = translatedPostCondition.getNext();
-			//var translatedPostConditionNew = ConditionHandler.translateConditionToJavaNew(projectPath, postCondition, instanceName, inputs.get(0).getInputDataTupel().getGlobalVars());
-			while (pred != null) {
-				//code.append(translatedPostConditionNew.getWithContext(test.getTestNumber(), inputs, instanceName));
-				code.append(pred.getRepWithContext(test.getTestNumber(), branchCounter, inputs, instanceName));
-				branchCounter++;
-				pred = translatedPostCondition.getNext();
-			}
+			var translatedPostConditionNew = ConditionHandler.translateConditionToJava(projectPath, postCondition, instanceName, inputs.get(0).getInputDataTupel().getGlobalVars());
+			code.append(translatedPostConditionNew.getWithContext(test.getTestNumber(), inputs, instanceName));
 			code.append("\n\t}\n\n");
 		}
 		/*
@@ -1571,7 +1543,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		tng.run();
 	}
 	
-	public String genCode(Diagram diagram, boolean onlyMethod) {
+	public String genCode(Diagram diagram, boolean onlyMethod) throws TestAndAssertionGeneratorException {
 		String signatureString;
 		final LinkedList<String> localVariables = new LinkedList<String>();
 		JavaVariable returnVariable = null;
@@ -1686,7 +1658,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return generateCode(formula, globalConditions, renaming, localVariables, returnVariable, signatureString, globalVariables, vars.getFields().stream().map(f -> f.getType() + " " + f.getName()).toList(), onlyMethod);
 	}
 	
-	private String genCode(Diagram diagram) {
+	private String genCode(Diagram diagram) throws TestAndAssertionGeneratorException {
 		return genCode(diagram, false);
 	}
 				
@@ -2157,7 +2129,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return true;
 	}
 	
-	public boolean compileFileContents(List<String> fileContents, String methodToGenerate, final List<String> options) {
+	public boolean compileFileContents(List<String> fileContents, String methodToGenerate, final List<String> options) throws TestAndAssertionGeneratorException {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
 		StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
@@ -2168,8 +2140,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		for (var code : fileContents) {
 			code = code.trim();
 			if (code.isEmpty()) {
-				Console.println("TestAndAssertionError: Couldn't generate Code.");
-				return false;
+				throw new TestAndAssertionGeneratorException(ExceptionMessages.genCode);
 			}
 			var className = code.split("public\\sclass\\s")[1].split("\\s", 2)[0];
 			className = className.replaceAll("\\{", "");
@@ -2443,7 +2414,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return classes;
 	}
 			
-	private ArrayList<ClassHandler> genMethodDependencies2(String className, String methodSig, ArrayList<ClassHandler> methodCodes) {
+	private ArrayList<ClassHandler> genMethodDependencies2(String className, String methodSig, ArrayList<ClassHandler> methodCodes) throws TestAndAssertionGeneratorException {
 		String methodCode;
 		HashMap<String, ArrayList<String>> calledMethods;
 		
@@ -2675,8 +2646,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * @param className
 	 * @param signature
 	 * @return
+	 * @throws TestAndAssertionGeneratorException 
 	 */
-	private String getCodeOfSignature(String className, String signature) {
+	private String getCodeOfSignature(String className, String signature) throws TestAndAssertionGeneratorException {
 		Diagram diagram;
 		boolean isConstructor = false;
 		

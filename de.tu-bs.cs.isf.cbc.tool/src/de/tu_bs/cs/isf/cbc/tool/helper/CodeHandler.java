@@ -257,22 +257,17 @@ public final class CodeHandler {
 	 */
 	public static String insertPreconditionChecks(String code, JavaCondition javaCondition, int numTabs) throws TestStatementException {
 		// always put the checks between arrange and act parts
-		TranslatedPredicate branch;
+		String condition;
 		if (!code.contains("\n\n")) {
 			return code + PRECHECKS_START + "\n" + PRECHECKS_END;
-			//throw new TestStatementException("Couldn't check whether the preconditions of the program are satisfied.");
 		}
 		// assumes the parts are separated by an empty line
 		int pos = code.indexOf("\n\n") + 1;
 		String toAppend = code.substring(pos, code.length());
 		code = code.substring(0, pos) + CodeHandler.getTabs(numTabs) + PRECHECKS_START + "\n";
 			
-		while ((branch = javaCondition.getNext()) != null) {
-			Branch cur = branch.getNext();
-			if (cur == null) continue;
-			if (cur.getType() == BranchType.NONE) {
-				code += CodeHandler.getTabs(numTabs) + "if(!(" + cur.getBranchCondition() + ")) " + "context.setAttribute(\"skip\", \"" + cur.getBranchCondition() + "\");" + "\n";
-			}
+		while ((condition = javaCondition.getNextCondition()) != null) {
+			code += CodeHandler.getTabs(numTabs) + "if(!(" + condition + ")) " + "context.setAttribute(\"skip\", \"" + condition + "\");" + "\n";
 		}
 		
 		return code + CodeHandler.getTabs(numTabs) + PRECHECKS_END + toAppend;
@@ -381,7 +376,7 @@ public final class CodeHandler {
 			}
 		}
 		helper = code.substring(0, blockIndex);
-		helper = helper.substring(helper.lastIndexOf("\n") + 1, helper.length()).trim();
+		helper = helper.substring(helper.lastIndexOf("\n") + 1, helper.length())/*.trim()*/;
 		blockCode += helper;	
 		for (int i = blockIndex; i < code.length(); i++) {
 			blockCode += code.charAt(i);
@@ -390,5 +385,53 @@ public final class CodeHandler {
 			}
 		}
 		return blockCode;
+	}
+	
+	public static int getBlockIndex(final String code, final String blockCode) {
+		int blockIndex = code.indexOf(blockCode);
+		return blockIndex;
+	}
+
+	public static int getBlockEndIndex(final String code, final String blockCode) {
+		if (code.indexOf(blockCode) == -1) {
+			return -1;
+		}
+		int blockIndex = code.indexOf(blockCode) + blockCode.length();
+		return blockIndex;
+	}
+
+	public static String getBoundOfLoop(String loop) {
+		String bound = "";
+		String loopVar = loop.substring(loop.indexOf("for (") + 5, loop.indexOf(';'))
+				.split("\\s")[1];
+		loop = loop.substring(loop.indexOf(';') + 1, loop.lastIndexOf(';')).trim();
+		int boundIndex = -1;
+		String[] parts;
+		boolean isLessThan = false;
+		
+		if (loop.contains("<")) {
+			parts = loop.split("<");
+			isLessThan = true;
+		} else {
+			parts = loop.split(">");
+		}
+		for (int i = 0; i < parts.length; i++) {
+			if (parts[i].trim().equals(loopVar)) {
+				boundIndex = (i + 1) % 2;
+			}
+		}
+		if (boundIndex == -1) {
+			return "";
+		}
+		if (isLessThan && boundIndex == 0 && !loop.contains("=")) {
+			bound = parts[boundIndex] + "+1";
+		} else if (isLessThan && boundIndex == 1 && !loop.contains("=")) {
+			bound = parts[boundIndex] + "-1";
+		} else if (!isLessThan && boundIndex == 0 && !loop.contains("=")) {
+			bound = parts[boundIndex] + "-1";
+		} else if (!isLessThan && boundIndex == 1 && !loop.contains("=")) {
+			bound = parts[boundIndex] + "+1";
+		}
+		return bound.trim();
 	}
 }
