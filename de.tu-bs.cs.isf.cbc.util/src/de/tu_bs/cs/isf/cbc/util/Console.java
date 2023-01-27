@@ -1,5 +1,6 @@
 package de.tu_bs.cs.isf.cbc.util;
 
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
@@ -63,6 +64,36 @@ public class Console {
 	public static void println() {
 		MessageConsoleStream out = findConsole().newMessageStream();
 		out.println();
+	}
+	
+	/**
+	 * prints a colored line on the console
+	 * @param message the line which should be printed
+	 * @param color the color the text should have
+	 */
+	public static void println(Object message, Color color) {
+		if (message == null) {
+			message = new String("null");
+		} else {
+			MessageConsoleStream out = findConsole().newMessageStream();
+			out.setColor(color);
+			out.println("" + message);
+		}
+	}
+	
+	/**
+	 * prints a colored text on the console
+	 * @param message the line which should be printed
+	 * @param color the color the text should have
+	 */
+	public static void print(Object message, Color color) {
+		if (message == null) {
+			message = new String("null");
+		} else {
+			MessageConsoleStream out = findConsole().newMessageStream();
+			out.setColor(color);
+			out.print("" + message);
+		}
 	}
 	
 	/**

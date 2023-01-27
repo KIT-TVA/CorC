@@ -106,6 +106,12 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 	@Override
 	public IContextMenuEntry[] getContextMenu(ICustomContext context) {
 		// create a sub-menu for all custom features
+		ContextMenuEntry subMenuTest = new ContextMenuEntry(null, context);
+		subMenuTest.setText("Test");
+		subMenuTest.setDescription("Test features submenu");
+		// display sub-menu hierarchical or flat
+		subMenuTest.setSubmenu(true);
+		
 		ContextMenuEntry subMenuVerify = new ContextMenuEntry(null, context);
 		subMenuVerify.setText("Verify");
 		subMenuVerify.setDescription("Verify features submenu");
@@ -123,7 +129,10 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 		for (int i = 0; i < customFeatures.length; i++) {
 			ICustomFeature customFeature = customFeatures[i];
 			if (customFeature.canExecute(context)) {
-				if (customFeature.getName().contains("Verify")) {
+				if (customFeature.getName().contains("Test") || customFeature.getName().contains("test")) {
+					ContextMenuEntry menuEntry = new ContextMenuEntry(customFeature, context);
+					subMenuTest.add(menuEntry);
+				} else if (customFeature.getName().contains("Verify")) {
 					ContextMenuEntry menuEntry = new ContextMenuEntry(customFeature, context);
 					subMenuVerify.add(menuEntry);
 				} else {
@@ -133,7 +142,7 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 			}
 		}
 
-		IContextMenuEntry ret[] = new IContextMenuEntry[] { subMenuVerify, subMenuPrint };
+		IContextMenuEntry ret[] = new IContextMenuEntry[] { subMenuTest, subMenuVerify, subMenuPrint };
 		return ret;
 	}
 

@@ -30,6 +30,9 @@ import de.tu_bs.cs.isf.cbc.tool.features.RenameStatementFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameVariableFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameVariantFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.ShowKeyFileFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.TestAllStatements;
+import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
+import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.UpdateDiagramFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyAllStatements;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyMethodCallStatement;
@@ -122,7 +125,10 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 		return new ICustomFeature[] { 
 				new ExtractMethodStubsFeature(this), //!
 				new GenerateCodeFromModel(this),
-				new GenerateTextualRepresentation(this), 
+				new GenerateTextualRepresentation(this), 	
+				new TestAllStatements(this),
+				new TestStatement(this),
+	    		new TestAndAssertionGenerator(this),
 				new VerifyStatement(this),
 				new VerifyOriginalCallStatement(this),
 				new VerifyMethodCallStatement(this),
@@ -152,7 +158,7 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	    		new BelowImplementationFeature(this),
 	    		new VerifyAllStatements(this),
 				new VerifyStatementInlining(this),
-	    		new UpdateDiagramFeature(this),
+	    		new UpdateDiagramFeature(this),	    		
 				new ShowKeyFileFeature(this)};
 	}
 }
