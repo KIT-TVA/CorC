@@ -18,6 +18,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.IdentifierNotFoundException;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;

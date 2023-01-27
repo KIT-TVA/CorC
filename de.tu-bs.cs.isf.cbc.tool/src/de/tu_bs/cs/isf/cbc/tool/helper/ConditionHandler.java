@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.common.util.URI;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.ConditionParser;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.Node;
 import de.tu_bs.cs.isf.cbc.util.Console;

@@ -17,8 +17,10 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.ReferenceException;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.TestAndAssertionGeneratorException;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
-import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGeneratorException;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 /**

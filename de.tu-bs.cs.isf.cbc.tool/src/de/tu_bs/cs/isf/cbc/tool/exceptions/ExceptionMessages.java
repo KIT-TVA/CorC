@@ -1,4 +1,4 @@
-package de.tu_bs.cs.isf.cbc.tool.helper;
+package de.tu_bs.cs.isf.cbc.tool.exceptions;
 
 public final class ExceptionMessages {
 	public static String ret = "Return variable not found. Please make sure that one is defined in the diagram.";

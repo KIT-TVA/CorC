@@ -2,10 +2,10 @@ package de.tu_bs.cs.isf.cbc.tool.helper.conditionparser;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.Token;
 import de.tu_bs.cs.isf.cbc.tool.helper.TokenType;
 import de.tu_bs.cs.isf.cbc.tool.helper.Tokenizer;
-import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
 import java.util.ArrayList;

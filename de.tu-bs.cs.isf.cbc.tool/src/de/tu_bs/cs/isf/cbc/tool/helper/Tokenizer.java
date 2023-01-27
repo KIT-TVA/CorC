@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.tu_bs.cs.isf.cbc.tool.exceptions.UnexpectedTokenException;
+
 /**
  * Tokenizer for strings representing predicate formulae.
  * @author Fynn

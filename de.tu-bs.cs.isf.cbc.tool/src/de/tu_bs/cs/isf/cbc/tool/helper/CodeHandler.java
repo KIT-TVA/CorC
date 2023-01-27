@@ -7,8 +7,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import de.tu_bs.cs.isf.cbc.tool.exceptions.TestStatementException;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
-import de.tu_bs.cs.isf.cbc.tool.features.TestStatementException;
 
 public final class CodeHandler {
 	public static final String PRECHECKS_START = "//[checks]";
