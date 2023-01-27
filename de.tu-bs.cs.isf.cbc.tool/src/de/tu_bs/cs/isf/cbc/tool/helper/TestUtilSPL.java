@@ -1,14 +1,23 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
 import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 /**
  * Provides all functions that handle the keyword original in conditions and code. 
@@ -54,12 +63,70 @@ public class TestUtilSPL {
 		return condition;
 	}
 	
-	public static void handleOriginalCode(final IFeatureProvider fp, String code, final Features features, final List<MethodCode> newMethods, String signature) throws ReferenceException {
+	private static JavaVariables readFieldsFromClass(String className, final String uri) {
+		JavaVariables vars = CbcmodelFactory.eINSTANCE.createJavaVariables();
+		var fileHandler = new FileUtil(uri);
+		File file = fileHandler.getClassFile(className);
+		if (file == null) {
+			return vars;
+		}
+		List<String> lines = fileHandler.readFileInList(file.getAbsolutePath());
+		if (lines.get(0).contains(" extends ")) {
+			String inheritedClassName = lines.get(0).trim();
+			inheritedClassName = inheritedClassName.substring(inheritedClassName.indexOf(" extends ") + 9, inheritedClassName.indexOf("{")).trim();
+			vars = readFieldsFromClass(inheritedClassName, uri);
+		}
+		int i = 1;
+		while (lines.get(i).contains(";")) {
+			String field = lines.get(i++).replace(";", "");
+			Field f = CbcclassFactory.eINSTANCE.createField();
+			String split[] = field.replace("/*@spec_public@*/ ","").trim().split(" ");
+			int pointer = 1;
+			switch (split[0].toLowerCase()) {
+			case "private":
+				f.setVisibility(Visibility.PRIVATE);
+				break;
+			case "public":
+				f.setVisibility(Visibility.PUBLIC);
+				break;
+			case "protected":
+				f.setVisibility(Visibility.PROTECTED);
+				break;
+			case "package":
+				f.setVisibility(Visibility.PACKAGE);
+				break;
+			default:
+				f.setVisibility(Visibility.PUBLIC);
+				pointer = 0;
+				break;
+			}
+			if (Arrays.stream(split).anyMatch("static"::equalsIgnoreCase)) {
+				f.setIsStatic(true);
+				pointer++;
+			} else
+				f.setIsStatic(false);
+			if (Arrays.stream(split).anyMatch("final"::equalsIgnoreCase)) {
+				f.setIsFinal(true);
+				pointer++;
+			} else
+				f.setIsFinal(false);
+
+			f.setType(split[pointer++]);
+			f.setName(split[pointer]);
+			if (!f.getType().trim().equals("")) {
+				vars.getFields().add(f);
+			}
+		}
+		return vars;
+	}
+	
+	public static void handleOriginalCode(final IFeatureProvider fp, final URI projectPath, String code, final Features features, final List<MethodCode> newMethods, String signature, final JavaVariables vars) throws ReferenceException {
 		if (!code.contains("original(")) {
 			return;
 		}
 		String refFeature = getRefFeature(features, features.getCurConfig());
 		CbCFormula originalFormula = features.loadFormulaFromFeature(fp, refFeature, features.getCallingClass(), features.getCallingMethod());
+		Diagram test;
 		String refCode = TestAndAssertionGenerator.genDiagramCode(originalFormula, null);
 		signature = signature.substring(0, signature.indexOf(features.getCallingMethod())) 
 				+ "original_" 
@@ -68,9 +135,30 @@ public class TestUtilSPL {
 		code = code.replaceAll("original", methodName);
 		refCode = signature + "{\n"
 				+ "\t" + refCode + "}\n";
+		var classVars = readFieldsFromClass(features.getCallingClass(), projectPath.toPlatformString(false));
+		vars.getFields().addAll(classVars.getFields());
+		addFields(vars, classVars);
+		refCode = Variable.prefixAllVariables(refCode, classVars);
 		refCode = Util.indentCode(refCode, 0);
 		newMethods.add(new MethodCode(signature, refCode));
-		handleOriginalCode(fp, refCode, features, newMethods, signature);
+		handleOriginalCode(fp, projectPath, refCode, features, newMethods, signature, vars);
+	}
+	
+	private static void addFields(final JavaVariables destination, final JavaVariables source) {
+		final List<Field> toAdd = new ArrayList<Field>();
+		
+		for (var v : source.getFields()) {
+			boolean found = false;
+			for (var d : destination.getFields()) {
+				if (d.getName().equals(v.getName())) {
+					found = true;
+				}
+			}
+			if (!found) {
+				toAdd.add(v);
+			}
+		}
+		destination.getFields().addAll(toAdd);
 	}
 	
 	private static String getRefFeature(final Features features, String[] curConfig) throws ReferenceException {

@@ -479,4 +479,47 @@ public class Util {
 		}
 		return output + Util.getTabs(numTabs) + "public " + fullVarName + " = " + val + ";\n";
 	}
+	
+	public static boolean createFile(final URI projectPath, String className, String code) {
+		try {
+			var dir = new File(FileUtil.getProjectLocation(projectPath) + "\\tests");	
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			var javaFile = new File(FileUtil.getProjectLocation(projectPath) + "\\tests\\" + className + ".java");
+			if (!javaFile.exists()){
+				javaFile.createNewFile();
+		    }
+			writeToFile(projectPath, className, code);
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean deleteFile(final URI projectPath, String className) {
+		try {
+			var dir = new File(FileUtil.getProjectLocation(projectPath) + "\\tests");	
+			if (!dir.exists()) {
+				return false;
+			}
+			var javaFile = new File(FileUtil.getProjectLocation(projectPath) + "\\tests\\" + className + ".java");
+			if (!javaFile.exists()){
+				return false;
+		    }
+			Files.delete(Paths.get(javaFile.getPath()));
+			javaFile = new File(FileUtil.getProjectLocation(projectPath) + "\\tests\\" + className + ".class");
+			if (javaFile.exists()){
+				Files.delete(Paths.get(javaFile.getPath()));
+		    }
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean writeToFile(final URI projectPath, final String className, String content) {
+		writeToFile(FileUtil.getProjectLocation(projectPath) + "\\tests", className, content);
+		return true;
+	}
 }

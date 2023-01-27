@@ -157,7 +157,11 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 					for (int i = 0; i < features.getSize(); i++) {
 						features.getNextConfig();
 						Console.println(" > Configuration: [" + features.getConfigRep() + "]", blue);
-						testPath(statement, vars, conds, formula, returnStatement, features);
+						if (!testPath(statement, vars, conds, formula, returnStatement, features)) {
+							continue;
+						}
+						// save configuration in a separate file
+						saveConfig(formula, features);
 					}		
 				} else {
 					testPath(statement, vars, conds, formula, returnStatement, features);
@@ -173,15 +177,29 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		Console.println("Time needed: " + duration + "ms");
 	}	
 	
-	private void testPath(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, final boolean returnStatement, final Features features) {
+	private boolean saveConfig(final CbCFormula formula, final Features features) {
+		// get className
+		final String className = getClassName(formula);
+		// get current config name
+		final String currentConfigName = features.getCurConfigName();
+		// copy test contents to new file with config name
+		var code = ClassCode.classExists(this.projectPath, className);
+		if (!Util.createFile(projectPath, currentConfigName, code)) {
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean testPath(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, final boolean returnStatement, final Features features) {
 		Console.println(" > Testing path:", blue);
 		Console.println("\t" + getStatementPath(statement));
 		try {
 			testStatement(statement, vars, conds, formula, returnStatement, features);
+			return true;
 		} catch (TestAndAssertionGeneratorException | TestStatementException | ReferenceException | UnexpectedTokenException e) {
 			Console.println(e.getMessage());
 			e.printStackTrace();
-			return;
+			return false;
 		}
 	}
 	
@@ -351,7 +369,11 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				}
 			} else {
 				if (data.get(i).isPrimitive()) {
-					code = data.get(i).getPrimitiveArrayInit() + ";\n" + code;					
+					String arrayInitStr = data.get(i).getPrimitiveArrayInit();
+					if (Variable.containsVar(gVars, variable)) {
+						arrayInitStr = arrayInitStr.split("\\s", 2)[1];
+					}
+					code = arrayInitStr + ";\n" + code;					
 				} else {
 					if (Variable.containsVar(gVars , variable)) {
 						code = data.get(i).getName() + " = " + data.get(i).getArrayRep() + ";\n" + code;
@@ -693,15 +715,20 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return condition;
 	}
 	
-	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException {
+	private String getClassName(final CbCFormula formula) {
 		final String className;
-		String statementName = statement.getName().trim();
-
 		if (formula.getClassName().isEmpty()) {
 			className = TestAndAssertionGenerator.GENERATED_CLASSNAME;
 		} else {
 			className = formula.getClassName();
 		}
+		return className;
+	}
+	
+	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException {
+		final String className = getClassName(formula);
+		String statementName = statement.getName().trim();
+
 		final TestAndAssertionGenerator generator = new TestAndAssertionGenerator(fp);
 		generator.setProjectPath(this.projectPath);		
 					
@@ -713,7 +740,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		}
 		final var originalMethods = new ArrayList<MethodCode>();
 		if (features != null && code.contains("original") || statementName.contains("original")) {
-			TestUtilSPL.handleOriginalCode(fp, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, originalMethods, formula.getMethodObj().getSignature());
+			TestUtilSPL.handleOriginalCode(fp, projectPath, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, originalMethods, formula.getMethodObj().getSignature(), vars);
 		}
 		// now add pre conditions of selection as assertions
 		// get all vars used in the code

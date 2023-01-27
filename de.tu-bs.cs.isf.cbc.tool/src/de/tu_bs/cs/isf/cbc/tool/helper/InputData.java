@@ -245,10 +245,16 @@ public class InputData {
 		String primitiveType = "";
 		genArrayRep();
 		primitiveArrayInit = this.classTypeName;
+		String brackets = "";
 		for (int i = 0; i < dimension; i++) {
-			primitiveArrayInit += "[]";
-		}	
-		primitiveArrayInit += " " + arrayVarName + " = " + arrayRep;
+			brackets += "[]";
+		}
+		primitiveArrayInit += brackets;
+		if (arrayRep != null) {
+			primitiveArrayInit += " " + arrayVarName + " = " + "new " + this.classTypeName + brackets + arrayRep;
+		} else {
+			primitiveArrayInit += " " + arrayVarName + " = " + arrayRep;
+		}
 		this.rep = arrayVarName;
 	}
 

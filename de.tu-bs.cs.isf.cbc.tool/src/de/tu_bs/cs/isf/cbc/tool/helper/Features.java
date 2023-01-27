@@ -107,6 +107,17 @@ public class Features {
 		}	
 		return formula;
 	}
+	
+	public String getCurConfigName() {
+		if (curConfig >= featureConfigs.length) {
+			return null;
+		}
+		String rep = "";
+		for (int i = 1; i < featureConfigs[curConfig].length; i++) {
+			rep += featureConfigs[curConfig][i];
+		}
+		return featureConfigs[curConfig][0] + rep;
+	}
 
 	public String getConfigRep() {
 		if (curConfig >= featureConfigs.length) {

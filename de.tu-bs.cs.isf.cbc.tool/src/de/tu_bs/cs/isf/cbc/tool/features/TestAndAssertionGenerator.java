@@ -265,7 +265,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			e.printStackTrace();
 			return;
 		}
-		writeToFile(className + "Test", testFileContent);
+		Util.writeToFile(this.projectPath, className + "Test", testFileContent);
 		Console.clear();
 		Console.println("Start testing...");  
 		executeTestCases("file://" + FileUtil.getProjectLocation(uri) + "/tests/", className + "Test", globalVars, inputs);
@@ -1025,49 +1025,6 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return code;
 	}
 
-	public boolean writeToFile(String className, String content) {
-		Util.writeToFile(FileUtil.getProjectLocation(this.projectPath) + "\\tests", className, content);
-		return true;
-	}
-	
-	private boolean createFile(String className, String code) {
-		try {
-			var dir = new File(FileUtil.getProjectLocation(this.projectPath) + "\\tests");	
-			if (!dir.exists()) {
-				dir.mkdirs();
-			}
-			var javaFile = new File(FileUtil.getProjectLocation(this.projectPath) + "\\tests\\" + className + ".java");
-			if (!javaFile.exists()){
-				javaFile.createNewFile();
-		    }
-			writeToFile(className, code);
-		} catch (IOException e) {
-			return false;
-		}
-		return true;
-	}
-	
-	private boolean deleteFile(String className) {
-		try {
-			var dir = new File(FileUtil.getProjectLocation(this.projectPath) + "\\tests");	
-			if (!dir.exists()) {
-				return false;
-			}
-			var javaFile = new File(FileUtil.getProjectLocation(this.projectPath) + "\\tests\\" + className + ".java");
-			if (!javaFile.exists()){
-				return false;
-		    }
-			Files.delete(Paths.get(javaFile.getPath()));
-			javaFile = new File(FileUtil.getProjectLocation(this.projectPath) + "\\tests\\" + className + ".class");
-			if (javaFile.exists()){
-				Files.delete(Paths.get(javaFile.getPath()));
-		    }
-		} catch (IOException e) {
-			return false;
-		}
-		return true;
-	}
-	
 	/**
 	 * Generates exactly one instance for the given class *clazz*. 
 	 * @param clazz the class to be instantiated with random default data.
@@ -2411,7 +2368,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				Console.println();
 			}
 			if (delete) {
-				deleteFile(className);
+				Util.deleteFile(this.projectPath, className);
 			}
 			return false;
 		}
@@ -2441,7 +2398,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			var className = code.split("public\\sclass\\s")[1].split("\\s", 2)[0];
 			className = className.replaceAll("\\{", "");
 			var fullClassName = FileUtil.getProjectLocation(this.projectPath) + "/tests/" + className + ".java";
-			createFile(className, code);
+			Util.createFile(this.projectPath, className, code);
 			dependencies.add(fullClassName);
 		}
 		
@@ -2483,7 +2440,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		for (var clazz : fileContents) {
 			var className = clazz.getClassName();
 			var fullClassName = FileUtil.getProjectLocation(this.projectPath) + "/tests/" + className + ".java";
-			createFile(className, clazz.getCode());
+			Util.createFile(this.projectPath, className, clazz.getCode());
 			dependencies.add(fullClassName);
 		}
 		
@@ -2762,7 +2719,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		if (!javaFile.exists()) {
 			return "";
 		}
-		deleteFile(className);
+		Util.deleteFile(this.projectPath, className);
 		try {
 			Files.copy(javaFile.toPath(), destination.toPath());
 		} catch (IOException e) {
@@ -2888,7 +2845,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		if (!javaFile.exists()) {
 			return "";
 		}
-		deleteFile(className);
+		Util.deleteFile(this.projectPath, className);
 		try {
 			Files.copy(javaFile.toPath(), destination.toPath());
 		} catch (IOException e) {

@@ -1,8 +1,9 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
+import java.util.stream.Stream;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 
@@ -94,7 +95,10 @@ public class Variable {
 	
 	// TODO: Test this
 	public static boolean containsVarDefinition(String code, String varName) {
-		int start = code.indexOf(varName);
+		int start = code.indexOf(varName + " ");
+		while (start > 0 && Character.isAlphabetic(code.charAt(start-1))) {
+			start = code.indexOf(varName + " ");
+		}
 		if (start == -1) 
 			return false;
 		while (Character.isWhitespace(code.charAt(--start)));
@@ -102,6 +106,89 @@ public class Variable {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	// TODO: Test this
+	public static String prefixAllVariables(String code, final JavaVariables vars) {
+		final List<String> addedVars = new ArrayList<String>();
+		String[] parts = code.split("\\s");
+		for (int i = 0; i < parts.length; i++) {
+			if (!parts[i].contains("=")) {
+				continue;
+			}
+			String variable = parts[i-1];
+			int index = code.indexOf(variable + " ");
+			while (index > 0 && Character.isAlphabetic(code.charAt(index-1))) {
+				index = code.indexOf(variable + " ");
+			}
+			if (containsVarDefinition(code, variable)) {
+				continue;
+			}
+			if (addedVars.contains(variable)) {
+				continue;
+			}
+			boolean isWord = true;
+			for (int j = 0; j < variable.length(); j++) {
+				if (!Character.isAlphabetic(variable.charAt(j))) {
+					isWord = false;
+					break;
+				}
+			}
+			if (!isWord) {
+				continue;
+			}
+			if (isVarType(variable)) {
+				continue;
+			}
+			if (isClassVar(variable, vars)) {
+				continue;
+			}
+			addedVars.add(variable);
+			code = code.substring(0, index) 
+					+ "var " 
+					+ code.substring(index, code.length());
+		}
+		return code;
+	}
+	
+	private static boolean isClassVar(String varName, final JavaVariables vars) {
+		for (var v : vars.getVariables()) {
+			if (v.getName().equals(varName)) {
+				return true;
+			}
+		}
+		for (var v : vars.getFields()) {
+			if (v.getName().equals(varName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private static boolean isVarType(String type) {
+		type = type.toLowerCase();
+		switch (type) {
+			case "var":
+				return true;
+			case "boolean":
+				return true;
+			case "int":
+				return true;
+			case "integer":
+				return true;
+			case "short":
+				return true;
+			case "character":
+				return true;
+			case "char":
+				return true;
+			case "long":
+				return true;
+			case "string":
+				return true;
+			default:
+				return false;
 		}
 	}
 	
