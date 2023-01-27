@@ -86,6 +86,47 @@ public class TestAndAssertionListener implements ITestListener {
 		  return output;
 	  }
 	  
+	  private String getClassCode(String className) {
+			var dir = new File(FileUtil.getProjectLocation(this.projectPath) + "\\tests");	
+			if (!dir.exists()) {
+				return "";
+			}
+			var javaFile = new File(FileUtil.getProjectLocation(this.projectPath) + "\\tests\\" + className + ".java");
+			if (!javaFile.exists()){
+				return "";
+		    }
+			try {
+				var code = Files.readString(Paths.get(javaFile.getPath()));
+				return code;
+			} catch (IOException e) {}
+			return "";
+	  }
+	  
+	  protected int getErrorLineNr(final StackTraceElement[] stackTrace, final String className, final String methodName, final String methodCode) {
+		  int errorLineNr = -1;
+		  for (var trace : stackTrace) {
+			  if (trace.getMethodName().equals(methodName)) {
+				  errorLineNr = trace.getLineNumber();
+				  break;
+			  }
+		  }
+		  var classCode = getClassCode(className);
+		  var lines = classCode.split("\\n");
+		  var line = lines[errorLineNr-1].trim();
+		  var methodLines = methodCode.split("\\n");
+		  for (int i = 0; i < methodLines.length; i++) {
+			  if (methodLines[i].trim().equals(line)) {
+				  return i;
+			  }
+		  }
+		  return -1;
+	  }
+		
+	  public String getLine(final String code, int lineNr) {
+		 var lines = code.split("\\n");
+		 return lines[lineNr].trim();
+	  }
+	  
 	  public String removeHelperLines(String testCode) {
 		  Pattern p = Pattern.compile("\\t\\tcontext\\.");
 		  Matcher m = p.matcher(testCode);
@@ -138,7 +179,7 @@ public class TestAndAssertionListener implements ITestListener {
 			return "\t" + code;
 	  }
 	  
-	  private String printMethodFromTestFile(final String methodName, final String path) {
+	  private String getMethodFromTestFile(final String methodName, final String path) {
 			String code = "";
 		  	try {
 				var javaFile = new File(path);
@@ -514,13 +555,14 @@ public class TestAndAssertionListener implements ITestListener {
 				  testContext.removeAttribute(attr);
 			  }
 		  }
-		  
+		  String testMethodCode = getMethodFromTestFile(testMethodName,  FileUtil.getProjectLocation(this.projectPath) + "/tests/" + className + ".java");
+		  // remove all testng helper lines
+		  testMethodCode = removeHelperLines(testMethodCode);
 		  Console.println(" > Failed with the error message:", red);
-		  if (this.allBranches.size() > 1) {
-			  Console.println("\t" + "Assertion in branch [" + branch + "] failed. ");
-		  } else {
-			  Console.println("\t" + "Assertion failed.");
-		  }
+		  int errorLineNr = getErrorLineNr(result.getThrowable().getStackTrace(), className, testMethodName, testMethodCode);
+		  String errorLine = getLine(testMethodCode, errorLineNr);
+		  Console.println("\t" + "line " + (errorLineNr+1) + ": '" + errorLine + "':");
+		  Console.println("\t\t" + result.getThrowable().getMessage());
 		  Console.println();
 
 		  for (var curMethod: this.inputDataTupels) {
@@ -530,10 +572,7 @@ public class TestAndAssertionListener implements ITestListener {
 			  }
 		  }
 		  Console.println(" > Failed test with variable names inserted in '" + INSERTED_SYMBOL + "..." + INSERTED_CLOSED_SYMBOL + "':", red);
-		  String testMethodCode = printMethodFromTestFile(testMethodName,  FileUtil.getProjectLocation(this.projectPath) + "/tests/" + className + ".java");
 		  className = className.substring(0, className.indexOf("Test"));
-		  // remove all testng helper lines
-		  testMethodCode = removeHelperLines(testMethodCode);
 		  var constructorCallWithNames = printConstructorCallWithNames(tupel, className);
 		  testMethodCode = testMethodCode.replace(className + tupel.getGlobalVarsRep(), constructorCallWithNames);
 		  // insert values for variables

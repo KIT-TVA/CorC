@@ -278,7 +278,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		String preCon = ConditionParser.parseConditions(globalConditions, formula.getStatement().getPreCondition());
 		if (FileHandler.isSPL(projectPath)) {
 			boolean isPreCon = true;
-			postCon = TestUtilSPL.handleOriginalCondition(this.getFeatureProvider(), preCon, isPreCon, features);
+			preCon = TestUtilSPL.handleOriginalCondition(this.getFeatureProvider(), preCon, isPreCon, features);
 		}	
 		inputs = genInputs(preCon, vars, code2, signatureString, returnVariable);
 		if (inputs.isEmpty()) {
@@ -1468,7 +1468,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				code.append("\t\t" + test.getReturnType() + " " + test.getReturnVar() + " = " + instanceName + "." + test.getTesteeName() + test.getInputDataTupel().getParametersNameRep() + ";\n");
 				code.append("\t\t" + "context.setAttribute(\"" + test.getTestNumber() + "result\", " + test.getReturnVar() + ");\n\n");
 			}
-				
+			
+			// add post condition
 			int branchCounter = 0;
 			var pred = translatedPostCondition.getNext();
 			while (pred != null) {

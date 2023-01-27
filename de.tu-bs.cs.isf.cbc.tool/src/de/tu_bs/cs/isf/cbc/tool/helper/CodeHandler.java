@@ -311,16 +311,12 @@ public final class CodeHandler {
 		}
 		code = code.substring(0, end);
 		int typePos = end-1;
-		//String lmao = "";
 		while (Character.isJavaIdentifierPart(code.charAt(typePos)) || Arrays.asList('[', ']').contains(code.charAt(typePos))) {
-			//lmao += code.charAt(typePos);
 			typePos--;
 		}
-		//char test = code.charAt(typePos);
 		if (typePos == end-1) {
 			return false;
 		}
-		String hsdfjsdf = code.substring(typePos, code.length());
 		if (Character.isSpace(code.charAt(typePos))) {
 			return true;
 		}

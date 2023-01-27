@@ -26,48 +26,7 @@ public class TestStatementListener extends TestAndAssertionListener {
 	public TestStatementListener(final URI projectPath, final List<String> globalVars, final List<TestCaseData> inputDataTupels) {
 		super(projectPath, globalVars, inputDataTupels);	
 	}
-	
-	private int getErrorLineNr(final StackTraceElement[] stackTrace, final String className, final String methodName, final String methodCode) {
-		  int errorLineNr = -1;
-		  for (var trace : stackTrace) {
-			  if (trace.getMethodName().equals(methodName)) {
-				  errorLineNr = trace.getLineNumber();
-				  break;
-			  }
-		  }
-		  var classCode = getClassCode(className);
-		  var lines = classCode.split("\\n");
-		  var line = lines[errorLineNr-1].trim();
-		  var methodLines = methodCode.split("\\n");
-		  for (int i = 0; i < methodLines.length; i++) {
-			  if (methodLines[i].trim().equals(line)) {
-				  return i;
-			  }
-		  }
-		  return -1;
-	}
-	
-	protected String getLine(final String code, int lineNr) {
-		var lines = code.split("\\n");
-		return lines[lineNr];
-	}
-	
-	private String getClassCode(String className) {
-		var dir = new File(FileUtil.getProjectLocation(this.projectPath) + "\\tests");	
-		if (!dir.exists()) {
-			return "";
-		}
-		var javaFile = new File(FileUtil.getProjectLocation(this.projectPath) + "\\tests\\" + className + ".java");
-		if (!javaFile.exists()){
-			return "";
-	    }
-		try {
-			var code = Files.readString(Paths.get(javaFile.getPath()));
-			return code;
-		} catch (IOException e) {}
-		return "";
-	}
-	
+		
 	private void printLines(String code) {
 		var lines = code.split("\n");
 		for (var line : lines) {
