@@ -1,6 +1,7 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
@@ -107,6 +108,9 @@ public class Variable {
 		if (start == -1) 
 			return false;
 		while (Character.isWhitespace(code.charAt(--start)));
+		while (Arrays.asList('[', ']').contains(code.charAt(start))) {
+			start--;
+		}
 		if (Character.isAlphabetic(code.charAt(start))) {
 			return true;
 		} else {

@@ -284,6 +284,9 @@ public final class CodeHandler {
 		int offset = 0;
 		
 		for (var fieldName : classByName.getFields()) {
+			if (Variable.containsVarDefinition(code, fieldName.getName())) {
+				continue;
+			}
 			var occurences = findOccurences(code, fieldName.getName());
 			int o;
 			for (int i = 0; i < occurences.size(); i++) {

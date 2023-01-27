@@ -228,6 +228,15 @@ public class InputData {
 		
 	}
 	
+	private String insertValueLen(String brackets) {
+		int start = brackets.indexOf("[]");
+		if (start == -1) {
+			return brackets;
+		}
+		brackets = brackets.substring(0, start + 1) + this.values.length + brackets.substring(start + 1, brackets.length());
+		return insertValueLen(brackets);
+	}
+	
 	private void genPrimitiveArrayInit(int dimension) {
 		String primitiveType = "";
 		genArrayRep();
@@ -240,7 +249,8 @@ public class InputData {
 		if (arrayRep != null) {
 			primitiveArrayInit += " " + arrayVarName + " = " + "new " + this.classTypeName + brackets + arrayRep;
 		} else {
-			primitiveArrayInit += " " + arrayVarName + " = " + arrayRep;
+			brackets = insertValueLen(brackets);
+			primitiveArrayInit += " " + arrayVarName + " = " + "new " + this.classTypeName + brackets;  //+ arrayRep;
 		}
 		this.rep = arrayVarName;
 	}
