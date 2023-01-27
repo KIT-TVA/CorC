@@ -44,6 +44,28 @@ public class ClassHandler {
 		}
 	}
 	
+	private List<String> getNewSPLVars(final List<String> oldVars) {
+		final List<String> gVars = new ArrayList<String>();
+		var vars = TestUtilSPL.readFieldsFromClass(className, projectUri.toPlatformString(false));
+		for (Field field : vars.getFields()) {
+			if (field.getName() == null || field.getType() == null) {
+				continue;
+			}
+			if (field.isIsStatic()) {
+				if (oldVars.contains("static " + field.getType() + " " + field.getName())) {
+					continue;
+				}
+				gVars.add("static " + field.getType() + " " + field.getName());
+			} else {
+				if (oldVars.contains(field.getType() + " " + field.getName())) {
+					continue;
+				}
+				gVars.add(field.getType() + " " + field.getName());
+			}
+		}
+		return gVars;
+	}
+	
 	public void setup() throws IdentifierNotFoundException {
 		String classCode;
 		List<String> gVars;
@@ -61,6 +83,9 @@ public class ClassHandler {
 			gVars = getGvarsOfExternalClass(classCode);
 		} else {
 			gVars = getGvarsOfCbCClass(this.projectUri, className);
+			if (FileHandler.isSPL(projectUri)) {
+				gVars.addAll(getNewSPLVars(gVars));
+			}
 		}
 		if (gVars == null) {
 			throw new IdentifierNotFoundException("Couldn't get global variables of class '" + className + "'.");

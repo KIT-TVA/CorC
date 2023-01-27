@@ -303,6 +303,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 					if (!Variable.containsVar(initializedVars, variable)) {
 						if (!name.contains("[")) {
 							code = "var old_" + name + " = " + name + ";\n" + code;
+							initializedVars.add(variable);
 						}
 					}
 				}

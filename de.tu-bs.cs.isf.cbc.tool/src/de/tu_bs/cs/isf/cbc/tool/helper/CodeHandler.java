@@ -257,7 +257,8 @@ public final class CodeHandler {
 		// always put the checks between arrange and act parts
 		TranslatedPredicate branch;
 		if (!code.contains("\n\n")) {
-			throw new TestStatementException("Couldn't check whether the preconditions of the program are satisfied.");
+			return code + PRECHECKS_START + "\n" + PRECHECKS_END;
+			//throw new TestStatementException("Couldn't check whether the preconditions of the program are satisfied.");
 		}
 		// assumes the parts are separated by an empty line
 		int pos = code.indexOf("\n\n") + 1;

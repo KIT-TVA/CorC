@@ -24,12 +24,14 @@ public class Variable {
 		this.type = type;
 		this.name = name;
 		this.modifier = "";
+		this.value = getDefaultValue();
 	}
 	
 	public Variable(String modifier, String type, String name) {
 		this.modifier = modifier;
 		this.type = type;
 		this.name = name;
+		this.value = getDefaultValue();
 	}
 	
 	public String getModifier() {
@@ -246,6 +248,36 @@ public class Variable {
 			}
 		}
 		return allVars;
+	}
+	
+	public String getDefaultValue() {
+		if (type.contains("[")) {
+			final InputData data = new InputData("", type);
+			data.setDefaultValues();
+			return data.getArrayRep();
+		}
+		switch(type) {
+			case "byte":
+				return "" + 0;
+			case "short":
+				return "" + 0;
+			case "int":
+				return "" + 0;
+			case "integer":
+				return "" + 0;
+			case "long":
+				return "" + 0;
+			case "char":
+				return "" + 0;
+			case "character":
+				return "x";
+			case "boolean":
+				return "false";
+			case "string":
+				return "";
+			default:
+				return "new " + type + "()";
+		}		
 	}
 	
 	public static JavaVariable getReturnVar(final JavaVariables vars) {

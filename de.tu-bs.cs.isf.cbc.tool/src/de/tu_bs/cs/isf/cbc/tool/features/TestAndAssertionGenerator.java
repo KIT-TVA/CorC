@@ -1742,7 +1742,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		if (!code.contains(varName)) {
 			return "";
 		}
-		final var firstOccurence = code.substring(0, code.indexOf(varName));
+		final var firstOccurence = code.substring(0, code.indexOf(" " + varName));
 		final var typeReversed = new StringBuffer(firstOccurence).reverse().toString().trim().split("\\W", 2)[0];
 		final var type = new StringBuffer(typeReversed).reverse().toString();
 		if (isVarType(type)) {
@@ -2276,8 +2276,6 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	
 	
 	/**
-	 * TODO: original call
-	 * TODO: method call, that is not implemented in current class but in a more specific class (sorted -> increasing, decreasing)
 	 * Gets all dependencies (method calls and constructor calls) inside *methodCode*.
 	 * @param methodCode The code of the method for which to get the dependencies.
 	 * @param className The name of the class which contains *MethodCode*.
@@ -2481,7 +2479,14 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		var javaFile = new File(FileUtil.getProjectLocation(projectPath) + "/src/" + className + ".java");
 		var destination = new File(FileUtil.getProjectLocation(projectPath) + "/tests/" + className + ".java");
 		if (!javaFile.exists()) {
-			return "";
+			if (FileHandler.isSPL(projectPath)) {
+				javaFile = new File(FileUtil.getProjectLocation(projectPath) + "/src_gen/" + className + ".java");
+				if (!javaFile.exists()) {
+					return "";
+				}
+			} else {
+				return "";
+			}
 		}
 		FileHandler.deleteFile(this.projectPath, className);
 		try {
@@ -2607,7 +2612,14 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		var javaFile = new File(FileUtil.getProjectLocation(projectPath) + "/src/" + className + ".java");
 		var destination = new File(FileUtil.getProjectLocation(projectPath) + "/tests/" + className + ".java");
 		if (!javaFile.exists()) {
-			return "";
+			if (FileHandler.isSPL(projectPath)) {
+				javaFile = new File(FileUtil.getProjectLocation(projectPath) + "/src_gen/" + className + ".java");
+				if (!javaFile.exists()) {
+					return "";
+				}
+			} else {
+				return "";
+			}
 		}
 		FileHandler.deleteFile(this.projectPath, className);
 		try {

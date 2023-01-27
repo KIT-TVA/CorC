@@ -2,6 +2,7 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -190,8 +191,23 @@ public class FileHandler {
 	}
 	
 	public static boolean isSPL(final URI projectPath) {
-		final var project = FileUtil.getProject(projectPath);
-		
+		final var projectLocation = FileUtil.getProjectLocation(projectPath);
+		final var modelFile = new File(projectLocation + "/model.xml");
+		final List<String> lines;
+			
+		try {
+			lines = Files.readAllLines(Paths.get(modelFile.getPath()), StandardCharsets.UTF_8);
+			for (var line : lines) {
+				if (line.equals("<featureModel>")) {
+					return true;
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+		/*
 		try {
 			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
 				return true;
@@ -201,7 +217,8 @@ public class FileHandler {
 		} catch (CoreException e) {
 			e.printStackTrace();
 			return false;
-		}
+		}*/
+		
 	}
 	
 	public static boolean saveConfig(final URI projectPath, final CbCFormula formula, final Features features, boolean isTestCase) {

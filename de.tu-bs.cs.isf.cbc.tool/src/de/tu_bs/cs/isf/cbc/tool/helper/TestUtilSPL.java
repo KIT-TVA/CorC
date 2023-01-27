@@ -76,7 +76,9 @@ public class TestUtilSPL {
 		return condition;
 	}
 	
-	private static JavaVariables readFieldsFromClass(String className, final String uri) {
+	public static JavaVariables readFieldsFromClass(String className, final String uri) {
+		final List<String> addedFields = new ArrayList<String>();
+		
 		JavaVariables vars = CbcmodelFactory.eINSTANCE.createJavaVariables();
 		var fileHandler = new FileUtil(uri);
 		File file = fileHandler.getClassFile(className);
@@ -90,6 +92,12 @@ public class TestUtilSPL {
 			vars = readFieldsFromClass(inheritedClassName, uri);
 		}
 		int i = 1;
+		for (int c = 0; c < lines.size(); c++) {
+			if (lines.get(c).trim().startsWith("public") && lines.get(c).trim().endsWith(";")) {
+				i = c;
+				break;
+			}
+		}
 		while (lines.get(i).contains(";")) {
 			String field = lines.get(i++).replace(";", "");
 			Field f = CbcclassFactory.eINSTANCE.createField();
@@ -126,6 +134,10 @@ public class TestUtilSPL {
 
 			f.setType(split[pointer++]);
 			f.setName(split[pointer]);
+			if (addedFields.contains(f.getType() + " " + f.getName())) {
+				continue;
+			}
+			addedFields.add(f.getType() + " " + f.getName());
 			if (!f.getType().trim().equals("")) {
 				vars.getFields().add(f);
 			}
