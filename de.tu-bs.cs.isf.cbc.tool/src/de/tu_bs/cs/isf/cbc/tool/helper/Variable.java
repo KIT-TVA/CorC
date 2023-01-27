@@ -58,6 +58,19 @@ public class Variable {
 		return allVars;
 	}
 	
+	// TODO: Test this
+	public static boolean containsVarDefinition(String code, String varName) {
+		int start = code.indexOf(varName);
+		if (start == -1) 
+			return false;
+		while (Character.isWhitespace(code.charAt(--start)));
+		if (Character.isAlphabetic(code.charAt(start))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public static List<Variable> getAllVars(final JavaVariables vars) {
 		List<Variable> allVars = new ArrayList<Variable>();
 		for (var v : vars.getFields()) {

@@ -50,6 +50,7 @@ import org.eclipse.swt.graphics.RGB;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
@@ -195,7 +196,10 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				localVariables.add(currentVariable.getName().replace("non-null", ""));
 			}
 		}
-		
+		var tmp2 = vars.getParams();
+		for (Parameter v : tmp2) {
+			int a = 0;
+		}
 		for (Field field : vars.getFields()) {
 			if (field.getName() == null) {
 				continue;
@@ -901,9 +905,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * @param gVars
 	 * @return the generated java code if the method wasn't generated before. Else it returns an empty string.
 	 */
-	private String generateCode(CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString, String globalVariables, List<String> gVars, boolean onlyMethod) {	
-		String modifiableVariables = Parser.getModifieableVarsFromConditionExceptLocals(formula.getStatement().getPostCondition(), vars, null, returnVar);
-		modifiableVariables = modifiableVariables.replaceAll("\\)", "").replaceAll("\\(", "");	
+	private String generateCode(CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString, String globalVariables, List<String> gVars, boolean onlyMethod, String customReturnName) {	
 		String existingCode = "";
 		String constructorCode;
 		StringBuffer code = new StringBuffer();
@@ -959,11 +961,12 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			if(!var.contains("old_")) {
 				// initialize return value if present because the compiler could be
 				// throwing not initialized exception when if branches are present
-				if (var.split("\\s")[1].equals("result")) {
+				/*if (var.split("\\s")[1].equals("result")) {
 					var defaultValue = genDefaultInputForVar(var, null).get(0);
 					var = var + " = " + defaultValue;
-				}
-				code.append(var + ";\n");
+				}*/
+				var defaultValue = genDefaultInputForVar(var, null).get(0);
+				code.append(var + " = " + defaultValue + ";\n");
 				code = insertTabs(code);
 			}
 		}
@@ -985,6 +988,15 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				s = ConstructCodeBlock.useRenamingCondition(s);
 			code.append(s); 
 		}
+		
+		if (!customReturnName.isEmpty()) {
+			var end = code.lastIndexOf("return");
+			var newCode = code.toString().substring(0, end);
+			newCode += "result = " +  customReturnName + ";\n" 
+			+ "\t\t" + code.toString().substring(end, code.toString().length());
+			code = new StringBuffer(newCode);
+		}
+		
 		
 		//Pattern void_pattern = Pattern.compile("(?<![a-zA-Z0-9])(void)(?![a-zA-Z0-9])");
 		//Pattern return_pattern = Pattern.compile("(?<![a-zA-Z0-9])(return)(?![a-zA-Z0-9])");
@@ -2060,9 +2072,30 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			signatureString = formula.getMethodObj().getSignature();
 		}
 		
+		// TODO: Fix RETURN Variable appearing in parameters
+		var customReturnName = "";
+		/*
+		for (var v : vars.getParams()) {
+			final var name = v.getName().replace("non-null", "");
+			if (!signatureString.contains(name)) {
+				// means this is the RETURN var
+				localVariables.add(v.getType() + " " + name);
+				if (!name.equals("result")) {
+					localVariables.add(v.getType() + " result");
+					customReturnName = name;
+				}
+			}
+		}*/
+		
 		for(int i = 0; i < vars.getVariables().size(); i++) {
 			JavaVariable currentVariable = vars.getVariables().get(i);
 			if (currentVariable.getKind() == VariableKind.RETURN) {
+				var varName = currentVariable.getName().replace("non-null", "").split("\\s")[1];
+				var varType = currentVariable.getName().split("\\s")[0];
+				if (!varName.equals("result")) {
+					localVariables.add(varType + " result");
+					customReturnName = varName;
+				}
 				localVariables.add(currentVariable.getName().replace("non-null", ""));
 				counter++;
 				if(!signatureString.substring(0, signatureString.indexOf('(')).contains(currentVariable.getName().replace("non-null", "").trim().split("\\s")[0])) {
@@ -2103,7 +2136,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			}
 		}
 		
-		return generateCode(formula, globalConditions, renaming, localVariables, returnVariable, signatureString, globalVariables, vars.getFields().stream().map(f -> f.getType() + " " + f.getName()).toList(), onlyMethod);
+		return generateCode(formula, globalConditions, renaming, localVariables, returnVariable, signatureString, globalVariables, vars.getFields().stream().map(f -> f.getType() + " " + f.getName()).toList(), onlyMethod, customReturnName);
 	}
 	
 	private String genCode(Diagram diagram) {
@@ -3126,10 +3159,49 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			return "";
 		}	
 		
-		final var code = classExists(className);
+		var code = classExists(className);
 		if (code.isEmpty()) {
 			return "";
 		}
+		
+		String signature = "";
+		String params = "";
+		// TODO: Check if this works for all possibilities
+		while(code.length() > 0) {
+			int start = code.indexOf(methodName);
+			if (start == -1) {
+				break;
+			}
+			int s = start - 1;
+			while (s > 0 && Character.isWhitespace(code.charAt(s--)));
+			if (!Character.isAlphabetic(code.charAt(++s))) {
+				code = code.substring(start + methodName.length(), code.length());
+				continue;
+			}
+			int end = code.substring(start, code.length()).indexOf('{') + start;
+			if (start == -1 || end == -1) {
+				return "";
+			}
+			start = code.substring(0, end).lastIndexOf(';');
+			int cmp = code.substring(0, end).lastIndexOf('}');
+			if (cmp > start) {
+				start = cmp;
+			}
+			signature = code.substring(start, end).replaceAll("[^\\w\\s\\(\\)\\_\\,\\[\\]]", "").trim();
+			// check if we found the right signature
+			params = signature.substring(signature.indexOf('(') + 1, signature.lastIndexOf(')'));
+			long actualParams = params.chars().filter(c -> c == ',').count() + 1;
+			if (params.length() == 0) {
+				actualParams = 0;
+			}
+			if (actualParams == numParams) {
+				return signature;
+			}
+			code = code.substring(end + 1, code.length());
+		}
+		return signature;
+		
+		/*
 		// parse signature
 		var patternStr = methodName + "\\(";
 		for (int i = 0; i < numParams; i++) {
@@ -3150,7 +3222,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			sig = sig.substring(sig.lastIndexOf('\n'), sig.length()).trim();
 			return sig;
 		}
-		return "";
+		return "";*/
 	}
 	
 	/**
@@ -3167,7 +3239,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		} else {
 			diagram = loadDiagramFromClass(className, methodName);
 			if (diagram == null) {
-				return "";
+				// try to load it in from java src
+				var sig = getSignatureOfLoadedFile(className, methodName, numParams);
+				return sig;
 			}
 
 			JavaVariables vars = null;
@@ -3256,11 +3330,13 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		
 		if (isExternalClass(className)) {
 			return getCodeOfSignatureOfLoadedFile(className, signature, isConstructor);
+		} else if (isConstructor) {
+			return getConstructorCode(signature);
 		} else {
 			diagram = loadDiagramFromClass(className, getMethodNameFromSig(signature));
 			if (diagram == null) {
-				// means the 'method' is actually a constructor
-				return getConstructorCode(signature);
+				// try to load the code from the java src folder
+				return getCodeOfSignatureOfLoadedFile(className, signature, isConstructor);
 			}
 			JavaVariables vars = null;
 
@@ -3272,13 +3348,16 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			}	
 
 			int diagramParams = 0;
-			for (var v : vars.getVariables()) {
-				if (v.getKind().equals(VariableKind.PARAM)) {
-					diagramParams++;
+			// TODO: Check if this works for all cases
+			if (vars != null) {
+				for (var v : vars.getVariables()) {
+					if (v.getKind().equals(VariableKind.PARAM)) {
+						diagramParams++;
+					}
 				}
-			}
-			if (diagramParams == getNumParamsFromSig(signature)) {
-				return genCode(diagram, true);
+				if (diagramParams == getNumParamsFromSig(signature)) {
+					return genCode(diagram, true);
+				}
 			}
 			// this means the diagram is not the method we are looking for.
 			// the method must be in code which was given in src.
@@ -3494,7 +3573,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			preCon = "";
 		}
 		// add invariants 
-		List<String> invariants = globalConditions.getConditions().stream()
+		List<String> invariants = globalConditions == null ? new ArrayList<String>() : globalConditions.getConditions().stream()
 				.map(c -> c.getName())
 				.toList();
 		String invariantsStr = "";

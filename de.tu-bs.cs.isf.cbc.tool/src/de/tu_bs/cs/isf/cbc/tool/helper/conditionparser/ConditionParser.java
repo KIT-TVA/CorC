@@ -37,8 +37,49 @@ public class ConditionParser {
 		nextToken = null;
 	}
 	
-	public Node parse(String postCondition) {
+	// TODO: Check this for all possibilities
+	private String removeCorCKeywords(String postCondition) {
+		int start = postCondition.indexOf("<");
+		int end = postCondition.indexOf(">");
+		String toCheck = postCondition;
+		String word = null;
+		int len = 0;
+		
+		while (start != -1 && end != -1) {
+			if (start >= end) {
+				break;
+			}
+			//check if there is a single word between '<' and '>'
+			word = toCheck.substring(start + 1, end);
+			len = word.length();
+			word = word.replaceAll("\\W", word);
+			if (word.length() == len) {
+				// means it is a keyword
+				if (postCondition.charAt(start + postCondition.length() - toCheck.length() - 1) == '.') {
+					start--;
+				}
+				postCondition = postCondition.substring(0, start + postCondition.length() - toCheck.length()) 
+						+ postCondition.substring(end + 1 + postCondition.length() - toCheck.length(), postCondition.length());
+			}
+			toCheck = toCheck.substring(end + 1, toCheck.length());
+			start = toCheck.indexOf("<");
+			end = toCheck.indexOf(">");
+		}
+		return postCondition;
+	}
+	
+	private String prepareCondition(String postCondition) {
+		// TODO: Implement support for CorC specific keywords of the form '<keyword>'
+		postCondition = removeCorCKeywords(postCondition);
 		postCondition = postCondition.replaceAll("\\\\result", "result");
+		postCondition = postCondition.replaceAll("\\r", "");
+		postCondition = postCondition.replaceAll("\\n", "");
+		postCondition = postCondition.replaceAll("\\t", "");
+		return postCondition;
+	}
+	
+	public Node parse(String postCondition) {
+		postCondition = prepareCondition(postCondition);
 		tokenizer = new Tokenizer(postCondition);
 		//var allTokens = tokenizer.genTokens();
 		nextToken();
@@ -134,7 +175,7 @@ public class ConditionParser {
 		{
 			opNode.addLeft(curToken);
 			if (nextToken == null || nextToken.getType() != TokenType.OP) {
-				if (nextToken != null && nextToken.getValue().startsWith("-")) {
+				if (nextToken != null && nextToken.getValue().startsWith("-") && !nextToken.getValue().contains(">")) {
 					nextToken.setValue(nextToken.getValue().substring(1, nextToken.getValue().length()));
 					opNode.addOperator(new Token(TokenType.OP, "-"));
 					nextToken();

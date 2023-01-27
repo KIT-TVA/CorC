@@ -48,6 +48,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.TokenType;
 import de.tu_bs.cs.isf.cbc.tool.helper.Tokenizer;
 import de.tu_bs.cs.isf.cbc.tool.helper.Util;
 import de.tu_bs.cs.isf.cbc.tool.helper.Variable;
+import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.ConditionParser;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
@@ -90,7 +91,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
 			if (bo != null && (bo.getClass().equals(AbstractStatementImpl.class) || bo instanceof SkipStatement
-					|| bo instanceof ReturnStatement)) {
+					|| bo instanceof ReturnStatement || bo instanceof MethodStatement)) {
 				AbstractStatement statement = (AbstractStatement) bo;
 				if (statement.getRefinement() == null) {
 					ret = true;
@@ -101,7 +102,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	}
 
 	@Override
-	public void execute(ICustomContext context, IProgressMonitor monitor) {
+	public void execute(ICustomContext context, IProgressMonitor monitor) {	
 		Console.clear();
 		Console.println("Start testing...\n");
 		final long startTime = System.nanoTime();
@@ -644,7 +645,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			}
 			cur = cur.eContainer();
 		}
-		final List<String> invariants = conds.getConditions().stream()
+		final List<String> invariants = conds == null ? new ArrayList<String>() : conds.getConditions().stream()
 				.map(c -> c.getName())
 				.toList();
 		for (int i = 0; i < invariants.size(); i++) {
@@ -821,9 +822,9 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		condition = removeFloatingClosingBrackets(condition);
 		condition = removeDotIdentifiers(condition, className);
 		return condition;
-	}
+	}	
 	
-	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement) throws TestAndAssertionGeneratorException, TestStatementException {
+	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement) throws TestAndAssertionGeneratorException, TestStatementException {		
 		final String className;
 
 		if (formula.getClassName().isEmpty()) {
@@ -902,7 +903,11 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		var fullMethod = constructDummyMethod(code, javaCondition, data);
 		// insert statement to the code
 		if (isReturnStatement) {
-			fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), "result = " + statement.getName().trim());
+			if (Variable.containsVarDefinition(code, "result")) {
+				fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), "result = " + statement.getName().trim());
+			} else {
+				fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), "var result = " + statement.getName().trim());
+			}
 		} else {
 			fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), statement.getName().trim());
 		}

@@ -47,6 +47,24 @@ public class Tokenizer {
 		return new Token(TokenType.NUMBER, number);
 	}
 	
+	private String makeInnerBracket() {
+		String innerBracket = "";
+		if (current != '[') {
+			return innerBracket;
+		}
+		while (current != ']') {
+			innerBracket += current;
+			getNext();
+		}
+		innerBracket += current;
+		getNext();
+		return innerBracket;
+	}
+	
+	private boolean isArray() {
+		return current == '[';
+	}
+	
 	/**
 	 * Everything that starts with a word is considered an identifier (arrays, methodcalls, ...)
 	 * @return
@@ -54,11 +72,11 @@ public class Tokenizer {
 	private Token makeIdentifier() {
 		String value = "";
 		while (hasChar()) {
-			if (bracketCount(value) > 0
+			if (isArray()) {
+				value += makeInnerBracket();
+			} else if (bracketCount(value) > 0
 					|| Character.isAlphabetic(current) 
 					|| current == '_' 
-					|| current == '[' 
-					|| current == ']'
 					|| current == '('
 					|| current == ','
 					|| current == '.') {
