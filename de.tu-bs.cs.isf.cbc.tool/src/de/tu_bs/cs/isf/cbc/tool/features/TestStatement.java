@@ -891,6 +891,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		// generate dependencies as well (method call ect.)
 		var innerMethod = "{\n" + code + "\n}";
 		var codeWoHelper = innerMethod.replaceAll(Pattern.quote(STATEMENT_PH), statement.getName().trim());
+		codeWoHelper = codeWoHelper.replaceAll("self\\.", "this.");
 		codeWoHelper = codeWoHelper.substring(0, codeWoHelper.indexOf(PRECHECKS_START)) + codeWoHelper.substring(codeWoHelper.indexOf(PRECHECKS_END) + PRECHECKS_END.length());
 		//codeWoHelper = codeWoHelper.substring(0, codeWoHelper.length() - 1) + 
 		var dependencies = generator.genAllDependenciesOfMethod(codeWoHelper, className, statement.getPostCondition().getName());	
@@ -913,6 +914,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		} else {
 			fullMethod = fullMethod.replaceAll(Pattern.quote(STATEMENT_PH), statement.getName().trim());
 		}
+		fullMethod = fullMethod.replaceAll("self\\.", "this.");
 		// place dummy method inside code
 		placeDummyMethod(dependencies, className, innerMethod.replaceAll(Pattern.quote(STATEMENT_PH), statement.getName().trim()), fullMethod);	
 		// compile

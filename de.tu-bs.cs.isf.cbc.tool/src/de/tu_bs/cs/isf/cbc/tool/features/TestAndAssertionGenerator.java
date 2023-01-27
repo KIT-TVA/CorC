@@ -212,7 +212,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		String code2 = genCode(methodToGenerate);		
 		var className = code2.split("public\\sclass\\s", 2)[1].split("\\s", 2)[0];
 		className = className.replaceAll("\\{", "");		
-		var code = genCode(methodToGenerate, true);			
+		var code = genCode(methodToGenerate, true);
+		code = code.replaceAll("self\\.", "this.");
 		List<String> classCodes; 
 		try {
 			classCodes = genAllDependenciesOfMethod(code, className, formula.getStatement().getPostCondition().getName());
