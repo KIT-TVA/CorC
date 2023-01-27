@@ -59,6 +59,10 @@ public class MethodHandler {
 	}
 	
 	public static String getSignatureFromCode(String method) {
+		if (method.indexOf('{') == -1) {
+			// TODO: This might lead to problems, maybe throw an exception if this happens.
+			return method;
+		}
 		method = method.substring(0, method.indexOf('{'));
 		method = method.trim();
 		return method;

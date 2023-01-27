@@ -68,6 +68,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.ConditionHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputDataTupel;
+import de.tu_bs.cs.isf.cbc.tool.helper.JavaConditionReworked;
 import de.tu_bs.cs.isf.cbc.tool.helper.MethodHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolver;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolverException;
@@ -79,6 +80,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.TestUtilSPL;
 import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.ConditionParser;
+import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.Node;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
@@ -123,6 +125,23 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
+		/*
+			Node tree;
+			try {
+				tree = ConditionHandler.parseCondition(projectPath, "(\\forall int k; (0 <= k & k < \\old(data).length -> (\\exists int z; (0 <= z & z < data.length & data[z] = \\old(data)[k]))))& ((\\forall int k; (0 <= k & k < data.length-1 -> (data[k] >= data[k+1]))) | (\\forall int k; (0 <= k & k < data.length-1 -> (data[k] <= data[k+1]))))", "", null);
+				var tmpss = new JavaConditionReworked(tree);
+				var llwlwlw = tmpss.get();
+				var sjdfjsdjf = 2;
+			} catch (UnexpectedTokenException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		*/
+	
+		
+		
+		
+		
 		this.returnVariable = null;
 		final URI uri = getDiagram().eResource().getURI();
 		final List<String> globalVars = new ArrayList<String>();
@@ -178,10 +197,12 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			if(currentVariable.getKind() == VariableKind.RETURN) {
 				counter++;
 				if(!signatureString.substring(0, signatureString.indexOf('(')).contains(currentVariable.getName().replace("non-null", "").trim().split("\\s")[0])) {
+					Console.clear();
 					Console.println("Method return type and variable type does not match.");
 					return;
 				}
 				if(counter > 1) {
+					Console.clear();
 					Console.println("Too much variables of kind RETURN.");
 					return;
 				}
@@ -1405,11 +1426,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		var translatedPostCondition = ConditionHandler.translateConditionToJava(projectPath, postCondition, instanceName, inputs.get(0).getInputDataTupel().getGlobalVars());
 				
 		StringBuffer code = new StringBuffer();
-		code.append("import java.util.stream.IntStream;\n");
-		code.append("import org.testng.ITestContext;\n");
-		code.append("import org.testng.Assert;\n");
-		code.append("import org.testng.annotations.Test;\n\n");
-
+		code.append(ClassHandler.getImportsStr());
 		code.append("public class " + className + "Test {\n");
 		code.append("\t" + "private " + className + " " + instanceName + ";\n\n");
 		for (var test : inputs) {
@@ -1472,7 +1489,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			// add post condition
 			int branchCounter = 0;
 			var pred = translatedPostCondition.getNext();
+			//var translatedPostConditionNew = ConditionHandler.translateConditionToJavaNew(projectPath, postCondition, instanceName, inputs.get(0).getInputDataTupel().getGlobalVars());
 			while (pred != null) {
+				//code.append(translatedPostConditionNew.getWithContext(test.getTestNumber(), inputs, instanceName));
 				code.append(pred.getRepWithContext(test.getTestNumber(), branchCounter, inputs, instanceName));
 				branchCounter++;
 				pred = translatedPostCondition.getNext();
@@ -1625,10 +1644,12 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				localVariables.add(currentVariable.getName().replace("non-null", ""));
 				counter++;
 				if(!signatureString.substring(0, signatureString.indexOf('(')).contains(currentVariable.getName().replace("non-null", "").trim().split("\\s")[0])) {
+					Console.clear();
 					Console.println("Method return type and variable type does not match.");
 					return "";
 				}
 				if(counter > 1) {
+					Console.clear();
 					Console.println("Too much variables of kind RETURN.");
 					return "";
 				}

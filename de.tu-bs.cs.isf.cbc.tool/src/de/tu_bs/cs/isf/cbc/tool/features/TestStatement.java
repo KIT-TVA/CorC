@@ -44,6 +44,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.ConditionHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.JavaCondition;
+import de.tu_bs.cs.isf.cbc.tool.helper.JavaConditionReworked;
 import de.tu_bs.cs.isf.cbc.tool.helper.MethodHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolver;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolverException;
@@ -409,39 +410,15 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 					+ "\n"
 					+ branch.getRep()
 					+ code.substring(code.indexOf(STATEMENT_PH) + STATEMENT_PH.length(), code.length());
-			/*
-			if (branch.getType() == BranchType.NONE) {
-				for (var assertion : branch.getAssertions()) {
-					code = insertAssertion(code, innerMethod, assertion);
-				}
-			} else if (branch.getType() == BranchType.IMPL) {
-				for (var assertion : branch.getAssertions()) {
-					code = insertBranch(code, innerMethod, branch.getBranchCondition(), assertion);
-				}
-			} else if (branch.getType() == BranchType.EQUI) {
-				for (var assertion : branch.getAssertions()) {
-					code = insertBranch(code, innerMethod, branch.getBranchCondition(), assertion);
-					String otherConditions = branch.getAssertions().stream().reduce((f, s) -> f + " && " + s).get();
-					code = insertBranch(code, innerMethod, otherConditions, branch.getBranchCondition());
-				}
-			} else if (branch.getType() == BranchType.EXISTS) {
-				code = insertExists(code, innerMethod, branch);
-			} else if (branch.getType() == BranchType.FORALL) {
-				code = insertForAll(code, innerMethod, branch);
-			}*/
 		}
 		code += "\n}";
 		code = CodeHandler.indentCode(code, 1);
 		return code;
 	}
-	
+
 	private List<String> placeDummyMethod(final List<String> dependencies, final String testClassName, final String innerMethod, String fullMethod) {
 		final var code = new StringBuffer();
-		code.append("import org.testng.ITestContext;\n");
-		code.append("import org.testng.Assert;\n");
-		code.append("import org.testng.annotations.Test;\n");
-		code.append("import java.util.Arrays;\n");
-		code.append("import java.util.stream.IntStream;\n\n");
+		code.append(ClassHandler.getImportsStr());
 		
 		for (int i = 0; i < dependencies.size(); i++) {
 			if (dependencies.get(i).isBlank()) {
@@ -451,12 +428,31 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			if (className.equals(testClassName)) {
 				dependencies.set(i, dependencies.get(i).replaceAll(Pattern.quote(innerMethod), ""));
 				// replace return statements in test
-				fullMethod = fullMethod.replaceAll("return\\s", "//[REMOVED BY GENERATOR] return ");
+				fullMethod = replaceMethodReturns(fullMethod);
+				//fullMethod = fullMethod.replaceAll("return\\s", "//[REMOVED BY GENERATOR] return ");
 				var stripped = dependencies.get(i).strip();
 				dependencies.set(i, code.toString() + stripped.substring(0, stripped.length() - 1) + fullMethod + "\n}");
 			}
 		}
 		return dependencies;
+	}
+	
+	private String replaceMethodReturns(String code) {
+		int offset = 0;
+		String curCode = code;
+		
+		while (curCode.contains("return ")) {
+			int retIndex = curCode.indexOf("return ");
+			String blockCode = CodeHandler.getCurrentBlock(code, retIndex + offset);
+			if (!blockCode.contains("Supplier<Boolean>")) {
+				code = code.substring(0, retIndex + offset)
+						+ "//[REMOVED BY GENERATOR] return "
+						+ code.substring(retIndex + offset + "return ".length(), code.length());
+			}
+			curCode = curCode.substring(retIndex + "return ".length(), curCode.length());
+			offset = Math.abs(code.length() - curCode.length());
+		}
+		return code;
 	}
 	
 	private boolean compile(final List<String> dependencies, final String className, final String methodName, final TestAndAssertionGenerator generator) throws TestAndAssertionGeneratorException {		

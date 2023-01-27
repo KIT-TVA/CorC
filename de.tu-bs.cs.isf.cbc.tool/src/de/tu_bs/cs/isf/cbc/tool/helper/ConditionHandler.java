@@ -32,6 +32,12 @@ public final class ConditionHandler {
 		return javaCondition;
 	}
 	
+	public static JavaConditionReworked translateConditionToJavaNew(final URI projectPath, final String condition, final String instanceName, final List<InputData> gVars) throws UnexpectedTokenException {
+		var tree = parseCondition(projectPath, condition, instanceName, gVars);
+		JavaConditionReworked javaCondition = new JavaConditionReworked(tree);
+		return javaCondition;
+	}
+	
 	public static String cleanCondition(final URI projectPath, String condition, final String className) {
 		condition = translateCondition(projectPath, condition, "this", new ArrayList<InputData>(), false);
 		condition = CodeHandler.removeFunctions(condition);

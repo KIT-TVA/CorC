@@ -65,7 +65,8 @@ public class ClassHandler {
 	
 	public void setup() throws IdentifierNotFoundException {
 		String classCode;
-		List<String> gVars;
+		final List<String> gVars;
+		final List<String> featuregVars = new ArrayList<String>();
 		if (this.projectUri == null) {
 			genEmptyConstructor();
 		}
@@ -81,6 +82,7 @@ public class ClassHandler {
 		} else {
 			gVars = getGvarsOfCbCClass(this.projectUri, className);
 			if (FileHandler.isSPL(projectUri)) {
+				featuregVars.addAll(gVars);
 				gVars.addAll(getNewSPLVars(gVars));
 			}
 		}
@@ -100,6 +102,10 @@ public class ClassHandler {
 		}
 		// generate constructor
 		this.addMethod(className, generateConstructor(className, gVars));
+		// generate constructor for feature if present
+		if (FileHandler.isSPL(projectUri) && featuregVars.hashCode() != gVars.hashCode()) {
+			this.addMethod(className, generateConstructor(className, featuregVars));
+		}
 		// also generate the default constructor if the last constructor contains params
 		if (gVars.size() > 0) {
 			genEmptyConstructor();
@@ -454,5 +460,16 @@ public class ClassHandler {
 			}
 		}
 		return null;
+	}
+	
+	public static String getImportsStr() {
+		final var code = new StringBuffer();
+		code.append("import org.testng.ITestContext;\n");
+		code.append("import org.testng.Assert;\n");
+		code.append("import org.testng.annotations.Test;\n");
+		code.append("import java.util.Arrays;\n");
+		code.append("import java.util.stream.IntStream;\n");
+		code.append("import java.util.function.Supplier;\n\n");
+		return code.toString();
 	}
 }

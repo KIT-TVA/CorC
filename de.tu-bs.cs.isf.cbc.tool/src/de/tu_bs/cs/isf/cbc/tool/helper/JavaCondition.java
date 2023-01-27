@@ -2,6 +2,7 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

@@ -358,4 +358,37 @@ public final class CodeHandler {
 		}
 		return indicies;
 	}
+
+	/**
+	 * Gets the current block code at position *index* and return it including
+	 * everything on the same line as the opening bracket of the block.
+	 * @param code
+	 * @param index
+	 * @return
+	 */
+	public static String getCurrentBlock(String code, int index) {
+		String blockCode = "";
+		if (index < 0 || code.isEmpty()) {
+			return "";
+		}
+		String helper = "";
+		int blockIndex = 0;
+		for (int i = index; i >= 0; i--) {
+			helper += code.charAt(i);
+			if (countBrackets(helper, '{') == 1) {
+				blockIndex = i;
+				break;
+			}
+		}
+		helper = code.substring(0, blockIndex);
+		helper = helper.substring(helper.lastIndexOf("\n") + 1, helper.length()).trim();
+		blockCode += helper;	
+		for (int i = blockIndex; i < code.length(); i++) {
+			blockCode += code.charAt(i);
+			if (countBrackets(blockCode, '{') == 0) {
+				break;
+			}
+		}
+		return blockCode;
+	}
 }
