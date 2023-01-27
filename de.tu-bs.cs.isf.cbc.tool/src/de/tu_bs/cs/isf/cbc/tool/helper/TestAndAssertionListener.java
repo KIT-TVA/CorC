@@ -279,6 +279,9 @@ public class TestAndAssertionListener implements ITestListener {
 		  }
 		  
 		  for (var v : varsWithValues.keySet()) {
+			  if (varsWithValues.get(v) == null) {
+				  continue;
+			  }
 			  if (varsWithValues.get(v).contains(",")) {
 				  // arrays can become quite big and that would clutter the error display
 				  methodCode = "\t(" + v + " = " + varsWithValues.get(v) + ")\n" + methodCode;

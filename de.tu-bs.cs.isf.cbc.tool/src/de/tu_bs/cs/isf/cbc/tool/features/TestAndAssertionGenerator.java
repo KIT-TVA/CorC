@@ -242,8 +242,10 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		final var originalMethods = new ArrayList<MethodHandler>();
 		final var abstractMethods = new ArrayList<MethodHandler>();
 		if (FileHandler.isSPL(uri)) {
-			TestUtilSPL.handleOriginalCode(this.getFeatureProvider(), projectPath, code, features, originalMethods, formula.getMethodObj().getSignature(), vars);
-			code = code.replaceAll("original\\(", originalMethods.get(0).getMethodName() + "(");
+			if (code.contains("original(")) {
+				TestUtilSPL.handleOriginalCode(this.getFeatureProvider(), projectPath, code, features, originalMethods, formula.getMethodObj().getSignature(), vars);
+				code = code.replaceAll("original\\(", originalMethods.get(0).getMethodName() + "(");
+			}
 			// TODO: ignore methods that are not abstract
 			TestUtilSPL.handleAbstractMethodCalls(this.getFeatureProvider(), projectPath, code, features, abstractMethods);
 			for (var originalMethod : originalMethods) {
@@ -251,8 +253,11 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			}
 		}
 		List<ClassHandler> classCodes; 
-		final String postCon = ConditionHandler.replaceResultKeyword(formula.getStatement().getPostCondition().getName(), returnVariable);
-		
+		String postCon = ConditionHandler.replaceResultKeyword(formula.getStatement().getPostCondition().getName(), returnVariable);
+		if (FileHandler.isSPL(projectPath)) {
+			boolean isPreCon = false;
+			postCon = TestUtilSPL.handleOriginalCondition(this.getFeatureProvider(), postCon, isPreCon, features);
+		}	
 		classCodes = genAllDependenciesOfMethod(code, methodSig, className, postCon);
 		if (FileHandler.isSPL(uri)) {
 			TestUtilSPL.addNewMethods(classCodes, className, originalMethods, abstractMethods);
@@ -270,7 +275,12 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		List<TestCaseData> inputs;
 		String testFileContent;
 		
-		inputs = genInputs(ConditionParser.parseConditions(globalConditions, formula.getStatement().getPreCondition()), vars, code2, signatureString, returnVariable);
+		String preCon = ConditionParser.parseConditions(globalConditions, formula.getStatement().getPreCondition());
+		if (FileHandler.isSPL(projectPath)) {
+			boolean isPreCon = true;
+			postCon = TestUtilSPL.handleOriginalCondition(this.getFeatureProvider(), preCon, isPreCon, features);
+		}	
+		inputs = genInputs(preCon, vars, code2, signatureString, returnVariable);
 		if (inputs.isEmpty()) {
 			Console.println("TestAndAssertionGeneratorInfo: There are no controllable inputs for method " + methodToGenerate.getName() + ".");
 			Console.println("Nothing to test.");

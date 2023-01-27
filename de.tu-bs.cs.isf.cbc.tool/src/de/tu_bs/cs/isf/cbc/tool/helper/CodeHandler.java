@@ -1,6 +1,7 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -284,8 +285,12 @@ public final class CodeHandler {
 		
 		for (var fieldName : classByName.getFields()) {
 			var occurences = findOccurences(code, fieldName.getName());
-			for (int o : occurences) {
-				o += offset;
+			int o;
+			for (int i = 0; i < occurences.size(); i++) {
+				o = occurences.get(i) + offset;
+				if (isIdentifierDefinition(code, o)) {
+					continue;
+				}
 				code = code.substring(0, o) 
 						+ instanceName + "."
 						+ code.substring(o, code.length());
@@ -293,6 +298,33 @@ public final class CodeHandler {
 			}
 		}
 		return code;
+	}
+	
+	public static boolean isIdentifierDefinition(String code, int identPos) {
+		if (identPos < 0 || code.isEmpty()) {
+			return false;
+		}
+		code = code.substring(0, identPos).trim();
+		int end = code.length();
+		if (end == -1) {
+			return false;
+		}
+		code = code.substring(0, end);
+		int typePos = end-1;
+		//String lmao = "";
+		while (Character.isJavaIdentifierPart(code.charAt(typePos)) || Arrays.asList('[', ']').contains(code.charAt(typePos))) {
+			//lmao += code.charAt(typePos);
+			typePos--;
+		}
+		//char test = code.charAt(typePos);
+		if (typePos == end-1) {
+			return false;
+		}
+		String hsdfjsdf = code.substring(typePos, code.length());
+		if (Character.isSpace(code.charAt(typePos))) {
+			return true;
+		}
+		return false;
 	}
 
 	private static List<Integer> findOccurences(String code, final String word) {

@@ -734,9 +734,11 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		}
 		final var originalMethods = new ArrayList<MethodHandler>();
 		final var abstractMethods = new ArrayList<MethodHandler>();
-		if (features != null && code.contains("original") || statementName.contains("original")) {
-			TestUtilSPL.handleOriginalCode(fp, projectPath, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, originalMethods, formula.getMethodObj().getSignature(), vars);
-			code = code.replaceAll("original\\(", originalMethods.get(0).getMethodName() + "(");
+		if (FileHandler.isSPL(projectPath)) {
+			if (code.contains("original") || statementName.contains("original")) {
+				TestUtilSPL.handleOriginalCode(fp, projectPath, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, originalMethods, formula.getMethodObj().getSignature(), vars);
+				code = code.replaceAll("original\\(", originalMethods.get(0).getMethodName() + "(");
+			}
 			// TODO: ignore methods that are not abstract
 			TestUtilSPL.handleAbstractMethodCalls(fp, projectPath, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, abstractMethods);
 			for (var originalMethod : originalMethods) {
