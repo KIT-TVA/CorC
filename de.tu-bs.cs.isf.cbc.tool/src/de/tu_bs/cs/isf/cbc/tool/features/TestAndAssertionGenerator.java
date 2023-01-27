@@ -142,6 +142,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
+		this.returnVariable = null;
 		final URI uri = getDiagram().eResource().getURI();
 		final List<String> globalVars = new ArrayList<String>();
 		String signatureString = "";
@@ -216,6 +217,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		}			
 		long startTime = System.nanoTime();	
 		Console.clear();	
+		Console.println("Start testing...\n");  
 		Features features = null;
 		if (FileHandler.isSPL(uri)) {
 			features = new Features(uri);
@@ -296,8 +298,6 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		testFileContent = genTestCases(className, inputs, postCon, globalConditions, formula);
 		testFileContent = CodeHandler.addInstanceNameToFields(ClassHandler.getClassByName(classCodes, className), testFileContent);
 		FileHandler.writeToFile(this.projectPath, className + "Test", testFileContent);
-		Console.clear();
-		Console.println("Start testing...");  
 		executeTestCases("file://" + FileUtil.getProjectLocation(uri) + "/tests/", className + "Test", globalVars, inputs);
 		return true;
 	}
