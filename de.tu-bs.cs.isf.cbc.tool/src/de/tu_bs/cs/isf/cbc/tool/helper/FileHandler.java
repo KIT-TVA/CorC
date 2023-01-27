@@ -182,6 +182,8 @@ public class FileHandler {
 	
 	public static boolean isSPL(final URI projectPath) {
 		final var projectLocation = FileUtil.getProjectLocation(projectPath);
+		final var project = FileUtil.getProject(projectPath);
+		/*
 		final var modelFile = new File(projectLocation + "/model.xml");
 		final List<String> lines;
 			
@@ -196,8 +198,7 @@ public class FileHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
-		/*
+		return false;*/
 		try {
 			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
 				return true;
@@ -207,8 +208,7 @@ public class FileHandler {
 		} catch (CoreException e) {
 			e.printStackTrace();
 			return false;
-		}*/
-		
+		}	
 	}
 	
 	public static boolean saveConfig(final URI projectPath, final CbCFormula formula, final Features features, boolean isTestCase) {
