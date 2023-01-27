@@ -10,12 +10,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
+import de.tu_bs.cs.isf.cbc.cbcmodel.impl.JavaVariableImpl;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGeneratorException;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -37,6 +40,46 @@ public class ClassHandler {
 		} catch (IdentifierNotFoundException e) {
 			Console.println(e.getMessage());
 			e.printStackTrace();
+		}
+	}
+	
+	public void setup() throws IdentifierNotFoundException {
+		String classCode;
+		List<String> gVars;
+		if (this.projectUri == null) {
+			genEmptyConstructor();
+		}
+		// find out how many fields the class *className* has
+		if (className.equals(TestAndAssertionGenerator.GENERATED_CLASSNAME)) {
+			gVars = new ArrayList<String>();
+		} else if (isExternalClass(className)) {
+			classCode = classExists(this.projectUri, className);
+			if (classCode.isEmpty()) {
+				return;
+			}
+			gVars = getGvarsOfExternalClass(classCode);
+		} else {
+			gVars = getGvarsOfCbCClass(this.projectUri, className);
+		}
+		if (gVars == null) {
+			throw new IdentifierNotFoundException("Couldn't get global variables of class '" + className + "'.");
+		}
+		// generate global vars and fields
+		for (int i = 0; i < gVars.size(); i++) {
+			Variable v;
+			if (gVars.get(i).contains("static")) {
+				gVars.set(i, gVars.get(i).replaceAll("static\\s", "")); // ;-)
+				v = new Variable("static", gVars.get(i).split("\\s")[0], gVars.get(i).split("\\s")[1]);
+			} else {
+				v = new Variable(gVars.get(i).split("\\s")[0], gVars.get(i).split("\\s")[1]);
+			}
+			this.addGlobalVar(v);
+		}
+		// generate constructor
+		this.addMethod(className, generateConstructor(className, gVars));
+		// also generate the default constructor if the last constructor contains params
+		if (gVars.size() > 0) {
+			genEmptyConstructor();
 		}
 	}
 	
@@ -78,7 +121,7 @@ public class ClassHandler {
 				f = new File(p.toString());
 				if (!f.exists()) {
 					String code = Files.readString(source);
-					code = Util.removeAllComments(code);
+					code = CodeHandler.removeAllComments(code);
 					f.createNewFile();
 					Files.write(p, code.getBytes(), StandardOpenOption.WRITE);
 				}
@@ -127,7 +170,7 @@ public class ClassHandler {
 	    }
 		try {
 			var code = Files.readString(Paths.get(javaFile.getPath()));
-			return Util.removeAllComments(code);
+			return CodeHandler.removeAllComments(code);
 		} catch (IOException e) {}
 		return "";
 	}	
@@ -135,7 +178,7 @@ public class ClassHandler {
 	private List<String> getGvarsOfExternalClass(String code) {
 		final var output = new ArrayList<String>();
 		final var cleanedOutput = new ArrayList<String>();
-		code = Util.removeAllComments(code);
+		code = CodeHandler.removeAllComments(code);
 		if (code.isEmpty()) {
 			return null;
 		}
@@ -172,9 +215,9 @@ public class ClassHandler {
 		return cleanedOutput;
 	}
 	
-	private List<String> getGvarsOfCbCClass(String className) {
+	public static List<String> getGvarsOfCbCClass(final URI projectUri, String className) {
 		final List<String> globalVars = new ArrayList<String>();
-		Collection<Resource> resources = FileUtil.getCbCClasses(FileUtil.getProject(this.projectUri));
+		Collection<Resource> resources = FileUtil.getCbCClasses(FileUtil.getProject(projectUri));
 		for (Resource resource : resources) {
 			for (EObject object : resource.getContents()) {
 				if (object instanceof ModelClass) {
@@ -199,6 +242,24 @@ public class ClassHandler {
 		return null;
 	}
 	
+	public static EList<Field> getFields(final URI projectUri) {
+		final List<String> globalVars = new ArrayList<String>();
+		Collection<Resource> resources = FileUtil.getCbCClasses(FileUtil.getProject(projectUri));
+		for (Resource resource : resources) {
+			for (EObject object : resource.getContents()) {
+				if (object instanceof ModelClass) {
+					ModelClass modelClass = (ModelClass) object;
+					for (int i = 0; i < modelClass.getFields().size(); i++) {
+						modelClass.getFields().get(i)
+						.setName(modelClass.getFields().get(i).getType() + " " + modelClass.getFields().get(i).getName());
+					}
+					return modelClass.getFields();
+				}
+			}
+		}
+		return null;
+	}
+	
 	private String initializeGvars(List<String> gVars) {
 		String output = "";
 		String val;
@@ -215,50 +276,10 @@ public class ClassHandler {
 				val = "null";//genDefaultInputForVar(v, null).get(0);
 			}
 			// now handle possible primitive array uses and assign v
-			output = Util.handlePrimitiveArrayUses(output, v, val, 1);
+			output = CodeHandler.handlePrimitiveArrayUses(output, v, val, 1);
 			//output += "\t public " + v + " = " + val + ";\n";
 		}
 		return output;
-	}
-	
-	public void setup() throws IdentifierNotFoundException {
-		String classCode;
-		List<String> gVars;
-		if (this.projectUri == null) {
-			genEmptyConstructor();
-		}
-		// find out how many fields the class *className* has
-		if (className.equals(TestAndAssertionGenerator.GENERATED_CLASSNAME)) {
-			gVars = new ArrayList<String>();
-		} else if (isExternalClass(className)) {
-			classCode = classExists(this.projectUri, className);
-			if (classCode.isEmpty()) {
-				return;
-			}
-			gVars = getGvarsOfExternalClass(classCode);
-		} else {
-			gVars = getGvarsOfCbCClass(className);
-		}
-		if (gVars == null) {
-			throw new IdentifierNotFoundException("Couldn't get global variables of class '" + className + "'.");
-		}
-		// generate global vars and fields
-		for (int i = 0; i < gVars.size(); i++) {
-			Variable v;
-			if (gVars.get(i).contains("static")) {
-				gVars.set(i, gVars.get(i).replaceAll("static\\s", "")); // ;-)
-				v = new Variable("static", gVars.get(i).split("\\s")[0], gVars.get(i).split("\\s")[1]);
-			} else {
-				v = new Variable(gVars.get(i).split("\\s")[0], gVars.get(i).split("\\s")[1]);
-			}
-			this.addGlobalVar(v);
-		}
-		// generate constructor
-		this.addMethod(className, generateConstructor(className, gVars));
-		// also generate the default constructor if the last constructor contains params
-		if (gVars.size() > 0) {
-			genEmptyConstructor();
-		}
 	}
 	
 	private String generateConstructor(final String className, final List<String> gVars) {
@@ -308,7 +329,7 @@ public class ClassHandler {
 			code += method.getCode() + "\n";
 		}
 		code += "}";
-		code = Util.indentCode(code, 0);
+		code = CodeHandler.indentCode(code, 0);
 		return code;
 	}
 	

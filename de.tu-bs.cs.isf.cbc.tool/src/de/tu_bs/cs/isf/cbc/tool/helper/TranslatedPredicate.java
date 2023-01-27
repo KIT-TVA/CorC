@@ -57,7 +57,7 @@ public class TranslatedPredicate {
 			}
 		}
 		code = closeBrackets(code);
-		return Util.indentCode(code, 0);
+		return CodeHandler.indentCode(code, 0);
 	}
 	
 	private boolean containsExists() {
@@ -70,7 +70,7 @@ public class TranslatedPredicate {
 	}
 	
 	private String closeBrackets(String code) {
-		while(Util.countBrackets(code, '{') > 0) {
+		while(CodeHandler.countBrackets(code, '{') > 0) {
 			code += "\n}";
 		}
 		return code;
@@ -192,7 +192,7 @@ public class TranslatedPredicate {
 		}
 		while ((branch = getNext()) != null) {
 			if (branch.getType() == BranchType.NONE) {
-				List<String> varNames = Util.getVarNames(branch.getBranchCondition(), inputs.get(0).getInputDataTupel().getGlobalVarNames(), inputs.get(0).getInputDataTupel().getParameterNames(), instanceName);
+				List<String> varNames = Variable.getVarNames(branch.getBranchCondition(), inputs.get(0).getInputDataTupel().getGlobalVarNames(), inputs.get(0).getInputDataTupel().getParameterNames(), instanceName);
 				for (var v : varNames) {
 					code += "context.setAttribute(\"" + testNumber + v + "\", " + v + ");\n";
 				}
@@ -210,6 +210,6 @@ public class TranslatedPredicate {
 			}
 		}
 		code = closeBrackets(code);
-		return Util.indentCode(code, 2) + "\n";
+		return CodeHandler.indentCode(code, 2) + "\n";
 	}
 }

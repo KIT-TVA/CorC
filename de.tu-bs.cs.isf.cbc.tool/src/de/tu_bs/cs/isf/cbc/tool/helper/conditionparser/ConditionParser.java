@@ -1,11 +1,18 @@
 package de.tu_bs.cs.isf.cbc.tool.helper.conditionparser;
 
+import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.tool.helper.Token;
 import de.tu_bs.cs.isf.cbc.tool.helper.TokenType;
 import de.tu_bs.cs.isf.cbc.tool.helper.Tokenizer;
 import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.util.Console;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Parses a post condition given in JavaDL syntax into an AST.
@@ -95,7 +102,7 @@ public class ConditionParser {
 	private boolean hasToken() {
 		return this.nextToken != null;
 	}
-	
+		
 	// C :-> P & C | P
 	private Node parseCondition() throws UnexpectedTokenException {
 		var p = parsePredicate();
@@ -293,5 +300,58 @@ public class ConditionParser {
 	public void nextToken() throws UnexpectedTokenException {
 		curToken = nextToken;
 		nextToken = tokenizer.genNext();
+	}
+	
+	//+++++++++++++++++++++++++++++++++STATIC (OLD) CONDITION PARSING+++++++++++++++++++++++++++++++++
+	
+	/**
+	 * Returns a string of all preconditions in JavaDL syntax or empty string, when there is no precondition.
+	 * @param globalConditions
+	 * @param formula
+	 * @return
+	 */
+	public static String parseConditions(final GlobalConditions globalConditions, final Condition preCondition) {
+		// By definition we know that the root formula does contain the strongest precondition,
+		// therefore we only need to parse it's preconditions as any following refinement
+		// can't have more (=stronger) requirements.
+		var preCon = preCondition.getName().trim();
+		if (preCon.equals("true")) {
+			preCon = "";
+		}
+		// add invariants 
+		List<String> invariants = globalConditions == null ? new ArrayList<String>() : globalConditions.getConditions().stream()
+				.map(c -> c.getName())
+				.toList();
+		String invariantsStr = "";
+		// non-null conditions can be discarded because the generator always generates values for complex data types.
+		final Pattern p = Pattern.compile("[A-Z]\\w*\\.\\w+");
+		int counter = 0;
+		for (int i = 0; i < invariants.size(); i++) {
+			if (!invariants.get(i).contains("null") && !invariants.get(i).contains("self")) {
+				Matcher m = p.matcher(invariants.get(i));
+				String con = invariants.get(i);
+				while (m.find()) {
+					return "";
+					
+					//con = con.substring(0, m.start()) + con.substring(m.start() + m.group(0).indexOf('.') + 1, con.length());
+				}
+				if (counter > 0) {
+					invariantsStr += " & " + con;
+				} else {
+					invariantsStr += con;
+				}
+				counter++;
+			}
+		}
+		//invariantsStr = invariantsStr.replaceAll("this\\.", "");
+		if (preCon.isEmpty()) {
+			return invariantsStr;
+		} else {	
+			if (invariantsStr.isEmpty()) {
+				return preCon;
+			} else {
+				return preCon + " & " + invariantsStr;
+			}
+		}
 	}
 }

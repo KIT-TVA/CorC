@@ -1,5 +1,8 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
 
 public class MethodHandler {
@@ -15,7 +18,7 @@ public class MethodHandler {
 		int start = code.indexOf("{");
 		if (start != -1 && isSignature(code.substring(0, start))) {
 			this.signature = code.substring(0, start).trim();
-			int end = Util.findClosingBracketIndex(code, start, '{');
+			int end = CodeHandler.findClosingBracketIndex(code, start, '{');
 			if (start+1 != end) {
 				code = code.substring(start+1, end-1);
 			} else {
@@ -23,6 +26,38 @@ public class MethodHandler {
 			}
 		}	
 		this.innerCode = code.trim();
+	}
+	
+	/**
+	 * Gets the signature of method *methodName* contained in *code*.
+	 * @param code The code.
+	 * @param methodName Name of the method to find.
+	 * @return The signature when found, else empty string.
+	 */
+	public static String getMethodSignature(String code, String methodName) {
+		final Pattern p = Pattern.compile("\\W" + methodName + "\\(");
+		final Matcher m = p.matcher(code);
+		String helper;
+		int startIndex;
+
+		
+		while (m.find()) {
+			helper = code.substring(0, m.start() + 1);
+			startIndex = helper.lastIndexOf('\n') + 1;
+			helper = code.substring(startIndex, code.length());
+			int endIndex = startIndex + helper.indexOf(")") + 1;
+			for (int i = endIndex; i < code.length(); i++) {
+				if (code.charAt(i) == '{') {
+					return code.substring(startIndex, endIndex).trim();
+				} else if (code.charAt(i) == ' ') 
+				{
+					// empty because whitespaces are valid therefore we will move on in the search for a {-bracket.				
+				} else {
+					break;
+				}		
+			}
+		}
+		return "";
 	}
 	
 	public static String getSignatureFromCode(String method) {
@@ -35,7 +70,7 @@ public class MethodHandler {
 		if (sig.isBlank()) {
 			return "";
 		}
-		final String[] splitter = Util.sSplit(sig, "\\s");	
+		final String[] splitter = CodeHandler.sSplit(sig, "\\s");	
 		return splitter[splitter.length - 1].substring(0, splitter[splitter.length - 1].indexOf('('));
 	}
 	
@@ -45,7 +80,7 @@ public class MethodHandler {
 		}
 		final int startIndex = code.indexOf(methodSignature);
 		String methodCode = code.substring(startIndex, code.length());
-		int closingBracketIndex = Util.findClosingBracketIndex(code, startIndex + methodCode.indexOf('{'), '{');
+		int closingBracketIndex = CodeHandler.findClosingBracketIndex(code, startIndex + methodCode.indexOf('{'), '{');
 		if (closingBracketIndex == - 1) {
 			closingBracketIndex = code.length() - 1;
 		}
@@ -69,7 +104,7 @@ public class MethodHandler {
 			return "";
 		}
 		// at this point we know the method is defined here
-		int closingBracket = Util.findClosingBracketIndex(code, end + start, '{');
+		int closingBracket = CodeHandler.findClosingBracketIndex(code, end + start, '{');
 		if (closingBracket == -1) {
 			return "";
 		}
@@ -81,7 +116,7 @@ public class MethodHandler {
 		code += signature + " {\n";
 		code += innerCode;
 		code += "\n}\n";
-		Util.indentCode(code, 0);
+		CodeHandler.indentCode(code, 0);
 		return code;
 	}
 	
@@ -97,7 +132,7 @@ public class MethodHandler {
 		if (this.signature.isBlank()) {
 			return "";
 		}
-		final String[] splitter = Util.sSplit(this.signature, "\\s");	
+		final String[] splitter = CodeHandler.sSplit(this.signature, "\\s");	
 		return splitter[splitter.length - 1].substring(0, splitter[splitter.length - 1].indexOf('('));
 	}
 }

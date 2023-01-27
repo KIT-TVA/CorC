@@ -153,7 +153,7 @@ public class TestUtilSPL {
 		vars.getFields().addAll(classVars.getFields());
 		addFields(vars, classVars);
 		refCode = Variable.prefixAllVariables(refCode, classVars);
-		refCode = Util.indentCode(refCode, 0);
+		refCode = CodeHandler.indentCode(refCode, 0);
 		newMethods.add(new MethodHandler(signature, refCode));
 		handleOriginalCode(fp, projectPath, refCode, features, newMethods, signature, vars);
 	}
@@ -226,7 +226,7 @@ public class TestUtilSPL {
 		}
 		for (var mName : methodNames) {
 			for (var feature : relevantFeatures) {
-				Diagram diag = Util.loadDiagramFromClass(projectPath, "features/" + feature, mName);
+				Diagram diag = FileHandler.loadDiagramFromClass(projectPath, "features/" + feature, mName);
 				if (diag == null) {
 					continue;
 				}

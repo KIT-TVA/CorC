@@ -238,4 +238,21 @@ public class Variable {
 		}
 		return allVars;
 	}
+	
+	public static List<String> getVarNames(final String assertion, final List<String> globalVarNames, final List<String> parameterVarNames, final String instanceName) {
+		var output = new ArrayList<String>();
+		
+		for (var v : globalVarNames) {
+			if (assertion.contains(v)) {
+				output.add(instanceName + "." + v);
+			}
+		}
+		
+		for (var v : parameterVarNames) {
+			if (assertion.contains(v)) {
+				output.add(v);
+			}
+		}
+		return output;
+	}
 }

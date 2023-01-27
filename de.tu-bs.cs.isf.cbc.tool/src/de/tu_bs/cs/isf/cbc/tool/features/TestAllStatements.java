@@ -19,7 +19,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.ReferenceException;
 import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
-import de.tu_bs.cs.isf.cbc.tool.helper.Util;
+import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
@@ -91,7 +91,7 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		final TestStatement ts = new TestStatement(fp);
 		uri = getUri(diag);
 		ts.setUri(uri);
-		Util.clearLog(diag.eResource().getURI());
+		FileHandler.clearLog(diag.eResource().getURI());
 		var allStatements = TestStatement.collectAllStatements(formula);
 		final IProject project = FileUtil.getProjectFromFileInProject(uri);		
 		Features features = null;

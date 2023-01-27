@@ -104,12 +104,12 @@ public class TestAndAssertionListener implements ITestListener {
 			  prev = testCode.length();
 		  }	  
 		  
-		  testCode = Util.removeTabs(testCode);
-		  testCode = Util.insertTabs(testCode, 1);
+		  testCode = CodeHandler.removeTabs(testCode);
+		  testCode = CodeHandler.insertTabs(testCode, 1);
 		  // finally remove all precondition checks
-		  if (testCode.contains(Util.PRECHECKS_START)) {
-			 testCode = testCode.substring(0, testCode.indexOf(Util.PRECHECKS_START)).stripTrailing() + "\n"
-					 + testCode.substring(testCode.indexOf(Util.PRECHECKS_END) + Util.PRECHECKS_END.length(), testCode.length());
+		  if (testCode.contains(CodeHandler.PRECHECKS_START)) {
+			 testCode = testCode.substring(0, testCode.indexOf(CodeHandler.PRECHECKS_START)).stripTrailing() + "\n"
+					 + testCode.substring(testCode.indexOf(CodeHandler.PRECHECKS_END) + CodeHandler.PRECHECKS_END.length(), testCode.length());
 		  }
 		  return testCode;
 	  }
@@ -133,7 +133,7 @@ public class TestAndAssertionListener implements ITestListener {
 					helper = helper.substring(helper.indexOf(methodName), helper.length());
 				}
 				int startIndex = code.length() - helper.length() + helper.indexOf('{');
-				int closingBracketIndex = Util.findClosingBracketIndex(code, startIndex, '{');
+				int closingBracketIndex = CodeHandler.findClosingBracketIndex(code, startIndex, '{');
 				code = code.substring(code.length() - helper.length(), closingBracketIndex + 1);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -229,7 +229,7 @@ public class TestAndAssertionListener implements ITestListener {
 	  private HashMap<String, String> getAllBranches(String className, String testName) {
 		  var branches = new HashMap<String, String>();
 		  final var code = loadCode(className);
-		  final var methodCode = MethodHandler.getBySignature(code, Util.getMethodSignature(code, testName));
+		  final var methodCode = MethodHandler.getBySignature(code, MethodHandler.getMethodSignature(code, testName));
 		  final Pattern p = Pattern.compile("\\w+branch\\w+");
 		  final Matcher m = p.matcher(methodCode);
 		  String[] branchParts;
@@ -258,7 +258,7 @@ public class TestAndAssertionListener implements ITestListener {
 		  } else {
 				// format of methodcall is: <methodname>(<type> <varname> = <value>, ...)
 
-				final String[] params = Util.sSplit(call, "\\,\\s");
+				final String[] params = CodeHandler.sSplit(call, "\\,\\s");
 				
 				for (var param : params) {
 					output.add(param.split("=\\s")[1]);
@@ -273,7 +273,7 @@ public class TestAndAssertionListener implements ITestListener {
 		  if (methodCall.isBlank()) {
 			  return output;
 		  }
-		  final String[] params = Util.sSplit(methodCall, "\\,\\s");
+		  final String[] params = CodeHandler.sSplit(methodCall, "\\,\\s");
 		
 		  for (var param : params) {
 			  output.add(param.split("\\s")[1]);

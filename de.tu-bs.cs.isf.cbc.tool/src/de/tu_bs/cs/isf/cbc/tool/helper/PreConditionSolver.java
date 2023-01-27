@@ -239,7 +239,7 @@ public class PreConditionSolver {
     	if (showWarnings) {
     		Console.println("PreConditionSolverWarning: Type of identifier '" + tree.getRep() + "' is not supported.");
     	}
-    	Util.log("PreConditionSolverWarning: Type of identifier '" + tree.getRep() + "' is not supported.");
+    	FileHandler.log("PreConditionSolverWarning: Type of identifier '" + tree.getRep() + "' is not supported.");
 		return context.mkTrue();
     }
     

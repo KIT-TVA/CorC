@@ -12,7 +12,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 
-import de.tu_bs.cs.isf.cbc.tool.helper.Util;
+import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
@@ -86,6 +86,6 @@ public class TestAllStatementsSPL extends TestAllStatements {
 	}
 	
 	private void prepareTest(final String projectPath, final String configName) {
-		Util.writeToFile(projectPath, configName, "");
+		FileHandler.writeToFile(projectPath, configName, "");
 	}	
 }

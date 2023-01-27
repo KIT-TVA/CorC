@@ -38,7 +38,7 @@ public class TestStatementListener extends TestAndAssertionListener {
 		  }
 		  var classCode = getClassCode(className);
 		  int offset = getLineCount(classCode) - getLineCount(methodCode);
-		  return errorLineNr - offset + 2;
+		  return errorLineNr - offset;
 	}
 	
 	/*
@@ -135,7 +135,7 @@ public class TestStatementListener extends TestAndAssertionListener {
 		  var className =  result.getTestClass().getName();
 		  var methodName = result.getName();
 		  
-		  Console.println(" > Test of statement failed.", red);
+		  Console.println(" > Test of statement failed: " + result.getThrowable().getMessage(), red);
 		  Console.println(" > Test content:", red);
 		  String methodCode = printMethodFromFile(methodName, FileUtil.getProjectLocation(projectPath) + 
 				  "/tests/" + className.substring(className.lastIndexOf('.') + 1,
@@ -143,11 +143,11 @@ public class TestStatementListener extends TestAndAssertionListener {
 		  methodCode = methodCode.substring(methodCode.indexOf("{") + 2, methodCode.lastIndexOf("}"));
 		//  var statementLineNr = getStatementLineNr(className, methodCode);
 		//  var statementLine = getLine(methodCode, statementLineNr);
-		  methodCode = removeHelperLines(methodCode);
-		  methodCode = Util.removeTabs(methodCode).trim();
-		  methodCode = Util.insertTabs(methodCode, 1);
 		  var stackTrace = result.getThrowable().getStackTrace();
 		  int errorLineNr = getErrorLineNr(stackTrace, className, methodName, methodCode);
+		  methodCode = removeHelperLines(methodCode);
+		  methodCode = CodeHandler.removeTabs(methodCode).trim();
+		  methodCode = CodeHandler.insertTabs(methodCode, 1);
 		  var lineToHighlight = getLine(methodCode, errorLineNr);
 		  methodCode = methodCode.substring(0, methodCode.indexOf(lineToHighlight)) + "  -->" + methodCode.substring(methodCode.indexOf(lineToHighlight), methodCode.length());
 		  printLines(methodCode);
@@ -175,8 +175,8 @@ public class TestStatementListener extends TestAndAssertionListener {
 							  className.length()).split("Test")[0] + ".java");
 			  methodCode = methodCode.substring(methodCode.indexOf("{") + 2, methodCode.lastIndexOf("}"));
 			  methodCode = removeHelperLines(methodCode);
-			  methodCode = Util.removeTabs(methodCode);
-			  methodCode = Util.insertTabs(methodCode, 1);
+			  methodCode = CodeHandler.removeTabs(methodCode);
+			  methodCode = CodeHandler.insertTabs(methodCode, 1);
 			  Console.println(methodCode + "\n");
 			  try {
 				  context.getFailedTests().addResult(context.getPassedTests().getAllResults().stream().findFirst().get());

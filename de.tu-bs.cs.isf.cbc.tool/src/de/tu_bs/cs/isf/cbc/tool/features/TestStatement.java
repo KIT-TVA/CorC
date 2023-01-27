@@ -27,6 +27,7 @@ import org.testng.xml.XmlSuite.ParallelMode;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
@@ -39,9 +40,11 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
+import de.tu_bs.cs.isf.cbc.cbcmodel.impl.JavaVariableImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.Branch;
 import de.tu_bs.cs.isf.cbc.tool.helper.BranchType;
 import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.JavaCondition;
@@ -56,7 +59,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.TokenType;
 import de.tu_bs.cs.isf.cbc.tool.helper.Tokenizer;
 import de.tu_bs.cs.isf.cbc.tool.helper.TranslatedPredicate;
 import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
-import de.tu_bs.cs.isf.cbc.tool.helper.Util;
+import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Variable;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.ConditionParser;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -140,7 +143,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				}	
 				uri = getDiagram().eResource().getURI();
 				this.projectPath = uri;
-				Util.clearLog(this.projectPath);
+				FileHandler.clearLog(this.projectPath);
 				final IProject project = FileUtil.getProjectFromFileInProject(uri);		
 				Features features = null;
 				try {
@@ -184,7 +187,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		final String currentConfigName = features.getCurConfigName();
 		// copy test contents to new file with config name
 		var code = ClassHandler.classExists(this.projectPath, className);
-		if (!Util.createFile(projectPath, currentConfigName, code)) {
+		if (!FileHandler.createFile(projectPath, currentConfigName, code)) {
 			return false;
 		}
 		return true;
@@ -450,7 +453,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			}*/
 		}
 		code += "\n}";
-		code = Util.indentCode(code, 1);
+		code = CodeHandler.indentCode(code, 1);
 		return code;
 	}
 	
@@ -517,7 +520,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		
 	private static String getNumTabs(String code) {
 		String out = "";
-		int bracketNum = Util.countBrackets(code, '{');
+		int bracketNum = CodeHandler.countBrackets(code, '{');
 		if (bracketNum <= 0) {
 			return "";
 		}
@@ -718,9 +721,9 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		
 	private String cleanCondition(String condition, final String className, final TestAndAssertionGenerator generator) {
 		condition = generator.translateCondition(condition, "this", new ArrayList<InputData>(), false);
-		condition = Util.removeFunctions(condition);
-		condition = Util.removeFloatingClosingBrackets(condition);
-		condition = Util.removeDotIdentifiers(condition, className);
+		condition = CodeHandler.removeFunctions(condition);
+		condition = CodeHandler.removeFloatingClosingBrackets(condition);
+		condition = CodeHandler.removeDotIdentifiers(condition, className);
 		return condition;
 	}
 	
@@ -734,9 +737,25 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return className;
 	}
 	
+	private void addBaseVars(final JavaVariables vars) {
+		IProject p = FileUtil.getProject(projectPath);
+		var newFields = ClassHandler.getFields(projectPath);
+		for (var field : newFields) {
+			var newVar = CbcmodelFactory.eINSTANCE.createJavaVariable();
+			newVar.setKind(VariableKind.GLOBAL);
+			newVar.setName(field.getName());
+			vars.getVariables().add(newVar);
+		}
+	}
+	
 	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException {		
 		final String className = getClassName(formula);
 		String statementName = statement.getName().trim();
+		
+		// make sure vars contains base variables as well
+		if (features != null) {
+			addBaseVars(vars);
+		}
 
 		final TestAndAssertionGenerator generator = new TestAndAssertionGenerator(fp);
 		generator.setProjectPath(this.projectPath);		
@@ -786,11 +805,11 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				usedVars.add(v);
 			}
 		}
-		code = Util.removeTabs(code);
+		code = CodeHandler.removeTabs(code);
 		// insert fixture for variables used in the statement and the post condition
 		code = insertFixture(code, data, Variable.getAllGVars(vars), usedVars, vars, postCon, allPreConditions, generator);	
 		// insert precondition checks
-		code = Util.insertPreconditionChecks(code, programPreCons, 0);
+		code = CodeHandler.insertPreconditionChecks(code, programPreCons, 0);
 		// handle the post condition and translate it to JavaCondition
 		var javaCondition = generator.translateConditionToJava(postCon, "", data, this.projectPath);
 		// generate dependencies as well (method call ect.)
@@ -801,7 +820,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		// insert an executed tag so that we can determine if the statement was executed
 		code = insertExecutedTag(code);
 		//code = insertAssertions(code, preJavaCondition);
-		code = Util.removeTabs(code);
+		code = CodeHandler.removeTabs(code);
 		// get path to statement
 		final var path = getStatementPath(statement);
 		code = code + "context.setAttribute(\"path\", \"" + path + "\");\n";
@@ -864,7 +883,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		while (start != -1) {
 			int end = start + keyWord.length();
 			if (code.charAt(end) == '(') {
-				end = Util.findClosingBracketIndex(code, end, '(');
+				end = CodeHandler.findClosingBracketIndex(code, end, '(');
 			}
 			code = code.substring(0, start) + code.substring(end+1, code.length());
 			start = code.indexOf(keyWord);
@@ -877,7 +896,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		code = code.replaceAll(Pattern.quote(STATEMENT_PH), statementName);
 		code = removeKeyword(code, "original");
 		code = code.replaceAll("self\\.", "this.");
-		code = code.substring(0, code.indexOf(Util.PRECHECKS_START)) + code.substring(code.indexOf(Util.PRECHECKS_END) + Util.PRECHECKS_END.length());
+		code = code.substring(0, code.indexOf(CodeHandler.PRECHECKS_START)) + code.substring(code.indexOf(CodeHandler.PRECHECKS_END) + CodeHandler.PRECHECKS_END.length());
 		return code;
 	}
 	

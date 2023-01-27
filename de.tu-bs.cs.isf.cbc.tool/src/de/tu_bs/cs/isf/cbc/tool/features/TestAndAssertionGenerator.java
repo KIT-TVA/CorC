@@ -74,6 +74,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.helper.Branch;
 import de.tu_bs.cs.isf.cbc.tool.helper.BranchType;
 import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputDataTupel;
@@ -84,7 +85,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolverException;
 import de.tu_bs.cs.isf.cbc.tool.helper.TestAndAssertionListener;
 import de.tu_bs.cs.isf.cbc.tool.helper.TestCaseData;
 import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
-import de.tu_bs.cs.isf.cbc.tool.helper.Util;
+import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Variable;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.ConditionParser;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.Node;
@@ -142,7 +143,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		GlobalConditions globalConditions = null;
 		
 		setProjectPath(uri);
-		Util.clearLog(uri);
+		FileHandler.clearLog(uri);
 
 		for (Shape shape : getDiagram().getChildren()) {
 			Object obj = getBusinessObjectForPictogramElement(shape);
@@ -249,7 +250,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		String testFileContent;
 		
 		try {
-			inputs = genInputs(Util.parseConditions(globalConditions, formula.getStatement().getPreCondition()), vars, code2, signatureString, returnVariable);
+			inputs = genInputs(ConditionParser.parseConditions(globalConditions, formula.getStatement().getPreCondition()), vars, code2, signatureString, returnVariable);
 			if (inputs.isEmpty()) {
 				Console.println("TestAndAssertionGeneratorInfo: There are no controllable inputs for method " + methodToGenerate.getName() + ".");
 				Console.println("Nothing to test.");
@@ -265,7 +266,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			e.printStackTrace();
 			return;
 		}
-		Util.writeToFile(this.projectPath, className + "Test", testFileContent);
+		FileHandler.writeToFile(this.projectPath, className + "Test", testFileContent);
 		Console.clear();
 		Console.println("Start testing...");  
 		executeTestCases("file://" + FileUtil.getProjectLocation(uri) + "/tests/", className + "Test", globalVars, inputs);
@@ -757,7 +758,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			if (oBracket == -1) {
 				return -1;
 			}
-			cBracket = Util.findClosingBracketIndex(code, oBracket + start, '{');
+			cBracket = CodeHandler.findClosingBracketIndex(code, oBracket + start, '{');
 			if (cBracket == -1) {
 				return oBracket + start;
 			}
@@ -796,19 +797,19 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		// TODO: test this part
 		int loopIndex = findFirstOpenLoop(beforeStatement);
 		//int lastLoopIndex = beforeStatement.lastIndexOf("while (");
-		if (loopIndex != -1 && Util.countBrackets(beforeStatement, '{') > 0) {
-			int endIndex = Util.findClosingBracketIndex(cur, loopIndex, '{');
+		if (loopIndex != -1 && CodeHandler.countBrackets(beforeStatement, '{') > 0) {
+			int endIndex = CodeHandler.findClosingBracketIndex(cur, loopIndex, '{');
 			afterStatement = cur.substring(endIndex + 1, cur.length());
 			cur = cur.substring(0, endIndex + 1);
 		} else {			
 			afterStatement = cur.substring(cur.indexOf(STATEMENT_PH), cur.length());
 			cur = cur.substring(0, cur.indexOf(STATEMENT_PH) + STATEMENT_PH.length());
 		}
-		long numClosing = Util.countBrackets(afterStatement, '{');
+		long numClosing = CodeHandler.countBrackets(afterStatement, '{');
 		if (numClosing >= 0) return cur;
 		numClosing *= -1;
 		for (int i = 0; i < numClosing; i++) {
-			cur += "\n" + Util.getTabs(numClosing-(i+1)) + "}";
+			cur += "\n" + CodeHandler.getTabs(numClosing-(i+1)) + "}";
 		}
 		return cur;
 	}
@@ -864,7 +865,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		String before = code.substring(0, code.indexOf(methodSignature));
 		before = before.substring(0, before.lastIndexOf("\n")).trim();
 		String after = code.substring(code.indexOf(methodSignature), code.length());
-		int closingBracketIndex = Util.findClosingBracketIndex(code, code.indexOf(methodSignature) + after.indexOf('{'), '{');
+		int closingBracketIndex = CodeHandler.findClosingBracketIndex(code, code.indexOf(methodSignature) + after.indexOf('{'), '{');
 		after = "\n\n\t" + code.substring(closingBracketIndex + 1, code.length()).trim();
 		var output = before + after;
 		return output.trim().substring(0, output.length() - 1);
@@ -1361,7 +1362,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 								if (showWarnings) {
 									Console.println("TestAndAssertionGeneratorWarning: Syntax of variable '" + v + "' is not correct.");
 								}
-								Util.log(this.projectPath, "TestAndAssertionGeneratorWarning: Syntax of variable '" + v + "' is not correct.");
+								FileHandler.log(this.projectPath, "TestAndAssertionGeneratorWarning: Syntax of variable '" + v + "' is not correct.");
 								continue;
 							}
 							v = v.substring(0, v.indexOf("[")) + v.substring(v.lastIndexOf("]") + 1, v.length());
@@ -1609,7 +1610,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		
 		while (m.find()) {
 			startingBracketIndex =  m.start() + m.group(0).indexOf('{');
-			closingBracketIndex = Util.findClosingBracketIndex(code, startingBracketIndex, '{');
+			closingBracketIndex = CodeHandler.findClosingBracketIndex(code, startingBracketIndex, '{');
 			output.add(code.substring(m.start(), closingBracketIndex + 1));
 		}
 		return output;
@@ -1656,7 +1657,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			for (InputData data : test.getInputDataTupel().getAllVars()) {
 				if (data.getRep().contains(ARRAY_TOKEN)) {
 					//private String handlePrimitiveArrayUses(String output, String fullVarName, String val) 
-					var toAdd = Util.handlePrimitiveArrayUses("", data.getType() + " " + data.getName(), data.getRep(), 2);
+					var toAdd = CodeHandler.handlePrimitiveArrayUses("", data.getType() + " " + data.getName(), data.getRep(), 2);
 					var lines = toAdd.split("\\t\\t");
 					var newRep = lines[lines.length-1].substring(lines[lines.length-1].indexOf("new"), lines[lines.length-1].lastIndexOf(";"));
 					data.setRep(newRep);
@@ -1693,7 +1694,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			var programPreConsStr = formula.getStatement().getPreCondition().getName();
 			var programPreCons = translateConditionToJava(programPreConsStr, instanceName, test.getInputDataTupel().getGlobalVars(), this.projectPath);
 			try {
-				code.append(Util.insertPreconditionChecks("\n\n", programPreCons, 2).replaceFirst("\\n", ""));
+				code.append(CodeHandler.insertPreconditionChecks("\n\n", programPreCons, 2).replaceFirst("\\n", ""));
 			} catch (TestStatementException e) {
 				throw e;
 			}
@@ -2054,7 +2055,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 					if (showWarnings) {
 						Console.println("TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
 					}
-					Util.log(this.projectPath, "TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
+					FileHandler.log(this.projectPath, "TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
 					return "";
 				} 
 				return varType;
@@ -2084,7 +2085,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 					if (showWarnings) {
 						Console.println("TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
 					}
-					Util.log(this.projectPath, "TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
+					FileHandler.log(this.projectPath, "TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
 					return "";
 				} 
 				return varType;
@@ -2095,7 +2096,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 						if (showWarnings) {
 							Console.println("TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
 						}
-						Util.log(this.projectPath, "TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
+						FileHandler.log(this.projectPath, "TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
 						return "";
 					}
 					potentialVarType = potentialVarType.substring(potentialVarType.lastIndexOf(' ') + 1, potentialVarType.length());
@@ -2113,7 +2114,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 					if (showWarnings) {
 						Console.println("TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
 					}
-					Util.log(this.projectPath, "TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
+					FileHandler.log(this.projectPath, "TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
 					return "";
 				}
 			}
@@ -2121,7 +2122,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		if (showWarnings) {
 			Console.println("TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
 		}
-		Util.log(this.projectPath, "TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
+		FileHandler.log(this.projectPath, "TestAndAssertionGeneratorWarning: Variable type of variable " + varName + " couldn't be found.");
 		return "";
 	}
 	
@@ -2173,7 +2174,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				return "";
 			}
 			var code = Files.readString(p);
-			code = Util.removeAllComments(code);
+			code = CodeHandler.removeAllComments(code);
 			return code;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -2262,7 +2263,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	}
 				
 	private Diagram loadDiagramFromClass(String className, String diagramName) {
-		return Util.loadDiagramFromClass(this.projectPath, className, className, diagramName);
+		return FileHandler.loadDiagramFromClass(this.projectPath, className, className, diagramName);
 	}
 	
 	private List<String> findAllDistinctWords(String code, char wordDelim) {
@@ -2368,7 +2369,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				Console.println();
 			}
 			if (delete) {
-				Util.deleteFile(this.projectPath, className);
+				FileHandler.deleteFile(this.projectPath, className);
 			}
 			return false;
 		}
@@ -2398,7 +2399,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			var className = code.split("public\\sclass\\s")[1].split("\\s", 2)[0];
 			className = className.replaceAll("\\{", "");
 			var fullClassName = FileUtil.getProjectLocation(this.projectPath) + "/tests/" + className + ".java";
-			Util.createFile(this.projectPath, className, code);
+			FileHandler.createFile(this.projectPath, className, code);
 			dependencies.add(fullClassName);
 		}
 		
@@ -2440,7 +2441,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		for (var clazz : fileContents) {
 			var className = clazz.getClassName();
 			var fullClassName = FileUtil.getProjectLocation(this.projectPath) + "/tests/" + className + ".java";
-			Util.createFile(this.projectPath, className, clazz.getCode());
+			FileHandler.createFile(this.projectPath, className, clazz.getCode());
 			dependencies.add(fullClassName);
 		}
 		
@@ -2497,7 +2498,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				f = new File(p.toString());
 				if (!f.exists()) {
 					String code = Files.readString(source);
-					code = Util.removeAllComments(code);
+					code = CodeHandler.removeAllComments(code);
 					f.createNewFile();
 					Files.write(p, code.getBytes(), StandardOpenOption.WRITE);
 				}
@@ -2719,7 +2720,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		if (!javaFile.exists()) {
 			return "";
 		}
-		Util.deleteFile(this.projectPath, className);
+		FileHandler.deleteFile(this.projectPath, className);
 		try {
 			Files.copy(javaFile.toPath(), destination.toPath());
 		} catch (IOException e) {
@@ -2845,7 +2846,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		if (!javaFile.exists()) {
 			return "";
 		}
-		Util.deleteFile(this.projectPath, className);
+		FileHandler.deleteFile(this.projectPath, className);
 		try {
 			Files.copy(javaFile.toPath(), destination.toPath());
 		} catch (IOException e) {
@@ -2941,7 +2942,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		while (m.find()) {
 			var helper = code.substring(m.start(), code.length());
 			int startBracket = m.start() + helper.indexOf("{");
-			int endBracket = Util.findClosingBracketIndex(code, startBracket, '{');
+			int endBracket = CodeHandler.findClosingBracketIndex(code, startBracket, '{');
 			if (endBracket == -1) {
 				return null;
 			}
@@ -2959,7 +2960,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		
 		while (m.find()) {
 			params = m.group(0).substring(m.group(0).indexOf('(') + 1, m.group(0).lastIndexOf(')'));
-			if (Util.sSplit(params, ",").length == numParams) {
+			if (CodeHandler.sSplit(params, ",").length == numParams) {
 				// we found the right constructor
 				cCode = "public " + code.substring(m.start(), m.start() + m.group(0).indexOf('{')).trim();
 				return cCode;
@@ -2985,7 +2986,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		int start = matchee.indexOf("(");
 		while (start != -1) {
 			if (start != 0 && Character.isAlphabetic(matchee.charAt(start-1))) {
-				int end = Util.findClosingBracketIndex(matchee, start, '(');
+				int end = CodeHandler.findClosingBracketIndex(matchee, start, '(');
 				if (end == -1) {
 					matchee = matchee.replaceFirst("\\(", "");
 					start = matchee.indexOf("(");
@@ -3008,7 +3009,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 						if (showWarnings) {
 							Console.println("TestAndAssertionWarning: Couldn't get type of variable '" + varName + "'.");
 						}
-						Util.log(this.projectPath, "TestAndAssertionWarning: Couldn't get type of variable '" + varName + "'.");
+						FileHandler.log(this.projectPath, "TestAndAssertionWarning: Couldn't get type of variable '" + varName + "'.");
 						matchee = matchee.replaceFirst("\\(", "");
 						start = matchee.indexOf("(");
 						continue;
@@ -3037,7 +3038,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 						if (showWarnings) {
 							Console.println("TestAndAssertionWarning: Couldn't get type of variable '" + varName + "'.");
 						}
-						Util.log(this.projectPath, "TestAndAssertionWarning: Couldn't get type of variable '" + varName + "'.");
+						FileHandler.log(this.projectPath, "TestAndAssertionWarning: Couldn't get type of variable '" + varName + "'.");
 						matchee = matchee.replaceFirst("\\(", "");
 						start = matchee.indexOf("(");
 						continue;
@@ -3066,7 +3067,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 						if (call.isEmpty()) {
 							numParams = 0;
 						} else {
-							numParams = Util.sSplit(call, ",").length;
+							numParams = CodeHandler.sSplit(call, ",").length;
 							if (numParams == 0) numParams = 1;
 						}
 						// get sig of the constructor
@@ -3075,7 +3076,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 							if (showWarnings) {
 								Console.println("TestAndAssertionWarning: Couldn't get the signature of the constructor '" + methodName + "' which has " + numParams + " parameters.");
 							}
-							Util.log(this.projectPath, "TestAndAssertionWarning: Couldn't get the signature of the constructor '" + methodName + "' which has " + numParams + " parameters.");
+							FileHandler.log(this.projectPath, "TestAndAssertionWarning: Couldn't get the signature of the constructor '" + methodName + "' which has " + numParams + " parameters.");
 							matchee = matchee.replaceFirst("\\(", "");
 							start = matchee.indexOf("(");
 							continue;
@@ -3094,7 +3095,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 						if (showWarnings) {
 							Console.println("TestAndAssertionWarning: Couldn't find signature for method '" + methodName + "'.");
 						}
-						Util.log(this.projectPath, "TestAndAssertionWarning: Couldn't find signature for method '" + methodName + "'.");
+						FileHandler.log(this.projectPath, "TestAndAssertionWarning: Couldn't find signature for method '" + methodName + "'.");
 						matchee = matchee.replaceFirst("\\(", "");
 						start = matchee.indexOf("(");
 						continue;
