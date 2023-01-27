@@ -1,11 +1,5 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -56,10 +50,8 @@ public class TestAllStatementsSPL extends TestAllStatements {
 			final long startTime = System.nanoTime();
 			var uri = super.getUri(getDiagram());
 			String callingClass = uri.segment(uri.segmentCount()-2) + "";
-			String callingFeature = uri.segment(uri.segmentCount()-3) + "";
-			String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
 			String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);
-			String configName = "";
+			String configName;
 			
 			for (int i = 0; i < featureConfigs.length; i++) {
 				configName = "";
@@ -84,8 +76,4 @@ public class TestAllStatementsSPL extends TestAllStatements {
 			return;
 		}
 	}
-	
-	private void prepareTest(final String projectPath, final String configName) {
-		FileHandler.writeToFile(projectPath, configName, "");
-	}	
 }

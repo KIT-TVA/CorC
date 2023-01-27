@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
@@ -20,8 +18,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
-import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
-import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 /**
@@ -175,23 +171,6 @@ public class TestUtilSPL {
 		refCode = CodeHandler.indentCode(refCode, 0);
 		newMethods.add(new MethodHandler(signature, refCode));
 		handleOriginalCode(fp, projectPath, refCode, features, newMethods, signature, vars);
-	}
-	
-	private static void addFields(final JavaVariables destination, final JavaVariables source) {
-		final List<Field> toAdd = new ArrayList<Field>();
-		
-		for (var v : source.getFields()) {
-			boolean found = false;
-			for (var d : destination.getFields()) {
-				if (d.getName().equals(v.getName())) {
-					found = true;
-				}
-			}
-			if (!found) {
-				toAdd.add(v);
-			}
-		}
-		destination.getFields().addAll(toAdd);
 	}
 	
 	private static String getRefFeature(final Features features, final String callingFeature, String[] curConfig) throws ReferenceException {

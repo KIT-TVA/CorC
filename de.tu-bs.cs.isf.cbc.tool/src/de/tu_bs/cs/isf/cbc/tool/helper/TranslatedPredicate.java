@@ -3,10 +3,6 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.BinaryNode;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.Node;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.QuantorNode;

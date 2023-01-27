@@ -28,7 +28,7 @@ public class RelNode implements Node {
 
 	@Override
 	public TokenType getType() {
-		return TokenType.REL;
+		return this.type;
 	}
 
 	public void addIdentifier(Token curToken) {

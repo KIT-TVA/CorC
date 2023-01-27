@@ -18,10 +18,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
-import de.tu_bs.cs.isf.cbc.cbcmodel.impl.JavaVariableImpl;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
-import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGeneratorException;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
@@ -308,28 +305,6 @@ public class ClassHandler {
 			}
 		}
 		return null;
-	}
-	
-	private String initializeGvars(List<String> gVars) {
-		String output = "";
-		String val;
-		for (var v : gVars) {
-			var splitter = v.split("\\s");
-			var type = splitter[splitter.length - 2];
-			if (TestAndAssertionGenerator.isBuiltInType(type)) {
-				val = InputData.getDefaultValue(type);
-				if (val.contains("[")) {
-					output += "\tpublic " + v + " = " + val + ";\n";
-					continue;
-				}
-			} else {
-				val = "null";//genDefaultInputForVar(v, null).get(0);
-			}
-			// now handle possible primitive array uses and assign v
-			output = CodeHandler.handlePrimitiveArrayUses(output, v, val, 1);
-			//output += "\t public " + v + " = " + val + ";\n";
-		}
-		return output;
 	}
 	
 	private String generateConstructor(final String className, final List<String> gVars) {

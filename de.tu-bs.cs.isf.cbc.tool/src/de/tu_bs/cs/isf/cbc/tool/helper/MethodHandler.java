@@ -3,8 +3,6 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
-
 public class MethodHandler {
 	private String signature;
 	private String innerCode;

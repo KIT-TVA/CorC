@@ -1,7 +1,5 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -17,11 +15,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
-import de.tu_bs.cs.isf.cbc.tool.helper.ReferenceException;
-import de.tu_bs.cs.isf.cbc.tool.helper.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
-import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 /**
  * Feature for testing all statements.

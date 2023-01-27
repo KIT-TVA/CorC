@@ -113,19 +113,6 @@ public class InputData {
 		this.values = values;
 	}
 	
-	private void shuffleArray(String[] array)
-	  {
-	    Random rnd = new Random();
-	    for (int i = array.length - 1; i > 0; i--)
-	    {
-	      int index = rnd.nextInt(i + 1);
-	      String a = array[index];
-	      array[index] = array[i];
-	      array[i] = a;
-	    }
-	    this.values = array;
-	  }
-	
 	private void genArrayRep() {
 		//shuffleArray(this.values);
 		if (this.values.length == 0) {

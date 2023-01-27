@@ -19,8 +19,6 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;  
 import org.testng.ITestResult;
 
-import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
-import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;  
 
@@ -121,7 +119,6 @@ public class TestAndAssertionListener implements ITestListener {
 				code = Files.readString(javaFile.toPath());
 
 				String helper = code.substring(code.indexOf(methodName), code.length());
-				int curIndex = helper.length() + code.indexOf(helper);
 				while (helper.indexOf('\n') < helper.indexOf('{') ||
 						helper.substring(0, helper.indexOf('{')).chars().filter(c -> c == ')').count() > 1) 
 				{
@@ -244,43 +241,7 @@ public class TestAndAssertionListener implements ITestListener {
 		  }
 		  return branches;
 	  }
-	  
-	  private List<String> extractValues(String call) {
-		  final var output = new ArrayList<String>();
-		  
-		  
-		  call = call.substring(call.indexOf('(') + 1 , call.lastIndexOf(')'));
-		  if (call.isBlank()) {
-			  return output;
-		  }
-		  if (Character.isDigit(call.charAt(0)) || call.charAt(0) == '-') {
-			  return Arrays.asList(call.split("\\,\\s"));
-		  } else {
-				// format of methodcall is: <methodname>(<type> <varname> = <value>, ...)
-
-				final String[] params = CodeHandler.sSplit(call, "\\,\\s");
-				
-				for (var param : params) {
-					output.add(param.split("=\\s")[1]);
-				}
-		  }
-		  return output;
-	  }
-	  
-	  private List<String> extractVarNames(String methodCall) {
-		  methodCall = methodCall.substring(methodCall.indexOf('(') + 1 , methodCall.lastIndexOf(')'));
-		  final var output = new ArrayList<String>();
-		  if (methodCall.isBlank()) {
-			  return output;
-		  }
-		  final String[] params = CodeHandler.sSplit(methodCall, "\\,\\s");
-		
-		  for (var param : params) {
-			  output.add(param.split("\\s")[1]);
-		  }
-		  return output;
-	  }
-	  
+	  	    
 	  private boolean isAssignment(String methodCode, int position) {
 		  if (methodCode.charAt(position) == '=') {
 			  if (Arrays.asList('+', '-', '*', '/').contains(methodCode.charAt(position - 1))) {

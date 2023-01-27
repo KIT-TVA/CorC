@@ -13,7 +13,6 @@ import org.eclipse.swt.graphics.RGB;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 
-import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
@@ -46,26 +45,6 @@ public class TestStatementListener extends TestAndAssertionListener {
 			  }
 		  }
 		  return -1;
-	}
-	
-	/*
-	private int getStatementLineNr(final String className, final String methodCode) {
-		var lines = methodCode.split("\\n");
-		int relativeLineNr = -1;
-		int lineCounter = 0;
-		for (var line : lines) {
-			if (line.trim().equals(TestStatement.EXECUTED_TAG)) {
-				relativeLineNr = lineCounter + 1;
-			}
-			lineCounter++;
-		}
-		var classCode = getClassCode(className);
-		int offset = getLineCount(classCode) - getLineCount(methodCode);
-		return relativeLineNr - offset + 2;
-	}*/
-	
-	private int getLineCount(final String code) {
-		return code.split("\\n").length;
 	}
 	
 	protected String getLine(final String code, int lineNr) {
