@@ -1,9 +1,10 @@
 package de.tu_bs.cs.isf.cbc.tool.exceptions;
 
 public final class ExceptionMessages {
-	public static String ret = "Return variable not found. Please make sure that one is defined in the diagram.";
-	public static String genCode = "Couldn't generate Code.";
-	public static String idNull = "An ID was null.";
+	public static String RET = "Return variable not found. Please make sure that one is defined in the diagram.";
+	public static String GENCODE = "Couldn't generate Code.";
+	public static String IDNULL = "An ID was null.";
+	public static String RETRESOLVE = "Couldn't resolve '\\result'-keyword because the return variable was not found.";
 	
 	public static String sigNotFound(final String signature) {
 		return "The signature " + signature + " couldn't be found.";
@@ -32,4 +33,5 @@ public final class ExceptionMessages {
 	public static String translateToSolverSyntax() {
 		return "Couldn't translate given precondition to the solver's syntax.";
 	}
+	
 }

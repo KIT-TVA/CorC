@@ -762,7 +762,12 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		final var programPreCons = ConditionHandler.translateConditionToJava(projectPath, programPreConsStr, "", data);	
 		postCon = postCon.replaceAll("this\\.", "");
 		// replace the keyword \result
-		postCon = ConditionHandler.replaceResultKeyword(postCon, returnVar);
+		try {
+			postCon = ConditionHandler.replaceResultKeyword(postCon, returnVar);
+		} catch (ReferenceException e) {
+			restoreVars(features, vars, oldVars);
+			throw e;
+		}
 		final List<Variable> usedVarsPostCon = getUsedVars(postCon, vars);
 		final List<Variable> usedVarsPreCon = getUsedVars(programPreConsStr, vars);
 		usedVarsPostCon.addAll(usedVarsPreCon);
@@ -801,7 +806,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			if (returnVar == null) {
 				// remove temporarily added vars
 				restoreVars(features, vars, oldVars);
-				throw new TestStatementException(ExceptionMessages.ret);
+				throw new TestStatementException(ExceptionMessages.RET);
 			}
 			String returnVarName = returnVar.getName().split("\\s")[1];
 			if (Variable.containsVarDefinition(code, returnVarName)) {

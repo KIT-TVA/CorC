@@ -583,7 +583,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		if (id == null) {
 			//Console.clear();
 			Console.println("Please add IDs to the diagram.");
-			throw new TestAndAssertionGeneratorException(ExceptionMessages.idNull);
+			throw new TestAndAssertionGeneratorException(ExceptionMessages.IDNULL);
 		}
 		if (id.equals(refinement.getId())) {
 			return STATEMENT_PH + "\n";
@@ -1008,7 +1008,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			}
 			//} else if (code.toString().)
 		} else if (returnVariable == null && !formula.getMethodObj().getReturnType().equals("void")) {
-			throw new TestAndAssertionGeneratorException(ExceptionMessages.ret);
+			throw new TestAndAssertionGeneratorException(ExceptionMessages.RET);
 		}
 		code.append("\t}");//}
 		
@@ -2142,7 +2142,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		for (var code : fileContents) {
 			code = code.trim();
 			if (code.isEmpty()) {
-				throw new TestAndAssertionGeneratorException(ExceptionMessages.genCode);
+				throw new TestAndAssertionGeneratorException(ExceptionMessages.GENCODE);
 			}
 			var className = code.split("public\\sclass\\s")[1].split("\\s", 2)[0];
 			className = className.replaceAll("\\{", "");

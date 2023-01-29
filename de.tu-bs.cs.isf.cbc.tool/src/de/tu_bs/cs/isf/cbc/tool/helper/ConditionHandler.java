@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.common.util.URI;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.ReferenceException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.ConditionParser;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.Node;
@@ -41,7 +43,10 @@ public final class ConditionHandler {
 		return condition;
 	}
 	
-	public static String replaceResultKeyword(String condition, final JavaVariable returnVar) {
+	public static String replaceResultKeyword(String condition, final JavaVariable returnVar) throws ReferenceException {
+		if (condition.contains("\\result") && returnVar == null) {
+			throw new ReferenceException(ExceptionMessages.RETRESOLVE);
+		}
 		if (returnVar == null) {
 			return condition;
 		}
@@ -166,6 +171,7 @@ public final class ConditionHandler {
 	
 	public static Node parseCondition(final URI projectPath, final String condition, String instanceName, List<InputData> gVars) throws UnexpectedTokenException {
 		String c = translateCondition(projectPath, condition, instanceName, gVars);
+		
 		ConditionParser parser = new ConditionParser();
 		var tree = parser.parse(c);
 		return tree;
