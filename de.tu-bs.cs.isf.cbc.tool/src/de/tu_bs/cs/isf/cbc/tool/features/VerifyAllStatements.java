@@ -27,6 +27,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -96,6 +97,10 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		if (!checkAllStatementsForId(statement.getRefinement())) return;
 		String uriString = getDiagram().eResource().getURI().toPlatformString(true);
 		URI uri = getDiagram().eResource().getURI();
+		// delete 'tests' folder if it exists because it will cause reference errors
+		// since key doesn't use TestNG.
+		FileHandler.deleteFolder(uri, "tests");
+
 		IProject project = FileUtil.getProjectFromFileInProject(uri);
 		verifyStmt = new VerifyStatement(super.getFeatureProvider());
 		genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());

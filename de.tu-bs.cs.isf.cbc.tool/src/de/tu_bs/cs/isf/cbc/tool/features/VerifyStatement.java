@@ -26,6 +26,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
@@ -111,6 +112,10 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				
 				boolean proven = false;
 				URI uri = getDiagram().eResource().getURI();
+				// delete 'tests' folder if it exists because it will cause reference errors
+				// since key doesn't use TestNG.
+				FileHandler.deleteFolder(uri, "tests");
+
 				IProject project = FileUtil.getProjectFromFileInProject(uri);
 				boolean isVariational = false;
 				try {

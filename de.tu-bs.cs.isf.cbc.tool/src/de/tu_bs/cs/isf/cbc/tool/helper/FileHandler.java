@@ -99,6 +99,40 @@ public class FileHandler {
 		return true;
 	}
 	
+	public static boolean deleteFolder(final URI projectPath, final String folderName) {
+			var project = FileUtil.getProject(projectPath);
+			var folder = project.getFolder(folderName);
+			if (folder == null) {
+				return false;
+			}
+			var files = FileUtil.getFiles(folder, "");
+			for (var file : files) {
+				deleteSpecificFile(file.getLocation().toOSString());
+			}
+			var folderObj = new File(FileUtil.getProjectLocation(projectPath) + "/" + folderName);
+			try {
+				Files.delete(Paths.get(folderObj.getPath()));
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+			return true;
+	}
+	
+	public static boolean deleteSpecificFile(final String fullFilePath) {
+		try {
+			var javaFile = new File(fullFilePath);
+			if (!javaFile.exists()){
+				return false;
+		    }
+			Files.delete(Paths.get(javaFile.getPath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
 	public static boolean deleteFile(final URI projectPath, String className) {
 		try {
 			var dir = new File(FileUtil.getProjectLocation(projectPath) + "\\tests");	
@@ -115,6 +149,7 @@ public class FileHandler {
 				Files.delete(Paths.get(javaFile.getPath()));
 		    }
 		} catch (IOException e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;
