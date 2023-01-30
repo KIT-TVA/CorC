@@ -102,7 +102,7 @@ public class FileHandler {
 	public static boolean deleteFolder(final URI projectPath, final String folderName) {
 			var project = FileUtil.getProject(projectPath);
 			var folder = project.getFolder(folderName);
-			if (folder == null) {
+			if (!folder.exists()) {
 				return false;
 			}
 			var files = FileUtil.getFiles(folder, "");

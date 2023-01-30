@@ -67,41 +67,39 @@ public class StatisticsDatabase {
 		}
 	}
 
-	public List<StatisticsEntry> getEntriesRelatedTo(IFile file) {
+	public List<StatisticsEntry> getEntriesRelatedTo(final IFile file) {
 		// TODO: maybe save more redundant information to make it more robust
-
-		List<StatisticsEntry> validDBEntries = new LinkedList<StatisticsEntry>();
-
-//		System.out.println("File: " + file);
+		final List<StatisticsEntry> validDBEntries = new LinkedList<StatisticsEntry>();
 		List<StatisticsEntry> affectedEntriesInDB = new LinkedList<StatisticsEntry>();
+
 		for (StatisticsEntry entry : registry.getEntries()) {
 
 			// TODO: replace entryPath with diagram name which is new in statistics model
-			String entryPath;
+			final String entryPath;
 			if (entry.getMapping().getKeyFilePath() != null) {
 				entryPath = entry.getMapping().getKeyFilePath().toString();
 
 			} else
 				continue;
-//				Path filePath = new Path(file.getRawLocation().toString());
 
-			String filePath = file.getFullPath().toString();
-			int indexLastSeparator = filePath.lastIndexOf("/") + 1;
-			int indexExtension = filePath.indexOf(".diagram");
-			String affectedDiagram = filePath.substring(indexLastSeparator, indexExtension);
+			final String filePath = file.getFullPath().toOSString();
+			// first check whether the file is located in the same project/branch as the entry
+			final String branch = filePath.substring(0, filePath.lastIndexOf(File.separator));
+			if (!entryPath.contains(branch)) {
+				continue;
+			}
+			final String affectedDiagram = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.indexOf(".diagram"));
 
-			int indexLastSeperatorEntry = entryPath.lastIndexOf(File.separator);
-			entryPath = entryPath.substring(0, indexLastSeperatorEntry);
-			// adding 6 because of prove string
-			indexLastSeperatorEntry = entryPath.lastIndexOf(File.separator) + 6;
-
-			// TODO added question for length, as problems occur for spls, folder named as config
-			String entryFolder = entryPath.substring(indexLastSeperatorEntry < entryPath.length() ? indexLastSeperatorEntry : entryPath.length(), entryPath.length());
-
-//				System.out.println(affectedDiagram);
+			if (entryPath.indexOf("prove") == -1) {
+				continue;
+			}
+			String entryFolder = entryPath.substring(entryPath.indexOf("prove") + "prove".length(), entryPath.length());
+			if (entryFolder.contains(File.separator)) {
+				entryFolder = entryFolder.substring(0, entryFolder.indexOf(File.separator));
+			}
+			
 			if (entryFolder.equals(affectedDiagram)) {
 				affectedEntriesInDB.add(entry);
-//				System.out.println("equal path found");
 			}
 		}
 
