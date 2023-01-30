@@ -1,6 +1,8 @@
 package de.tu_bs.cs.isf.cbc.statistics.ui;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +29,10 @@ public class StatisticsDialog extends TitleAreaDialog {
 	
 	private List<?> paths = null;
 	private int numberOfDiagrams;
-	private List<StatisticsEntry> entries = new LinkedList<StatisticsEntry>();
+	private boolean isSpl = false;
+	private final List<StatisticsEntry> entries = new LinkedList<StatisticsEntry>();
+	private final List<String> configs = new ArrayList<String>(); 
+	private HashMap<StatisticsEntry, String> configEntries = new HashMap<StatisticsEntry, String>();
 	private List<IFile> selectedDiagramFiles = new LinkedList<IFile>();
 	
 	public StatisticsDialog(Shell parentShell) {
@@ -60,10 +65,16 @@ public class StatisticsDialog extends TitleAreaDialog {
 		
 		HtmlHandler htmlSite = new HtmlHandler();
 		htmlSite.setDiagramPaths(paths);
-		htmlSite.setData(numberOfDiagrams, entries, selectedDiagramFiles);
-		String templateHTML = htmlSite.getHtmlString();
-		browser.setText(templateHTML);
+		final String templateHTML;
 
+		if (this.isSpl) {
+			htmlSite.setDataSPL(numberOfDiagrams, configEntries, configs, selectedDiagramFiles);
+			templateHTML = htmlSite.getHtmlStringSPL();
+		} else {
+			htmlSite.setData(numberOfDiagrams, entries, selectedDiagramFiles);
+			templateHTML = htmlSite.getHtmlString();
+		}
+		browser.setText(templateHTML);
 		browser.setFocus();
 	}
 
@@ -126,8 +137,27 @@ public class StatisticsDialog extends TitleAreaDialog {
 		return new Point(1200, 800);
 	}
 
+	public void setDataSPL(final List<IFile> allDiagramFiles, final String configName) {
+		this.isSpl = true;
+		if (!this.configs.contains(configName)) {
+			this.configs.add(configName);
+		}
+		if (allDiagramFiles.size() < 1) {
+			de.tu_bs.cs.isf.cbc.util.Console.println("No diagram files selected.");
+		}
+		else {
+			for (IFile file : allDiagramFiles) {
+				for (StatisticsEntry entry : StatisticsDatabase.instance.getConfigEntries(file, configName)) {
+					configEntries.put(entry, configName);
+				}
+			}
+			numberOfDiagrams = allDiagramFiles.size();
+			selectedDiagramFiles = allDiagramFiles;
+		}
+	}
+
 	public void setData(List<IFile> allDiagramFiles) {
-		
+		this.isSpl = false;
 		if (allDiagramFiles.size() < 1) {
 			de.tu_bs.cs.isf.cbc.util.Console.println("No diagram files selected.");
 		}

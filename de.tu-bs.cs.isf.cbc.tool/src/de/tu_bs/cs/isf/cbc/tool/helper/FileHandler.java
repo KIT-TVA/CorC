@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
@@ -215,10 +216,19 @@ public class FileHandler {
 		return GetDiagramUtil.getDiagramFromFile(file, rSet);
 	}
 	
-	public static boolean isSPL(final URI projectPath) {
-		final var projectLocation = FileUtil.getProjectLocation(projectPath);
-		final var project = FileUtil.getProject(projectPath);
+	public static boolean isSPL(final IProject project) {
+		try {
+			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+			return false;
+		}	
 		/*
+		final var projectLocation = FileUtil.getProjectLocation(projectPath);
 		final var modelFile = new File(projectLocation + "/model.xml");
 		final List<String> lines;
 			
@@ -234,16 +244,11 @@ public class FileHandler {
 			e.printStackTrace();
 		}
 		return false;*/
-		try {
-			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
-				return true;
-			} else {
-				return false;
-			}
-		} catch (CoreException e) {
-			e.printStackTrace();
-			return false;
-		}	
+	}
+	
+	public static boolean isSPL(final URI projectPath) {
+		final var project = FileUtil.getProject(projectPath);
+		return isSPL(project);
 	}
 	
 	public static boolean saveConfig(final URI projectPath, final CbCFormula formula, final Features features, boolean isTestCase) {

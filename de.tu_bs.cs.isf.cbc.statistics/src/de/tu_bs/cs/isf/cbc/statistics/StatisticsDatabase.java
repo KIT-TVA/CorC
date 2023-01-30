@@ -21,6 +21,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
+import de.tu_bs.cs.isf.cbc.util.Console;
 
 public class StatisticsDatabase {
 
@@ -65,6 +66,54 @@ public class StatisticsDatabase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public List<StatisticsEntry> getConfigEntries(final IFile file, final String configName) {
+		// TODO: maybe save more redundant information to make it more robust
+		final List<StatisticsEntry> validDBEntries = new LinkedList<StatisticsEntry>();
+		List<StatisticsEntry> affectedEntriesInDB = new LinkedList<StatisticsEntry>();
+
+		for (StatisticsEntry entry : registry.getEntries()) {
+
+			// TODO: replace entryPath with diagram name which is new in statistics model
+			final String entryPath;
+			if (entry.getMapping().getKeyFilePath() != null) {
+				entryPath = entry.getMapping().getKeyFilePath().toString();
+
+			} else
+				continue;
+
+			final String filePath = file.getFullPath().toOSString();
+			// first check whether the file is located in the same project/branch as the entry
+			final String branch = filePath.substring(0, filePath.lastIndexOf(File.separator));
+			if (!entryPath.contains(branch)) {
+				continue;
+			}
+			final String affectedDiagram = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.indexOf(".diagram"));
+
+			if (entryPath.indexOf("prove") == -1) {
+				continue;
+			}
+			String entryFolder = entryPath.substring(entryPath.indexOf("prove") + "prove".length(), entryPath.length());
+			if (entryFolder.chars().filter(c -> c == File.separator.charAt(0)).count() != 2) {
+				continue;
+			}
+			final String entryConfig = entryFolder.substring(entryFolder.indexOf(File.separator) + File.separator.length(), entryFolder.lastIndexOf(File.separator)); 
+			if (!entryConfig.equals(configName)) {
+				continue;
+			}
+			entryFolder = entryFolder.substring(0, entryFolder.indexOf(File.separator));
+			if (entryFolder.equals(affectedDiagram)) {
+				affectedEntriesInDB.add(entry);
+			}
+		}
+
+		if (!affectedEntriesInDB.isEmpty()) {
+			affectedEntriesInDB = removeOutdated(affectedEntriesInDB);
+			validDBEntries.addAll(getLatestEntriesWithRedundantID(affectedEntriesInDB));
+		}
+
+		return validDBEntries;
 	}
 
 	public List<StatisticsEntry> getEntriesRelatedTo(final IFile file) {

@@ -7,16 +7,23 @@ import java.util.Optional;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.internal.resources.Resource;
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
+
+import de.tu_bs.cs.isf.cbc.tool.helper.Features;
+import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 public class OpenStatisticsViewHandler extends AbstractHandler {
 
@@ -44,17 +51,31 @@ public class OpenStatisticsViewHandler extends AbstractHandler {
 		}
 		
 		List<IFile> allDiagramFiles = new LinkedList<>();
+	    IResource resource = null;
+		
 		for(IResource res : resourceList) {
 			collectAllDiagramFiles(allDiagramFiles, res);
+			resource = res;
 		}
 		
-		StatisticsDialog dialog = new StatisticsDialog(Display.getCurrent().getActiveShell());
-		dialog.setData(allDiagramFiles);
+		if (resource == null) {
+			return null;
+		}
+		final StatisticsDialog dialog = new StatisticsDialog(Display.getCurrent().getActiveShell());
+		final URI projectUri = URI.createPlatformResourceURI(resource.getFullPath().toOSString());
+		if (FileHandler.isSPL(projectUri)) {
+			var features = new Features(projectUri);
+			while (features.getNextConfig() != null) {
+				dialog.setDataSPL(allDiagramFiles, features.getCurConfigName());
+			}
+		} else {
+			// set entries 
+			dialog.setData(allDiagramFiles);
+		}
 		dialog.open();
-		
 		return null;
 	}
-
+	
 	private void collectAllDiagramFiles(List<IFile> allDiagramFiles, IResource selectedResource) {
 		if(selectedResource instanceof IFile) {
 			addFileToDiagramList(allDiagramFiles, selectedResource);
