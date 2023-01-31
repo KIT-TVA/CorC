@@ -52,6 +52,7 @@ public class HtmlHandler {
 	}
 
 	public String getHtmlStringSPL() {
+		boolean generatedDiagram = false;
 		String diagramName = "";
 		List<StatisticsEntry> entriesPerDiagram = new LinkedList<StatisticsEntry>();
 
@@ -59,7 +60,6 @@ public class HtmlHandler {
 			return null;
 		}
 		diagramName = configEntries.keySet().stream().findFirst().get().getMapping().getCorcDiagramName();
-		placeholderPlainStatistics = placeholderPlainStatistics + "<h2 class\"text\">Diagram: " + diagramName + "</h2>";
 		final var configNames = configEntries.values().stream().distinct().sorted().toList();
 		for (String config : configNames) {
 			createConfigName(config);
@@ -72,6 +72,7 @@ public class HtmlHandler {
 			}
 			if (numberOfDiagrams == 1) {
 				entriesPerDiagram = entries;
+				placeholderPlainStatistics = placeholderPlainStatistics + "<h3 class\"text\">Diagram: " + diagramName + "</h3>";
 				createPlaceholderPlainStringForOneDiagram(diagramName, entriesPerDiagram);
 				placeholderGeneratedDiagram = "<div class=\"text block\">\r\n"
 						+ "                <p>No diagrams generated. For diagram generation, please select more than one CorC diagram</p>\r\n" + "            </div>";
@@ -84,10 +85,14 @@ public class HtmlHandler {
 							entriesPerDiagram.add(entry);
 						}
 					}
+					placeholderPlainStatistics = placeholderPlainStatistics + "<h3 class\"text\">Diagram: " + diagramName + "</h3>";
 					createPlaceholderPlainStringForOneDiagram(diagramName, entriesPerDiagram);
 					entriesPerDiagram = new LinkedList<StatisticsEntry>();
 				}
-				
+				if (generatedDiagram) {
+					continue;
+				}
+				generatedDiagram = true;
 				RHelper helper = new RHelper();
 				String pathToPNG = helper.generatePNG("statistics-png", entries);
 				String pathToPDF = helper.generatePDF("statistics-pdf", entries);
@@ -221,7 +226,7 @@ public class HtmlHandler {
 	}
 	
 	private void createConfigName(final String config) {
-		placeholderPlainStatistics = placeholderPlainStatistics + "<h3 class\"text\" style=\"color:CornflowerBlue\">Configuration: " + config + "</h3>";
+		placeholderPlainStatistics = placeholderPlainStatistics + "<h2 class\"text\" style=\"color:CornflowerBlue\">Configuration: " + config + "</h2>";
 	}
 
 	private void createPlaceholderPlainStringForOneDiagram(String diagramName,
