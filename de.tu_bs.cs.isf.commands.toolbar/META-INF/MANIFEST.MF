@@ -17,8 +17,11 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: de.tu_bs.cs.isf.cbc.tool.helper,
  newDiagramWizard,
+ de.tu_bs.cs.isf.cbc.tool.model,
+ helper,
  org.eclipse.jdt.core,
  org.eclipse.jdt.internal.compiler.batch,
  org.eclipse.jdt.internal.core,
  org.eclipse.jface.text,
- org.emftext.language.java.resource.java.util
+ org.emftext.language.java.resource.java.util,
+ org.emftext.language.java.containers

@@ -253,7 +253,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		}
 		long endTime = System.nanoTime();
 		double elapsedTime = (endTime - startTime) / 1000000;
-		Console.println("Total time needed: " + (int)elapsedTime + "ms");
+		Console.println("Time needed: " + (int)elapsedTime + "ms");
 	}
 	
 	private boolean test(final URI uri, final CbCFormula formula, final JavaVariables vars, final GlobalConditions globalConditions, final String signatureString, final List<String> globalVars, final Features features) throws ReferenceException, TestAndAssertionGeneratorException, PreConditionSolverException, UnexpectedTokenException, TestStatementException {

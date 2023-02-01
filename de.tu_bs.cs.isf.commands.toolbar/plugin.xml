@@ -17,6 +17,11 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
+      		defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.family.GenerateMetaProductHandler"
+            id="de.tu_bs.cs.isf.commands.toolbar.command2"
+      		name="MetaProduct">
+      </command>
+      <command
             defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.VerifyHandler"
             id="de.tu_bs.cs.isf.commands.toolbar.command"
             name="VerifyStatements">
@@ -34,6 +39,13 @@
    </extension>
    <extension
          point="org.eclipse.ui.menus">
+      <menuContribution 
+            locationURI="popup:org.eclipse.ui.popup.any">
+      		<command 
+      			  commandId="de.tu_bs.cs.isf.commands.toolbar.command2"
+      			  label="Generate Meta Product">
+      		</command>
+      </menuContribution>
       <menuContribution
             allPopups="false"
             locationURI="toolbar:org.eclipse.ui.main.toolbar">

@@ -92,4 +92,34 @@ public class CbcModelUtil {
 		}
 		return rSet.getResource(uri, true);
 	}
+
+	public static JavaVariables readJavaVariables(final URI uri) {
+		CbcmodelPackage.eINSTANCE.eClass();
+		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+		Map<String, Object> m = reg.getExtensionToFactoryMap();
+		m.put("cbcmodel", new XMIResourceFactoryImpl());
+		ResourceSet rs = new ResourceSetImpl();
+		Resource r = rs.getResource(uri, true);
+		for (EObject obj :  r.getContents()) {
+			if (obj instanceof JavaVariables) {
+				return (JavaVariables)obj;
+			}
+		}
+		return null;
+	}
+
+	public static GlobalConditions readGlobalConditions(final URI uri) {
+		CbcmodelPackage.eINSTANCE.eClass();
+		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+		Map<String, Object> m = reg.getExtensionToFactoryMap();
+		m.put("cbcmodel", new XMIResourceFactoryImpl());
+		ResourceSet rs = new ResourceSetImpl();
+		Resource r = rs.getResource(uri, true);
+		for (EObject obj :  r.getContents()) {
+			if (obj instanceof GlobalConditions) {
+				return (GlobalConditions)obj;
+			}
+		}
+		return null;
+	}
 }
