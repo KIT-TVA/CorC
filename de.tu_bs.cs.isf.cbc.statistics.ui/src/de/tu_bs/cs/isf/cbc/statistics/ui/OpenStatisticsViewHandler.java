@@ -36,7 +36,7 @@ public class OpenStatisticsViewHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		long start = System.nanoTime();
 		Console.clear();
-		Console.println("Start generating statistics...");
+		Console.println("Start generating statistics...\n");
 		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 		List<IResource> resourceList = new LinkedList<>();
 		
@@ -53,6 +53,7 @@ public class OpenStatisticsViewHandler extends AbstractHandler {
 			}
 		}
 		if(resourceList.isEmpty()) {
+			Console.println("Nothing to generate.");
 			return null;
 		}
 		
@@ -65,6 +66,7 @@ public class OpenStatisticsViewHandler extends AbstractHandler {
 		}
 		
 		if (resource == null) {
+			Console.println("Non valid resource selected.");
 			return null;
 		}
 		final StatisticsDialog dialog = new StatisticsDialog(Display.getCurrent().getActiveShell());
@@ -74,15 +76,23 @@ public class OpenStatisticsViewHandler extends AbstractHandler {
 			var features = new Features(projectUri);
 			while (features.getNextConfig() != null) {
 				Console.println(" > Configuration: [" + features.getConfigRep() + "]", blue);
-				dialog.setDataSPL(allDiagramFiles, features.getCurConfigName());
-				Console.println(" > Generated data.");
+				if (dialog.setDataSPL(allDiagramFiles, features.getCurConfigName())) {
+					Console.println(" > Generated data.");
+				} else {
+					Console.println(" > Couldn't generate data.");
+					return null;
+				}
 			}
 		} else {
 			// set entries 
-			dialog.setData(allDiagramFiles);
-			Console.println(" > Generated data.");
+			if (dialog.setData(allDiagramFiles)) {
+				Console.println(" > Generated data.");
+			} else {
+				Console.println(" > Couldn't generate data.");
+				return null;
+			}
 		}
-		Console.println("Statistics generation done.");
+		Console.println("\nStatistics generation done.");
 		long end = System.nanoTime();
 		Console.println("Time needed: " + ((end - start) / 1000000) + "ms");
 		dialog.open();

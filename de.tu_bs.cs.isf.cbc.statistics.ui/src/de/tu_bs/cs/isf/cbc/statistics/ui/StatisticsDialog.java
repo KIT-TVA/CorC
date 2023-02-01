@@ -142,13 +142,14 @@ public class StatisticsDialog extends TitleAreaDialog {
 		return new Point(1200, 800);
 	}
 
-	public void setDataSPL(final List<IFile> allDiagramFiles, final String configName) {
+	public boolean setDataSPL(final List<IFile> allDiagramFiles, final String configName) {
 		this.isSpl = true;
 		if (!this.configs.contains(configName)) {
 			this.configs.add(configName);
 		}
 		if (allDiagramFiles.size() < 1) {
 			de.tu_bs.cs.isf.cbc.util.Console.println("No diagram files selected.");
+			return false;
 		}
 		else {
 			for (IFile file : allDiagramFiles) {
@@ -159,12 +160,14 @@ public class StatisticsDialog extends TitleAreaDialog {
 			numberOfDiagrams = allDiagramFiles.size();
 			selectedDiagramFiles = allDiagramFiles;
 		}
+		return true;
 	}
 
-	public void setData(List<IFile> allDiagramFiles) {
+	public boolean setData(List<IFile> allDiagramFiles) {
 		this.isSpl = false;
 		if (allDiagramFiles.size() < 1) {
 			de.tu_bs.cs.isf.cbc.util.Console.println("No diagram files selected.");
+			return false;
 		}
 		else {
 			for (IFile file : allDiagramFiles) {
@@ -173,6 +176,7 @@ public class StatisticsDialog extends TitleAreaDialog {
 			numberOfDiagrams = allDiagramFiles.size();
 			selectedDiagramFiles = allDiagramFiles;
 		}
+		return true;
 	}
 
 //	private boolean multipleDiagrams(List<StatisticsEntry> entries) {

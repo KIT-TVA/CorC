@@ -98,8 +98,13 @@ public class FileUtil implements IFileUtil{
 		if (uriPath == null || uriPath.length() == 0) return null;
 		uriPath = uriPath.substring(1, uriPath.length());
 		int positionOfSlash = uriPath.indexOf('/') + 1;
-		String projectName = uriPath.substring(0, positionOfSlash-1);
-		uriPath = uriPath.substring(positionOfSlash, uriPath.length());
+		String projectName;
+		if (positionOfSlash == 0) {
+			projectName = uriPath;
+		} else {
+			projectName = uriPath.substring(0, positionOfSlash-1);
+			uriPath = uriPath.substring(positionOfSlash, uriPath.length());
+		}
 		IProject thisProject = null;
 		for (IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 			if (p.getFile(new Path(uriPath)).exists() && p.getName().equalsIgnoreCase(projectName)) {

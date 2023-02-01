@@ -223,7 +223,7 @@ public class FileHandler {
 			} else {
 				return false;
 			}
-		} catch (CoreException e) {
+		} catch (CoreException | NullPointerException e) {
 			e.printStackTrace();
 			return false;
 		}	

@@ -105,11 +105,16 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			if (selection != null && selection instanceof IStructuredSelection) {
 				
 				IStructuredSelection strucSelection = (IStructuredSelection) selection;
-				
-				FEATURE_FOLDER_SELECTED_BY_USER = (IFolder) strucSelection.getFirstElement();
+				try {
+					FEATURE_FOLDER_SELECTED_BY_USER = (IFolder) strucSelection.getFirstElement();
+				} catch (ClassCastException e) {
+					e.printStackTrace();
+					Console.println("Please select a 'features'-folder to start generating meta products.");
+					return null;
+				}
 				
 				if(FEATURE_FOLDER_SELECTED_BY_USER == null) {
-					Console.println("ERROR: folder 'features' not found");
+					Console.println("Please select a 'features'-folder to start generating meta products.");
 					return null;
 				}
 			
