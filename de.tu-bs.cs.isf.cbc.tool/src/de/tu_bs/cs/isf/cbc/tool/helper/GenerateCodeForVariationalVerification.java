@@ -26,6 +26,8 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
@@ -48,7 +50,7 @@ import de.tu_bs.cs.isf.cbc.util.IFileUtil;
 import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 
 public class GenerateCodeForVariationalVerification extends MyAbstractAsynchronousCustomFeature{
-	
+	public static final Color blue = new Color(new RGB(10, 10, 200));
 	private IFileUtil fileHandler;
 	
 	public GenerateCodeForVariationalVerification(IFeatureProvider fp) {
@@ -61,7 +63,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 	}	
 	
 	public void generate(IPath location, String callingFeature, String callingClass, String callingMethod, String[] config) {
-		String output = "++++++++++ Next configuration: ";
+		String output = " > Configuration: [";
 		for (int j = 0; j < config.length; j++) {
 			if (j == config.length - 1) {
 				output += config[j];
@@ -69,7 +71,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 				output += config[j] + ", ";
 			}
 		}
-		Console.println(output + " ++++++++++");
+		Console.println(output + "]", blue);
 		deleteExistingClasses(location + "/src_gen/");
 		writeFile(location + "/src_gen/" + callingClass + ".java", "public class " + callingClass + " {\n}");
 		generateClasses(location + "/src_gen/", config, callingFeature, callingClass, callingMethod.toLowerCase());

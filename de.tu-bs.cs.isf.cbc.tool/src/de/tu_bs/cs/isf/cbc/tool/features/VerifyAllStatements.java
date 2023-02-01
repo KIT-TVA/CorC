@@ -10,6 +10,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
@@ -76,6 +78,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     @Override
     public void execute(ICustomContext context, IProgressMonitor monitor) {
     	configName = "";
+    	Console.clear();
     	long startTime = System.nanoTime();
     	JavaVariables vars = null;
 		GlobalConditions conds = null;
@@ -115,7 +118,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		}
 		
 		if (isVariational) {
-			Console.println("--------------- Triggered variational verification ---------------");
+			Console.println("Starting variational verification...\n");
 			String callingClass = uri.segment(uri.segmentCount()-2) + "";
 			String callingFeature = uri.segment(uri.segmentCount()-3) + "";
 			String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
@@ -132,7 +135,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 				}
 			}
 		} else {
-			Console.println("--------------- Triggered verification ---------------");
+			Console.println("Starting verification...\n");
 			if (!proveChildStatement(statement.getRefinement(), vars, conds, renaming, formula, uriString, null)) {
 				statement.setProven(false);
 				return;
@@ -140,7 +143,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		}		
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1000000;
-		Console.println("--------------- Verification completed --------------- " + duration + "ms");
+		Console.println("\nVerification done."); 
+		Console.println("Time needed: " + duration + "ms");
     }    
 
 	private static boolean proveChildStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,

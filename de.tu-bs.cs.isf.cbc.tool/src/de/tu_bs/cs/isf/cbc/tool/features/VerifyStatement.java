@@ -86,6 +86,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 
 	void verifyStatement(ICustomContext context, IProgressMonitor monitor, boolean inlining) {
 		long startTime = System.nanoTime();
+		Console.clear();
 		monitor.beginTask("Verify statement", IProgressMonitor.UNKNOWN);
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
@@ -137,14 +138,15 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		}
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1000000;
-		Console.println("--------------- Verification completed --------------- " + duration + "ms");
+		Console.println("\nVerification done."); 
+		Console.println("Time needed: " + duration + "ms");
 		monitor.done();
 	}
 
 	private boolean executeNormalVerification(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
 		if (!DataCollector.checkForId(statement)) return false;
 		boolean proven = false;
-		Console.println("--------------- Triggered verification ---------------");
+		Console.println("Starting verification...\n");
 		if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
@@ -166,7 +168,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.trimFileExtension().segmentCount() - 1), true, callingClass, false, null);
 		String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
 		
-		Console.println("--------------- Triggered variational verification ---------------");
+		Console.println("Starting variational verification...\n");
 
 		// do for found configurations
 		GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
