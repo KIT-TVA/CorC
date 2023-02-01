@@ -18,19 +18,25 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
-
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
+import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 public class OpenStatisticsViewHandler extends AbstractHandler {
 
+	public static final Color blue = new Color(new RGB(10, 10, 200));
 	// TODO: get the name of a diagram and find already executed proofs related to it
 	// TODO: if a package or folder or something is clicked -> collect statistics for multiple diagrams
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		long start = System.nanoTime();
+		Console.clear();
+		Console.println("Start generating statistics...");
 		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 		List<IResource> resourceList = new LinkedList<>();
 		
@@ -64,14 +70,21 @@ public class OpenStatisticsViewHandler extends AbstractHandler {
 		final StatisticsDialog dialog = new StatisticsDialog(Display.getCurrent().getActiveShell());
 		final URI projectUri = URI.createPlatformResourceURI(resource.getFullPath().toOSString());
 		if (FileHandler.isSPL(projectUri)) {
+			Console.println("[SPL detected]", blue);
 			var features = new Features(projectUri);
 			while (features.getNextConfig() != null) {
+				Console.println(" > Configuration: [" + features.getConfigRep() + "]", blue);
 				dialog.setDataSPL(allDiagramFiles, features.getCurConfigName());
+				Console.println(" > Generated data.");
 			}
 		} else {
 			// set entries 
 			dialog.setData(allDiagramFiles);
+			Console.println(" > Generated data.");
 		}
+		Console.println("Statistics generation done.");
+		long end = System.nanoTime();
+		Console.println("Time needed: " + ((end - start) / 1000000) + "ms");
 		dialog.open();
 		return null;
 	}
@@ -79,14 +92,14 @@ public class OpenStatisticsViewHandler extends AbstractHandler {
 	private void collectAllDiagramFiles(List<IFile> allDiagramFiles, IResource selectedResource) {
 		if(selectedResource instanceof IFile) {
 			addFileToDiagramList(allDiagramFiles, selectedResource);
-			System.out.println("file");
+			//System.out.println("file");
 		}
 		else if(selectedResource instanceof IFolder) {
 			getFilesWithinFolder(selectedResource, allDiagramFiles);
-			System.out.println("folder");
+			//System.out.println("folder");
 		}
 		else if(selectedResource instanceof IProject) {
-			System.out.println("project");
+			//System.out.println("project");
 		}
 	}
 	

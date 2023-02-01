@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Shell;
 import de.tu_bs.cs.isf.cbc.statistics.CSVHelper;
 import de.tu_bs.cs.isf.cbc.statistics.StatisticsDatabase;
 import de.tu_bs.cs.isf.cbc.statistics.StatisticsEntry;
+import de.tu_bs.cs.isf.cbc.util.Console;
 
 
 public class StatisticsDialog extends TitleAreaDialog {
@@ -73,6 +74,10 @@ public class StatisticsDialog extends TitleAreaDialog {
 		} else {
 			htmlSite.setData(numberOfDiagrams, entries, selectedDiagramFiles);
 			templateHTML = htmlSite.getHtmlString();
+		}
+		if (templateHTML == null) {
+			Console.println("No up to date prove data found.");
+			return;
 		}
 		browser.setText(templateHTML);
 		browser.setFocus();

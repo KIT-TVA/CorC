@@ -226,7 +226,7 @@ public class HtmlHandler {
 	}
 	
 	private void createConfigName(final String config) {
-		placeholderPlainStatistics = placeholderPlainStatistics + "<h2 class\"text\" style=\"color:CornflowerBlue\">Configuration: " + config + "</h2>";
+		placeholderPlainStatistics = placeholderPlainStatistics + "<h2 class\"text\" style=\"color:rgb(10,10,200);\">Configuration: " + config + "</h2>";
 	}
 
 	private void createPlaceholderPlainStringForOneDiagram(String diagramName,

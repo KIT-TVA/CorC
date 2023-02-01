@@ -18,7 +18,7 @@
          point="org.eclipse.ui.commands">
       <command
       		defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.family.GenerateMetaProductHandler"
-            id="de.tu_bs.cs.isf.commands.toolbar.command2"
+            id="de.tu_bs.cs.isf.commands.toolbar.commandMeta"
       		name="MetaProduct">
       </command>
       <command
@@ -42,7 +42,7 @@
       <menuContribution 
             locationURI="popup:org.eclipse.ui.popup.any">
       		<command 
-      			  commandId="de.tu_bs.cs.isf.commands.toolbar.command2"
+      			  commandId="de.tu_bs.cs.isf.commands.toolbar.commandMeta"
       			  label="Generate Meta Product">
       		</command>
       </menuContribution>
