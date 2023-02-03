@@ -76,6 +76,7 @@ public class StatisticsDialog extends TitleAreaDialog {
 			templateHTML = htmlSite.getHtmlString();
 		}
 		if (templateHTML == null) {
+			Console.clear();
 			Console.println("No up to date prove data found.");
 			return;
 		}

@@ -93,7 +93,7 @@ public class HtmlHandler {
 					continue;
 				}
 				generatedDiagram = true;
-				RHelper helper = new RHelper();
+				RHelper helper = new RHelper(configEntries);
 				String pathToPNG = helper.generatePNG("statistics-png", entries);
 				String pathToPDF = helper.generatePDF("statistics-pdf", entries);
 				

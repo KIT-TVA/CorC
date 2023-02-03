@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,8 +18,18 @@ import org.eclipse.core.runtime.Platform;
 public class RHelper {
 	
 	private static final String PLUGIN_ID ="de.tu_bs.cs.isf.cbc.statistics";
-	
-	
+    private static HashMap<StatisticsEntry, String> configEntries;
+	private boolean isSpl;	
+    
+    public RHelper() {
+    	this.configEntries = null;
+    	this.isSpl = false;
+    }
+    
+    public RHelper(final HashMap<StatisticsEntry, String> configEntries) {
+    	this.configEntries = configEntries;
+    	this.isSpl = true;
+    }
 
 	public String generatePDF(String fileName, List<StatisticsEntry> entries) {
 		String rootLocation = getAbsoluteFileRootLocation();
@@ -112,6 +123,67 @@ public class RHelper {
 		return pluginStateFolder.getAbsolutePath() + File.separator + folderName + File.separator;
 	}
 	
+	private String createPlot(final List<String> diagramNames, final List<StatisticsEntry> entries) {
+		String xAxis = "diagram <- c(";
+		String yAxis = "time <- c(" ;
+		
+		for (String diagramName : diagramNames) {
+			float totalTime = 0;
+			for (StatisticsEntry entry : entries) {
+				if (entry.getMapping().getCorcDiagramName().equals(diagramName)) {
+					totalTime = totalTime + entry.getData().getAutoModeTimeInMillis();
+				}
+			}
+			xAxis = xAxis + "\"" + diagramName +"\", ";
+			yAxis = yAxis + totalTime + ", ";
+		}
+		return builtPlot(xAxis, yAxis);
+	}
+	
+	private String createPlotSPL(final List<String> diagramNames) {
+		String xAxis = "diagram <- c(";
+		String yAxis = "time <- c(" ;
+		int numEntries = 0;
+		
+		for (String diagramName : diagramNames) {
+			numEntries = 0;
+			float avgTotalTime = 0;
+			for (final String config : this.configEntries.values()) {
+				for (final StatisticsEntry entry : this.configEntries.keySet()) {
+					if (entry.getMapping().getCorcDiagramName().equals(diagramName) && config.equals(this.configEntries.get(entry))) {
+						avgTotalTime = avgTotalTime + entry.getData().getAutoModeTimeInMillis();
+						numEntries++;
+					}
+				}
+			}
+			avgTotalTime /= numEntries; 
+			xAxis = xAxis + "\"" + diagramName +"\", ";
+			yAxis = yAxis + avgTotalTime + ", ";
+		}
+		return builtPlot(xAxis, yAxis, numEntries);
+	}
+	
+	private String builtPlot(String xAxis, String yAxis, int numEntries) {
+		xAxis = xAxis.substring(0, xAxis.length()-2) + ")\r\n";
+		yAxis = yAxis.substring(0, yAxis.length()-2) + ")\r\n";
+		
+		String margins = "linch <-  max(strwidth(diagram, \"inch\")+0.4, na.rm = TRUE)\r\n"
+				+ "par(mai=c(linch,1.02,0.82,0.42))\r\n";
+		
+		String plotCommand;
+		if (isSPL()) {
+			plotCommand = "barplot(time, ylab = \"Avg AutoMode Time [ms]\n[" + numEntries + " prove files]\", names.arg=diagram, las=2)\r\n";
+		} else {
+			plotCommand = "barplot(time, ylab = \"AutoMode Time [ms]\", names.arg=diagram, las=2)\r\n";
+		}
+		
+		return xAxis + yAxis + margins + plotCommand;
+	}
+	
+	private String builtPlot(String xAxis, String yAxis) {
+		return builtPlot(xAxis, yAxis, -1);
+	}
+	
 	private String generateRCodeBody(List<StatisticsEntry> entries) {
 		List<String> diagramNames = new LinkedList<String>();
 		for (StatisticsEntry entry : entries) {
@@ -127,31 +199,19 @@ public class RHelper {
 			}
 		}
 		
-		String xAxis = "diagram <- c(";
-		String yAxis = "time <- c(" ;
-		
-		// filling the axes
-		for (String diagramName : diagramNames) {
-			float totalTime = 0;
-			for (StatisticsEntry entry : entries) {
-				if (entry.getMapping().getCorcDiagramName().equals(diagramName)) {
-					totalTime = totalTime + entry.getData().getAutoModeTimeInMillis();
-				}
-			}
-			xAxis = xAxis + "\"" + diagramName +"\", ";
-			yAxis = yAxis + totalTime + ", ";
+		if (isSPL()) {
+			return createPlotSPL(diagramNames);
+		} else {
+			return createPlot(diagramNames, entries);
 		}
-		xAxis = xAxis.substring(0, xAxis.length()-2) + ")\r\n";
-		yAxis = yAxis.substring(0, yAxis.length()-2) + ")\r\n";
-		
-		String margins = "linch <-  max(strwidth(diagram, \"inch\")+0.4, na.rm = TRUE)\r\n"
-				+ "par(mai=c(linch,1.02,0.82,0.42))\r\n";
-		
-//		String plotCommand = "mean(diagram)\r\nmean(time)\r\nplot(diagram,time)";
-//		String plotCommand = "barplot(time,xlab = \"Diagrams\", ylab = \"Auto Mode Time in ms\", names.arg=diagram, las=2)\r\n";
-		String plotCommand = "barplot(time, ylab = \"Auto Mode Time in ms\", names.arg=diagram, las=2)\r\n";
-		
-		return xAxis + yAxis + margins + plotCommand;
+	}
+
+	public void setSPL(boolean b) {
+		this.isSpl = b;
+	}
+	
+	public boolean isSPL() {
+		return this.isSpl;
 	}
 	
 }
