@@ -67,10 +67,12 @@ public class StatisticsDatabase {
 		}
 	}
 
-	public List<StatisticsEntry> getConfigEntries(final IFile file, final String configName) {
+	public List<StatisticsEntry> getConfigEntries(final IFile file, String configName) {
 		// TODO: maybe save more redundant information to make it more robust
 		final List<StatisticsEntry> validDBEntries = new LinkedList<StatisticsEntry>();
 		List<StatisticsEntry> affectedEntriesInDB = new LinkedList<StatisticsEntry>();
+		
+		configName = configName.replaceAll(",\\s", "");
 
 		for (StatisticsEntry entry : registry.getEntries()) {
 

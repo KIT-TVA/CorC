@@ -31,6 +31,7 @@ public class HtmlHandler {
 	private String placeholderPlainStatistics = "";
 	private String placeholderGeneratedDiagram = "";
 	private String lineBreak = "<br />";
+	private boolean configView;
 
 	public void setDiagramPaths(List<?> paths) {
 
@@ -94,6 +95,7 @@ public class HtmlHandler {
 				}
 				generatedDiagram = true;
 				RHelper helper = new RHelper(configEntries);
+				helper.setConfigView(this.configView);
 				String pathToPNG = helper.generatePNG("statistics-png", entries);
 				String pathToPDF = helper.generatePDF("statistics-pdf", entries);
 				
@@ -225,7 +227,13 @@ public class HtmlHandler {
 				+ placeholderGeneratedDiagram + "        </div>\r\n" + "    </div>\r\n" + "</body>\r\n" + "</html>";
 	}
 	
-	private void createConfigName(final String config) {
+	private void createConfigName(String config) {
+		/*for (int i = 0; i < config.length()-1; i++) {
+			if (Character.isLowerCase(config.charAt(i)) && Character.isUpperCase(config.charAt(i+1))) {
+				config = config.substring(0, i+1) + ", " + config.substring(i+1, config.length());
+			}
+		}
+		config = "[" + config + "]"; */
 		placeholderPlainStatistics = placeholderPlainStatistics + "<h2 class\"text\" style=\"color:rgb(10,10,200);\">Configuration: " + config + "</h2>";
 	}
 
@@ -259,6 +267,10 @@ public class HtmlHandler {
 			placeholderPlainStatistics = placeholderPlainStatistics + "Total automode time needed: " + totalAutomodeTime + "ms" 
 			+ lineBreak			+ lineBreak			+ lineBreak;
 		}
+	}
+
+	public void setConfigView(boolean configView) {
+		this.configView = configView;
 	}
 
 }

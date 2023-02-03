@@ -17,6 +17,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
@@ -35,6 +36,7 @@ public class StatisticsDialog extends TitleAreaDialog {
 	private final List<String> configs = new ArrayList<String>(); 
 	private HashMap<StatisticsEntry, String> configEntries = new HashMap<StatisticsEntry, String>();
 	private List<IFile> selectedDiagramFiles = new LinkedList<IFile>();
+	private boolean configView = false;
 	
 	public StatisticsDialog(Shell parentShell) {
 		super(parentShell);
@@ -65,6 +67,7 @@ public class StatisticsDialog extends TitleAreaDialog {
 		browser.setLayoutData(gridData);
 		
 		HtmlHandler htmlSite = new HtmlHandler();
+		htmlSite.setConfigView(this.configView);
 		htmlSite.setDiagramPaths(paths);
 		final String templateHTML;
 
@@ -88,6 +91,7 @@ public class StatisticsDialog extends TitleAreaDialog {
 	protected void createButtonsForButtonBar(Composite parent) {
 		// create OK and Cancel buttons by default
 //		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+		createButton(parent, IDialogConstants.OK_ID, "Show Config View", true);
 		createButton(parent, IDialogConstants.CLIENT_ID, "Export CSV File", false);
 		createButton(parent, IDialogConstants.CANCEL_ID, "Close", true);
 	}
@@ -95,12 +99,30 @@ public class StatisticsDialog extends TitleAreaDialog {
 	@Override
 	protected void buttonPressed(int buttonId) {
 		if (IDialogConstants.OK_ID == buttonId) {
-			okPressed();
+			showConfigView();
 		} else if (IDialogConstants.CLIENT_ID == buttonId) {
 			exportCSV();
 		} else if (IDialogConstants.CANCEL_ID == buttonId) {
 			cancelPressed();
 		}
+	}
+	
+	private void showConfigView() {
+		if (configEntries == null || configEntries.isEmpty()
+				|| selectedDiagramFiles == null || selectedDiagramFiles.isEmpty()) {
+			return;
+		}
+		this.toggleConfigView();
+		for (var config : configEntries.values()) {
+			setDataSPL(selectedDiagramFiles, config);
+		}
+		this.close();
+		this.create();
+		this.open();
+	}
+
+	private void toggleConfigView() {
+		this.configView = !this.configView ;
 	}
 
 	private void exportCSV() {

@@ -19,7 +19,8 @@ public class RHelper {
 	
 	private static final String PLUGIN_ID ="de.tu_bs.cs.isf.cbc.statistics";
     private static HashMap<StatisticsEntry, String> configEntries;
-	private boolean isSpl;	
+	private boolean isSpl;
+	private boolean configView;	
     
     public RHelper() {
     	this.configEntries = null;
@@ -140,7 +141,7 @@ public class RHelper {
 		return builtPlot(xAxis, yAxis);
 	}
 	
-	private String createPlotSPL(final List<String> diagramNames) {
+	private String createAvgPlot(final List<String> diagramNames) {
 		String xAxis = "diagram <- c(";
 		String yAxis = "time <- c(" ;
 		int numEntries = 0;
@@ -148,7 +149,7 @@ public class RHelper {
 		for (String diagramName : diagramNames) {
 			numEntries = 0;
 			float avgTotalTime = 0;
-			for (final String config : this.configEntries.values()) {
+			for (final String config : this.configEntries.values().stream().distinct().toList()) {
 				for (final StatisticsEntry entry : this.configEntries.keySet()) {
 					if (entry.getMapping().getCorcDiagramName().equals(diagramName) && config.equals(this.configEntries.get(entry))) {
 						avgTotalTime = avgTotalTime + entry.getData().getAutoModeTimeInMillis();
@@ -163,6 +164,35 @@ public class RHelper {
 		return builtPlot(xAxis, yAxis, numEntries);
 	}
 	
+	private String getInitials(String str) {
+		String initials = "";
+		for (int i = 0; i < str.length(); i++) {
+			if (Character.isUpperCase(str.charAt(i))) {
+				initials += str.charAt(i);
+			}
+		}
+		return initials;
+	}
+	
+	private String createConfigPlot(final List<String> diagramNames) {
+		String xAxis = "diagram <- c(";
+		String yAxis = "time <- c(" ;
+		
+		for (String diagramName : diagramNames) {
+			for (final String config : this.configEntries.values().stream().distinct().toList()) {
+				float totalTime = 0;
+				for (final StatisticsEntry entry : this.configEntries.keySet()) {
+					if (entry.getMapping().getCorcDiagramName().equals(diagramName) && config.equals(this.configEntries.get(entry))) {
+						totalTime = totalTime + entry.getData().getAutoModeTimeInMillis();
+					}
+				}
+				xAxis = xAxis + "\"" + getInitials(config) + " [" + diagramName + "]" +"\", ";
+				yAxis = yAxis + totalTime + ", ";
+			}
+		}
+		return builtPlot(xAxis, yAxis);
+	}
+	
 	private String builtPlot(String xAxis, String yAxis, int numEntries) {
 		xAxis = xAxis.substring(0, xAxis.length()-2) + ")\r\n";
 		yAxis = yAxis.substring(0, yAxis.length()-2) + ")\r\n";
@@ -171,7 +201,7 @@ public class RHelper {
 				+ "par(mai=c(linch,1.02,0.82,0.42))\r\n";
 		
 		String plotCommand;
-		if (isSPL()) {
+		if (isSPL() && numEntries != -1) {
 			plotCommand = "barplot(time, ylab = \"Avg AutoMode Time [ms]\n[" + numEntries + " prove files]\", names.arg=diagram, las=2)\r\n";
 		} else {
 			plotCommand = "barplot(time, ylab = \"AutoMode Time [ms]\", names.arg=diagram, las=2)\r\n";
@@ -200,7 +230,11 @@ public class RHelper {
 		}
 		
 		if (isSPL()) {
-			return createPlotSPL(diagramNames);
+			if (this.configView) {
+				return createConfigPlot(diagramNames);
+			} else {
+				return createAvgPlot(diagramNames);
+			}
 		} else {
 			return createPlot(diagramNames, entries);
 		}
@@ -212,6 +246,10 @@ public class RHelper {
 	
 	public boolean isSPL() {
 		return this.isSpl;
+	}
+
+	public void setConfigView(boolean configView) {
+		this.configView = configView;
 	}
 	
 }

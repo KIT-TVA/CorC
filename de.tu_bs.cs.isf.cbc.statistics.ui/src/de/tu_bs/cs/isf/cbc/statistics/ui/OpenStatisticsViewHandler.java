@@ -76,7 +76,7 @@ public class OpenStatisticsViewHandler extends AbstractHandler {
 			var features = new Features(projectUri);
 			while (features.getNextConfig() != null) {
 				Console.println(" > Configuration: [" + features.getConfigRep() + "]", blue);
-				if (dialog.setDataSPL(allDiagramFiles, features.getCurConfigName())) {
+				if (dialog.setDataSPL(allDiagramFiles, features.getConfigRep())) {
 					Console.println(" > Generated data.");
 				} else {
 					Console.println(" > Couldn't generate data.");
