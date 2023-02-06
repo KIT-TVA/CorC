@@ -1,5 +1,7 @@
 package de.tu_bs.cs.isf.cbc.tool.exceptions;
 
+import org.eclipse.core.resources.IFolder;
+
 public final class ExceptionMessages {
 	public static String RET = "Return variable not found. Please make sure that one is defined in the diagram.";
 	public static String GENCODE = "Couldn't generate Code.";
@@ -32,6 +34,10 @@ public final class ExceptionMessages {
 	
 	public static String translateToSolverSyntax() {
 		return "Couldn't translate given precondition to the solver's syntax.";
+	}
+
+	public static String diagnosticsFolderNotFound(IFolder diagnosticsFolder) {
+		return "Couldn't locate diagnostics folder '" + diagnosticsFolder + "'."; 
 	}
 	
 }

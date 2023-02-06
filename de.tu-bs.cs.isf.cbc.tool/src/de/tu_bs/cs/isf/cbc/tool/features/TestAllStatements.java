@@ -17,6 +17,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import diagnostics.DataCollector;
 
 /**
  * Feature for testing all statements.
@@ -85,6 +86,7 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		
 		final TestStatement ts = new TestStatement(fp);
 		uri = getUri(diag);
+		DataCollector dataCollector = new DataCollector(uri, diag.getName());
 		ts.setUri(uri);
 		FileHandler.clearLog(diag.eResource().getURI());
 		var allStatements = TestStatement.collectAllStatements(formula);
@@ -97,7 +99,8 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		if (features == null) {
 			for (var statement : allStatements) {
 				returnStatement = statement instanceof ReturnStatement;
-				ts.testPath((AbstractStatement)statement, vars, conds, formula, returnStatement, features);
+				float pathTime = ts.testPath((AbstractStatement)statement, vars, conds, formula, returnStatement, features);
+				dataCollector.addPathTime(ts.getStatementPath(statement), pathTime);
 			}
 			return;
 		}
@@ -107,10 +110,12 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 			Console.println(" > Configuration: [" + features.getConfigRep() + "]", blue);
 			for (var statement : allStatements) {
 				returnStatement = statement instanceof ReturnStatement;
-				ts.testPath((AbstractStatement)statement, vars, conds, formula, returnStatement, features);
+				float pathTime = ts.testPath((AbstractStatement)statement, vars, conds, formula, returnStatement, features);
+				dataCollector.addConfigPathTime(features.getCurConfigName(), ts.getStatementPath(statement), pathTime); 
 			}
 			FileHandler.saveConfig(uri, formula, features, false);
 		}
+		dataCollector.finish();
 	}
 
 }

@@ -91,7 +91,11 @@ public class StatisticsDialog extends TitleAreaDialog {
 	protected void createButtonsForButtonBar(Composite parent) {
 		// create OK and Cancel buttons by default
 //		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
-		createButton(parent, IDialogConstants.OK_ID, "Show Config View", true);
+		if (this.isSpl && this.configView) {
+			createButton(parent, IDialogConstants.OK_ID, "Show Avg View", true);
+		} else if (this.isSpl && !this.configView) {
+			createButton(parent, IDialogConstants.OK_ID, "Show Config View", true);
+		}
 		createButton(parent, IDialogConstants.CLIENT_ID, "Export CSV File", false);
 		createButton(parent, IDialogConstants.CANCEL_ID, "Close", true);
 	}

@@ -314,8 +314,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		}
 		testFileContent = genTestCases(className, inputs, postCon, globalConditions, formula);
 		testFileContent = CodeHandler.addInstanceNameToFields(ClassHandler.getClassByName(classCodes, className), testFileContent);
-		FileHandler.writeToFile(this.projectPath, className + "Test", testFileContent);
-		executeTestCases("file://" + FileUtil.getProjectLocation(uri) + "/tests/", className + "Test", globalVars, inputs);
+		FileHandler.writeToFile(this.projectPath, className + "Test.java", testFileContent);
+		executeTestCases("file://" + FileUtil.getProjectLocation(uri) + "/tests/", className + "Test.java", globalVars, inputs);
 		return true;
 	}
 
@@ -1512,7 +1512,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return suite;
 	}
 	
-	private void executeTestCases(final String classPath, final String className, final List<String> globalVars, final List<TestCaseData> inputs) {
+	private void executeTestCases(final String classPath, String className, final List<String> globalVars, final List<TestCaseData> inputs) {
 		final XmlSuite suite;
 		var pathOfPlugins = System.getProperty("osgi.syspath");
 		var file = new File(pathOfPlugins);
@@ -1520,11 +1520,11 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		var highestVersion = testNgFiles.stream().map(s -> s.split("org.testng\\_")[1]).sorted().reduce((first, second) -> second).get();
 		highestVersion = "org.testng_" + highestVersion;		
 		var splitter = className.split("\\.");
-		var actualClassName = splitter[splitter.length - 1];
+		className = splitter[0];
 		
 		// compile test file
 		var options = Arrays.asList("-cp", pathOfPlugins + "/" + highestVersion);
-		if(!compileClass(actualClassName, options, false)) {
+		if(!compileClass(className, options, false)) {
 			Console.println("Stop testing...");
 			return;
 		}
@@ -1534,7 +1534,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	
 		
 		// now start testng using the custom test listener
-		var tla = new TestAndAssertionListener(projectPath, globalVars, inputs);
+		var tla = new TestAndAssertionListener(projectPath, className, globalVars, inputs);
 		List<XmlSuite> suites = new ArrayList<XmlSuite>();
 		suite.setParallel(ParallelMode.NONE);
 		suites.add(suite);

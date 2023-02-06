@@ -61,6 +61,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Variable;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import diagnostics.DataCollector;
 
 /**
  * Class for testing a single statement.
@@ -140,6 +141,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				}	
 				uri = getDiagram().eResource().getURI();
 				this.projectPath = uri;
+				DataCollector dataCollector = new DataCollector(projectPath, getDiagram().getName());
 				FileHandler.clearLog(this.projectPath);
 				Features features = null;
 				if (FileHandler.isSPL(uri)) {
@@ -152,17 +154,21 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 					for (int i = 0; i < features.getSize(); i++) {
 						features.getNextConfig();
 						Console.println(" > Configuration: [" + features.getConfigRep() + "]", blue);
-						if (!testPath(statement, vars, conds, formula, returnStatement, features)) {
+						float pathTime = testPath(statement, vars, conds, formula, returnStatement, features);
+						if (pathTime == -1) {
 							continue;
 						}
+						dataCollector.addConfigPathTime(features.getCurConfigName(), getStatementPath(statement), pathTime); 
 						// save configuration in a separate file
 						FileHandler.saveConfig(uri, formula, features, false);
 					}		
 				} else {
-					testPath(statement, vars, conds, formula, returnStatement, features);
+					float pathTime = testPath(statement, vars, conds, formula, returnStatement, features);
+					dataCollector.addPathTime(getStatementPath(statement), pathTime);
 				}				
 				// update pictogram
 				updatePictogramElement(((Shape) pes[0]).getContainer());
+				dataCollector.finish();
 			}
 		}
 		long endTime = System.nanoTime();
@@ -172,16 +178,17 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		Console.println("Time needed: " + duration + "ms");
 	}	
 		
-	public boolean testPath(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, final boolean returnStatement, final Features features) {
+	public float testPath(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, final boolean returnStatement, final Features features) {
+		long start = System.nanoTime();
 		Console.println(" > Testing path:", blue);
 		Console.println("\t" + getStatementPath(statement));
 		try {
 			testStatement(statement, vars, conds, formula, returnStatement, features);
-			return true;
+			return (System.nanoTime() - start) / 1000000;
 		} catch (TestAndAssertionGeneratorException | TestStatementException | ReferenceException | UnexpectedTokenException e) {
 			Console.println(e.getMessage(), TestStatementListener.red);
 			e.printStackTrace();
-			return false;
+			return -1;
 		}
 	}
 	

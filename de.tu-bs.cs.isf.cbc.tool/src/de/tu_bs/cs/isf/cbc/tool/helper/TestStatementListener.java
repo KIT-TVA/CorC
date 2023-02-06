@@ -24,7 +24,7 @@ public class TestStatementListener extends TestAndAssertionListener {
 	private static Color HIGHLIGHT_COLOR = new Color(new RGB(255, 25, 25));
 	
 	public TestStatementListener(final URI projectPath, final List<String> globalVars, final List<TestCaseData> inputDataTupels) {
-		super(projectPath, globalVars, inputDataTupels);	
+		super(projectPath, "", globalVars, inputDataTupels);	
 	}
 		
 	private void printLines(String code) {

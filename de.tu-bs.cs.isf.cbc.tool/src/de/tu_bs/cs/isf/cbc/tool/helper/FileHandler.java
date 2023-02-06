@@ -2,6 +2,7 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,6 +21,8 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import diagnostics.DataCollector;
+import diagnostics.DataType;
 
 /**
  * Util class for testing purposes.
@@ -64,13 +67,13 @@ public class FileHandler {
 		}
 	}
 		
-	public static boolean writeToFile(String location, String className, String content) {
+	public static boolean writeToFile(String location, String fileName, String content) {
 		try {
 			var dir = new File(location);	
 			if (!dir.exists()) {
 				dir.mkdirs();
 			}
-			var javaFile = new File(location + "\\" + className + ".java");
+			var javaFile = new File(location + "/" + fileName);
 			if (!javaFile.exists()) {
 				javaFile.createNewFile();
 			} 
@@ -84,17 +87,26 @@ public class FileHandler {
 	}
 	
 	public static boolean createFile(final URI projectPath, String className, String code) {
+		return createFile(projectPath, "tests", className + ".java", code);
+	}
+	
+	public static boolean createFile(final URI projectPath, final String folderName, final String fileName, final String code) {
+		var project = FileUtil.getProject(projectPath);
+		var folder = project.getFolder(folderName);
 		try {
-			var dir = new File(FileUtil.getProjectLocation(projectPath) + "\\tests");	
-			if (!dir.exists()) {
-				dir.mkdirs();
+			if (!folder.exists()) {
+				folder.create(true, true, null);
 			}
-			var javaFile = new File(FileUtil.getProjectLocation(projectPath) + "\\tests\\" + className + ".java");
+			var javaFile = new File(folder.getLocation().toOSString() + "/" + fileName);
 			if (!javaFile.exists()){
 				javaFile.createNewFile();
 		    }
-			writeToFile(projectPath, className, code);
+			writeToFile(folder.getLocation().toOSString(), fileName, code);
 		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		} catch (CoreException e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -114,6 +126,18 @@ public class FileHandler {
 			try {
 				Files.delete(Paths.get(folderObj.getPath()));
 			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+			return true;
+	}
+	
+	public static boolean createFolder(final URI projectPath, final String folderName) {
+			var project = FileUtil.getProject(projectPath);
+			try {
+				project.getFolder(folderName).create(true, true, null);
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return false;
 			}
@@ -267,5 +291,23 @@ public class FileHandler {
 			return false;
 		}
 		return true;
+	}
+	
+	public static void saveDiagnosticData(final URI projectPath, final DataCollector dataCollector) {
+		final String diagFolder = "tests/" + dataCollector.getFolderName();
+		createFolder(projectPath, diagFolder);
+		if (dataCollector.getType() == DataType.PATH) { 
+			if (isSPL(projectPath)) {
+				for (var config : dataCollector.getConfigNames()) {
+					createFolder(projectPath, diagFolder + "/" + config);
+					createFile(projectPath, diagFolder + "/" + config, "DiagnosticData", dataCollector.getConfigRep(config));
+				}
+			} else {
+				createFile(projectPath, diagFolder, "DiagnosticData", dataCollector.getPathsRep()); 
+			}
+		} else {
+			// TODO Differentiate between SPLs and None SPLs
+			createFile(projectPath, diagFolder, "DiagnosticData", dataCollector.getTestCaseRep()); 
+		}
 	}
 }
