@@ -9,6 +9,7 @@ public final class ExceptionMessages {
 	public static final String RETRESOLVE = "Couldn't resolve '\\result'-keyword because the return variable was not found.";
 	public static final String WRONG_DIAGNOSTICS_SYNTAX = "Processing a diagnostic file has failed, because the number of data in an expression was wrong.";
 	public static final String URI_NULL = "An URI is null.";
+	public static final String UNKNOWN_DATA_TYPE = "Found unknown data type.";
 	
 	public static String sigNotFound(final String signature) {
 		return "The signature " + signature + " couldn't be found.";

@@ -14,10 +14,12 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import diagnostics.DataCollector;
+import diagnostics.DataType;
 
 /**
  * Feature for testing all statements.
@@ -86,7 +88,13 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		
 		final TestStatement ts = new TestStatement(fp);
 		uri = getUri(diag);
-		DataCollector dataCollector = new DataCollector(uri, diag.getName());
+		DataCollector dataCollector;
+		try {
+			dataCollector = new DataCollector(uri, DataType.PATH, diag.getName());
+		} catch (DiagnosticsException e) {
+			e.printStackTrace();
+			return;
+		}
 		ts.setUri(uri);
 		FileHandler.clearLog(diag.eResource().getURI());
 		var allStatements = TestStatement.collectAllStatements(formula);
@@ -100,7 +108,7 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 			for (var statement : allStatements) {
 				returnStatement = statement instanceof ReturnStatement;
 				float pathTime = ts.testPath((AbstractStatement)statement, vars, conds, formula, returnStatement, features);
-				dataCollector.addPathTime(ts.getStatementPath(statement), pathTime);
+				dataCollector.addData(ts.getStatementPath(statement), pathTime);
 			}
 			return;
 		}
@@ -111,7 +119,7 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 			for (var statement : allStatements) {
 				returnStatement = statement instanceof ReturnStatement;
 				float pathTime = ts.testPath((AbstractStatement)statement, vars, conds, formula, returnStatement, features);
-				dataCollector.addConfigPathTime(features.getCurConfigName(), ts.getStatementPath(statement), pathTime); 
+				dataCollector.addData(features.getCurConfigName(), ts.getStatementPath(statement), pathTime); 
 			}
 			FileHandler.saveConfig(uri, formula, features, false);
 		}

@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 
+import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 
 public class DataCollector {
@@ -18,80 +20,88 @@ public class DataCollector {
 	public static final int EXPR_SIZE = 3;
 	public static final String FOLDER_APPENDIX = "_diagnostics";
 	private final URI projectPath;
-	private final List<Path> paths;
-	private final LinkedHashMap<String, List<Path>> configPaths;
-	private final LinkedHashMap<String, Float> testCases;
-	private DataType dataType;
 	private final String folderName;
+	private DiagnosticsData data;
+	
 
 	public DataCollector(final URI projectPath, final String diagramName) {
 		this.projectPath = projectPath;
-		this.paths = new ArrayList<Path>();
-		this.configPaths = new LinkedHashMap<String, List<Path>>();
-		this.testCases = new LinkedHashMap<String, Float>();
-		this.dataType = DataType.NONE;
 		this.folderName = diagramName + "_diagnostics";
+		this.data = null;
+	}
+	
+	public DataCollector(final URI projectPath, final DataType type, final String diagramName) throws DiagnosticsException {
+		this.projectPath = projectPath;
+		this.folderName = diagramName + "_diagnostics";
+		this.setType(type);
 	}
 	
 	public void finish() {
 		FileHandler.saveDiagnosticData(projectPath, this);
 	}
-		
-	public boolean addPathTime(final String pathName, final float executionTime) {
-		this.dataType = DataType.PATH;
+	
+	private void initData(DataType type) {
+		if (type == DataType.PATH) {
+			data = new TestStatementData(this.projectPath);
+		} else if (type == DataType.TESTCASE) {
+			data = new TestGeneratorData(this.projectPath);
+		} else {
+			//throw new DiagnosticsException(ExceptionMessages.UNKNOWN_DATA_TYPE);
+		}
+	}
+	
+	public boolean addData(final String pathName, final float executionTime) {
+		return addData("", pathName, executionTime);
+	}
+
+	public boolean addData(final String configName, final String pathName, final float executionTime) {
+		if (data == null) {
+			return false;
+		}
+		if (configName.isEmpty()) {
+			return addData(this.getType(), null, pathName, executionTime);
+		} else {
+			return addData(this.getType(), configName, pathName, executionTime);
+		}
+	}
+	
+	public boolean addData(final DataType type, final String pathName, final float executionTime) {
+		return addData(type, null, pathName, executionTime);
+	}
+	
+	public boolean addData(final DataType type, final String configName, final String pathName, final float executionTime) {
 		if (pathName == null) {
 			return false;
 		}
-		for (var path : paths) {
-			if (path.getName().equals(pathName)) {
-				return false;
-			}
+		if (data == null) {
+			initData(type);
 		}
-		paths.add(new Path(pathName, executionTime));
+		if (configName == null) {
+			data.add(new TimedObject(pathName, executionTime));
+		} else {
+			data.add(configName, new TimedObject(pathName, executionTime));
+		}
 		return true;
 	}
-	
-	public boolean addConfigPathTime(final String configName, final String pathName, final float executionTime) {
-		this.dataType = DataType.PATH;
-		if (configName == null || pathName == null) {
-			return false;
-		}
-		for (var config : configPaths.keySet()) {
-			if (config.equals(configName)) {
-				configPaths.get(config).add(new Path(pathName, executionTime));
-				return true;
-			}
-		}
-		configPaths.put(configName, new ArrayList<Path>());
-		configPaths.get(configName).add(new Path(pathName, executionTime));
-		return true;
-	}
-	
-	public boolean addTestCaseTime(final String testCaseName, final float executionTime) {
-		this.dataType = DataType.TESTCASE;
-		if (testCaseName == null) {
-			return false;
-		}
-		this.testCases.put(testCaseName, executionTime);
-		return true;
-	}
-	
-	public boolean addConfigTestCaseTime(final String configName, final String testCaseName, final float executionTime) {
-		// TODO: adjust to SPLs.
-		return addTestCaseTime(testCaseName, executionTime);
-	}
-		
 	
 	public Collection<String> getConfigNames() {
-		return this.configPaths.keySet();
+		return this.data.getConfigNames();
 	}
 
 	public DataType getType() {
-		return this.dataType;
+		if (data instanceof TestStatementData) {
+			return DataType.PATH;
+		} else if (data instanceof TestGeneratorData) {
+			return DataType.TESTCASE;
+		} else {
+			return DataType.NONE;
+		}
 	}
 	
-	public void setType(DataType type) {
-		this.dataType = type;
+	public void setType(DataType type) throws DiagnosticsException {
+		if (data == null) {
+			initData(type);
+		}
 	}
 	
 	/**
@@ -99,17 +109,17 @@ public class DataCollector {
 	 * @return String representation of the execution times of paths
 	 */
 	public String getPathsRep() {
-		return getPathsRep(this.paths);
+		return getPathsRep(data.getData());
 	}
 	
-	private String getPathsRep(final List<Path> paths) {
-		if (paths == null) {
+	private String getPathsRep(final List<TimedObject> timedObjects) {
+		if (timedObjects == null) {
 			return "";
 		}
 
 		String rep = PATHS_SYMBOL + "\n";
 		int counter = 0;
-		for (Path p : paths) {
+		for (TimedObject p : timedObjects) {
 			rep += counter + DATA_DELIM + p.getName() + DATA_DELIM + p.getExecutionTime() + "\n";
 			counter++;
 		}
@@ -122,20 +132,17 @@ public class DataCollector {
 	 * @return
 	 */
 	public String getConfigRep(final String config) {
-		if (this.configPaths == null || config == null) {
+		if (config == null) {
 			return "";
 		}
-		return getPathsRep(this.configPaths.get(config));
+		return getPathsRep(data.getConfigData(config));
 	}
 	
 	public String getTestCaseRep() {
-		if (this.testCases == null) {
-			return "";
-		}
 		String rep = TEST_SYMBOL + "\n";
 		int counter = 0;
-		for (var testCase : testCases.keySet()) {
-			rep += counter + DATA_DELIM + testCase + DATA_DELIM + testCases.get(testCase) + "\n";
+		for (var testCase : data.getData()) {
+			rep += counter + DATA_DELIM + testCase.getName() + DATA_DELIM + testCase.getExecutionTime() + "\n";
 			counter++;
 		}
 		return rep;

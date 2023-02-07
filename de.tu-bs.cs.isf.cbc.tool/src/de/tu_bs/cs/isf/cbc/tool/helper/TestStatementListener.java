@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.RGB;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 
+import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
@@ -23,7 +24,7 @@ import de.tu_bs.cs.isf.cbc.util.FileUtil;
 public class TestStatementListener extends TestAndAssertionListener {
 	private static Color HIGHLIGHT_COLOR = new Color(new RGB(255, 25, 25));
 	
-	public TestStatementListener(final URI projectPath, final List<String> globalVars, final List<TestCaseData> inputDataTupels) {
+	public TestStatementListener(final URI projectPath, final List<String> globalVars, final List<TestCaseData> inputDataTupels) throws DiagnosticsException {
 		super(projectPath, null, globalVars, inputDataTupels);	
 	}
 		

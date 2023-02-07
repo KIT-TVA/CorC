@@ -91,18 +91,10 @@ public class DataParser {
 			if (data.length != DataCollector.EXPR_SIZE) {
 				throw new DiagnosticsException(ExceptionMessages.WRONG_DIAGNOSTICS_SYNTAX);
 			}
-			if (dataCollector.getType() == DataType.PATH) {
-				if (features == null) {
-					dataCollector.addPathTime(data[1], Float.parseFloat(data[2]));
-				} else {
-					dataCollector.addConfigPathTime(configName, data[1], Float.parseFloat(data[2]));
-				}
-			} else if (dataCollector.getType() == DataType.TESTCASE) {
-				if (features == null) {
-					dataCollector.addTestCaseTime(data[1], Float.parseFloat(data[2]));
-				} else {
-					dataCollector.addConfigTestCaseTime(configName, data[1], Float.parseFloat(data[2]));
-				}
+			if (features == null) {
+				dataCollector.addData(data[1], Float.parseFloat(data[2]));
+			} else {
+				dataCollector.addData(configName, data[1], Float.parseFloat(data[2]));
 			}
 		}
 	}

@@ -132,14 +132,6 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
 		this.returnVariable = null;
 		final URI uri = getDiagram().eResource().getURI();
-		try {
-			DataParser dataParser = new DataParser(uri);
-			var tmp = dataParser.getDataCollector();
-			var sjdfj = 2;
-		} catch (DiagnosticsException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		final List<String> globalVars = new ArrayList<String>();
 		String signatureString = "";
 		JavaVariables vars = null;
@@ -238,7 +230,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			} else {
 				test(uri, formula, vars, globalConditions, signatureString, globalVars, features);
 			}	
-		} catch (ReferenceException | TestAndAssertionGeneratorException | PreConditionSolverException | UnexpectedTokenException | TestStatementException e) {
+		} catch (ReferenceException | TestAndAssertionGeneratorException | PreConditionSolverException | UnexpectedTokenException | TestStatementException | DiagnosticsException e) {
 			Console.println(e.getMessage(), TestStatementListener.red);
 			e.printStackTrace();
 			return;
@@ -248,7 +240,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		Console.println("Time needed: " + (int)elapsedTime + "ms");
 	}
 	
-	private boolean test(final URI uri, final CbCFormula formula, final JavaVariables vars, final GlobalConditions globalConditions, final String signatureString, final List<String> globalVars, final Features features) throws ReferenceException, TestAndAssertionGeneratorException, PreConditionSolverException, UnexpectedTokenException, TestStatementException {
+	private boolean test(final URI uri, final CbCFormula formula, final JavaVariables vars, final GlobalConditions globalConditions, final String signatureString, final List<String> globalVars, final Features features) throws ReferenceException, TestAndAssertionGeneratorException, PreConditionSolverException, UnexpectedTokenException, TestStatementException, DiagnosticsException {
 		var methodToGenerate = getDiagram();			
 		String code2 = genCode(methodToGenerate);		
 		var className = code2.split("public\\sclass\\s", 2)[1].split("\\s", 2)[0];
@@ -1504,7 +1496,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return suite;
 	}
 	
-	private void executeTestCases(final String classPath, String className, final List<String> globalVars, final List<TestCaseData> inputs) {
+	private void executeTestCases(final String classPath, String className, final List<String> globalVars, final List<TestCaseData> inputs) throws DiagnosticsException {
 		final XmlSuite suite;
 		var pathOfPlugins = System.getProperty("osgi.syspath");
 		var file = new File(pathOfPlugins);

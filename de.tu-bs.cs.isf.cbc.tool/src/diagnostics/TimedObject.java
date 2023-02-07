@@ -1,14 +1,14 @@
 package diagnostics;
 
-public class Path {
+public class TimedObject {
 	private String name;
 	private float executionTime;
 
-	public Path(final String name) {
+	public TimedObject(final String name) {
 		this.name = name;
 	}
 	
-	public Path(final String name, final float executionTime) {
+	public TimedObject(final String name, final float executionTime) {
 		this.name = name;
 		this.executionTime = executionTime;
 	}
