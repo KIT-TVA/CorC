@@ -11,9 +11,12 @@ import org.eclipse.emf.common.util.URI;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 
 public class DataCollector {
+	public static final String EXPR_DELIM = "\n";
 	public static final String TEST_SYMBOL = "[TESTCASE]";
 	public static final String PATHS_SYMBOL  = "[PATHS]";
 	public static final String DATA_DELIM = "#";
+	public static final int EXPR_SIZE = 3;
+	public static final String FOLDER_APPENDIX = "_diagnostics";
 	private final URI projectPath;
 	private final List<Path> paths;
 	private final LinkedHashMap<String, List<Path>> configPaths;
@@ -72,6 +75,11 @@ public class DataCollector {
 		this.testCases.put(testCaseName, executionTime);
 		return true;
 	}
+	
+	public boolean addConfigTestCaseTime(final String configName, final String testCaseName, final float executionTime) {
+		// TODO: adjust to SPLs.
+		return addTestCaseTime(testCaseName, executionTime);
+	}
 		
 	
 	public Collection<String> getConfigNames() {
@@ -81,7 +89,11 @@ public class DataCollector {
 	public DataType getType() {
 		return this.dataType;
 	}
-
+	
+	public void setType(DataType type) {
+		this.dataType = type;
+	}
+	
 	/**
 	 * Creates the string representation for the paths and their execution times. 
 	 * @return String representation of the execution times of paths

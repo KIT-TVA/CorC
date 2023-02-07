@@ -62,6 +62,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.PreConditionSolverException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.ReferenceException;
@@ -87,6 +88,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.Node;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import diagnostics.DataParser;
 
 /**
  * The test generator.
@@ -128,26 +130,16 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
-/*
-			Node tree;
-			try {
-				tree = ConditionHandler.parseCondition(projectPath, "(\\forall int k; (0 <= k & k < \\old(data).length -> (\\exists int z; (0 <= z & z < data.length & data[z] = \\old(data)[k]))))& ((\\forall int k; (0 <= k & k < data.length-1 -> (data[k] >= data[k+1]))) | (\\forall int k; (0 <= k & k < data.length-1 -> (data[k] <= data[k+1]))))", "", null);
-				var tmpss = new JavaConditionReworked(tree);
-				var llwlwlw = tmpss.get();
-				var sjdfjsdjf = 2;
-			} catch (UnexpectedTokenException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-*/
-		
-	
-		
-		
-		
-		
 		this.returnVariable = null;
 		final URI uri = getDiagram().eResource().getURI();
+		try {
+			DataParser dataParser = new DataParser(uri);
+			var tmp = dataParser.getDataCollector();
+			var sjdfj = 2;
+		} catch (DiagnosticsException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		final List<String> globalVars = new ArrayList<String>();
 		String signatureString = "";
 		JavaVariables vars = null;

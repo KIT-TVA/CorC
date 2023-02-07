@@ -3,10 +3,12 @@ package de.tu_bs.cs.isf.cbc.tool.exceptions;
 import org.eclipse.core.resources.IFolder;
 
 public final class ExceptionMessages {
-	public static String RET = "Return variable not found. Please make sure that one is defined in the diagram.";
-	public static String GENCODE = "Couldn't generate Code.";
-	public static String IDNULL = "An ID was null.";
-	public static String RETRESOLVE = "Couldn't resolve '\\result'-keyword because the return variable was not found.";
+	public static final String RET = "Return variable not found. Please make sure that one is defined in the diagram.";
+	public static final String GENCODE = "Couldn't generate Code.";
+	public static final String IDNULL = "An ID was null.";
+	public static final String RETRESOLVE = "Couldn't resolve '\\result'-keyword because the return variable was not found.";
+	public static final String WRONG_DIAGNOSTICS_SYNTAX = "Processing a diagnostic file has failed, because the number of data in an expression was wrong.";
+	public static final String URI_NULL = "An URI is null.";
 	
 	public static String sigNotFound(final String signature) {
 		return "The signature " + signature + " couldn't be found.";
@@ -38,6 +40,10 @@ public final class ExceptionMessages {
 
 	public static String diagnosticsFolderNotFound(IFolder diagnosticsFolder) {
 		return "Couldn't locate diagnostics folder '" + diagnosticsFolder + "'."; 
+	}
+	
+	public static String invalidDiagnosticsSymbol(final String symbol) {
+		return "Found unknown symbol '" + symbol + "'.";
 	}
 	
 }

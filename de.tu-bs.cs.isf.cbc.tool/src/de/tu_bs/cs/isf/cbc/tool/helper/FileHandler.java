@@ -294,7 +294,10 @@ public class FileHandler {
 	}
 	
 	public static void saveDiagnosticData(final URI projectPath, final DataCollector dataCollector) {
-		final String diagFolder = "tests/" + dataCollector.getFolderName();
+		var path = projectPath.toPlatformString(true);
+		path = path.substring(path.indexOf("/") + 1, path.lastIndexOf("/") + 1);
+		path = path.substring(path.indexOf("/") + 1, path.length());
+		final String diagFolder =  path + dataCollector.getFolderName();
 		createFolder(projectPath, diagFolder);
 		if (dataCollector.getType() == DataType.PATH) { 
 			if (isSPL(projectPath)) {
