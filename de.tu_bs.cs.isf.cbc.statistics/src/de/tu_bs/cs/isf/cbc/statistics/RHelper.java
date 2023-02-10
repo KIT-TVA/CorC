@@ -158,7 +158,7 @@ public class RHelper {
 				}
 			}
 			avgTotalTime /= numEntries; 
-			xAxis = xAxis + "\"" + diagramName +"\", ";
+			xAxis = xAxis + "\"" + diagramName + " [" + numEntries + " files]" + "\", ";
 			yAxis = yAxis + avgTotalTime + ", ";
 		}
 		return builtPlot(xAxis, yAxis, numEntries);
@@ -200,13 +200,7 @@ public class RHelper {
 		String margins = "linch <-  max(strwidth(diagram, \"inch\")+0.4, na.rm = TRUE)\r\n"
 				+ "par(mai=c(linch,1.02,0.82,0.42))\r\n";
 		
-		String plotCommand;
-		if (isSPL() && numEntries != -1) {
-			plotCommand = "barplot(time, ylab = \"Avg AutoMode Time [ms]\n[" + numEntries + " prove files]\", names.arg=diagram, las=2)\r\n";
-		} else {
-			plotCommand = "barplot(time, ylab = \"AutoMode Time [ms]\", names.arg=diagram, las=2)\r\n";
-		}
-		
+		final String plotCommand = "barplot(time, ylab = \"AutoMode Time [ms]\", names.arg=diagram, las=2, ylim=c(0, ceiling(max(time, na.rm=TRUE)) + ceiling(max(time, na.rm=TRUE)*0.1)))\r\n";
 		return xAxis + yAxis + margins + plotCommand;
 	}
 	
