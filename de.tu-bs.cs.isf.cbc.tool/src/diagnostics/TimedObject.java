@@ -17,6 +17,10 @@ public class TimedObject {
 		return this.name;
 	}
 	
+	public void setName(final String name) {
+		this.name = name;
+	}
+	
 	public float getExecutionTime() {
 		return this.executionTime;
 	}

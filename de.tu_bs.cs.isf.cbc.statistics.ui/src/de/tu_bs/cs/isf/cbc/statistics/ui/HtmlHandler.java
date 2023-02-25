@@ -13,6 +13,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 
+import de.tu_bs.cs.isf.cbc.statistics.DiagramType;
 import de.tu_bs.cs.isf.cbc.statistics.RHelper;
 import de.tu_bs.cs.isf.cbc.statistics.StatisticsEntry;
 
@@ -50,6 +51,53 @@ public class HtmlHandler {
 		this.configEntries = configEntries;
 		this.configs = configs;
 		this.selectedDiagramFiles = selectedDiagramFiles;
+	}
+	
+	private String generateDiagrams(final List<StatisticsEntry> entries, boolean isSpl) {
+		String diagStr = "";
+		if (entries == null || entries.isEmpty()) {
+			return "";
+		}
+
+		RHelper helper;
+		if (isSpl) {
+			helper = new RHelper(configEntries);
+			helper.setConfigView(this.configView);
+		} else {
+			helper = new RHelper();
+		}
+		
+		for (int i = 0; i < 2; i++) {
+			String pathToPNG;
+			String pathToPDF;
+			if (i == 0) {
+				pathToPNG = helper.generatePNG("statistics" + i + "-png", entries, DiagramType.AUTOMODE);
+				pathToPDF = helper.generatePDF("statistics" + i + "-pdf", entries, DiagramType.AUTOMODE);
+			} else {
+				pathToPNG = helper.generatePNG("statistics" + i + "-png", entries, DiagramType.PROOF_STEPS);
+				pathToPDF = helper.generatePDF("statistics" + i + "-pdf", entries, DiagramType.PROOF_STEPS);
+			}
+
+			if(pathToPDF != null) {
+				//diagStr += "<a class=\"text\" href=\" "+ pathToPDF + "\">Open as PDF</a>\r\n<br>\r\n";
+			}
+			
+			if(pathToPNG != null) {
+				diagStr += "<img class=\"\" src=\"" + pathToPNG + "\">\r\n";
+			}
+			else {
+				URL errorImageURI = Platform.getBundle("de.tu_bs.cs.isf.cbc.statistics.ui").getEntry("icons/how-to-environment-R.png");
+				try {
+					pathToPNG = new File(FileLocator.resolve(errorImageURI).toURI()).getAbsolutePath();
+				} catch (URISyntaxException | IOException e1) {
+					e1.printStackTrace();
+				}
+
+				diagStr += "<p>Cannot generate diagrams, probably because R is not installed.<br><strong>Please install R</strong> and add it to your operating system's environment path:</p>";
+				diagStr += "<img class=\"\" src=\"" + pathToPNG + "\">\r\n";
+			}
+		}
+		return diagStr;
 	}
 
 	public String getHtmlStringSPL() {
@@ -94,31 +142,7 @@ public class HtmlHandler {
 					continue;
 				}
 				generatedDiagram = true;
-				RHelper helper = new RHelper(configEntries);
-				helper.setConfigView(this.configView);
-				String pathToPNG = helper.generatePNG("statistics-png", entries);
-				String pathToPDF = helper.generatePDF("statistics-pdf", entries);
-				
-//				helper.setStatisticsFileStringForDiagrams(entries);
-//				List<String> diagramPaths = new LinkedList<String>();
-				if(pathToPDF != null) {
-					placeholderGeneratedDiagram += "<a class=\"text\" href=\" "+ pathToPDF + "\">Open as PDF</a>\r\n<br>\r\n";
-				}
-				
-				if(pathToPNG != null) {
-					placeholderGeneratedDiagram += "<img class=\"\" src=\"" + pathToPNG + "\">\r\n";
-				}
-				else {
-					URL errorImageURI = Platform.getBundle("de.tu_bs.cs.isf.cbc.statistics.ui").getEntry("icons/how-to-environment-R.png");
-					try {
-						pathToPNG = new File(FileLocator.resolve(errorImageURI).toURI()).getAbsolutePath();
-					} catch (URISyntaxException | IOException e1) {
-						e1.printStackTrace();
-					}
-
-					placeholderGeneratedDiagram += "<p>Cannot generate diagrams, probably because R is not installed.<br><strong>Please install R</strong> and add it to your operating system's environment path:</p>";
-					placeholderGeneratedDiagram += "<img class=\"\" src=\"" + pathToPNG + "\">\r\n";
-				}
+				placeholderGeneratedDiagram += generateDiagrams(entries, true);
 			}
 		}
 	
@@ -176,31 +200,7 @@ public class HtmlHandler {
 					createPlaceholderPlainStringForOneDiagram(diagramName, entriesPerDiagram);
 					entriesPerDiagram = new LinkedList<StatisticsEntry>();
 				}
-				
-				RHelper helper = new RHelper();
-				String pathToPNG = helper.generatePNG("statistics-png", entries);
-				String pathToPDF = helper.generatePDF("statistics-pdf", entries);
-				
-//				helper.setStatisticsFileStringForDiagrams(entries);
-//				List<String> diagramPaths = new LinkedList<String>();
-				if(pathToPDF != null) {
-					placeholderGeneratedDiagram += "<a class=\"text\" href=\" "+ pathToPDF + "\">Open as PDF</a>\r\n<br>\r\n";
-				}
-				
-				if(pathToPNG != null) {
-					placeholderGeneratedDiagram += "<img class=\"\" src=\"" + pathToPNG + "\">\r\n";
-				}
-				else {
-					URL errorImageURI = Platform.getBundle("de.tu_bs.cs.isf.cbc.statistics.ui").getEntry("icons/how-to-environment-R.png");
-					try {
-						pathToPNG = new File(FileLocator.resolve(errorImageURI).toURI()).getAbsolutePath();
-					} catch (URISyntaxException | IOException e1) {
-						e1.printStackTrace();
-					}
-
-					placeholderGeneratedDiagram += "<p>Cannot generate diagrams, probably because R is not installed.<br><strong>Please install R</strong> and add it to your operating system's environment path:</p>";
-					placeholderGeneratedDiagram += "<img class=\"\" src=\"" + pathToPNG + "\">\r\n";
-				}
+				placeholderGeneratedDiagram += generateDiagrams(entries, false);
 			}
 		}
 //		TODO: abfangen keine entries
