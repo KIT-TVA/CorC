@@ -71,7 +71,7 @@ public class OpenStatisticsViewHandler extends AbstractHandler {
 		}
 		final StatisticsDialog dialog = new StatisticsDialog(Display.getCurrent().getActiveShell());
 		final URI projectUri = URI.createPlatformResourceURI(resource.getFullPath().toOSString());
-		if (FileHandler.isSPL(projectUri)) {
+		if (FileHandler.getInstance().isSPL(projectUri)) {
 			Console.println("[SPL detected]", blue);
 			var features = new Features(projectUri);
 			while (features.getNextConfig() != null) {

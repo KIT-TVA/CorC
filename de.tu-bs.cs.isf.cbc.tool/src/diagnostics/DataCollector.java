@@ -37,7 +37,7 @@ public class DataCollector {
 	}
 	
 	public void finish() {
-		FileHandler.saveDiagnosticData(projectPath, this);
+		FileHandler.getInstance().saveDiagnosticData(projectPath, this);
 	}
 	
 	private void initData(DataType type) {

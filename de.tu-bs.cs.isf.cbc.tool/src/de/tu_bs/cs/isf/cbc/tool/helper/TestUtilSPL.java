@@ -33,7 +33,16 @@ import de.tu_bs.cs.isf.cbc.util.FileUtil;
  * @author Fynn Demmler
  */
 public class TestUtilSPL {
-	private static String originalBaseMsg = "Original calls are not allowed in base features.";
+	private static TestUtilSPL instance;
+	
+	public static TestUtilSPL getInstance() {
+		if (instance == null) {
+			instance = new TestUtilSPL();
+		}
+		return instance;
+	}
+	
+	private String originalBaseMsg = "Original calls are not allowed in base features.";
 	
 	/**
 	 * Replaces original calls in a given condition.
@@ -44,7 +53,7 @@ public class TestUtilSPL {
 	 * @return The new condition in which all occurrences of the original keywords were replaced.
 	 * @throws ReferenceException
 	 */
-	public static String handleOriginalCondition(final IFeatureProvider fp, String condition, boolean isPreCon, final Features features) throws ReferenceException {
+	public String handleOriginalCondition(final IFeatureProvider fp, String condition, boolean isPreCon, final Features features) throws ReferenceException {
 		if (!condition.contains("original")) {
 			return condition;
 		}
@@ -52,30 +61,34 @@ public class TestUtilSPL {
 		if (nextFeature == null) {
 			return "";
 		}
+
 		String refFeature = getRefFeature(features, nextFeature, features.getCurConfig());
 		// get formula of method in feature *refFeature*
 		CbCFormula originalFormula = features.loadFormulaFromFeature(fp, refFeature, features.getCallingClass(), features.getCallingMethod());
 		if (originalFormula == null) {
 			throw new ReferenceException(ExceptionMessages.formulaNotFound(features.getCallingMethod(), refFeature));
 		}
-		// get the condition
-		String originalCondition = "";
-		if (isPreCon) {
-			originalCondition = originalFormula.getStatement().getPreCondition().getName();	
-		} else {
-			originalCondition = originalFormula.getStatement().getPostCondition().getName();
-		}
-		condition = condition.substring(0, condition.indexOf("original")) 
-				+ "(" + originalCondition + ")" 
-				+ condition.substring(condition.indexOf("original") 
-						+ "original".length(), condition.length());
-		//condition = condition.replaceAll("original", "(" + originalCondition + ")");
-		// handle any inner original calls TODO?
-		// condition = handleOriginalCondition(fp, originalCondition, isPreCon, features);
+		String originalCondition = getOriginalCondition(originalFormula, isPreCon);
+		condition = replaceOriginalKeyword(condition, originalCondition);
 		return condition;
 	}
 	
-	public static JavaVariables readFieldsFromClass(String className, final String uri) {
+	private String getOriginalCondition(final CbCFormula originalFormula, boolean isPreCon) {
+		if (isPreCon) {
+			return originalFormula.getStatement().getPreCondition().getName();	
+		} else {
+			return originalFormula.getStatement().getPostCondition().getName();
+		}
+	}
+	
+	private String replaceOriginalKeyword(String condition, final String originalCondition) {
+		return condition = condition.substring(0, condition.indexOf("original")) 
+				+ "(" + originalCondition + ")" 
+				+ condition.substring(condition.indexOf("original") 
+						+ "original".length(), condition.length());
+	}
+	
+	public JavaVariables readFieldsFromClass(String className, final String uri) {
 		final List<String> addedFields = new ArrayList<String>();
 		
 		JavaVariables vars = CbcmodelFactory.eINSTANCE.createJavaVariables();
@@ -144,7 +157,17 @@ public class TestUtilSPL {
 		return vars;
 	}
 	
-	public static void handleOriginalCode(final IFeatureProvider fp, final URI projectPath, String code, final Features features, final List<MethodHandler> newMethods, String signature, final JavaVariables vars) throws ReferenceException {
+	private String prefixWithOriginal(String signature, final Features features) {
+		return signature.substring(0, signature.indexOf(features.getCallingMethod())) 
+				+ "original_" 
+				+ signature.substring(signature.indexOf(features.getCallingMethod()) , signature.length());
+	}
+	
+	private String createMethodCode(String signature, String code) {
+		return signature + "{\n" + "\t" + code + "}\n";
+	}
+	
+	public void handleOriginalCode(final IFeatureProvider fp, final URI projectPath, String code, final Features features, final List<MethodHandler> newMethods, String signature, final JavaVariables vars) throws ReferenceException {
 		if (!code.contains("original")) {
 			return;
 		}
@@ -160,13 +183,10 @@ public class TestUtilSPL {
 		}
 		Diagram test;
 		String refCode = TestAndAssertionGenerator.genDiagramCode(originalFormula, null);
-		signature = signature.substring(0, signature.indexOf(features.getCallingMethod())) 
-				+ "original_" 
-				+ signature.substring(signature.indexOf(features.getCallingMethod()) , signature.length());
+		signature = prefixWithOriginal(signature, features);
 		String methodName = MethodHandler.getMethodNameFromSig(signature);
 		refCode = refCode.replaceAll("original", "original_" + methodName);
-		refCode = signature + "{\n"
-				+ "\t" + refCode + "}\n";
+		refCode = createMethodCode(signature, refCode);
 		var classVars = readFieldsFromClass(features.getCallingClass(), projectPath.toPlatformString(false));
 		//vars.getFields().addAll(classVars.getFields());
 		//addFields(vars, classVars);
@@ -176,7 +196,7 @@ public class TestUtilSPL {
 		handleOriginalCode(fp, projectPath, refCode, features, newMethods, signature, vars);
 	}
 	
-	private static String getRefFeature(final Features features, final String callingFeature, String[] curConfig) throws ReferenceException {
+	private String getRefFeature(final Features features, final String callingFeature, String[] curConfig) throws ReferenceException {
 		String configName = features.getConfigName(curConfig);
 		int index = features.getFeatureIndex(curConfig, callingFeature);
 		if (index == -1) {
@@ -188,7 +208,7 @@ public class TestUtilSPL {
 		return curConfig[index];
 	}
 	
-	private static List<String> getAbstractFunctionCalls(final String code) {
+	private List<String> getAbstractFunctionCalls(final String code) {
 		final var calls = new ArrayList<String>();
 		final Pattern p = Pattern.compile("\\s*\\w+\\(");
 		final Matcher m = p.matcher(code);
@@ -217,7 +237,7 @@ public class TestUtilSPL {
 	 * @param features
 	 * @throws TestAndAssertionGeneratorException 
 	 */
-	public static List<MethodHandler> handleAbstractMethodCalls(final IFeatureProvider fp, final URI projectPath, final String code, final Features features, final List<MethodHandler> newMethods) throws TestAndAssertionGeneratorException {
+	public List<MethodHandler> handleAbstractMethodCalls(final IFeatureProvider fp, final URI projectPath, final String code, final Features features, final List<MethodHandler> newMethods) throws TestAndAssertionGeneratorException {
 		final var methodNames = getAbstractFunctionCalls(code);
 		final var relevantFeatures = new ArrayList<String>();
 		TestAndAssertionGenerator tg = new TestAndAssertionGenerator(fp);
@@ -228,7 +248,7 @@ public class TestUtilSPL {
 		}
 		for (var mName : methodNames) {
 			for (var feature : relevantFeatures) {
-				Diagram diag = FileHandler.loadDiagramFromClass(projectPath, "features/" + feature, mName);
+				Diagram diag = FileHandler.getInstance().loadDiagramFromClass(projectPath, "features/" + feature, mName);
 				if (diag == null) {
 					continue;
 				}
@@ -253,7 +273,7 @@ public class TestUtilSPL {
 		return newMethods;
 	}
 
-	public static void addNewMethods(final List<ClassHandler> classCodes, final String className, final ArrayList<MethodHandler> originalMethods,
+	public void addNewMethods(final List<ClassHandler> classCodes, final String className, final ArrayList<MethodHandler> originalMethods,
 			final ArrayList<MethodHandler> abstractMethods) {
 		for (int i = 0; i < classCodes.size(); i++) {
 			if (classCodes.get(i).getClassName().equals(className)) {

@@ -45,7 +45,7 @@ public class ClassHandler {
 	
 	private List<String> getNewSPLVars(final List<String> oldVars) {
 		final List<String> gVars = new ArrayList<String>();
-		var vars = TestUtilSPL.readFieldsFromClass(className, projectUri.toPlatformString(false));
+		var vars = TestUtilSPL.getInstance().readFieldsFromClass(className, projectUri.toPlatformString(false));
 		for (Field field : vars.getFields()) {
 			if (field.getName() == null || field.getType() == null) {
 				continue;
@@ -83,7 +83,7 @@ public class ClassHandler {
 			gVars = getGvarsOfExternalClass(classCode);
 		} else {
 			gVars = getGvarsOfCbCClass(this.projectUri, className);
-			if (FileHandler.isSPL(projectUri)) {
+			if (FileHandler.getInstance().isSPL(projectUri)) {
 				featuregVars.addAll(gVars);
 				gVars.addAll(getNewSPLVars(gVars));
 			}
@@ -105,7 +105,7 @@ public class ClassHandler {
 		// generate constructor
 		this.addMethod(className, generateConstructor(className, gVars));
 		// generate constructor for feature if present
-		if (FileHandler.isSPL(projectUri) && featuregVars.hashCode() != gVars.hashCode()) {
+		if (FileHandler.getInstance().isSPL(projectUri) && featuregVars.hashCode() != gVars.hashCode()) {
 			this.addMethod(className, generateConstructor(className, featuregVars));
 		}
 		// also generate the default constructor if the last constructor contains params

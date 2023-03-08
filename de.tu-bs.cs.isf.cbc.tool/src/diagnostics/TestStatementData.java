@@ -25,7 +25,7 @@ public class TestStatementData implements DiagnosticsData {
 
 	@Override
 	public boolean isSplData() {
-		return FileHandler.isSPL(diagramUri); 
+		return FileHandler.getInstance().isSPL(diagramUri); 
 	}
 
 	@Override

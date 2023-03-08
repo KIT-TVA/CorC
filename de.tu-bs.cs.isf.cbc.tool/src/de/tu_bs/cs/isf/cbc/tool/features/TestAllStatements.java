@@ -96,10 +96,10 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 			return;
 		}
 		ts.setUri(uri);
-		FileHandler.clearLog(diag.eResource().getURI());
+		FileHandler.getInstance().clearLog(diag.eResource().getURI());
 		var allStatements = TestStatement.collectAllStatements(formula);
 		Features features = null;
-		if (FileHandler.isSPL(uri)) {
+		if (FileHandler.getInstance().isSPL(uri)) {
 			features = new Features(uri);
 		} else {
 			features = null;
@@ -121,7 +121,7 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 				float pathTime = ts.testPath((AbstractStatement)statement, vars, conds, formula, returnStatement, features);
 				dataCollector.addData(features.getCurConfigName(), ts.getStatementPath(statement), pathTime); 
 			}
-			FileHandler.saveConfig(uri, formula, features, false);
+			FileHandler.getInstance().saveConfig(uri, formula, features, false);
 		}
 		dataCollector.finish();
 	}

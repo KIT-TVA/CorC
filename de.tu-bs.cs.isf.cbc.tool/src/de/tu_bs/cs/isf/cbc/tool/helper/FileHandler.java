@@ -29,18 +29,27 @@ import diagnostics.DataType;
  * @author Fynn
  */
 public class FileHandler {
-	private static URI projectPath = null;
+	private static FileHandler instance;
 	
-	public static void clearLog(final URI projectPath) {
-		FileHandler.projectPath = projectPath;
+	public static FileHandler getInstance() {
+		if (instance == null) {
+			instance = new FileHandler();
+		}
+		return instance;
+	}
+	
+	private URI projectPath = null;
+	
+	public void clearLog(final URI projectPath) {
+		instance.projectPath = projectPath;
 		var logFile = new File(FileUtil.getProjectLocation(projectPath) + "\\tests\\log.txt");
 		if (logFile.exists()) {
 			logFile.delete();
 		} 
 	}
 	
-	public static void log(final URI projectPath, String text) {
-		FileHandler.projectPath = projectPath;
+	public void log(final URI projectPath, String text) {
+		instance.projectPath = projectPath;
 		try {
 			var logFile = new File(FileUtil.getProjectLocation(projectPath) + "\\tests\\log.txt");
 			if (!logFile.exists()) {
@@ -52,12 +61,12 @@ public class FileHandler {
 		}
 	}
 	
-	public static void log(String text) {	
-		if (projectPath == null) {
+	public void log(String text) {	
+		if (instance.projectPath == null) {
 			return;
 		}
 		try {
-			var logFile = new File(FileUtil.getProjectLocation(FileHandler.projectPath) + "\\tests\\log.txt");
+			var logFile = new File(FileUtil.getProjectLocation(instance.projectPath) + "\\tests\\log.txt");
 			if (!logFile.exists()) {
 				logFile.createNewFile();
 			} 
@@ -67,7 +76,7 @@ public class FileHandler {
 		}
 	}
 		
-	public static boolean writeToFile(String location, String fileName, String content) {
+	public boolean writeToFile(String location, String fileName, String content) {
 		try {
 			var dir = new File(location);	
 			if (!dir.exists()) {
@@ -86,11 +95,11 @@ public class FileHandler {
 		return true;
 	}
 	
-	public static boolean createFile(final URI projectPath, String className, String code) {
+	public boolean createFile(final URI projectPath, String className, String code) {
 		return createFile(projectPath, "tests", className + ".java", code);
 	}
 	
-	public static boolean createFile(final URI projectPath, final String folderName, final String fileName, final String code) {
+	public boolean createFile(final URI projectPath, final String folderName, final String fileName, final String code) {
 		var project = FileUtil.getProject(projectPath);
 		var folder = project.getFolder(folderName);
 		try {
@@ -112,7 +121,7 @@ public class FileHandler {
 		return true;
 	}
 	
-	public static boolean deleteFolder(final URI projectPath, final String folderName) {
+	public boolean deleteFolder(final URI projectPath, final String folderName) {
 			var project = FileUtil.getProject(projectPath);
 			var folder = project.getFolder(folderName);
 			if (!folder.exists()) {
@@ -132,7 +141,7 @@ public class FileHandler {
 			return true;
 	}
 	
-	public static boolean createFolder(final URI projectPath, final String folderName) {
+	public boolean createFolder(final URI projectPath, final String folderName) {
 			var project = FileUtil.getProject(projectPath);
 			try {
 				project.getFolder(folderName).create(true, true, null);
@@ -144,7 +153,7 @@ public class FileHandler {
 			return true;
 	}
 	
-	public static boolean deleteSpecificFile(final String fullFilePath) {
+	public boolean deleteSpecificFile(final String fullFilePath) {
 		try {
 			var javaFile = new File(fullFilePath);
 			if (!javaFile.exists()){
@@ -158,7 +167,7 @@ public class FileHandler {
 		return true;
 	}
 	
-	public static boolean deleteFile(final URI projectPath, String className) {
+	public boolean deleteFile(final URI projectPath, String className) {
 		try {
 			var dir = new File(FileUtil.getProjectLocation(projectPath) + "\\tests");	
 			if (!dir.exists()) {
@@ -180,12 +189,12 @@ public class FileHandler {
 		return true;
 	}
 	
-	public static boolean writeToFile(final URI projectPath, final String className, String content) {
+	public boolean writeToFile(final URI projectPath, final String className, String content) {
 		writeToFile(FileUtil.getProjectLocation(projectPath) + "\\tests", className, content);
 		return true;
 	}
 	
-	private static IFile findDiagram(IContainer folder, String diagramName) {
+	private IFile findDiagram(IContainer folder, String diagramName) {
 		try {
 			IResource[] members = folder.members();
 			for (final IResource resource : members) {
@@ -208,7 +217,7 @@ public class FileHandler {
 		return null;
 	}
 	
-	public static Diagram loadDiagramFromClass(final URI projectPath, final String folderName, final String className, final String diagramName) {
+	public Diagram loadDiagramFromClass(final URI projectPath, final String folderName, final String className, final String diagramName) {
 		if (className.isBlank() || diagramName.isBlank()) {
 			return null;
 		}
@@ -224,7 +233,7 @@ public class FileHandler {
 		return GetDiagramUtil.getDiagramFromFile(file, rSet);
 	}
 	
-	public static Diagram loadDiagramFromClass(final URI projectPath, final String folderName, final String diagramName) {
+	public Diagram loadDiagramFromClass(final URI projectPath, final String folderName, final String diagramName) {
 		if (diagramName.isBlank()) {
 			return null;
 		}
@@ -240,7 +249,7 @@ public class FileHandler {
 		return GetDiagramUtil.getDiagramFromFile(file, rSet);
 	}
 	
-	public static boolean isSPL(final IProject project) {
+	public boolean isSPL(final IProject project) {
 		try {
 			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
 				return true;
@@ -270,18 +279,16 @@ public class FileHandler {
 		return false;*/
 	}
 	
-	public static boolean isSPL(final URI projectPath) {
+	public boolean isSPL(final URI projectPath) {
 		final var project = FileUtil.getProject(projectPath);
 		return isSPL(project);
 	}
 	
-	public static boolean saveConfig(final URI projectPath, final CbCFormula formula, final Features features, boolean isTestCase) {
-		// get className
+	public boolean saveConfig(final URI projectPath, final CbCFormula formula, final Features features, boolean isTestCase) {
 		final String className = ClassHandler.getClassName(formula);
-		// get current config name
 		final String currentConfigName = features.getCurConfigName();
-		// copy test contents to new file with config name
 		String code;
+
 		if (isTestCase) {
 			code = ClassHandler.classExists(projectPath, className + "Test");
 		} else {
@@ -293,24 +300,28 @@ public class FileHandler {
 		return true;
 	}
 	
-	public static void saveDiagnosticData(final URI projectPath, final DataCollector dataCollector) {
+	private String getClassPath(final URI projectPath) {
 		var path = projectPath.toPlatformString(true);
 		path = path.substring(path.indexOf("/") + 1, path.lastIndexOf("/") + 1);
 		path = path.substring(path.indexOf("/") + 1, path.length());
+		return path;
+	}
+	
+	public void saveDiagnosticData(final URI projectPath, final DataCollector dataCollector) {
+		var path = getClassPath(projectPath);
 		final String diagFolder =  path + dataCollector.getFolderName();
 		createFolder(projectPath, diagFolder);
-		if (dataCollector.getType() == DataType.PATH) { 
-			if (isSPL(projectPath)) {
-				for (var config : dataCollector.getConfigNames()) {
-					createFolder(projectPath, diagFolder + "/" + config);
-					createFile(projectPath, diagFolder + "/" + config, "DiagnosticData", dataCollector.getConfigRep(config));
-				}
-			} else {
-				createFile(projectPath, diagFolder, "DiagnosticData", dataCollector.getPathsRep()); 
-			}
-		} else {
+		if (dataCollector.getType() != DataType.PATH) { 
 			// TODO Differentiate between SPLs and None SPLs
 			createFile(projectPath, diagFolder, "DiagnosticData", dataCollector.getTestCaseRep()); 
+			return;
+		}
+		if (!isSPL(projectPath)) {
+			createFile(projectPath, diagFolder, "DiagnosticData", dataCollector.getPathsRep()); 
+		}
+		for (var config : dataCollector.getConfigNames()) {
+			createFolder(projectPath, diagFolder + "/" + config);
+			createFile(projectPath, diagFolder + "/" + config, "DiagnosticData", dataCollector.getConfigRep(config));
 		}
 	}
 }

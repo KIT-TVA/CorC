@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -200,15 +201,19 @@ public class RHelper {
 		
 		if (isSPL()) {
 			for (String diagramName : diagramNames) {
-				for (final String config : this.configEntries.values().stream().distinct().toList()) {
-					int proofSteps = 0;
+				for (final String config : this.configEntries.values().stream().distinct().sorted(Comparator.naturalOrder()).toList()) {
+					//int proofSteps = 0;
 					for (final StatisticsEntry entry : this.configEntries.keySet()) {
 						if (entry.getMapping().getCorcDiagramName().equals(diagramName) && config.equals(this.configEntries.get(entry))) {
-							proofSteps += entry.getData().getTotalRuleApps();
+							var fileName = extractKeyFileName(entry.getMapping().getKeyFilePath());
+							int proofSteps = entry.getData().getTotalRuleApps();
+							if (xAxis.contains(fileName + " [" + diagramName + "]")) {
+								continue;
+							}
+							xAxis = xAxis + "\"" + fileName/*getInitials(config)*/ + " [" + diagramName + "]" +"\", ";		
+							yAxis = yAxis + proofSteps + ", ";
 						}
 					}
-					xAxis = xAxis + "\"" + getInitials(config) + " [" + diagramName + "]" +"\", ";
-					yAxis = yAxis + proofSteps + ", ";
 				}
 			}
 		} else {
@@ -224,6 +229,14 @@ public class RHelper {
 			}
 		}
 		return builtPlot(xAxis, yAxis, true);
+	}
+	
+	private String extractKeyFileName(String path) {
+		int delim = path.lastIndexOf(".");
+		while (Character.isJavaIdentifierPart(path.charAt(--delim)))
+			;
+		path = path.substring(delim + 1, path.length());
+		return path.substring(0, path.indexOf('.'));
 	}
 
 	private String builtPlot(String xAxis, String yAxis, boolean stepPlot) {

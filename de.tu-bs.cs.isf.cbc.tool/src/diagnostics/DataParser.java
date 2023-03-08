@@ -31,7 +31,7 @@ public class DataParser {
 		if (!diagnosticsFolder.exists()) {
 			throw new DiagnosticsException(ExceptionMessages.diagnosticsFolderNotFound(diagnosticsFolder));
 		}
-		if (FileHandler.isSPL(diagramPath)) {
+		if (FileHandler.getInstance().isSPL(diagramPath)) {
 			features = new Features(diagramPath);
 		} else {
 			features = null;

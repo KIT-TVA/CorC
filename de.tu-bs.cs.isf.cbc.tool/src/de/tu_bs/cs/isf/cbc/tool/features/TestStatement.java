@@ -150,9 +150,9 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 					e.printStackTrace();
 					return;
 				}
-				FileHandler.clearLog(this.projectPath);
+				FileHandler.getInstance().clearLog(this.projectPath);
 				Features features = null;
-				if (FileHandler.isSPL(uri)) {
+				if (FileHandler.getInstance().isSPL(uri)) {
 					features = new Features(uri);
 				} else {
 					features = null;
@@ -168,7 +168,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 						}
 						dataCollector.addData(features.getCurConfigName(), getStatementPath(statement), pathTime); 
 						// save configuration in a separate file
-						FileHandler.saveConfig(uri, formula, features, false);
+						FileHandler.getInstance().saveConfig(uri, formula, features, false);
 					}		
 				} else {
 					float pathTime = testPath(statement, vars, conds, formula, returnStatement, features);
@@ -743,15 +743,15 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		}
 		final var originalMethods = new ArrayList<MethodHandler>();
 		final var abstractMethods = new ArrayList<MethodHandler>();
-		if (FileHandler.isSPL(projectPath)) {
+		if (FileHandler.getInstance().isSPL(projectPath)) {
 			if (code.contains("original") || statementName.contains("original")) {
-				TestUtilSPL.handleOriginalCode(fp, projectPath, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, originalMethods, formula.getMethodObj().getSignature(), vars);
+				TestUtilSPL.getInstance().handleOriginalCode(fp, projectPath, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, originalMethods, formula.getMethodObj().getSignature(), vars);
 				code = code.replaceAll("original\\(", originalMethods.get(0).getMethodName() + "(");
 			}
 			// TODO: ignore methods that are not abstract
-			TestUtilSPL.handleAbstractMethodCalls(fp, projectPath, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, abstractMethods);
+			TestUtilSPL.getInstance().handleAbstractMethodCalls(fp, projectPath, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, abstractMethods);
 			for (var originalMethod : originalMethods) {
-				TestUtilSPL.handleAbstractMethodCalls(fp, projectPath, originalMethod.getInnerCode(), features, abstractMethods);
+				TestUtilSPL.getInstance().handleAbstractMethodCalls(fp, projectPath, originalMethod.getInnerCode(), features, abstractMethods);
 			}
 		}
 		// now add pre conditions of selection as assertions
@@ -770,9 +770,9 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		var postCon = statement.getPostCondition().getName();	
 		if (features != null) {
 			boolean isPreCon = true;
-			programPreConsStr = TestUtilSPL.handleOriginalCondition(fp, programPreConsStr, isPreCon, features);
+			programPreConsStr = TestUtilSPL.getInstance().handleOriginalCondition(fp, programPreConsStr, isPreCon, features);
 			isPreCon = false;
-			postCon = TestUtilSPL.handleOriginalCondition(fp, postCon, isPreCon, features);
+			postCon = TestUtilSPL.getInstance().handleOriginalCondition(fp, postCon, isPreCon, features);
 		}
 		final var programPreCons = ConditionHandler.translateConditionToJava(projectPath, programPreConsStr, "", data);	
 		postCon = postCon.replaceAll("this\\.", "");

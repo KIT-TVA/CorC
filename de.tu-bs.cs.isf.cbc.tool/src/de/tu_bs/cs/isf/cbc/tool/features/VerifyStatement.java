@@ -115,7 +115,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				URI uri = getDiagram().eResource().getURI();
 				// delete 'tests' folder if it exists because it will cause reference errors
 				// since key doesn't use TestNG.
-				FileHandler.deleteFolder(uri, "tests");
+				FileHandler.getInstance().deleteFolder(uri, "tests");
 
 				IProject project = FileUtil.getProjectFromFileInProject(uri);
 				boolean isVariational = false;
