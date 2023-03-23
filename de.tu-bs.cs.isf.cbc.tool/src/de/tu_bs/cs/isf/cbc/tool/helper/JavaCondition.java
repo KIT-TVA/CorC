@@ -9,7 +9,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.*;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
 /**
- * This class can be used to translate conditions given as an AST into java.
+ * This class can be used to translate conditions represented as an AST into java.
  * @author Fynn
  */
 public class JavaCondition {

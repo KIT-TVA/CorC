@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -116,36 +117,44 @@ public class RHelper {
 		myWriter.close();
 	}
 	
-	
-	
 	private String getAbsoluteFileRootLocation() {
 		IPath pluginStateFolderPath = Platform.getStateLocation(Platform.getBundle(PLUGIN_ID));
 		File pluginStateFolder = pluginStateFolderPath.toFile();
-
 		String folderName = "generatedDiagrams";
 		return pluginStateFolder.getAbsolutePath() + File.separator + folderName + File.separator;
 	}
 	
 	private String createPlot(final List<String> diagramNames, final List<StatisticsEntry> entries) {
-		String xAxis = "diagram <- c(";
-		String yAxis = "time <- c(" ;
-		
+		DiagramAxes axes = new DiagramAxes(false, false);
 		for (String diagramName : diagramNames) {
+			createPlotForDiagram(diagramName, axes, entries);
+		}
+		return builtPlot(axes);
+	}
+	
+	private void createPlotForDiagram(String diagramName, DiagramAxes axes, final List<StatisticsEntry> entries) {
 			float totalTime = 0;
 			for (StatisticsEntry entry : entries) {
 				if (entry.getMapping().getCorcDiagramName().equals(diagramName)) {
 					totalTime = totalTime + entry.getData().getAutoModeTimeInMillis();
 				}
 			}
-			xAxis = xAxis + "\"" + diagramName +"\", ";
-			yAxis = yAxis + totalTime + ", ";
-		}
-		return builtPlot(xAxis, yAxis);
+			axes.addData(diagramName, "" + totalTime);
 	}
 	
+	private List<StatisticsEntry> getEntriesForDiagram(final List<StatisticsEntry> entries, String diagramName) {
+			final List<StatisticsEntry> diagramEntries = new ArrayList<StatisticsEntry>();
+			for (StatisticsEntry entry : entries) {
+				if (entry.getMapping().getCorcDiagramName().equals(diagramName)) {
+					diagramEntries.add(entry);
+				}
+			}
+			return diagramEntries;
+	}
+
+	
 	private String createAvgPlot(final List<String> diagramNames) {
-		String xAxis = "diagram <- c(";
-		String yAxis = "time <- c(" ;
+		DiagramAxes axes = new DiagramAxes(false, true);
 		int numEntries = 0;
 		
 		for (String diagramName : diagramNames) {
@@ -160,10 +169,9 @@ public class RHelper {
 				}
 			}
 			avgTotalTime /= numEntries; 
-			xAxis = xAxis + "\"" + diagramName + " [" + numEntries + " files]" + "\", ";
-			yAxis = yAxis + avgTotalTime + ", ";
+			axes.addData(diagramName + " [" + numEntries + " files]", avgTotalTime + "");
 		}
-		return builtPlot(xAxis, yAxis);
+		return builtPlot(axes);
 	}
 	
 	private String getInitials(String str) {
@@ -177,8 +185,7 @@ public class RHelper {
 	}
 	
 	private String createConfigPlot(final List<String> diagramNames) {
-		String xAxis = "diagram <- c(";
-		String yAxis = "time <- c(" ;
+		DiagramAxes axes = new DiagramAxes(false, false);
 		
 		for (String diagramName : diagramNames) {
 			for (final String config : this.configEntries.values().stream().distinct().toList()) {
@@ -188,32 +195,31 @@ public class RHelper {
 						totalTime = totalTime + entry.getData().getAutoModeTimeInMillis();
 					}
 				}
-				xAxis = xAxis + "\"" + getInitials(config) + " [" + diagramName + "]" +"\", ";
-				yAxis = yAxis + totalTime + ", ";
+				axes.addData(getInitials(config) + " [" + diagramName + "]", totalTime + ""); 
 			}
 		}
-		return builtPlot(xAxis, yAxis);
+		return builtPlot(axes);
 	}
 
 	private String createProofStepPlot(final List<String> diagramNames, final List<StatisticsEntry> entries) {
-		String xAxis = "diagram <- c(";
-		String yAxis = "steps <- c(" ;
+		DiagramAxes axes = new DiagramAxes(true, false);
 		
 		if (isSPL()) {
 			for (String diagramName : diagramNames) {
 				for (final String config : this.configEntries.values().stream().distinct().sorted(Comparator.naturalOrder()).toList()) {
-					//int proofSteps = 0;
+					int proofSteps = 0;
+					System.out.println(config + " [" + diagramName + "]");
 					for (final StatisticsEntry entry : this.configEntries.keySet()) {
 						if (entry.getMapping().getCorcDiagramName().equals(diagramName) && config.equals(this.configEntries.get(entry))) {
+							//int proofSteps = 0;
 							var fileName = extractKeyFileName(entry.getMapping().getKeyFilePath());
-							int proofSteps = entry.getData().getTotalRuleApps();
-							if (xAxis.contains(fileName + " [" + diagramName + "]")) {
-								continue;
-							}
-							xAxis = xAxis + "\"" + fileName/*getInitials(config)*/ + " [" + diagramName + "]" +"\", ";		
-							yAxis = yAxis + proofSteps + ", ";
+							proofSteps += entry.getData().getTotalRuleApps();
+							System.out.println(fileName + ": " + entry.getData().getTotalRuleApps());
+							//axes.addData(getInitials(config) + " [" + fileName + "]", "" + proofSteps);
 						}
 					}
+					System.out.println("sum = " + proofSteps);
+					axes.addData(getInitials(config) + " [" + diagramName + "]", "" + proofSteps);
 				}
 			}
 		} else {
@@ -224,11 +230,10 @@ public class RHelper {
 							proofSteps += entry.getData().getTotalRuleApps();
 					}
 				}
-				xAxis = xAxis + "\"" + diagramName +"\", ";
-				yAxis = yAxis + proofSteps + ", ";
+				axes.addData(diagramName, "" + proofSteps);
 			}
 		}
-		return builtPlot(xAxis, yAxis, true);
+		return builtPlot(axes, true);
 	}
 	
 	private String extractKeyFileName(String path) {
@@ -239,24 +244,28 @@ public class RHelper {
 		return path.substring(0, path.indexOf('.'));
 	}
 
-	private String builtPlot(String xAxis, String yAxis, boolean stepPlot) {
-		xAxis = xAxis.substring(0, xAxis.length()-2) + ")\r\n";
-		yAxis = yAxis.substring(0, yAxis.length()-2) + ")\r\n";
+	private String builtPlot(DiagramAxes axes, boolean stepPlot) {
+		String xAxis = axes.getX().substring(0, axes.getX().length()-2) + ")\r\n";
+		String yAxis = axes.getY().substring(0, axes.getY().length()-2) + ")\r\n";
 		
 		String margins = "linch <-  max(strwidth(diagram, \"inch\")+0.4, na.rm = TRUE)\r\n"
 				+ "par(mai=c(linch,1.02,0.82,0.42))\r\n";
 		
 		final String plotCommand;
 		if (stepPlot) {
-			plotCommand = "barplot(steps, ylab = \"Proof Steps\", names.arg=diagram, las=2, ylim=c(0, ceiling(max(steps, na.rm=TRUE)) + ceiling(max(steps, na.rm=TRUE)*0.1)))\r\n";
+			plotCommand = "barplot(steps, ylab = \"Total number of proof steps\", names.arg=diagram, las=2, ylim=c(0, ceiling(max(steps, na.rm=TRUE)) + ceiling(max(steps, na.rm=TRUE)*0.1)))\r\n";
 		} else {
-			plotCommand = "barplot(time, ylab = \"AutoMode Time [ms]\", names.arg=diagram, las=2, ylim=c(0, ceiling(max(time, na.rm=TRUE)) + ceiling(max(time, na.rm=TRUE)*0.1)))\r\n";
+			if (axes.isAverageData()) {
+				plotCommand = "barplot(time, ylab = \"Average AutoMode time [ms]\", names.arg=diagram, las=2, ylim=c(0, ceiling(max(time, na.rm=TRUE)) + ceiling(max(time, na.rm=TRUE)*0.1)))\r\n";
+			} else {
+				plotCommand = "barplot(time, ylab = \"AutoMode time [ms]\", names.arg=diagram, las=2, ylim=c(0, ceiling(max(time, na.rm=TRUE)) + ceiling(max(time, na.rm=TRUE)*0.1)))\r\n";
+			}
 		}
 		return xAxis + yAxis + margins + plotCommand;
 	}
 	
-	private String builtPlot(String xAxis, String yAxis) {
-		return builtPlot(xAxis, yAxis, false);
+	private String builtPlot(DiagramAxes axes) {
+		return builtPlot(axes, false);
 	}
 	
 	
