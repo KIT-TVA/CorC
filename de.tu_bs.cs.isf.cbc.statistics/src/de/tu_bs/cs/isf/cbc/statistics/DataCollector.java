@@ -1,19 +1,36 @@
 package de.tu_bs.cs.isf.cbc.statistics;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JOptionPane;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import com.google.common.hash.Hashing;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.Statistics;
 
 public class DataCollector {
+	private IFeatureProvider fp;
 
 	// TODO: data is constantly saved -> implement something to clean database
 	// either:
@@ -73,8 +90,63 @@ public class DataCollector {
 			System.out.println("Directly proven a KeY file. Statistics not collected!");
 		}
 	}
+	
+	public void loadCorcStatistics(URI projectPath, IFeatureProvider fp) throws IOException, ParseException {
+		this.fp = fp;
+		var project = FileUtil.getProject(projectPath);
+		var keyFiles = FileUtil.getFiles(project, "key");
+		List<StatisticsEntry> keyData = parseKeyData(keyFiles);
+		StatisticsDatabase.instance.saveToDatabase(keyData);
+	}
+	
+	private List<StatisticsEntry> parseKeyData(List<IFile> keyFiles) throws IOException {
+		var keyData = new ArrayList<StatisticsEntry>();
+		for (var file : keyFiles) {
+			var fileContent = Files.readString(Path.of(file.getLocation().toOSString()));
+			try {
+				keyData.add(createEntry(file, fileContent));
+			} catch (ParseException e) {}
+		}
+		return keyData;
+	}
+		
+	private StatisticsEntry createEntry(IFile file, String fileContent) throws ParseException {
+		StatisticsEntry corcStatsEntry = statisticsFactory.eINSTANCE.createStatisticsEntry();
+		StatisticsData corcStatsData = parseStatsData(fileContent);
+		CorcKeyMapping mapping = parseMapping(file, fileContent);
+		corcStatsEntry.setData(corcStatsData);
+		corcStatsEntry.setMapping(mapping);
+		return corcStatsEntry;	
+	}
+	
+	private StatisticsData parseStatsData(String fileContent) throws ParseException {
+		StatisticsData corcStatsData = statisticsFactory.eINSTANCE.createStatisticsData();
+		ParsedStats parsedStats = new ParsedStats(fileContent);
+		corcStatsData.setNumberOfNodes(parsedStats.nodes);
+		corcStatsData.setAutoModeTimeInMillis(parsedStats.autoModeTimeInMillis);
+		corcStatsData.setTimeInMillis(parsedStats.timeInMillis);
+		corcStatsData.setTimePerStepInMillis(parsedStats.timePerStepInMillis);
+		corcStatsData.setNumberOfBranches(parsedStats.branches);
+		corcStatsData.setTotalRuleApps(parsedStats.totalRuleApps);
+		corcStatsData.setTimestamp(parsedStats.date);
+		corcStatsData.setIsProven(parsedStats.isProven);
+		return corcStatsData;
+	}
+	
+	private CorcKeyMapping parseMapping(IFile file, String fileContent) {
+		CorcKeyMapping mapping = statisticsFactory.eINSTANCE.createCorcKeyMapping();
+		ParsedMapping parsedMapping = new ParsedMapping(file, fileContent, fp);
+		mapping.setKeyFilePath(parsedMapping.keyFilePath);
+		mapping.setCorcDiagramName(parsedMapping.diagramName);
+		mapping.setCorcElementFormula(parsedMapping.formula);
+		mapping.setCorcElementStatement(parsedMapping.statement);
+		mapping.setCorcElementId(parsedMapping.statementId);
+		mapping.setCorcDiagramPath(parsedMapping.diagramPath);
+		mapping.setKeyProofProblemHashValue(parsedMapping.problemHash);
+		return mapping;
+	}
 
-	private String getFolderName(String keyFilePath) {
+	public static String getFolderName(String keyFilePath) {
 
 		int indexLastSeperatorEntry = keyFilePath.lastIndexOf(File.separator);
 		keyFilePath = keyFilePath.substring(0, indexLastSeperatorEntry);
@@ -113,7 +185,7 @@ public class DataCollector {
 //		return null;
 //	}
 
-	private String getHashFromProblem(String problem) {
+	public static String getHashFromProblem(String problem) {
 
 //		Path keyFilePath = Path.of(proof.getProofFile().getAbsolutePath());
 //		String fileString = "";

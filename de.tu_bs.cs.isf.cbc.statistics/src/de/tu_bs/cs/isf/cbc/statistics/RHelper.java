@@ -17,6 +17,8 @@ import java.util.List;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 
+import de.tu_bs.cs.isf.cbc.tool.helper.Features;
+
 
 public class RHelper {
 	
@@ -24,14 +26,17 @@ public class RHelper {
     private static HashMap<StatisticsEntry, String> configEntries;
 	private boolean isSpl;
 	private boolean configView;	
+	private boolean fullDataSet;
+	private Features features;
     
     public RHelper() {
     	this.configEntries = null;
     	this.isSpl = false;
     }
     
-    public RHelper(final HashMap<StatisticsEntry, String> configEntries) {
+    public RHelper(final HashMap<StatisticsEntry, String> configEntries, final Features features) {
     	this.configEntries = configEntries;
+    	this.features = features;
     	this.isSpl = true;
     }
 
@@ -156,11 +161,12 @@ public class RHelper {
 	private String createAvgPlot(final List<String> diagramNames) {
 		DiagramAxes axes = new DiagramAxes(false, true);
 		int numEntries = 0;
+		var configs = extractConfigs(this.configEntries);
 		
 		for (String diagramName : diagramNames) {
 			numEntries = 0;
 			float avgTotalTime = 0;
-			for (final String config : this.configEntries.values().stream().distinct().toList()) {
+			for (final String config : configs) {
 				for (final StatisticsEntry entry : this.configEntries.keySet()) {
 					if (entry.getMapping().getCorcDiagramName().equals(diagramName) && config.equals(this.configEntries.get(entry))) {
 						avgTotalTime = avgTotalTime + entry.getData().getAutoModeTimeInMillis();
@@ -172,6 +178,16 @@ public class RHelper {
 			axes.addData(diagramName + " [" + numEntries + " files]", avgTotalTime + "");
 		}
 		return builtPlot(axes);
+	}
+	
+	private List<String> extractConfigs(final HashMap<StatisticsEntry, String> configEntries) {
+		var configs = configEntries.values().stream().distinct().toList();
+		if (configs.size() != this.features.getSize()) {
+			this.fullDataSet = false;
+		} else {
+			this.fullDataSet = true;
+		}
+		return configs;
 	}
 	
 	private String getInitials(String str) {
@@ -186,9 +202,10 @@ public class RHelper {
 	
 	private String createConfigPlot(final List<String> diagramNames) {
 		DiagramAxes axes = new DiagramAxes(false, false);
+		var configs = extractConfigs(this.configEntries);
 		
 		for (String diagramName : diagramNames) {
-			for (final String config : this.configEntries.values().stream().distinct().toList()) {
+			for (final String config : configs) {
 				float totalTime = 0;
 				for (final StatisticsEntry entry : this.configEntries.keySet()) {
 					if (entry.getMapping().getCorcDiagramName().equals(diagramName) && config.equals(this.configEntries.get(entry))) {
@@ -203,22 +220,18 @@ public class RHelper {
 
 	private String createProofStepPlot(final List<String> diagramNames, final List<StatisticsEntry> entries) {
 		DiagramAxes axes = new DiagramAxes(true, false);
+		var configs = extractConfigs(this.configEntries);
 		
 		if (isSPL()) {
 			for (String diagramName : diagramNames) {
-				for (final String config : this.configEntries.values().stream().distinct().sorted(Comparator.naturalOrder()).toList()) {
+				for (final String config : configs) {
 					int proofSteps = 0;
-					System.out.println(config + " [" + diagramName + "]");
 					for (final StatisticsEntry entry : this.configEntries.keySet()) {
 						if (entry.getMapping().getCorcDiagramName().equals(diagramName) && config.equals(this.configEntries.get(entry))) {
-							//int proofSteps = 0;
 							var fileName = extractKeyFileName(entry.getMapping().getKeyFilePath());
 							proofSteps += entry.getData().getTotalRuleApps();
-							System.out.println(fileName + ": " + entry.getData().getTotalRuleApps());
-							//axes.addData(getInitials(config) + " [" + fileName + "]", "" + proofSteps);
 						}
 					}
-					System.out.println("sum = " + proofSteps);
 					axes.addData(getInitials(config) + " [" + diagramName + "]", "" + proofSteps);
 				}
 			}
@@ -251,17 +264,30 @@ public class RHelper {
 		String margins = "linch <-  max(strwidth(diagram, \"inch\")+0.4, na.rm = TRUE)\r\n"
 				+ "par(mai=c(linch,1.02,0.82,0.42))\r\n";
 		
+		String colors = createColors(axes.getDataNum());
+		
 		final String plotCommand;
 		if (stepPlot) {
-			plotCommand = "barplot(steps, ylab = \"Total number of proof steps\", names.arg=diagram, las=2, ylim=c(0, ceiling(max(steps, na.rm=TRUE)) + ceiling(max(steps, na.rm=TRUE)*0.1)))\r\n";
+			plotCommand = "barplot(steps, ylab = \"Total number of proof steps\", col=" + colors + ", names.arg=diagram, las=2, ylim=c(0, ceiling(max(steps, na.rm=TRUE)) + ceiling(max(steps, na.rm=TRUE)*0.3)))\r\n";
 		} else {
 			if (axes.isAverageData()) {
-				plotCommand = "barplot(time, ylab = \"Average AutoMode time [ms]\", names.arg=diagram, las=2, ylim=c(0, ceiling(max(time, na.rm=TRUE)) + ceiling(max(time, na.rm=TRUE)*0.1)))\r\n";
+				plotCommand = "barplot(time, ylab = \"Average AutoMode time [ms]\", col=" + colors + ", names.arg=diagram, las=2, ylim=c(0, ceiling(max(time, na.rm=TRUE)) + ceiling(max(time, na.rm=TRUE)*0.3)))\r\n";
 			} else {
-				plotCommand = "barplot(time, ylab = \"AutoMode time [ms]\", names.arg=diagram, las=2, ylim=c(0, ceiling(max(time, na.rm=TRUE)) + ceiling(max(time, na.rm=TRUE)*0.1)))\r\n";
+				plotCommand = "barplot(time, ylab = \"AutoMode time [ms]\", col=" + colors + ", names.arg=diagram, las=2, ylim=c(0, ceiling(max(time, na.rm=TRUE)) + ceiling(max(time, na.rm=TRUE)*0.3)))\r\n";
 			}
 		}
-		return xAxis + yAxis + margins + plotCommand;
+		String legend = "legend(\"topright\", legend=c(\"Fully proven\", \"Partially proven\"), fill = c(\"green\", \"red\"))\r\n";
+		return xAxis + yAxis + margins + plotCommand + legend;
+	}
+	
+	private String createColors(int dataNum) {
+		String colors = "c(";
+		String color = this.fullDataSet ? "green" : "red";
+		for (int i = 0; i < dataNum-1; i++) {
+			colors += "\"" + color + "\", ";
+		}
+		colors += "\"" + color + "\")";
+		return colors;
 	}
 	
 	private String builtPlot(DiagramAxes axes) {

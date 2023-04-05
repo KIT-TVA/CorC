@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.Platform;
 import de.tu_bs.cs.isf.cbc.statistics.DiagramType;
 import de.tu_bs.cs.isf.cbc.statistics.RHelper;
 import de.tu_bs.cs.isf.cbc.statistics.StatisticsEntry;
+import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 
 public class HtmlHandler {
 
@@ -24,7 +25,7 @@ public class HtmlHandler {
 //	private String betweenEntrysAndDiagrams = ""; 
 //	private String afterDiagrams = ""; 
 	private int numberOfDiagrams;
-	private List<StatisticsEntry> entries = new LinkedList<StatisticsEntry>();
+	private List<StatisticsEntry> entries = new ArrayList<StatisticsEntry>();
 	private HashMap<StatisticsEntry, String> configEntries = new HashMap<StatisticsEntry, String>();
 	private List<String> configs = new ArrayList<String>();
 	private List<IFile> selectedDiagramFiles = new LinkedList<IFile>();
@@ -33,6 +34,7 @@ public class HtmlHandler {
 	private String placeholderGeneratedDiagram = "";
 	private String lineBreak = "<br />";
 	private boolean configView;
+	private Features features;
 
 	public void setDiagramPaths(List<?> paths) {
 
@@ -46,11 +48,12 @@ public class HtmlHandler {
 
 	}
 	
-	public void setDataSPL(int numberOfDiagrams, final HashMap<StatisticsEntry, String> configEntries, final List<String> configs, final List<IFile> selectedDiagramFiles) {
+	public void setDataSPL(int numberOfDiagrams, final HashMap<StatisticsEntry, String> configEntries, final List<String> configs, final List<IFile> selectedDiagramFiles, final Features features) {
 		this.numberOfDiagrams = numberOfDiagrams;
 		this.configEntries = configEntries;
 		this.configs = configs;
 		this.selectedDiagramFiles = selectedDiagramFiles;
+		this.features = features;
 	}
 	
 	private String generateDiagrams(final List<StatisticsEntry> entries, boolean isSpl) {
@@ -61,7 +64,7 @@ public class HtmlHandler {
 
 		RHelper helper;
 		if (isSpl) {
-			helper = new RHelper(configEntries);
+			helper = new RHelper(configEntries, features);
 			helper.setConfigView(this.configView);
 		} else {
 			helper = new RHelper();

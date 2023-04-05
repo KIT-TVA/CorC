@@ -4,6 +4,7 @@ public class DiagramAxes {
 		private String xAxis;
 		private String yAxis;
 		private boolean isAverageData;
+		private int dataNum;
 		
 		public DiagramAxes(boolean isProofSteps, boolean isAverageData) {
 			xAxis = "diagram <- c(";
@@ -13,11 +14,13 @@ public class DiagramAxes {
 				yAxis = "steps <- c(";
 			}
 			this.isAverageData = isAverageData;
+			this.dataNum = 0;
 		}
 		
 		public void addData(String x, String y) {
 			xAxis += "\"" + x + "\", ";
 			yAxis += y + ", ";
+			dataNum++;
 		}
 		
 		public String getX() {
@@ -26,6 +29,10 @@ public class DiagramAxes {
 		
 		public String getY() {
 			return yAxis;
+		}
+		
+		public int getDataNum() {
+			return this.dataNum;
 		}
 		
 		public boolean isAverageData() {

@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Shell;
 import de.tu_bs.cs.isf.cbc.statistics.CSVHelper;
 import de.tu_bs.cs.isf.cbc.statistics.StatisticsDatabase;
 import de.tu_bs.cs.isf.cbc.statistics.StatisticsEntry;
+import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
 
@@ -37,6 +38,7 @@ public class StatisticsDialog extends TitleAreaDialog {
 	private HashMap<StatisticsEntry, String> configEntries = new HashMap<StatisticsEntry, String>();
 	private List<IFile> selectedDiagramFiles = new LinkedList<IFile>();
 	private boolean configView = false;
+	private Features features = null;
 	
 	public StatisticsDialog(Shell parentShell) {
 		super(parentShell);
@@ -72,7 +74,7 @@ public class StatisticsDialog extends TitleAreaDialog {
 		final String templateHTML;
 
 		if (this.isSpl) {
-			htmlSite.setDataSPL(numberOfDiagrams, configEntries, configs, selectedDiagramFiles);
+			htmlSite.setDataSPL(numberOfDiagrams, configEntries, configs, selectedDiagramFiles, features);
 			templateHTML = htmlSite.getHtmlStringSPL();
 		} else {
 			htmlSite.setData(numberOfDiagrams, entries, selectedDiagramFiles);
@@ -118,7 +120,7 @@ public class StatisticsDialog extends TitleAreaDialog {
 		}
 		this.toggleConfigView();
 		for (var config : configEntries.values()) {
-			setDataSPL(selectedDiagramFiles, config);
+			setDataSPL(selectedDiagramFiles, config, features);
 		}
 		this.close();
 		this.create();
@@ -169,8 +171,9 @@ public class StatisticsDialog extends TitleAreaDialog {
 		return new Point(1200, 800);
 	}
 
-	public boolean setDataSPL(final List<IFile> allDiagramFiles, final String configName) {
+	public boolean setDataSPL(final List<IFile> allDiagramFiles, final String configName, final Features features) {
 		this.isSpl = true;
+		this.features = features;
 		if (!this.configs.contains(configName)) {
 			this.configs.add(configName);
 		}

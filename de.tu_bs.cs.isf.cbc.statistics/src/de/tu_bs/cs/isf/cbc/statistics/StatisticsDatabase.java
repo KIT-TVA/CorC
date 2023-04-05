@@ -2,6 +2,7 @@ package de.tu_bs.cs.isf.cbc.statistics;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
@@ -58,6 +59,22 @@ public class StatisticsDatabase {
 		registry.getEntries().add(entry);
 		saveRegistry();
 	}
+	
+	public void saveToDatabase(List<StatisticsEntry> keyData) {
+		for (StatisticsEntry entry : keyData) {
+			updateEntry(entry);
+			saveRegistry();
+		}
+	}
+	
+	private void updateEntry(StatisticsEntry entry) {
+		for (int i = 0; i < registry.getEntries().size(); i++) {
+			if (registry.getEntries().get(i).getMapping().getKeyProofProblemHashValue().equals(entry.getMapping().getKeyProofProblemHashValue())) {
+				registry.getEntries().remove(registry.getEntries().get(i));
+			}
+			registry.getEntries().add(entry);
+		}
+	}
 
 	private void saveRegistry() {
 		try {
@@ -69,24 +86,22 @@ public class StatisticsDatabase {
 
 	public List<StatisticsEntry> getConfigEntries(final IFile file, String configName) {
 		// TODO: maybe save more redundant information to make it more robust
-		final List<StatisticsEntry> validDBEntries = new LinkedList<StatisticsEntry>();
-		List<StatisticsEntry> affectedEntriesInDB = new LinkedList<StatisticsEntry>();
+		final List<StatisticsEntry> validDBEntries = new ArrayList<StatisticsEntry>();
+		List<StatisticsEntry> affectedEntriesInDB = new ArrayList<StatisticsEntry>();
 		
 		configName = configName.replaceAll(",\\s", "");
-
 		for (StatisticsEntry entry : registry.getEntries()) {
-
 			// TODO: replace entryPath with diagram name which is new in statistics model
-			final String entryPath;
+			String entryPath;
 			if (entry.getMapping().getKeyFilePath() != null) {
 				entryPath = entry.getMapping().getKeyFilePath().toString();
 
 			} else
 				continue;
 
-			final String filePath = file.getFullPath().toOSString();
+			String filePath = file.getFullPath().toOSString();
 			// first check whether the file is located in the same project/branch as the entry
-			final String branch = filePath.substring(0, filePath.lastIndexOf(File.separator));
+			String branch = filePath.substring(0, filePath.lastIndexOf(File.separator));
 			if (!entryPath.contains(branch)) {
 				continue;
 			}
@@ -110,7 +125,7 @@ public class StatisticsDatabase {
 		}
 
 		if (!affectedEntriesInDB.isEmpty()) {
-			affectedEntriesInDB = removeOutdated(affectedEntriesInDB);
+			//affectedEntriesInDB = removeOutdated(affectedEntriesInDB);
 			validDBEntries.addAll(getLatestEntriesWithRedundantID(affectedEntriesInDB));
 		}
 
@@ -449,6 +464,8 @@ public class StatisticsDatabase {
 			return true;
 		return false;
 	}
+
+
 	
 	
 
