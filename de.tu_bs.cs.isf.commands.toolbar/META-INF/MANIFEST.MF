@@ -8,14 +8,18 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  de.tu-bs.cs.isf.cbc.util;bundle-version="1.0.0",
  org.eclipse.emf.ecore,
+ org.eclipse.core.resources,
  de.tu-bs.cs.isf.cbc.model,
+ org.emftext.language.java,
  org.eclipse.emf.ecore.xmi,
- de.ovgu.featureide.fm.core
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+ de.ovgu.featureide.fm.core,
+ org.eclipse.emf.common
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: de.tu_bs.cs.isf.cbc.tool.helper,
  helper,
+ newDiagramWizard,
  org.eclipse.jdt.core,
  org.eclipse.jdt.internal.compiler.batch,
  org.eclipse.jdt.internal.core,
  org.eclipse.jface.text,
- org.emftext.language.java.containers
+ org.emftext.language.java.resource.java.util
