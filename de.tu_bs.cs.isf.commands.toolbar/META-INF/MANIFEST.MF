@@ -13,6 +13,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.emftext.language.java,
  org.eclipse.emf.ecore.xmi,
  de.ovgu.featureide.fm.core,
+ org.eclipse.graphiti.mm
  org.eclipse.emf.common
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: de.tu_bs.cs.isf.cbc.tool.helper,
@@ -25,3 +26,4 @@ Import-Package: de.tu_bs.cs.isf.cbc.tool.helper,
  org.eclipse.jface.text,
  org.emftext.language.java.resource.java.util,
  org.emftext.language.java.containers
+Export-Package: de.tu_bs.cs.isf.commands.toolbar.handler.family
