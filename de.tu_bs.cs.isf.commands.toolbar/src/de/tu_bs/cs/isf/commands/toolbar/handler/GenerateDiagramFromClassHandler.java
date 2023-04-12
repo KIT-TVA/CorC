@@ -80,9 +80,6 @@ public class GenerateDiagramFromClassHandler extends AbstractHandler {
 				throw new ExecutionException("Select a valid file.");
 			}
 			
-//			IResource res = ((File) strucSelection.getFirstElement());
-//			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(res.getFullPath());
-
 			final String PARM_MSG = "de.tu_bs.cs.isf.commands.toolbar.msg";
 			String msg = event.getParameter(PARM_MSG);
 			
