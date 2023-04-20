@@ -107,14 +107,10 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		IProject project = FileUtil.getProjectFromFileInProject(uri);
 		verifyStmt = new VerifyStatement(super.getFeatureProvider());
 		genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
-		try {
-			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
-				isVariational = true;
-			} else {
-				isVariational = false;
-			}
-		} catch (CoreException e) {
-			e.printStackTrace();
+		if (FileHandler.getInstance().isSPL(uri, true)) {
+			isVariational = true;
+		} else {
+			isVariational = false;
 		}
 		
 		if (isVariational) {

@@ -249,9 +249,17 @@ public class FileHandler {
 		return GetDiagramUtil.getDiagramFromFile(file, rSet);
 	}
 	
-	public boolean isSPL(final IProject project) {
+	public boolean isSPL(final URI projectPath) {
+		return isSPL(projectPath, false);
+	}
+	
+	public boolean isSPL(final URI uri, boolean isFile) {
+		final var project = FileUtil.getProject(uri);
 		try {
 			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
+				if (isFile && uri.path().contains("MetaProduct_GEN")) {
+					return false;
+				}
 				return true;
 			} else {
 				return false;
@@ -260,28 +268,6 @@ public class FileHandler {
 			e.printStackTrace();
 			return false;
 		}	
-		/*
-		final var projectLocation = FileUtil.getProjectLocation(projectPath);
-		final var modelFile = new File(projectLocation + "/model.xml");
-		final List<String> lines;
-			
-		try {
-			lines = Files.readAllLines(Paths.get(modelFile.getPath()), StandardCharsets.UTF_8);
-			for (var line : lines) {
-				if (line.equals("<featureModel>")) {
-					return true;
-				}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;*/
-	}
-	
-	public boolean isSPL(final URI projectPath) {
-		final var project = FileUtil.getProject(projectPath);
-		return isSPL(project);
 	}
 	
 	public boolean saveConfig(final URI projectPath, final CbCFormula formula, final Features features, boolean isTestCase) {

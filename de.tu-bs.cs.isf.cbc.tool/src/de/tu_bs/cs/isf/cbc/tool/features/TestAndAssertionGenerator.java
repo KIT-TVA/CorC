@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -62,6 +63,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
+import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.PreConditionSolverException;
@@ -137,6 +139,17 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		JavaVariables vars = null;
 		CbCFormula formula = null;
 		GlobalConditions globalConditions = null;
+		
+		
+		
+		DataCollector dataCollector = new DataCollector();
+		try {
+			dataCollector.loadCorcStatistics(uri, getFeatureProvider());
+		} catch (IOException | ParseException e1) {
+			e1.printStackTrace();
+		}
+		
+		
 		
 		setProjectPath(uri);
 		FileHandler.getInstance().clearLog(uri);
