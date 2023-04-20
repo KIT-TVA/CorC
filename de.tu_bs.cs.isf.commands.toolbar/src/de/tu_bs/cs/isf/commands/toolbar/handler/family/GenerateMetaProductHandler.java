@@ -138,6 +138,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			var classesToGen = new ArrayList<String>();
 			FileUtil.getCbCClasses(project).stream().map(c -> c.getURI().lastSegment()).forEach(n -> {if(!classesToGen.contains(n.split("\\.")[0])) classesToGen.add(n.split("\\.")[0]);});
 			for (var cbcClass : classesToGen) {
+				clearData();
 				NAME_OF_JAVA_FILE = cbcClass;//"MetaProduct_" + cbcClass;
 				extractCbCModelFilesFromClass(cbcClass);
 				printAllDetectedMethods();
@@ -183,7 +184,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			Console.println("\nMeta product generation done. Clearing data...");
 		*/	
 			// clear all data
-		clearData();
 		long end = System.nanoTime();
 		Console.println("Time needed: " + ((end - start) / 1000000) + "ms");
 		return null;

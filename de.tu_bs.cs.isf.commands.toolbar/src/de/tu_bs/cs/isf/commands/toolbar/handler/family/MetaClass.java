@@ -13,6 +13,7 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateModelFromCode;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
@@ -66,6 +67,7 @@ public class MetaClass {
 			for (int i = 0; i < model.getFields().size(); i++) {
 				if (!containsField(model.getFields().get(i))) {
 					metaModel.getFields().add(model.getFields().get(i));
+					i--;
 				}
 			}
 		}
@@ -80,6 +82,7 @@ public class MetaClass {
 			for (int i = 0; i < model.getMethods().size(); i++) {
 				if (!containsMethod(model.getMethods().get(i))) {
 					metaModel.getMethods().add(model.getMethods().get(i));
+					i--;
 				}
 			}
 		}
@@ -92,9 +95,16 @@ public class MetaClass {
 	private void createInvariants() {
 		for (ModelClass model : models) {
 			for (int i = 0; i < model.getClassInvariants().size(); i++) { 
-				metaModel.getClassInvariants().add(model.getClassInvariants().get(i));
+				if (!containsInvariant(model.getClassInvariants().get(i))) {
+					metaModel.getClassInvariants().add(model.getClassInvariants().get(i));
+					i--;
+				}
 			}
 		}
+	}
+	
+	private boolean containsInvariant(Condition toFind) {
+		return metaModel.getClassInvariants().stream().anyMatch(m -> m.getName().equals(toFind.getName()));
 	}
 	
 	public boolean create() {
