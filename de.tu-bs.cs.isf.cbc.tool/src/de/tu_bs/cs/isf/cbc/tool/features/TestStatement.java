@@ -468,12 +468,10 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return code;
 	}
 	
-	private boolean compile(final List<String> dependencies, final String className, final String methodName, final TestAndAssertionGenerator generator) throws TestAndAssertionGeneratorException {		
+	private boolean compile(final List<String> dependencies, final String className, final String methodName, final TestAndAssertionGenerator generator) throws TestAndAssertionGeneratorException, TestStatementException {		
 		var pathOfPlugins = System.getProperty("osgi.syspath");
-		var file = new File(pathOfPlugins);
-		List<String> testNgFiles = Arrays.asList(file.list()).stream().filter(s -> s.contains("org.testng_")).toList();
-		var highestVersion = testNgFiles.stream().map(s -> s.split("org.testng\\_")[1]).sorted().reduce((first, second) -> second).get();
-		highestVersion = "org.testng_" + highestVersion;
+		var pluginFile = new File(pathOfPlugins);
+		var highestVersion = findLatestTestNGversion(pluginFile);
 		
 		// compile dependencies
 		var options = Arrays.asList("-cp", pathOfPlugins + "/" + highestVersion);
@@ -481,6 +479,21 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			return false;
 		}
 		return true;
+	}
+	
+	private String findLatestTestNGversion(File pluginFile) throws TestStatementException {
+		List<String> testNgFiles = new ArrayList<String>();
+		for (var file : pluginFile.list()) {
+			if (!file.contains("org.testng_")) {
+				continue;
+			}
+			testNgFiles.add(file);
+		}
+		if (testNgFiles.isEmpty()) {
+			throw new TestStatementException(ExceptionMessages.dependencyNotFound("TestNG"));
+		}
+		var highestVersion = testNgFiles.stream().map(s -> s.split("org.testng\\_")[1]).sorted().reduce((first, second) -> second).get();
+		return "org.testng_" + highestVersion;
 	}
 	
 	private boolean executeTest(final String testName, final TestAndAssertionGenerator generator) throws DiagnosticsException {

@@ -47,6 +47,7 @@ import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.IFileUtil;
+import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
 import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 
 public class GenerateCodeForVariationalVerification extends MyAbstractAsynchronousCustomFeature{
@@ -88,11 +89,21 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			}
 		}
 	}
+	
+	private void removeMetaFiles(List<IFile> classFiles) {
+		for (int i = 0; i < classFiles.size(); i++) {
+			if (classFiles.get(i).getLocation().toOSString().contains(MetaClass.FOLDER_NAME)) {
+				classFiles.remove(i);
+				i--;
+			}
+		}
+	}
 
 	private void generateClasses(String classLocation, String[] config, String callingFeature, String callingClass, String callingMethod) {
 		URI uri = getDiagram().eResource().getURI();
 		IProject project = FileUtil.getProjectFromFileInProject(uri);
 		List<IFile> classFiles = ClassUtil.getFilesOfType(project, ".cbcclass");
+		removeMetaFiles(classFiles);
 		List<String> otherClasses = new ArrayList<String>();
 		for (IFile cbcclassFile : classFiles) {
 			if (cbcclassFile.getFullPath().toString().contains(".cbcclass")) {

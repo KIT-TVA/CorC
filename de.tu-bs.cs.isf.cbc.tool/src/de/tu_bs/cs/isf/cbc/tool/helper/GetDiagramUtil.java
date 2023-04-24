@@ -21,19 +21,28 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
+import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
+
 public class GetDiagramUtil {
- 
-    public static Collection<Diagram> getDiagrams(IProject p) {
+	
+	public static Collection<Diagram> getDiagrams(IProject p, boolean includeMetaDiagrams) {
        final List<IFile> files = getDiagramFiles(p);
        final List<Diagram> diagramList = new ArrayList<Diagram>();
        final ResourceSet rSet = new ResourceSetImpl();
        for (final IFile file : files) {
+    	   if (!includeMetaDiagrams && file.getLocation().toOSString().contains(MetaClass.FOLDER_NAME)) {
+    		   continue;
+    	   }
             final Diagram diagram = getDiagramFromFile(file, rSet);
             if (diagram != null) {
                 diagramList.add(diagram);
             }
        }
        return diagramList;
+	}
+ 
+    public static Collection<Diagram> getDiagrams(IProject p) {
+    	return getDiagrams(p, true);
     }
  
     private static List<IFile> getDiagramFiles(IContainer folder) {

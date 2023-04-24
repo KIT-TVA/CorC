@@ -43,6 +43,10 @@ public final class ExceptionMessages {
 		return "Couldn't locate diagnostics folder '" + diagnosticsFolder + "'."; 
 	}
 	
+	public static String dependencyNotFound(String dep) {
+		return "Couldn't locate '" + dep + "' in the system bundles.";
+	}
+	
 	public static String invalidDiagnosticsSymbol(final String symbol) {
 		return "Found unknown symbol '" + symbol + "'.";
 	}

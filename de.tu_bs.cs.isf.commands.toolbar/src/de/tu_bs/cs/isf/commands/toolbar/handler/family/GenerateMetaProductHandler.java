@@ -69,7 +69,6 @@ import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 
 
 public class GenerateMetaProductHandler extends AbstractHandler implements IHandler{
-	
 	static {
 		FMCoreLibrary.getInstance().install();
 	}
@@ -88,102 +87,61 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 	private static String[] FEATURE_VARIABLES;
 	private static Map<String, List<MethodStruct>> methodNameToMethodStructMap = new HashMap<String, List<MethodStruct>>();
 	private static Map<String, List<String>> methodNameToImplementingFeature = new HashMap<String, List<String>>();
-	private URI testUri; 
-	@Override
 	
 	/*
 	 * Important assumptions: -User triggers execute() by right clicking on folder called 'features' (-> Generate Meta Product)
 							
 	 *	    				  -Project is structured like: <ProjectName>/features/<FeatureName(s)>/diagram/<MethodName>.cbcmodel
 	*/	
-	//testkommentar um zu sehen ob smartSVN es erkennt!!!
-	//esdfsdfsdfsdf
-	
+	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-			long start = System.nanoTime();
-			Console.clear();
-			
-			ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
-			
-			if (selection != null && selection instanceof IStructuredSelection) {
-				
-				IStructuredSelection strucSelection = (IStructuredSelection) selection;
-				try {
-					FEATURE_FOLDER_SELECTED_BY_USER = (IFolder) strucSelection.getFirstElement();
-				} catch (ClassCastException e) {
-					e.printStackTrace();
-					Console.println("Please select a 'features'-folder to start generating meta products.");
-					return null;
-				}
-				
-				if(FEATURE_FOLDER_SELECTED_BY_USER == null) {
-					Console.println("Please select a 'features'-folder to start generating meta products.");
-					return null;
-				}
-			
-			}
-			
-			project = getProject(FEATURE_FOLDER_SELECTED_BY_USER.getFullPath().toPortableString());
-			Console.println("Generating MetaProduct for " + project.getName() + "...\n");
-			
-			this.testUri = URI.createPlatformResourceURI(project.getLocation().toOSString(), true);
-			uriToRootProject = URI.createPlatformResourceURI(FEATURE_FOLDER_SELECTED_BY_USER.getFullPath().toPortableString(), true).trimSegments(1);
-			NAME_OF_JAVA_FILE = project.getName();//"MetaProduct_" + project.getName();
-			
-			
-			getInformationFromFeatureModel();
-
-		//--------	
-			
-			var classesToGen = new ArrayList<String>();
-			FileUtil.getCbCClasses(project).stream().map(c -> c.getURI().lastSegment()).forEach(n -> {if(!classesToGen.contains(n.split("\\.")[0])) classesToGen.add(n.split("\\.")[0]);});
-			for (var cbcClass : classesToGen) {
-				clearData();
-				NAME_OF_JAVA_FILE = cbcClass;//"MetaProduct_" + cbcClass;
-				extractCbCModelFilesFromClass(cbcClass);
-				printAllDetectedMethods();
-				determineUniqueMethods(cbcClass);
-				createUniqueMethodFilesForClass(cbcClass);
-				MetaClass.compose(project, cbcClass).create();
-				createAndSaveJavaFilesWithMethodStubsForClass(cbcClass);
-				Console.println("Generated meta product for class " + cbcClass + ".");
-			}
-			//createResource("test", "java");
-		//-------	
-
-			/*
-			extractCbCModelFilesFromProject();
-			
-			printAllDetectedMethods();
-			
-			generateMetaMethodFiles();
+		Console.clear();
+		long start = System.nanoTime();
 		
-			for (Map.Entry<String, List<MethodStruct>> entry : methodNameToMethodStructMap.entrySet()) {
-				//if(entry.getKey().equals("Push")) {
-				List<String> implementingFeaturesOfMethod = methodNameToImplementingFeature.get(entry.getKey());
-				String nameOfMethod = entry.getKey();
-				List<MethodStruct> listOfMethodStructs = entry.getValue();
-				
-				uniqueMetaMethods.add(new UniqueMetaMethod("", nameOfMethod, listOfMethodStructs, FEATURE_MODEL_FORMULA_CNF, FEATURES, FEATURE_ORDER, implementingFeaturesOfMethod));
-				//}
-				
+		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
+		
+		if (selection != null && selection instanceof IStructuredSelection) {
+			
+			IStructuredSelection strucSelection = (IStructuredSelection) selection;
+			try {
+				FEATURE_FOLDER_SELECTED_BY_USER = (IFolder) strucSelection.getFirstElement();
+			} catch (ClassCastException e) {
+				e.printStackTrace();
+				Console.println("Please select a 'features'-folder to start generating meta products.");
+				return null;
 			}
 			
-			//create and save .diagram and .cbcmodel files.
-			for(UniqueMetaMethod metaMethod: uniqueMetaMethods) {
-				GenerateDiagramFromModel diagramGenerator = new GenerateDiagramFromModel();
-					//if(metaMethod.metaMethodName.equals("Push")) {
-						diagramGenerator.execute(metaMethod.toResourceObject());
-						Console.println("Generated MetaMethod File for :" + metaMethod.metaMethodName + ".diagram");
-					//}
+			if(FEATURE_FOLDER_SELECTED_BY_USER == null) {
+				Console.println("Please select a 'features'-folder to start generating meta products.");
+				return null;
 			}
-			
-			
-			createAndSaveJavaFilesWithMethodStubs();
-			
-			Console.println("\nMeta product generation done. Clearing data...");
-		*/	
-			// clear all data
+		
+		}
+		
+		project = getProject(FEATURE_FOLDER_SELECTED_BY_USER.getFullPath().toPortableString());
+		Console.println("Generating MetaProduct for " + project.getName() + "...\n");
+		
+		uriToRootProject = URI.createPlatformResourceURI(FEATURE_FOLDER_SELECTED_BY_USER.getFullPath().toPortableString(), true).trimSegments(1);
+		NAME_OF_JAVA_FILE = project.getName();
+		
+		
+		getInformationFromFeatureModel();
+
+		var classesToGen = new ArrayList<String>();
+		FileUtil.getCbCClasses(project).stream().map(c -> c.getURI().lastSegment()).forEach(n -> {if(!classesToGen.contains(n.split("\\.")[0])) classesToGen.add(n.split("\\.")[0]);});
+		for (var cbcClass : classesToGen) {
+			clearData();
+			NAME_OF_JAVA_FILE = cbcClass;
+			extractCbCModelFilesFromClass(cbcClass);
+			printAllDetectedMethods();
+			determineUniqueMethods(cbcClass);
+			createUniqueMethodFilesForClass(cbcClass);
+			MetaClass.compose(project, cbcClass).create();
+			createAndSaveJavaFilesWithMethodStubsForClass(cbcClass);
+			Console.println("Generated meta product for class " + cbcClass + ".");
+		}
+
+		// clear all data
 		long end = System.nanoTime();
 		Console.println("Time needed: " + ((end - start) / 1000000) + "ms");
 		return null;
@@ -193,14 +151,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		for(UniqueMetaMethod metaMethod: uniqueMetaMethods) {
 			GenerateDiagramFromModel diagramGenerator = new GenerateDiagramFromModel();
 			diagramGenerator.execute(metaMethod.toResourceObject(className));
-			Console.println("Generated MetaMethod File for :" + metaMethod.metaMethodName + ".diagram");
-		}
-	}
-	
-	private void createUniqueMethodFiles() {
-		for(UniqueMetaMethod metaMethod: uniqueMetaMethods) {
-			GenerateDiagramFromModel diagramGenerator = new GenerateDiagramFromModel();
-			diagramGenerator.execute(metaMethod.toResourceObject());
 			Console.println("Generated MetaMethod File for :" + metaMethod.metaMethodName + ".diagram");
 		}
 	}
@@ -218,27 +168,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		}
 	}
 	
-
-	private boolean createResource(String name, String type) {
-		URI uri = uriToRootProject.appendSegment("MetaProduct_GEN").appendSegment(name);
-		if (!type.isEmpty()) {
-			uri.appendFileExtension(type);
-		}
-		ResourceSet rs = new ResourceSetImpl();
-		Resource r = rs.createResource(uri);
-
-		try {
-			r.save(Collections.EMPTY_MAP);
-			r.setTrackingModification(true);
-			IFile ifile = ResourcesPlugin.getWorkspace().getRoot().getFile(new org.eclipse.core.runtime.Path(uri.toPlatformString(true)));
-			ifile.getParent().refreshLocal(1, null);
-		} catch (IOException | CoreException e1) {
-			e1.printStackTrace();
-			return false;
-		} 
-		return true;
-	}
-	
 	private void clearData() {
 		detectedMethods = new ArrayList<>();
 		uniqueMetaMethodNames = new ArrayList<>();
@@ -249,9 +178,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		methodNameToImplementingFeature = new HashMap<String, List<String>>(); 
 	}
 	
-	
-	
-	//Fynn
 	private void createAndSaveJavaFilesWithMethodStubsForClass(String className) {
 		String code = "public class " + NAME_OF_JAVA_FILE + " {\n\n";
 		
@@ -277,46 +203,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			code += "\n\n\n";
 		}
 		code += "\n\n}";
-		String location = project.getLocation().toString() + "/MetaProduct_GEN/" + className + "/" + NAME_OF_JAVA_FILE + ".java";
-		this.saveJavaFile(location, code);
-	}
-
-	
-	
-	
-	private void createAndSaveJavaFilesWithMethodStubs() {
-		String code = "public class " + NAME_OF_JAVA_FILE + " {\n\n";
-		//create and save java file with method stub for each  meta method
-		
-		
-		
-		for(UniqueMetaMethod metaMethod: uniqueMetaMethods) {
-			Console.println(project.getLocation().toString());
-			
-			JavaVariables newVariables = CbcmodelFactory.eINSTANCE.createJavaVariables();
-			
-			//Um in die Feature Variablen in der Signatur zu übergeben, müssen sie den Kind PARAM kriegen.
-			//Alles andere wird so kopiert wies vorher war.
-			for(int i = 0 ; i < metaMethod.metaJavaVariables.getVariables().size(); i++) {
-				JavaVariable copiedVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
-				JavaVariable variableToCopy = metaMethod.metaJavaVariables.getVariables().get(i);
-				//copiedVariable.setDisplayedName(variableToCopy.getDisplayedName());
-				copiedVariable.setName(variableToCopy.getName());
-				
-				if(variableToCopy.getDisplayedName().contains("FV_")){
-					copiedVariable.setKind(VariableKind.PARAM);
-				}else {
-					copiedVariable.setKind(variableToCopy.getKind());
-				}
-				newVariables.getVariables().add(copiedVariable);
-			}
-			
-			
-			code  += ConstructCodeBlock.constructMethodStubsForExport(metaMethod.metaMethodFormula, null, newVariables, metaMethod.metaMethodName, "");
-			code += "\n\n\n";
-		}
-		code += "\n\n}";
-		String location = project.getLocation().toString() + "/MetaProduct_GEN/" + NAME_OF_JAVA_FILE + ".java";
+		String location = project.getLocation().toString() + "/" + MetaClass.FOLDER_NAME + "/" + className + "/" + NAME_OF_JAVA_FILE + ".java";
 		this.saveJavaFile(location, code);
 	}
 
@@ -385,8 +272,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 	}
 	
 	private void saveJavaFile(String location, String code) {
-		System.out.printf("writeFile: location: %s\n", location);
-		System.out.printf("writeFile: code: %s\n", code);
 		File javaFile = new File(location);
 		try {
 			if (!javaFile.exists()) {
@@ -408,10 +293,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		}
 	}
 	
-
-	
-	
-	// Fynn
 	private void extractCbCModelFilesFromClass(String className) {
 		try {
 			
@@ -454,83 +335,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		}
 	}
 
-	
-	
-	
-	/*
-	 * Searches for all .cbcmodel files in project and stores them in ArrayList MethodStruct
-	 * 
-	 */
-	private void extractCbCModelFilesFromProject() {
-		try {
-			
-			Console.println("-----------");
-			Console.println("extractCbCModelFilesFromProject():");
-			Console.println("Searching for .cbcmodel files: ");
-			for(IResource currentFolderMember : FEATURE_FOLDER_SELECTED_BY_USER.members()) {
-				//removes .DS_Store
-				if(currentFolderMember instanceof IFolder) {
-					
-					// /feature/<currentfeatureNameSubFolder>
-					// currentfeatureNameSubFolder = name of the feature
-					IFolder currentfeatureNameSubFolder = (IFolder) currentFolderMember;
-					
-					String currentNameOfFeature = currentfeatureNameSubFolder.getName();
-					
-					for(IResource diagramFolder: currentfeatureNameSubFolder.members()) {
-						
-					// /feature/<currentfeatureNameSubFolder>/<className>/
-						//if(diagramFolder.getFullPath().toPortableString().endsWith("diagram")) {
-							
-							// /feature/<currentfeatureNameSubFolder>/diagram/<currentFileInDiagram>
-							for(IResource currentFileInDiagram: ((IFolder) diagramFolder).members()) {
-								if(currentFileInDiagram.getFullPath().toPortableString().endsWith("cbcmodel")) {
-									
-									Console.println("Found cbcmodel file: " + currentFileInDiagram.getFullPath());
-									
-									String nameOfCurrentMethod = currentFileInDiagram.getName().split("\\.")[0];
-									if(!uniqueMetaMethodNames.contains(nameOfCurrentMethod)) {
-										uniqueMetaMethodNames.add(nameOfCurrentMethod);
-									}	
-									if(!methodNameToMethodStructMap.containsKey(nameOfCurrentMethod)) {
-										methodNameToMethodStructMap.put(nameOfCurrentMethod, new ArrayList<MethodStruct>());
-									}
-									if(!methodNameToImplementingFeature.containsKey(nameOfCurrentMethod)) {
-										methodNameToImplementingFeature.put(nameOfCurrentMethod, new ArrayList<String>());
-									}
-									
-									methodNameToMethodStructMap.get(nameOfCurrentMethod).add(new MethodStruct(this.NAME_OF_JAVA_FILE, currentNameOfFeature, this.FEATURE_VARIABLES, currentFileInDiagram));
-									methodNameToImplementingFeature.get(nameOfCurrentMethod).add(currentNameOfFeature);
-									createMethodStructAndAddToList(currentNameOfFeature, currentFileInDiagram);
-									
-								}
-							}
-						//}
-					}
-					
-		
-				}
-			}
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	private void generateMetaMethodFiles() {
-		Console.println("-----");
-		Console.println("Generating Files for unique Methods:");
-		for(String currentMethodName: uniqueMetaMethodNames) {
-			Console.println("\t-" + currentMethodName + ".diagram");
-		}
-	}
-
-	private void createMethodStructAndAddToList(String nameOfFeature, IResource currentFileInDiagram) {
-
-		
-		detectedMethods.add(new MethodStruct(this.NAME_OF_JAVA_FILE, nameOfFeature, this.FEATURE_VARIABLES, currentFileInDiagram));
-	}
-	
 	/*
 		param: URI String path in der Form: '/<ProjectName>/features'
 		return: IProject Instanz für <ProjectName>
@@ -550,8 +354,4 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		return null;
 		
 	}
-	
-	
-	
-	
 }

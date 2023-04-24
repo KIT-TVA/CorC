@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -44,12 +45,17 @@ public class FileUtil implements IFileUtil{
 
 	public File getClassFile(String className) {
 		URI uriTrimmed = URI.createPlatformResourceURI(applicationUri).trimFragment();
+		//URI testF = uriTrimmed.trimSegments(1);
+		//String lmao = testF.toPlatformString(true);
+		//lmao = lmao.substring(lmao.indexOf("/")+1, lmao.length());
+		//lmao = lmao.substring(lmao.indexOf("/")+1, lmao.length());
 		if (uriTrimmed.isPlatformResource()) {
 			String platformString = uriTrimmed.toPlatformString(true);
 			IResource fileResource = ResourcesPlugin.getWorkspace().getRoot().findMember(platformString);
 			if (fileResource != null) {
 				IProject project = fileResource.getProject();
-				return traverseFolders(project, className);
+				IFolder classFolder = project.getFolder("src_gen");
+				return traverseFolders(classFolder, className);
 
 			}
 		}

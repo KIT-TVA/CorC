@@ -253,7 +253,7 @@ public class UniqueMetaMethod {
 	
 	//Fynn
 	public Resource toResourceObject(String className) {
-		URI uri = uriToRootProject.appendSegment("MetaProduct_GEN").appendSegment(this.metaClassName).appendSegment(this.metaMethodName).appendFileExtension("cbcmodel");
+		URI uri = uriToRootProject.appendSegment(MetaClass.FOLDER_NAME).appendSegment(this.metaClassName).appendSegment(this.metaMethodName).appendFileExtension("cbcmodel");
 		ResourceSet rs = new ResourceSetImpl();
 		Resource metaMethodResource = rs.createResource(uri);
 		//Muss vom Typ .cbcModel sein.
@@ -434,7 +434,7 @@ public class UniqueMetaMethod {
 	
 	
 	public Resource toResourceObject() {
-		URI uri = uriToRootProject.appendSegment("MetaProduct_GEN")/*.appendSegment(this.metaClassName)*/.appendSegment(this.metaMethodName).appendFileExtension("cbcmodel");
+		URI uri = uriToRootProject.appendSegment(MetaClass.FOLDER_NAME)/*.appendSegment(this.metaClassName)*/.appendSegment(this.metaMethodName).appendFileExtension("cbcmodel");
 		ResourceSet rs = new ResourceSetImpl();
 		Resource metaMethodResource = rs.createResource(uri);
 		//Muss vom Typ .cbcModel sein.

@@ -39,10 +39,13 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
+import de.tu_bs.cs.isf.cbc.tool.features.GenerateCounterExample;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
 
 public class ProveWithKey {
+	public static final String SRC_FOLDER = "src_gen";
+	
 	public static final String REGEX_ORIGINAL = "original";
 	public static final String REGEX_RESULT = "\\\\result";
 
@@ -68,7 +71,7 @@ public class ProveWithKey {
 	
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
 			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String configName) {
-		this(statement, vars, conds, renaming, monitor, uri, formula, fileHandler, "", configName);
+		this(statement, vars, conds, renaming, monitor, uri, formula, fileHandler, ProveWithKey.SRC_FOLDER, configName);
 	}
 
 	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
@@ -546,8 +549,13 @@ public class ProveWithKey {
 		proof = KeYInteraction.startKeyProof(location, null, inlining, formula, statement, problem, uri);
 		if (proof != null) {
 			boolean closed = proof.openGoals().isEmpty();
-			Console.println("Proof is closed: " + closed + "\n");
-			return closed;
+			if (!closed) {
+				Console.println("\tProof could not be closed.");
+				GenerateCounterExample.calculateExample(proof);
+			} else {
+				Console.println("Proof is closed: " + closed + "\n");
+				return closed;
+			}
 		}
 		return false;
 	}

@@ -1,6 +1,7 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -21,6 +22,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
 import diagnostics.DataCollector;
 import diagnostics.DataType;
 
@@ -257,7 +259,7 @@ public class FileHandler {
 		final var project = FileUtil.getProject(uri);
 		try {
 			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
-				if (isFile && uri.path().contains("MetaProduct_GEN")) {
+				if (isFile && uri.path().contains(MetaClass.FOLDER_NAME)) {
 					return false;
 				}
 				return true;

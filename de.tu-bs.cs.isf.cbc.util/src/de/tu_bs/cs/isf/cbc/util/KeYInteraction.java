@@ -27,6 +27,8 @@ import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.Statistics;
 import de.uka.ilkd.key.proof.init.ProofInputException;
 import de.uka.ilkd.key.proof.io.ProblemLoaderException;
+import de.uka.ilkd.key.java.ConvertException;
+import de.uka.ilkd.key.java.PosConvertException;
 import de.uka.ilkd.key.settings.ChoiceSettings;
 import de.uka.ilkd.key.settings.ProofSettings;
 import de.uka.ilkd.key.speclang.Contract;
@@ -35,6 +37,7 @@ import de.uka.ilkd.key.util.KeYTypeUtil;
 import de.uka.ilkd.key.util.MiscTools;
 
 public class KeYInteraction {
+	private static String lastErrorMessage = "";
 
 	public static Proof startKeyProof(File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
 			AbstractStatement statement, String problem, String uri) {
@@ -112,10 +115,69 @@ public class KeYInteraction {
 			}
 
 		} catch (ProblemLoaderException e) {
-			Console.println("  Exception at '" + e.getCause() + "'");
-			e.printStackTrace();
+			handleError(e);
 		}
 		return proof;
+	}
+	
+	private static void handleError(ProblemLoaderException ex) {
+		Throwable error = ex.getCause();
+		
+		if (lastErrorMessage != null && lastErrorMessage.equals(ex.getMessage())) {
+			Console.println(ex.getMessage());
+			return;
+		} else {
+			lastErrorMessage = ex.getMessage();
+		}
+		
+		if (error.getClass() == ProofInputException.class) {
+			Console.println("  A ProofInputException occured.");
+			Console.println("  This happens when the function or method could not be located.");
+			Console.println();
+			Console.println("To fix this error, try:");
+			Console.println("  > Check the function’s spelling in the diagram as well as in the java file");
+			Console.println("  > Check whether the function is correctly declared static / nonstatic");
+			Console.println("  > Check the renaming field for any spelling errors");
+			Console.println("  > Check whether the function resides in the right class / file");
+			Console.println("  > Check whether the return type of the function matches");
+			error.printStackTrace();
+		} else if (error.getClass() == PosConvertException.class) {
+			Console.println("  A PosConvertException occured.");
+			Console.println("  This happens when the function or method decleration does not correspond with its use in the CorC editor.");
+			String info = ex.getCause().toString();
+			info = info.substring(info.indexOf("\n") + 1);
+			Console.println();
+			Console.println("  " + info);
+			Console.println();
+			Console.println("  To fix this error, try:");
+			Console.println("  > Check the the function's definition, especially the parameters");
+			Console.println("  > Check your usage of the function in the CorC editor");
+			Console.println("  > Consider using a classpath if this is a classtype that cannot be resolved");
+		} else if (error.getClass() == ConvertException.class) {
+			Console.println("  A ConvertException occured.");
+			Console.println("  This happens when a java file has syntactic errors in it.");
+			String info = ex.getCause().toString();
+			info = info.substring(info.indexOf(":") + 2, info.indexOf("\n"));
+			Console.println();
+			Console.println("  " + info);
+			Console.println();
+			Console.println("  To fix this error, try:");
+			Console.println("  > Check the file for syntax errors");
+		} else if (error.getClass() == IllegalArgumentException.class) {
+			Console.println("  An IllegalArgumentException occured.");
+			Console.println("  This happens when a parameter mismatch between the usage in CorC diagrams and its implementation in the java file exist.");
+			String info = ex.getCause().toString();
+			info = info.substring(info.indexOf("\n") + 1);
+			Console.println();
+			Console.println("  " + info);
+			Console.println();
+			Console.println("  To fix this error, try:");
+			Console.println("  > Check the the function's definition, especially the parameters");
+			Console.println("  > Check your usage of the function in the CorC editor");
+		} else {
+			Console.println("  Exception at '" + ex.getCause() + "'");
+			ex.printStackTrace();
+		}
 	}
 
 	public static void startKeYProofFirstContract(File location, int proofCounter) {
