@@ -178,6 +178,16 @@ public class KeYFileContent {
 		}
 	}
 	
+	//TODO: check if method is actually working
+	public void replaceThisWithSelf() {
+		statement = statement.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+		changeConditions(preConditions, REGEX_THIS_KEYWORD.pattern(), "self");
+		changeConditions(postConditions, REGEX_THIS_KEYWORD.pattern(), "self");
+		changeConditions(globalConditions, REGEX_THIS_KEYWORD.pattern(), "self");
+		assignment = assignment.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+	}
+	
+	//TODO: check if method is actually working
 	public void addSelfForFields(JavaVariables vars) {
 		List<String> nameOfLocalVars = new ArrayList<>();
 		for (JavaVariable var : vars.getVariables()) {
