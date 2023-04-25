@@ -193,10 +193,12 @@ public class KeYFileContent {
 				pre = pre.replaceAll(pattern.pattern(), "self." + field.getName());
 				post = post.replaceAll(pattern.pattern(), "self." + field.getName());
 				assignment = assignment.replaceAll(pattern.pattern(), "self." + field.getName());
-				//todo: check if actually working
-				Condition condition = CbcmodelFactory.eINSTANCE.createCondition();
-				condition.setName("self." + field.getName());
-				globalConditions.add(condition);
+				//TODO	: check if actually working
+				if (!globalConditions.isEmpty()) {
+					for (Condition cond : globalConditions) {
+						cond.getName().replaceAll(pattern.pattern(), "self." + field.getName());
+					}
+				}
 			}
 		}
 	}
