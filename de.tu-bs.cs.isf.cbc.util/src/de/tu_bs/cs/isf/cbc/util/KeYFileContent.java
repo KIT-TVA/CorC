@@ -178,7 +178,7 @@ public class KeYFileContent {
 		}
 	}
 	
-	//TODO: check if method is actually working
+	//TODO: check if method is actually working and if it has to be renamed
 	public void replaceThisWithSelf() {
 		statement = statement.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
 		changeConditions(preConditions, REGEX_THIS_KEYWORD.pattern(), "self");
@@ -210,6 +210,30 @@ public class KeYFileContent {
 		if (!conditions.isEmpty()) {
 			for (Condition cond : conditions) {
 				cond.getName().replaceAll(regex, replacement);
+			}
+		}
+	}
+	
+	//no usage for vars?
+	public void handleOld(CbCFormula formula, JavaVariables vars) {
+		List<String> oldKeyWords = extractOldKeywordVariables();
+		Map<String, OldReplacement> replacements = addOldVariables(formula, oldKeyWords);
+		replaceOldKeyword(preConditions, replacements);
+		replaceOldKeyword(postConditions, replacements);
+		replaceOldKeyword(globalConditions, replacements);
+	}
+	
+	private void replaceOldKeyword(List<Condition> conditions, Map<String, OldReplacement> replacements) {
+		for (String key : replacements.keySet()) {
+			String varNameOnly = key.substring(key.lastIndexOf(".") + 1);
+			varNameOnly = varNameOnly.replaceAll("\\[.*\\]", "");
+			if (varNameOnly.contains("("))
+				varNameOnly = varNameOnly.substring(0, varNameOnly.indexOf("("));
+			for (Condition condition : conditions) {
+				condition.setName(condition.getName().replace(replacements.get(key).getVar(), varNameOnly));
+				if (condition.getName().contains("\\old")) {
+					Console.println("Unsupported usage of \\old keyword in condition: '" + condition + "'");
+				}
 			}
 		}
 	}

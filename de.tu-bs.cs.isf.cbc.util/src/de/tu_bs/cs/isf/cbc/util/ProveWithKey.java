@@ -274,17 +274,17 @@ public class ProveWithKey {
 		if (pre.equals(preFormula)) pre += preInvariant;
 		if (pre.equals(preFormula)) post += postInvariant;
 		
-		content.setPre(resolveResultKeyword(pre, returnVariable));
-		content.setPost(resolveResultKeyword(post, returnVariable));
+		content.setPreFromCondition(resolveResultKeyword(pre, returnVariable));
+		content.setPostFromCondition(resolveResultKeyword(post, returnVariable));
 		List<String> unmodifiedVariables = Parser.getUnmodifiedVars(modifiables, vars);
 		unmodifiedVariables = unmodifiedVariables.stream().distinct().collect(Collectors.toList());
 		content.addUnmodifiableVars(unmodifiedVariables);
 
 		if (pre == null || pre.length() == 0) {
-			content.setPre("true");
+			content.setPreFromCondition("true");
 		}
 		if (post == null || post.length() == 0) {
-			content.setPost("true");
+			content.setPostFromCondition("true");
 		}
 	}
 
