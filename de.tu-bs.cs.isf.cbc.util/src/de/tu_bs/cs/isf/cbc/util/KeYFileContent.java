@@ -47,8 +47,6 @@ public class KeYFileContent {
 	private String srcFolder = "";
 	private String statement = "";
 	private String assignment = "";
-	private String pre = "";
-	private String post = "";
 	
 	private Renaming renaming;
 	private CbCFormula self;
@@ -190,15 +188,18 @@ public class KeYFileContent {
 			if (!nameOfLocalVars.contains(field.getName()) /*&& !field.isIsStatic()*/) {
 				Pattern pattern = Pattern.compile(REGEX_BEFORE_VARIABLE_KEYWORD + field.getName() + REGEX_AFTER_VARIABLE_KEYWORD);
 				statement = statement.replaceAll(pattern.pattern(), "self." + field.getName());
-				pre = pre.replaceAll(pattern.pattern(), "self." + field.getName());
-				post = post.replaceAll(pattern.pattern(), "self." + field.getName());
+				changeConditions(preConditions, pattern.pattern(), "self." + field.getName());
+				changeConditions(postConditions, pattern.pattern(), "self." + field.getName());
+				changeConditions(globalConditions, pattern.pattern(), "self." + field.getName());
 				assignment = assignment.replaceAll(pattern.pattern(), "self." + field.getName());
-				//TODO	: check if actually working
-				if (!globalConditions.isEmpty()) {
-					for (Condition cond : globalConditions) {
-						cond.getName().replaceAll(pattern.pattern(), "self." + field.getName());
-					}
-				}
+			}
+		}
+	}
+	
+	private void changeConditions(List<Condition> conditions, String regex, String replacement) {
+		if (!conditions.isEmpty()) {
+			for (Condition cond : conditions) {
+				cond.getName().replaceAll(regex, replacement);
 			}
 		}
 	}
