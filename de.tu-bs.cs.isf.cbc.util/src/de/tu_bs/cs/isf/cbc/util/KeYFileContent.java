@@ -46,6 +46,9 @@ public class KeYFileContent {
 	private String location = "";
 	private String srcFolder = "";
 	private String statement = "";
+	private String assignment = "";
+	private String pre = "";
+	private String post = "";
 	
 	private Renaming renaming;
 	private CbCFormula self;
@@ -174,6 +177,27 @@ public class KeYFileContent {
 	public void addUnmodifiableVars(List<String> unmodifiedVariables) {
 		for (String var : unmodifiedVariables) {
 			this.unmodifiableVars.add(var);
+		}
+	}
+	
+	public void addSelfForFields(JavaVariables vars) {
+		List<String> nameOfLocalVars = new ArrayList<>();
+		for (JavaVariable var : vars.getVariables()) {
+			String[] NameOfVar = var.getName().split(" ");
+			nameOfLocalVars.add(NameOfVar[NameOfVar.length-1]);
+		}
+		for (Field field : vars.getFields()) {
+			if (!nameOfLocalVars.contains(field.getName()) /*&& !field.isIsStatic()*/) {
+				Pattern pattern = Pattern.compile(REGEX_BEFORE_VARIABLE_KEYWORD + field.getName() + REGEX_AFTER_VARIABLE_KEYWORD);
+				statement = statement.replaceAll(pattern.pattern(), "self." + field.getName());
+				pre = pre.replaceAll(pattern.pattern(), "self." + field.getName());
+				post = post.replaceAll(pattern.pattern(), "self." + field.getName());
+				assignment = assignment.replaceAll(pattern.pattern(), "self." + field.getName());
+				//todo: check if actually working
+				Condition condition = CbcmodelFactory.eINSTANCE.createCondition();
+				condition.setName("self." + field.getName());
+				globalConditions.add(condition);
+			}
 		}
 	}
 	
