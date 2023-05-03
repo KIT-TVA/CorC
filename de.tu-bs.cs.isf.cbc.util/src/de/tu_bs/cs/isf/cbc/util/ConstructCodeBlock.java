@@ -742,7 +742,7 @@ public class ConstructCodeBlock {
 		return buffer.toString();
 	}
 
-	private static String createConditionJMLString(String condition, Renaming renaming, String postOrPre) {
+	public static String createConditionJMLString(String condition, Renaming renaming, String postOrPre) {
 		if (condition.equals("")) {
 			return condition;
 		} else {

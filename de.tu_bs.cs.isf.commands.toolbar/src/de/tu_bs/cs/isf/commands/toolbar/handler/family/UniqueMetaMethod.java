@@ -81,7 +81,6 @@ public class UniqueMetaMethod {
 		this.metaPreConditon = this.metaPreConditon.replaceAll("modifiable\\([^;]+;", "");
 		this.metaPostCondition = this.metaPostCondition.replaceAll("modifiable\\([^\\;]+\\;", "");
 		
-		//this.metaPostCondition = calculateMetaPostCondition(hierachicalComposition, 0);
 		this.featureVariables = features;
 	
 		
@@ -100,12 +99,28 @@ public class UniqueMetaMethod {
 		for(int i = 0 ; i < this.listOfMethods.size(); i++) {
 			if(this.listOfMethods.get(i).preCondition.contains("original")) {
 				this.listOfMethods.get(i).preCondition = this.listOfMethods.get(i).preCondition.replaceAll("original", this.calculateMetaPreCondition(this.hierachicalComposition, 0));
+				this.listOfMethods.get(i).preCondition = removeWord(this.listOfMethods.get(i).preCondition, "original");
 			}
 			
 			if(this.listOfMethods.get(i).postCondition.contains("original")) {
 				this.listOfMethods.get(i).postCondition = this.listOfMethods.get(i).postCondition.replaceAll("original", this.calculateMetaPostCondition(this.hierachicalComposition, 0));
+				this.listOfMethods.get(i).postCondition = removeWord(this.listOfMethods.get(i).preCondition, "original");
+				System.out.println(this.listOfMethods.get(i).postCondition);
+				if (this.listOfMethods.get(i).postCondition.contains("original")) {
+					var jskdfjsdkjf = 2;
+				}
 			}
 		}
+	}
+	
+	private String removeWord(String str, String word) {
+		Pattern p = Pattern.compile(word);
+		Matcher m = p.matcher(str);
+		while (m.find()) {
+			str = str.substring(str.indexOf(word), str.indexOf(word) + word.length());
+			m = p.matcher(str);
+		}
+		return str;
 	}
 	
 	private MethodStruct[] bringMethodsToDescendingOrder() {
@@ -165,22 +180,6 @@ public class UniqueMetaMethod {
 			}else {
 				return "(FV_"+currentMethod.nameOfFeature.toUpperCase() +" = TRUE" +"->"  + currentMethod.preCondition + " & "
 						   +"FV_"+currentMethod.nameOfFeature.toUpperCase() + " = FALSE " + " -> " + calculateMetaPreCondition2(index + 1) + ")";
-			}
-		
-	}
-	
-	String calculateMetaPostCondition2 (int index){
-		if(index == this.methodsInDescendingOrder.length -1){
-			MethodStruct currentMethod = methodsInDescendingOrder[index];
-			return "(" + currentMethod.postCondition+ ")";
-		}
-		MethodStruct currentMethod = this.methodsInDescendingOrder[index];
-			if(index == 0) {
-				return "(FV_"+currentMethod.nameOfFeature.toUpperCase() +" = TRUE" +" -> "  + currentMethod.postCondition + ")" + " & "
-						   +"(FV_"+currentMethod.nameOfFeature.toUpperCase() + " = FALSE " + " -> " + calculateMetaPostCondition2(index + 1) + ")";
-			}else {
-				return "(FV_"+currentMethod.nameOfFeature.toUpperCase() +" = TRUE" +" -> "  + currentMethod.postCondition + " & "
-						   +"FV_"+currentMethod.nameOfFeature.toUpperCase() + " = FALSE " + " -> " + calculateMetaPostCondition2(index + 1) + ")";
 			}
 		
 	}
@@ -261,6 +260,7 @@ public class UniqueMetaMethod {
 
 	
 		this.metaMethodFormula = CbcmodelFactory.eINSTANCE.createCbCFormula();
+		metaMethodFormula.setClassName(className);
 		metaMethodFormula.setName(this.metaMethodName);
 		
 		AbstractStatement formulaStatement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
@@ -296,8 +296,11 @@ public class UniqueMetaMethod {
 		
 		while(!allOriginalsResolved) {
 			AbstractStatement statementThatCallsOriginal = searchOriginalStatement(formulaStatement);
-			
+			if (statementThatCallsOriginal == null) {
+				var kjsdfljsdf = 2;
+			}
 			Console.println("Found original: " +statementThatCallsOriginal);
+			System.out.println("Found original: " +statementThatCallsOriginal);
 			
 			allOriginalsResolved = (statementThatCallsOriginal == null);
 			if(!allOriginalsResolved) {
@@ -307,6 +310,7 @@ public class UniqueMetaMethod {
 				}
 				statementThatCallsOriginal.setRefinement(resolveOriginal());
 				Console.println("Replaced Original with Selection: " + this.currentMethod.nameOfFeature);
+				System.out.println("Replaced Original with Selection: " + this.currentMethod.nameOfFeature);
 			}
 			//if(this.currentMethodIndex == this.methodsInDescendingOrder.length-1) {
 			//	break;
@@ -433,183 +437,7 @@ public class UniqueMetaMethod {
 	
 	
 	
-	public Resource toResourceObject() {
-		URI uri = uriToRootProject.appendSegment(MetaClass.FOLDER_NAME)/*.appendSegment(this.metaClassName)*/.appendSegment(this.metaMethodName).appendFileExtension("cbcmodel");
-		ResourceSet rs = new ResourceSetImpl();
-		Resource metaMethodResource = rs.createResource(uri);
-		//Muss vom Typ .cbcModel sein.
-		
-
 	
-		
-		this.metaMethodFormula = CbcmodelFactory.eINSTANCE.createCbCFormula();
-		metaMethodFormula.setName(this.metaMethodName);
-		
-		AbstractStatement formulaStatement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
-		formulaStatement.setName("statement");
-		formulaStatement.setPreCondition(CbcmodelFactory.eINSTANCE.createCondition());
-		formulaStatement.getPreCondition().setName("formulaStatement PreCondition");
-		formulaStatement.setPostCondition(CbcmodelFactory.eINSTANCE.createCondition());
-		formulaStatement.getPostCondition().setName("Formula Statement PostCondition");
-		metaMethodFormula.setStatement(formulaStatement);
-	
-		//so klappt noch der alte Stand für sort()
-		//formulaStatement.setRefinement(createSelectionRefinements(0));
-		
-		
-		AbstractStatement initialOriginalCall = CbcmodelFactory.eINSTANCE.createAbstractStatement();
-		initialOriginalCall.setName("original()");
-		initialOriginalCall.setPreCondition(CbcmodelFactory.eINSTANCE.createCondition());
-		initialOriginalCall.getPreCondition().setName("teststatement2 precondition");
-		initialOriginalCall.setPostCondition(CbcmodelFactory.eINSTANCE.createCondition());
-		initialOriginalCall.getPostCondition().setName("teststatement2 postcondition");
-		
-		formulaStatement.setRefinement(initialOriginalCall);
-		
-		GlobalConditions globalConditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
-		Condition featureModelCondition = CbcmodelFactory.eINSTANCE.createCondition();
-		featureModelCondition.setName(featureModelFormulaCNF);
-		globalConditions.getConditions().add(featureModelCondition);
-		
-		
-		
-		
-		boolean allOriginalsResolved = false;
-		
-		while(!allOriginalsResolved) {
-			AbstractStatement statementThatCallsOriginal = searchOriginalStatement(formulaStatement);
-			
-			Console.println("Found original: " +statementThatCallsOriginal);
-			
-			allOriginalsResolved = (statementThatCallsOriginal == null);
-			if(!allOriginalsResolved) {
-				
-				if (this.currentMethod.nameOfFeature.equals("Interest")) {
-					int jsfj = 2;
-				}
-				statementThatCallsOriginal.setRefinement(resolveOriginal());
-				Console.println("Replaced Original with Selection: " + this.currentMethod.nameOfFeature);
-			}
-			//if(this.currentMethodIndex == this.methodsInDescendingOrder.length-1) {
-			//	break;
-			//}
-			this.currentMethodIndex = 0;
-		}
-		
-		this.metaJavaVariables = CbcmodelFactory.eINSTANCE.createJavaVariables();
-		for(IFeature currentFeature: this.featureVariables) {
-			JavaVariable featureVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
-			featureVariable.setName("boolean "+"FV_"+currentFeature.toString().toUpperCase());
-			//featureVariable.setDisplayedName("boolean "+"FV_"+currentFeature.toString().toUpperCase());
-			featureVariable.setKind(VariableKind.LOCAL);
-			this.metaJavaVariables.getVariables().add(featureVariable);
-		}
-		
-		/*for(MethodStruct currentMethod : this.listOfMethods) {
-			if(currentMethod.globalConditions == null) continue;
-			for(Condition currentMethodCondition: currentMethod.globalConditions.getConditions()) {
-				globalConditions.getConditions().add(currentMethodCondition);
-			}
-		}*/
-		
-		/*for(int i = 0; i < this.listOfMethods.size(); i++) {
-			for(int j = 0 ; j < this.listOfMethods.get(i).javaVariables.getVariables().size(); j++) {
-				boolean alreadyInList = false;
-				for(JavaVariable alreadyExistingVariable : javaVariables.getVariables()) {
-					if(alreadyExistingVariable.getName().equals(this.listOfMethods.get(i).javaVariables.getVariables().get(j).getName()))
-						alreadyInList = true;
-				}
-				if(i==0) {
-					javaVariables.getVariables().add(this.listOfMethods.get(i).javaVariables.getVariables().get(j));
-				}else if(!alreadyInList) {
-					javaVariables.getVariables().add(this.listOfMethods.get(i).javaVariables.getVariables().get(j));
-				}
-				
-			}
-		}*/
-		
-		
-		for(int i = 0; i < this.listOfMethods.size(); i++) {
-			for(int j = 0 ; j < this.listOfMethods.get(i).javaVariables.getVariables().size(); j++) {
-				boolean alreadyInList = false;
-				
-				JavaVariable variableToAdd = this.listOfMethods.get(i).javaVariables.getVariables().get(j);
-				String  variableNameToAdd = variableToAdd.getDisplayedName();
-				
-				for(int k = 0 ; k < this.metaJavaVariables.getVariables().size(); k++) {
-
-					if(this.metaJavaVariables.getVariables().get(k).getDisplayedName().equals(variableNameToAdd)) {
-						alreadyInList = true;
-					}
-				}
-				if(i==0) {
-					this.metaJavaVariables.getVariables().add(CopyCbCFormiula.copyJavaVariable(variableToAdd));
-				}else if(!alreadyInList) {
-					this.metaJavaVariables.getVariables().add(CopyCbCFormiula.copyJavaVariable(variableToAdd));
-				}
-				
-			}
-		}
-		
-		
-		
-	/*	for(int i = 0; i < this.listOfMethods.size(); i++) {
-			for(int j = 0 ; j < this.listOfMethods.get(i).globalConditions.getConditions().size(); j++) {
-				boolean alreadyInList = false;
-				for(Condition alreadyExistingVariable : globalConditions.getConditions()) {
-					if(alreadyExistingVariable.getName().equals(this.listOfMethods.get(i).globalConditions.getConditions().get(j).getName()))
-						alreadyInList = true;
-				}
-				if(!alreadyInList) {
-					globalConditions.getConditions().add(this.listOfMethods.get(i).globalConditions.getConditions().get(j));
-				}
-				
-			}
-		}*/
-		for(int i = 0; i < this.listOfMethods.size(); i++) {
-			if (this.listOfMethods.get(i).globalConditions == null) {
-				continue;
-			}
-			for(int j = 0 ; j < this.listOfMethods.get(i).globalConditions.getConditions().size(); j++) {
-				boolean alreadyInList = false;
-				Condition conditionToAdd = this.listOfMethods.get(i).globalConditions.getConditions().get(j);
-				String nameOfConditionToAdd = conditionToAdd.getName();
-				for(Condition alreadyExistingVariable : globalConditions.getConditions()) {
-					if(alreadyExistingVariable.getName().equals(nameOfConditionToAdd))
-						alreadyInList = true;
-				}
-				if(!alreadyInList ||i == 0) {
-					globalConditions.getConditions().add(CopyCbCFormiula.copyCondition(conditionToAdd));
-				}
-				
-			}
-		}
-		
-		SetMetaSpecificationForFormula.passMetaSpeficiationThroughFormula(metaMethodFormula, this.metaPreConditon, this.metaPostCondition);	
-		UpdateConditionsOfChildren.updateConditionsofChildren(metaMethodFormula.getStatement().getPreCondition());
-		UpdateConditionsOfChildren.updateConditionsofChildren(metaMethodFormula.getStatement().getPostCondition());
-		metaMethodResource.getContents().add(metaMethodFormula);
-		metaMethodResource.getContents().add(globalConditions);
-		metaMethodResource.getContents().add(this.metaJavaVariables);
-		
-
-			try {
-				metaMethodResource.save(Collections.EMPTY_MAP);
-				metaMethodResource.setTrackingModification(true);
-			
-				
-				IFile ifile = ResourcesPlugin.getWorkspace().getRoot().getFile(new org.eclipse.core.runtime.Path(uri.toPlatformString(true)));
-				ifile.getParent().refreshLocal(1, null);
-				
-				
-			} catch (Exception e) {//IOException | CoreException e1) {
-				e.printStackTrace();
-			} 
-
-			
-		
-		return metaMethodResource;
-	}
 	
 	String createRandomUUID() {
 		UUID uuid = UUID.randomUUID();
@@ -770,7 +598,9 @@ public class UniqueMetaMethod {
 			if(foundStatement == null) {
 				foundStatement = searchOriginalStatement(((CompositionStatement) statement).getSecondStatement());
 			}
-			
+			if (foundStatement == null) {
+				var jsdklfjsd = 2;
+			}
 		}
 
 		if (statement instanceof SelectionStatement) {
@@ -852,6 +682,9 @@ public class UniqueMetaMethod {
 			
 			if(foundStatement == null) {
 				foundStatement = searchOriginalStatement(((SmallRepetitionStatement) statement).getLoopStatement());
+			}
+			if (foundStatement == null) {
+				var lsdnjfsknf = 2;
 			}
 			
 			

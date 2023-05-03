@@ -40,6 +40,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 import de.tu_bs.cs.isf.cbc.tool.features.GenerateCounterExample;
+import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
 
@@ -84,7 +85,13 @@ public class ProveWithKey {
 		this.uri = uri;
 		this.formula = formula;
 		this.fileHandler = fileHandler;
-		this.sourceFolder = srcFolder;
+		if (uri.contains(MetaClass.FOLDER_NAME)) {
+			String className = uri.substring(0, uri.lastIndexOf("/"));
+			className = className.substring(className.lastIndexOf("/") + 1, className.length());
+			this.sourceFolder = MetaClass.FOLDER_NAME + "/" + className;
+		} else {
+			this.sourceFolder = srcFolder;
+		}
 		this.isVariationalProject = false;
 		this.configName = configName.equals("") ? "" : ("/" + configName);
 		IProject project = FileUtil.getProjectFromFileInProject(URI.createURI(uri));

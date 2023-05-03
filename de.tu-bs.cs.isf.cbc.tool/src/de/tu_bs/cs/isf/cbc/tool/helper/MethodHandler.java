@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MethodHandler {
+	private String contract;
 	private String signature;
 	private String innerCode;
 	
@@ -12,6 +13,10 @@ public class MethodHandler {
 	}
 	
 	public MethodHandler(final String signature, String code) {
+		this("", signature, code);
+	}
+	
+	public MethodHandler(final String contract, final String signature, String code) {
 		this.signature = signature;
 		int start = code.indexOf("{");
 		if (start != -1 && isSignature(code.substring(0, start))) {
@@ -24,6 +29,7 @@ public class MethodHandler {
 			}
 		}	
 		this.innerCode = code.trim();
+		this.contract = contract;
 	}
 	
 	/**
@@ -136,5 +142,9 @@ public class MethodHandler {
 		}
 		final String[] splitter = CodeHandler.sSplit(this.signature, "\\s");	
 		return splitter[splitter.length - 1].substring(0, splitter[splitter.length - 1].indexOf('('));
+	}
+	
+	public String getContract() {
+		return this.contract;
 	}
 }

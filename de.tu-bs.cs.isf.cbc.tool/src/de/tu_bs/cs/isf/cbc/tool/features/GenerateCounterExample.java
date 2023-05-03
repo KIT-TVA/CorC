@@ -300,16 +300,18 @@ public class GenerateCounterExample{
 	
 	public static void calculateExample(Proof proof) {
 		Console.println("\tStart generating a counter example...");
-
+		serv = proof.getServices();
 		calculateProofPaths(proof.root());
 		var path = list.get(0);
 		SMTProblem problem = new SMTProblem(proof.getGoal(path.current));
 	    SMTSettings settings = new SMTSettings(proof.getSettings().getSMTSettings(),
 	                    ProofIndependentSettings.DEFAULT_INSTANCE.getSMTSettings(), proof);
+	    
 	    SolverLauncher launcher = new SolverLauncher(settings);
 	    
 	    launcher.launch(problem, serv, SolverType.Z3_SOLVER); 
 	    SMTSolverResult result = problem.getFinalResult();
+	   // problem.
 	    
 	    if (result.isValid() == ThreeValuedTruth.FALSIFIABLE) {
 	    	Console.println("\tCounterexample:");

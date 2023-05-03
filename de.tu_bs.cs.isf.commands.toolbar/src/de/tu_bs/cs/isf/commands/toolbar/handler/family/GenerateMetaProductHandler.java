@@ -44,6 +44,7 @@ import de.ovgu.featureide.fm.core.base.IFeatureStructure;
 import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
 import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -54,12 +55,15 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
+import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -178,9 +182,36 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		methodNameToImplementingFeature = new HashMap<String, List<String>>(); 
 	}
 	
+	private void tester123() {
+		//var genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
+	}
+	
 	private void createAndSaveJavaFilesWithMethodStubsForClass(String className) {
+		String location = project.getLocation().toString() + "/" + MetaClass.FOLDER_NAME + "/" + className + "/" + NAME_OF_JAVA_FILE + ".java";
 		String code = "public class " + NAME_OF_JAVA_FILE + " {\n\n";
-		
+
+
+		CodeGenerator gener;
+		List<String> codes = new ArrayList<String>();
+		for(UniqueMetaMethod metaMethod: uniqueMetaMethods) {
+			try {
+				gener = new CodeGenerator(project, metaMethod.metaMethodFormula);
+				codes.add(gener.generate());
+			} catch (CodeGeneratorException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			var merger = new CodeMerge(codes);
+			var fullCode = merger.get();
+			saveJavaFile(location, fullCode);
+			var test = 234234;
+		} catch (CodeMergeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return;
+	/*	
 		for(UniqueMetaMethod metaMethod: uniqueMetaMethods) {
 			Console.println(project.getLocation().toString());
 			
@@ -199,12 +230,39 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 				}
 				newVariables.getVariables().add(copiedVariable);
 			}
+			
+					
+					
 			code  += ConstructCodeBlock.constructMethodStubsForExport(metaMethod.metaMethodFormula, null, newVariables, metaMethod.metaMethodName, "");
 			code += "\n\n\n";
 		}
 		code += "\n\n}";
-		String location = project.getLocation().toString() + "/" + MetaClass.FOLDER_NAME + "/" + className + "/" + NAME_OF_JAVA_FILE + ".java";
-		this.saveJavaFile(location, code);
+		this.saveJavaFile(location, code);*/
+	}
+	
+	private String generateMetaCode(CbCFormula formula) {
+		var code = "";
+		var cbcClass = getCbcClass(FileUtil.getCbCClasses(project), formula.getClassName());
+		var globalConditions = createInvariants(cbcClass);
+		var placeholderDiagram = GetDiagramUtil.getDiagrams(project).stream().filter(d -> Character.isLowerCase(d.getName().charAt(0))).findFirst().get();
+		return code;
+	}
+	
+	private ModelClass getCbcClass(Collection<Resource> classes, String className) {
+		for (var c : classes) {
+			if (((ModelClass)c.getContents().get(0)).getName().equals(className)) {
+				return (ModelClass)c.getContents().get(0);
+			}
+		}
+		return null;
+	}
+	
+	private GlobalConditions createInvariants(ModelClass cbcClass) {
+		var conds = CbcmodelFactory.eINSTANCE.createGlobalConditions();
+		for (var condition : cbcClass.getClassInvariants()) {
+			conds.getConditions().add(condition);
+		}
+		return conds;
 	}
 
 	private void getInformationFromFeatureModel() {

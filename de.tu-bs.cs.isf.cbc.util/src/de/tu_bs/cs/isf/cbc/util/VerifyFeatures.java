@@ -47,11 +47,14 @@ public class VerifyFeatures {
 	private static Configuration configuration;
 
 	private static ConfigurationAnalyzer configurationAnalyzer;
-
-	// calculates feature-configurations
-	public static String[][] verifyConfig(URI uri_new, String method, boolean original, String callingClass, boolean cleanFromIrrelevant, String methodOriginal) {
+	
+	public static String[][] verifyConfig(IProject project, URI uri_new, String method, boolean original, String callingClass, boolean cleanFromIrrelevant, String methodOriginal) {
 		uri = uri_new;
-		thisProject = FileUtil.getProject(uri);
+		if (project == null) {
+			thisProject = FileUtil.getProject(uri);
+		} else {
+			thisProject = project;
+		}
 		path = Paths.get(thisProject.getLocation() + "/model.xml");
 		try {
 			createEmptyConfiguration(path);
@@ -78,6 +81,12 @@ public class VerifyFeatures {
 		}
 		checkConfigs(method, methodOriginal != null ? true : original, callingClass, cleanFromIrrelevant, methodOriginal);
 		return configurations;
+		
+	}
+
+	// calculates feature-configurations
+	public static String[][] verifyConfig(URI uri_new, String method, boolean original, String callingClass, boolean cleanFromIrrelevant, String methodOriginal) {
+		return verifyConfig(null, uri_new, method, original, callingClass, cleanFromIrrelevant, methodOriginal);
 	}
 
 	// removes features not containing method-refinement from list
