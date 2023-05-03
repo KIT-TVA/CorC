@@ -151,11 +151,13 @@ public class ProveWithKey {
 
 		content.rename(renaming);
 		replaceOriginalInStatement(refinementsOriginal, refinements, refinementsVars, callingMethod, content, varM, callingClass, callingFeature);
-		content.replaceThisWithSelf();
-		content.addSelfForFields(vars);
-		content.addSelfForFields(varsFromJavaClass);
+		
+//		TODO: check if readVariables() is necessary
+//		content.replaceThisWithSelf();
+//		content.addSelfForFields(vars);
+//		content.addSelfForFields(varsFromJavaClass);
 		content.addSelf(formula);
-		content.handleOld(formula, vars);
+//		content.handleOld(formula, vars);
 
 		problem = content.getKeYStatementContent();	
 		problem = problem.replaceAll("static", "");
@@ -308,17 +310,17 @@ public class ProveWithKey {
 
 	public void replaceOriginalInStatement(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, String callingMethod, KeYFileContent content,
 			String varM, String callingClass, String callingFeature) {
-		if (refinements != null && refinements.size() > 0 && content.statement.contains("(")) {
+		if (refinements != null && refinements.size() > 0 && content.getStatement().contains("(")) {
 			generateComposedClass(refinementsOriginal, refinements, refinementsVars, callingMethod, varM, callingClass, callingFeature);
-			if (content.statement.contains("this.original")) {
-				content.statement = content.statement.replaceFirst("this.original", "self.original_" + callingMethod);
-			} else content.statement = content.statement.replaceFirst("original", "self" + ".original_" + callingMethod);
+			if (content.getStatement().contains("this.original")) {
+				content.setStatement(content.getStatement().replaceFirst("this.original", "self.original_" + callingMethod));
+			} else content.setStatement(content.getStatement().replaceFirst("original", "self" + ".original_" + callingMethod));
 			
 			if (!varM.equals("")) {
-				if (content.statement.contains(callingClass + "." + varM)) {
-					content.statement = content.statement.replaceFirst(callingClass + "." + varM.split("\\.")[1].toLowerCase(),	"self" + "." + varM.split("\\.")[1].toLowerCase());
-				} else if (!content.statement.contains("." + varM.split("\\.")[1].toLowerCase())) {
-					content.statement = content.statement.replaceFirst(varM.split("\\.")[1].toLowerCase(), "self" + "." + varM.split("\\.")[1].toLowerCase());
+				if (content.getStatement().contains(callingClass + "." + varM)) {
+					content.setStatement(content.getStatement().replaceFirst(callingClass + "." + varM.split("\\.")[1].toLowerCase(),	"self" + "." + varM.split("\\.")[1].toLowerCase()));
+				} else if (!content.getStatement().contains("." + varM.split("\\.")[1].toLowerCase())) {
+					content.setStatement(content.getStatement().replaceFirst(varM.split("\\.")[1].toLowerCase(), "self" + "." + varM.split("\\.")[1].toLowerCase()));
 				}
 			}
 		}
@@ -575,12 +577,12 @@ public class ProveWithKey {
 		content.setPreFromCondition(preCondition + applyLiskovInheritance(preCondition, Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre"));
 		content.setPostFromCondition(postCondition + applyLiskovInheritance(postCondition, Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName()), "post"));
 		content.rename(renaming);
-		content.replaceThisWithSelf();
-		content.addSelfForFields(vars);
-		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
+//		content.replaceThisWithSelf();
+//		content.addSelfForFields(vars);
+//		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
 
 		content.addSelf(formula);
-		content.handleOld(formula, vars);
+		//content.handleOld(formula, vars);
 		
 		problem = content.getKeYCImpliesCContent();
 
@@ -628,14 +630,15 @@ public class ProveWithKey {
 		content.addVariable("int variant");
 		content.readGlobalConditions(conds);
 		content.setPreFromCondition(invariant.getName() + " & " + guard.getName());
-		content.setVariantPost(variant.getName());
+		//TODO: check if really not necessary
+//		content.setVariantPost(variant.getName());
 		content.setStatement(code);
 		content.rename(renaming);
-		content.replaceThisWithSelf();
-		content.addSelfForFields(vars);
-		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
+//		content.replaceThisWithSelf();
+//		content.addSelfForFields(vars);
+//		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
 		content.addSelf(formula);
-		content.handleOld(formula, vars);
+//		content.handleOld(formula, vars);
 		
 		problem = content.getKeYStatementContent();
 
@@ -659,13 +662,13 @@ public class ProveWithKey {
 		content.readInvariants(readInvariantsFromClass(uri.split("/")[4]));
 		content.setStatement(statement.getName());
 		content.setPostFromCondition("(" + statement.getPostCondition().getName() + applyLiskovInheritance(statement.getPostCondition().getName(), Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre") + ")");
-		content.replaceThisWithSelf();
-		content.addSelfForFields(vars);
-		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
+//		content.replaceThisWithSelf();
+//		content.addSelfForFields(vars);
+//		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
 
 		content.addSelf(formula);
 		content.rename(renaming);
-		content.handleOld(formula, vars);
+//		content.handleOld(formula, vars);
 
 		problem = content.getKeYStatementContent();
 

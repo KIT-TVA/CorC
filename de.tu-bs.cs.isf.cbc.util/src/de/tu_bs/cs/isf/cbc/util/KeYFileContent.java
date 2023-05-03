@@ -23,6 +23,7 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
+import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 //import de.tu_bs.cs.isf.cbc.cbcmodel.BaseVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -33,6 +34,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 
 public class KeYFileContent {	
 	public static final String REGEX_BEFORE_VARIABLE_KEYWORD = "(?<![a-zA-Z0-9_\\.]|self\\.)(";
@@ -46,7 +48,6 @@ public class KeYFileContent {
 	private String location = "";
 	private String srcFolder = "";
 	private String statement = "";
-	private String assignment = "";
 	
 	private Renaming renaming;
 	private CbCFormula self;
@@ -93,6 +94,16 @@ public class KeYFileContent {
 
 	public void setStatement(String statement) {
 		this.statement = statement;
+	}
+	
+	public String getStatement() {
+		return statement;
+	}
+	
+	public void addVariable(String var) {
+		JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
+		variable.setName(var);
+		programVariables.getVariables().add(variable);
 	}
 
 	public JavaVariable readVariables(JavaVariables vars) {
@@ -178,72 +189,12 @@ public class KeYFileContent {
 		}
 	}
 	
-	//TODO: check if method is actually working and if it has to be renamed
-	public void replaceThisWithSelf() {
-		statement = statement.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
-		changeConditions(preConditions, REGEX_THIS_KEYWORD.pattern(), "self");
-		changeConditions(postConditions, REGEX_THIS_KEYWORD.pattern(), "self");
-		changeConditions(globalConditions, REGEX_THIS_KEYWORD.pattern(), "self");
-		assignment = assignment.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
-	}
-	
-	//TODO: check if method is actually working
-	public void addSelfForFields(JavaVariables vars) {
-		List<String> nameOfLocalVars = new ArrayList<>();
-		for (JavaVariable var : vars.getVariables()) {
-			String[] NameOfVar = var.getName().split(" ");
-			nameOfLocalVars.add(NameOfVar[NameOfVar.length-1]);
-		}
-		for (Field field : vars.getFields()) {
-			if (!nameOfLocalVars.contains(field.getName()) /*&& !field.isIsStatic()*/) {
-				Pattern pattern = Pattern.compile(REGEX_BEFORE_VARIABLE_KEYWORD + field.getName() + REGEX_AFTER_VARIABLE_KEYWORD);
-				statement = statement.replaceAll(pattern.pattern(), "self." + field.getName());
-				changeConditions(preConditions, pattern.pattern(), "self." + field.getName());
-				changeConditions(postConditions, pattern.pattern(), "self." + field.getName());
-				changeConditions(globalConditions, pattern.pattern(), "self." + field.getName());
-				assignment = assignment.replaceAll(pattern.pattern(), "self." + field.getName());
-			}
-		}
-	}
-	
-	private void changeConditions(List<Condition> conditions, String regex, String replacement) {
-		if (!conditions.isEmpty()) {
-			for (Condition cond : conditions) {
-				cond.getName().replaceAll(regex, replacement);
-			}
-		}
-	}
-	
-	//no usage for vars?
-	public void handleOld(CbCFormula formula, JavaVariables vars) {
-		List<String> oldKeyWords = extractOldKeywordVariables();
-		Map<String, OldReplacement> replacements = addOldVariables(formula, oldKeyWords);
-		replaceOldKeyword(preConditions, replacements);
-		replaceOldKeyword(postConditions, replacements);
-		replaceOldKeyword(globalConditions, replacements);
-	}
-	
-	private void replaceOldKeyword(List<Condition> conditions, Map<String, OldReplacement> replacements) {
-		for (String key : replacements.keySet()) {
-			String varNameOnly = key.substring(key.lastIndexOf(".") + 1);
-			varNameOnly = varNameOnly.replaceAll("\\[.*\\]", "");
-			if (varNameOnly.contains("("))
-				varNameOnly = varNameOnly.substring(0, varNameOnly.indexOf("("));
-			for (Condition condition : conditions) {
-				condition.setName(condition.getName().replace(replacements.get(key).getVar(), varNameOnly));
-				if (condition.getName().contains("\\old")) {
-					Console.println("Unsupported usage of \\old keyword in condition: '" + condition + "'");
-				}
-			}
-		}
+	public void addSelf(CbCFormula formula) {
+		this.self = formula;
 	}
 	
 	public void rename(Renaming renaming) {
 		this.renaming = renaming;
-	}
-	
-	public void addSelf(CbCFormula formula) {
-		this.self = formula;
 	}
 	
 	public String getKeYStatementContent() {
@@ -266,6 +217,46 @@ public class KeYFileContent {
 		
 		builder.append(" (" + getPostConditionsString(oldReplacements) + ")}");
 		return builder.toString();
+	}
+	
+	public void handleReturn(AbstractStatement retStatement, JavaVariable returnVariable, CbCFormula formula) {
+		if(retStatement.getClass().equals(ReturnStatementImpl.class)) {
+			if (returnVariable != null) {
+				statement = returnVariable.getName().replace("static", "").replace(" non-null", "").split(" ")[1] + " = " + retStatement.getName();
+//			    post = post.replaceAll(REGEX_RESULT_KEYWORD.pattern(), returnVariable.getName().substring(returnVariable.getName().indexOf(" ")));
+			    for (Condition c : postConditions) {
+			    	c.getName().replaceAll(REGEX_RESULT_KEYWORD.pattern(), returnVariable.getName().substring(returnVariable.getName().indexOf(" ")));
+			    }
+			} else {
+				// Get Return Type of Variable
+				String methodName = formula.getMethodName();
+				String returnTypeOfMethod = getReturnTypeMap().get(methodName);
+				if (returnTypeOfMethod == null) {
+					Console.println("No diagram was found that implements method '" + methodName + "'!");
+				} else {
+					String returnVariableDeclaration = returnTypeOfMethod + " result_" + methodName;
+//					programVariables += returnVariableDeclaration + "; ";
+					JavaVariable var = CbcmodelFactory.eINSTANCE.createJavaVariable();
+					var.setName(returnVariableDeclaration);
+					var.setKind(VariableKind.RETURNPARAM);
+					programVariables.getVariables().add(var);
+					statement = "result_" + methodName + " = " + retStatement.getName().replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+//					post += "& " + returnVariableType + "::exactInstance(result_" + methodName + ") = TRUE";
+					// Replace result keyword in post.
+//					post = post.replaceAll(REGEX_RESULT_KEYWORD.pattern(), "result_" + methodName);
+					for (Condition c : postConditions) {
+				    	c.getName().replaceAll(REGEX_RESULT_KEYWORD.pattern(), "result_" + methodName);
+				    }
+				}
+			}
+		}
+	}
+	
+	private Map<String, String> getReturnTypeMap() {
+		if (returnTypeMap == null) {
+			initReturnTypeMap();
+		}
+		return returnTypeMap;
 	}
 	
 	private String getKeyHeader(Map<String, OldReplacement> oldReplacements) {
@@ -694,8 +685,6 @@ public class KeYFileContent {
 		
 		return methodClassVarMap;
 	}
-
-
 
 	private Map<String, String> initReturnTypeMap() {
 		Map<String, String> returnTypeMap = new HashMap<>();
