@@ -16,6 +16,9 @@ import java.util.stream.Stream;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 //import org.hamcrest.core.IsInstanceOf;
 import org.stringtemplate.v4.compiler.CodeGenerator.primary_return;
 
@@ -63,7 +66,9 @@ public class KeYFileContent {
 	private Map<String, String> returnTypeMap = null;
 
 
-	public KeYFileContent() {
+	public KeYFileContent(String location) {
+		this.location = location;
+		
 		programVariables = CbcmodelFactory.eINSTANCE.createJavaVariables();
 		globalConditions = new ArrayList<>();
 		preConditions = new ArrayList<>();
@@ -73,6 +78,33 @@ public class KeYFileContent {
 		
 		methodClassVarMap = initMethodClassVarMap();
 		returnTypeMap = initReturnTypeMap();
+	}
+	
+	//TODO: Delete
+	public JavaVariables getVariables() {
+		for (String s : unmodifiableVars) {
+			System.out.println(s);
+		}
+		
+		System.out.println("---");
+		System.out.println(self.getName());
+		System.out.println("---");
+		
+		for (Condition c : globalConditions) {
+			System.out.println(c);
+		}
+		System.out.println("---");
+		for (Condition c : preConditions) {
+			System.out.println(c);
+		}
+		System.out.println("---");
+		for (Condition c : postConditions) {
+			System.out.println(c);
+		}
+		System.out.println("---");
+		
+		System.out.println(statement);
+		return null;
 	}
 
 	
@@ -119,7 +151,6 @@ public class KeYFileContent {
 				programVariables.getVariables().add(var);
 			}
 			for (Parameter param : vars.getParams()) {
-				
 				if (param.getName().equals("ret")) {
 					returnVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 					returnVariable.setKind(VariableKind.RETURNPARAM);
@@ -190,7 +221,19 @@ public class KeYFileContent {
 	}
 	
 	public void addSelf(CbCFormula formula) {
-		this.self = formula;
+		if(formula != null && formula.getClassName() != null && !formula.getClassName().isBlank()) {
+			String className = "";
+			if (formula.getMethodObj() != null && formula.getMethodObj() != null && formula.getMethodObj().getParentClass() != null && formula.getMethodObj().getParentClass().getPackage() != null &&
+					!formula.getMethodObj().getParentClass().getPackage().isBlank()) {
+				className += formula.getMethodObj().getParentClass().getPackage() + ".";
+			}
+			className += formula.getClassName();
+			this.self = CbcmodelFactory.eINSTANCE.createCbCFormula();
+			this.self.setClassName(className + " self;");
+			Condition condition = CbcmodelFactory.eINSTANCE.createCondition();
+			condition.setName(" & self.<created>=TRUE & " + className + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ");
+			this.self.setPreCondition(condition);
+		}
 	}
 	
 	public void rename(Renaming renaming) {
@@ -264,12 +307,13 @@ public class KeYFileContent {
 				"\\javaSource \"{0}\";\n"
 				+ "\\include \"{1}\";\n"
 				+ "\\programVariables '{'\n"
-				+ "{2}\n"
+				+ "{2} {3};\n"
 				+ "Heap heapAtPre;\n"
 				+ "'}'", 
 				location + srcFolder,
 				helper,
-				getProgramVariablesString(oldReplacements));
+				getProgramVariablesString(oldReplacements),
+				self.getName());
 	}
 	
 	private String getKeyProblem(Map<String, OldReplacement> oldReplacements) {

@@ -41,7 +41,7 @@ import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
 
-public class ProveWithKey {
+public class ProveWithKeyOld {
 	public static final String REGEX_ORIGINAL = "original";
 	public static final String REGEX_RESULT = "\\\\result";
 
@@ -65,12 +65,12 @@ public class ProveWithKey {
 	private String problem;
 	private String subProofName = "";
 	
-	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
+	public ProveWithKeyOld(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
 			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String configName) {
 		this(statement, vars, conds, renaming, monitor, uri, formula, fileHandler, "", configName);
 	}
 
-	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
+	public ProveWithKeyOld(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
 			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String srcFolder, String configName) {
 		this.statement = statement;	
 		this.vars = vars;
@@ -132,7 +132,7 @@ public class ProveWithKey {
 
 	public File createProveStatementWithKey(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, boolean override, String callingMethod, String varM, boolean returnStatement, String callingClass) {
 		String callingFeature = uri.split("/")[3];
-		KeYFileContent content = new KeYFileContent();
+		KeYFileContentOld content = new KeYFileContentOld();
 		JavaVariables varsFromJavaClass = readFieldsFromClass(callingClass);
 		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
@@ -151,13 +151,11 @@ public class ProveWithKey {
 
 		content.rename(renaming);
 		replaceOriginalInStatement(refinementsOriginal, refinements, refinementsVars, callingMethod, content, varM, callingClass, callingFeature);
-		
-//		TODO: check if readVariables() is necessary
-//		content.replaceThisWithSelf();
-//		content.addSelfForFields(vars);
-//		content.addSelfForFields(varsFromJavaClass);
+		content.replaceThisWithSelf();
+		content.addSelfForFields(vars);
+		content.addSelfForFields(varsFromJavaClass);
 		content.addSelf(formula);
-//		content.handleOld(formula, vars);
+		content.handleOld(formula, vars);
 
 		problem = content.getKeYStatementContent();	
 		problem = problem.replaceAll("static", "");
@@ -244,7 +242,7 @@ public class ProveWithKey {
 		return invariants;
 	}
 	
-	public void readPrePostModVars(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, JavaVariable returnVariable, KeYFileContent content, String callingClass) {
+	public void readPrePostModVars(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, JavaVariable returnVariable, KeYFileContentOld content, String callingClass) {
 		CbCFormula formula = getCbCFormula(statement);
 		String preFormula = Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName());
 		String postFormula = Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName());
@@ -308,19 +306,19 @@ public class ProveWithKey {
 		return "";
 	}
 
-	public void replaceOriginalInStatement(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, String callingMethod, KeYFileContent content,
+	public void replaceOriginalInStatement(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, String callingMethod, KeYFileContentOld content,
 			String varM, String callingClass, String callingFeature) {
-		if (refinements != null && refinements.size() > 0 && content.getStatement().contains("(")) {
+		if (refinements != null && refinements.size() > 0 && content.statement.contains("(")) {
 			generateComposedClass(refinementsOriginal, refinements, refinementsVars, callingMethod, varM, callingClass, callingFeature);
-			if (content.getStatement().contains("this.original")) {
-				content.setStatement(content.getStatement().replaceFirst("this.original", "self.original_" + callingMethod));
-			} else content.setStatement(content.getStatement().replaceFirst("original", "self" + ".original_" + callingMethod));
+			if (content.statement.contains("this.original")) {
+				content.statement = content.statement.replaceFirst("this.original", "self.original_" + callingMethod);
+			} else content.statement = content.statement.replaceFirst("original", "self" + ".original_" + callingMethod);
 			
 			if (!varM.equals("")) {
-				if (content.getStatement().contains(callingClass + "." + varM)) {
-					content.setStatement(content.getStatement().replaceFirst(callingClass + "." + varM.split("\\.")[1].toLowerCase(),	"self" + "." + varM.split("\\.")[1].toLowerCase()));
-				} else if (!content.getStatement().contains("." + varM.split("\\.")[1].toLowerCase())) {
-					content.setStatement(content.getStatement().replaceFirst(varM.split("\\.")[1].toLowerCase(), "self" + "." + varM.split("\\.")[1].toLowerCase()));
+				if (content.statement.contains(callingClass + "." + varM)) {
+					content.statement = content.statement.replaceFirst(callingClass + "." + varM.split("\\.")[1].toLowerCase(),	"self" + "." + varM.split("\\.")[1].toLowerCase());
+				} else if (!content.statement.contains("." + varM.split("\\.")[1].toLowerCase())) {
+					content.statement = content.statement.replaceFirst(varM.split("\\.")[1].toLowerCase(), "self" + "." + varM.split("\\.")[1].toLowerCase());
 				}
 			}
 		}
@@ -565,7 +563,7 @@ public class ProveWithKey {
 	}
 
 	public File createProveCImpliesCWithKey(String preCondition, String postCondition, boolean override) {
-		KeYFileContent content = new KeYFileContent();
+		KeYFileContentOld content = new KeYFileContentOld();
 		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
 		content.readVariables(vars);
@@ -577,12 +575,12 @@ public class ProveWithKey {
 		content.setPreFromCondition(preCondition + applyLiskovInheritance(preCondition, Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre"));
 		content.setPostFromCondition(postCondition + applyLiskovInheritance(postCondition, Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName()), "post"));
 		content.rename(renaming);
-//		content.replaceThisWithSelf();
-//		content.addSelfForFields(vars);
-//		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
+		content.replaceThisWithSelf();
+		content.addSelfForFields(vars);
+		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
 
 		content.addSelf(formula);
-		//content.handleOld(formula, vars);
+		content.handleOld(formula, vars);
 		
 		problem = content.getKeYCImpliesCContent();
 
@@ -623,22 +621,21 @@ public class ProveWithKey {
 	}
 
 	public File createProveVariantWithKey(String code, Condition invariant, Condition guard, Variant variant, boolean override) {
-		KeYFileContent content = new KeYFileContent();
+		KeYFileContentOld content = new KeYFileContentOld();
 		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
 		content.readVariables(vars);
 		content.addVariable("int variant");
 		content.readGlobalConditions(conds);
 		content.setPreFromCondition(invariant.getName() + " & " + guard.getName());
-		//TODO: check if really not necessary
-//		content.setVariantPost(variant.getName());
+		content.setVariantPost(variant.getName());
 		content.setStatement(code);
 		content.rename(renaming);
-//		content.replaceThisWithSelf();
-//		content.addSelfForFields(vars);
-//		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
+		content.replaceThisWithSelf();
+		content.addSelfForFields(vars);
+		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
 		content.addSelf(formula);
-//		content.handleOld(formula, vars);
+		content.handleOld(formula, vars);
 		
 		problem = content.getKeYStatementContent();
 
@@ -654,7 +651,7 @@ public class ProveWithKey {
 	}
 
 	private File createProveUseWeakestPreWithKey(boolean override) {
-		KeYFileContent content = new KeYFileContent();
+		KeYFileContentOld content = new KeYFileContentOld();
 		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
 		content.readVariables(vars);
@@ -662,13 +659,13 @@ public class ProveWithKey {
 		content.readInvariants(readInvariantsFromClass(uri.split("/")[4]));
 		content.setStatement(statement.getName());
 		content.setPostFromCondition("(" + statement.getPostCondition().getName() + applyLiskovInheritance(statement.getPostCondition().getName(), Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre") + ")");
-//		content.replaceThisWithSelf();
-//		content.addSelfForFields(vars);
-//		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
+		content.replaceThisWithSelf();
+		content.addSelfForFields(vars);
+		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
 
 		content.addSelf(formula);
 		content.rename(renaming);
-//		content.handleOld(formula, vars);
+		content.handleOld(formula, vars);
 
 		problem = content.getKeYStatementContent();
 
