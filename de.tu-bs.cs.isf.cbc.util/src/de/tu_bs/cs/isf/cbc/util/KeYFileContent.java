@@ -228,11 +228,12 @@ public class KeYFileContent {
 				className += formula.getMethodObj().getParentClass().getPackage() + ".";
 			}
 			className += formula.getClassName();
-			this.self = CbcmodelFactory.eINSTANCE.createCbCFormula();
-			this.self.setClassName(className + " self;");
+			self = CbcmodelFactory.eINSTANCE.createCbCFormula();
+			self.setClassName(className + " self");
 			Condition condition = CbcmodelFactory.eINSTANCE.createCondition();
+//			TODO: build string somewhere else
 			condition.setName(" & self.<created>=TRUE & " + className + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ");
-			this.self.setPreCondition(condition);
+			self.setPreCondition(condition);
 		}
 	}
 	
@@ -307,13 +308,13 @@ public class KeYFileContent {
 				"\\javaSource \"{0}\";\n"
 				+ "\\include \"{1}\";\n"
 				+ "\\programVariables '{'\n"
-				+ "{2} {3};\n"
+				+ "{2}{3};\n"
 				+ "Heap heapAtPre;\n"
 				+ "'}'", 
 				location + srcFolder,
 				helper,
 				getProgramVariablesString(oldReplacements),
-				self.getName());
+				self.getClassName());
 	}
 	
 	private String getKeyProblem(Map<String, OldReplacement> oldReplacements) {
@@ -430,7 +431,12 @@ public class KeYFileContent {
 	}
 	
 	private String getSelfConditionsString() {
-		return "";
+		List<String> selfcond = new ArrayList<>();
+		selfcond.add(" & self.<created>=TRUE & ");
+		selfcond.add(self.getClassName().replace(" self", ""));
+		selfcond.add("::exactInstance(self)=TRUE &  !self = null & self.<inv> ");
+		
+		return String.join("", selfcond);
 	}
 	
 	private String getAssignmentString(Map<String, OldReplacement> oldReplacements) {
