@@ -140,17 +140,6 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		CbCFormula formula = null;
 		GlobalConditions globalConditions = null;
 		
-		
-		
-		DataCollector dataCollector = new DataCollector();
-		try {
-			dataCollector.loadCorcStatistics(uri, getFeatureProvider());
-		} catch (IOException | ParseException e1) {
-			e1.printStackTrace();
-		}
-		
-		
-		
 		setProjectPath(uri);
 		FileHandler.getInstance().clearLog(uri);
 
