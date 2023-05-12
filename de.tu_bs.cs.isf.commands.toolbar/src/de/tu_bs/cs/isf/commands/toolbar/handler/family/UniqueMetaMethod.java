@@ -77,6 +77,9 @@ public class UniqueMetaMethod {
 		this.metaPreConditon = calculateMetaPreCondition3(0);
 		this.metaPostCondition = calculateMetaPostCondition3(0);
 		
+		this.metaPreConditon = removeWord(this.metaPreConditon, "original"); // TODO: remove this, since all originals should be resolved already here
+		this.metaPostCondition = removeWord(this.metaPostCondition, "original &");
+		
 		//ALLE \modifiable aus den conditions entfernen.
 		this.metaPreConditon = this.metaPreConditon.replaceAll("modifiable\\([^;]+;", "");
 		this.metaPostCondition = this.metaPostCondition.replaceAll("modifiable\\([^\\;]+\\;", "");
@@ -114,10 +117,10 @@ public class UniqueMetaMethod {
 	}
 	
 	private String removeWord(String str, String word) {
-		Pattern p = Pattern.compile(word);
+		Pattern p = Pattern.compile(Pattern.quote(word));
 		Matcher m = p.matcher(str);
 		while (m.find()) {
-			str = str.substring(str.indexOf(word), str.indexOf(word) + word.length());
+			str = str.substring(0, str.indexOf(word)) + str.substring(str.indexOf(word) + word.length(), str.length());
 			m = p.matcher(str);
 		}
 		return str;
@@ -168,31 +171,16 @@ public class UniqueMetaMethod {
 		return newHiearchie;
 	}
 	
-	String calculateMetaPreCondition2 (int index){
-		if(index == this.methodsInDescendingOrder.length -1){
-			MethodStruct currentMethod = methodsInDescendingOrder[index];
-			return "(" + currentMethod.preCondition + ")";
-		}
-		MethodStruct currentMethod = this.methodsInDescendingOrder[index];
-			if(index == 0) {
-				return "(FV_"+currentMethod.nameOfFeature.toUpperCase() +" = TRUE" +" -> "  + currentMethod.preCondition + ")" + " & "
-						   +"(FV_"+currentMethod.nameOfFeature.toUpperCase() + " = FALSE " + " -> " + calculateMetaPreCondition2(index + 1) + ")";
-			}else {
-				return "(FV_"+currentMethod.nameOfFeature.toUpperCase() +" = TRUE" +"->"  + currentMethod.preCondition + " & "
-						   +"FV_"+currentMethod.nameOfFeature.toUpperCase() + " = FALSE " + " -> " + calculateMetaPreCondition2(index + 1) + ")";
-			}
-		
-	}
 	
 	String calculateMetaPostCondition3 (int index){
 		if(index == this.methodsInDescendingOrder.length -1){
 			MethodStruct currentMethod = methodsInDescendingOrder[index];
-			return "(FV_" + currentMethod.nameOfFeature.toUpperCase() + " = TRUE" + " -> (" + currentMethod.postCondition + "))";
+			return "(" + MetaVariablesClass.NAME + "." + "FV_" + currentMethod.nameOfFeature.toUpperCase() + " = TRUE" + " -> (" + currentMethod.postCondition + "))";
 		}
 		MethodStruct currentMethod = this.methodsInDescendingOrder[index];
 			
-				return "(FV_"+currentMethod.nameOfFeature.toUpperCase() +" = TRUE" +" -> ("  + currentMethod.postCondition + "))" + " & "
-						   +"(FV_"+currentMethod.nameOfFeature.toUpperCase() + " = FALSE " + " -> (" + calculateMetaPostCondition3(index + 1) + "))";
+				return "(" + MetaVariablesClass.NAME + "." + "FV_"+currentMethod.nameOfFeature.toUpperCase() +" = TRUE" +" -> ("  + currentMethod.postCondition + "))" + " & "
+						   + "(" + MetaVariablesClass.NAME + "." + "FV_"+currentMethod.nameOfFeature.toUpperCase() + " = FALSE " + " -> (" + calculateMetaPostCondition3(index + 1) + "))";
 			
 		
 	}
@@ -200,12 +188,12 @@ public class UniqueMetaMethod {
 	String calculateMetaPreCondition3 (int index){
 		if(index == this.methodsInDescendingOrder.length -1){
 			MethodStruct currentMethod = methodsInDescendingOrder[index];
-			return "(FV_" + currentMethod.nameOfFeature.toUpperCase() + " = TRUE" + " -> (" + currentMethod.preCondition + "))";
+			return "(" + MetaVariablesClass.NAME + "." + "FV_" + currentMethod.nameOfFeature.toUpperCase() + " = TRUE" + " -> (" + currentMethod.preCondition + "))";
 		}
 		MethodStruct currentMethod = this.methodsInDescendingOrder[index];
 			
-				return "(FV_"+currentMethod.nameOfFeature.toUpperCase() +" = TRUE" +" -> ("  + currentMethod.preCondition + "))" + " & "
-						   +"(FV_"+currentMethod.nameOfFeature.toUpperCase() + " = FALSE " + " -> (" + calculateMetaPreCondition3(index + 1) + "))";
+				return "(" + MetaVariablesClass.NAME + "." + "FV_"+currentMethod.nameOfFeature.toUpperCase() +" = TRUE" +" -> ("  + currentMethod.preCondition + "))" + " & "
+						   + "(" + MetaVariablesClass.NAME + "." + "FV_"+currentMethod.nameOfFeature.toUpperCase() + " = FALSE " + " -> (" + calculateMetaPreCondition3(index + 1) + "))";
 			
 		
 	}
@@ -223,7 +211,7 @@ public class UniqueMetaMethod {
 		
 		for(MethodStruct method: this.listOfMethods) {
 			if(method.nameOfFeature.equals(hierachicalComposition[index])) {
-				return "(FV_"+method.nameOfFeature.toUpperCase() +" = TRUE" +"->" + method.preCondition + ") & " +"(FV_"+method.nameOfFeature.toUpperCase() + " = FALSE " + "->" + calculateMetaPreCondition(hierachicalComposition, index+1) + ")";
+				return "(" + MetaVariablesClass.NAME + "." + "FV_"+method.nameOfFeature.toUpperCase() +" = TRUE" +"->" + method.preCondition + ") & (" + MetaVariablesClass.NAME + "." + "FV_"+method.nameOfFeature.toUpperCase() + " = FALSE " + "->" + calculateMetaPreCondition(hierachicalComposition, index+1) + ")";
 			}
 		}
 		return "something went wrong";
@@ -242,7 +230,7 @@ public class UniqueMetaMethod {
 		
 		for(MethodStruct method: this.listOfMethods) {
 			if(method.nameOfFeature.equals(hierachicalComposition[index])) {
-				return "(FV_"+method.nameOfFeature.toUpperCase() +" = TRUE" +"->"  + method.postCondition + ")" + "& " +"(FV_"+method.nameOfFeature.toUpperCase() + " = FALSE " + "->" + calculateMetaPostCondition(hierachicalComposition, index+1) + ")";
+				return "(" + MetaVariablesClass.NAME + "." + "FV_"+method.nameOfFeature.toUpperCase() +" = TRUE" +"->"  + method.postCondition + ")" + "& (" +MetaVariablesClass.NAME + "." + "FV_"+method.nameOfFeature.toUpperCase() + " = FALSE " + "->" + calculateMetaPostCondition(hierachicalComposition, index+1) + ")";
 			}
 		}
 		return "something went wrong";
@@ -304,9 +292,9 @@ public class UniqueMetaMethod {
 			
 			allOriginalsResolved = (statementThatCallsOriginal == null);
 			if(!allOriginalsResolved) {
-				
-				if (this.currentMethod.nameOfFeature.equals("Interest")) {
-					int jsfj = 2;
+				var lolmaoa = this.currentMethod.nameOfFeature + " | " + this.currentMethod.nameOfMethod;
+				if (lolmaoa.equals("Cons | push")) {
+					var skldfjsldkfjklsdfj =2;
 				}
 				statementThatCallsOriginal.setRefinement(resolveOriginal());
 				Console.println("Replaced Original with Selection: " + this.currentMethod.nameOfFeature);
@@ -319,13 +307,6 @@ public class UniqueMetaMethod {
 		}
 		
 		this.metaJavaVariables = CbcmodelFactory.eINSTANCE.createJavaVariables();
-		for(IFeature currentFeature: this.featureVariables) {
-			JavaVariable featureVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
-			featureVariable.setName("boolean "+"FV_"+currentFeature.toString().toUpperCase());
-			//featureVariable.setDisplayedName("boolean "+"FV_"+currentFeature.toString().toUpperCase());
-			featureVariable.setKind(VariableKind.LOCAL);
-			this.metaJavaVariables.getVariables().add(featureVariable);
-		}
 		
 		/*for(MethodStruct currentMethod : this.listOfMethods) {
 			if(currentMethod.globalConditions == null) continue;
@@ -448,9 +429,9 @@ public class UniqueMetaMethod {
 	SelectionStatement createSelectionRefinements(int index) {
 		SelectionStatement newSelection = CbcmodelFactory.eINSTANCE.createSelectionStatement();
 		newSelection.getGuards().add(CbcmodelFactory.eINSTANCE.createCondition());
-		newSelection.getGuards().get(0).setName("FV_"+this.methodsInDescendingOrder[index].nameOfFeature + " = TRUE");
+		newSelection.getGuards().get(0).setName(MetaVariablesClass.NAME + "." + "FV_"+this.methodsInDescendingOrder[index].nameOfFeature + " = TRUE");
 		newSelection.getGuards().add(CbcmodelFactory.eINSTANCE.createCondition());
-		newSelection.getGuards().get(1).setName("FV_"+this.methodsInDescendingOrder[index].nameOfFeature + " = FALSE");
+		newSelection.getGuards().get(1).setName(MetaVariablesClass.NAME + "." + "FV_"+this.methodsInDescendingOrder[index].nameOfFeature + " = FALSE");
 		
 		AbstractStatement firstStatement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 		firstStatement.setName("statement");
@@ -517,9 +498,9 @@ public class UniqueMetaMethod {
 		
 		SelectionStatement newSelection = CbcmodelFactory.eINSTANCE.createSelectionStatement();
 		newSelection.getGuards().add(CbcmodelFactory.eINSTANCE.createCondition());
-		newSelection.getGuards().get(0).setName("FV_"+ this.currentMethod.nameOfFeature.toUpperCase() + " = TRUE");
+		newSelection.getGuards().get(0).setName(MetaVariablesClass.NAME + "." + "FV_"+ this.currentMethod.nameOfFeature.toUpperCase() + " = TRUE");
 		newSelection.getGuards().add(CbcmodelFactory.eINSTANCE.createCondition());
-		newSelection.getGuards().get(1).setName("FV_"+ this.currentMethod.nameOfFeature.toUpperCase() + " = FALSE");
+		newSelection.getGuards().get(1).setName(MetaVariablesClass.NAME + "." + "FV_"+ this.currentMethod.nameOfFeature.toUpperCase() + " = FALSE");
 		
 		
 		AbstractStatement firstStatement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
@@ -532,11 +513,7 @@ public class UniqueMetaMethod {
 		AbstractStatement secondStatement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 		secondStatement.setName("statement");
 		secondStatement.setPreCondition(CbcmodelFactory.eINSTANCE.createCondition());
-		if(this.currentMethod.nameOfFeature.contains("Sort")) {
-			secondStatement.getPreCondition().setName("debug"+createRandomUUID().charAt(0));
-		}else {
-			secondStatement.getPreCondition().setName("secondStatement precondition"+createRandomUUID().charAt(0));
-		}
+		secondStatement.getPreCondition().setName("secondStatement precondition"+createRandomUUID().charAt(0));
 		
 		secondStatement.setPostCondition(CbcmodelFactory.eINSTANCE.createCondition());
 		secondStatement.getPostCondition().setName("secondStatement postcondition"+createRandomUUID().charAt(0));

@@ -37,7 +37,7 @@ import de.tu_bs.cs.isf.cbc.util.LevenshteinCompare;
 
 import java.util.stream.StreamSupport;
 
-public class GenerateCounterExample{
+public class CounterExampleGenerator{
 	public static ArrayList<ProofPath> list;
 	
 	private static Services serv;
@@ -302,29 +302,36 @@ public class GenerateCounterExample{
 		Console.println("\tStart generating a counter example...");
 		serv = proof.getServices();
 		calculateProofPaths(proof.root());
-		var path = list.get(0);
-		SMTProblem problem = new SMTProblem(proof.getGoal(path.current));
-	    SMTSettings settings = new SMTSettings(proof.getSettings().getSMTSettings(),
-	                    ProofIndependentSettings.DEFAULT_INSTANCE.getSMTSettings(), proof);
-	    
-	    SolverLauncher launcher = new SolverLauncher(settings);
-	    
-	    launcher.launch(problem, serv, SolverType.Z3_SOLVER); 
-	    SMTSolverResult result = problem.getFinalResult();
-	   // problem.
-	    
-	    if (result.isValid() == ThreeValuedTruth.FALSIFIABLE) {
-	    	Console.println("\tCounterexample:");
-	    	String counterexample = problem.getSolvers().iterator().next().getSolverOutput();
-	    	counterexample = counterexample.replaceAll("\n+ *\n", "\n+").replace("\n", "\n    ");
-	    	counterexample = counterexample.substring(35);
-	    	Console.println(counterexample);
-	    	Console.println();
-	    } else if (result.isValid() == ThreeValuedTruth.VALID) {
-	    	Console.println("\tThe solver could proof the current open goal to be correct.");
-	    } else {
-	    	Console.println("\tA counterexample could not be generated.");
-	    }
+		SMTProblem problem = null;
+		
+		for (int i = 0; i < list.size(); i++) {
+			var path = list.get(i);
+			problem = new SMTProblem(proof.getGoal(path.current));
+			SMTSettings settings = new SMTSettings(proof.getSettings().getSMTSettings(),
+							ProofIndependentSettings.DEFAULT_INSTANCE.getSMTSettings(), proof);
+			
+			SolverLauncher launcher = new SolverLauncher(settings);
+			launcher.launch(problem, serv, SolverType.Z3_SOLVER); 
+			SMTSolverResult result = problem.getFinalResult();
+			if (result.isValid() == ThreeValuedTruth.FALSIFIABLE) {
+				Console.println("\tCounterexample:");
+				String counterexample = problem.getSolvers().iterator().next().getSolverOutput();
+				counterexample = counterexample.replaceAll("\n+ *\n", "\n+").replace("\n", "\n    ");
+				counterexample = counterexample.substring(35);
+				Console.println(counterexample);
+				Console.println();
+				return;
+			}
+		}
+		if (problem.getFinalResult().isValid() == ThreeValuedTruth.VALID) {
+			Console.println("Z3 could prove that the program fulfills it's specification.");
+		} else if (problem.getFinalResult().isValid() == ThreeValuedTruth.UNKNOWN) {
+			Console.println("A counterexample could not be generated.");
+		}
+	}
+	
+	private static SMTSolverResult runZ3() {
+		return null;
 	}
 
 

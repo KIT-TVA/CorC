@@ -145,6 +145,9 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			Console.println("Generated meta product for class " + cbcClass + ".");
 		}
 
+		MetaVariablesClass mvc = new MetaVariablesClass(project.getLocation().toString(), this.FEATURE_VARIABLES);
+		mvc.saveToFile();
+
 		// clear all data
 		long end = System.nanoTime();
 		Console.println("Time needed: " + ((end - start) / 1000000) + "ms");
@@ -193,6 +196,8 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 
 		CodeGenerator gener;
 		List<String> codes = new ArrayList<String>();
+		
+		
 		for(UniqueMetaMethod metaMethod: uniqueMetaMethods) {
 			try {
 				gener = new CodeGenerator(project, metaMethod.metaMethodFormula);
@@ -205,39 +210,11 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			var merger = new CodeMerge(codes);
 			var fullCode = merger.get();
 			saveJavaFile(location, fullCode);
-			var test = 234234;
 		} catch (CodeMergeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return;
-	/*	
-		for(UniqueMetaMethod metaMethod: uniqueMetaMethods) {
-			Console.println(project.getLocation().toString());
-			
-			JavaVariables newVariables = CbcmodelFactory.eINSTANCE.createJavaVariables();
-			
-			for(int i = 0 ; i < metaMethod.metaJavaVariables.getVariables().size(); i++) {
-				JavaVariable copiedVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
-				JavaVariable variableToCopy = metaMethod.metaJavaVariables.getVariables().get(i);
-				//copiedVariable.setDisplayedName(variableToCopy.getDisplayedName());
-				copiedVariable.setName(variableToCopy.getName());
-				
-				if(variableToCopy.getDisplayedName().contains("FV_")){
-					copiedVariable.setKind(VariableKind.PARAM);
-				}else {
-					copiedVariable.setKind(variableToCopy.getKind());
-				}
-				newVariables.getVariables().add(copiedVariable);
-			}
-			
-					
-					
-			code  += ConstructCodeBlock.constructMethodStubsForExport(metaMethod.metaMethodFormula, null, newVariables, metaMethod.metaMethodName, "");
-			code += "\n\n\n";
-		}
-		code += "\n\n}";
-		this.saveJavaFile(location, code);*/
 	}
 	
 	private String generateMetaCode(CbCFormula formula) {
@@ -283,7 +260,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			 
 			 FEATURE_VARIABLES = new String [FEATURES.size()];
 			 for(int i = 0 ; i < FEATURES.size(); i++) {
-				 FEATURE_VARIABLES[i] = "FV_" + FEATURES.get(i).toString().toUpperCase();
+				 FEATURE_VARIABLES[i] = MetaVariablesClass.NAME + "." + "FV_" + FEATURES.get(i).toString().toUpperCase();
 			 }
 			 
 			 Console.println("Searching for alternative Features..");
@@ -329,7 +306,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		}
 	}
 	
-	private void saveJavaFile(String location, String code) {
+	protected static void saveJavaFile(String location, String code) {
 		File javaFile = new File(location);
 		try {
 			if (!javaFile.exists()) {

@@ -39,7 +39,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
-import de.tu_bs.cs.isf.cbc.tool.features.GenerateCounterExample;
+import de.tu_bs.cs.isf.cbc.tool.features.CounterExampleGenerator;
 import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
@@ -88,7 +88,7 @@ public class ProveWithKey {
 		if (uri.contains(MetaClass.FOLDER_NAME)) {
 			String className = uri.substring(0, uri.lastIndexOf("/"));
 			className = className.substring(className.lastIndexOf("/") + 1, className.length());
-			this.sourceFolder = MetaClass.FOLDER_NAME + "/" + className;
+			this.sourceFolder = MetaClass.FOLDER_NAME; /*+ "/" + className;*/
 		} else {
 			this.sourceFolder = srcFolder;
 		}
@@ -558,7 +558,8 @@ public class ProveWithKey {
 			boolean closed = proof.openGoals().isEmpty();
 			if (!closed) {
 				Console.println("\tProof could not be closed.");
-				GenerateCounterExample.calculateExample(proof);
+				CounterExampleGenerator generator = new CounterExampleGenerator();
+				generator.calculateExample(proof);
 			} else {
 				Console.println("Proof is closed: " + closed + "\n");
 				return closed;

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.stream.StreamSupport;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
-import de.tu_bs.cs.isf.cbc.tool.features.GenerateCounterExample;
+import de.tu_bs.cs.isf.cbc.tool.features.CounterExampleGenerator;
 import de.uka.ilkd.key.logic.SequentFormula;
 import de.uka.ilkd.key.proof.Node;
 
@@ -45,7 +45,7 @@ public class ProofPath {
 
 		// We check whether we arrived at an open goal and then save it in the list
 		if (current.name().equals("OPEN GOAL")) {
-			GenerateCounterExample.list.add(this);
+			CounterExampleGenerator.list.add(this);
 		}
 	}
 	
