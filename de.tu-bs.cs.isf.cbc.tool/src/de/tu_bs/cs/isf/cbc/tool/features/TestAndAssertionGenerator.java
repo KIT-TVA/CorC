@@ -169,6 +169,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		}
 		
 		if (formula.getMethodObj() == null) {
+			Console.println("Method object is undefined. Assuming method is of type 'void'.");
 			List<String> params = new ArrayList<String>();
 			signatureString = formula.getName();
 			for (var v : vars.getVariables()) {
@@ -1007,7 +1008,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				code.append("\t\treturn " + returnVariable.getName().split("\\s")[1] + ";\n");
 			}
 			//} else if (code.toString().)
-		} else if (returnVariable == null && !formula.getMethodObj().getReturnType().equals("void")) {
+		} else if (returnVariable == null && (formula.getMethodObj() == null || !formula.getMethodObj().getReturnType().equals("void"))) {
 			throw new TestAndAssertionGeneratorException(ExceptionMessages.RET);
 		}
 		code.append("\t}");//}
@@ -2241,9 +2242,14 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		for (var javaFile : javaFiles) {
 			this.projectJavaFiles.add(javaFile.getName().substring(0, javaFile.getName().indexOf('.')));
 			// copy file into tests folder
+			var testFolder = java.nio.file.Paths.get(projectLocation + "/tests");
 			p = java.nio.file.Paths.get(projectLocation + "/tests/" + javaFile.getName());
 			source = Paths.get(projectLocation + "/" + javaFile.getProjectRelativePath().toOSString());
 			try {
+				var folder = new File(testFolder.toString());
+				if (!folder.exists()) {
+					folder.mkdir();
+				}
 				f = new File(p.toString());
 				if (!f.exists()) {
 					String code = Files.readString(source);

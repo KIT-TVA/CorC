@@ -21,7 +21,7 @@ import de.tu_bs.cs.isf.cbc.util.FileUtil;
  * @author Fynn
  */
 public class TestStatementListener extends TestAndAssertionListener {
-	private static final Color HIGHLIGHT_COLOR = new Color(new RGB(255, 85, 85));
+	private static Color HIGHLIGHT_COLOR = new Color(new RGB(255, 25, 25));
 	
 	public TestStatementListener(final URI projectPath, final List<String> globalVars, final List<TestCaseData> inputDataTupels) {
 		super(projectPath, globalVars, inputDataTupels);	
@@ -94,7 +94,7 @@ public class TestStatementListener extends TestAndAssertionListener {
 		  methodCode = CodeHandler.insertTabs(methodCode, 1);
 		  int errorLineNr = getErrorLineNr(stackTrace, className, methodName, methodCode);
 		  var lineToHighlight = getLine(methodCode, errorLineNr);
-		  methodCode = methodCode.substring(0, methodCode.indexOf(lineToHighlight)) + "  -->" + methodCode.substring(methodCode.indexOf(lineToHighlight), methodCode.length());
+		  methodCode = methodCode.substring(0, methodCode.indexOf(lineToHighlight)) + "--> " + methodCode.substring(methodCode.indexOf(lineToHighlight), methodCode.length());
 		  printLines(methodCode);
 		  //Console.println(methodCode + "\n");
 	}

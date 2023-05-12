@@ -360,12 +360,13 @@ public class PreConditionSolver {
 						if (d.getName().equals(refVarName)) {
 							found = true;
 							var vals = d.getValues();
-							var newVals = new String[Integer.parseInt(getValue(v.toString(), value))];
-							if (vals.length > newVals.length) {
+							var newValsLen = Integer.parseInt(getValue(v.toString(), value));
+							if (vals.length > newValsLen) {
 								// There might be data allocated to the array, that we don't want to delete
 								break;
 							}
-							int minLen = newVals.length < vals.length ? newVals.length : vals.length;
+							int minLen = newValsLen < vals.length ? newValsLen : vals.length;
+							var newVals = new String[minLen];
 							for (int i = 0; i < minLen; i++) 
 								newVals[i] = vals[i];			
 							d.setValues(newVals);
@@ -377,8 +378,9 @@ public class PreConditionSolver {
 							if (jVar.getName().equals(refVarName)) {
 								newData = new InputData(jVar.getName(), jVar.getType());
 								String[] vals = newData.getValues();
-								var newVals = new String[Integer.parseInt(getValue(v.toString(), value))];
-								int minLen = newVals.length < vals.length ? newVals.length : vals.length;
+								var newValsLen = Integer.parseInt(getValue(v.toString(), value));
+								int minLen = newValsLen < vals.length ? newValsLen : vals.length;
+								var newVals = new String[minLen];
 								for (int i = 0; i < minLen; i++) 
 									newVals[i] = vals[i];	
 								newData.setValues(newVals);
