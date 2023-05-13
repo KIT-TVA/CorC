@@ -307,12 +307,7 @@ public class CounterExampleGenerator{
 		for (int i = 0; i < list.size(); i++) {
 			var path = list.get(i);
 			problem = new SMTProblem(proof.getGoal(path.current));
-			SMTSettings settings = new SMTSettings(proof.getSettings().getSMTSettings(),
-							ProofIndependentSettings.DEFAULT_INSTANCE.getSMTSettings(), proof);
-			
-			SolverLauncher launcher = new SolverLauncher(settings);
-			launcher.launch(problem, serv, SolverType.Z3_SOLVER); 
-			SMTSolverResult result = problem.getFinalResult();
+			SMTSolverResult result = runZ3(problem, proof);
 			if (result.isValid() == ThreeValuedTruth.FALSIFIABLE) {
 				Console.println("\tCounterexample:");
 				String counterexample = problem.getSolvers().iterator().next().getSolverOutput();
@@ -323,15 +318,22 @@ public class CounterExampleGenerator{
 				return;
 			}
 		}
-		if (problem.getFinalResult().isValid() == ThreeValuedTruth.VALID) {
+		if (list.size() == 0) {
+			Console.println("Proof does not have a valid proof path.");
+		} else if (problem.getFinalResult().isValid() == ThreeValuedTruth.VALID) {
 			Console.println("Z3 could prove that the program fulfills it's specification.");
 		} else if (problem.getFinalResult().isValid() == ThreeValuedTruth.UNKNOWN) {
 			Console.println("A counterexample could not be generated.");
 		}
 	}
 	
-	private static SMTSolverResult runZ3() {
-		return null;
+	private static SMTSolverResult runZ3(SMTProblem problem, Proof proof) {
+			SMTSettings settings = new SMTSettings(proof.getSettings().getSMTSettings(),
+			ProofIndependentSettings.DEFAULT_INSTANCE.getSMTSettings(), proof);
+			SolverLauncher launcher = new SolverLauncher(settings);
+			launcher.launch(problem, serv, SolverType.Z3_SOLVER); 
+			SMTSolverResult result = problem.getFinalResult();
+			return result;
 	}
 
 

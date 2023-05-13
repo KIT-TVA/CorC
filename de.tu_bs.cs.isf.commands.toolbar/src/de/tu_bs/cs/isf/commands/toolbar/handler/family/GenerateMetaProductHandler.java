@@ -186,10 +186,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		methodNameToImplementingFeature = new HashMap<String, List<String>>(); 
 	}
 	
-	private void tester123() {
-		//var genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
-	}
-	
 	private void createAndSaveJavaFilesWithMethodStubsForClass(String className) {
 		String location = project.getLocation().toString() + "/" + MetaClass.FOLDER_NAME + "/" + className + "/" + NAME_OF_JAVA_FILE + ".java";
 		String code = "public class " + NAME_OF_JAVA_FILE + " {\n\n";
@@ -222,6 +218,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		var code = "";
 		var cbcClass = getCbcClass(FileUtil.getCbCClasses(project), formula.getClassName());
 		var globalConditions = createInvariants(cbcClass);
+
 		var placeholderDiagram = GetDiagramUtil.getDiagrams(project).stream().filter(d -> Character.isLowerCase(d.getName().charAt(0))).findFirst().get();
 		return code;
 	}
