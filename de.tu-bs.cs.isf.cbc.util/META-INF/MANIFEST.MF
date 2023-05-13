@@ -23,6 +23,7 @@ Require-Bundle: de.tu-bs.cs.isf.cbc.model;bundle-version="0.1.0",
  org.junit.platform.commons;bundle-version="1.9.1";resolution:=optional
 Export-Package: de.tu_bs.cs.isf.cbc.util
 Import-Package: com.google.common.collect;version="10.0.1",
+ de.tu_bs.cs.isf.cbc.tool.helper,
  org.emftext.language.java.resource.java.util
 Bundle-ClassPath: lib/antlr-3.4.jar,
  lib/de.ovgu.featureide.lib.fm-v3.6.2.jar,
