@@ -54,10 +54,7 @@ public class CounterExampleGenerator{
 		HashMap<String, Type> conditionMapping = getConditionMapping();
 		HashMap<SequentFormula, Type> map = new HashMap<>();
 		list = new ArrayList<>();
-		
-//		conditionMapping.forEach((x, y) -> Console.println(x + "  to  " + y));
-//		Console.println("====");
-		
+
 		// Skip initial simplification statements
 		while (current.getAppliedRuleApp().rule().displayName() != "andLeft" 
 				&& current.getAppliedRuleApp().rule().displayName() != "orRight" 
@@ -335,6 +332,4 @@ public class CounterExampleGenerator{
 			SMTSolverResult result = problem.getFinalResult();
 			return result;
 	}
-
-
 }
