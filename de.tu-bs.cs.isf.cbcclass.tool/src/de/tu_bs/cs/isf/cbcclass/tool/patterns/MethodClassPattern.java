@@ -249,7 +249,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 
 	@Override
 	public String checkValueValid(String value, IDirectEditingContext context) {
-		if (context == null) {
+		if (context.getPictogramElement() instanceof ContainerShape) {
 			String type = "(int|char|float|long|boolean|byte|short|double|([A-Z]\\w*))(\\[\\])?";
 			if (value == null || value.length() == 0) {
 				return "Methodsignature must not be empty";
