@@ -104,7 +104,7 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	public ICreateFeature[] getCreateFeatures() {
 		ICreateFeature[] oldArray = super.getCreateFeatures();
 		ICreateFeature[] array = new ICreateFeature[oldArray.length-2];//remove the last two from above
-		for (int i = 0; i < oldArray.length; i++) {
+		for (int i = 0; i < oldArray.length-2; i++) {
 			array[i] = oldArray[i];
 		}
 		array[array.length - 1] = new CreateExtraSelectionFeature(this);//replace the third last with ExtraSelection
