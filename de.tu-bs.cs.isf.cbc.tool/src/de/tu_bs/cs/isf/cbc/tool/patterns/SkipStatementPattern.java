@@ -47,8 +47,10 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 
 	private static final String ID_NAME_TEXT = "statementNameText";
 	private static final String ID_MAIN_RECTANGLE = "mainRectangle";
-	private static final String ID_PRE_TEXT = "preNameText";
-	private static final String ID_POST_TEXT = "postNameText";
+	private static final String ID_PRE_TEXT = "preText";
+	private static final String ID_PRE_MOD = "preConditionModifiables";
+	private static final String ID_POST_TEXT = "postText";
+	private static final String ID_POST_MOD = "postConditionModifiables";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
 	//Headers:
 	private static final String ID_PRE_HEADER = "preHeader";
@@ -58,6 +60,8 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 	private static final String ID_SEP_RIGHT = "sepRight";
 	private static final String ID_SEP_HEADER1 = "sepHeader1";
 	private static final String ID_SEP_HEADER2 = "sepHeader";
+	private static final String ID_HOR1_LINE = "hor1Line";
+	private static final String ID_HOR2_LINE = "hor2Line";
 
 
 	/**
@@ -116,8 +120,8 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		IGaService gaService = Graphiti.getGaService();
 
-		int width = context.getWidth() <= 0 ? 300 : context.getWidth();
-        int height = context.getHeight() <= 0 ? 150 : context.getHeight();
+		int width = context.getWidth() <= 0 ? 350 : context.getWidth();
+        int height = context.getHeight() <= 0 ? 200 : context.getHeight();
         
         //Font for the Header:
         Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
@@ -146,16 +150,40 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 		statementNameText.setFont(headerFont);
 		
 		Shape preShape = peCreateService.createShape(outerContainerShape, false);
-		MultiText preNameText = gaService.createMultiText(preShape, "{" + addedStatement.getPreCondition().getName() + "}");
+		MultiText preNameText = gaService.createMultiText(preShape,
+				"{" + addedStatement.getPreCondition().getName() + "}");
 		setId(preNameText, ID_PRE_TEXT);
 		preNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		preNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		
+		Shape textShapePreConditionMod = peCreateService.createShape(outerContainerShape, true);
+		MultiText preConditionTextMod = gaService.createMultiText(textShapePreConditionMod, "");
+		setId(preConditionTextMod, ID_PRE_MOD);
+		String modString = "";
+		for (String s : addedStatement.getPreCondition().getModifiables()) {
+			modString += s + ", ";
+		}
+		preConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+		preConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		preConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+
 		Shape postShape = peCreateService.createShape(outerContainerShape, false);
-		MultiText postNameText = gaService.createMultiText(postShape, "{" + addedStatement.getPostCondition().getName() + "}");
+		MultiText postNameText = gaService.createMultiText(postShape,
+				"{" + addedStatement.getPostCondition().getName() + "}");
 		setId(postNameText, ID_POST_TEXT);
 		postNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		postNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		
+		Shape textShapePostConditionMod = peCreateService.createShape(outerContainerShape, true);
+		MultiText postConditionTextMod = gaService.createMultiText(textShapePostConditionMod, "");
+		setId(postConditionTextMod, ID_POST_MOD);
+		modString = "";
+		for (String s : addedStatement.getPostCondition().getModifiables()) {
+			modString += s + ", ";
+		}
+		postConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+		postConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		postConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
@@ -191,13 +219,23 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 		Shape header2SepShape = peCreateService.createShape(outerContainerShape, false);
 		Polyline header2line = gaService.createPolyline(header2SepShape);
 		setId(header2line, ID_SEP_HEADER2);
+		
+		Shape hor1LineShape = peCreateService.createShape(outerContainerShape, false);
+		Polyline hor1Polyline = gaService.createPolyline(hor1LineShape);
+		setId(hor1Polyline, ID_HOR1_LINE);
+
+		Shape hor2LineShape = peCreateService.createShape(outerContainerShape, false);
+		Polyline hor2Polyline = gaService.createPolyline(hor2LineShape);
+		setId(hor2Polyline, ID_HOR2_LINE);
 				
 		peCreateService.createChopboxAnchor(outerContainerShape);
 
 		link(outerContainerShape, addedStatement);
 		link(textShape, addedStatement);
 		link(preShape, addedStatement.getPreCondition());
+		link(textShapePreConditionMod, addedStatement.getPreCondition());
 		link(postShape, addedStatement.getPostCondition());
+		link(textShapePostConditionMod, addedStatement.getPostCondition());
 		link(proveShape, addedStatement);
 
 		return outerContainerShape;
@@ -211,20 +249,26 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		int halfWidth = mainRectangle.getWidth() / 2;
 		//stable sizes from Name and Header save space when the diagram gets big!
-		int sizeName = 30; //size from Name block
+		int sizeName = 40; //size from Name block
 		int sizeHeader = 20; //size from the Header
 		int positionHeader = 40; //position where the Header is
-		int sizeText = mainRectangle.getHeight() - positionHeader - sizeName;  //size from the blocks (pre, statement, post)
-		int positionText = positionHeader + sizeName; //position from the blocks (pre, statement, post)
+		int positionText = positionHeader + sizeHeader; //position from the blocks (pre, statement, post)
+		int thirdBlockHeight = (mainRectangle.getHeight()-positionHeader-sizeHeader)/3;
 		
 		if (id.equals(ID_NAME_TEXT)) {
 			Graphiti.getGaService().setLocationAndSize(ga, 0, 0, mainRectangle.getWidth(), sizeName);
 			changesDone = true;
 		} else if (id.equals(ID_PRE_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, 0, positionText, halfWidth, sizeText);
+			Graphiti.getGaService().setLocationAndSize(ga, 0, positionText+thirdBlockHeight, halfWidth, thirdBlockHeight*2);
+			changesDone = true;
+		} else if (id.equals(ID_PRE_MOD)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 0, positionText, halfWidth, thirdBlockHeight);
 			changesDone = true;
 		} else if (id.equals(ID_POST_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, halfWidth, positionText, halfWidth, sizeText);
+			Graphiti.getGaService().setLocationAndSize(ga, halfWidth, positionText+thirdBlockHeight, halfWidth, thirdBlockHeight*2);
+			changesDone = true;
+		} else if (id.equals(ID_POST_MOD)) {
+			Graphiti.getGaService().setLocationAndSize(ga, halfWidth, positionText, halfWidth, thirdBlockHeight);
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
@@ -256,6 +300,13 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 					new int[] { halfWidth, positionHeader, halfWidth, mainRectangle.getHeight() });
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
+		} else if (id.equals(ID_HOR1_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService().createPointList(
+					new int[] { 0, positionText+thirdBlockHeight, halfWidth, positionText+thirdBlockHeight });
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
 		} else if (id.equals(ID_SEP_RIGHT)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
@@ -263,7 +314,14 @@ public class SkipStatementPattern extends IdPattern implements IPattern {
 					new int[] { halfWidth * 2, positionHeader, halfWidth * 2, mainRectangle.getHeight() });
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
-		}
+		} else if (id.equals(ID_HOR2_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService().createPointList(
+					new int[] { halfWidth, positionText+thirdBlockHeight, mainRectangle.getWidth(), positionText+thirdBlockHeight });
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
+		} 
 
 		return changesDone;
 	}
