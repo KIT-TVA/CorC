@@ -14,6 +14,8 @@ Installation guide for plugins and properties for **development with CorC** with
 * **Jamopp** Available in [Eclipse Marketplace](https://marketplace.eclipse.org/content/jamopp)
 * **FeatureIDE** Available in [Eclipse Marketplace](https://marketplace.eclipse.org/content/featureide)
 * **Mylyn** Available in [Eclipse Marketplace](https://marketplace.eclipse.org/content/mylyn) (Mylyn 3.23)
+* **TestNG** Available in [Eclipse Marketplace](https://marketplace.eclipse.org/content/testng-eclipse)
+* **Z3** Get the latest release of [Z3](https://github.com/Z3Prover/z3/releases) and add it to the environment variable [PATH](https://www.wikihow.com/Change-the-PATH-Environment-Variable-on-Windows).
 
 ## Properties & Initialisation
 1. Checkout master from https://github.com/TUBS-ISF/CorC.git

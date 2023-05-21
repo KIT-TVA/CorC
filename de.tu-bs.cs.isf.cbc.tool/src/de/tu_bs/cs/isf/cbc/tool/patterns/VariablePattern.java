@@ -70,7 +70,7 @@ public class VariablePattern extends IdPattern implements IPattern {
 		JavaVariables variables = (JavaVariables) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 		variable.setKind(VariableKind.LOCAL);
-		variable.setName("int a");
+		variable.setName("int a_" + variables.getVariables().size());
 		variables.getVariables().add(variable);
 		updatePictogramElement(context.getTargetContainer());
 		return new Object[] { variable };

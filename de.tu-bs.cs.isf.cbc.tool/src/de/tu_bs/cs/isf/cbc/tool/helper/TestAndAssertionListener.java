@@ -335,6 +335,9 @@ public class TestAndAssertionListener implements ITestListener {
 			  while (m.find()) {
 				  int start = m.start();
 				  offset = 0;
+				  if (!matchesVariable(methodCode, m.start(), m.end(), v)) {
+					  continue;
+				  }
 				  if (isAssignment(methodCode, m.end()-1) || isAssignment(methodCode, m.end())) {
 					  // break when the variable gets assigned because it could have any value afterwards.
 					  break;
@@ -408,6 +411,16 @@ public class TestAndAssertionListener implements ITestListener {
 
 		  }
 		  return methodCode;
+	  }
+	  
+	  private boolean matchesVariable(String code, int start, int end, String expected) {
+		  if (start != 0 && Character.isJavaIdentifierPart(code.charAt(start - 1))) {
+			  return false;
+		  }
+		  if (end != code.length() && Character.isJavaIdentifierPart(code.charAt(end))) {
+			  return false;
+		  }
+		  return true;
 	  }
 	  
 	  private String printConstructorCallWithNames(final InputDataTupel tupel, String className) {

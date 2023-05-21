@@ -2,12 +2,15 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -66,12 +69,36 @@ public class GetDiagramUtil {
                      return (Diagram) object;
                  }
              }
-       }
+            }
        } catch (final WrappedException e) {
                 e.printStackTrace();
        }
        return null;
     }
+    
+	public static Diagram getDiagramFromResource(Resource resource) {
+		if (resource != null) {
+			URI uri = resource.getURI();
+			if (!uri.fileExtension().equals("diagram")) {
+				uri = uri.trimFragment();
+				uri = uri.trimFileExtension();
+				uri = uri.appendFileExtension("diagram");
+				ResourceSet rSet = new ResourceSetImpl();
+				resource = rSet.getResource(uri, true);
+			}
+			if (resource != null) {
+				// does resource contain a diagram as root object?
+				final EList<EObject> contents = resource.getContents();
+				for (final EObject object : contents) {
+					if (object instanceof Diagram) {
+						return (Diagram) object;
+					}
+				}
+			}
+
+		}
+		return null;
+	}
     
     public static Resource getResourceFromFile(IFile file, ResourceSet resourceSet) {
     	final URI resourceURI = getFileURI(file, resourceSet);

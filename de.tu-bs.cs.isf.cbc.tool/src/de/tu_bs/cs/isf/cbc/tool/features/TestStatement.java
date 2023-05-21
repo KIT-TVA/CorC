@@ -347,7 +347,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			// add var to the code
 			// also add the var + value to the testng context
 			var val = data.get(i).getRandomValue();
-			if (val.isEmpty()) {
+			if (val == null || val.isEmpty()) {
 				continue;
 			}
 			//var contextStr = "context.setAttribute(\"0" + data.get(i).getName() + "\", \"" + val + "\");\n";
