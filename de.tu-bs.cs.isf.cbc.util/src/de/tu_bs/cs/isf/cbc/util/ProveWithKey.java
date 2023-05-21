@@ -26,6 +26,7 @@ import com.google.common.hash.Hashing;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
@@ -132,9 +133,9 @@ public class ProveWithKey {
 
 	public File createProveStatementWithKey(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, boolean override, String callingMethod, String varM, boolean returnStatement, String callingClass) {
 		String callingFeature = uri.split("/")[3];
-		KeYFileContent content = new KeYFileContent();
+		KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
 		JavaVariables varsFromJavaClass = readFieldsFromClass(callingClass);
-		content.setLocation(fileHandler.getProjectLocation(uri));
+//		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
 		content.readVariables(varsFromJavaClass);
 		JavaVariable returnVariable = content.readVariables(vars);
@@ -162,6 +163,8 @@ public class ProveWithKey {
 		problem = content.getKeYStatementContent();	
 		problem = problem.replaceAll("static", "");
 		problem = problem.replaceAll("return", ""); // TODO replace with correct handling of return
+		
+		System.out.println(problem);
 
 		String location = fileHandler.getLocationString(uri) + configName;
 		File keyFile = fileHandler.writeFile(problem, location, override, statement, subProofName);
@@ -273,11 +276,13 @@ public class ProveWithKey {
 
 		pre = "(" + pre + preInherited + ")";
 		post = "(" + post + postInherited + ")";
+		
 		if (pre.equals(preFormula)) pre += preInvariant;
 		if (pre.equals(preFormula)) post += postInvariant;
 		
 		content.setPreFromCondition(resolveResultKeyword(pre, returnVariable));
 		content.setPostFromCondition(resolveResultKeyword(post, returnVariable));
+		
 		List<String> unmodifiedVariables = Parser.getUnmodifiedVars(modifiables, vars);
 		unmodifiedVariables = unmodifiedVariables.stream().distinct().collect(Collectors.toList());
 		content.addUnmodifiableVars(unmodifiedVariables);
@@ -565,8 +570,8 @@ public class ProveWithKey {
 	}
 
 	public File createProveCImpliesCWithKey(String preCondition, String postCondition, boolean override) {
-		KeYFileContent content = new KeYFileContent();
-		content.setLocation(fileHandler.getProjectLocation(uri));
+		KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
+//		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
 		content.readVariables(vars);
 		content.readGlobalConditions(conds);
@@ -623,8 +628,8 @@ public class ProveWithKey {
 	}
 
 	public File createProveVariantWithKey(String code, Condition invariant, Condition guard, Variant variant, boolean override) {
-		KeYFileContent content = new KeYFileContent();
-		content.setLocation(fileHandler.getProjectLocation(uri));
+		KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
+//		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
 		content.readVariables(vars);
 		content.addVariable("int variant");
@@ -654,8 +659,8 @@ public class ProveWithKey {
 	}
 
 	private File createProveUseWeakestPreWithKey(boolean override) {
-		KeYFileContent content = new KeYFileContent();
-		content.setLocation(fileHandler.getProjectLocation(uri));
+		KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
+//		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
 		content.readVariables(vars);
 		content.readGlobalConditions(conds);

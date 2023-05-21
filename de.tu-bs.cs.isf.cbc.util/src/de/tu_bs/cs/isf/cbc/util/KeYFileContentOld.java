@@ -54,6 +54,16 @@ public class KeYFileContentOld {
 	
 	public KeYFileContentOld() {
 	}
+	
+	public void getCondition() {
+		System.out.println(pre);
+		System.out.println("---");
+		System.out.println(post);
+	}
+	
+	public String getVariables() {
+		return this.programVariables;
+	}
 
 	public void setLocation(String location) {
 		this.location = location;
