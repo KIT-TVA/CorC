@@ -65,6 +65,7 @@ public class KeYFileContent {
 	private Map<String, List<Field>> methodClassVarMap = null;
 	private Map<String, String> returnTypeMap = null;
 
+	private List<String> nameOfLocalVars;
 
 	public KeYFileContent(String location) {
 		this.location = location;
@@ -78,35 +79,9 @@ public class KeYFileContent {
 		
 		methodClassVarMap = initMethodClassVarMap();
 		returnTypeMap = initReturnTypeMap();
+		
+		nameOfLocalVars = new ArrayList<>();
 	}
-	
-	//TODO: Delete
-	public JavaVariables getVariables() {
-		for (String s : unmodifiableVars) {
-			System.out.println(s);
-		}
-		
-		System.out.println("---");
-		System.out.println(self.getName());
-		System.out.println("---");
-		
-		for (Condition c : globalConditions) {
-			System.out.println(c);
-		}
-		System.out.println("---");
-		for (Condition c : preConditions) {
-			System.out.println(c);
-		}
-		System.out.println("---");
-		for (Condition c : postConditions) {
-			System.out.println(c);
-		}
-		System.out.println("---");
-		
-		System.out.println(statement);
-		return null;
-	}
-
 	
 	public void setLocation(String location) {
 		this.location = location;
@@ -145,6 +120,10 @@ public class KeYFileContent {
 			List<JavaVariable> variables = new ArrayList<>();
 			variables.addAll(vars.getVariables());
 			for (JavaVariable var : variables) {
+//				TODO: check
+				String[] NameOfVar = var.getName().split(" ");
+				nameOfLocalVars.add(NameOfVar[NameOfVar.length-1]);
+				
 				if (var.getKind() == VariableKind.RETURN || var.getKind() == VariableKind.RETURNPARAM) {
 					returnVariable = var;
 				}
@@ -163,7 +142,6 @@ public class KeYFileContent {
 			}
 
 		}
-		
 		return returnVariable;
 	}
 	
@@ -205,7 +183,7 @@ public class KeYFileContent {
 		Condition condition = CbcmodelFactory.eINSTANCE.createCondition();
 		condition.setName(cond);
 		
-		setPreFromCondition(condition);
+		setPostFromCondition(condition);
 	}
 	
 	public void setPostFromCondition(Condition cond) {
@@ -230,37 +208,11 @@ public class KeYFileContent {
 			className += formula.getClassName();
 			self = CbcmodelFactory.eINSTANCE.createCbCFormula();
 			self.setClassName(className + " self");
-			Condition condition = CbcmodelFactory.eINSTANCE.createCondition();
-//			TODO: build string somewhere else
-			condition.setName(" & self.<created>=TRUE & " + className + "::exactInstance(self)=TRUE &  !self = null & self.<inv> ");
-			self.setPreCondition(condition);
 		}
 	}
 	
 	public void rename(Renaming renaming) {
 		this.renaming = renaming;
-	}
-	
-	public String getKeYStatementContent() {
-		return 	getKeYContent(true);
-	}
-	
-	public String getKeYCImpliesCContent() {
-		return  getKeYContent(false);
-	}
-	
-	public String getKeYContent(boolean withStatement) {
-		List<String> oldKeywords = extractOldKeywordVariables();
-		Map<String, OldReplacement> oldReplacements = addOldVariables(self, oldKeywords);
-		
-		StringBuilder builder = new StringBuilder();
-		builder.append(getKeyHeader(oldReplacements));
-		builder.append(getKeyProblem(oldReplacements));
-		if (withStatement) 
-			builder.append(" \\<{" + renameStatement(statement) + "}\\>");
-		
-		builder.append(" (" + getPostConditionsString(oldReplacements) + ")}");
-		return builder.toString();
 	}
 	
 	public void handleReturn(AbstractStatement retStatement, JavaVariable returnVariable, CbCFormula formula) {
@@ -274,7 +226,7 @@ public class KeYFileContent {
 			} else {
 				// Get Return Type of Variable
 				String methodName = formula.getMethodName();
-				String returnTypeOfMethod = getReturnTypeMap().get(methodName);
+				String returnTypeOfMethod = returnTypeMap.get(methodName);
 				if (returnTypeOfMethod == null) {
 					Console.println("No diagram was found that implements method '" + methodName + "'!");
 				} else {
@@ -296,11 +248,41 @@ public class KeYFileContent {
 		}
 	}
 	
-	private Map<String, String> getReturnTypeMap() {
-		if (returnTypeMap == null) {
-			initReturnTypeMap();
+	public String getKeYStatementContent() {
+		return 	getKeYContent(true);
+	}
+	
+	public String getKeYCImpliesCContent() {
+		return  getKeYContent(false);
+	}
+	
+	public String getKeYContent(boolean withStatement) {
+		List<String> oldKeywords = extractOldKeywordVariables();
+		Map<String, OldReplacement> oldReplacements = addOldVariables(self, oldKeywords);
+		
+		addSelfForFields();
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append(getKeyHeader(oldReplacements));
+		builder.append(getKeyProblem(oldReplacements));
+		if (withStatement) 
+			builder.append(" \\<{" + renameStatement(statement) + "}\\>");
+		
+		builder.append(" (" + getPostConditionsString(oldReplacements) + ")}");
+		return builder.toString();
+	}
+	
+	private void addSelfForFields() {
+		for (Field field : programVariables.getFields()) {
+			if (!nameOfLocalVars.contains(field.getName()) /*&& !field.isIsStatic()*/) {
+				Pattern pattern = Pattern.compile(REGEX_BEFORE_VARIABLE_KEYWORD + field.getName() + REGEX_AFTER_VARIABLE_KEYWORD);
+				statement = statement.replaceAll(pattern.pattern(), "self." + field.getName());
+				preConditions.forEach(c -> c.setName(c.getName().replaceAll(pattern.pattern(), "self." + field.getName())));
+				postConditions.forEach(c -> c.setName(c.getName().replaceAll(pattern.pattern(), "self." + field.getName())));
+				globalConditions.forEach(c -> c.setName(c.getName().replaceAll(pattern.pattern(), "self." + field.getName())));
+				unmodifiableVars.forEach(s -> s.replaceAll(pattern.pattern(), "self." + field.getName()));
+			}
 		}
-		return returnTypeMap;
 	}
 	
 	private String getKeyHeader(Map<String, OldReplacement> oldReplacements) {
@@ -432,9 +414,9 @@ public class KeYFileContent {
 	
 	private String getSelfConditionsString() {
 		List<String> selfcond = new ArrayList<>();
-		selfcond.add(" & self.<created>=TRUE & ");
+		selfcond.add("self.<created>=TRUE & ");
 		selfcond.add(self.getClassName().replace(" self", ""));
-		selfcond.add("::exactInstance(self)=TRUE &  !self = null & self.<inv> ");
+		selfcond.add("::exactInstance(self)=TRUE & !self = null & self.<inv>");
 		
 		return String.join("", selfcond);
 	}
