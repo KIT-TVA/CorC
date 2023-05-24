@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Lattice
+Bundle-SymbolicName: de.tu_bs.cs.isf.lattice;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: de.tu_bs.cs.isf.lattice,
+ de.tu_bs.cs.isf.lattice.calculation
+Require-Bundle: org.apache.log4j,
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.equinox.registry,
+ org.eclipse.core.resources,
+ org.antlr.runtime
+Bundle-ClassPath: .,
+ lib/digraph-parser-1.0.jar

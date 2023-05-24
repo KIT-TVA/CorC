@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="de.tu_bs.cs.isf.cbc.parser.Startup">
+      </startup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="de.tu_bs.cs.isf.cbc.parser"
+            name="IFbC Parser">
+      </category>
+      <view
+            category="de.tu_bs.cs.isf.cbc.parser"
+            class="de.tu_bs.cs.isf.cbc.parser.views.JavaClassesView"
+            icon="icons/sample.png"
+            id="de.tu_bs.cs.isf.cbc.parser.views.JavaClassesView"
+            inject="true"
+            name="Java Classes  View">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               id="de.tu_bs.cs.isf.cbc.parser.views.JavaClassesView"
+               ratio="0.5"
+               relationship="right"
+               relative="org.eclipse.ui.views.ProblemView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+
+</plugin>
