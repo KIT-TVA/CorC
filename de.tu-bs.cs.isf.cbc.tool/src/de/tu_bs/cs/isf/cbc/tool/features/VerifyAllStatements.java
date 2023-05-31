@@ -3,15 +3,12 @@ package de.tu_bs.cs.isf.cbc.tool.features;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;

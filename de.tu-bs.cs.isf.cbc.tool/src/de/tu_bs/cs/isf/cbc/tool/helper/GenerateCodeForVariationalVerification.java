@@ -51,7 +51,6 @@ import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
 import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 
 public class GenerateCodeForVariationalVerification extends MyAbstractAsynchronousCustomFeature{
-	public static final Color blue = new Color(new RGB(10, 10, 200));
 	private IFileUtil fileHandler;
 	
 	public GenerateCodeForVariationalVerification(IFeatureProvider fp) {
@@ -72,7 +71,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 				output += config[j] + ", ";
 			}
 		}
-		Console.println(output + "]", blue);
+		Console.println(output + "]", Colors.BLUE);
 		deleteExistingClasses(location + "/src_gen/");
 		writeFile(location + "/src_gen/" + callingClass + ".java", "public class " + callingClass + " {\n}");
 		generateClasses(location + "/src_gen/", config, callingFeature, callingClass, callingMethod.toLowerCase());

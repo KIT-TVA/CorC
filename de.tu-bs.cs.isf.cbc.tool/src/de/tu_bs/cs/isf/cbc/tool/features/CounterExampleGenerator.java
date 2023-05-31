@@ -30,9 +30,12 @@ import de.uka.ilkd.key.settings.ProofIndependentSettings;
 import de.uka.ilkd.key.settings.SMTSettings;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
+import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
 import de.tu_bs.cs.isf.cbc.tool.helper.ProofPath;
 import de.tu_bs.cs.isf.cbc.tool.helper.Renamer;
+import de.tu_bs.cs.isf.cbc.tool.helper.SolverOutputCleaner;
 import de.tu_bs.cs.isf.cbc.tool.helper.Type;
+import de.tu_bs.cs.isf.cbc.tool.helper.Variable;
 import de.tu_bs.cs.isf.cbc.util.LevenshteinCompare;
 
 import java.util.stream.StreamSupport;
@@ -296,7 +299,7 @@ public class CounterExampleGenerator{
 	}
 	
 	public static void calculateExample(Proof proof) {
-		Console.println("\tStart generating a counter example...");
+		Console.println("  Start generating a counter example...");
 		serv = proof.getServices();
 		calculateProofPaths(proof.root());
 		SMTProblem problem = null;
@@ -306,11 +309,10 @@ public class CounterExampleGenerator{
 			problem = new SMTProblem(proof.getGoal(path.current));
 			SMTSolverResult result = runZ3(problem, proof);
 			if (result.isValid() == ThreeValuedTruth.FALSIFIABLE) {
-				Console.println("\tCounterexample:");
 				String counterexample = problem.getSolvers().iterator().next().getSolverOutput();
-				counterexample = counterexample.replaceAll("\n+ *\n", "\n+").replace("\n", "\n    ");
-				counterexample = counterexample.substring(35);
-				Console.println(counterexample);
+				SolverOutputCleaner cleaner = new SolverOutputCleaner();
+				cleaner.clean(counterexample);
+				Console.print(cleaner.cleaned(), Colors.BLUE);
 				Console.println();
 				return;
 			}

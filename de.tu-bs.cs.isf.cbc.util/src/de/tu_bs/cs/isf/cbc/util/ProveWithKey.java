@@ -557,11 +557,11 @@ public class ProveWithKey {
 		if (proof != null) {
 			boolean closed = proof.openGoals().isEmpty();
 			if (!closed) {
-				Console.println("\tProof could not be closed.");
+				Console.println("  Proof could not be closed.");
 				CounterExampleGenerator generator = new CounterExampleGenerator();
 				generator.calculateExample(proof);
 			} else {
-				Console.println("Proof is closed: " + closed + "\n");
+				Console.println("  Proof is closed: " + closed + "\n");
 				return closed;
 			}
 		}

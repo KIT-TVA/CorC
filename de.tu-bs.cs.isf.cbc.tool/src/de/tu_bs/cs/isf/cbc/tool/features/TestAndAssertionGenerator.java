@@ -73,6 +73,7 @@ import de.tu_bs.cs.isf.cbc.tool.exceptions.TestStatementException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
 import de.tu_bs.cs.isf.cbc.tool.helper.ConditionHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
@@ -109,7 +110,6 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	public static final String GENERATED_CLASSNAME = "GeneratedClass";
 	private final static String STATEMENT_PH = "<statement>";
 	private boolean showWarnings = false;
-	private static final Color red = new Color(new RGB(150, 10, 10));
 		
 	public TestAndAssertionGenerator(IFeatureProvider fp) {
 		super(fp);
@@ -219,10 +219,10 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		}
 		try {
 			if (features != null) {
-				Console.println("[SPL detected]", TestStatement.blue);
+				Console.println("[SPL detected]", Colors.BLUE);
 				for (int i = 0; i < features.getSize(); i++) {
 					features.getNextConfig();
-					Console.println(" > Configuration: [" + features.getConfigRep() + "]", TestStatement.blue);
+					Console.println(" > Configuration: [" + features.getConfigRep() + "]", Colors.BLUE);
 					if (!test(uri, formula, vars, globalConditions, signatureString, globalVars, features)) {
 						continue;
 					}
@@ -233,7 +233,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				test(uri, formula, vars, globalConditions, signatureString, globalVars, features);
 			}	
 		} catch (ReferenceException | TestAndAssertionGeneratorException | PreConditionSolverException | UnexpectedTokenException | TestStatementException | DiagnosticsException e) {
-			Console.println(e.getMessage(), TestStatementListener.red);
+			Console.println(e.getMessage(), Colors.RED);
 			e.printStackTrace();
 			return;
 		}
@@ -2100,7 +2100,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			var errorMsgs = diagnostics.getDiagnostics();
 			for (var errorMsg : errorMsgs) {
 				Console.println();
-				Console.println(" > Syntax error detected.", red);
+				Console.println(" > Syntax error detected.", Colors.RED);
 				Console.println("\t" + errorMsg.toString());
 				Console.println();
 			}
@@ -2147,7 +2147,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			var errorMsgs = diagnostics.getDiagnostics();
 			for (var errorMsg : errorMsgs) {
 				Console.println();
-				Console.println(" > Syntax error detected.", red);
+				Console.println(" > Syntax error detected.", Colors.RED);
 				Console.println("\t" + errorMsg.toString());
 				FileHandler.getInstance().log(dependencies.get(0));
 				Console.println();
@@ -2190,7 +2190,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			var errorMsgs = diagnostics.getDiagnostics();
 			for (var errorMsg : errorMsgs) {
 				Console.println();
-				Console.println(" > Syntax error detected.", red);
+				Console.println(" > Syntax error detected.", Colors.RED);
 				Console.println("\t" + errorMsg.toString());
 				Console.println();
 			}

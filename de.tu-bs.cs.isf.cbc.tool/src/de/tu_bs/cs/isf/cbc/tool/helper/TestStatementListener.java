@@ -22,8 +22,6 @@ import de.tu_bs.cs.isf.cbc.util.FileUtil;
  * @author Fynn
  */
 public class TestStatementListener extends TestAndAssertionListener {
-	private static Color HIGHLIGHT_COLOR = new Color(new RGB(255, 25, 25));
-	
 	public TestStatementListener(final URI projectPath, final List<String> globalVars, final List<TestCaseData> inputDataTupels) throws DiagnosticsException {
 		super(projectPath, null, globalVars, inputDataTupels);	
 	}
@@ -32,10 +30,10 @@ public class TestStatementListener extends TestAndAssertionListener {
 		var lines = code.split("\n");
 		for (var line : lines) {
 			if (line.contains("-->")) {
-				Console.println(line, HIGHLIGHT_COLOR);
+				Console.println(line, Colors.HIGHLIGHT_COLOR);
 			} else if (line.contains("<s>")) {
 				line = line.substring(0, line.indexOf("<s>")) + line.substring(line.indexOf("<s>") + 3, line.length());
-				Console.println(line, HIGHLIGHT_COLOR);
+				Console.println(line, Colors.HIGHLIGHT_COLOR);
 			}
 			else {
 				Console.println(line);
@@ -53,7 +51,7 @@ public class TestStatementListener extends TestAndAssertionListener {
 	@Override
 	public void onTestSuccess(ITestResult result) {
 		  if (result.getTestContext().getAttribute("skip") != null) {
-			  Console.println(" > Generated data doesn't satisfy the precondition [" + result.getTestContext().getAttribute("skip") + "].", red);
+			  Console.println(" > Generated data doesn't satisfy the precondition [" + result.getTestContext().getAttribute("skip") + "].", Colors.RED);
 			  Console.println();
 			  result.setStatus(ITestResult.SKIP);
 			  result.getTestContext().getSkippedTests().addResult(result);
@@ -71,7 +69,7 @@ public class TestStatementListener extends TestAndAssertionListener {
 	@Override
 	public void onTestFailure(ITestResult result) {	 
 		  if (result.getTestContext().getAttribute("skip") != null) {
-			  Console.println(" > Generated data doesn't satisfy the precondition [" + result.getTestContext().getAttribute("skip") + "].", red);
+			  Console.println(" > Generated data doesn't satisfy the precondition [" + result.getTestContext().getAttribute("skip") + "].", Colors.RED);
 			  Console.println();
 			  result.setStatus(ITestResult.SKIP);
 			  result.getTestContext().getSkippedTests().addResult(result);
@@ -81,8 +79,8 @@ public class TestStatementListener extends TestAndAssertionListener {
 		  var className =  result.getTestClass().getName();
 		  var methodName = result.getName();
 		  
-		  Console.println(" > Test of statement failed: " + result.getThrowable().getMessage(), red);
-		  Console.println(" > Test content:", red);
+		  Console.println(" > Test of statement failed: " + result.getThrowable().getMessage(), Colors.RED);
+		  Console.println(" > Test content:", Colors.RED);
 		  String methodCode = printMethodFromFile(methodName, FileUtil.getProjectLocation(projectPath) + 
 				  "/tests/" + className.substring(className.lastIndexOf('.') + 1,
 						  className.length()).split("Test")[0] + ".java");
@@ -114,8 +112,8 @@ public class TestStatementListener extends TestAndAssertionListener {
 		  if (skippedTests == 0 && context.getAttribute("executed") == null) {
 			  var methodName = context.getAllTestMethods()[0].getMethodName();
 			  var className = context.getAllTestMethods()[0].getTestClass().getName();
-			  Console.println(" > Couldn't reach statement.", red);
-			  Console.println(" > Test content:", red);
+			  Console.println(" > Couldn't reach statement.", Colors.RED);
+			  Console.println(" > Test content:", Colors.RED);
 			  String methodCode = printMethodFromFile(methodName, FileUtil.getProjectLocation(projectPath) + 
 					  "/tests/" + className.substring(className.lastIndexOf('.') + 1,
 							  className.length()).split("Test")[0] + ".java");
@@ -132,9 +130,9 @@ public class TestStatementListener extends TestAndAssertionListener {
 			  return;
 		  }
 		  if (skippedTests == 1) {
-			  Console.println(" > Test was skipped.", red);
+			  Console.println(" > Test was skipped.", Colors.RED);
 		  } else if (failedTests == 0) {
-			  Console.println(" > Test was successful.", green);
+			  Console.println(" > Test was successful.", Colors.GREEN);
 			  //Console.println("\t" + context.getAttribute("path"));
 		  }
 		  Console.println();

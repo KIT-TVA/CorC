@@ -47,6 +47,7 @@ import de.tu_bs.cs.isf.cbc.tool.exceptions.TestStatementException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
 import de.tu_bs.cs.isf.cbc.tool.helper.ConditionHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
@@ -73,7 +74,6 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	private final String DUMMY_SIGNATURE = "public void dummyMethod(ITestContext context)";
 	private final String STATEMENT_PH = "<statement>";
 	public static final String EXECUTED_TAG = "context.setAttribute(\"executed\", \"\");";
-	public static final Color blue = new Color(new RGB(10, 10, 200));
 	private URI projectPath;
 	private final IFeatureProvider fp;
 	
@@ -158,10 +158,10 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 					features = null;
 				}
 				if (features != null) {
-					Console.println("[SPL detected]", blue);
+					Console.println("[SPL detected]", Colors.BLUE);
 					for (int i = 0; i < features.getSize(); i++) {
 						features.getNextConfig();
-						Console.println(" > Configuration: [" + features.getConfigRep() + "]", blue);
+						Console.println(" > Configuration: [" + features.getConfigRep() + "]", Colors.BLUE);
 						float pathTime = testPath(statement, vars, conds, formula, returnStatement, features);
 						if (pathTime == -1) {
 							continue;
@@ -188,13 +188,13 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		
 	public float testPath(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, final boolean returnStatement, final Features features) {
 		long start = System.nanoTime();
-		Console.println(" > Testing path:", blue);
+		Console.println(" > Testing path:", Colors.BLUE);
 		Console.println("\t" + getStatementPath(statement));
 		try {
 			testStatement(statement, vars, conds, formula, returnStatement, features);
 			return (System.nanoTime() - start) / 1000000;
 		} catch (TestAndAssertionGeneratorException | TestStatementException | ReferenceException | UnexpectedTokenException | DiagnosticsException e) {
-			Console.println(e.getMessage(), TestStatementListener.red);
+			Console.println(e.getMessage(), Colors.RED);
 			e.printStackTrace();
 			return -1;
 		}
@@ -674,7 +674,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		try {
 			data = preSolver.solve(preConditions);
 		} catch (Exception e) {
-			Console.println(e.getClass().getName() + ": " + e.getMessage(), TestStatementListener.red);
+			Console.println(e.getClass().getName() + ": " + e.getMessage(), Colors.RED);
 			e.printStackTrace();
 			data = null;
 		}
@@ -688,7 +688,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			try {
 				data = preSolver.solve(preConditions);
 			} catch (Exception e) {
-				Console.println(e.getClass().getName() + ": " + e.getMessage(), TestStatementListener.red);
+				Console.println(e.getClass().getName() + ": " + e.getMessage(), Colors.RED);
 				e.printStackTrace();
 				data = null;
 			}
@@ -698,7 +698,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				try {
 					data = preSolver.solve(preConditions);
 				} catch (PreConditionSolverException e) {
-					Console.println(e.getClass().getName() + ": " + e.getMessage(), TestStatementListener.red);
+					Console.println(e.getClass().getName() + ": " + e.getMessage(), Colors.RED);
 					e.printStackTrace();
 					Console.println("TestStatement: Couldn't parse preconditions of neither the statement nor the formula.");
 					Console.println("TestStatement: Consider using 'usePreConditions(false)' in 'PreConditionSolver'.");

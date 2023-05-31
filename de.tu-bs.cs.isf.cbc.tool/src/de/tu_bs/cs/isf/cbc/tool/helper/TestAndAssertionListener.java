@@ -35,10 +35,6 @@ public class TestAndAssertionListener implements ITestListener {
 	  private final List<String> globalVars;
 	  private static final String INSERTED_SYMBOL = "{=";
 	  private static final String INSERTED_CLOSED_SYMBOL = "}";
-	  public static final Color red = new Color(new RGB(150, 10, 10));
-	  public static final Color green = new Color(new RGB(10, 150, 10));
-	  public static final Color blue = new Color(new RGB(10, 10, 200));
-	  public static final Color black = new Color(new RGB(0, 0, 0));
 	  private List<String> executedBranches = new ArrayList<String>();
 	  private List<String> allBranches;
 	  private final DataCollector dataCollector;
@@ -407,12 +403,12 @@ public class TestAndAssertionListener implements ITestListener {
 		  
 		  
 		  while (nextIndex != -1) {
-			  Console.print(curNoneHighlighted, black);
-			  Console.print(curHighlighted, blue);
+			  Console.print(curNoneHighlighted, Colors.BLACK);
+			  Console.print(curHighlighted, Colors.BLUE);
 			  toPrint = toPrint.substring(nextIndex + curHighlighted.indexOf(INSERTED_CLOSED_SYMBOL) + 1, toPrint.length());
 			  nextIndex = toPrint.indexOf(INSERTED_SYMBOL);
 			  if (nextIndex == -1) {
-				  Console.print(toPrint + "\n", black);
+				  Console.print(toPrint + "\n", Colors.BLACK);
 				  break;
 			  }
 			  curNoneHighlighted = toPrint.substring(0, toPrint.indexOf(INSERTED_SYMBOL));
@@ -466,7 +462,7 @@ public class TestAndAssertionListener implements ITestListener {
 			  Console.println(bar);
 			  Console.println(consoleStr);
 			  Console.println(bar);
-			  Console.println(" > Generated data doesn't satisfy the precondition [" + result.getTestContext().getAttribute("skip") + "].", red);
+			  Console.println(" > Generated data doesn't satisfy the precondition [" + result.getTestContext().getAttribute("skip") + "].", Colors.RED);
 			  Console.println();
 			  result.setStatus(ITestResult.SKIP);
 			  result.getTestContext().getSkippedTests().addResult(result);
@@ -503,7 +499,7 @@ public class TestAndAssertionListener implements ITestListener {
 		  Console.println(consoleStr);
 		  Console.println(bar);
 		  if (result.getTestContext().getAttribute("skip") != null) {
-			  Console.println(" > Generated data doesn't satisfy the precondition [" + result.getTestContext().getAttribute("skip") + "].", red);
+			  Console.println(" > Generated data doesn't satisfy the precondition [" + result.getTestContext().getAttribute("skip") + "].", Colors.RED);
 			  Console.println();
 			  result.setStatus(ITestResult.SKIP);
 			  result.getTestContext().getSkippedTests().addResult(result);
@@ -532,7 +528,7 @@ public class TestAndAssertionListener implements ITestListener {
 		  String testMethodCode = getMethodFromTestFile(testMethodName,  FileUtil.getProjectLocation(this.projectPath) + "/tests/" + className + ".java");
 		  // remove all testng helper lines
 		  testMethodCode = removeHelperLines(testMethodCode);
-		  Console.println(" > Failed with the error message:", red);
+		  Console.println(" > Failed with the error message:", Colors.RED);
 		  int errorLineNr = getErrorLineNr(result.getThrowable().getStackTrace(), className, testMethodName, testMethodCode);
 		  String errorLine = getLine(testMethodCode, errorLineNr);
 		  Console.println("\t" + "line " + (errorLineNr+1) + ": '" + errorLine + "':");
@@ -545,7 +541,7 @@ public class TestAndAssertionListener implements ITestListener {
 				  break;
 			  }
 		  }
-		  Console.println(" > Failed test with variable names inserted in '" + INSERTED_SYMBOL + "..." + INSERTED_CLOSED_SYMBOL + "':", red);
+		  Console.println(" > Failed test with variable names inserted in '" + INSERTED_SYMBOL + "..." + INSERTED_CLOSED_SYMBOL + "':", Colors.RED);
 		  className = className.substring(0, className.indexOf("Test"));
 		  var constructorCallWithNames = printConstructorCallWithNames(tupel, className);
 		  testMethodCode = testMethodCode.replace(className + tupel.getGlobalVarsRep(), constructorCallWithNames);
@@ -557,7 +553,7 @@ public class TestAndAssertionListener implements ITestListener {
 		  String methodCode = printMethodFromFile(methodName, FileUtil.getProjectLocation(this.projectPath) + 
 				  "/tests/" + className.substring(className.lastIndexOf('.') + 1,
 						  className.length()).split("Test")[0] + ".java");
-		  Console.println(" > Code of method " + methodName + " with values from test " + testMethodName + " inserted in '" + INSERTED_SYMBOL + "..." + INSERTED_CLOSED_SYMBOL + "':", red);
+		  Console.println(" > Code of method " + methodName + " with values from test " + testMethodName + " inserted in '" + INSERTED_SYMBOL + "..." + INSERTED_CLOSED_SYMBOL + "':", Colors.RED);
 		  String methodCodeWithValues = printMethodWithValues(methodCode, tupel);
 		  printWithInsertionsHighlighted(methodCodeWithValues);
 		  Console.println();
@@ -578,9 +574,9 @@ public class TestAndAssertionListener implements ITestListener {
 		  int skippedTests = context.getSkippedTests().size();
 		  
 		  if (failedTests == 0) {
-			  Console.println(" > " + context.getName(), green);
+			  Console.println(" > " + context.getName(), Colors.GREEN);
 		  } else {
-			  Console.println(" > " + context.getName(), red);
+			  Console.println(" > " + context.getName(), Colors.RED);
 		  }
 		  
 	      StringBuilder bufLog = new StringBuilder("+ Total tests run: ");
@@ -615,9 +611,9 @@ public class TestAndAssertionListener implements ITestListener {
 
 	      
 	      if (failedTests == 0) {
-	    	  Console.println(" > Predicate Coverage (Post Condition)", green);
+	    	  Console.println(" > Predicate Coverage (Post Condition)", Colors.GREEN);
 	      } else {
-	    	  Console.println(" > Predicate Coverage (Post Condition)", red);
+	    	  Console.println(" > Predicate Coverage (Post Condition)", Colors.RED);
 	      }
 	      if (totalNumBranches == 0) {
 	    	  Console.println("\tCoverage: 1/1 = 100%");
@@ -627,7 +623,7 @@ public class TestAndAssertionListener implements ITestListener {
 		      Console.println(" > Branches that were executed at least once are highlighted in green:");
 		      for (var branch : this.allBranches) {
 		    	  if (this.executedBranches.contains(branch)) {
-		    		  Console.println("\t" + branch, green);
+		    		  Console.println("\t" + branch, Colors.GREEN);
 		    	  } else {
 		    		  Console.println("\t" + branch);
 		    	  }

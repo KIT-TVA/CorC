@@ -15,6 +15,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
+import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -27,7 +28,6 @@ import diagnostics.DataType;
  */
 public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 	private final IFeatureProvider fp;
-	public static final Color blue = new Color(new RGB(10, 10, 200));
 	
 	public TestAllStatements(IFeatureProvider fp) {
 		super(fp);
@@ -112,10 +112,10 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 			}
 			return;
 		}
-		Console.println("[SPL detected]", blue);
+		Console.println("[SPL detected]", Colors.BLUE);
 		for (int i = 0; i < features.getSize(); i++) {
 			features.getNextConfig();
-			Console.println(" > Configuration: [" + features.getConfigRep() + "]", blue);
+			Console.println(" > Configuration: [" + features.getConfigRep() + "]", Colors.BLUE);
 			for (var statement : allStatements) {
 				returnStatement = statement instanceof ReturnStatement;
 				float pathTime = ts.testPath((AbstractStatement)statement, vars, conds, formula, returnStatement, features);

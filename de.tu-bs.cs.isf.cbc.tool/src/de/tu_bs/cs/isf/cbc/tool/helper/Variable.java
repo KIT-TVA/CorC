@@ -33,6 +33,10 @@ public class Variable {
 		this.value = getDefaultValue();
 	}
 	
+	public String getRep() {
+		return (this.getModifier() + " " + this.getType() + " " + this.getName()).trim();
+	}
+	
 	public String getModifier() {
 		return this.modifier;
 	}
