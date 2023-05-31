@@ -35,7 +35,7 @@ public class MetaClass {
 		return metaClass;
 	}
 	
-	public boolean create() {
+	public void create() {
 		IFolder metaFolder = project.getFolder(MetaClass.FOLDER_NAME);
 		IFolder classFolder = metaFolder.getFolder(metaModel.getName());
 		ResourceSet rs = new ResourceSetImpl();
@@ -43,7 +43,15 @@ public class MetaClass {
 					.createResource(URI.createFileURI(classFolder.getLocation() + "\\" + metaModel.getName() + ".cbcclass"));
 		cbcclassResource.getContents().add(metaModel);
 		GenerateModelFromCode.saveResource(cbcclassResource);
-		return false;
+	}
+	
+	public Method getMethod(String name) throws MetaClassException {
+		for (var m : this.metaModel.getMethods()) {
+			if (m.getName().equals(name)) {
+				return m;
+			}
+		}
+		throw new MetaClassException("Meta method with name '" + name + "' could not be found.");
 	}
 	
 	private static List<ModelClass> collectRelevantClasses(final List<org.eclipse.emf.ecore.resource.Resource> allClasses, String className) {

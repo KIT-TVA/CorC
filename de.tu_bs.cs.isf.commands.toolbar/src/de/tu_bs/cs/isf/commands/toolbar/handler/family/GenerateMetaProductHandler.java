@@ -83,7 +83,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 	private static URI uriToRootProject;
 	private static ArrayList<MethodStruct> detectedMethods = new ArrayList<>();
 	private static ArrayList<String> uniqueMetaMethodNames = new ArrayList<>();
-	private static ArrayList<UniqueMetaMethod> uniqueMetaMethods = new ArrayList<>();
+	private static ArrayList<MetaMethod> uniqueMetaMethods = new ArrayList<>();
 	private static Map<String, List<String>> alternativeFeatures = new HashMap<String, List<String>>(); //Parent: Features
 	private static String FEATURE_MODEL_FORMULA_CNF = ""; 
 	private static ArrayList<IFeature> FEATURES;
@@ -134,20 +134,26 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 
 		var classesToGen = new ArrayList<String>();
 		FileUtil.getCbCClasses(project).stream().map(c -> c.getURI().lastSegment()).forEach(n -> {if(!classesToGen.contains(n.split("\\.")[0])) classesToGen.add(n.split("\\.")[0]);});
-		for (var cbcClass : classesToGen) {
-			clearData();
-			NAME_OF_JAVA_FILE = cbcClass;
-			extractCbCModelFilesFromClass(cbcClass);
-			printAllDetectedMethods();
-			determineUniqueMethods(cbcClass);
-			createUniqueMethodFilesForClass(cbcClass);
-			MetaClass.compose(project, cbcClass).create();
-			createAndSaveJavaFilesWithMethodStubsForClass(cbcClass);
-			Console.println("Generated meta product for class " + cbcClass + ".");
+		try {
+			for (var cbcClass : classesToGen) {
+				clearData();
+				MetaClass metaClass = MetaClass.compose(project, cbcClass);
+				metaClass.create();
+				NAME_OF_JAVA_FILE = cbcClass;
+				extractCbCModelFilesFromClass(cbcClass);
+				printAllDetectedMethods();
+				determineUniqueMethods(metaClass, cbcClass);
+				createUniqueMethodFilesForClass(cbcClass);
+				createAndSaveJavaFilesWithMethodStubsForClass(cbcClass);
+				Console.println("Generated meta product for class " + cbcClass + ".");
+			}
+			MetaVariablesClass mvc = new MetaVariablesClass(project.getLocation().toString(), this.FEATURE_VARIABLES);
+			mvc.saveToFile();
+		} catch (IOException | CoreException | CodeMergeException | MetaClassException e) {
+			Console.println(e.getMessage());
+			e.printStackTrace();
+			return null;
 		}
-
-		MetaVariablesClass mvc = new MetaVariablesClass(project.getLocation().toString(), this.FEATURE_VARIABLES);
-		mvc.saveToFile();
 
 		// clear all data
 		long end = System.nanoTime();
@@ -155,22 +161,22 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		return null;
 	}
 
-	private void createUniqueMethodFilesForClass(String className) {
-		for(UniqueMetaMethod metaMethod: uniqueMetaMethods) {
+	private void createUniqueMethodFilesForClass(String className) throws IOException, CoreException, MetaClassException {
+		for(MetaMethod metaMethod: uniqueMetaMethods) {
 			GenerateDiagramFromModel diagramGenerator = new GenerateDiagramFromModel();
 			diagramGenerator.execute(metaMethod.toResourceObject(className));
 			Console.println("Generated MetaMethod File for :" + metaMethod.metaMethodName + ".diagram");
 		}
 	}
 	
-	private void determineUniqueMethods(String className) {
+	private void determineUniqueMethods(MetaClass metaClass, String className) {
 		for (Map.Entry<String, List<MethodStruct>> entry : methodNameToMethodStructMap.entrySet()) {
 			//if(entry.getKey().equals("Push")) {
 			List<String> implementingFeaturesOfMethod = methodNameToImplementingFeature.get(entry.getKey());
 			String nameOfMethod = entry.getKey();
 			List<MethodStruct> listOfMethodStructs = entry.getValue();
 			
-			uniqueMetaMethods.add(new UniqueMetaMethod(this.uriToRootProject, className, nameOfMethod, listOfMethodStructs, FEATURE_MODEL_FORMULA_CNF, FEATURES, FEATURE_ORDER, implementingFeaturesOfMethod));
+			uniqueMetaMethods.add(new MetaMethod(this.uriToRootProject, metaClass, className, nameOfMethod, listOfMethodStructs, FEATURE_MODEL_FORMULA_CNF, FEATURES, FEATURE_ORDER, implementingFeaturesOfMethod));
 			//}
 			
 		}
@@ -180,13 +186,11 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		detectedMethods = new ArrayList<>();
 		uniqueMetaMethodNames = new ArrayList<>();
 		uniqueMetaMethods = new ArrayList<>();
-		alternativeFeatures = new HashMap<String, List<String>>(); //Parent: Features
-		FEATURE_MODEL_FORMULA_CNF = ""; 
 		methodNameToMethodStructMap = new HashMap<String, List<MethodStruct>>();
 		methodNameToImplementingFeature = new HashMap<String, List<String>>(); 
 	}
 	
-	private void createAndSaveJavaFilesWithMethodStubsForClass(String className) {
+	private void createAndSaveJavaFilesWithMethodStubsForClass(String className) throws CodeMergeException, IOException, CoreException {
 		String location = project.getLocation().toString() + "/" + MetaClass.FOLDER_NAME + "/" + className + "/" + NAME_OF_JAVA_FILE + ".java";
 		String code = "public class " + NAME_OF_JAVA_FILE + " {\n\n";
 
@@ -195,22 +199,17 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		List<String> codes = new ArrayList<String>();
 		
 		
-		for(UniqueMetaMethod metaMethod: uniqueMetaMethods) {
+		for(MetaMethod metaMethod: uniqueMetaMethods) {
 			try {
-				gener = new CodeGenerator(project, metaMethod.metaMethodFormula);
+				gener = new CodeGenerator(project, metaMethod.getMetaMethodFormula());
 				codes.add(gener.generate());
 			} catch (CodeGeneratorException e) {
 				e.printStackTrace();
 			}
 		}
-		try {
-			var merger = new CodeMerge(codes);
-			var fullCode = merger.get();
-			saveJavaFile(location, fullCode);
-		} catch (CodeMergeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		var merger = new CodeMerge(codes);
+		var fullCode = merger.get();
+		saveJavaFile(location, fullCode);
 		return;
 	}
 	
@@ -288,14 +287,28 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			 Console.println("Rohe Formel: " + formula.getCNF());
 			 Console.println("Rohe Formel: " + formula.getCNF());
 			 Console.println("Rohe Formel: " + formula.getCNFNode());
-			 FEATURE_MODEL_FORMULA_CNF = String.valueOf(formula.getCNFNode());
-			 //FEATURE_MODEL_FORMULA_CNF = FEATURE_MODEL_FORMULA_CNF.replaceAll("\\-", "!");
-			 FEATURE_MODEL_FORMULA_CNF = FEATURE_MODEL_FORMULA_CNF.toUpperCase();
-			 FEATURE_MODEL_FORMULA_CNF = FEATURE_MODEL_FORMULA_CNF.replaceAll("([\\w]+)", "FV_$1");
-			 FEATURE_MODEL_FORMULA_CNF = FEATURE_MODEL_FORMULA_CNF.replaceAll("\\b(?<!-)(\\w+)\\b", "$1 = TRUE");
-			 FEATURE_MODEL_FORMULA_CNF = FEATURE_MODEL_FORMULA_CNF.replaceAll("-(\\w+)", "$1 = FALSE");
-			 Console.println("Feature Model Formula: " + FEATURE_MODEL_FORMULA_CNF);
+			 FEATURE_MODEL_FORMULA_CNF = translateCNF(String.valueOf(formula.getCNFNode()));
 		 }
+	}
+	
+	private String translateCNF(String cnf) {
+			 cnf = cnf.toUpperCase();
+			 cnf = cnf.replaceAll("([\\w]+)", "FV_$1");
+			 cnf = cnf.replaceAll("\\b(?<!-)(\\w+)\\b", "$1 = TRUE");
+			 cnf = cnf.replaceAll("-(\\w+)", "$1 = FALSE");
+			 Console.println("Feature Model Formula: " + cnf);
+			 cnf = prefixMetaVars(cnf);
+			 return cnf;
+	}
+	
+	private String prefixMetaVars(String cnf) {
+		Pattern p = Pattern.compile("[^\\.]FV\\_");
+		Matcher m = p.matcher(cnf);
+		while (m.find()) {
+			cnf = cnf.substring(0, m.start()+1) + MetaVariablesClass.NAME + "." + cnf.substring(m.start() + 1, cnf.length());
+			m = p.matcher(cnf);
+		}
+		return cnf;
 	}
 	
 	private void printAllDetectedMethods() {
@@ -304,26 +317,20 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		}
 	}
 	
-	protected static void saveJavaFile(String location, String code) {
+	protected static void saveJavaFile(String location, String code) throws IOException, CoreException {
 		File javaFile = new File(location);
-		try {
-			if (!javaFile.exists()) {
-				javaFile.createNewFile();
-			}
-			FileWriter fw = new FileWriter(javaFile);
-			BufferedWriter bw = new BufferedWriter(fw);
-
-			bw.write(code);
-			bw.close();
-			IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			IPath iLocation = org.eclipse.core.runtime.Path.fromOSString(javaFile.getAbsolutePath());
-			IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-			ifile.refreshLocal(0, null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (CoreException e) {
-			e.printStackTrace();
+		if (!javaFile.exists()) {
+			javaFile.createNewFile();
 		}
+		FileWriter fw = new FileWriter(javaFile);
+		BufferedWriter bw = new BufferedWriter(fw);
+
+		bw.write(code);
+		bw.close();
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IPath iLocation = org.eclipse.core.runtime.Path.fromOSString(javaFile.getAbsolutePath());
+		IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
+		ifile.refreshLocal(0, null);
 	}
 	
 	private void extractCbCModelFilesFromClass(String className) {

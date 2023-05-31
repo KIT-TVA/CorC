@@ -1,5 +1,6 @@
 package de.tu_bs.cs.isf.commands.toolbar.handler.family;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,12 +10,14 @@ import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.ovgu.featureide.fm.core.base.IFeature;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
@@ -33,7 +36,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 
-public class UniqueMetaMethod {
+public class MetaMethod {
+	MetaClass metaClass;
+	CbCFormula metaMethodFormula;
 	String metaMethodName; 
 	String metaPreConditon, metaPostCondition;
 	String featureModelFormulaCNF;
@@ -45,19 +50,18 @@ public class UniqueMetaMethod {
 	MethodStruct[] methodsInDescendingOrder;
 	MethodStruct currentMethod;
 	int currentMethodIndex = 0;
-	CbCFormula metaMethodFormula;
-	JavaVariables metaJavaVariables;
 	String metaClassName;
 	URI uriToRootProject;
 	
 	
-	public UniqueMetaMethod(URI uriToRootProject, String className, String methodName, 
+	public MetaMethod(URI uriToRootProject, MetaClass metaClass, String className, String methodName, 
 			List<MethodStruct> listOfMethods, 			//All different implementations of Method.
 			String featureModelFormulaCNF, 
 			ArrayList<IFeature> features, 				//Name of all features in Productline. Necessary to introduce Features Variables.
 			List<String> featureOrderList,				
 			List<String> featuresImplementingMethods) { //Name of all Features implementing the method
 		
+		this.metaClass = metaClass;
 		this.metaClassName = className;
 		this.metaMethodName = methodName;
 		this.featureModelFormulaCNF = featureModelFormulaCNF;
@@ -73,20 +77,10 @@ public class UniqueMetaMethod {
 		this.methodsInDescendingOrder = bringMethodsToDescendingOrder();
 		this.currentMethod = this.methodsInDescendingOrder[currentMethodIndex];
 		
-		//this.metaPreConditon = calculateMetaPreCondition(hierachicalComposition, 0);
-		this.metaPreConditon = calculateMetaPreCondition3(0);
-		this.metaPostCondition = calculateMetaPostCondition3(0);
-		
-		this.metaPreConditon = removeWord(this.metaPreConditon, "original"); // TODO: remove this, since all originals should be resolved already here
-		this.metaPostCondition = removeWord(this.metaPostCondition, "original &");
-		
-		//ALLE \modifiable aus den conditions entfernen.
-		this.metaPreConditon = this.metaPreConditon.replaceAll("modifiable\\([^;]+;", "");
-		this.metaPostCondition = this.metaPostCondition.replaceAll("modifiable\\([^\\;]+\\;", "");
+		this.metaPreConditon = createMetaPreCondition();
+		this.metaPostCondition = createMetaPostCondition();
 		
 		this.featureVariables = features;
-	
-		
 		
 		Console.println("Generated meta method for method " + this.metaMethodName + ":");
 		Console.println("{");
@@ -98,32 +92,6 @@ public class UniqueMetaMethod {
 			Console.println("\t\t Feature: " +method.nameOfFeature);
 		}
 		Console.println("}");
-		
-		for(int i = 0 ; i < this.listOfMethods.size(); i++) {
-			if(this.listOfMethods.get(i).preCondition.contains("original")) {
-				this.listOfMethods.get(i).preCondition = this.listOfMethods.get(i).preCondition.replaceAll("original", this.calculateMetaPreCondition(this.hierachicalComposition, 0));
-				this.listOfMethods.get(i).preCondition = removeWord(this.listOfMethods.get(i).preCondition, "original");
-			}
-			
-			if(this.listOfMethods.get(i).postCondition.contains("original")) {
-				this.listOfMethods.get(i).postCondition = this.listOfMethods.get(i).postCondition.replaceAll("original", this.calculateMetaPostCondition(this.hierachicalComposition, 0));
-				this.listOfMethods.get(i).postCondition = removeWord(this.listOfMethods.get(i).preCondition, "original");
-				System.out.println(this.listOfMethods.get(i).postCondition);
-				if (this.listOfMethods.get(i).postCondition.contains("original")) {
-					var jskdfjsdkjf = 2;
-				}
-			}
-		}
-	}
-	
-	private String removeWord(String str, String word) {
-		Pattern p = Pattern.compile(Pattern.quote(word));
-		Matcher m = p.matcher(str);
-		while (m.find()) {
-			str = str.substring(0, str.indexOf(word)) + str.substring(str.indexOf(word) + word.length(), str.length());
-			m = p.matcher(str);
-		}
-		return str;
 	}
 	
 	private MethodStruct[] bringMethodsToDescendingOrder() {
@@ -170,118 +138,118 @@ public class UniqueMetaMethod {
 		
 		return newHiearchie;
 	}
-	
-	
-	String calculateMetaPostCondition3 (int index){
-		if(index == this.methodsInDescendingOrder.length -1){
-			MethodStruct currentMethod = methodsInDescendingOrder[index];
-			return "(" + MetaVariablesClass.NAME + "." + "FV_" + currentMethod.nameOfFeature.toUpperCase() + " = TRUE" + " -> (" + currentMethod.postCondition + "))";
-		}
-		MethodStruct currentMethod = this.methodsInDescendingOrder[index];
-			
-				return "(" + MetaVariablesClass.NAME + "." + "FV_"+currentMethod.nameOfFeature.toUpperCase() +" = TRUE" +" -> ("  + currentMethod.postCondition + "))" + " & "
-						   + "(" + MetaVariablesClass.NAME + "." + "FV_"+currentMethod.nameOfFeature.toUpperCase() + " = FALSE " + " -> (" + calculateMetaPostCondition3(index + 1) + "))";
-			
-		
-	}
-	
-	String calculateMetaPreCondition3 (int index){
-		if(index == this.methodsInDescendingOrder.length -1){
-			MethodStruct currentMethod = methodsInDescendingOrder[index];
-			return "(" + MetaVariablesClass.NAME + "." + "FV_" + currentMethod.nameOfFeature.toUpperCase() + " = TRUE" + " -> (" + currentMethod.preCondition + "))";
-		}
-		MethodStruct currentMethod = this.methodsInDescendingOrder[index];
-			
-				return "(" + MetaVariablesClass.NAME + "." + "FV_"+currentMethod.nameOfFeature.toUpperCase() +" = TRUE" +" -> ("  + currentMethod.preCondition + "))" + " & "
-						   + "(" + MetaVariablesClass.NAME + "." + "FV_"+currentMethod.nameOfFeature.toUpperCase() + " = FALSE " + " -> (" + calculateMetaPreCondition3(index + 1) + "))";
-			
-		
-	}
-	
-	private String calculateMetaPreCondition(String[] hierachicalComposition,  int index) {
-		
 
-		if(index == hierachicalComposition.length -1) {
-			for(MethodStruct method: this.listOfMethods) {
-				if(method.nameOfFeature.equals(hierachicalComposition[index])) {
-					return (method.preCondition);
-				}
+	String createMetaPreCondition() {
+		int cur = this.listOfMethods.size()-1;
+		String condition = this.listOfMethods.get(cur).preCondition;
+		String curFeature = this.listOfMethods.get(cur).nameOfFeature.toUpperCase();
+		if (cur == 0) {
+			return "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = TRUE" + " -> (" + condition + "))";
+		}
+		condition = "(" + MetaVariablesClass.NAME 
+				+ "." + "FV_"+ curFeature 
+				+ " = TRUE" + " -> ("  + condition + "))" 
+				+ " & "
+				+ "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = FALSE" + " -> (original))";
+		while (condition.contains("original")) {
+			cur--;
+			curFeature = this.listOfMethods.get(cur).nameOfFeature.toUpperCase();
+			var oriCondition = this.listOfMethods.get(cur).preCondition; 
+			if (cur == 0) {
+				condition = condition.replaceAll("original", Matcher.quoteReplacement(
+						"(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = TRUE" 
+					    + " -> (" + oriCondition + "))"));
+				break;
+			} else {
+				condition = condition.replaceAll("original", Matcher.quoteReplacement(
+						"(" + MetaVariablesClass.NAME 
+						+ "." + "FV_"+ curFeature 
+						+ " = TRUE" + " -> ("  + oriCondition + "))" 
+						+ " & "
+						+ "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = FALSE " + " -> (original))"));
 			}
 		}
-		
-		for(MethodStruct method: this.listOfMethods) {
-			if(method.nameOfFeature.equals(hierachicalComposition[index])) {
-				return "(" + MetaVariablesClass.NAME + "." + "FV_"+method.nameOfFeature.toUpperCase() +" = TRUE" +"->" + method.preCondition + ") & (" + MetaVariablesClass.NAME + "." + "FV_"+method.nameOfFeature.toUpperCase() + " = FALSE " + "->" + calculateMetaPreCondition(hierachicalComposition, index+1) + ")";
-			}
-		}
-		return "something went wrong";
+		return condition;
 	}
 	
-	private String calculateMetaPostCondition(String[] hierachicalComposition,  int index) {
-		
-		
-		if(index == hierachicalComposition.length -1) {
-			for(MethodStruct method: this.listOfMethods) {
-				if(method.nameOfFeature.equals(hierachicalComposition[index])) {
-					return (method.postCondition);
-				}
+	String createMetaPostCondition() {
+		int cur = this.listOfMethods.size()-1;
+		String condition = this.listOfMethods.get(cur).postCondition;
+		String curFeature = this.listOfMethods.get(cur).nameOfFeature.toUpperCase();
+		if (cur == 0) {
+			return "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = TRUE" + " -> (" + condition + "))";
+		}
+		condition = "(" + MetaVariablesClass.NAME 
+				+ "." + "FV_"+ curFeature 
+				+ " = TRUE" + " -> ("  + condition + "))" 
+				+ " & "
+				+ "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = FALSE" + " -> (original))";
+		while (condition.contains("original")) {
+			cur--;
+			curFeature = this.listOfMethods.get(cur).nameOfFeature.toUpperCase();
+			var oriCondition = this.listOfMethods.get(cur).postCondition; 
+			if (cur == 0) {
+				condition = condition.replaceAll("original", Matcher.quoteReplacement(
+						"(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = TRUE" 
+					    + " -> (" + oriCondition + "))"));
+				break;
+			} else {
+				condition = condition.replaceAll("original", Matcher.quoteReplacement(
+						"(" + MetaVariablesClass.NAME 
+						+ "." + "FV_"+ curFeature 
+						+ " = TRUE" + " -> ("  + oriCondition + "))" 
+						+ " & "
+						+ "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = FALSE " + " -> (original))"));
 			}
 		}
-		
-		for(MethodStruct method: this.listOfMethods) {
-			if(method.nameOfFeature.equals(hierachicalComposition[index])) {
-				return "(" + MetaVariablesClass.NAME + "." + "FV_"+method.nameOfFeature.toUpperCase() +" = TRUE" +"->"  + method.postCondition + ")" + "& (" +MetaVariablesClass.NAME + "." + "FV_"+method.nameOfFeature.toUpperCase() + " = FALSE " + "->" + calculateMetaPostCondition(hierachicalComposition, index+1) + ")";
-			}
-		}
-		return "something went wrong";
+		return condition;
 	}
 	
-	
-	
-	//Fynn
-	public Resource toResourceObject(String className) {
-		URI uri = uriToRootProject.appendSegment(MetaClass.FOLDER_NAME).appendSegment(this.metaClassName).appendSegment(this.metaMethodName).appendFileExtension("cbcmodel");
-		ResourceSet rs = new ResourceSetImpl();
-		Resource metaMethodResource = rs.createResource(uri);
-		//Muss vom Typ .cbcModel sein.
-		
+	public Resource toResourceObject(String className) throws IOException, CoreException, MetaClassException {
+		URI metaMethodUri = uriToRootProject.appendSegment(MetaClass.FOLDER_NAME).appendSegment(this.metaClassName).appendSegment(this.metaMethodName).appendFileExtension("cbcmodel");
 
+		createMetaFormula(className);
+		AbstractStatement formulaStatement = createMetaFormulaStatement();
+		metaMethodFormula.setStatement(formulaStatement);
+		AbstractStatement initialOriginalCall = createMetaInitialOriginalStatement();
+		formulaStatement.setRefinement(initialOriginalCall);
+		resolveOriginals(formulaStatement);
+		var metaVariables = createMetaVariables();
+		var globalConditions = createMetaInvariants();
+		addFeatureModelCondition(globalConditions);
+		var metaMethodResource = createMetaMethod(metaMethodUri, globalConditions, metaVariables, metaMethodFormula);
+		saveMetaMethod(metaMethodUri, metaMethodResource);
+		return metaMethodResource;
+	}
 	
-		this.metaMethodFormula = CbcmodelFactory.eINSTANCE.createCbCFormula();
+	private void createMetaFormula(String className) {
+		metaMethodFormula = CbcmodelFactory.eINSTANCE.createCbCFormula();
 		metaMethodFormula.setClassName(className);
 		metaMethodFormula.setName(this.metaMethodName);
-		
+	}
+	
+	private AbstractStatement createMetaFormulaStatement() {
 		AbstractStatement formulaStatement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 		formulaStatement.setName("statement");
 		formulaStatement.setPreCondition(CbcmodelFactory.eINSTANCE.createCondition());
 		formulaStatement.getPreCondition().setName("formulaStatement PreCondition");
 		formulaStatement.setPostCondition(CbcmodelFactory.eINSTANCE.createCondition());
 		formulaStatement.getPostCondition().setName("Formula Statement PostCondition");
-		metaMethodFormula.setStatement(formulaStatement);
+		return formulaStatement;
+	}
 	
-		//so klappt noch der alte Stand für sort()
-		//formulaStatement.setRefinement(createSelectionRefinements(0));
-		
-		
+	private AbstractStatement createMetaInitialOriginalStatement() {
 		AbstractStatement initialOriginalCall = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 		initialOriginalCall.setName("original()");
 		initialOriginalCall.setPreCondition(CbcmodelFactory.eINSTANCE.createCondition());
 		initialOriginalCall.getPreCondition().setName("teststatement2 precondition");
 		initialOriginalCall.setPostCondition(CbcmodelFactory.eINSTANCE.createCondition());
 		initialOriginalCall.getPostCondition().setName("teststatement2 postcondition");
-		
-		formulaStatement.setRefinement(initialOriginalCall);
-		
-		GlobalConditions globalConditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
-		Condition featureModelCondition = CbcmodelFactory.eINSTANCE.createCondition();
-		featureModelCondition.setName(featureModelFormulaCNF);
-		globalConditions.getConditions().add(featureModelCondition);
-		
-		
-		
-		
+		return initialOriginalCall;
+	}
+	
+	private void resolveOriginals(AbstractStatement formulaStatement) {
 		boolean allOriginalsResolved = false;
-		
 		while(!allOriginalsResolved) {
 			AbstractStatement statementThatCallsOriginal = searchOriginalStatement(formulaStatement);
 			if (statementThatCallsOriginal == null) {
@@ -300,75 +268,60 @@ public class UniqueMetaMethod {
 				Console.println("Replaced Original with Selection: " + this.currentMethod.nameOfFeature);
 				System.out.println("Replaced Original with Selection: " + this.currentMethod.nameOfFeature);
 			}
-			//if(this.currentMethodIndex == this.methodsInDescendingOrder.length-1) {
-			//	break;
-			//}
 			this.currentMethodIndex = 0;
 		}
-		
-		this.metaJavaVariables = CbcmodelFactory.eINSTANCE.createJavaVariables();
-		
-		/*for(MethodStruct currentMethod : this.listOfMethods) {
-			if(currentMethod.globalConditions == null) continue;
-			for(Condition currentMethodCondition: currentMethod.globalConditions.getConditions()) {
-				globalConditions.getConditions().add(currentMethodCondition);
-			}
-		}*/
-		
-		/*for(int i = 0; i < this.listOfMethods.size(); i++) {
-			for(int j = 0 ; j < this.listOfMethods.get(i).javaVariables.getVariables().size(); j++) {
-				boolean alreadyInList = false;
-				for(JavaVariable alreadyExistingVariable : javaVariables.getVariables()) {
-					if(alreadyExistingVariable.getName().equals(this.listOfMethods.get(i).javaVariables.getVariables().get(j).getName()))
-						alreadyInList = true;
-				}
-				if(i==0) {
-					javaVariables.getVariables().add(this.listOfMethods.get(i).javaVariables.getVariables().get(j));
-				}else if(!alreadyInList) {
-					javaVariables.getVariables().add(this.listOfMethods.get(i).javaVariables.getVariables().get(j));
-				}
-				
-			}
-		}*/
-		
-		
-		for(int i = 0; i < this.listOfMethods.size(); i++) {
-			for(int j = 0 ; j < this.listOfMethods.get(i).javaVariables.getVariables().size(); j++) {
-				boolean alreadyInList = false;
-				
-				JavaVariable variableToAdd = this.listOfMethods.get(i).javaVariables.getVariables().get(j);
-				String  variableNameToAdd = variableToAdd.getDisplayedName();
-				
-				for(int k = 0 ; k < this.metaJavaVariables.getVariables().size(); k++) {
+	}
+	
+	private JavaVariables createMetaVariables() throws MetaClassException {
+		var metaJavaVariables = CbcmodelFactory.eINSTANCE.createJavaVariables();
 
-					if(this.metaJavaVariables.getVariables().get(k).getDisplayedName().equals(variableNameToAdd)) {
-						alreadyInList = true;
-					}
+		for(int i = 0; i < this.listOfMethods.size(); i++) {
+			addVariables(this.listOfMethods.get(i), metaJavaVariables);
+			addParameters(this.listOfMethods.get(i), metaJavaVariables);
+		}
+		return metaJavaVariables;
+	}
+	
+	private void addVariables(MethodStruct method, JavaVariables metaJavaVariables) {
+		for(int j = 0 ; j < method.javaVariables.getVariables().size(); j++) {
+			boolean alreadyInList = false;
+			JavaVariable variableToAdd = method.javaVariables.getVariables().get(j);
+			String  variableNameToAdd = variableToAdd.getDisplayedName();
+			
+			for(int k = 0 ; k < metaJavaVariables.getVariables().size(); k++) {
+
+				if(metaJavaVariables.getVariables().get(k).getDisplayedName().equals(variableNameToAdd)) {
+					alreadyInList = true;
 				}
-				if(i==0) {
-					this.metaJavaVariables.getVariables().add(CopyCbCFormiula.copyJavaVariable(variableToAdd));
-				}else if(!alreadyInList) {
-					this.metaJavaVariables.getVariables().add(CopyCbCFormiula.copyJavaVariable(variableToAdd));
-				}
-				
+			}
+			if(!alreadyInList) {
+				metaJavaVariables.getVariables().add(CopyCbCFormiula.copyJavaVariable(variableToAdd));
 			}
 		}
-		
-		
-		
-	/*	for(int i = 0; i < this.listOfMethods.size(); i++) {
-			for(int j = 0 ; j < this.listOfMethods.get(i).globalConditions.getConditions().size(); j++) {
-				boolean alreadyInList = false;
-				for(Condition alreadyExistingVariable : globalConditions.getConditions()) {
-					if(alreadyExistingVariable.getName().equals(this.listOfMethods.get(i).globalConditions.getConditions().get(j).getName()))
-						alreadyInList = true;
+	}
+	
+	private void addParameters(MethodStruct method, JavaVariables metaJavaVariables) throws MetaClassException {
+		var metaMethod = metaClass.getMethod(method.nameOfMethod);
+		for(int j = 0 ; j < metaMethod.getParameters().size(); j++) {
+			boolean alreadyInList = false;
+			Parameter variableToAdd = metaMethod.getParameters().get(j);
+			String variableNameToAdd = variableToAdd.getName();
+			
+			for(int k = 0 ; k < metaJavaVariables.getVariables().size(); k++) {
+				if(metaJavaVariables.getVariables().get(k).getDisplayedName().equals(variableNameToAdd)) {
+					alreadyInList = true;
 				}
-				if(!alreadyInList) {
-					globalConditions.getConditions().add(this.listOfMethods.get(i).globalConditions.getConditions().get(j));
-				}
-				
 			}
-		}*/
+			if(!alreadyInList) {
+				metaJavaVariables.getVariables().add(CopyCbCFormiula.copyParameter(variableToAdd));
+			}
+		}
+	}
+	
+	
+	private GlobalConditions createMetaInvariants() {
+		GlobalConditions globalConditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
+
 		for(int i = 0; i < this.listOfMethods.size(); i++) {
 			if (this.listOfMethods.get(i).globalConditions == null) {
 				continue;
@@ -387,35 +340,33 @@ public class UniqueMetaMethod {
 				
 			}
 		}
-		
+		return globalConditions;
+	}
+	
+	private void addFeatureModelCondition(GlobalConditions globalConditions) {
+		Condition featureModelCondition = CbcmodelFactory.eINSTANCE.createCondition();
+		featureModelCondition.setName(featureModelFormulaCNF);
+		globalConditions.getConditions().add(featureModelCondition);
+	}
+	
+	private Resource createMetaMethod(URI uri, GlobalConditions globalConditions, JavaVariables metaVariables, CbCFormula metaMethodFormula) {
+		ResourceSet rs = new ResourceSetImpl();
+		Resource metaMethodResource = rs.createResource(uri);
 		SetMetaSpecificationForFormula.passMetaSpeficiationThroughFormula(metaMethodFormula, this.metaPreConditon, this.metaPostCondition);	
 		UpdateConditionsOfChildren.updateConditionsofChildren(metaMethodFormula.getStatement().getPreCondition());
 		UpdateConditionsOfChildren.updateConditionsofChildren(metaMethodFormula.getStatement().getPostCondition());
 		metaMethodResource.getContents().add(metaMethodFormula);
 		metaMethodResource.getContents().add(globalConditions);
-		metaMethodResource.getContents().add(this.metaJavaVariables);
-		
-
-			try {
-				metaMethodResource.save(Collections.EMPTY_MAP);
-				metaMethodResource.setTrackingModification(true);
-			
-				
-				IFile ifile = ResourcesPlugin.getWorkspace().getRoot().getFile(new org.eclipse.core.runtime.Path(uri.toPlatformString(true)));
-				ifile.getParent().refreshLocal(1, null);
-				
-				
-			} catch (Exception e){//IOException | CoreException e1) {
-				e.printStackTrace();
-			} 
-
-			
-		
+		metaMethodResource.getContents().add(metaVariables);
 		return metaMethodResource;
 	}
 	
-	
-	
+	private void saveMetaMethod(URI uri, Resource metaMethodResource) throws IOException, CoreException {
+		metaMethodResource.save(Collections.EMPTY_MAP);
+		metaMethodResource.setTrackingModification(true);
+		IFile ifile = ResourcesPlugin.getWorkspace().getRoot().getFile(new org.eclipse.core.runtime.Path(uri.toPlatformString(true)));
+		ifile.getParent().refreshLocal(1, null);
+	}
 	
 	
 	
@@ -694,5 +645,9 @@ public class UniqueMetaMethod {
 		
 		return foundStatement;
 		
+	}
+
+	public CbCFormula getMetaMethodFormula() {
+		return metaMethodFormula;
 	}
 }

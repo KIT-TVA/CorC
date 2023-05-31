@@ -1,5 +1,9 @@
 package de.tu_bs.cs.isf.commands.toolbar.handler.family;
 
+import java.io.IOException;
+
+import org.eclipse.core.runtime.CoreException;
+
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
 
 public class MetaVariablesClass {
@@ -19,7 +23,7 @@ public class MetaVariablesClass {
 		return this.code;
 	}
 	
-	public void saveToFile() {
+	public void saveToFile() throws IOException, CoreException {
 		String location = this.projectLocation + "/" + MetaClass.FOLDER_NAME + "/MetaVariables.java";
 		GenerateMetaProductHandler.saveJavaFile(location, this.code);
 	}

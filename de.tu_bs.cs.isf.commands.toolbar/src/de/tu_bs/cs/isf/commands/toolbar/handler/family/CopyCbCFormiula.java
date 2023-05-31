@@ -2,6 +2,7 @@ package de.tu_bs.cs.isf.commands.toolbar.handler.family;
 
 import java.util.UUID;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -12,6 +13,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
@@ -187,5 +189,11 @@ public class CopyCbCFormiula {
 		return newJavaVariable;
 	}
 	
+	public static JavaVariable copyParameter(Parameter parameter) {
+		JavaVariable newJavaVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
+		newJavaVariable.setKind(VariableKind.PARAM);
+		newJavaVariable.setName(parameter.getType() + " " + parameter.getName());
+		return newJavaVariable;
+	}
 
 }
