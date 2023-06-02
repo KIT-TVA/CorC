@@ -44,6 +44,10 @@ public class MetaClass {
 		cbcclassResource.getContents().add(metaModel);
 		GenerateModelFromCode.saveResource(cbcclassResource);
 	}
+
+	public ModelClass getModel() {
+		return this.metaModel;
+	}
 	
 	public Method getMethod(String name) throws MetaClassException {
 		for (var m : this.metaModel.getMethods()) {

@@ -558,6 +558,7 @@ public class ProveWithKey {
 			boolean closed = proof.openGoals().isEmpty();
 			if (!closed) {
 				Console.println("  Proof could not be closed.");
+				// TODO: Make it possible to turn the counterexample generator of and on during runtime.
 				CounterExampleGenerator generator = new CounterExampleGenerator();
 				generator.calculateExample(proof);
 			} else {

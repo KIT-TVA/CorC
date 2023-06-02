@@ -12,6 +12,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -27,6 +28,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -355,10 +357,101 @@ public class MetaMethod {
 		SetMetaSpecificationForFormula.passMetaSpeficiationThroughFormula(metaMethodFormula, this.metaPreConditon, this.metaPostCondition);	
 		UpdateConditionsOfChildren.updateConditionsofChildren(metaMethodFormula.getStatement().getPreCondition());
 		UpdateConditionsOfChildren.updateConditionsofChildren(metaMethodFormula.getStatement().getPostCondition());
+		placeThisInAllConditions(metaMethodFormula.getStatement());
+		placeThisInGlobalConditions(globalConditions);
 		metaMethodResource.getContents().add(metaMethodFormula);
 		metaMethodResource.getContents().add(globalConditions);
 		metaMethodResource.getContents().add(metaVariables);
 		return metaMethodResource;
+	}
+	
+	private void placeThisInGlobalConditions(GlobalConditions globalConditions) {
+		for (var gc : globalConditions.getConditions()) {
+			gc.setName(placeThis(gc.getName()));
+		}
+		
+	}
+	
+	private String placeThis(String condition) {
+		var metaModel = this.metaClass.getModel();
+		for (var f : metaModel.getFields()) {
+			condition = condition.replaceAll("(?<!this\\.)\\b" + f.getName() + "\\b" , "this." + f.getName());
+		}
+		return condition;
+	}
+	
+	private void placeThisInAllConditions(EObject cur) {
+		if (cur instanceof CompositionStatement) {
+			if (((CompositionStatement)cur).getPreCondition() != null) {
+				((CompositionStatement)cur).getPreCondition().setName(placeThis(((CompositionStatement)cur).getPreCondition().getName()));
+			}
+			if (((CompositionStatement)cur).getPostCondition() != null) {
+				((CompositionStatement)cur).getPostCondition().setName(placeThis(((CompositionStatement)cur).getPostCondition().getName()));
+			}
+			((CompositionStatement)cur).getIntermediateCondition().setName(placeThis(((CompositionStatement)cur).getIntermediateCondition().getName()));
+		} else if (cur instanceof MethodStatement) {
+			if (((MethodStatement)cur).getPreCondition() != null) {
+				((MethodStatement)cur).getPreCondition().setName(placeThis(((MethodStatement)cur).getPreCondition().getName()));
+			}
+			if (((MethodStatement)cur).getPostCondition() != null) {
+				((MethodStatement)cur).getPostCondition().setName(placeThis(((MethodStatement)cur).getPostCondition().getName()));
+			}
+		} else if (cur instanceof ReturnStatement) {
+			if (((ReturnStatement)cur).getPreCondition() != null) {
+				((ReturnStatement)cur).getPreCondition().setName(placeThis(((SelectionStatement)cur).getPreCondition().getName()));
+			}
+			if (((ReturnStatement)cur).getPostCondition() != null) {
+				((ReturnStatement)cur).getPostCondition().setName(placeThis(((SelectionStatement)cur).getPostCondition().getName()));
+			}
+		} else if (cur instanceof SelectionStatement) {
+			if (((SelectionStatement)cur).getPreCondition() != null) {
+				((SelectionStatement)cur).getPreCondition().setName(placeThis(((SelectionStatement)cur).getPreCondition().getName()));
+			}
+			if (((SelectionStatement)cur).getPostCondition() != null) {
+				((SelectionStatement)cur).getPostCondition().setName(placeThis(((SelectionStatement)cur).getPostCondition().getName()));
+			}
+		} else if (cur instanceof SkipStatement) {
+			if (((SkipStatement)cur).getPreCondition() != null) {
+				((SkipStatement)cur).getPreCondition().setName(placeThis(((SkipStatement)cur).getPreCondition().getName()));
+			}
+			if (((SkipStatement)cur).getPostCondition() != null) {
+				((SkipStatement)cur).getPostCondition().setName(placeThis(((SkipStatement)cur).getPostCondition().getName()));
+			}
+		} else if (cur instanceof SmallRepetitionStatement) {
+			if (((SmallRepetitionStatement)cur).getPreCondition() != null) {
+				((SmallRepetitionStatement)cur).getPreCondition().setName(placeThis(((SmallRepetitionStatement)cur).getPreCondition().getName()));
+			}
+			if (((SmallRepetitionStatement)cur).getPostCondition() != null) {
+				((SmallRepetitionStatement)cur).getPostCondition().setName(placeThis(((SmallRepetitionStatement)cur).getPostCondition().getName()));
+			}
+			((SmallRepetitionStatement)cur).getInvariant().setName(placeThis(((SmallRepetitionStatement)cur).getInvariant().getName()));
+			((SmallRepetitionStatement)cur).getVariant().setName(placeThis(((SmallRepetitionStatement)cur).getVariant().getName()));
+			((SmallRepetitionStatement)cur).getGuard().setName(placeThis(((SmallRepetitionStatement)cur).getGuard().getName()));
+		} else if (cur instanceof StrengthWeakStatement) {
+			if (((StrengthWeakStatement)cur).getPreCondition() != null) {
+				((StrengthWeakStatement)cur).getPreCondition().setName(placeThis(((StrengthWeakStatement)cur).getPreCondition().getName()));
+			}
+			if (((StrengthWeakStatement)cur).getPostCondition() != null) {
+				((StrengthWeakStatement)cur).getPostCondition().setName(placeThis(((StrengthWeakStatement)cur).getPostCondition().getName()));
+			}
+		} else if (cur instanceof OriginalStatement) {
+			if (((OriginalStatement)cur).getPreCondition() != null) {
+				((OriginalStatement)cur).getPreCondition().setName(placeThis(((OriginalStatement)cur).getPreCondition().getName()));
+			}
+			if (((OriginalStatement)cur).getPostCondition() != null) {
+				((OriginalStatement)cur).getPostCondition().setName(placeThis(((OriginalStatement)cur).getPostCondition().getName()));
+			}
+		} else if (cur instanceof AbstractStatement) {
+			if (((AbstractStatement)cur).getPreCondition() != null) {
+				((AbstractStatement)cur).getPreCondition().setName(placeThis(((AbstractStatement)cur).getPreCondition().getName()));
+			}
+			if (((AbstractStatement)cur).getPostCondition() != null) {
+				((AbstractStatement)cur).getPostCondition().setName(placeThis(((AbstractStatement)cur).getPostCondition().getName()));
+			}
+		}
+		for (var child : cur.eContents()) {
+			placeThisInAllConditions(child);
+		}
 	}
 	
 	private void saveMetaMethod(URI uri, Resource metaMethodResource) throws IOException, CoreException {
