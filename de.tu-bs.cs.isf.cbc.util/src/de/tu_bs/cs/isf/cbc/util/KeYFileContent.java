@@ -5,6 +5,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +25,9 @@ import org.eclipse.swt.widgets.Listener;
 //import org.hamcrest.core.IsInstanceOf;
 import org.stringtemplate.v4.compiler.CodeGenerator.primary_return;
 
+import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.PrivateKeyResolver;
+
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
@@ -38,6 +44,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
+import de.uka.ilkd.key.java.statement.If;
 
 public class KeYFileContent {	
 	public static final String REGEX_BEFORE_VARIABLE_KEYWORD = "(?<![a-zA-Z0-9_\\.]|self\\.)(";
@@ -66,6 +73,7 @@ public class KeYFileContent {
 	private Map<String, String> returnTypeMap = null;
 
 	private List<String> nameOfLocalVars;
+	private Map<String, Integer> varsForOldReplacement;
 
 	public KeYFileContent(String location) {
 		this.location = location;
@@ -81,6 +89,7 @@ public class KeYFileContent {
 		returnTypeMap = initReturnTypeMap();
 		
 		nameOfLocalVars = new ArrayList<>();
+		varsForOldReplacement = new HashMap<>();
 	}
 	
 	public void setLocation(String location) {
@@ -124,10 +133,14 @@ public class KeYFileContent {
 				String[] NameOfVar = var.getName().split(" ");
 				nameOfLocalVars.add(NameOfVar[NameOfVar.length-1]);
 				
+				JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
+				variable.setKind(var.getKind());
+				variable.setName(var.getName());
+				
 				if (var.getKind() == VariableKind.RETURN || var.getKind() == VariableKind.RETURNPARAM) {
-					returnVariable = var;
+					returnVariable = variable;
 				}
-				programVariables.getVariables().add(var);
+				programVariables.getVariables().add(variable);
 			}
 			for (Parameter param : vars.getParams()) {
 				if (param.getName().equals("ret")) {
@@ -147,11 +160,20 @@ public class KeYFileContent {
 	
 	public void readGlobalConditions(GlobalConditions conds) {
 		if (conds != null) {
-			for (Condition cond : conds.getConditions()) {
-				if (!cond.getName().isEmpty()) {
+			//We have to copy GlobalConditions so that the diagram won't be changed
+			for (int i = 0; i < conds.getConditions().size(); i++) {
+				if (!conds.getConditions().get(i).getName().isEmpty()) {
+					Condition cond = CbcmodelFactory.eINSTANCE.createCondition();
+					cond.setName(conds.getConditions().get(i).getName());
+					cond.getModifiables().addAll(conds.getConditions().get(i).getModifiables());
 					globalConditions.add(cond);
 				}
 			}
+//			for (Condition cond : conds.getConditions()) {
+//				if (!cond.getName().isEmpty()) {
+//					globalConditions.add(cond);
+//				}
+//			}
 		}
 	}
 
@@ -257,10 +279,10 @@ public class KeYFileContent {
 	}
 	
 	public String getKeYContent(boolean withStatement) {
-		List<String> oldKeywords = extractOldKeywordVariables();
-		Map<String, OldReplacement> oldReplacements = addOldVariables(self, oldKeywords);
-		
 		addSelfForFields();
+		
+		Set<String> oldKeywords = extractOldKeywordVariables();
+		Map<String, OldReplacement> oldReplacements = addOldVariables(self, oldKeywords);
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append(getKeyHeader(oldReplacements));
@@ -319,12 +341,13 @@ public class KeYFileContent {
 			builder.append(removeStaticNonNull(unmodifiableVar) + ";\n");
 		}
 		
-		for (String var : oldReplacements.keySet()) {
-			builder.append(removeStaticNonNull(var) + oldReplacements.get(var).index + OLD_VARS_SUFFIX + ";\n");
+//		for (String var : oldReplacements.keySet()) {
+//			builder.append(removeStaticNonNull(var) + oldReplacements.get(var).index + OLD_VARS_SUFFIX + ";\n");
+//		}
+		
+		for (String var : varsForOldReplacement.keySet()) {
+			builder.append(removeStaticNonNull(var) + varsForOldReplacement.get(var) + OLD_VARS_SUFFIX + ";\n");
 		}
-		
-		
-		
 		return builder.toString();
 	}
 
@@ -338,7 +361,8 @@ public class KeYFileContent {
 		preConditions.removeIf(v -> v.equals(""));
 		
 	    String result = String.join(" & ", preConditions);
-		
+	    result = replaceThisWithSelf(result);
+	    
 		return replaceOldKeyword(result, oldReplacements);
 	}
 	
@@ -349,6 +373,7 @@ public class KeYFileContent {
 		preConditions.removeIf(v -> v.getName().equals(""));
 		
 		String result =  String.join(" & ", postConditions);
+		result = replaceThisWithSelf(result);
 		
 		return replaceOldKeyword(result, oldReplacements);
 	}
@@ -400,7 +425,6 @@ public class KeYFileContent {
 				conditions.add(removeStaticNonNull(var) + oldReplacements.get(var).index + OLD_VARS_SUFFIX + ".<created>=TRUE");
 			}
 		}
-		
 		return String.join(" & ", conditions);
 	}
 	
@@ -439,7 +463,6 @@ public class KeYFileContent {
 			varName = removeStaticNonNull(varName);
 			assignments.add(varName + "_old := " + varName);
 		}
-		
 		return assignments;
 	}
 	
@@ -447,10 +470,11 @@ public class KeYFileContent {
 		List<String> assignments = new ArrayList<>();
 		for (String var : oldReplacements.keySet()) {
 			if (!getPreConditionsString(oldReplacements).contains("\\old(" + var + ")")) {
-				assignments.add(removeStaticNonNull(var) + oldReplacements.get(var).index + OLD_VARS_SUFFIX + ":=" + var);
+//				assignments.add(removeStaticNonNull(var) + oldReplacements.get(var).index + OLD_VARS_SUFFIX + ":=" + var);
+				assignments.add(var + " := " + oldReplacements.get(var).var);
+				
 			}
 		}
-		
 		return assignments;
 	}
 	
@@ -459,7 +483,6 @@ public class KeYFileContent {
 		for (String var : unmodifiableVars) {
 			vars.add(removeStaticNonNull(var) + "_old");
 		}
-		
 		return vars;
 	}
 	
@@ -470,7 +493,6 @@ public class KeYFileContent {
 			varName = varName.replace("static", "").replace(" non-null", "");
 			conds.add(MessageFormat.format("{0} = {1}_old", varName, varName));
 		}
-		
 		return conds;
 	}
 	
@@ -508,9 +530,9 @@ public class KeYFileContent {
 		return result;
 	}
 	
-	private List<String> extractOldKeywordVariables() {
+	private Set<String> extractOldKeywordVariables() {
 		// Clear the list of replacements
-		List<String> oldKeywords = new LinkedList<>();
+		Set<String> oldKeywords = new HashSet<>();
 		ArrayList<Integer> beginIndizes = new ArrayList<>();
 		ArrayList<Integer> endIndizes = new ArrayList<>();
 		int openParenthesisCounter = 0;
@@ -519,6 +541,7 @@ public class KeYFileContent {
 		 * of first-level parenthesis.
 		 */
 		String conditions = Stream.of(preConditions, postConditions, globalConditions).flatMap(List::stream).map(Condition::getName).collect(Collectors.joining(" & "));
+		
 		String currentOldMatch = conditions;
 		if (currentOldMatch.contains("\\old(")) {
 			for (int i = currentOldMatch.indexOf("\\old"); i < currentOldMatch.length(); i++) {
@@ -552,11 +575,12 @@ public class KeYFileContent {
 		return oldKeywords;
 	}
 	
-	private Map<String, OldReplacement> addOldVariables(CbCFormula formula, List<String> oldKeywords) {
+	private Map<String, OldReplacement> addOldVariables(CbCFormula formula, Set<String> oldKeywords) {
 		Map<String, OldReplacement> newReplacements = new HashMap<>();
 		// Add new old variables to variable List
 		int counterForVarNaming = 0;
-		for (String varUsedInOldContext : oldKeywords) {
+		
+		for (String varUsedInOldContext : oldKeywords) {			
 			counterForVarNaming++;
 			// Get variable name with variable kind
 			String var = "";
@@ -617,7 +641,8 @@ public class KeYFileContent {
 				}
 				if (currentClassName.startsWith("self") || currentClassName.startsWith("this")
 						|| isFirstAccessedVarInCurrentClass) {
-					currentClassName = formula.getClassName();
+//					TODO: solve differently
+					currentClassName = formula.getClassName().replace(" self", "");
 				}
 				if (isFirstAccessedVarInCurrentClass)
 					startIndex = 0;
@@ -632,6 +657,7 @@ public class KeYFileContent {
 					accessArray = currentVarName.contains("[");
 					// Replace brackets
 					currentVarName = currentVarName.replaceAll("\\[.*\\]", "");
+					
 					if (methodClassVarMap.keySet().contains(currentClassName)) {
 						for (Field methodVar : methodClassVarMap.get(currentClassName)) {
 							String methodVarType = methodVar.getType();
@@ -679,6 +705,7 @@ public class KeYFileContent {
 						+ OLD_VARS_SUFFIX;
 				// Add new modified replacements to map.
 				newReplacements.put(varNameWithOldSuffix, new OldReplacement(varUsedInOldContext, counterForVarNaming));
+				varsForOldReplacement.put(var, counterForVarNaming);
 			}
 		}
 		return newReplacements;
@@ -690,8 +717,10 @@ public class KeYFileContent {
 			varNameOnly = varNameOnly.replaceAll("\\[.*\\]", "");
 			if (varNameOnly.contains("("))
 				varNameOnly = varNameOnly.substring(0, varNameOnly.indexOf("("));
-
+			
 			condition = condition.replace("\\old(" + replacements.get(key).var + ")", varNameOnly);
+			System.out.println("---");
+			System.out.println(condition);
 		}
 		if (condition.contains("\\old")) {
 			Console.println("Unsupported usage of \\old keyword in condition: '" + condition + "'");
@@ -714,7 +743,6 @@ public class KeYFileContent {
 				}
 			}
 		}
-		
 		return methodClassVarMap;
 	}
 
@@ -732,7 +760,6 @@ public class KeYFileContent {
 				}
 			}
 		}
-		
 		return returnTypeMap;
 	}
 	

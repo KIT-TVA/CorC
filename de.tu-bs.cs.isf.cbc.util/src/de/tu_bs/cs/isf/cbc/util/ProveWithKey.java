@@ -139,17 +139,26 @@ public class ProveWithKey {
 		content.setSrcFolder(sourceFolder);
 		content.readVariables(varsFromJavaClass);
 		JavaVariable returnVariable = content.readVariables(vars);
+//		TODO: delete
+//		GlobalConditions cond = CbcmodelFactory.eINSTANCE.createGlobalConditions();
+//		System.out.println(conds.getConditions().isEmpty());
+//		for(int i = 0; i < conds.getConditions().size(); i++) {
+//			Condition c = CbcmodelFactory.eINSTANCE.createCondition();
+//			c.setName(conds.getConditions().get(i).getName());
+//			c.getModifiables().addAll(conds.getConditions().get(i).getModifiables());
+//			cond.getConditions().add(c);
+//		}
+//		System.out.println(conds.getConditions().isEmpty());
+		
 		content.readGlobalConditions(conds);
-
 		readPrePostModVars(varM.length() == 0 ? refinements : refinementsOriginal, refinementsVars, returnVariable, content, callingClass);
 		
 		if (returnStatement) {
 			content.setStatement(";");
 			content.handleReturn(statement, returnVariable, formula);
 		} else {
-			content.setStatement(statement.getName());
+			content.setStatement(statement.getName());	
 		}
-
 		content.rename(renaming);
 		replaceOriginalInStatement(refinementsOriginal, refinements, refinementsVars, callingMethod, content, varM, callingClass, callingFeature);
 		
@@ -159,14 +168,25 @@ public class ProveWithKey {
 //		content.addSelfForFields(varsFromJavaClass);
 		content.addSelf(formula);
 //		content.handleOld(formula, vars);
-
 		problem = content.getKeYStatementContent();	
 		problem = problem.replaceAll("static", "");
 		problem = problem.replaceAll("return", ""); // TODO replace with correct handling of return
-		
-		System.out.println(problem);
 
 		String location = fileHandler.getLocationString(uri) + configName;
+		
+//		TODO: delete
+		
+		System.out.println("------");
+		System.out.println("------");
+		System.out.println("------");
+		System.out.println(problem);
+		System.out.println("------");
+		System.out.println(location);
+		System.out.println("------");
+		System.out.println(statement.getName());
+		System.out.println("------");
+		System.out.println(subProofName);
+		
 		File keyFile = fileHandler.writeFile(problem, location, override, statement, subProofName);
 		return keyFile;
 	}
@@ -548,6 +568,23 @@ public class ProveWithKey {
 	}
 
 	public boolean proveWithKey(File location, boolean inlining) {
+//		TODO: delete
+		System.out.println("------");
+		System.out.println("------");
+		System.out.println("------");
+		System.out.println(location);
+		System.out.println("------");
+		System.out.println(monitor);
+		System.out.println("------");
+		System.out.println(inlining);
+		System.out.println("------");
+		System.out.println(formula);
+		System.out.println("------");
+		System.out.println(statement.getName());
+		System.out.println("------");
+		System.out.println(problem);
+		System.out.println("------");
+		System.out.println(uri);
 		return proveWithKey(location, monitor, inlining, formula, statement, problem, uri);	
 	}
 	
