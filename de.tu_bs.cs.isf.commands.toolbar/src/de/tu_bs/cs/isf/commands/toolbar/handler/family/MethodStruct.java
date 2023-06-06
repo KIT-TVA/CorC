@@ -6,6 +6,7 @@ import org.eclipse.emf.common.util.URI;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
@@ -15,7 +16,9 @@ import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
 public class MethodStruct {
-	String nameOfFeature, nameOfMethod, preCondition, postCondition;
+	String nameOfFeature, nameOfMethod;
+	Condition preCondition;
+	Condition postCondition;
 	URI fullPlatFormPath;
 	CbCFormula CbcFormula;
 	JavaVariables javaVariables;
@@ -36,8 +39,8 @@ public class MethodStruct {
 		
 		this.nameOfFeature = nameOfFeature;
 		this.nameOfMethod = methodFile.getName().split("\\.")[0];
-		this.preCondition = CbcFormula.getStatement().getPreCondition().getName();
-		this.postCondition = CbcFormula.getStatement().getPostCondition().getName();
+		this.preCondition = CbcFormula.getStatement().getPreCondition();
+		this.postCondition = CbcFormula.getStatement().getPostCondition();
 		AbstractStatement varCall = searchVarCall(this.CbcFormula.getStatement());
 		
 		//Adapt method Call to: <NameOfJavaFile>.<varMethodName>(<FV_1>, ..., <FV_N> , <Arg1>,..., <ArgN>);
@@ -116,8 +119,8 @@ public class MethodStruct {
 		Console.println("\tFeature: \t"+ this.nameOfFeature);
 		Console.println("\tMethod: \t"+ this.nameOfMethod);
 		Console.println("\tPath: \t\t"+ this.fullPlatFormPath);
-		Console.println("\tPre Condition: \t"+ this.preCondition.replaceAll("\\r\\n|\\r|\\n", " "));
-		Console.println("\tPost Condition: "+ this.postCondition.replaceAll("\\r\\n|\\r|\\n", " "));
+		Console.println("\tPre Condition: \t"+ this.preCondition.getName().replaceAll("\\r\\n|\\r|\\n", " "));
+		Console.println("\tPost Condition: "+ this.postCondition.getName().replaceAll("\\r\\n|\\r|\\n", " "));
 		Console.println("\tCalls Orignal: \t"+ this.callsOriginal);
 		Console.println("}");
 		Console.println("------");

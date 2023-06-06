@@ -42,7 +42,7 @@ public class MetaMethod {
 	MetaClass metaClass;
 	CbCFormula metaMethodFormula;
 	String metaMethodName; 
-	String metaPreConditon, metaPostCondition;
+	Condition metaPreConditon, metaPostCondition;
 	String featureModelFormulaCNF;
 	List<MethodStruct> listOfMethods;
 	ArrayList<IFeature> featureVariables;
@@ -87,8 +87,8 @@ public class MetaMethod {
 		Console.println("Generated meta method for method " + this.metaMethodName + ":");
 		Console.println("{");
 		Console.println("\tFeature Model: " +this.featureModelFormulaCNF);
-		Console.println("\tMeta Pre Condition: " + this.metaPreConditon.replaceAll("\\r\\n|\\r|\\n", " "));
-		Console.println("\tMeta Post Condition: " + this.metaPostCondition.replaceAll("\\r\\n|\\r|\\n", " "));
+		Console.println("\tMeta Pre Condition: " + this.metaPreConditon.getName().replaceAll("\\r\\n|\\r|\\n", " "));
+		Console.println("\tMeta Post Condition: " + this.metaPostCondition.getName().replaceAll("\\r\\n|\\r|\\n", " "));
 		Console.println("\t Resolved Methods:");
 		for(MethodStruct method: this.listOfMethods) {
 			Console.println("\t\t Feature: " +method.nameOfFeature);
@@ -141,70 +141,78 @@ public class MetaMethod {
 		return newHiearchie;
 	}
 
-	String createMetaPreCondition() {
+	Condition createMetaPreCondition() {
 		int cur = this.listOfMethods.size()-1;
-		String condition = this.listOfMethods.get(cur).preCondition;
+		Condition condition = this.listOfMethods.get(cur).preCondition;
+		Condition metaCondition = CbcmodelFactory.eINSTANCE.createCondition();
+		metaCondition.setName(condition.getName());
+		metaCondition.getModifiables().addAll(condition.getModifiables());
 		String curFeature = this.listOfMethods.get(cur).nameOfFeature.toUpperCase();
 		if (cur == 0) {
-			return "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = TRUE" + " -> (" + condition + "))";
+			metaCondition.setName("(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = TRUE" + " -> (" + metaCondition.getName() + "))");
+			return metaCondition;
 		}
-		condition = "(" + MetaVariablesClass.NAME 
+		metaCondition.setName("(" + MetaVariablesClass.NAME 
 				+ "." + "FV_"+ curFeature 
-				+ " = TRUE" + " -> ("  + condition + "))" 
+				+ " = TRUE" + " -> ("  + metaCondition.getName() + "))" 
 				+ " & "
-				+ "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = FALSE" + " -> (original))";
-		while (condition.contains("original")) {
+				+ "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = FALSE" + " -> (original))");
+		while (metaCondition.getName().contains("original")) {
 			cur--;
 			curFeature = this.listOfMethods.get(cur).nameOfFeature.toUpperCase();
-			var oriCondition = this.listOfMethods.get(cur).preCondition; 
+			var oriCondition = this.listOfMethods.get(cur).preCondition.getName(); 
 			if (cur == 0) {
-				condition = condition.replaceAll("original", Matcher.quoteReplacement(
+				metaCondition.setName(metaCondition.getName().replaceAll("original", Matcher.quoteReplacement(
 						"(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = TRUE" 
-					    + " -> (" + oriCondition + "))"));
+					    + " -> (" + oriCondition + "))")));
 				break;
 			} else {
-				condition = condition.replaceAll("original", Matcher.quoteReplacement(
+				metaCondition.setName(metaCondition.getName().replaceAll("original", Matcher.quoteReplacement(
 						"(" + MetaVariablesClass.NAME 
 						+ "." + "FV_"+ curFeature 
 						+ " = TRUE" + " -> ("  + oriCondition + "))" 
 						+ " & "
-						+ "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = FALSE " + " -> (original))"));
+						+ "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = FALSE " + " -> (original))")));
 			}
 		}
-		return condition;
+		return metaCondition;
 	}
 	
-	String createMetaPostCondition() {
+	Condition createMetaPostCondition() {
 		int cur = this.listOfMethods.size()-1;
-		String condition = this.listOfMethods.get(cur).postCondition;
+		Condition condition = this.listOfMethods.get(cur).postCondition;
+		Condition metaCondition = CbcmodelFactory.eINSTANCE.createCondition();
+		metaCondition.setName(condition.getName());
+		metaCondition.getModifiables().addAll(condition.getModifiables());
 		String curFeature = this.listOfMethods.get(cur).nameOfFeature.toUpperCase();
 		if (cur == 0) {
-			return "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = TRUE" + " -> (" + condition + "))";
+			metaCondition.setName("(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = TRUE" + " -> (" + metaCondition.getName() + "))");
+			return metaCondition;
 		}
-		condition = "(" + MetaVariablesClass.NAME 
+		metaCondition.setName("(" + MetaVariablesClass.NAME 
 				+ "." + "FV_"+ curFeature 
-				+ " = TRUE" + " -> ("  + condition + "))" 
+				+ " = TRUE" + " -> ("  + metaCondition.getName() + "))" 
 				+ " & "
-				+ "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = FALSE" + " -> (original))";
-		while (condition.contains("original")) {
+				+ "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = FALSE" + " -> (original))");
+		while (metaCondition.getName().contains("original")) {
 			cur--;
 			curFeature = this.listOfMethods.get(cur).nameOfFeature.toUpperCase();
-			var oriCondition = this.listOfMethods.get(cur).postCondition; 
+			var oriCondition = this.listOfMethods.get(cur).postCondition.getName(); 
 			if (cur == 0) {
-				condition = condition.replaceAll("original", Matcher.quoteReplacement(
+				metaCondition.setName(metaCondition.getName().replaceAll("original", Matcher.quoteReplacement(
 						"(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = TRUE" 
-					    + " -> (" + oriCondition + "))"));
+					    + " -> (" + oriCondition + "))")));
 				break;
 			} else {
-				condition = condition.replaceAll("original", Matcher.quoteReplacement(
+				metaCondition.setName(metaCondition.getName().replaceAll("original", Matcher.quoteReplacement(
 						"(" + MetaVariablesClass.NAME 
 						+ "." + "FV_"+ curFeature 
 						+ " = TRUE" + " -> ("  + oriCondition + "))" 
 						+ " & "
-						+ "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = FALSE " + " -> (original))"));
+						+ "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature + " = FALSE " + " -> (original))")));
 			}
 		}
-		return condition;
+		return metaCondition;
 	}
 	
 	public Resource toResourceObject(String className) throws IOException, CoreException, MetaClassException {

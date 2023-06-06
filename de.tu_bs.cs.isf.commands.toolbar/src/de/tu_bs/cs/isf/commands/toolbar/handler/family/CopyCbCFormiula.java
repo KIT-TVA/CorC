@@ -21,14 +21,14 @@ public class CopyCbCFormiula {
 	
 	private static String EMPTY_STRING = new String("\n");
 	
-	public static CbCFormula copyCbCFormula(final CbCFormula formulaToCopy) {
+	public static CbCFormula copyCbCFormula(CbCFormula formulaToCopy) {
 		
 		CbCFormula newCbcFormula = CbcmodelFactory.eINSTANCE.createCbCFormula();
 		
 		newCbcFormula.setName(formulaToCopy.getName());
 		newCbcFormula.setCompositionTechnique(formulaToCopy.getCompositionTechnique());
 		newCbcFormula.setPreCondition(formulaToCopy.getPreCondition());
-		newCbcFormula.setPostCondition(formulaToCopy.getPreCondition());
+		newCbcFormula.setPostCondition(formulaToCopy.getPostCondition());
 		
 		
 		AbstractStatement newFormulaStatement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
@@ -144,29 +144,19 @@ public class CopyCbCFormiula {
 		
 		copyAllRefinements(newRepetitionStatement.getLoopStatement(), repetitionStatementToCopy.getLoopStatement().getRefinement());
 	}
+
 	private static Variant copyVariant(Variant variantToCopy) {
 		Variant newVariant = CbcmodelFactory.eINSTANCE.createVariant();
 		String newName = new String(variantToCopy.getName());
 		newVariant.setName(newName);
 		return newVariant;
 	}
-	private static String createRandomUUID() {
-		UUID uuid = UUID.randomUUID();
-		return uuid.toString();
-	}
+
 	public static Condition copyCondition(Condition oldCondition) {
 		Condition newCondition = CbcmodelFactory.eINSTANCE.createCondition();
-		String newConditionName = new String(oldCondition.getName());
-		//newCondition.setName(newConditionName+createRandomUUID().charAt(0));
-		/*StringBuilder sb = new StringBuilder(oldCondition.getName());
-		sb.append(EMPTY_STRING);
-		newCondition.setName(sb.toString());*/ 
 		newCondition.setName(new String(oldCondition.getName()));
+		newCondition.getModifiables().addAll(oldCondition.getModifiables());
 		return newCondition;
-	}
-	
-	private static String removeLastFrom(String string) {
-		return string.substring(0, string.length()-1);
 	}
 	
 	private static AbstractStatement copyAbstractStatement(AbstractStatement statementToCopy) {

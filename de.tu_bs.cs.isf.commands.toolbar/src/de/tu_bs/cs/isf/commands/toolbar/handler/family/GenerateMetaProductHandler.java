@@ -349,9 +349,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 					// features/<fn>/className/
 					for(IResource currentFileInDiagram: ((IFolder) classFolder).members()) {
 						if(currentFileInDiagram.getFullPath().toPortableString().endsWith("cbcmodel")) {
-							
 							Console.println("Found cbcmodel file: " + currentFileInDiagram.getFullPath());
-							
 							String nameOfCurrentMethod = currentFileInDiagram.getName().split("\\.")[0];
 							if(!uniqueMetaMethodNames.contains(nameOfCurrentMethod)) {
 								uniqueMetaMethodNames.add(nameOfCurrentMethod);
@@ -362,9 +360,10 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 							if(!methodNameToImplementingFeature.containsKey(nameOfCurrentMethod)) {
 								methodNameToImplementingFeature.put(nameOfCurrentMethod, new ArrayList<String>());
 							}
-							methodNameToMethodStructMap.get(nameOfCurrentMethod).add(new MethodStruct(this.NAME_OF_JAVA_FILE, currentNameOfFeature, this.FEATURE_VARIABLES, currentFileInDiagram));
+							var newMethod = new MethodStruct(this.NAME_OF_JAVA_FILE, currentNameOfFeature, this.FEATURE_VARIABLES, currentFileInDiagram);
+							methodNameToMethodStructMap.get(nameOfCurrentMethod).add(newMethod);
 							methodNameToImplementingFeature.get(nameOfCurrentMethod).add(currentNameOfFeature);
-							detectedMethods.add(new MethodStruct(this.NAME_OF_JAVA_FILE, currentNameOfFeature, this.FEATURE_VARIABLES, currentFileInDiagram));
+							detectedMethods.add(newMethod);
 						}
 					}
 				}
