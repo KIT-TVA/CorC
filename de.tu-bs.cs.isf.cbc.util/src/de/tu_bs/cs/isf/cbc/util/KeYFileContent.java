@@ -148,6 +148,9 @@ public class KeYFileContent {
 					returnVariable.setKind(VariableKind.RETURNPARAM);
 					returnVariable.setName(param.getType() + " " + param.getName());
 				}
+//				TODO: delete
+				System.out.println(param.getType() + " " + param.getName());
+				
 				programVariables.getParams().add(param);
 			}
 			for (Field field : vars.getFields()) {
@@ -240,7 +243,9 @@ public class KeYFileContent {
 	public void handleReturn(AbstractStatement retStatement, JavaVariable returnVariable, CbCFormula formula) {
 		if(retStatement.getClass().equals(ReturnStatementImpl.class)) {
 			if (returnVariable != null) {
-				statement = returnVariable.getName().replace("static", "").replace(" non-null", "").split(" ")[1] + " = " + retStatement.getName();
+//				TODO: check
+//				statement = returnVariable.getName().replace("static", "").replace(" non-null", "").split(" ")[1] + " = " + retStatement.getName();
+				statement = removeStaticNonNull(returnVariable.getName()).split(" ")[1] + " = " + retStatement.getName();
 //			    post = post.replaceAll(REGEX_RESULT_KEYWORD.pattern(), returnVariable.getName().substring(returnVariable.getName().indexOf(" ")));
 			    for (Condition c : postConditions) {
 			    	c.getName().replaceAll(REGEX_RESULT_KEYWORD.pattern(), returnVariable.getName().substring(returnVariable.getName().indexOf(" ")));
@@ -333,6 +338,7 @@ public class KeYFileContent {
 		for (JavaVariable var : programVariables.getVariables()) {
 			builder.append(removeStaticNonNull(var.getName()) + ";\n");
 		}
+		
 		for (Parameter param : programVariables.getParams()) {
 			builder.append(removeStaticNonNull(param.getType() + " " + param.getName()) + ";\n");
 		}
@@ -379,13 +385,35 @@ public class KeYFileContent {
 	}
 	
 	private String getGlobalConditionsString(Map<String, OldReplacement> oldReplacements) {
-		String result = globalConditions.stream()
-				.map(Condition::getName)
-				.map(this::replaceThisWithSelf)
-				.map(this::renameCondition)
-				.collect(Collectors.joining(" & "));
-						
-		return replaceOldKeyword(result, oldReplacements);
+		List<String> conditions = new ArrayList<>();
+		
+		for (Condition cond : globalConditions) {
+			if (!cond.getName().isEmpty()) {
+				cond.setName(replaceThisWithSelf(cond.getName()));
+				cond.setName(renameCondition(cond.getName()));
+				if (cond.getName().contains("non-null")) { //non-null property added here TODO: up to change
+					String[] conditionSplitted = cond.getName().split(" ");
+					String varDataType = conditionSplitted[0];
+					String varName = conditionSplitted[1];
+					if (!isSimpleType(varDataType)) {
+						conditions.add(varDataType + "::exactInstance(" + varName + ") = TRUE");
+						conditions.add(varName + ".<created> = TRUE");
+						conditions.add(varName + " != null");
+					}
+				} else {
+					conditions.add(cond.getName());
+				}
+			}
+		}
+		return String.join(" & ", conditions);
+		
+//		String result = globalConditions.stream()
+//				.map(Condition::getName)
+//				.map(this::replaceThisWithSelf)
+//				.map(this::renameCondition)
+//				.collect(Collectors.joining(" & "));
+//						
+//		return replaceOldKeyword(result, oldReplacements);
 	}
 	
 	private String getConditionObjectsCreatedString(Map<String, OldReplacement> oldReplacements) {
@@ -393,6 +421,7 @@ public class KeYFileContent {
 		for (JavaVariable var : programVariables.getVariables()) {
 			String type = getTypeFromVar(var.getName());
 			String name = getNameFromVar(var.getName());
+			
 			if (var.getKind() == VariableKind.PARAM && isNonNull(var)) {
 				addNonNullCondition(conditions, type, name);
 			}
@@ -402,9 +431,11 @@ public class KeYFileContent {
 		}
 		for (Parameter param : programVariables.getParams()) {
 			if (isArray(param)) {
-				conditions.add(param.getName() + ".<created> = TRUE");
+				conditions.add(removeStaticNonNull(param.getName()) + ".<created> = TRUE");
 			}
-			if (isNonNull(param)) {
+//			TODO: check
+//			if (isNonNull(param)) {
+			if (!param.getName().equals("ret") && isNonNull(param)) {
 				addNonNullCondition(conditions, removeStaticNonNull(param.getType()), removeStaticNonNull(param.getName()));
 			}
 		}
@@ -490,7 +521,9 @@ public class KeYFileContent {
 		List<String> conds = new ArrayList<>();
 		for (String var : unmodifiableVars) {
 			String varName = var.substring(var.lastIndexOf(" ") + 1);
-			varName = varName.replace("static", "").replace(" non-null", "");
+//			TODO: check
+//			varName = varName.replace("static", "").replace(" non-null", "");
+			varName = removeStaticNonNull(varName);
 			conds.add(MessageFormat.format("{0} = {1}_old", varName, varName));
 		}
 		return conds;
