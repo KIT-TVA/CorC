@@ -31,8 +31,7 @@ public class IFbCReturn implements IFbCStatement {
 	                                 final Map<String, String> changedTypes, 
 	                                 final List<String> usedCapsules,
 	                                 final String optionalGuardSL,
-	                                 final Method constructingMethod,
-	                                 final Map<String, String> specification) throws IFbCException {
+	                                 final Method constructingMethod) throws IFbCException {
 		System.out.println("IFbCReturn: " + this.toString());
 		
 		final String definedMethodSL = constructingMethod.getSecurityLevel();	
@@ -45,7 +44,7 @@ public class IFbCReturn implements IFbCStatement {
 			return new TypeableResult(false, "Return statement should not contain assignment. Not typeable", elevatedEntities, changedTypes, usedCapsules);
 		case MethodCall:
 			final IFbCMethod methodStmt = (IFbCMethod) returnStatement;
-			final TypeableResult typeableResult = methodStmt.isTypeable(lattice, projectName, elevatedEntities, changedTypes, usedCapsules, optionalGuardSL, constructingMethod, specification);
+			final TypeableResult typeableResult = methodStmt.isTypeable(lattice, projectName, elevatedEntities, changedTypes, usedCapsules, optionalGuardSL, constructingMethod);
 			if (!typeableResult.isTypeable()) {
 				return new TypeableResult(false, "Method in return statement was not typeable. (Reason: " + typeableResult.getMessage() + ")", elevatedEntities, changedTypes, usedCapsules);
 			}

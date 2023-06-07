@@ -1,26 +1,21 @@
 package de.tu_bs.cs.isf.cbc.parser.data.ifbc.statements;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import de.tu_bs.cs.isf.cbc.parser.JavaClasses;
 import de.tu_bs.cs.isf.cbc.parser.annotations.MDF;
-import de.tu_bs.cs.isf.cbc.parser.data.ConstructorDefinition;
 import de.tu_bs.cs.isf.cbc.parser.data.JavaClass;
 import de.tu_bs.cs.isf.cbc.parser.data.Method;
-import de.tu_bs.cs.isf.cbc.parser.data.ParameterDefinition;
 import de.tu_bs.cs.isf.cbc.parser.data.ifbc.TypeableResult;
 import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCDeclassifyEntity;
+import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCEntity.EntityType;
 import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCFieldAccessEntity;
 import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCFieldAssignEntity;
 import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCMethodEntity;
 import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCNewEntity;
 import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCReferenceEntity;
-import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCEntity.EntityType;
 import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
 import de.tu_bs.cs.isf.lattice.Lattice;
 import de.tu_bs.cs.isf.lattice.Node;
@@ -51,8 +46,7 @@ public class IFbCAssignment extends IFbcAbstractStatement {
 	                                 final Map<String, String> changedTypes,
 	                                 final List<String> usedCapsules,
 	                                 final String optionalGuardSL,
-	                                 final Method constructingMethod,
-	                                 final Map<String, String> specification) throws IFbCException {
+	                                 final Method constructingMethod) throws IFbCException {
 		final Map<String, JavaClass> javaClassesForProject = JavaClasses.getJavaClassesForProject(projectName);
 
 		if (javaClassesForProject == null || javaClassesForProject.isEmpty()) {
@@ -174,7 +168,7 @@ public class IFbCAssignment extends IFbcAbstractStatement {
 			}
 			
 			IFbCMethod methodStatement = new IFbCMethod(entity.getName(), entity);
-			final TypeableResult typeableResult = methodStatement.isTypeable(lattice, projectName, elevatedEntities, changedTypes, usedCapsules, optionalGuardSL, constructingMethod, specification);
+			final TypeableResult typeableResult = methodStatement.isTypeable(lattice, projectName, elevatedEntities, changedTypes, usedCapsules, optionalGuardSL, constructingMethod);
 			
 			if (!typeableResult.isTypeable()) {
 				return typeableResult;
@@ -315,12 +309,7 @@ public class IFbCAssignment extends IFbcAbstractStatement {
 			// value node, we need to elevate it globally
 			if (target.getMutationModifier().equals(MDF.IMMUTABLE)
 					|| target.getMutationModifier().equals(MDF.CAPSULE)) {
-				// Check of this promotion would break the specification				
-				final TypeableResult checkPromotionRegardingSpecification = checkPromotionRegardingSpecification(lattice, elevatedEntities, changedTypes, usedCapsules,
-						specification, valueSL, valueSLNode);
-				if (checkPromotionRegardingSpecification != null) {
-					return checkPromotionRegardingSpecification;
-				}
+				
 				
 				// Capsule usage? 
 				if (target.getMutationModifier().equals(MDF.CAPSULE)) {
@@ -373,31 +362,30 @@ public class IFbCAssignment extends IFbcAbstractStatement {
 		return null;
 	}
 
-	private TypeableResult checkPromotionRegardingSpecification(final Lattice lattice,
-	                                                            final Map<String, List<IFbCReferenceEntity>> elevatedEntities,
-	                                                            final Map<String, String> changedTypes,
-	                                                            final List<String> usedCapsules,
-	                                                            final Map<String, String> specification,
-	                                                            final String valueSL,
-	                                                            final Node valueSLNode) {
-		if (specification.containsKey(target.getName())) {
-			final String specificationMaxLevel = specification.get(target.getName());
-			final Node specificationMaxLevelNode = lattice.getNodePerName(specificationMaxLevel);
-			if (specificationMaxLevelNode == null) {
-				return new TypeableResult(
-						false, "Specification level '" + specificationMaxLevel + "' for reference '" + target.getName() + "' does not exist in Lattice." ,
-						elevatedEntities, changedTypes, usedCapsules);
-			}
-			
-			if (LeastUpperBound.secondHigherThanFirst(specificationMaxLevelNode, valueSLNode)) {
-				return new TypeableResult(
-						false, "Using SEC-PROM to elevate target '" + target.getName() + "' to level '" + valueSL + "' is breaking specification of the reference.",
-						elevatedEntities, changedTypes, usedCapsules);
-			}
-		}
-		
-		return null;
-	}
+//	private TypeableResult checkPromotionRegardingSpecification(final Lattice lattice,
+//	                                                            final Map<String, List<IFbCReferenceEntity>> elevatedEntities,
+//	                                                            final Map<String, String> changedTypes,
+//	                                                            final List<String> usedCapsules,
+//	                                                            final String valueSL,
+//	                                                            final Node valueSLNode) {
+//		if (specification.containsKey(target.getName())) {
+//			final String specificationMaxLevel = specification.get(target.getName());
+//			final Node specificationMaxLevelNode = lattice.getNodePerName(specificationMaxLevel);
+//			if (specificationMaxLevelNode == null) {
+//				return new TypeableResult(
+//						false, "Specification level '" + specificationMaxLevel + "' for reference '" + target.getName() + "' does not exist in Lattice." ,
+//						elevatedEntities, changedTypes, usedCapsules);
+//			}
+//			
+//			if (LeastUpperBound.secondHigherThanFirst(specificationMaxLevelNode, valueSLNode)) {
+//				return new TypeableResult(
+//						false, "Using SEC-PROM to elevate target '" + target.getName() + "' to level '" + valueSL + "' is breaking specification of the reference.",
+//						elevatedEntities, changedTypes, usedCapsules);
+//			}
+//		}
+//		
+//		return null;
+//	}
 
 	/**
 	 * The value SL of the assignment is not conforming to the target SL, trying local promotion for the different entity types

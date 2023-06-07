@@ -40,8 +40,7 @@ public class IFbCMethod extends IFbcAbstractStatement {
 	                                 final Map<String, String> changedTypes, 
 	                                 final List<String> usedCapsules,
 	                                 final String optionalGuardSL,
-	                                 final Method constructingMethod,
-	                                 final Map<String, String> specification) throws IFbCException {
+	                                 final Method constructingMethod) throws IFbCException {
 		final Map<String, JavaClass> javaClassesForProject = JavaClasses.getJavaClassesForProject(projectName);
 		final String returnSL = entity.getSecurityLevel();
 		final MDF returnMDF = entity.getMutationModifier();

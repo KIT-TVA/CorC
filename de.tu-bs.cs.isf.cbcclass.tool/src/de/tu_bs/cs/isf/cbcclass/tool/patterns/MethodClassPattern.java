@@ -9,6 +9,9 @@ import java.util.function.Predicate;
 
 import javax.swing.JOptionPane;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -54,17 +57,12 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
-import de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassImageProvider;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import helper.ClassUtil;
 import helper.ModelClassHelper;
 import model.CbcClassUtil;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 
 public class MethodClassPattern extends IdPattern implements IPattern {
 
@@ -371,11 +369,6 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		Polyline rightline = gaService.createPolyline(rightShape);
 		setId(rightline, ID_LINE_RIGHT);
 
-		// proving
-		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
-		Image image = gaService.createImage(proveShape, CbCClassImageProvider.IMG_UNPROVEN);
-		setId(image, ID_IMAGE_PROVEN);
-
 		peCreateService.createChopboxAnchor(outerContainerShape);
 		peCreateService.createChopboxAnchor(postShape);
 		peCreateService.createChopboxAnchor(preShape);
@@ -385,7 +378,6 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		link(postShape, addedMethod.getCbcStartTriple().getStatement().getPostCondition());
 		link(sigShape, addedMethod);
 		link(modShape, addedMethod);
-		link(proveShape, addedMethod);
 
 		return outerContainerShape;
 	}
@@ -456,18 +448,20 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 
 	@Override
 	protected IReason updateNeeded(IdUpdateContext context, String id) {
-		if (id.equals(ID_IMAGE_PROVEN)) {
+		if (id.equals(ID_MAIN_RECTANGLE)) {
 			Method domainObject = (Method) context.getDomainObject();
-			Image image = (Image) context.getGraphicsAlgorithm();
+			RoundedRectangle rectangle = (RoundedRectangle) context.getGraphicsAlgorithm();
 			String path = FileUtil.getProjectLocation(getDiagram().eResource().getURI())+ (domainObject.getParentClass().getFeature().equals("default") ? "/src" : "/features/" + domainObject.getParentClass().getFeature()) + "/" + domainObject.getCbcStartTriple().getClassName() + "/" + domainObject.getName() + ".cbcmodel";
 			File cbcmodelFile = new File(path);
 			if (cbcmodelFile.exists()) {
 				URI cbcmodelURI = URI.createFileURI(path);
 
 				CbCFormula read = CbcClassUtil.readFormula(cbcmodelURI);
-				if (read.isProven() && image.getId().equals(CbCClassImageProvider.IMG_UNPROVEN)) {
+				if (read.isProven() && (rectangle.getForeground() != null
+						&& !rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN)))) {
 					return Reason.createTrueReason("Statement is proven. Expected green color.");
-				} else if (!read.isProven() && image.getId().equals(CbCClassImageProvider.IMG_PROVEN)) {
+				} else if (!read.isProven() && (rectangle.getForeground() != null
+						&& !rectangle.getForeground().equals(manageColor(IColorConstant.RED)))) {
 					return Reason.createTrueReason("Statement is not proven. Expected red color.");
 				}	
 			}	
@@ -587,23 +581,6 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 				modText.setValue(getModifiablesString(domainObject.getParentClass(), domainObject.getCbcStartTriple().getStatement().getPostCondition()));
 			}
 			return true;
-		} else if (id.equals(ID_IMAGE_PROVEN)) {
-			Method domainObject = (Method) context.getDomainObject();
-			Image image = (Image) context.getGraphicsAlgorithm();
-			String path = FileUtil.getProjectLocation(getDiagram().eResource().getURI())+ (domainObject.getParentClass().getFeature().equals("default") ? "/src" : "/features/" + domainObject.getParentClass().getFeature()) + "/" + domainObject.getCbcStartTriple().getClassName() + "/" + domainObject.getName() + ".cbcmodel";
-			File cbcmodelFile = new File(path);
-			if (cbcmodelFile.exists()) {
-				URI cbcmodelURI = URI.createFileURI(path);
-				CbCFormula read = CbcClassUtil.readFormula(cbcmodelURI);
-				if (read != null) {
-					domainObject.getCbcStartTriple().setProven(read.isProven());
-					if (read.isProven()) {
-						image.setId(CbCClassImageProvider.IMG_PROVEN);
-					} else {
-						image.setId(CbCClassImageProvider.IMG_UNPROVEN);
-					}
-				}				
-			}
 		}
 		return false;
 	}

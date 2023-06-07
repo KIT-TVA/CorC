@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import javax.swing.text.html.FormSubmitEvent.MethodType;
-
 import de.tu_bs.cs.isf.cbc.parser.JavaClasses;
 import de.tu_bs.cs.isf.cbc.parser.annotations.MDF;
 import de.tu_bs.cs.isf.cbc.parser.data.ConstructorDefinition;
@@ -15,11 +13,11 @@ import de.tu_bs.cs.isf.cbc.parser.data.JavaClass;
 import de.tu_bs.cs.isf.cbc.parser.data.Method;
 import de.tu_bs.cs.isf.cbc.parser.data.ParameterDefinition;
 import de.tu_bs.cs.isf.cbc.parser.data.ifbc.TypeableResult;
-import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCNewEntity;
-import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCReferenceEntity;
 import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCEntity.EntityType;
 import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCFieldAccessEntity;
 import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCMethodEntity;
+import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCNewEntity;
+import de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities.IFbCReferenceEntity;
 import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
 import de.tu_bs.cs.isf.lattice.Lattice;
 import de.tu_bs.cs.isf.lattice.Node;
@@ -34,8 +32,7 @@ public abstract class IFbcAbstractStatement implements IFbCStatement {
 	                                          Map<String, String> changedTypes,
 	                                          List<String> usedCapsules,
 	                                          String optionalGuardSL,
-	                                          Method constructingMethod,
-	                                          Map<String, String> specification)
+	                                          Method constructingMethod)
 			throws IFbCException;
 
 	@Override
@@ -121,7 +118,7 @@ public abstract class IFbcAbstractStatement implements IFbCStatement {
 				System.out.println("Analyzing SL/MDF for Method entity.");
 				final IFbCMethodEntity methodEntityParam = (IFbCMethodEntity) optionalEntity;
 				IFbCMethod method = new IFbCMethod(methodEntityParam.getName(), methodEntityParam);
-				final TypeableResult checkMethodEntityResult = method.isTypeable(lattice, projectName, elevatedEntities, changedTypes, usedCapsules, null, methodEntityParam.getDefinedMethod(), null);
+				final TypeableResult checkMethodEntityResult = method.isTypeable(lattice, projectName, elevatedEntities, changedTypes, usedCapsules, null, methodEntityParam.getDefinedMethod());
 				if (!checkMethodEntityResult.isTypeable()) {
 					return checkMethodEntityResult;
 				} 

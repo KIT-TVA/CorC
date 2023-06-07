@@ -20,11 +20,21 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="methodObj" eType="ecore:EClass ../../de.tu_bs.cs.isf.cbc.cbcclass.model/model/cbcclass.ecore#//Method"
         eOpposite="../../de.tu_bs.cs.isf.cbc.cbcclass.model/model/cbcclass.ecore#//Method/cbcStartTriple"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="tested" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="atType" upperBound="-1"
+        eType="#//AtType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="security" upperBound="-1"
+        eType="#//Security" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Condition">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifiables" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="confToVarsMap" upperBound="-1"
+        eType="#//ConfToVarsMap" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="atTypesToVarsMap" upperBound="-1"
+        eType="#//AtTypesToVarsMap" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capsulesUsed" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" transient="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbstractStatement">
     <eOperations name="generateID" lowerBound="1"/>
@@ -41,6 +51,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="tested" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="context" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeableResult" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeableText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SkipStatement" eSuperTypes="#//AbstractStatement"/>
   <eClassifiers xsi:type="ecore:EClass" name="CompositionStatement" eSuperTypes="#//AbstractStatement">
@@ -98,6 +111,8 @@
         defaultValueLiteral="int a"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" unique="false" eType="#//VariableKind"
         defaultValueLiteral="LOCAL"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="confidentiality" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifier" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="displayedName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         changeable="false" volatile="true" transient="true" defaultValueLiteral="kind + &quot; &quot; + name"
         unsettable="true" derived="true">
@@ -144,4 +159,20 @@
     <eLiterals name="CONJUNCTIVE_CONTRACTING" value="2" literal="CONJUNCTIVE_CONTRACTING"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OriginalStatement" eSuperTypes="#//AbstractStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConfToVarsMap" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Security"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Security">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="level" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mutationModifier" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AtTypesToVarsMap" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" upperBound="-1"
+        eType="#//AtType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AtType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>

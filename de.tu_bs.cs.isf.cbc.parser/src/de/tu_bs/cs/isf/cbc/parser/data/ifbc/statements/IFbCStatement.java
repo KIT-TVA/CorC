@@ -17,8 +17,7 @@ public interface IFbCStatement {
 	                                 final Map<String, String> changedTypes,
 	                                 final List<String> usedCapsules,
 	                                 final String optionalGuardSL,
-	                                 final Method constructingMethod,
-	                                 final Map<String, String> specification) throws IFbCException;
+	                                 final Method constructingMethod) throws IFbCException;
 	
 	public StatementType getType();	
 	

@@ -19,17 +19,7 @@
          <diagramType
                id="de.tu-bs.cs.isf.cbcclass.tool.diagramType">
          </diagramType>
-         <imageProvider
-               id="de.tu-bs.cs.isf.cbcclass.tool.imageProvider">
-         </imageProvider>
       </diagramTypeProvider>
-   </extension>
-   <extension
-         point="org.eclipse.graphiti.ui.imageProviders">
-      <imageProvider
-            class="de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassImageProvider"
-            id="de.tu-bs.cs.isf.cbcclass.tool.imageProvider">
-      </imageProvider>
    </extension>
    <extension
     point="org.eclipse.ui.views.properties.tabbed.propertyContributor">

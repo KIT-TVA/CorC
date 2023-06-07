@@ -25,8 +25,7 @@ public class IFbCReference implements IFbCStatement {
 										final Map<String, String> changedTypes,
 										final List<String> usedCapsules,
 										final String optionalGuardSL,
-		                                final Method constructingMethod,
-		                                final Map<String, String> specification)
+		                                final Method constructingMethod)
 			throws IFbCException {
 		return new TypeableResult(true, "Reference Entity is always typeable", elevatedEntities, changedTypes, usedCapsules);
 	}
