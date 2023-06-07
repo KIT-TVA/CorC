@@ -14,6 +14,7 @@ Import-Package: de.tu_bs.cs.isf.cbc.cbcmodel,
  de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities,
  de.tu_bs.cs.isf.cbc.parser.data.ifbc.statements,
  de.tu_bs.cs.isf.lattice,
+ de.tu_bs.cs.isf.lattice.builder,
  de.tu_bs.cs.isf.lattice.calculation,
  org.eclipse.core.resources
 Bundle-ClassPath: lib/java-symbol-solver-core-0.6.3.jar,

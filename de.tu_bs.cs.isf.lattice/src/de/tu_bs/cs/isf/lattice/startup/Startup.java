@@ -21,6 +21,7 @@ import org.eclipse.ui.IStartup;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
+import de.tu_bs.cs.isf.lattice.builder.LatticeNature;
 import de.tu_bs.cs.isf.lattice.jobs.LatticeParseJob;
 
 public class Startup implements IStartup {
@@ -38,10 +39,16 @@ public class Startup implements IStartup {
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for(IProject project : projects) {
 			if (project.isOpen()) {
-				log("Project: " + project.toString());
-				
-				final Job parseJob = new LatticeParseJob(project);
-				parseJob.schedule();
+				try {
+					if (project.isNatureEnabled(LatticeNature.NATURE_ID)) {
+						log("Project: " + project.toString());
+						
+						final Job parseJob = new LatticeParseJob(project);
+						parseJob.schedule();
+					}
+				} catch (CoreException e) {
+					log("Nature ID CoreException", e);
+				}
 			}
 		}
 		
@@ -75,37 +82,43 @@ public class Startup implements IStartup {
 		// Checking src folders of all projects 
 		for (IProject project : projects) {
 			if (project.isOpen()) {
-				final String projectSrcPath = project.getName().concat("/lattice");			
-				final IResourceDelta srcDelta = delta.findMember(new Path(projectSrcPath));
-				if (srcDelta == null) {
-					// changed file lies not within this project
-					continue;
-				}
-				
 				try {
-					// Check all files beneath
-					srcDelta.accept(new IResourceDeltaVisitor() {
-						
-						@Override
-						public boolean visit(IResourceDelta delta) throws CoreException {
-							final IResource resource = delta.getResource();
-							if (delta.getKind() == IResourceDelta.CHANGED 
-									&& resource != null 
-									&& resource.getType() == IResource.FILE) {
-								final IFile file = (IFile) resource;
-								log("Visiting file: " + delta.getKind() + " " + delta.getFlags() + " " + resource.toString());
-								if (file.getFileExtension().equals("dot")) {
-									log("Need to-reparse lattice file.");
-	
-									final Job parseJob = new LatticeParseJob(project);
-									parseJob.schedule();
-								}
-							}						
-							return true;						
+					if (project.isNatureEnabled(LatticeNature.NATURE_ID)) {
+						final String projectSrcPath = project.getName().concat("/lattice");			
+						final IResourceDelta srcDelta = delta.findMember(new Path(projectSrcPath));
+						if (srcDelta == null) {
+							// changed file lies not within this project
+							continue;
 						}
-					});
+						
+						try {
+							// Check all files beneath
+							srcDelta.accept(new IResourceDeltaVisitor() {
+								
+								@Override
+								public boolean visit(IResourceDelta delta) throws CoreException {
+									final IResource resource = delta.getResource();
+									if (delta.getKind() == IResourceDelta.CHANGED 
+											&& resource != null 
+											&& resource.getType() == IResource.FILE) {
+										final IFile file = (IFile) resource;
+										log("Visiting file: " + delta.getKind() + " " + delta.getFlags() + " " + resource.toString());
+										if (file.getFileExtension().equals("dot")) {
+											log("Need to-reparse lattice file.");
+	
+											final Job parseJob = new LatticeParseJob(project);
+											parseJob.schedule();
+										}
+									}						
+									return true;						
+								}
+							});
+						} catch (CoreException e) {
+							log("Error while visiting changed lattice files.", e);
+						}
+					}
 				} catch (CoreException e) {
-					log("Error while visiting changed lattice files.", e);
+					log("Nature ID CoreException", e);
 				}
 			}
 		}

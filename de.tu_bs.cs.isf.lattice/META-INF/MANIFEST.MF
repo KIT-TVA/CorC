@@ -5,6 +5,7 @@ Bundle-SymbolicName: de.tu_bs.cs.isf.lattice;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: de.tu_bs.cs.isf.lattice,
+ de.tu_bs.cs.isf.lattice.builder,
  de.tu_bs.cs.isf.lattice.calculation
 Require-Bundle: org.apache.log4j,
  org.eclipse.core.runtime,

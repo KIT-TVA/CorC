@@ -24,6 +24,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
 import de.tu_bs.cs.isf.cbc.parser.jobs.JavaFileParseJob;
+import de.tu_bs.cs.isf.lattice.builder.LatticeNature;
 
 public class Startup implements IStartup {
 
@@ -40,31 +41,37 @@ public class Startup implements IStartup {
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for (IProject project : projects) {
 			if (project.isOpen()) {
-				log("Project: " + project.toString());
-				final IFolder folder = project.getFolder("src");
-				log("Source folder exists: " + folder.exists());
-				if (!folder.exists()) {
-					log("Source folder does not exist for project " + project.toString() + " , cannot parse java files.");
-					continue;
-				}
-	
-				IResourceVisitor visitor = new IResourceVisitor() {
-					public boolean visit(IResource resource) {
-						// only interested in files with the "java" extension
-						if (resource.getType() == IResource.FILE && "java".equalsIgnoreCase(resource.getFileExtension())) {
-							log("Found Java file in project " + project.getName() + ": " + resource.getName());
-	
-							final Job parseJob = new JavaFileParseJob((IFile) resource, project.getName());
-							parseJob.schedule();
-						}
-						return true;
-					}
-				};
-	
 				try {
-					folder.accept(visitor);
+					if (project.isNatureEnabled(LatticeNature.NATURE_ID)) {
+						log("Project: " + project.toString());
+						final IFolder folder = project.getFolder("src");
+						log("Source folder exists: " + folder.exists());
+						if (!folder.exists()) {
+							log("Source folder does not exist for project " + project.toString() + " , cannot parse java files.");
+							continue;
+						}
+
+						IResourceVisitor visitor = new IResourceVisitor() {
+							public boolean visit(IResource resource) {
+								// only interested in files with the "java" extension
+								if (resource.getType() == IResource.FILE && "java".equalsIgnoreCase(resource.getFileExtension())) {
+									log("Found Java file in project " + project.getName() + ": " + resource.getName());
+
+									final Job parseJob = new JavaFileParseJob((IFile) resource, project.getName());
+									parseJob.schedule();
+								}
+								return true;
+							}
+						};
+
+						try {
+							folder.accept(visitor);
+						} catch (CoreException e) {
+							log("Error parsing src folder.", e);
+						}
+					}
 				} catch (CoreException e) {
-					log("Error parsing src folder.", e);
+					log("Nature ID CoreException", e);
 				}
 			}
 		}
@@ -89,37 +96,43 @@ public class Startup implements IStartup {
 		// Checking src folders of all projects 
 		for (IProject project : projects) {
 			if (project.isOpen()) {
-				final String projectSrcPath = project.getName().concat("/src");			
-				final IResourceDelta srcDelta = delta.findMember(new Path(projectSrcPath));
-				if (srcDelta == null) {
-					// changed file lies not within this project
-					continue;
-				}
-				
 				try {
-					// Check all files beneath
-					srcDelta.accept(new IResourceDeltaVisitor() {
-						
-						@Override
-						public boolean visit(IResourceDelta delta) throws CoreException {
-							final IResource resource = delta.getResource();
-							if (delta.getKind() == IResourceDelta.CHANGED 
-									&& resource != null 
-									&& resource.getType() == IResource.FILE) {
-								final IFile file = (IFile) resource;
-								log("Visiting file: " + delta.getKind() + " " + delta.getFlags() + " " + resource.toString());
-								if (file.getFileExtension().equals("java")) {
-									log("Need to-reparse java file.");
-	
-									final Job parseJob = new JavaFileParseJob((IFile) resource, project.getName());
-									parseJob.schedule();
-								}
-							}						
-							return true;						
+					if (project.isNatureEnabled(LatticeNature.NATURE_ID)) {
+						final String projectSrcPath = project.getName().concat("/src");			
+						final IResourceDelta srcDelta = delta.findMember(new Path(projectSrcPath));
+						if (srcDelta == null) {
+							// changed file lies not within this project
+							continue;
 						}
-					});
+						
+						try {
+							// Check all files beneath
+							srcDelta.accept(new IResourceDeltaVisitor() {
+								
+								@Override
+								public boolean visit(IResourceDelta delta) throws CoreException {
+									final IResource resource = delta.getResource();
+									if (delta.getKind() == IResourceDelta.CHANGED 
+											&& resource != null 
+											&& resource.getType() == IResource.FILE) {
+										final IFile file = (IFile) resource;
+										log("Visiting file: " + delta.getKind() + " " + delta.getFlags() + " " + resource.toString());
+										if (file.getFileExtension().equals("java")) {
+											log("Need to-reparse java file.");
+
+											final Job parseJob = new JavaFileParseJob((IFile) resource, project.getName());
+											parseJob.schedule();
+										}
+									}						
+									return true;						
+								}
+							});
+						} catch (CoreException e) {
+							log("Error while visiting changed java files.", e);
+						}
+					}
 				} catch (CoreException e) {
-					log("Error while visiting changed java files.", e);
+					log("Nature ID CoreException", e);
 				}
 			}
 		}
