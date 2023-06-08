@@ -148,8 +148,6 @@ public class KeYFileContent {
 					returnVariable.setKind(VariableKind.RETURNPARAM);
 					returnVariable.setName(param.getType() + " " + param.getName());
 				}
-//				TODO: delete
-				System.out.println(param.getType() + " " + param.getName());
 				
 				programVariables.getParams().add(param);
 			}
@@ -391,7 +389,7 @@ public class KeYFileContent {
 			if (!cond.getName().isEmpty()) {
 				cond.setName(replaceThisWithSelf(cond.getName()));
 				cond.setName(renameCondition(cond.getName()));
-				if (cond.getName().contains("non-null")) { //non-null property added here TODO: up to change
+				if (isNonNull(cond.getName())) { //non-null property added here TODO: up to change
 					String[] conditionSplitted = cond.getName().split(" ");
 					String varDataType = conditionSplitted[0];
 					String varName = conditionSplitted[1];
@@ -500,9 +498,11 @@ public class KeYFileContent {
 	private List<String> getOldAssignments(Map<String, OldReplacement> oldReplacements) {
 		List<String> assignments = new ArrayList<>();
 		for (String var : oldReplacements.keySet()) {
-			if (!getPreConditionsString(oldReplacements).contains("\\old(" + var + ")")) {
+//			TODO: check
+			if (!getPreConditionsString(oldReplacements).contains(var)) {
+//			if (!getPreConditionsString(oldReplacements).contains("\\old(" + var + ")")) {
 //				assignments.add(removeStaticNonNull(var) + oldReplacements.get(var).index + OLD_VARS_SUFFIX + ":=" + var);
-				assignments.add(var + " := " + oldReplacements.get(var).var);
+				assignments.add(var + " := " + oldReplacements.get(var).getVar());
 				
 			}
 		}
@@ -826,6 +826,10 @@ public class KeYFileContent {
 	private String getNameFromVar(String varName) {
 		varName = removeStaticNonNull(varName);
 		return varName.substring(varName.lastIndexOf(" ")).trim();
+	}
+	
+	private boolean isNonNull(String string) {
+		return string.contains("non-null");
 	}
 	
 	private boolean isNonNull(JavaVariable var) {
