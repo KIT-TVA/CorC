@@ -194,7 +194,7 @@ public class FileUtil implements IFileUtil{
 	}
 
 	private File createFile(File file, String content) {
-		try {			
+		try {
 			file.getParentFile().mkdirs();
 			file.createNewFile();
 			FileWriter fw = new FileWriter(file);

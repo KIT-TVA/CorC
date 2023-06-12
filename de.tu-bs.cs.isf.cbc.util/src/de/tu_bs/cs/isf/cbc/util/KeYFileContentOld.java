@@ -106,7 +106,6 @@ public class KeYFileContentOld {
 	}
 
 	public void setPost(String post) {
-		System.out.println(post);
 		this.post = post;
 	}
 
@@ -150,9 +149,6 @@ public class KeYFileContentOld {
 				}
 			}
 			for (Parameter param : vars.getParams()) {
-//				TODO: delete
-				System.out.println(param.getType() + " " + param.getName());
-				
 				if (param.getName().equals("ret")) {
 					returnVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 					returnVariable.setKind(VariableKind.RETURNPARAM);
@@ -354,13 +350,6 @@ public class KeYFileContentOld {
 	
 	public void extractOldKeywordVariables() {
 		String condition = pre + post + globalConditions;
-//		TODO: delete
-		System.out.println(pre);
-		System.out.println(post);
-		System.out.println(globalConditions);
-
-		System.out.println(condition);
-		
 		// Clear the list of replacements
 		replacements.clear();
 		ArrayList<Integer> beginIndizes = new ArrayList<>();
@@ -397,7 +386,6 @@ public class KeYFileContentOld {
 			for (int i1=0;i1<beginIndizes.size();i1++) {
 				String content = currentOldMatch.substring(beginIndizes.get(i1),endIndizes.get(i1));
 				if (!content.isEmpty()) {
-					System.out.println(content);
 					replacements.put(content, "\\old(" + content + ")");
 				}				
 			}
@@ -412,12 +400,6 @@ public class KeYFileContentOld {
 		Map<String, String> newReplacements = new HashMap<>();
 		// Add new old variables to variable List
 		int counterForVarNaming = 0;
-		
-//		TODO: delete
-		for (String varUsedInOldContext : replacements.keySet()) {
-			System.out.println(varUsedInOldContext);
-		}
-		
 		for (String varUsedInOldContext : replacements.keySet()) {
 			counterForVarNaming++;
 			// Get variable name with variable kind
@@ -489,10 +471,33 @@ public class KeYFileContentOld {
 					accessArray = currentVarName.contains("[");
 					// Replace brackets
 					currentVarName = currentVarName.replaceAll("\\[.*\\]", "");
-//					TODO: delete
-					System.out.println(currentClassName);
-					
 					if (getMethodClassVarMap().keySet().contains(currentClassName)) {
+					/*	if (i == 0) {
+							for (JavaVariable variable : vars.getVariables()) {
+								String methodVarType = variable.getName().split(" ")[0];
+								String methodVarName = variable.getName().split(" ")[1];
+								if (methodVarType.contains("[]") && methodVarName.equals(currentVarName)
+										&& splittedReplacementVar.length >= 2
+										&& i == (splittedReplacementVar.length - 2)) {
+									penultimateIsArray = true;
+									penultimateVarName = currentVarName;
+								}
+								if (methodVarName.equals(lastVarUsedInOldContext)) {
+									Field f = CbcclassFactory.eINSTANCE.createField();
+									f.setIsFinal(false);
+									f.setIsStatic(false);
+									f.setName(methodVarName);
+									f.setType(methodVarType);
+									f.setVisibility(Visibility.PUBLIC);
+									nestedVariable = f;
+									currentVarName = methodVarName;
+									found = true;
+								}
+								if (getMethodClassVarMap().containsKey(methodVarType)) {
+									currentClassName = methodVarType;
+								}
+							}
+						}*/
 						for (Field methodVar : getMethodClassVarMap().get(currentClassName)) {
 							String methodVarType = methodVar.getType();
 							String methodVarName = methodVar.getName();
@@ -538,14 +543,7 @@ public class KeYFileContentOld {
 				// Add new modified replacements to map.
 //				Console.println("Adding new Replacement: (" + varNameWithOldSuffix + ", " + replacements.get(varUsedInOldContext) + ")");
 				newReplacements.put(varNameWithOldSuffix, replacements.get(varUsedInOldContext));
-//				TODO: delete
-				System.out.println(programVariables); 
-				
 				programVariables += var.replace("static", "").replace(" non-null", "") + counterForVarNaming + OLD_VARS_SUFFIX + "; ";
-				
-//				TODO: delete
-				System.out.println(programVariables);
-				
 				if (!pre.contains("\\old(" + varUsedInOldContext + ")"))
 					assignment += "||" + varNameWithOldSuffix + ":=" + varUsedInOldContext;
 				// if variable is an Array add <created> condition for key
@@ -554,26 +552,15 @@ public class KeYFileContentOld {
 				}
 			}
 		}
-		for(String s : newReplacements.keySet()) {
-			System.out.println(s + " " + newReplacements.get(s));
-		}
 		replacements = newReplacements;
 	}
 	
 	public void handleOld(CbCFormula formula, JavaVariables vars) {
 		extractOldKeywordVariables();
 		addOldVariables(formula, vars);
-//		System.out.println(pre);
 		pre = replaceOldKeyword(pre);
-//		System.out.println(pre);
-//		System.out.println("---");
-//		System.out.println(post);
 		post= replaceOldKeyword(post);
-//		System.out.println(post);
-//		System.out.println("---");
-//		System.out.println(globalConditions);
 		globalConditions = replaceOldKeyword(globalConditions);
-//		System.out.println(globalConditions);
 	}
 	
 	public String replaceOldKeyword(String condition) {
@@ -582,9 +569,6 @@ public class KeYFileContentOld {
 			varNameOnly = varNameOnly.replaceAll("\\[.*\\]", "");
 			if (varNameOnly.contains("("))
 				varNameOnly = varNameOnly.substring(0, varNameOnly.indexOf("("));
-			
-			System.out.println("---");
-			System.out.println(replacements.get(key));
 			
 			condition = condition.replace(replacements.get(key), varNameOnly);
 		}

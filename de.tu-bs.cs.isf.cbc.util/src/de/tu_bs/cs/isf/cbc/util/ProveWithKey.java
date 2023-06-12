@@ -175,7 +175,17 @@ public class ProveWithKey {
 		String location = fileHandler.getLocationString(uri) + configName;
 		
 //		TODO: delete
+		
+		System.out.println("------");
+		System.out.println("------");
+		System.out.println("------");
 		System.out.println(problem);
+		System.out.println("------");
+		System.out.println(location);
+		System.out.println("------");
+		System.out.println(statement.getName());
+		System.out.println("------");
+		System.out.println(subProofName);
 		
 		File keyFile = fileHandler.writeFile(problem, location, override, statement, subProofName);
 		return keyFile;
@@ -558,6 +568,23 @@ public class ProveWithKey {
 	}
 
 	public boolean proveWithKey(File location, boolean inlining) {
+//		TODO: delete
+		System.out.println("------");
+		System.out.println("------");
+		System.out.println("------");
+		System.out.println(location);
+		System.out.println("------");
+		System.out.println(monitor);
+		System.out.println("------");
+		System.out.println(inlining);
+		System.out.println("------");
+		System.out.println(formula);
+		System.out.println("------");
+		System.out.println(statement.getName());
+		System.out.println("------");
+		System.out.println(problem);
+		System.out.println("------");
+		System.out.println(uri);
 		return proveWithKey(location, monitor, inlining, formula, statement, problem, uri);	
 	}
 	
