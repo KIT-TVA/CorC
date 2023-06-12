@@ -156,20 +156,12 @@ public class ProveWithKeyOld {
 		content.addSelfForFields(varsFromJavaClass);
 		content.addSelf(formula);
 		content.handleOld(formula, vars);
-		
-		System.out.println(content.getVariables());
-		
-		List<Field> variables = new ArrayList<>();
-		variables.addAll(varsFromJavaClass.getFields());
-		for (Field va : variables) {
-			System.out.println(va.getName());
-		}
-		
 
 		problem = content.getKeYStatementContent();	
 		problem = problem.replaceAll("static", "");
 		problem = problem.replaceAll("return", ""); // TODO replace with correct handling of return
 		
+		System.out.println("------");
 		System.out.println(problem);
 
 		String location = fileHandler.getLocationString(uri) + configName;

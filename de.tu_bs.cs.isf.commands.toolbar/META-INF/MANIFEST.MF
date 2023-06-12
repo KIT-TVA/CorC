@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi,
  de.ovgu.featureide.fm.core,
  org.eclipse.emf.common
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-16
 Import-Package: de.tu_bs.cs.isf.cbc.tool.helper,
  helper,
  newDiagramWizard,
