@@ -192,12 +192,8 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 	
 	private void createAndSaveJavaFilesWithMethodStubsForClass(String className) throws CodeMergeException, IOException, CoreException {
 		String location = project.getLocation().toString() + "/" + MetaClass.FOLDER_NAME + "/" + className + "/" + NAME_OF_JAVA_FILE + ".java";
-		String code = "public class " + NAME_OF_JAVA_FILE + " {\n\n";
-
-
 		CodeGenerator gener;
 		List<String> codes = new ArrayList<String>();
-		
 		
 		for(MetaMethod metaMethod: uniqueMetaMethods) {
 			try {
@@ -211,32 +207,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		var fullCode = merger.get();
 		saveJavaFile(location, fullCode);
 		return;
-	}
-	
-	private String generateMetaCode(CbCFormula formula) {
-		var code = "";
-		var cbcClass = getCbcClass(FileUtil.getCbCClasses(project), formula.getClassName());
-		var globalConditions = createInvariants(cbcClass);
-
-		var placeholderDiagram = GetDiagramUtil.getDiagrams(project).stream().filter(d -> Character.isLowerCase(d.getName().charAt(0))).findFirst().get();
-		return code;
-	}
-	
-	private ModelClass getCbcClass(Collection<Resource> classes, String className) {
-		for (var c : classes) {
-			if (((ModelClass)c.getContents().get(0)).getName().equals(className)) {
-				return (ModelClass)c.getContents().get(0);
-			}
-		}
-		return null;
-	}
-	
-	private GlobalConditions createInvariants(ModelClass cbcClass) {
-		var conds = CbcmodelFactory.eINSTANCE.createGlobalConditions();
-		for (var condition : cbcClass.getClassInvariants()) {
-			conds.getConditions().add(condition);
-		}
-		return conds;
 	}
 
 	private void getInformationFromFeatureModel() {
@@ -264,7 +234,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			 //Searching for alterantive Feature Group and Store children in Map 'alternativeFeatures'
 			 for(IFeature currentFeature: featModel.getFeatures()) {
 				 Console.println("Feature: " + currentFeature.getName());
-				 IFeatureStructure currentStructure = currentFeature.getStructure();
 				
 				 if(currentFeature.getStructure().isAlternative()) {
 					 if(!alternativeFeatures.containsKey(currentFeature.getName())) {

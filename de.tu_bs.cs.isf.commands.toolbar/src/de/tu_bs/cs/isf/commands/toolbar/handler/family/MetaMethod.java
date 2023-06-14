@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.ovgu.featureide.fm.core.base.IFeature;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
@@ -262,21 +263,11 @@ public class MetaMethod {
 		boolean allOriginalsResolved = false;
 		while(!allOriginalsResolved) {
 			AbstractStatement statementThatCallsOriginal = searchOriginalStatement(formulaStatement);
-			if (statementThatCallsOriginal == null) {
-				var kjsdfljsdf = 2;
-			}
 			Console.println("Found original: " +statementThatCallsOriginal);
-			System.out.println("Found original: " +statementThatCallsOriginal);
-			
 			allOriginalsResolved = (statementThatCallsOriginal == null);
 			if(!allOriginalsResolved) {
-				var lolmaoa = this.currentMethod.nameOfFeature + " | " + this.currentMethod.nameOfMethod;
-				if (lolmaoa.equals("Cons | push")) {
-					var skldfjsldkfjklsdfj =2;
-				}
 				statementThatCallsOriginal.setRefinement(resolveOriginal());
 				Console.println("Replaced Original with Selection: " + this.currentMethod.nameOfFeature);
-				System.out.println("Replaced Original with Selection: " + this.currentMethod.nameOfFeature);
 			}
 			this.currentMethodIndex = 0;
 		}
@@ -305,7 +296,7 @@ public class MetaMethod {
 				}
 			}
 			if(!alreadyInList) {
-				metaJavaVariables.getVariables().add(CopyCbCFormiula.copyJavaVariable(variableToAdd));
+				metaJavaVariables.getVariables().add(CopyCbCFormula.copyJavaVariable(variableToAdd));
 			}
 		}
 	}
@@ -323,7 +314,7 @@ public class MetaMethod {
 				}
 			}
 			if(!alreadyInList) {
-				metaJavaVariables.getVariables().add(CopyCbCFormiula.copyParameter(variableToAdd));
+				metaJavaVariables.getVariables().add(CopyCbCFormula.copyParameter(variableToAdd));
 			}
 		}
 	}
@@ -345,7 +336,7 @@ public class MetaMethod {
 						alreadyInList = true;
 				}
 				if(!alreadyInList ||i == 0) {
-					globalConditions.getConditions().add(CopyCbCFormiula.copyCondition(conditionToAdd));
+					globalConditions.getConditions().add(CopyCbCFormula.copyCondition(conditionToAdd));
 				}
 				
 			}
@@ -359,14 +350,17 @@ public class MetaMethod {
 		globalConditions.getConditions().add(featureModelCondition);
 	}
 	
-	private Resource createMetaMethod(URI uri, GlobalConditions globalConditions, JavaVariables metaVariables, CbCFormula metaMethodFormula) {
+	private Resource createMetaMethod(URI uri, GlobalConditions globalConditions, JavaVariables metaVariables, CbCFormula metaMethodFormula) throws MetaClassException {
 		ResourceSet rs = new ResourceSetImpl();
 		Resource metaMethodResource = rs.createResource(uri);
 		SetMetaSpecificationForFormula.passMetaSpeficiationThroughFormula(metaMethodFormula, this.metaPreConditon, this.metaPostCondition);	
+		this.metaClass.getMethod(this.metaMethodName).getCbcStartTriple().getStatement().getPreCondition().setName(this.metaPreConditon.getName());
+		this.metaClass.getMethod(this.metaMethodName).getCbcStartTriple().getStatement().getPostCondition().setName(this.metaPostCondition.getName());
 		UpdateConditionsOfChildren.updateConditionsofChildren(metaMethodFormula.getStatement().getPreCondition());
 		UpdateConditionsOfChildren.updateConditionsofChildren(metaMethodFormula.getStatement().getPostCondition());
 		placeThisInAllConditions(metaMethodFormula.getStatement());
 		placeThisInGlobalConditions(globalConditions);
+		handleAbstractMethodCalls(metaMethodFormula.getStatement());
 		metaMethodResource.getContents().add(metaMethodFormula);
 		metaMethodResource.getContents().add(globalConditions);
 		metaMethodResource.getContents().add(metaVariables);
@@ -406,17 +400,21 @@ public class MetaMethod {
 			}
 		} else if (cur instanceof ReturnStatement) {
 			if (((ReturnStatement)cur).getPreCondition() != null) {
-				((ReturnStatement)cur).getPreCondition().setName(placeThis(((SelectionStatement)cur).getPreCondition().getName()));
+				((ReturnStatement)cur).getPreCondition().setName(placeThis(((ReturnStatement)cur).getPreCondition().getName()));
 			}
 			if (((ReturnStatement)cur).getPostCondition() != null) {
-				((ReturnStatement)cur).getPostCondition().setName(placeThis(((SelectionStatement)cur).getPostCondition().getName()));
+				((ReturnStatement)cur).getPostCondition().setName(placeThis(((ReturnStatement)cur).getPostCondition().getName()));
 			}
+			((ReturnStatement)cur).setName(placeThis(((ReturnStatement)cur).getName()));
 		} else if (cur instanceof SelectionStatement) {
 			if (((SelectionStatement)cur).getPreCondition() != null) {
 				((SelectionStatement)cur).getPreCondition().setName(placeThis(((SelectionStatement)cur).getPreCondition().getName()));
 			}
 			if (((SelectionStatement)cur).getPostCondition() != null) {
 				((SelectionStatement)cur).getPostCondition().setName(placeThis(((SelectionStatement)cur).getPostCondition().getName()));
+			}
+			for (var guard : ((SelectionStatement)cur).getGuards()) {
+				guard.setName(placeThis(guard.getName()));
 			}
 		} else if (cur instanceof SkipStatement) {
 			if (((SkipStatement)cur).getPreCondition() != null) {
@@ -456,10 +454,53 @@ public class MetaMethod {
 			if (((AbstractStatement)cur).getPostCondition() != null) {
 				((AbstractStatement)cur).getPostCondition().setName(placeThis(((AbstractStatement)cur).getPostCondition().getName()));
 			}
+			((AbstractStatement)cur).setName(placeThis(((AbstractStatement)cur).getName()));
 		}
 		for (var child : cur.eContents()) {
 			placeThisInAllConditions(child);
 		}
+	}
+	
+	private void handleAbstractMethodCalls(EObject cur) throws MetaClassException {
+		if (cur instanceof AbstractStatement) {
+			var statement = (AbstractStatement)cur;
+			if (containsMethodCall(statement.getName())) {
+				var methodNames = getMethodCalls(statement.getName());
+				for (var m : methodNames) {
+					Method method = metaClass.getMethod(m);
+					var methodPreCon = method.getCbcStartTriple().getStatement().getPreCondition();
+					var methodPostCon = method.getCbcStartTriple().getStatement().getPostCondition();
+					statement.getPreCondition().setName(methodPreCon.getName());
+					statement.getPostCondition().setName(methodPostCon.getName());
+				}
+			}
+		}
+		for (var c : cur.eContents()) {
+			handleAbstractMethodCalls(c);
+		}
+	}
+	
+	private boolean containsMethodCall(String code) {
+		if (code == null) {
+			return false;
+		}
+		Pattern p = Pattern.compile("\\w+\\(");
+		Matcher m = p.matcher(code);
+		if (m.find()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private List<String> getMethodCalls(String code) {
+		var methodNames = new ArrayList<String>();
+		Pattern p = Pattern.compile("\\w+\\(");
+		Matcher m = p.matcher(code);
+		while (m.find()) {
+			methodNames.add(m.group(0).substring(0, m.group(0).indexOf("(")));
+		}
+		return methodNames;
 	}
 	
 	private void saveMetaMethod(URI uri, Resource metaMethodResource) throws IOException, CoreException {
@@ -602,7 +643,7 @@ public class MetaMethod {
 		}
 		
 		//firstStatement.setRefinement(this.currentMethod.CbcFormula.getStatement().getRefinement());
-		CbCFormula copiedFormula = CopyCbCFormiula.copyCbCFormula(this.currentMethod.CbcFormula);
+		CbCFormula copiedFormula = CopyCbCFormula.copyCbCFormula(this.currentMethod.CbcFormula);
 		firstStatement.setRefinement(copiedFormula.getStatement().getRefinement());
 		return newSelection;
 		
@@ -662,9 +703,6 @@ public class MetaMethod {
 				
 				if(foundStatement != null) {break;}
 				foundStatement = searchOriginalStatement(currentSelectionStatement);
-				if(currentSelectionStatement.getPreCondition().getName().contains("debug")) {
-					int debug = 10;
-				}
 			}
 			
 			/*if(foundStatement == null 
@@ -712,11 +750,6 @@ public class MetaMethod {
 			if(foundStatement == null) {
 				foundStatement = searchOriginalStatement(((SmallRepetitionStatement) statement).getLoopStatement());
 			}
-			if (foundStatement == null) {
-				var lsdnjfsknf = 2;
-			}
-			
-			
 		}
 		/*
 		if (statement instanceof Composition3Statement) {

@@ -17,7 +17,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
-public class CopyCbCFormiula {
+public class CopyCbCFormula {
 	
 	private static String EMPTY_STRING = new String("\n");
 	

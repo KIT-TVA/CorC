@@ -53,7 +53,11 @@ public class MethodStruct {
 				  }
 			  }
 			  String newName = varCall.getName().replaceAll("(\\w+)\\(", javaFileName + ".$1(" + paramString);
-			  varCall.setName(newName);
+		//	  varCall.setName(newName);
+		}
+		// just place this. and call the method
+		if(varCall != null) {
+			  varCall.setName("this." + varCall.getName());
 		}
 		
 	}
