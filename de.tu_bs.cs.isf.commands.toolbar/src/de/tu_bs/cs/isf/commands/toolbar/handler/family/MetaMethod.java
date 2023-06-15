@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
+import de.ovgu.featureide.fm.core.ExtensionManager;
 import de.ovgu.featureide.fm.core.base.IFeature;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
@@ -31,6 +32,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
+import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -218,7 +221,6 @@ public class MetaMethod {
 	
 	public Resource toResourceObject(String className) throws IOException, CoreException, MetaClassException {
 		URI metaMethodUri = uriToRootProject.appendSegment(MetaClass.FOLDER_NAME).appendSegment(this.metaClassName).appendSegment(this.metaMethodName).appendFileExtension("cbcmodel");
-
 		createMetaFormula(className);
 		AbstractStatement formulaStatement = createMetaFormulaStatement();
 		metaMethodFormula.setStatement(formulaStatement);

@@ -318,11 +318,11 @@ public class CounterExampleGenerator{
 			}
 		}
 		if (list.size() == 0) {
-			Console.println("Proof does not have a valid proof path.");
+			Console.println("  Proof does not have a valid proof path.");
 		} else if (problem.getFinalResult().isValid() == ThreeValuedTruth.VALID) {
-			Console.println("Z3 could prove that the program fulfills it's specification.");
+			Console.println("  Z3 could prove that the program fulfills it's specification.");
 		} else if (problem.getFinalResult().isValid() == ThreeValuedTruth.UNKNOWN) {
-			Console.println("A counterexample could not be generated.");
+			Console.println("  A counterexample could not be generated.");
 		}
 	}
 	

@@ -66,6 +66,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateDiagram;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
@@ -164,7 +165,8 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 	private void createUniqueMethodFilesForClass(String className) throws IOException, CoreException, MetaClassException {
 		for(MetaMethod metaMethod: uniqueMetaMethods) {
 			GenerateDiagramFromModel diagramGenerator = new GenerateDiagramFromModel();
-			diagramGenerator.execute(metaMethod.toResourceObject(className));
+			var metaMethodResource = metaMethod.toResourceObject(className);
+			diagramGenerator.execute(metaMethodResource);
 			Console.println("Generated MetaMethod File for :" + metaMethod.metaMethodName + ".diagram");
 		}
 	}
