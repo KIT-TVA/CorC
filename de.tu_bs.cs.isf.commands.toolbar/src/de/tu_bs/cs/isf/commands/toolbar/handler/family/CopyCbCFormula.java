@@ -1,5 +1,6 @@
 package de.tu_bs.cs.isf.commands.toolbar.handler.family;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
@@ -20,6 +21,7 @@ import de.tu_bs.cs.isf.cbc.util.Console;
 public class CopyCbCFormula {
 	
 	private static String EMPTY_STRING = new String("\n");
+	private static ArrayList<String> methodModifiables = new ArrayList<String>();
 	
 	public static CbCFormula copyCbCFormula(CbCFormula formulaToCopy) {
 		
@@ -41,6 +43,10 @@ public class CopyCbCFormula {
 		newCbcFormula.setStatement(newFormulaStatement);
 		
 		return newCbcFormula;
+	}
+	
+	public static ArrayList<String> getModifiables() {
+		return methodModifiables;
 	}
 	
 	private static void copyAllRefinements(AbstractStatement previousStatement, AbstractStatement statementToCopy) {
@@ -156,6 +162,11 @@ public class CopyCbCFormula {
 		Condition newCondition = CbcmodelFactory.eINSTANCE.createCondition();
 		newCondition.setName(new String(oldCondition.getName()));
 		newCondition.getModifiables().addAll(oldCondition.getModifiables());
+		for (var mod : newCondition.getModifiables()) {
+			if (!methodModifiables.contains(mod)) {
+				methodModifiables.add(mod);
+			}
+		}
 		return newCondition;
 	}
 	

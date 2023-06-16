@@ -1,5 +1,7 @@
 package de.tu_bs.cs.isf.commands.toolbar.handler.family;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 
@@ -26,6 +28,7 @@ public class MethodStruct {
 	boolean callsOriginal;
 	AbstractStatement originalCallingStatement;
 	String[] featureVariables;
+	List<String> modifiables;
 	
 	public MethodStruct(String javaFileName, String nameOfFeature, String[] featureVariables, IResource methodFile){
 		
@@ -41,6 +44,7 @@ public class MethodStruct {
 		this.nameOfMethod = methodFile.getName().split("\\.")[0];
 		this.preCondition = CbcFormula.getStatement().getPreCondition();
 		this.postCondition = CbcFormula.getStatement().getPostCondition();
+		this.modifiables = this.CbcFormula.getStatement().getPostCondition().getModifiables();
 		AbstractStatement varCall = searchVarCall(this.CbcFormula.getStatement());
 		
 		//Adapt method Call to: <NameOfJavaFile>.<varMethodName>(<FV_1>, ..., <FV_N> , <Arg1>,..., <ArgN>);

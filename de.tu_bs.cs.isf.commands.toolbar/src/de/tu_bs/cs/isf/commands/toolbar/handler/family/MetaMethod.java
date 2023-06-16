@@ -35,7 +35,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateModifiableOfConditions;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
@@ -231,6 +233,7 @@ public class MetaMethod {
 		var globalConditions = createMetaInvariants();
 		addFeatureModelCondition(globalConditions);
 		var metaMethodResource = createMetaMethod(metaMethodUri, globalConditions, metaVariables, metaMethodFormula);
+		addMethodModifiables(metaMethodFormula.getStatement(), metaVariables);
 		saveMetaMethod(metaMethodUri, metaMethodResource);
 		return metaMethodResource;
 	}
@@ -278,6 +281,7 @@ public class MetaMethod {
 	private JavaVariables createMetaVariables() throws MetaClassException {
 		var metaJavaVariables = CbcmodelFactory.eINSTANCE.createJavaVariables();
 
+		addFields(metaJavaVariables);
 		for(int i = 0; i < this.listOfMethods.size(); i++) {
 			addVariables(this.listOfMethods.get(i), metaJavaVariables);
 			addParameters(this.listOfMethods.get(i), metaJavaVariables);
@@ -285,6 +289,49 @@ public class MetaMethod {
 		return metaJavaVariables;
 	}
 	
+	private void addMethodModifiables(AbstractStatement formulaStatement, JavaVariables vars) {
+		var modifiables = new ArrayList<String>();
+		for (var m : this.listOfMethods) {
+			if (m.nameOfMethod.equals(this.metaMethodName)) {
+				formulaStatement.getPostCondition().getModifiables().addAll(m.modifiables);
+			}
+		}
+		//createModifiables(modifiables, formulaStatement, vars);
+	}
+	
+	private void createModifiables(ArrayList<String> modifiables, EObject cur, JavaVariables vars) {
+		if (cur instanceof AbstractStatement) {
+			var statement = (AbstractStatement)cur;
+			if (statement.getPostCondition() != null) {
+				for (var mod : statement.getPostCondition().getModifiables()) {
+					if (mod.contains("[")) {
+						mod = mod.substring(0, mod.indexOf("["));
+					}
+					if (modifiables.contains(mod)) {
+						continue;
+					}
+					for (var field : vars.getFields()) {
+						if (field.getName().equals(mod)) {
+							modifiables.add(mod);
+						}
+					}
+					for (var parameter : vars.getParams()) {
+						if (parameter.getName().equals(mod)) {
+							modifiables.add(mod);
+						}
+					}
+				}
+			}
+		}
+		for (var child : cur.eContents()) {
+			createModifiables(modifiables, child, vars);
+		}
+	}
+	
+	private void addFields(JavaVariables metaJavaVariables) {
+		metaJavaVariables.getFields().addAll(this.metaClass.getModel().getFields());
+	}
+
 	private void addVariables(MethodStruct method, JavaVariables metaJavaVariables) {
 		for(int j = 0 ; j < method.javaVariables.getVariables().size(); j++) {
 			boolean alreadyInList = false;
@@ -320,6 +367,8 @@ public class MetaMethod {
 			}
 		}
 	}
+	
+	
 	
 	
 	private GlobalConditions createMetaInvariants() {
