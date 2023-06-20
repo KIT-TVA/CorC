@@ -492,23 +492,46 @@ public class UpdateInformationFlow {
 		// Elevated SLs
 		confToVarsMap.forEach((reference, level) -> {
 			final Security sec = CbcmodelFactory.eINSTANCE.createSecurity();
+			Security foundSec = null;
 			sec.setLevel(level);
 			sec.setMutationModifier("IMMUTABLE");
 			final CbCFormula cbCFormula = getCbCFormula(statement);
-			cbCFormula.getSecurity().add(sec);
-			System.out.println("Putting Security " + sec.toString() + " into confToVarsMap.");
-			selectionPostCondition.getConfToVarsMap().put(reference, sec);
+			for (Security secInList : cbCFormula.getSecurity()) {
+				if (secInList.getLevel().equals(level)) {
+					foundSec = secInList;
+				}
+			}
+			 if (foundSec != null) {
+				 selectionPostCondition.getConfToVarsMap().put(reference, foundSec);
+			 } else {
+				cbCFormula.getSecurity().add(sec);
+				System.out.println("Putting Security " + sec.toString() + " into confToVarsMap.");
+				selectionPostCondition.getConfToVarsMap().put(reference, sec);
+			 }
+
 		});
 
 		// Changed types
 		atTypesToVarsMap.forEach((type, references) -> {
 			// One type can have multiple references that are changed to this type
 			references.forEach(reference -> {
-				final AtType atType = CbcmodelFactory.eINSTANCE.createAtType();
+				AtType atType = CbcmodelFactory.eINSTANCE.createAtType();
+				AtType foundType = null;
 				atType.setName(reference);
 				final CbCFormula cbCFormula = getCbCFormula(statement);
-				cbCFormula.getAtType().add(atType);
-				System.out.println("Putting Changed type for " + reference + " to " + type + " into AtTypesToVarsMap.");
+				
+				for (AtType typeInList : cbCFormula.getAtType()) {
+					if (typeInList.getName().equals(reference)) {
+						foundType = typeInList;
+					}
+				}
+				 if (foundType != null) {
+					 atType = foundType;
+				 } else {
+					 System.out.println("Putting Changed type for " + reference + " to " + type + " into AtTypesToVarsMap.");
+					 cbCFormula.getAtType().add(atType);
+				 }
+				
 				// Is this type already present or should it be created?
 				if (selectionPostCondition.getAtTypesToVarsMap().get(type) == null) {
 					final EList<AtType> newList = new BasicEList<AtType>();
@@ -812,12 +835,25 @@ public class UpdateInformationFlow {
 			value.forEach(entity -> {
 				System.out.println("Entity: " + entity.toString());
 				final Security sec = CbcmodelFactory.eINSTANCE.createSecurity();
+				Security foundSec = null;
 				sec.setLevel(key);
 				sec.setMutationModifier(entity.getMutationModifier().toString());
 				final CbCFormula cbCFormula = getCbCFormula(actualStatement);
-				cbCFormula.getSecurity().add(sec);
-				System.out.println("Putting Security " + sec.toString() + " into confToVarsMap.");
-				actualStatement.getPostCondition().getConfToVarsMap().put(entity.getName(), sec);
+				
+				for (Security secInList : cbCFormula.getSecurity()) {
+					if (secInList.getLevel().equals(key)
+							&& secInList.getMutationModifier().equals(entity.getMutationModifier().toString())) {
+						foundSec = secInList;
+					}
+				}
+				
+				if (foundSec != null) {
+					 actualStatement.getPostCondition().getConfToVarsMap().put(entity.getName(), foundSec);
+				 } else {
+					cbCFormula.getSecurity().add(sec);
+					System.out.println("Putting Security " + sec.toString() + " into confToVarsMap.");
+					actualStatement.getPostCondition().getConfToVarsMap().put(entity.getName(), sec);
+				 }
 			});
 		});
 
@@ -825,12 +861,24 @@ public class UpdateInformationFlow {
 		actualStatement.getPostCondition().getAtTypesToVarsMap().clear();
 		changedTypes.forEach((targetScopeName, valueReturnType) -> {
 			System.out.println("Key: " + targetScopeName + ", value: " + valueReturnType.toString());
-			final AtType atType = CbcmodelFactory.eINSTANCE.createAtType();
+			AtType atType = CbcmodelFactory.eINSTANCE.createAtType();
+			AtType foundType = null;
 			atType.setName(targetScopeName);
 			final CbCFormula cbCFormula = getCbCFormula(actualStatement);
-			cbCFormula.getAtType().add(atType);
-			System.out.println("Putting Changed type for " + targetScopeName + " to " + valueReturnType
-					+ " into AtTypesToVarsMap.");
+			
+			for (AtType typeInList : cbCFormula.getAtType()) {
+				if (typeInList.getName().equals(targetScopeName)) {
+					foundType = typeInList;
+				}
+			}
+			 if (foundType != null) {
+				 atType = foundType;
+			 } else {
+				 System.out.println("Putting Changed type for " + targetScopeName + " to " + valueReturnType
+							+ " into AtTypesToVarsMap.");
+				 cbCFormula.getAtType().add(atType);
+			 }
+			
 			if (actualStatement.getPostCondition().getAtTypesToVarsMap().get(valueReturnType) == null) {
 				final EList<AtType> newList = new BasicEList<AtType>();
 				newList.add(atType);
