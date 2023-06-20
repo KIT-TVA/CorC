@@ -3,8 +3,8 @@ package de.tu_bs.cs.isf.cbc.tool.patterns;
 import java.io.IOException;
 import java.util.Collections;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -15,37 +15,39 @@ import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.algorithms.Text;
-import org.eclipse.graphiti.mm.algorithms.impl.TextImpl;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.graphiti.mm.pictograms.impl.ShapeImpl;
 import org.eclipse.graphiti.pattern.IPattern;
 import org.eclipse.graphiti.pattern.id.IdLayoutContext;
 import org.eclipse.graphiti.pattern.id.IdPattern;
 import org.eclipse.graphiti.pattern.id.IdUpdateContext;
-import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.services.IPeService;
-import org.eclipse.xtext.resource.SaveOptions;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
+import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CompositionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
+import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
 import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
-import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
+import de.tu_bs.cs.isf.cbc.tool.helper.GetProjectUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateInformationFlow;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateMethodCallsToProve;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
+import de.tu_bs.cs.isf.lattice.Lattice;
+import de.tu_bs.cs.isf.lattice.Lattices;
 
 /**
  * Class that creates the graphical representation of Conditions
@@ -271,6 +273,33 @@ public class ConditionPattern extends IdPattern implements IPattern {
 					e.printStackTrace();
 				}
 			}
+			
+			//Start of IFbC
+			final IProject project = GetProjectUtil.getProjectForDiagram(getDiagram());
+			final Lattice lattice = Lattices.getLatticeForProject(project);
+			if (lattice != null) {
+				for (Shape shape : getDiagram().getChildren()) {
+					Object obj = getBusinessObjectForPictogramElement(shape);
+					if (obj instanceof CbCFormula) {
+						CbCFormula formula = (CbCFormula) obj;
+						final AbstractStatement statement;
+						
+						// CbCFormula or AbstractStatement?
+						if (formula.getPostCondition() == condition) {
+							statement = formula.getStatement();
+						} else {
+							statement = findStatementForCondition(condition, formula);
+						}
+						try {
+							UpdateInformationFlow.updateInformationFlow(project.getName(), statement, lattice);
+						} catch (IFbCException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+
 			UpdateOriginalCallsToProve.updateOriginalCallsToProve(condition);
 			UpdateMethodCallsToProve.updateMethodCallsToProve(condition);
 			UpdateContractsToProve.updateContractsToProve(condition);
@@ -349,5 +378,58 @@ public class ConditionPattern extends IdPattern implements IPattern {
 		formula.setProven(false);
 		formula.setTested(false);
 		UpdateConditionsOfChildren.setAllStatementsUnproven(formula.getStatement());
+	}
+	
+	private AbstractStatement findStatementForCondition(Condition condition, CbCFormula formula) {
+		return findStatementForCondition(condition, formula.getStatement().getRefinement());
+	}
+	
+	private AbstractStatement findStatementForCondition(Condition condition, AbstractStatement statement) {
+		if (statement instanceof SelectionStatement) {
+			final SelectionStatement selection = (SelectionStatement) statement;
+			for (Condition guard : selection.getGuards()) {
+				if (guard == condition) {
+					return selection;
+				}
+			}
+			
+			for (AbstractStatement command : selection.getCommands()) {
+				final AbstractStatement returnValue = findStatementForCondition(condition, command);
+				if (returnValue != null) {
+					return returnValue;
+				}
+			}
+			
+			return null;
+		}
+		
+		if (statement instanceof SmallRepetitionStatement) {
+			final SmallRepetitionStatement repetition = (SmallRepetitionStatement) statement;
+			
+			if (repetition.getGuard() == condition) {
+				return repetition;
+			}
+			
+			if (repetition.getLoopStatement() != null) {
+				final AbstractStatement returnValue = findStatementForCondition(condition, repetition.getLoopStatement());
+				if (returnValue != null) {
+					return returnValue;
+				}
+			}
+		}
+		
+		if (statement instanceof CompositionStatement) {
+			final CompositionStatement composition = (CompositionStatement) statement;
+			final AbstractStatement firstResult = findStatementForCondition(condition, composition.getFirstStatement());
+			if (firstResult != null) {
+				return firstResult;
+			}
+			
+			return findStatementForCondition(condition, composition.getSecondStatement());
+		}
+		
+		
+		
+		return null;
 	}
 }

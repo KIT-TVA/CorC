@@ -68,8 +68,6 @@ public class VariableSection extends GFPropertySection implements ITabbedPropert
 			variables = (JavaVariables) bo;
 		}
 		
-		System.out.println(variablesList.size() + " " + variablesSecurity.size());
-		
 		if (variables != null) {
 			for (JavaVariable var : variables.getVariables()) {
 				if (!variablesList.contains(var)) {

@@ -1,5 +1,6 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IReconnectionContext;
 import org.eclipse.graphiti.features.context.impl.ReconnectionContext;
@@ -12,7 +13,12 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
+import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
+import de.tu_bs.cs.isf.cbc.tool.helper.GetProjectUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateInformationFlow;
+import de.tu_bs.cs.isf.lattice.Lattice;
+import de.tu_bs.cs.isf.lattice.Lattices;
 
 /**
  * Class thats does reconnections
@@ -104,6 +110,18 @@ public class ReconnectionFeature extends DefaultReconnectionFeature {
 		
 		sourceObject.setRefinement(targetObject);
 		UpdateConditionsOfChildren.updateRefinedStatement(sourceObject, targetObject);
+		
+		//Start of IFbC
+		final IProject project = GetProjectUtil.getProjectForDiagram(getDiagram());
+		final Lattice lattice = Lattices.getLatticeForProject(project);
+		if (lattice != null) {
+			try {
+				UpdateInformationFlow.updateInformationFlow(project.getName(), sourceObject, lattice);
+			} catch (IFbCException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**

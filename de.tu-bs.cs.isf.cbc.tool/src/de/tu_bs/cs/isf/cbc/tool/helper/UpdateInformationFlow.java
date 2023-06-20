@@ -873,7 +873,9 @@ public class UpdateInformationFlow {
 				for (JavaVariable variable : variables.getVariables()) {
 					MDF mutationModifier = MDF.READ;
 
-					if (variable.getModifier().equals("imm")) {
+					if (variable.getModifier() == null) {
+						mutationModifier = MDF.IMMUTABLE;
+					} else if (variable.getModifier().equals("imm")) {
 						mutationModifier = MDF.IMMUTABLE;
 					} else if (variable.getModifier().equals("capsule")) {
 						mutationModifier = MDF.CAPSULE;
@@ -883,7 +885,7 @@ public class UpdateInformationFlow {
 
 					// CbCFormula formula = getCbCFormula(statement);
 					// formula.getSecurity().add(security);
-					variablesAsMap.put(variable.getName(), new IFbCReferenceEntity(variable.getName(),
+					variablesAsMap.put(getNameOfVar(variable), new IFbCReferenceEntity(getNameOfVar(variable),
 							variable.getConfidentiality(), mutationModifier, getTypeOfVar(variable)));
 				}
 			}
@@ -896,6 +898,13 @@ public class UpdateInformationFlow {
 		String varType = varName.substring(0, varName.lastIndexOf(" "));
 		varType = varType.replace("static", "").replace("non-null", "");
 		return varType.trim();
+	}
+	
+	private static String getNameOfVar(JavaVariable var) {
+		String varName = var.getName();
+		String varRet = varName.substring(varName.lastIndexOf(" ") + 1, varName.length());
+		varRet = varRet.replace("static", "").replace("non-null", "");
+		return varRet.trim();
 	}
 
 	/**
@@ -937,7 +946,7 @@ public class UpdateInformationFlow {
 				}
 			}
 			if (formula != null) {
-				// actual MethodLink in diagram - get Entity from JavaClass
+				// get Name and Method from formula
 				final String className = formula.getClassName();	
 				if (className == null) {
 					System.out.println("No class name set in CbCFormula");
@@ -945,7 +954,7 @@ public class UpdateInformationFlow {
 				}
 				
 				final String methodSignature = formula.getMethodName();
-				if (methodSignature == null) {
+				if (methodSignature == null || methodSignature.isEmpty()) {
 					System.out.println("No method signature set in CbCFormula");
 					return null;
 				}
