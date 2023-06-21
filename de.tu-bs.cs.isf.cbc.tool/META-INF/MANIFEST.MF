@@ -43,6 +43,7 @@ Export-Package: de.tu_bs.cs.isf.cbc.tool.diagram,
  de.tu_bs.cs.isf.cbc.tool.features,
  de.tu_bs.cs.isf.cbc.tool.helper,
  de.tu_bs.cs.isf.cbc.tool.model,
- de.tu_bs.cs.isf.cbc.tool.patterns 
+ de.tu_bs.cs.isf.cbc.tool.patterns,
+ de.tu_bs.cs.isf.cbc.tool.propertiesview
 Bundle-ClassPath: lib/com.microsoft.z3.jar,
  .

@@ -44,6 +44,8 @@ import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
 
+import de.tu_bs.cs.isf.cbc.tool.propertiesview.Behavior;
+
 public class ProveWithKey {
 	public static final String SRC_FOLDER = "src_gen";
 	
@@ -558,9 +560,13 @@ public class ProveWithKey {
 			boolean closed = proof.openGoals().isEmpty();
 			if (!closed) {
 				Console.println("  Proof could not be closed.");
-				// TODO: Make it possible to turn the counterexample generator of and on during runtime.
 				CounterExampleGenerator generator = new CounterExampleGenerator();
-				generator.calculateExample(proof);
+				if (Behavior.canRead()) {
+					Behavior behavior = Behavior.read();
+					if (behavior.getCounterExamples()) {
+						generator.calculateExample(proof);
+					}
+				}
 			} else {
 				Console.println("  Proof is closed: " + closed + "\n");
 				return closed;
