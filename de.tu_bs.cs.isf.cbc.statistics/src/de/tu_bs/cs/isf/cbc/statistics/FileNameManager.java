@@ -138,7 +138,8 @@ public class FileNameManager {
 		}
 
 		for (File file : redundantFiles) {
-			file.delete();
+			// TODO: Deleting key files leads to worse error tracing. This should be handled differently.
+			//file.delete();
 		}
 
 	}

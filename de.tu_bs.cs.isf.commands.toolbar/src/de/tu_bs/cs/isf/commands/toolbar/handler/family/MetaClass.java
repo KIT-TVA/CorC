@@ -49,13 +49,13 @@ public class MetaClass {
 		return this.metaModel;
 	}
 	
-	public Method getMethod(String name) throws MetaClassException {
+	public Method getMethod(String name) throws Exception {
 		for (var m : this.metaModel.getMethods()) {
 			if (m.getName().equals(name)) {
 				return m;
 			}
 		}
-		throw new MetaClassException("Meta method with name '" + name + "' could not be found.");
+		return DummyMethod.createFromSrc(project, name).get();
 	}
 	
 	private static List<ModelClass> collectRelevantClasses(final List<org.eclipse.emf.ecore.resource.Resource> allClasses, String className) {
@@ -73,7 +73,7 @@ public class MetaClass {
 	private static boolean isRelevant(ModelClass cbcClass, String className, org.eclipse.emf.ecore.resource.Resource res) {
 		return cbcClass.getName().equals(className) && !res.getURI().path().contains(MetaClass.FOLDER_NAME);
 	}
-
+	
 	private MetaClass(ModelClass[] models, String className) {
 		this.models = models;
 		this.metaModel = CbcclassFactory.eINSTANCE.createModelClass();

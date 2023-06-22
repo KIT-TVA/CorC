@@ -221,7 +221,7 @@ public class MetaMethod {
 		return metaCondition;
 	}
 	
-	public Resource toResourceObject(String className) throws IOException, CoreException, MetaClassException {
+	public Resource toResourceObject(String className) throws Exception {
 		URI metaMethodUri = uriToRootProject.appendSegment(MetaClass.FOLDER_NAME).appendSegment(this.metaClassName).appendSegment(this.metaMethodName).appendFileExtension("cbcmodel");
 		createMetaFormula(className);
 		AbstractStatement formulaStatement = createMetaFormulaStatement();
@@ -278,7 +278,7 @@ public class MetaMethod {
 		}
 	}
 	
-	private JavaVariables createMetaVariables() throws MetaClassException {
+	private JavaVariables createMetaVariables() throws Exception {
 		var metaJavaVariables = CbcmodelFactory.eINSTANCE.createJavaVariables();
 
 		addFields(metaJavaVariables);
@@ -350,7 +350,7 @@ public class MetaMethod {
 		}
 	}
 	
-	private void addParameters(MethodStruct method, JavaVariables metaJavaVariables) throws MetaClassException {
+	private void addParameters(MethodStruct method, JavaVariables metaJavaVariables) throws Exception {
 		var metaMethod = metaClass.getMethod(method.nameOfMethod);
 		for(int j = 0 ; j < metaMethod.getParameters().size(); j++) {
 			boolean alreadyInList = false;
@@ -401,7 +401,7 @@ public class MetaMethod {
 		globalConditions.getConditions().add(featureModelCondition);
 	}
 	
-	private Resource createMetaMethod(URI uri, GlobalConditions globalConditions, JavaVariables metaVariables, CbCFormula metaMethodFormula) throws MetaClassException {
+	private Resource createMetaMethod(URI uri, GlobalConditions globalConditions, JavaVariables metaVariables, CbCFormula metaMethodFormula) throws Exception {
 		ResourceSet rs = new ResourceSetImpl();
 		Resource metaMethodResource = rs.createResource(uri);
 		SetMetaSpecificationForFormula.passMetaSpeficiationThroughFormula(metaMethodFormula, this.metaPreConditon, this.metaPostCondition);	
@@ -512,7 +512,7 @@ public class MetaMethod {
 		}
 	}
 	
-	private void handleAbstractMethodCalls(EObject cur) throws MetaClassException {
+	private void handleAbstractMethodCalls(EObject cur) throws Exception {
 		if (cur instanceof AbstractStatement) {
 			var statement = (AbstractStatement)cur;
 			if (containsMethodCall(statement.getName())) {

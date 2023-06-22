@@ -3,6 +3,11 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.xtext.util.Exceptions;
+
+import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.MethodHandlerException;
+
 public class MethodHandler {
 	private String contract;
 	private String signature;
@@ -30,6 +35,16 @@ public class MethodHandler {
 		}	
 		this.innerCode = code.trim();
 		this.contract = contract;
+	}
+	
+	public static String getContractFromCode(String content, String sig) throws Exception {
+		int index = content.indexOf(sig);
+		if (index == -1) {
+			throw new MethodHandlerException(ExceptionMessages.sigNotFound(sig));
+		}
+		content = content.substring(0, content.indexOf(sig));
+		content = content.substring(content.lastIndexOf("/*@"), content.length());
+		return content.trim();
 	}
 	
 	/**

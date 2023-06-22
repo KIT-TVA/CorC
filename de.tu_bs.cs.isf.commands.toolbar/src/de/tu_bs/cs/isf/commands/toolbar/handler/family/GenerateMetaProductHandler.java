@@ -150,7 +150,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			}
 			MetaVariablesClass mvc = new MetaVariablesClass(project.getLocation().toString(), this.FEATURE_VARIABLES);
 			mvc.saveToFile();
-		} catch (IOException | CoreException | CodeMergeException | MetaClassException e) {
+		} catch (Exception e) {
 			Console.println(e.getMessage());
 			e.printStackTrace();
 			return null;
@@ -162,7 +162,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		return null;
 	}
 
-	private void createUniqueMethodFilesForClass(String className) throws IOException, CoreException, MetaClassException {
+	private void createUniqueMethodFilesForClass(String className) throws Exception {
 		for(MetaMethod metaMethod: uniqueMetaMethods) {
 			GenerateDiagramFromModel diagramGenerator = new GenerateDiagramFromModel();
 			var metaMethodResource = metaMethod.toResourceObject(className);
