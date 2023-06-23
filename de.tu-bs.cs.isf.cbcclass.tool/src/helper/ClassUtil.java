@@ -116,7 +116,6 @@ public class ClassUtil {
 	public static Resource getResourceFromFile(IFile file, ResourceSet resourceSet) {
 		URI resourceURI = URI.createPlatformResourceURI(file.getFullPath().toString());
 		// Demand load the resource for this file.
-		System.out.println(resourceURI);
 		Resource resource = resourceSet.getResource(resourceURI, true);
 		return resource;
 	}
