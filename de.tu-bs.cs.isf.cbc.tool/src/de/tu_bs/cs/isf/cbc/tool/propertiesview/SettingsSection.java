@@ -28,6 +28,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
+import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 
 /**
@@ -35,9 +36,8 @@ import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
  * 
  * @author Fynn Demmler
  */
-public class BehaviorSection extends GFPropertySection implements ITabbedPropertyConstants {
+public class SettingsSection extends GFPropertySection implements ITabbedPropertyConstants {
 	private final int COUNTEREXAMPLE = 0;
-	private final String FILENAME = "behavior";
 	
 	final List<Button> buttons = new ArrayList<Button>();
 	// Defining the logical properties
@@ -46,10 +46,12 @@ public class BehaviorSection extends GFPropertySection implements ITabbedPropert
 	
 	private Device device = Display.getCurrent ();
 	private Color white = new Color (device, 255, 255, 255);
+	
+	private final String CEX_BUTTON_NAME = "Generate Counterexamples";
+	private final String TWARN_BUTTON_NAME = "Show Warnings";
+	
 
 	// Defining the UI properties
-
-	private Group buttonGroup;
 
 	@Override
 	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -67,39 +69,93 @@ public class BehaviorSection extends GFPropertySection implements ITabbedPropert
 		gridLayout.verticalSpacing = 20;
 		composite.setLayout(gridLayout);
 
-		// Verify Behavior
-		buttonGroup = new Group(composite, SWT.PUSH);
-		buttonGroup.setText("Verify Behavior");
+		// Verify Settings
+		Group verifyGroup = createButtonGroup(composite, "Verify Settings");
+		var counterButton = createButton(verifyGroup, CEX_BUTTON_NAME);
+		
+		// Test Settings
+		Group testGroup = createButtonGroup(composite, "Test Settings");
+		var warningButton = createButton(testGroup, TWARN_BUTTON_NAME);
+		
+		try {
+			readSettings();
+		} catch (SettingsException e) {
+			e.printStackTrace();
+		}
+		addListeners();	
+	}
+	
+	private Group createButtonGroup(Composite parent, String name) {
+		Group buttonGroup = new Group(parent, SWT.PUSH);
+		buttonGroup.setText(name);
 		GridLayout buttonGroupLayout = new GridLayout();
 		buttonGroupLayout.numColumns = 1;
 		buttonGroup.setLayout(buttonGroupLayout);
 		buttonGroup.setBackground(white);
+		return buttonGroup;
+	}
+	
+	private Button createButton(Group buttonGroup, String name) {
 		Button newButton = new Button(buttonGroup, SWT.CHECK);
-		newButton.setText("Generate Counterexamples");
+		newButton.setText(name);
 		newButton.setBackground(white);
 		buttons.add(newButton);
-		if (Behavior.canRead()) {
-			Behavior b = Behavior.read();
-			newButton.setSelection(b.getCounterExamples());
+		return newButton;
+	}
+	
+	private void addListeners() {
+		for (var button : this.buttons) {
+			button.addListener(SWT.Selection, new Listener() {
+				@Override
+				public void handleEvent(Event e) {
+					Settings b;
+					try {
+						b = Settings.get();
+					} catch (SettingsException e1) {
+						e1.printStackTrace();
+						return;
+					}
+					if (button.getText().equals(CEX_BUTTON_NAME)) {
+						b.setCounterExamples(button.getSelection());
+					} else if (button.getText().equals(TWARN_BUTTON_NAME)) {
+						b.setTestWarnings(button.getSelection());
+					}
+					b.save();
+				}
+			});
 		}
-		newButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event e) {
-				Behavior b = new Behavior();
-				b.setCounterExamples(newButton.getSelection());
-				b.save();
-				parent.pack();
-				tabbedPropertySheetPage.resizeScrolledComposite();
+	}
+	
+	private void readSettings() throws SettingsException {
+		if (Settings.canRead()) {
+			Settings b = Settings.get();
+			for (var button : this.buttons) {
+				if (button.getText().equals(CEX_BUTTON_NAME)) {
+					button.setSelection(b.getCounterExamples());
+				} else if (button.getText().equals(TWARN_BUTTON_NAME)) {
+					button.setSelection(b.testWarningsEnabled());
+				}
 			}
-		});
-		
+		}
 	}
 
 	@Override
 	public void refresh() {
-		if (Behavior.canRead()) {
-			Behavior b = Behavior.read();
-			buttons.get(COUNTEREXAMPLE).setSelection(b.getCounterExamples());
+		if (Settings.canRead()) {
+			Settings b;
+			try {
+				b = Settings.get();
+			} catch (SettingsException e) {
+				e.printStackTrace();
+				return;
+			}
+			for (var button : this.buttons) {
+				if (button.getText().equals(CEX_BUTTON_NAME)) {
+					button.setSelection(b.getCounterExamples());
+				} else if (button.getText().equals(TWARN_BUTTON_NAME)) {
+					button.setSelection(b.testWarningsEnabled());
+				}
+			}
 		}
 	}
 }

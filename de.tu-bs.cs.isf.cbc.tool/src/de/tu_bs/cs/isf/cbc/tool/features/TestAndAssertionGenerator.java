@@ -68,6 +68,7 @@ import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.PreConditionSolverException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.ReferenceException;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.TestAndAssertionGeneratorException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.TestStatementException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.UnexpectedTokenException;
@@ -88,10 +89,13 @@ import de.tu_bs.cs.isf.cbc.tool.helper.TestUtilSPL;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.ConditionParser;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.Node;
+import de.tu_bs.cs.isf.cbc.tool.propertiesview.Settings;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import diagnostics.DataParser;
+
+import de.tu_bs.cs.isf.cbc.tool.propertiesview.Settings;
 
 /**
  * The test generator.
@@ -109,7 +113,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	public static final String ARRAY_CLOSED_TOKEN = "}>";
 	public static final String GENERATED_CLASSNAME = "GeneratedClass";
 	private final static String STATEMENT_PH = "<statement>";
-	private boolean showWarnings = false;
+	private boolean showWarnings;
 		
 	public TestAndAssertionGenerator(IFeatureProvider fp) {
 		super(fp);
@@ -132,6 +136,14 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
+		Settings settings;
+		try {
+			settings = Settings.get();
+			this.showWarnings = settings.testWarningsEnabled();
+		} catch (SettingsException e1) {
+			e1.printStackTrace();
+			this.showWarnings = false;
+		}
 		this.returnVariable = null;
 		final URI uri = getDiagram().eResource().getURI();
 		final List<String> globalVars = new ArrayList<String>();
@@ -232,7 +244,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			} else {
 				test(uri, formula, vars, globalConditions, signatureString, globalVars, features);
 			}	
-		} catch (ReferenceException | TestAndAssertionGeneratorException | PreConditionSolverException | UnexpectedTokenException | TestStatementException | DiagnosticsException e) {
+		} catch (ReferenceException | TestAndAssertionGeneratorException | PreConditionSolverException | UnexpectedTokenException | TestStatementException | DiagnosticsException | SettingsException e) {
 			Console.println(e.getMessage(), Colors.RED);
 			e.printStackTrace();
 			return;
@@ -242,7 +254,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		Console.println("Time needed: " + (int)elapsedTime + "ms");
 	}
 	
-	private boolean test(final URI uri, final CbCFormula formula, final JavaVariables vars, final GlobalConditions globalConditions, final String signatureString, final List<String> globalVars, final Features features) throws ReferenceException, TestAndAssertionGeneratorException, PreConditionSolverException, UnexpectedTokenException, TestStatementException, DiagnosticsException {
+	private boolean test(final URI uri, final CbCFormula formula, final JavaVariables vars, final GlobalConditions globalConditions, final String signatureString, final List<String> globalVars, final Features features) throws ReferenceException, TestAndAssertionGeneratorException, PreConditionSolverException, UnexpectedTokenException, TestStatementException, DiagnosticsException, SettingsException {
 		var methodToGenerate = getDiagram();			
 		String code2 = genCode(methodToGenerate);		
 		var className = code2.split("public\\sclass\\s", 2)[1].split("\\s", 2)[0];
@@ -1263,8 +1275,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * @throws TestAndAssertionGeneratorException 
 	 * @throws PreConditionSolverException 
 	 * @throws UnexpectedTokenException 
+	 * @throws SettingsException 
 	 */
-	public List<TestCaseData> genInputs(final String preconditions, final JavaVariables vars, final String code, final String signature, final JavaVariable returnVariable) throws TestAndAssertionGeneratorException, PreConditionSolverException, UnexpectedTokenException {
+	public List<TestCaseData> genInputs(final String preconditions, final JavaVariables vars, final String code, final String signature, final JavaVariable returnVariable) throws TestAndAssertionGeneratorException, PreConditionSolverException, UnexpectedTokenException, SettingsException {
 		List<String> globalVarsOfClass = new ArrayList<String>();
 		List<String> usedVars;
 		List<String> params;
@@ -1315,7 +1328,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		List<InputData> solverData = null;
 		if (!preconditions.isEmpty()) {
 			solver = new PreConditionSolver(vars);
-			solver.showWarnings(false);
+			Settings settings = Settings.get();
+			solver.showWarnings(settings.testWarningsEnabled());
 			try {
 				solverData = solver.solve(preconditions);
 			} catch (PreConditionSolverException e) {

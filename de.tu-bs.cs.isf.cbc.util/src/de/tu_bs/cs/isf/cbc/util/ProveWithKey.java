@@ -44,7 +44,7 @@ import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
 
-import de.tu_bs.cs.isf.cbc.tool.propertiesview.Behavior;
+import de.tu_bs.cs.isf.cbc.tool.propertiesview.Settings;
 
 public class ProveWithKey {
 	public static final String SRC_FOLDER = "src_gen";
@@ -550,10 +550,15 @@ public class ProveWithKey {
 	}
 
 	public boolean proveWithKey(File location, boolean inlining) {
-		return proveWithKey(location, monitor, inlining, formula, statement, problem, uri);	
+		try {
+			return proveWithKey(location, monitor, inlining, formula, statement, problem, uri);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}			
 	}
 	
-	public static boolean proveWithKey(File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula, AbstractStatement statement, String problem, String uri) {
+	public static boolean proveWithKey(File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula, AbstractStatement statement, String problem, String uri) throws Exception {
 		Proof proof = null;
 		proof = KeYInteraction.startKeyProof(location, null, inlining, formula, statement, problem, uri);
 		if (proof != null) {
@@ -561,9 +566,9 @@ public class ProveWithKey {
 			if (!closed) {
 				Console.println("  Proof could not be closed.");
 				CounterExampleGenerator generator = new CounterExampleGenerator();
-				if (Behavior.canRead()) {
-					Behavior behavior = Behavior.read();
-					if (behavior.getCounterExamples()) {
+				if (Settings.canRead()) {
+					Settings settings = Settings.get();
+					if (settings.getCounterExamples()) {
 						generator.calculateExample(proof);
 					}
 				}

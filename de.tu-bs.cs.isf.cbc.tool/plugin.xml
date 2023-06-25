@@ -45,6 +45,11 @@
           contributorId="cbc.PropertyContributor">
     <propertyTab
          category="Graphiti"
+         id="Settings"
+         label="Settings">
+    </propertyTab>
+    <propertyTab
+         category="Graphiti"
          id="Configurations"
          label="Configurations">
     </propertyTab>
@@ -84,6 +89,12 @@
       point="org.eclipse.ui.views.properties.tabbed.propertySections">
     <propertySections
           contributorId="cbc.PropertyContributor">
+        <propertySection
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.SettingsSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterCodeReader"
+              id="Settings"
+              tab="Settings">
+        </propertySection>
         <propertySection
               afterSection="Replacements"
               class="de.tu_bs.cs.isf.cbc.tool.propertiesview.ConfigurationsSection"
