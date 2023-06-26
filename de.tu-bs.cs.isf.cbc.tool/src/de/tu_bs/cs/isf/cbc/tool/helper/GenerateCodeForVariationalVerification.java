@@ -112,7 +112,8 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			for (String feature : config) {
 				for (IFile cbcclassFile : classFiles) {
 					if (cbcclassFile.getFullPath().toString().contains(className + ".cbcclass") && cbcclassFile.getFullPath().toString().contains("/features/" + feature)) {
-						String cbcclassPath = project.getLocationURI().toString().substring(6);
+						//String cbcclassPath = project.getLocationURI().toString().substring(6);
+						String cbcclassPath = project.getLocation().toOSString();
 						Resource resource = ClassUtil.getClassModelResource(cbcclassPath, className, cbcclassFile.getFullPath().segment(2));
 						for (EObject obj : resource.getContents()) {
 							if (obj instanceof ModelClass) {
