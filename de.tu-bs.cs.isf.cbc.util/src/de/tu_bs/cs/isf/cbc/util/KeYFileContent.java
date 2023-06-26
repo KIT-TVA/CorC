@@ -129,7 +129,6 @@ public class KeYFileContent {
 			List<JavaVariable> variables = new ArrayList<>();
 			variables.addAll(vars.getVariables());
 			for (JavaVariable var : variables) {
-//				TODO: check
 				String[] NameOfVar = var.getName().split(" ");
 				nameOfLocalVars.add(NameOfVar[NameOfVar.length-1]);
 				
@@ -241,10 +240,7 @@ public class KeYFileContent {
 	public void handleReturn(AbstractStatement retStatement, JavaVariable returnVariable, CbCFormula formula) {
 		if(retStatement.getClass().equals(ReturnStatementImpl.class)) {
 			if (returnVariable != null) {
-//				TODO: check
-//				statement = returnVariable.getName().replace("static", "").replace(" non-null", "").split(" ")[1] + " = " + retStatement.getName();
 				statement = removeStaticNonNull(returnVariable.getName()).split(" ")[1] + " = " + retStatement.getName();
-//			    post = post.replaceAll(REGEX_RESULT_KEYWORD.pattern(), returnVariable.getName().substring(returnVariable.getName().indexOf(" ")));
 			    for (Condition c : postConditions) {
 			    	c.getName().replaceAll(REGEX_RESULT_KEYWORD.pattern(), returnVariable.getName().substring(returnVariable.getName().indexOf(" ")));
 			    }
@@ -256,15 +252,12 @@ public class KeYFileContent {
 					Console.println("No diagram was found that implements method '" + methodName + "'!");
 				} else {
 					String returnVariableDeclaration = returnTypeOfMethod + " result_" + methodName;
-//					programVariables += returnVariableDeclaration + "; ";
 					JavaVariable var = CbcmodelFactory.eINSTANCE.createJavaVariable();
 					var.setName(returnVariableDeclaration);
 					var.setKind(VariableKind.RETURNPARAM);
 					programVariables.getVariables().add(var);
 					statement = "result_" + methodName + " = " + retStatement.getName().replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
-//					post += "& " + returnVariableType + "::exactInstance(result_" + methodName + ") = TRUE";
 					// Replace result keyword in post.
-//					post = post.replaceAll(REGEX_RESULT_KEYWORD.pattern(), "result_" + methodName);
 					for (Condition c : postConditions) {
 				    	c.getName().replaceAll(REGEX_RESULT_KEYWORD.pattern(), "result_" + methodName);
 				    }
@@ -404,14 +397,6 @@ public class KeYFileContent {
 			}
 		}
 		return String.join(" & ", conditions);
-		
-//		String result = globalConditions.stream()
-//				.map(Condition::getName)
-//				.map(this::replaceThisWithSelf)
-//				.map(this::renameCondition)
-//				.collect(Collectors.joining(" & "));
-//						
-//		return replaceOldKeyword(result, oldReplacements);
 	}
 	
 	private String getConditionObjectsCreatedString(Map<String, OldReplacement> oldReplacements) {
@@ -431,8 +416,6 @@ public class KeYFileContent {
 			if (isArray(param)) {
 				conditions.add(removeStaticNonNull(param.getName()) + ".<created> = TRUE");
 			}
-//			TODO: check
-//			if (isNonNull(param)) {
 			if (!param.getName().equals("ret") && isNonNull(param)) {
 				addNonNullCondition(conditions, removeStaticNonNull(param.getType()), removeStaticNonNull(param.getName()));
 			}
@@ -498,10 +481,7 @@ public class KeYFileContent {
 	private List<String> getOldAssignments(Map<String, OldReplacement> oldReplacements) {
 		List<String> assignments = new ArrayList<>();
 		for (String var : oldReplacements.keySet()) {
-//			TODO: check
 			if (!getPreConditionsString(oldReplacements).contains(var)) {
-//			if (!getPreConditionsString(oldReplacements).contains("\\old(" + var + ")")) {
-//				assignments.add(removeStaticNonNull(var) + oldReplacements.get(var).index + OLD_VARS_SUFFIX + ":=" + var);
 				assignments.add(var + " := " + oldReplacements.get(var).getVar());
 				
 			}
@@ -521,8 +501,6 @@ public class KeYFileContent {
 		List<String> conds = new ArrayList<>();
 		for (String var : unmodifiableVars) {
 			String varName = var.substring(var.lastIndexOf(" ") + 1);
-//			TODO: check
-//			varName = varName.replace("static", "").replace(" non-null", "");
 			varName = removeStaticNonNull(varName);
 			conds.add(MessageFormat.format("{0} = {1}_old", varName, varName));
 		}
@@ -674,7 +652,7 @@ public class KeYFileContent {
 				}
 				if (currentClassName.startsWith("self") || currentClassName.startsWith("this")
 						|| isFirstAccessedVarInCurrentClass) {
-//					TODO: solve differently
+					// TODO: solve differently
 					currentClassName = formula.getClassName().replace(" self", "");
 				}
 				if (isFirstAccessedVarInCurrentClass)
