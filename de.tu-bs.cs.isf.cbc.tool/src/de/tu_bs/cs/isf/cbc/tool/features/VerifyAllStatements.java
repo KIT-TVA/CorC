@@ -1,11 +1,20 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
+import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.Shape;
@@ -28,6 +37,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
+import de.tu_bs.cs.isf.cbc.tool.helper.IdAdder;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateDiagram;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
@@ -94,7 +105,6 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			}
 		}
 		AbstractStatement statement = formula.getStatement();
-		if (!checkAllStatementsForId(statement.getRefinement())) return;
 		String uriString = getDiagram().eResource().getURI().toPlatformString(true);
 		URI uri = getDiagram().eResource().getURI();
 		// delete 'tests' folder if it exists because it will cause reference errors
@@ -102,9 +112,12 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		FileHandler.getInstance().deleteFolder(uri, "tests");
 
 		IProject project = FileUtil.getProjectFromFileInProject(uri);
+		
+		DataCollector.checkForId(statement);
+		
 		verifyStmt = new VerifyStatement(super.getFeatureProvider());
 		genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
-		if (FileHandler.getInstance().isSPL(uri, true)) {
+		if (FileHandler.getInstance().isSPL(uri)) {
 			isVariational = true;
 		} else {
 			isVariational = false;
@@ -138,8 +151,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		long duration = (endTime - startTime) / 1000000;
 		Console.println("\nVerification done."); 
 		Console.println("Time needed: " + duration + "ms");
-    }    
-
+    }   
+    
 	private static boolean proveChildStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
     		CbCFormula formula, String uri, IProgressMonitor monitor) {
 		boolean prove = false;
@@ -379,25 +392,6 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     		Console.println("SRepetition statement already true");
 			return true;
 		}
-	}
-
-	private boolean checkAllStatementsForId(AbstractStatement statement) {
-		if (statement instanceof SmallRepetitionStatement) {
-			SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;
-			if (!checkAllStatementsForId(repStatement.getLoopStatement())) return false;
-		} else if (statement instanceof CompositionStatement) {
-			CompositionStatement comStatement = (CompositionStatement) statement;
-			if (!checkAllStatementsForId(comStatement.getFirstStatement())) return false;
-			if (!checkAllStatementsForId(comStatement.getSecondStatement())) return false;
-		} else if (statement instanceof SelectionStatement) {
-			SelectionStatement selStatement = (SelectionStatement) statement;
-			for (AbstractStatement childStatement : selStatement.getCommands()) {
-				if (!checkAllStatementsForId(childStatement.getRefinement())) return false;
-			}
-		} else {
-			if (!DataCollector.checkForId(statement)) return false;
-		}
-		return true;
 	}
 	
 	private static String handleVarM(String methodCall, String callingClass, JavaVariables vars) {

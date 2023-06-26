@@ -251,15 +251,11 @@ public class FileHandler {
 		return GetDiagramUtil.getDiagramFromFile(file, rSet);
 	}
 	
-	public boolean isSPL(final URI projectPath) {
-		return isSPL(projectPath, false);
-	}
-	
-	public boolean isSPL(final URI uri, boolean isFile) {
+	public boolean isSPL(final URI uri) {
 		final var project = FileUtil.getProject(uri);
 		try {
 			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
-				if (isFile && uri.path().contains(MetaClass.FOLDER_NAME)) {
+				if (uri.path().contains(MetaClass.FOLDER_NAME)) {
 					return false;
 				}
 				return true;

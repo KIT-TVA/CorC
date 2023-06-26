@@ -119,7 +119,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 
 				IProject project = FileUtil.getProjectFromFileInProject(uri);
 				boolean isVariational = false;
-				if (FileHandler.getInstance().isSPL(uri, true)) {
+				if (FileHandler.getInstance().isSPL(uri)) {
 					isVariational = true;
 				}
 
@@ -140,7 +140,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 	}
 
 	private boolean executeNormalVerification(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
-		if (!DataCollector.checkForId(statement)) return false;
+		DataCollector.checkForId(statement);
 		boolean proven = false;
 		Console.println("Starting verification...\n");
 		if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
@@ -156,7 +156,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 	}
 
 	private boolean executeVariationalVerification(IProject project, URI uri, AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
-		if (!DataCollector.checkForId(statement)) return false;
+		DataCollector.checkForId(statement);
 		boolean proven = false;
 		String callingFeature = uri.segment(uri.segmentCount() - 3) + "";
 		String callingClass = uri.segment(uri.segmentCount() - 2) + "";

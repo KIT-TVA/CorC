@@ -101,7 +101,7 @@ public class VerifyOriginalCallStatement extends MyAbstractAsynchronousCustomFea
 	}
 
 	private boolean executeVerification(IProject project, URI uri, AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
-		if (!DataCollector.checkForId(statement)) return false;
+		DataCollector.checkForId(statement);
 		boolean proven = false;
 		VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
 		String callingFeature = uri.segment(uri.segmentCount() - 3) + "";

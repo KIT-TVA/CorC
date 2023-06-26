@@ -89,7 +89,7 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 						formula = (CbCFormula) obj;
 					}
 				}
-				if (!DataCollector.checkForId(statement)) return;
+				DataCollector.checkForId(statement);
 				boolean proven = false;
 				String uriString = getDiagram().eResource().getURI().toPlatformString(true);
 				URI uri = getDiagram().eResource().getURI();

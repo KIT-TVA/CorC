@@ -118,7 +118,7 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 	}
 
 	private boolean executeNormalVerification(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
-		if (!DataCollector.checkForId(statement)) return false;
+		DataCollector.checkForId(statement);
 		boolean proven = false;
 		Console.println("--------------- Triggered verification ---------------");
 		if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
@@ -134,7 +134,7 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 	}
 
 	private boolean executeVariationalVerification(IProject project, URI uri, AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
-		if (!DataCollector.checkForId(statement)) return false;
+		DataCollector.checkForId(statement);
 		boolean proven = false;
 		VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
 		String callingFeature = uri.segment(uri.segmentCount() - 3) + "";

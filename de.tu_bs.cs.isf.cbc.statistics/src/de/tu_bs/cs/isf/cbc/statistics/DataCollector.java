@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -25,6 +26,7 @@ import com.google.common.hash.Hashing;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
+import de.tu_bs.cs.isf.cbc.tool.helper.IdAdder;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.Statistics;
@@ -214,11 +216,18 @@ public class DataCollector {
 		return hash;
 	}
 	
-	public static boolean checkForId(AbstractStatement statement) {
+	public static void checkForId(AbstractStatement statement) {
 		if (statement.getId() == null || statement.getId().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer. Proof not executed.");
-			return false;
+			IdAdder idAdder = new IdAdder(getFormula(statement));
+			//JOptionPane.showMessageDialog(null, "Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer. Proof not executed.");
 		}
-		return true;
+	}
+	
+	private static CbCFormula getFormula(EObject cur) {
+		if (cur.eContainer() instanceof CbCFormula) {
+			return (CbCFormula)cur.eContainer();
+		} else {
+			return getFormula(cur.eContainer());
+		}
 	}
 }

@@ -205,10 +205,22 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 				e.printStackTrace();
 			}
 		}
+		addHelperCode(codes, className);		
 		var merger = new CodeMerge(codes);
 		var fullCode = merger.get();
 		saveJavaFile(location, fullCode);
 		return;
+	}
+	
+	private void addHelperCode(List<String> codes, String className) throws IOException {
+		var files = FileUtil.getJavaFilesFromProject(project);
+		for (var file : files) {
+			if (file.getName().equals(className + "_helper.java")) {
+				var code = Files.readString(Paths.get(file.getLocation().toOSString()));
+				code = "public class " + className + " " + code.substring(code.indexOf("{"), code.length());
+				codes.add(code);
+			}
+		}
 	}
 
 	private void getInformationFromFeatureModel() {

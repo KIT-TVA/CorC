@@ -91,7 +91,7 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 						formula = (CbCFormula) obj;
 					}
 				}
-				if (!DataCollector.checkForId(statement)) return;
+				DataCollector.checkForId(statement);
 				boolean proven = false;
 				String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, false);
 				Condition invariant = null;

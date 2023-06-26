@@ -89,7 +89,7 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 							formula = (CbCFormula) obj;
 						}
 					}
-					if (!DataCollector.checkForId(statement)) return;
+					DataCollector.checkForId(statement);
 					boolean proven1 = false;
 					boolean proven2 = false;
 					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
