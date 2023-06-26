@@ -224,7 +224,7 @@ public class VariablesPattern extends IdPattern implements IPattern {
 			String methodName = getDiagram().eResource().getURI().trimFileExtension().segment(getDiagram().eResource().getURI().segmentCount()-1);
 			if (getDiagram().eResource().getURI().isPlatform()) {
 				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);
-				if (classResource != null && ((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
+				if (classResource != null && classResource.getContents().size() > 0 && ((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
 					inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();	
 				}
 			}
@@ -303,7 +303,7 @@ public class VariablesPattern extends IdPattern implements IPattern {
 			String methodName = getDiagram().eResource().getURI().trimFileExtension().segment(getDiagram().eResource().getURI().segmentCount()-1);
 			if (getDiagram().eResource().getURI().isPlatform()) {
 				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);
-				if (classResource != null &&((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
+				if (classResource != null && classResource.getContents().size() > 0 && ((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
 					inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();	
 				}
 			}

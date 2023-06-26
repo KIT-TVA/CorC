@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IReason;
@@ -41,12 +42,17 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
+import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
+import de.tu_bs.cs.isf.cbc.tool.helper.GetProjectUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.HighlightHelper;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateInformationFlow;
 import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateModifiableOfConditions;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.lattice.Lattice;
+import de.tu_bs.cs.isf.lattice.Lattices;
 
 /**
  * Class that creates the graphical representation of Conditions
@@ -506,6 +512,19 @@ public class StatementPattern extends IdPattern implements IPattern {
 		}
 		UpdateModifiableOfConditions.setVars(vars);
 		UpdateModifiableOfConditions.updateAssignmentStatement(statement, new FileUtil(getDiagram().eResource().getURI().toPlatformString(true)));
+		
+		//Start of IFbC
+		final IProject project = GetProjectUtil.getProjectForDiagram(getDiagram());
+		final Lattice lattice = Lattices.getLatticeForProject(project);
+		if (lattice != null) {
+			try {
+				UpdateInformationFlow.updateInformationFlow(project.getName(), statement, lattice);
+			} catch (IFbCException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		updatePictogramElement(context.getPictogramElement());
 	}
 

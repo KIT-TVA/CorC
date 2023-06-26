@@ -3,7 +3,6 @@ package de.tu_bs.cs.isf.cbcclass.tool.patterns;
 import java.awt.Frame;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -22,7 +21,6 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.Image;
 import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
@@ -50,7 +48,6 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import de.tu_bs.cs.isf.cbcclass.tool.diagram.CbCClassImageProvider;
 import helper.ClassUtil;
 import model.CbcClassUtil;
 
@@ -199,9 +196,6 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 		link(outerContainerShape, addedModelClass);	
 		
 		// ModelClass
-		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
-		Image image = gaService.createImage(proveShape, CbCClassImageProvider.IMG_UNPROVEN);
-		setId(image, ID_IMAGE_PROVEN);
 		
 		Shape textShapeName = peCreateService.createShape(outerContainerShape, false);
 		MultiText nameText = gaService.createMultiText(textShapeName, addedModelClass.getName());
@@ -247,7 +241,6 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 		
 		link(outerContainerShape, addedModelClass);
 		link(textShapeName, addedModelClass);
-		link(proveShape, addedModelClass);
 		
 		return outerContainerShape;	
 	}

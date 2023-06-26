@@ -34,6 +34,7 @@ import de.tu_bs.cs.isf.cbc.tool.features.TestAllStatements;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
 import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.UpdateDiagramFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.UpdateInformationFlowFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyAllStatements;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyMethodCallStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyOriginalCallStatement;
@@ -163,6 +164,7 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	    		new VerifyAllStatements(this),
 				new VerifyStatementInlining(this),
 	    		new UpdateDiagramFeature(this),	    		
-				new ShowKeyFileFeature(this)};
+				new ShowKeyFileFeature(this),
+	    		new UpdateInformationFlowFeature(this)};
 	}
 }

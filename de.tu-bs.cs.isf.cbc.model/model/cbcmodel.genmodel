@@ -34,10 +34,15 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/methodName"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCFormula/methodObj"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//CbCFormula/tested"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCFormula/atType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//CbCFormula/security"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//Condition">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/modifiables"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Condition/confToVarsMap"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Condition/atTypesToVarsMap"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/capsulesUsed"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//AbstractStatement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/name"/>
@@ -49,6 +54,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/comment"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/tested"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/context"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/typeableResult"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/typeableText"/>
       <genOperations ecoreOperation="cbcmodel.ecore#//AbstractStatement/generateID"
           body="if(id==null) id = java.util.UUID.randomUUID().toString();"/>
     </genClasses>
@@ -86,6 +94,8 @@
     <genClasses ecoreClass="cbcmodel.ecore#//JavaVariable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/confidentiality"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/modifier"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//JavaVariable/displayedName"
           get="return getKind() + &quot; &quot; + getName();"/>
     </genClasses>
@@ -108,5 +118,20 @@
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//StrengthWeakStatement"/>
     <genClasses ecoreClass="cbcmodel.ecore#//OriginalStatement"/>
+    <genClasses ecoreClass="cbcmodel.ecore#//ConfToVarsMap">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//ConfToVarsMap/key"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//ConfToVarsMap/value"/>
+    </genClasses>
+    <genClasses ecoreClass="cbcmodel.ecore#//Security">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Security/level"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Security/mutationModifier"/>
+    </genClasses>
+    <genClasses ecoreClass="cbcmodel.ecore#//AtTypesToVarsMap">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AtTypesToVarsMap/key"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//AtTypesToVarsMap/value"/>
+    </genClasses>
+    <genClasses ecoreClass="cbcmodel.ecore#//AtType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AtType/name"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

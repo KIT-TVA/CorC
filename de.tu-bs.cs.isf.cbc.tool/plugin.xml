@@ -68,6 +68,16 @@
          id="Basics"
          label="Basics">
     </propertyTab>
+    <propertyTab
+          category="Graphiti"
+          id="IFbC"
+          label="IFbC">
+    </propertyTab>
+    <propertyTab
+          category="Graphiti"
+          id="Variables"
+          label="Variables">
+    </propertyTab>
    </propertyTabs>
 </extension>
 <extension
@@ -107,6 +117,20 @@
               filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilter"
               id="Basics"
               tab="Basics">
+        </propertySection>
+        <propertySection
+              afterSection="CodeReader"
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.IFbCSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.IFbCFilter"
+              id="IFbC"
+              tab="IFbC">
+        </propertySection>
+        <propertySection
+              afterSection="Basics"
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.VariableSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.VariableFilter"
+              id="Variables"
+              tab="Variables">
         </propertySection>
     </propertySections>
 </extension>
