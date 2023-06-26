@@ -10,6 +10,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
+import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
@@ -67,13 +68,13 @@ public class CopyCbCFormula {
 			} else if (statementToCopy instanceof StrengthWeakStatement) {
 				StrengthWeakStatement StrengthWeakStatement = (StrengthWeakStatement) statementToCopy;
 				copyStrengthWeakStatement(StrengthWeakStatement);
-			} /*else if (statementToCopy instanceof RepetitionStatement) {
-				copyRepetitionStatement(previousStatement, (RepetitionStatement) statementToCopy);
-			}*/ else if (statementToCopy instanceof SkipStatement) {
+			} else if (statementToCopy instanceof SkipStatement) {
 				SkipStatement skipStatement = (SkipStatement) statementToCopy;
 				previousStatement.setRefinement(copySkipStatement(skipStatement));
-			}
-			else {
+			} else if (statementToCopy instanceof ReturnStatement) {
+				ReturnStatement returnStatement = (ReturnStatement) statementToCopy;
+				previousStatement.setRefinement(copyReturnStatement(returnStatement));
+			} else {
 				previousStatement.setRefinement(copyAbstractStatement(statementToCopy));
 			}
 			
@@ -168,6 +169,15 @@ public class CopyCbCFormula {
 			}
 		}
 		return newCondition;
+	}
+	
+	private static ReturnStatement copyReturnStatement(ReturnStatement statementToCopy) {
+		ReturnStatement statement = CbcmodelFactory.eINSTANCE.createReturnStatement();
+		String newName = new String(statementToCopy.getName());
+		statement.setName(newName);
+		statement.setPreCondition(copyCondition(statementToCopy.getPreCondition()));
+		statement.setPostCondition(copyCondition(statementToCopy.getPostCondition()));	
+		return statement;
 	}
 	
 	private static AbstractStatement copyAbstractStatement(AbstractStatement statementToCopy) {

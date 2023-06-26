@@ -9,6 +9,7 @@ import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -47,6 +48,7 @@ public class SettingsSection extends GFPropertySection implements ITabbedPropert
 	private Device device = Display.getCurrent ();
 	private Color white = new Color (device, 255, 255, 255);
 	
+	private final int NUM_GROUPS = 2;
 	private final String CEX_BUTTON_NAME = "Generate Counterexamples";
 	private final String TWARN_BUTTON_NAME = "Show Warnings";
 	
@@ -65,16 +67,17 @@ public class SettingsSection extends GFPropertySection implements ITabbedPropert
 		
 		// Defining GridLayout for properties-view
 		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 1;
-		gridLayout.verticalSpacing = 20;
+		gridLayout.numColumns = NUM_GROUPS;
+		gridLayout.verticalSpacing = 5;
 		composite.setLayout(gridLayout);
-
+		
 		// Verify Settings
 		Group verifyGroup = createButtonGroup(composite, "Verify Settings");
 		var counterButton = createButton(verifyGroup, CEX_BUTTON_NAME);
 		
 		// Test Settings
 		Group testGroup = createButtonGroup(composite, "Test Settings");
+		testGroup.setLayoutData(new GridData(SWT.FILL, SWT.RIGHT, false, false));
 		var warningButton = createButton(testGroup, TWARN_BUTTON_NAME);
 		
 		try {
