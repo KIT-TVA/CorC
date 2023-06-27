@@ -233,6 +233,9 @@ public class MetaMethod {
 		var globalConditions = createMetaInvariants();
 		addFeatureModelCondition(globalConditions);
 		var metaMethodResource = createMetaMethod(metaMethodUri, globalConditions, metaVariables, metaMethodFormula);
+		var rets = new ArrayList<ReturnStatement>();
+		findAllReturnStatements(metaMethodFormula.getStatement(), rets);
+		addReturnModifiables(rets, getReturnVar(rets, metaVariables));
 		addMethodModifiables(metaMethodFormula.getStatement(), metaVariables);
 		saveMetaMethod(metaMethodUri, metaMethodResource);
 		return metaMethodResource;
@@ -289,42 +292,43 @@ public class MetaMethod {
 		return metaJavaVariables;
 	}
 	
+	private void findAllReturnStatements(EObject cur, List<ReturnStatement> rets) {
+		if (cur instanceof ReturnStatement) {
+			rets.add((ReturnStatement)cur);
+		}
+		for (var child : cur.eContents()) {
+			findAllReturnStatements(child, rets);
+		}
+	}
+	
+	private JavaVariable getReturnVar(List<ReturnStatement> rets, JavaVariables vars) {
+		for (var r : rets) {
+			for (var v : vars.getVariables()) {
+				if (r.getName().trim().equals(v.getName().split("\\s")[1] + ";")) {
+					return v;
+				}
+			}
+		}
+		return null;
+	}
+	
+	private void addReturnModifiables(List<ReturnStatement> rets, JavaVariable returnVariable) {
+		if (returnVariable == null) {
+			return;
+		}
+		var name = returnVariable.getName().split("\\s")[1];
+		for (var r : rets) {
+			if (!r.getPostCondition().getModifiables().contains(name)) {
+				r.getPostCondition().getModifiables().add(name);
+			}
+		}
+	}
+	
 	private void addMethodModifiables(AbstractStatement formulaStatement, JavaVariables vars) {
-		var modifiables = new ArrayList<String>();
 		for (var m : this.listOfMethods) {
 			if (m.nameOfMethod.equals(this.metaMethodName)) {
 				formulaStatement.getPostCondition().getModifiables().addAll(m.modifiables);
 			}
-		}
-		//createModifiables(modifiables, formulaStatement, vars);
-	}
-	
-	private void createModifiables(ArrayList<String> modifiables, EObject cur, JavaVariables vars) {
-		if (cur instanceof AbstractStatement) {
-			var statement = (AbstractStatement)cur;
-			if (statement.getPostCondition() != null) {
-				for (var mod : statement.getPostCondition().getModifiables()) {
-					if (mod.contains("[")) {
-						mod = mod.substring(0, mod.indexOf("["));
-					}
-					if (modifiables.contains(mod)) {
-						continue;
-					}
-					for (var field : vars.getFields()) {
-						if (field.getName().equals(mod)) {
-							modifiables.add(mod);
-						}
-					}
-					for (var parameter : vars.getParams()) {
-						if (parameter.getName().equals(mod)) {
-							modifiables.add(mod);
-						}
-					}
-				}
-			}
-		}
-		for (var child : cur.eContents()) {
-			createModifiables(modifiables, child, vars);
 		}
 	}
 	

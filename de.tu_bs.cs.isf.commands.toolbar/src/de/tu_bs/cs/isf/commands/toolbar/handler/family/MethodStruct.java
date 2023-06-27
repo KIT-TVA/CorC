@@ -47,18 +47,6 @@ public class MethodStruct {
 		this.modifiables = this.CbcFormula.getStatement().getPostCondition().getModifiables();
 		AbstractStatement varCall = searchVarCall(this.CbcFormula.getStatement());
 		
-		//Adapt method Call to: <NameOfJavaFile>.<varMethodName>(<FV_1>, ..., <FV_N> , <Arg1>,..., <ArgN>);
-		if(varCall != null) {
-			  String paramString = "";
-			  if (featureVariables != null) {
-				  for (int i = 0 ; i < featureVariables.length; i++) {
-					paramString += featureVariables[i];
-					paramString += ", ";
-				  }
-			  }
-			  String newName = varCall.getName().replaceAll("(\\w+)\\(", javaFileName + ".$1(" + paramString);
-		//	  varCall.setName(newName);
-		}
 		// just place this. and call the method
 		if(varCall != null) {
 			  varCall.setName("this." + varCall.getName());
