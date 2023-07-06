@@ -3,6 +3,7 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.IdentifierNotFoundException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.PreConditionSolverException;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.TestFailedException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.ConditionParser;
@@ -57,8 +58,9 @@ public class PreConditionSolver {
 	/**
 	 * Constructor for the Conditions Solver.
 	 * @param preConditions All preconditions (precondition from the hoare tripel + global invariants) in JavaDL syntax.
+	 * @throws SettingsException 
 	 */
-	public PreConditionSolver(final JavaVariables vars) {
+	public PreConditionSolver(final JavaVariables vars) throws SettingsException {
 		setup();
 		this.jVars = Variable.getAllVars(vars);
 	}
@@ -333,7 +335,7 @@ public class PreConditionSolver {
     	return curVal + evalIndexTree(indexTree.getLeft(), vars, model) + evalIndexTree(indexTree.getRight(), vars, model);
     }
     
-    private boolean constructData(Expr v, List<InputData> output, final ArrayList<Expr> vars, final Model model) throws PreConditionSolverException, IdentifierNotFoundException, UnexpectedTokenException {
+    private boolean constructData(Expr v, List<InputData> output, final ArrayList<Expr> vars, final Model model) throws PreConditionSolverException, IdentifierNotFoundException, UnexpectedTokenException, SettingsException {
 		boolean valueIsSet = false;
 		boolean found = false;
 		var value = model.evaluate(v, false);
@@ -487,7 +489,7 @@ public class PreConditionSolver {
 		return true;
     }
     
-    public List<InputData> solve(final String preCon) throws PreConditionSolverException, UnexpectedTokenException {
+    public List<InputData> solve(final String preCon) throws PreConditionSolverException, UnexpectedTokenException, SettingsException {
 		final List<InputData> output = new ArrayList<InputData>();
 		final var vars = new ArrayList<Expr>();
     	ConditionParser p = new ConditionParser();

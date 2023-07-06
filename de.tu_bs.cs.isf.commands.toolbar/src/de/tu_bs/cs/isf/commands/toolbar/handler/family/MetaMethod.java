@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.ovgu.featureide.fm.core.ExtensionManager;
 import de.ovgu.featureide.fm.core.base.IFeature;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
@@ -32,6 +33,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
@@ -60,15 +62,17 @@ public class MetaMethod {
 	int currentMethodIndex = 0;
 	String metaClassName;
 	URI uriToRootProject;
+	List<MetaClass> metaClasses;
 	
 	
-	public MetaMethod(URI uriToRootProject, MetaClass metaClass, String className, String methodName, 
+	public MetaMethod(List<MetaClass> metaClasses, URI uriToRootProject, MetaClass metaClass, String className, String methodName, 
 			List<MethodStruct> listOfMethods, 			//All different implementations of Method.
 			String featureModelFormulaCNF, 
 			ArrayList<IFeature> features, 				//Name of all features in Productline. Necessary to introduce Features Variables.
 			List<String> featureOrderList,				
 			List<String> featuresImplementingMethods) { //Name of all Features implementing the method
 		
+		this.metaClasses = metaClasses;
 		this.metaClass = metaClass;
 		this.metaClassName = className;
 		this.metaMethodName = methodName;
@@ -411,11 +415,11 @@ public class MetaMethod {
 		SetMetaSpecificationForFormula.passMetaSpeficiationThroughFormula(metaMethodFormula, this.metaPreConditon, this.metaPostCondition);	
 		this.metaClass.getMethod(this.metaMethodName).getCbcStartTriple().getStatement().getPreCondition().setName(this.metaPreConditon.getName());
 		this.metaClass.getMethod(this.metaMethodName).getCbcStartTriple().getStatement().getPostCondition().setName(this.metaPostCondition.getName());
-		UpdateConditionsOfChildren.updateConditionsofChildren(metaMethodFormula.getStatement().getPreCondition());
-		UpdateConditionsOfChildren.updateConditionsofChildren(metaMethodFormula.getStatement().getPostCondition());
+		UpdateConditionsOfChildren.updateConditionsofChildren(metaMethodFormula.getStatement().getPreCondition(), false);
+		UpdateConditionsOfChildren.updateConditionsofChildren(metaMethodFormula.getStatement().getPostCondition(), false);
 		placeThisInAllConditions(metaMethodFormula.getStatement());
 		placeThisInGlobalConditions(globalConditions);
-		handleAbstractMethodCalls(metaMethodFormula.getStatement());
+		//handleAbstractMethodCalls(metaMethodFormula.getStatement());
 		metaMethodResource.getContents().add(metaMethodFormula);
 		metaMethodResource.getContents().add(globalConditions);
 		metaMethodResource.getContents().add(metaVariables);
@@ -525,6 +529,9 @@ public class MetaMethod {
 					Method method = metaClass.getMethod(m);
 					var methodPreCon = method.getCbcStartTriple().getStatement().getPreCondition();
 					var methodPostCon = method.getCbcStartTriple().getStatement().getPostCondition();
+					MetaClass metaClass = findMetaClass(method.getParentClass().getName());
+					prefixFields(statement.getName(), metaClass.getModel().getFields(), methodPreCon);
+					prefixFields(statement.getName(), metaClass.getModel().getFields(), methodPostCon);
 					statement.getPreCondition().setName(methodPreCon.getName());
 					statement.getPostCondition().setName(methodPostCon.getName());
 				}
@@ -546,6 +553,39 @@ public class MetaMethod {
 		} else {
 			return false;
 		}
+	}
+	
+	private MetaClass findMetaClass(String name) throws MetaMethodException {
+		for (var metaClass : this.metaClasses) {
+			if (metaClass.getModel().getName().equals(name)) {
+				return metaClass;
+			}
+		}
+		throw new MetaMethodException("Couldn't find a meta class with the name '" + name + "'.");
+	}
+	
+	private void prefixFields(String statement, List<Field> fields, Condition condition) {
+		var prefix = parsePrefix(statement);
+		String c = condition.getName();
+		for (var f : fields) {
+			Pattern p = Pattern.compile("(?<!\\.)\\b" + f.getName() + "\\b");
+			Matcher m = p.matcher(c);
+			while(m.find()) {
+				c = c.substring(0, m.start()) + prefix + c.substring(m.start(), c.length());
+				m = p.matcher(c);
+			}
+		}
+		condition.setName(c);
+	}
+	
+	private String parsePrefix(String statement) {
+		var prefix = "";
+		Pattern p = Pattern.compile("\\w+\\.\\w+(\\.\\w+)?\\(");
+		Matcher m = p.matcher(statement);
+		while (m.find()) {
+			prefix = m.group(0).substring(0, m.group(0).lastIndexOf(".") + 1);
+		}
+		return prefix;
 	}
 	
 	private List<String> getMethodCalls(String code) {

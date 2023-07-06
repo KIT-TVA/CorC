@@ -2,6 +2,8 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.util.ArrayList;
 
+import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
+
 
 public class SolverOutputCleaner {	
 	private ArrayList<Variable> variables;
@@ -10,7 +12,7 @@ public class SolverOutputCleaner {
 		this.variables = new ArrayList<Variable>();
 	}
 
-	public void clean(String counterexample) {
+	public void clean(String counterexample) throws SettingsException {
 		var exampleParts = counterexample.split(";;");
 		var values = exampleParts[exampleParts.length-1];
 		values = values.substring(values.indexOf("\n")+1, values.length());
@@ -52,7 +54,7 @@ public class SolverOutputCleaner {
 		return i-1;
 	}
 	
-	private void createVariables(ArrayList<String> relevantLines) {
+	private void createVariables(ArrayList<String> relevantLines) throws SettingsException {
 		for (int i = 0; i < relevantLines.size(); i++) {
 			relevantLines.set(i, relevantLines.get(i).trim());
 			if (!isConcreteFunctionDefinition(relevantLines.get(i))) {
@@ -68,7 +70,7 @@ public class SolverOutputCleaner {
 				|| f.getName().contains("wellFormed_");
 	}
 
-	private Variable createVariable(ArrayList<String> relevantLines, int i) {
+	private Variable createVariable(ArrayList<String> relevantLines, int i) throws SettingsException {
 		var parts = relevantLines.get(i).split("\\s");
 		var functionName = parts[1];
 		var functionType = parts[parts.length-1];

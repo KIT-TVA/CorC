@@ -1,6 +1,8 @@
 package de.tu_bs.cs.isf.commands.toolbar.handler.family;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
@@ -49,7 +51,11 @@ public class MethodStruct {
 		
 		// just place this. and call the method
 		if(varCall != null) {
-			  varCall.setName("this." + varCall.getName());
+			Pattern p = Pattern.compile("(?<![.\\w])\\w+\\(");
+			Matcher m = p.matcher(varCall.getName());
+			if (m.find()) {
+				varCall.setName("this." + varCall.getName());
+			}
 		}
 		
 	}

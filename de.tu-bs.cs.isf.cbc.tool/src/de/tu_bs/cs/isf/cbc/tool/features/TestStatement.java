@@ -42,6 +42,7 @@ import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.PreConditionSolverException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.ReferenceException;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.TestAndAssertionGeneratorException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.TestStatementException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.UnexpectedTokenException;
@@ -162,7 +163,13 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 					for (int i = 0; i < features.getSize(); i++) {
 						features.getNextConfig();
 						Console.println(" > Configuration: [" + features.getConfigRep() + "]", Colors.BLUE);
-						float pathTime = testPath(statement, vars, conds, formula, returnStatement, features);
+						float pathTime;
+						try {
+							pathTime = testPath(statement, vars, conds, formula, returnStatement, features);
+						} catch (SettingsException e) {
+							e.printStackTrace();
+							return;
+						}
 						if (pathTime == -1) {
 							continue;
 						}
@@ -171,7 +178,13 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 						FileHandler.getInstance().saveConfig(uri, formula, features, false);
 					}		
 				} else {
-					float pathTime = testPath(statement, vars, conds, formula, returnStatement, features);
+					float pathTime;
+					try {
+						pathTime = testPath(statement, vars, conds, formula, returnStatement, features);
+					} catch (SettingsException e) {
+						e.printStackTrace();
+						return;
+					}
 					dataCollector.addData(getStatementPath(statement), pathTime);
 				}				
 				// update pictogram
@@ -186,7 +199,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		Console.println("Time needed: " + duration + "ms");
 	}	
 		
-	public float testPath(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, final boolean returnStatement, final Features features) {
+	public float testPath(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, final boolean returnStatement, final Features features) throws SettingsException {
 		long start = System.nanoTime();
 		Console.println(" > Testing path:", Colors.BLUE);
 		Console.println("\t" + getStatementPath(statement));
@@ -244,7 +257,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		}
 	}
 	
-	private List<Variable> getUsedVars(final String str, final JavaVariables vars) {
+	private List<Variable> getUsedVars(final String str, final JavaVariables vars) throws SettingsException {
 		List<Variable> usedVars = Variable.getAllVars(vars);
 		
 		for (int i = 0; i < usedVars.size(); i++) {
@@ -258,7 +271,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return usedVars;
 	}
 	
-	private String insertOldVars(String code, final String postCon, final List<Variable> initializedVars, final JavaVariables vars, final String preCon, final List<InputData> data) throws UnexpectedTokenException {
+	private String insertOldVars(String code, final String postCon, final List<Variable> initializedVars, final JavaVariables vars, final String preCon, final List<InputData> data) throws UnexpectedTokenException, SettingsException {
 		var allVars = Variable.getAllVars(vars);
 		Tokenizer tokenizer = new Tokenizer(preCon + " " + postCon);
 		Token token;
@@ -323,7 +336,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return code;
 	}
 	
-	private String insertParams(String code, final List<Variable> usedVars, final List<Variable> initializedVars, final List<InputData> data) {
+	private String insertParams(String code, final List<Variable> usedVars, final List<Variable> initializedVars, final List<InputData> data) throws SettingsException {
 		for (var v : usedVars) {
 			if (v.getKind() == VariableKind.PARAM) {
 				for (int i = 0; i < data.size(); i++) {
@@ -348,7 +361,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return code;
 	}
 		
-	private String insertFixture(String code, final List<InputData> data, final List<Variable> gVars, final List<Variable> usedVars, final JavaVariables vars, final String postCon, final String preCon) throws UnexpectedTokenException {
+	private String insertFixture(String code, final List<InputData> data, final List<Variable> gVars, final List<Variable> usedVars, final JavaVariables vars, final String postCon, final String preCon) throws UnexpectedTokenException, SettingsException {
 		final var initializedVars = new ArrayList<Variable>();
 		code = "\n" + code;
 		code = insertOldVars(code, postCon, initializedVars, vars, preCon, data);
@@ -431,7 +444,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 
 	private List<String> placeDummyMethod(final List<String> dependencies, final String testClassName, final String innerMethod, String fullMethod) {
 		final var code = new StringBuffer();
-		code.append(ClassHandler.getImportsStr());
+		code.append(ClassHandler.getImportsStr(""));
 		
 		for (int i = 0; i < dependencies.size(); i++) {
 			if (dependencies.get(i).isBlank()) {
@@ -667,8 +680,9 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	 * @param generator
 	 * @return Generated data.
 	 * @throws UnexpectedTokenException 
+	 * @throws SettingsException 
 	 */
-	private List<InputData> genInputs(String preConditions, final String className, final AbstractStatement statement, final CbCFormula formula, final JavaVariables vars) throws UnexpectedTokenException {
+	private List<InputData> genInputs(String preConditions, final String className, final AbstractStatement statement, final CbCFormula formula, final JavaVariables vars) throws UnexpectedTokenException, SettingsException {
 		final PreConditionSolver preSolver = new PreConditionSolver(vars);
 		List<InputData> data;
 		try {
@@ -731,7 +745,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		}
 	}
 		
-	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException, DiagnosticsException {		
+	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException, DiagnosticsException, SettingsException {		
 		final JavaVariable returnVar = Variable.getReturnVar(vars);
 		final String className = ClassHandler.getClassName(formula);
 		String statementName = statement.getName().trim();
@@ -909,7 +923,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return code;
 	}
 	
-	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException, DiagnosticsException {		
+	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException, DiagnosticsException, SettingsException {		
 		return testStatement(statement, vars, conds, formula, isReturnStatement, null);
 	}
 

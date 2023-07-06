@@ -15,6 +15,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
@@ -55,7 +56,12 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		Console.println("Start testing...\n");
 		final long startTime = System.nanoTime();
 		
-		testDiagram(getDiagram());
+		try {
+			testDiagram(getDiagram());
+		} catch (SettingsException e) {
+			e.printStackTrace();
+			return;
+		}
 		
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1000000;
@@ -68,7 +74,7 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		return uri;
 	}
 	
-	public void testDiagram(final Diagram diag) {
+	public void testDiagram(final Diagram diag) throws SettingsException {
 		final URI uri;
 		boolean returnStatement;
 		

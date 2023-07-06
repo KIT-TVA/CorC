@@ -20,6 +20,7 @@ import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.IdentifierNotFoundException;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
@@ -32,7 +33,7 @@ public class ClassHandler {
 	private List<String> projectJavaFiles;
 	private List<String> projectInternalClasses;
 	
-	public ClassHandler(final String className, final URI projectUri) {
+	public ClassHandler(final String className, final URI projectUri) throws SettingsException {
 		this.className = className;
 		this.projectUri = projectUri;
 		try {
@@ -65,7 +66,7 @@ public class ClassHandler {
 		return gVars;
 	}
 	
-	public void setup() throws IdentifierNotFoundException {
+	public void setup() throws IdentifierNotFoundException, SettingsException {
 		String classCode;
 		final List<String> gVars;
 		final List<String> featuregVars = new ArrayList<String>();
@@ -246,7 +247,7 @@ public class ClassHandler {
 		return cleanedOutput;
 	}
 	
-	public static List<Variable> getGvarsOfCbCClassAsVar(final URI projectUri, String className) {
+	public static List<Variable> getGvarsOfCbCClassAsVar(final URI projectUri, String className) throws SettingsException {
 		final List<Variable> globalVars = new ArrayList<Variable>();
 		Collection<Resource> resources = FileUtil.getCbCClasses(FileUtil.getProject(projectUri));
 		for (Resource resource : resources) {
@@ -348,7 +349,7 @@ public class ClassHandler {
 		this.addMethod(className, "public " + className + "(){}");
 	}
 	
-	public String getCode() {
+	public String getCode() {	
 		String code = "public class " + this.className + " {\n";
 		for (var gVar : globalVars) {
 			if (gVar.getValue() != null) {
@@ -464,13 +465,22 @@ public class ClassHandler {
 		return null;
 	}
 	
-	public static String getImportsStr() {
+	public static String getClassNameFromCode(String code) {
+		code = code.substring(code.indexOf("class ") + "class ".length(), code.length());
+		return code.substring(0, code.indexOf("{")).trim();
+	}
+	
+	public static String getImportsStr(String cn) {
 		final var code = new StringBuffer();
+		//code.append("package tests;\n\n");
 		code.append("import org.testng.ITestContext;\n");
 		code.append("import org.testng.Assert;\n");
 		code.append("import org.testng.annotations.Test;\n");
 		code.append("import java.util.Arrays;\n");
 		code.append("import java.util.stream.IntStream;\n");
+		if (!cn.isEmpty()) {
+			code.append("import tests." + cn + ";\n");
+		}
 		code.append("import java.util.function.Supplier;\n\n");
 		return code.toString();
 	}

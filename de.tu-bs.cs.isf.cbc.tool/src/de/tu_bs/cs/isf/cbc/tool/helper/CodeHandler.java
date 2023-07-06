@@ -104,6 +104,27 @@ public final class CodeHandler {
 		return output;
 	}
 	
+	public static boolean checkBrackets(String str, char bracket) {
+		char closingBracket;
+		int output = 0;
+		
+		if (bracket == '(') closingBracket = ')';
+		else if (bracket == '[') closingBracket = ']';
+		else closingBracket = '}';
+		
+		for (int i = 0; i < str.length(); i++) {
+			if (output < 0) {
+				return false;
+			}
+			if (str.charAt(i) == bracket) {
+				output++;
+			} else if (str.charAt(i) == closingBracket) {
+				output--;
+			}
+		}
+		return output >= 0 ? true : false;
+	}
+	
 	public static String removeAllComments(String code) {
 		String helper;
 		int curIndex = code.indexOf("/*");
@@ -321,7 +342,7 @@ public final class CodeHandler {
 		return false;
 	}
 
-	private static List<Integer> findOccurences(String code, final String word) {
+	public static List<Integer> findOccurences(String code, final String word) {
 		final List<Integer> indicies = new ArrayList<Integer>();
 		String originalCode = code;
 		int start = code.indexOf(word);
@@ -380,11 +401,19 @@ public final class CodeHandler {
 		blockCode += helper;	
 		for (int i = blockIndex; i < code.length(); i++) {
 			blockCode += code.charAt(i);
-			if (countBrackets(blockCode, '{') == 0) {
+			if (countBrackets(blockCode, '{') == 0 && checkBrackets(blockCode, '{')) {
 				break;
 			}
 		}
 		return blockCode;
+	}
+	
+	public static String getEnclosingBlock(String code, int index) {
+		String beforeIndex = code.substring(0, index);
+		while(CodeHandler.countBrackets(beforeIndex, '{') > 0) {
+			beforeIndex = beforeIndex.substring(0, beforeIndex.length()-1);
+		}
+		return CodeHandler.getCurrentBlock(code, beforeIndex.length());
 	}
 	
 	public static int getBlockIndex(final String code, final String blockCode) {

@@ -18,6 +18,13 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.util.Parser;
 
 public class UpdateConditionsOfChildren {
+	private static boolean adjustModifiables = true;
+	
+	public static void updateConditionsofChildren(Condition condition, boolean adjustModifiables) {
+		UpdateConditionsOfChildren.adjustModifiables = adjustModifiables;
+		updateConditionsofChildren(condition);
+		UpdateConditionsOfChildren.adjustModifiables = true;
+	}
 
 	public static void updateConditionsofChildren(Condition condition) {
 		AbstractStatement statement = (AbstractStatement) condition.eContainer();
@@ -44,8 +51,10 @@ public class UpdateConditionsOfChildren {
 			}
 			childSkip.getPreCondition().setName(preParent.getName());
 			childSkip.getPostCondition().setName(postParent.getName());
-			copyModifiables(preParent, childSkip.getPreCondition());
-			copyModifiables(postParent, childSkip.getPostCondition());
+			if (adjustModifiables) {
+				copyModifiables(preParent, childSkip.getPreCondition());
+				copyModifiables(postParent, childSkip.getPostCondition());
+			}
 		} else if (refinedStatement instanceof CompositionStatement) {
 			CompositionStatement childCompo = (CompositionStatement) refinedStatement;
 			AbstractStatement firstStatement = childCompo.getFirstStatement();
@@ -61,13 +70,17 @@ public class UpdateConditionsOfChildren {
 			}
 			firstStatement.getPreCondition().setName(preParent.getName());
 			firstStatement.getPostCondition().setName(childCompo.getIntermediateCondition().getName());
-			copyModifiables(preParent, firstStatement.getPreCondition());
-			copyModifiables(childCompo.getIntermediateCondition(), firstStatement.getPostCondition());
+			if (adjustModifiables) {
+				copyModifiables(preParent, firstStatement.getPreCondition());
+				copyModifiables(childCompo.getIntermediateCondition(), firstStatement.getPostCondition());
+			}
 			
 			secondStatement.getPreCondition().setName(childCompo.getIntermediateCondition().getName());
 			secondStatement.getPostCondition().setName(postParent.getName());
-			copyModifiables(childCompo.getIntermediateCondition(), secondStatement.getPreCondition());
-			copyModifiables(postParent, secondStatement.getPostCondition());
+			if (adjustModifiables) {
+				copyModifiables(childCompo.getIntermediateCondition(), secondStatement.getPreCondition());
+				copyModifiables(postParent, secondStatement.getPostCondition());
+			}
 			
 			if (firstStatement.getRefinement() != null) {
 				updateRefinedStatement(firstStatement, firstStatement.getRefinement());
@@ -97,8 +110,10 @@ public class UpdateConditionsOfChildren {
 
 			childRep.getPreCondition().setName(preParent.getName());
 			childRep.getPostCondition().setName(postParent.getName());
-			copyModifiables(preParent, childRep.getPreCondition());
-			copyModifiables(postParent, childRep.getPostCondition());
+			if (adjustModifiables) {
+				copyModifiables(preParent, childRep.getPreCondition());
+				copyModifiables(postParent, childRep.getPostCondition());
+			}
 
 			loopStatement.getPreCondition().setName("(" + childRep.getInvariant().getName() + ") & (" + childRep.getGuard().getName() + ")");
 			loopStatement.getPostCondition().setName(childRep.getInvariant().getName());
@@ -127,8 +142,10 @@ public class UpdateConditionsOfChildren {
 
 				childStatement.getPreCondition().setName("(" + preCondParent + ") & (" + childGuard.getName() + ")");
 				childStatement.getPostCondition().setName(postParent.getName());
-				copyModifiables(postParent, childStatement.getPostCondition());
-				copyModifiables(preParent, childStatement.getPreCondition());
+				if (adjustModifiables) {
+					copyModifiables(postParent, childStatement.getPostCondition());
+					copyModifiables(preParent, childStatement.getPreCondition());
+				}
 				
 				if (childStatement.getRefinement() != null) {
 					updateRefinedStatement(childStatement, childStatement.getRefinement());
@@ -146,8 +163,10 @@ public class UpdateConditionsOfChildren {
 
 				childReturn.getPreCondition().setName(preParent.getName());
 				childReturn.getPostCondition().setName(formula.getStatement().getPostCondition().getName());
-				copyModifiables(preParent, childReturn.getPreCondition());
-				copyModifiables(postParent, childReturn.getPostCondition());
+				if (adjustModifiables) {
+					copyModifiables(preParent, childReturn.getPreCondition());
+					copyModifiables(postParent, childReturn.getPostCondition());
+				}
 			}
 
 		} else if (refinedStatement instanceof StrengthWeakStatement) {
@@ -168,8 +187,10 @@ public class UpdateConditionsOfChildren {
 
 			childAbstract.getPreCondition().setName(preParent.getName());
 			childAbstract.getPostCondition().setName(postParent.getName());
-			copyModifiables(preParent, childAbstract.getPreCondition());
-			copyModifiables(postParent, childAbstract.getPostCondition());
+			if (adjustModifiables) {
+				copyModifiables(preParent, childAbstract.getPreCondition());
+				copyModifiables(postParent, childAbstract.getPostCondition());
+			}
 
 		} else if (refinedStatement instanceof OriginalStatement) {
 			OriginalStatement childAbstract = (OriginalStatement) refinedStatement;
@@ -180,8 +201,10 @@ public class UpdateConditionsOfChildren {
 
 			childAbstract.getPreCondition().setName(preParent.getName());
 			childAbstract.getPostCondition().setName(postParent.getName());
-			copyModifiables(preParent, childAbstract.getPreCondition());
-			copyModifiables(postParent, childAbstract.getPostCondition());
+			if (adjustModifiables) {
+				copyModifiables(preParent, childAbstract.getPreCondition());
+				copyModifiables(postParent, childAbstract.getPostCondition());
+			}
 		}
 	}
 

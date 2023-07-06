@@ -50,6 +50,11 @@
     </propertyTab>
     <propertyTab
          category="Graphiti"
+         id="Testing"
+         label="Testing">
+    </propertyTab>
+    <propertyTab
+         category="Graphiti"
          id="Configurations"
          label="Configurations">
     </propertyTab>
@@ -94,6 +99,12 @@
               filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterCodeReader"
               id="Settings"
               tab="Settings">
+        </propertySection>
+        <propertySection
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.TestSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterCodeReader"
+              id="Testing"
+              tab="Testing">
         </propertySection>
         <propertySection
               afterSection="Replacements"

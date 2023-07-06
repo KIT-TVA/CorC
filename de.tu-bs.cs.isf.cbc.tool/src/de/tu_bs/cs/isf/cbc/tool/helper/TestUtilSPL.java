@@ -19,6 +19,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.ReferenceException;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.TestAndAssertionGeneratorException;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
@@ -236,8 +237,9 @@ public class TestUtilSPL {
 	 * @param code
 	 * @param features
 	 * @throws TestAndAssertionGeneratorException 
+	 * @throws SettingsException 
 	 */
-	public List<MethodHandler> handleAbstractMethodCalls(final IFeatureProvider fp, final URI projectPath, final String code, final Features features, final List<MethodHandler> newMethods) throws TestAndAssertionGeneratorException {
+	public List<MethodHandler> handleAbstractMethodCalls(final IFeatureProvider fp, final URI projectPath, final String code, final Features features, final List<MethodHandler> newMethods) throws TestAndAssertionGeneratorException, SettingsException {
 		final var methodNames = getAbstractFunctionCalls(code);
 		final var relevantFeatures = new ArrayList<String>();
 		TestAndAssertionGenerator tg = new TestAndAssertionGenerator(fp);

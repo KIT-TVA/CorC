@@ -93,6 +93,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 	private static String[] FEATURE_VARIABLES;
 	private static Map<String, List<MethodStruct>> methodNameToMethodStructMap = new HashMap<String, List<MethodStruct>>();
 	private static Map<String, List<String>> methodNameToImplementingFeature = new HashMap<String, List<String>>();
+	private static List<MetaClass> metaClasses = new ArrayList<>();
 	
 	/*
 	 * Important assumptions: -User triggers execute() by right clicking on folder called 'features' (-> Generate Meta Product)
@@ -139,6 +140,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			for (var cbcClass : classesToGen) {
 				clearData();
 				MetaClass metaClass = MetaClass.compose(project, cbcClass);
+				this.metaClasses.add(metaClass);
 				metaClass.create();
 				NAME_OF_JAVA_FILE = cbcClass;
 				extractCbCModelFilesFromClass(cbcClass);
@@ -178,7 +180,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			String nameOfMethod = entry.getKey();
 			List<MethodStruct> listOfMethodStructs = entry.getValue();
 			
-			uniqueMetaMethods.add(new MetaMethod(this.uriToRootProject, metaClass, className, nameOfMethod, listOfMethodStructs, FEATURE_MODEL_FORMULA_CNF, FEATURES, FEATURE_ORDER, implementingFeaturesOfMethod));
+			uniqueMetaMethods.add(new MetaMethod(this.metaClasses, uriToRootProject, metaClass, className, nameOfMethod, listOfMethodStructs, FEATURE_MODEL_FORMULA_CNF, FEATURES, FEATURE_ORDER, implementingFeaturesOfMethod));
 			//}
 			
 		}

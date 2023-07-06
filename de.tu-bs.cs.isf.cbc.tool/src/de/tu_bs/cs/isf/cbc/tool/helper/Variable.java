@@ -7,6 +7,7 @@ import java.util.List;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
 
 /**
  * Used for representing java variables for testing purposes. Also contains some useful methods for variable handling.
@@ -19,14 +20,14 @@ public class Variable {
 	private String value;
 	private String modifier;
 	
-	public Variable(String type, String name) {
+	public Variable(String type, String name) throws SettingsException {
 		this.type = type;
 		this.name = name;
 		this.modifier = "";
 		this.value = getDefaultValue();
 	}
 	
-	public Variable(String modifier, String type, String name) {
+	public Variable(String modifier, String type, String name) throws SettingsException {
 		this.modifier = modifier;
 		this.type = type;
 		this.name = name;
@@ -93,7 +94,7 @@ public class Variable {
 		return false;
 	}
 	
-	public static List<Variable> getAllGVars(final JavaVariables vars) {
+	public static List<Variable> getAllGVars(final JavaVariables vars) throws SettingsException {
 		List<Variable> allVars = new ArrayList<Variable>();
 		for (var v : vars.getFields()) {
 			if (v.getName() == null || v.getType() == null) {
@@ -215,7 +216,7 @@ public class Variable {
 		}
 	}
 	
-	public static List<Variable> getAllVars(final JavaVariables vars) {
+	public static List<Variable> getAllVars(final JavaVariables vars) throws SettingsException {
 		List<Variable> allVars = new ArrayList<Variable>();
 		for (var v : vars.getFields()) {
 			if (v.getName() == null || v.getType() == null) {
@@ -259,7 +260,7 @@ public class Variable {
 		return allVars;
 	}
 	
-	public String getDefaultValue() {
+	public String getDefaultValue() throws SettingsException {
 		if (type.contains("[")) {
 			final InputData data = new InputData("", type);
 			data.setDefaultValues();

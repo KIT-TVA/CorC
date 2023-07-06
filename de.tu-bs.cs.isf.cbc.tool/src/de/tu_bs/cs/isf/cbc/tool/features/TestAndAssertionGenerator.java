@@ -114,6 +114,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	public static final String GENERATED_CLASSNAME = "GeneratedClass";
 	private final static String STATEMENT_PH = "<statement>";
 	private boolean showWarnings;
+	private boolean customData;
 		
 	public TestAndAssertionGenerator(IFeatureProvider fp) {
 		super(fp);
@@ -136,9 +137,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
-		Settings settings;
 		try {
-			settings = Settings.get();
+			Settings settings = Settings.get();
 			this.showWarnings = settings.testWarningsEnabled();
 		} catch (SettingsException e1) {
 			e1.printStackTrace();
@@ -167,7 +167,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		}
 		
 		if (formula.getMethodObj() == null) {
-			Console.println("Method object is undefined. Assuming method is of type 'void'.");
+			if (this.showWarnings) {
+				Console.println("TestAndAssertionGeneratorWarning: Method object is undefined. Assuming method is of type 'void'.");
+			}
 			List<String> params = new ArrayList<String>();
 			signatureString = formula.getName();
 			for (var v : vars.getVariables()) {
@@ -835,6 +837,12 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		}
 		String beforeStatement = cur.substring(0, cur.indexOf(STATEMENT_PH));
 		String afterStatement;
+		
+		
+		var block = CodeHandler.getEnclosingBlock(cur, cur.indexOf(STATEMENT_PH));
+		
+		
+		
 		// TODO: test this part
 		int loopIndex = findFirstOpenLoop(beforeStatement);
 		//int lastLoopIndex = beforeStatement.lastIndexOf("while (");
@@ -933,8 +941,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * @param gVars
 	 * @return the generated java code if the method wasn't generated before. Else it returns an empty string.
 	 * @throws TestAndAssertionGeneratorException 
+	 * @throws SettingsException 
 	 */
-	private String generateCode(CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString, String globalVariables, List<String> gVars, boolean onlyMethod) throws TestAndAssertionGeneratorException {	
+	private String generateCode(CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString, String globalVariables, List<String> gVars, boolean onlyMethod) throws TestAndAssertionGeneratorException, SettingsException {	
 		String existingCode = "";
 		String constructorCode;
 		StringBuffer code = new StringBuffer();
@@ -1036,8 +1045,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * Generates exactly one instance for the given class *clazz*. 
 	 * @param clazz the class to be instantiated with random default data.
 	 * @return the string representation for instantiating *clazz* with generated default data as parameters.
+	 * @throws SettingsException 
 	 */
-	private String genInstanceForClass(Class<?> clazz, HashMap<String, String> generatedClasses) {
+	private String genInstanceForClass(Class<?> clazz, HashMap<String, String> generatedClasses) throws SettingsException {
 		final String fullyQualifiedName = clazz.getSimpleName();
 		final String className = fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".") + 1, fullyQualifiedName.length());
 		String output = "new " + className + "(";
@@ -1125,7 +1135,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return null;
 	}
 	
-	private List<String> genDefaultInputForVar(final String v, HashMap<String, String> generatedClasses) {
+	private List<String> genDefaultInputForVar(final String v, HashMap<String, String> generatedClasses) throws SettingsException {
 		final String actualType = v.split("\\s")[0];
 		String type = actualType.toLowerCase();
 		String name = v.split("\\s")[1];
@@ -1408,7 +1418,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		var translatedPostCondition = ConditionHandler.translateConditionToJava(projectPath, postCondition, instanceName, inputs.get(0).getInputDataTupel().getGlobalVars());
 				
 		StringBuffer code = new StringBuffer();
-		code.append(ClassHandler.getImportsStr());
+		code.append(ClassHandler.getImportsStr(className));
 		code.append("public class " + className + "Test {\n");
 		code.append("\t" + "private " + className + " " + instanceName + ";\n\n");
 		for (var test : inputs) {
@@ -1546,7 +1556,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		tng.run();
 	}
 	
-	public String genCode(Diagram diagram, boolean onlyMethod) throws TestAndAssertionGeneratorException {
+	public String genCode(Diagram diagram, boolean onlyMethod) throws TestAndAssertionGeneratorException, SettingsException {
 		String signatureString;
 		final LinkedList<String> localVariables = new LinkedList<String>();
 		JavaVariable returnVariable = null;
@@ -1661,7 +1671,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return generateCode(formula, globalConditions, renaming, localVariables, returnVariable, signatureString, globalVariables, vars.getFields().stream().map(f -> f.getType() + " " + f.getName()).toList(), onlyMethod);
 	}
 	
-	private String genCode(Diagram diagram) throws TestAndAssertionGeneratorException {
+	private String genCode(Diagram diagram) throws TestAndAssertionGeneratorException, SettingsException {
 		return genCode(diagram, false);
 	}
 				
@@ -2119,7 +2129,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				Console.println();
 			}
 			if (delete) {
-				FileHandler.getInstance().deleteFile(this.projectPath, className);
+				//FileHandler.getInstance().deleteFile(this.projectPath, className);
 			}
 			return false;
 		}
@@ -2273,8 +2283,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * @param className The name of the class which contains *MethodCode*.
 	 * @return Contents of the classes.
 	 * @throws TestAndAssertionGeneratorException 
+	 * @throws SettingsException 
 	 */
-	public List<ClassHandler> genAllDependenciesOfMethod(String methodCode, final String methodSignature, String className, String postCondition) throws TestAndAssertionGeneratorException
+	public List<ClassHandler> genAllDependenciesOfMethod(String methodCode, final String methodSignature, String className, String postCondition) throws TestAndAssertionGeneratorException, SettingsException
 	{
 		var innerMethod = methodCode.substring(methodCode.indexOf('{') + 1, methodCode.lastIndexOf('}'));
 		// add postCondition to the code in case there are method calls in there too
@@ -2422,7 +2433,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		return classes;
 	}
 			
-	private ArrayList<ClassHandler> genMethodDependencies2(String className, String methodSig, ArrayList<ClassHandler> methodCodes) throws TestAndAssertionGeneratorException {
+	private ArrayList<ClassHandler> genMethodDependencies2(String className, String methodSig, ArrayList<ClassHandler> methodCodes) throws TestAndAssertionGeneratorException, SettingsException {
 		String methodCode;
 		HashMap<String, ArrayList<String>> calledMethods;
 		
@@ -2655,8 +2666,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * @param signature
 	 * @return
 	 * @throws TestAndAssertionGeneratorException 
+	 * @throws SettingsException 
 	 */
-	private String getCodeOfSignature(String className, String signature) throws TestAndAssertionGeneratorException {
+	private String getCodeOfSignature(String className, String signature) throws TestAndAssertionGeneratorException, SettingsException {
 		Diagram diagram;
 		boolean isConstructor = false;
 		

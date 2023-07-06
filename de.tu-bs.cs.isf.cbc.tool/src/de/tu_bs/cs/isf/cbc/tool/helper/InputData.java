@@ -3,6 +3,8 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 import java.util.Random;
 
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
+import de.tu_bs.cs.isf.cbc.tool.propertiesview.TestValues;
 
 /**
  * Class for handling input data for methods.
@@ -23,7 +25,7 @@ public class InputData {
 	private String classTypeName;
 	private int dimensions;
 	
-	public InputData(String variableName, String type) {
+	public InputData(String variableName, String type) throws SettingsException {
 		this.arrayVarName = variableName;
 		this.dimensions = (int)type.chars().filter(c -> c == '[').count();
 		type = type.replaceAll("\\[[^\\]]*\\]", "");
@@ -31,7 +33,7 @@ public class InputData {
 		setDefaultValues();
 	}
 	
-	public InputData(String variableName, String type, String[] defaultValues) {
+	public InputData(String variableName, String type, String[] defaultValues) throws SettingsException {
 		this.arrayVarName = variableName;
 		this.values = defaultValues;
 		this.rep = defaultValues[0] + "";	
@@ -142,7 +144,7 @@ public class InputData {
 		arrayRep = structure + arrayRep;
 	}
 	
-	public static String getDefaultValue(String type) {
+	public static String getDefaultValue(String type) throws SettingsException {
 		if (type.contains("[")) {
 			final InputData data = new InputData("", type);
 			data.setDefaultValues();
@@ -193,34 +195,35 @@ public class InputData {
 		}
 	}
 	
-	public void setDefaultValues() {
+	public void setDefaultValues() throws SettingsException {
+		var vals = TestValues.get();
 		switch(classTypeName.toLowerCase()) {
 			case "byte":
-				this.values = new String[] {"" + Byte.MIN_VALUE, "" + -1, "" + 0, "" + 1, "" + Byte.MAX_VALUE};
+				this.values = vals.getValues(vals.getByteStr());
 				break;
 			case "short":
-				this.values = new String[] {"" + Short.MIN_VALUE, "" + -1, "" + 0, "" + 1, "" + Short.MAX_VALUE};
+				this.values = vals.getValues(vals.getShortStr());
 				break;
 			case "int":
-				this.values = new String[] {"" + Integer.MIN_VALUE, "" + -1, "" + 0, "" + 1, "" + Integer.MAX_VALUE};
+				this.values = vals.getValues(vals.getIntStr());
 				break;
 			case "integer":
-				this.values = new String[] {"" + Integer.MIN_VALUE, "" + -1, "" + 0, "" + 1, "" + Integer.MAX_VALUE};
+				this.values = vals.getValues(vals.getIntStr());
 				break;
 			case "long":
-				this.values = new String[] {"" + Long.MIN_VALUE, "" + -1, "" + 0, "" + 1, "" + Long.MAX_VALUE};
+				this.values = vals.getValues(vals.getLongStr());
 				break;
 			case "char":
-				this.values = new String[] {"\' \'", "\'x\'", "\'1\'", "\'@\'", "\';\'"};
+				this.values = vals.getValues(vals.getCharStr());
 				break;
 			case "character":
-				this.values = new String[] {"\' \'", "\'x\'", "\'1\'", "\'@\'", "\';\'"};
+				this.values = vals.getValues(vals.getCharStr());
 				break;
 			case "boolean":
-				this.values = new String[] {"false", "true"};	
+				this.values = vals.getValues(vals.getBooleanStr());
 				break;
 			case "string":
-				this.values = new String[] {"\"\"", "\"x\"", "\"xy\"", "\"1xy\"", "\"1xy@;\""};
+				this.values = vals.getValues(vals.getStringStr());
 		}
 		if (this.values == null) {
 			this.values = new String[]{"new " + this.classTypeName + "()"};
