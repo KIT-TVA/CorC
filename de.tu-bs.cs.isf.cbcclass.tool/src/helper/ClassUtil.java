@@ -38,6 +38,7 @@ public class ClassUtil {
 				thisProject = p;
 			}
 		}
+		
 		try {
 			thisProject.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {
@@ -82,6 +83,7 @@ public class ClassUtil {
 	
 	public static Resource getClassModelResource(String path, String className, String feature) {		
 		if (path == null || path.length() == 0) return null;
+		
 		final List<IFile> filess = getFilesOfType(refreshProject(path), ID_CBCCLASS_MODEL);
 		final ResourceSet rSets = new ResourceSetImpl();
 		for (final IFile file : filess) {

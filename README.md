@@ -6,12 +6,24 @@ Tool Support for Confidentiality- and Correctness-by-Construction
 
 # CorC Project Setup Guide & Case Study Introduction (2022-09-27)
 Installation guide for plugins and properties for **development with CorC** with introduction of case studies.
+## Java Version
+* Please use [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archive-downloads.html). CorC may not work out of the box with newer versions.
 ## Setup
+### **Eclipse Settings**
+Before installing any plugins, navigate to
+
+ - *Preferences > Install/Update > Available Software Sites*
+
+and disable the following entries
+- *Latest Eclipse IDE Packages Release*
+- *Latest Eclipse Simultaneous Release*
+
+### **Plugins and Software**
 * **Eclipse** Install [Eclipse Modelling Tools](https://www.eclipse.org/downloads/packages/release/2021-06/r). Please use version 2021-06 (Eclipse 4.20.0). CorC may not work correctly with newer versions.
 * **Graphiti** Install Graphiti using the update site https://download.eclipse.org/graphiti/updates/0.18.0/
 * **KeY** Install KeY using the update site https://formal.iti.kit.edu/key/download/releases/2.6/eclipse/
+* **Jamopp** Install Jamopp using the update site http://update.jamopp.org/release 
 * **Xtext** Available in [Eclipse Marketplace](https://marketplace.eclipse.org/content/eclipse-xtext)
-* **Jamopp** Available in [Eclipse Marketplace](https://marketplace.eclipse.org/content/jamopp)
 * **FeatureIDE** Available in [Eclipse Marketplace](https://marketplace.eclipse.org/content/featureide)
 * **Mylyn** Available in [Eclipse Marketplace](https://marketplace.eclipse.org/content/mylyn) (Mylyn 3.23)
 * **TestNG** Available in [Eclipse Marketplace](https://marketplace.eclipse.org/content/testng-eclipse)
