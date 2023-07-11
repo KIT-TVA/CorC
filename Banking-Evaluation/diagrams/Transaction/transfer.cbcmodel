@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="transfer">
+    <statement name="statement" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name="">
+          <confToVarsMap key="result" value="/0/@security.169"/>
+          <confToVarsMap key="tmp" value="/0/@security.170"/>
+        </postCondition>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+            <postCondition name=""/>
+            <preCondition name="pre"/>
+            <firstStatement name="statement1">
+              <refinement name="tmp = lock(source, destination);" context="none" typeableResult="true" tyleableText="tmp = lock(source, destination): Security levels are equal.">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="pre"/>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="pre"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="intermediateCond"/>
+                <guards name="tmp == false"/>
+                <commands name="statement">
+                  <refinement name="result = false;" context="low" typeableResult="true" tyleableText="result = false: Security levels are equal.">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="(intermediateCond) &amp; (tmp == false)"/>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="(intermediateCond) &amp; (tmp == false)"/>
+                </commands>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+            <postCondition name="">
+              <confToVarsMap key="result" value="/0/@security.169"/>
+              <confToVarsMap key="tmp" value="/0/@security.170"/>
+            </postCondition>
+            <preCondition name="intermediateCond"/>
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="intermediateCond"/>
+                <guards name="amount &lt;= 0"/>
+                <commands name="statement">
+                  <refinement name="result = false;" context="low" typeableResult="true" tyleableText="result = false: Security levels are equal.">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="(intermediateCond) &amp; (amount &lt;= 0)"/>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="(intermediateCond) &amp; (amount &lt;= 0)"/>
+                </commands>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                <postCondition name="">
+                  <confToVarsMap key="result" value="/0/@security.169"/>
+                  <confToVarsMap key="tmp" value="/0/@security.170"/>
+                </postCondition>
+                <preCondition name="intermediateCond"/>
+                <firstStatement name="statement1">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                    <postCondition name="">
+                      <confToVarsMap key="tmp" value="/0/@security.160"/>
+                    </postCondition>
+                    <preCondition name="intermediateCond"/>
+                    <firstStatement name="statement1">
+                      <refinement name="tmp =source.update(amount);" context="none" typeableResult="true" tyleableText="tmp = source.update(amount): target SL is lower than value SL. (using SEC-PROM)">
+                        <postCondition name="intermediateCond">
+                          <confToVarsMap key="tmp" value="/0/@security.158"/>
+                        </postCondition>
+                        <preCondition name="intermediateCond"/>
+                      </refinement>
+                      <postCondition name="intermediateCond"/>
+                      <preCondition name="intermediateCond"/>
+                    </firstStatement>
+                    <secondStatement name="statement2">
+                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+                        <postCondition name="intermediateCond">
+                          <confToVarsMap key="tmp" value="/0/@security.160"/>
+                        </postCondition>
+                        <preCondition name="intermediateCond">
+                          <confToVarsMap key="tmp" value="/0/@security.158"/>
+                        </preCondition>
+                        <guards name="tmp == false"/>
+                        <commands name="statement">
+                          <refinement name="result = false;" context="low" typeableResult="true" tyleableText="result = false: Security levels are equal.">
+                            <postCondition name="intermediateCond">
+                              <confToVarsMap key="tmp" value="/0/@security.159"/>
+                            </postCondition>
+                            <preCondition name="(intermediateCond) &amp; (tmp == false)">
+                              <confToVarsMap key="tmp" value="/0/@security.158"/>
+                            </preCondition>
+                          </refinement>
+                          <postCondition name="intermediateCond"/>
+                          <preCondition name="(intermediateCond) &amp; (tmp == false)"/>
+                        </commands>
+                      </refinement>
+                      <postCondition name="intermediateCond"/>
+                      <preCondition name="intermediateCond"/>
+                    </secondStatement>
+                    <intermediateCondition name="intermediateCond"/>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="intermediateCond"/>
+                </firstStatement>
+                <secondStatement name="statement2">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                    <postCondition name="">
+                      <confToVarsMap key="result" value="/0/@security.169"/>
+                      <confToVarsMap key="tmp" value="/0/@security.170"/>
+                    </postCondition>
+                    <preCondition name="intermediateCond">
+                      <confToVarsMap key="tmp" value="/0/@security.160"/>
+                    </preCondition>
+                    <firstStatement name="statement1">
+                      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                        <postCondition name="">
+                          <confToVarsMap key="tmp" value="/0/@security.163"/>
+                          <confToVarsMap key="result" value="/0/@security.164"/>
+                        </postCondition>
+                        <preCondition name="intermediateCond">
+                          <confToVarsMap key="tmp" value="/0/@security.160"/>
+                        </preCondition>
+                        <firstStatement name="statement1">
+                          <refinement name="result =destination.update(amount);" context="none" typeableResult="true" tyleableText="result = destination.update(amount): target SL is lower than value SL. (using SEC-PROM)">
+                            <postCondition name="intermediateCond">
+                              <confToVarsMap key="tmp" value="/0/@security.161"/>
+                              <confToVarsMap key="result" value="/0/@security.162"/>
+                            </postCondition>
+                            <preCondition name="intermediateCond">
+                              <confToVarsMap key="tmp" value="/0/@security.160"/>
+                            </preCondition>
+                          </refinement>
+                          <postCondition name="intermediateCond"/>
+                          <preCondition name="intermediateCond"/>
+                        </firstStatement>
+                        <secondStatement name="statement2">
+                          <refinement name="a.undo(source, amount, a.declassify(result));" context="none" typeableResult="true" tyleableText="a.undo(source, amount, a.declassify(result)): Method  a.undo(source, amount, a.declassify(result)) is typeable.">
+                            <postCondition name="intermediateCond">
+                              <confToVarsMap key="tmp" value="/0/@security.163"/>
+                              <confToVarsMap key="result" value="/0/@security.164"/>
+                            </postCondition>
+                            <preCondition name="intermediateCond">
+                              <confToVarsMap key="tmp" value="/0/@security.161"/>
+                              <confToVarsMap key="result" value="/0/@security.162"/>
+                            </preCondition>
+                          </refinement>
+                          <postCondition name="intermediateCond"/>
+                          <preCondition name="intermediateCond"/>
+                        </secondStatement>
+                        <intermediateCondition name="intermediateCond"/>
+                      </refinement>
+                      <postCondition name="intermediateCond"/>
+                      <preCondition name="intermediateCond"/>
+                    </firstStatement>
+                    <secondStatement name="statement2">
+                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+                        <postCondition name="post">
+                          <confToVarsMap key="result" value="/0/@security.169"/>
+                          <confToVarsMap key="tmp" value="/0/@security.170"/>
+                        </postCondition>
+                        <preCondition name="intermediateCond">
+                          <confToVarsMap key="tmp" value="/0/@security.163"/>
+                          <confToVarsMap key="result" value="/0/@security.164"/>
+                        </preCondition>
+                        <guards name="result == true"/>
+                        <guards name="result == false"/>
+                        <commands name="statement">
+                          <refinement name="result = true;" context="high" typeableResult="true" tyleableText="result = true: target SL is higher than value SL. (using local promotion)">
+                            <postCondition name="post">
+                              <confToVarsMap key="tmp" value="/0/@security.165"/>
+                              <confToVarsMap key="result" value="/0/@security.166"/>
+                            </postCondition>
+                            <preCondition name="(intermediateCond) &amp; (result == true)">
+                              <confToVarsMap key="tmp" value="/0/@security.163"/>
+                              <confToVarsMap key="result" value="/0/@security.164"/>
+                            </preCondition>
+                          </refinement>
+                          <postCondition name="post"/>
+                          <preCondition name="(intermediateCond) &amp; (result == true)"/>
+                        </commands>
+                        <commands name="statement">
+                          <refinement name="result = false;" context="high" typeableResult="true" tyleableText="result = false: target SL is higher than value SL. (using local promotion)">
+                            <postCondition name="post">
+                              <confToVarsMap key="tmp" value="/0/@security.167"/>
+                              <confToVarsMap key="result" value="/0/@security.168"/>
+                            </postCondition>
+                            <preCondition name="(intermediateCond) &amp; (result == false)">
+                              <confToVarsMap key="tmp" value="/0/@security.163"/>
+                              <confToVarsMap key="result" value="/0/@security.164"/>
+                            </preCondition>
+                          </refinement>
+                          <postCondition name="post"/>
+                          <preCondition name="(intermediateCond) &amp; (result == false)"/>
+                        </commands>
+                      </refinement>
+                      <postCondition name="post"/>
+                      <preCondition name="intermediateCond"/>
+                    </secondStatement>
+                    <intermediateCondition name="intermediateCond"/>
+                  </refinement>
+                  <postCondition name="post"/>
+                  <preCondition name="intermediateCond"/>
+                </secondStatement>
+                <intermediateCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="post"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="post"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="post">
+        <confToVarsMap key="result" value="/0/@security.169"/>
+        <confToVarsMap key="tmp" value="/0/@security.170"/>
+      </postCondition>
+      <preCondition name="pre"/>
+    </statement>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:MethodLink className="Transaction" methodSignature="boolean transfer(Account,Account,int)"/>
+  <cbcmodel:JavaVariables>
+    <variables name="tmp" confidentiality="low" type="boolean" modifier="imm"/>
+    <variables name="a" confidentiality="low" type="Transaction" modifier="mut"/>
+    <variables name="amount" confidentiality="low" type="int" modifier="imm"/>
+    <variables name="source" confidentiality="low" type="Account" modifier="mut"/>
+    <variables name="destination" confidentiality="low" type="Account" modifier="mut"/>
+    <variables name="result" confidentiality="low" type="boolean" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

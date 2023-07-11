@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="update" className="Account" methodName="boolean update(int)">
+    <statement name="statement" typeableResult="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+        <postCondition name=""/>
+        <preCondition name="pre"/>
+        <firstStatement name="statement1">
+          <refinement name="newWithdraw = a.withdraw;" context="none" typeableResult="true" typeableText="newWithdraw = a.withdraw: Security levels are equal.">
+            <postCondition name="intermediateCond">
+              <modifiables>newWithdraw</modifiables>
+            </postCondition>
+            <preCondition name="pre"/>
+          </refinement>
+          <postCondition name="intermediateCond">
+            <modifiables>newWithdraw</modifiables>
+          </postCondition>
+          <preCondition name="pre"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+            <postCondition name=""/>
+            <preCondition name="intermediateCond">
+              <modifiables>newWithdraw</modifiables>
+            </preCondition>
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+                <postCondition name="intermediateCond">
+                  <modifiables>newWithdraw</modifiables>
+                </postCondition>
+                <preCondition name="intermediateCond">
+                  <modifiables>newWithdraw</modifiables>
+                </preCondition>
+                <guards name="x &lt; 0"/>
+                <commands name="statement">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="low">
+                    <postCondition name=""/>
+                    <preCondition name="(intermediateCond) &amp; (x &lt; 0)">
+                      <modifiables>newWithdraw</modifiables>
+                    </preCondition>
+                    <firstStatement name="statement1">
+                      <refinement name="newWithdraw  =newWithdraw + x;" context="low" typeableResult="true" typeableText="newWithdraw = newWithdraw + x: Security levels are equal.">
+                        <postCondition name="intermediateCond">
+                          <modifiables>newWithdraw</modifiables>
+                        </postCondition>
+                        <preCondition name="(intermediateCond) &amp; (x &lt; 0)">
+                          <modifiables>newWithdraw</modifiables>
+                        </preCondition>
+                      </refinement>
+                      <postCondition name="intermediateCond">
+                        <modifiables>newWithdraw</modifiables>
+                      </postCondition>
+                      <preCondition name="(intermediateCond) &amp; (x &lt; 0)">
+                        <modifiables>newWithdraw</modifiables>
+                      </preCondition>
+                    </firstStatement>
+                    <secondStatement name="statement2">
+                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="low">
+                        <postCondition name="intermediateCond">
+                          <modifiables>newWithdraw</modifiables>
+                        </postCondition>
+                        <preCondition name="intermediateCond">
+                          <modifiables>newWithdraw</modifiables>
+                        </preCondition>
+                        <guards name="newWithdraw &lt; a.DAILY_LIMIT"/>
+                        <commands name="statement">
+                          <refinement name="result = false;" context="high" typeableResult="true" typeableText="result = false: target SL is higher than value SL. (using local promotion)">
+                            <postCondition name="intermediateCond">
+                              <modifiables>newWithdraw</modifiables>
+                              <modifiables>result</modifiables>
+                            </postCondition>
+                            <preCondition name="(intermediateCond) &amp; (newWithdraw &lt; a.DAILY_LIMIT)">
+                              <modifiables>newWithdraw</modifiables>
+                            </preCondition>
+                          </refinement>
+                          <postCondition name="intermediateCond">
+                            <modifiables>newWithdraw</modifiables>
+                            <modifiables>result</modifiables>
+                          </postCondition>
+                          <preCondition name="(intermediateCond) &amp; (newWithdraw &lt; a.DAILY_LIMIT)">
+                            <modifiables>newWithdraw</modifiables>
+                          </preCondition>
+                        </commands>
+                      </refinement>
+                      <postCondition name="intermediateCond">
+                        <modifiables>a.withdraw</modifiables>
+                        <modifiables>newWithdraw</modifiables>
+                        <modifiables>result</modifiables>
+                        <modifiables>tmp</modifiables>
+                      </postCondition>
+                      <preCondition name="intermediateCond">
+                        <modifiables>newWithdraw</modifiables>
+                      </preCondition>
+                    </secondStatement>
+                    <intermediateCondition name="intermediateCond">
+                      <modifiables>newWithdraw</modifiables>
+                    </intermediateCondition>
+                  </refinement>
+                  <postCondition name="intermediateCond">
+                    <modifiables>a.withdraw</modifiables>
+                    <modifiables>newWithdraw</modifiables>
+                    <modifiables>result</modifiables>
+                    <modifiables>tmp</modifiables>
+                  </postCondition>
+                  <preCondition name="(intermediateCond) &amp; (x &lt; 0)">
+                    <modifiables>newWithdraw</modifiables>
+                  </preCondition>
+                </commands>
+              </refinement>
+              <postCondition name="intermediateCond">
+                <modifiables>a.withdraw</modifiables>
+                <modifiables>newWithdraw</modifiables>
+                <modifiables>result</modifiables>
+                <modifiables>tmp</modifiables>
+              </postCondition>
+              <preCondition name="intermediateCond">
+                <modifiables>newWithdraw</modifiables>
+              </preCondition>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                <postCondition name=""/>
+                <preCondition name="intermediateCond">
+                  <modifiables>a.withdraw</modifiables>
+                  <modifiables>newWithdraw</modifiables>
+                  <modifiables>result</modifiables>
+                  <modifiables>tmp</modifiables>
+                </preCondition>
+                <firstStatement name="statement1">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" context="none">
+                    <postCondition name=""/>
+                    <preCondition name="intermediateCond">
+                      <modifiables>a.withdraw</modifiables>
+                      <modifiables>newWithdraw</modifiables>
+                      <modifiables>result</modifiables>
+                      <modifiables>tmp</modifiables>
+                    </preCondition>
+                    <firstStatement name="statement1">
+                      <refinement name="tmp = a.updateBalance(x);" context="none" typeableResult="true" typeableText="tmp = a.updateBalance(x): Security levels are equal.">
+                        <postCondition name="intermediateCond">
+                          <modifiables>a.withdraw</modifiables>
+                          <modifiables>newWithdraw</modifiables>
+                          <modifiables>result</modifiables>
+                          <modifiables>tmp</modifiables>
+                        </postCondition>
+                        <preCondition name="intermediateCond">
+                          <modifiables>a.withdraw</modifiables>
+                          <modifiables>newWithdraw</modifiables>
+                          <modifiables>result</modifiables>
+                          <modifiables>tmp</modifiables>
+                        </preCondition>
+                      </refinement>
+                      <postCondition name="intermediateCond">
+                        <modifiables>a.withdraw</modifiables>
+                        <modifiables>newWithdraw</modifiables>
+                        <modifiables>result</modifiables>
+                        <modifiables>tmp</modifiables>
+                      </postCondition>
+                      <preCondition name="intermediateCond">
+                        <modifiables>a.withdraw</modifiables>
+                        <modifiables>newWithdraw</modifiables>
+                        <modifiables>result</modifiables>
+                        <modifiables>tmp</modifiables>
+                      </preCondition>
+                    </firstStatement>
+                    <secondStatement name="statement2">
+                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" context="none">
+                        <postCondition name="intermediateCond">
+                          <modifiables>a.withdraw</modifiables>
+                          <modifiables>newWithdraw</modifiables>
+                          <modifiables>result</modifiables>
+                          <modifiables>tmp</modifiables>
+                        </postCondition>
+                        <preCondition name="intermediateCond">
+                          <modifiables>a.withdraw</modifiables>
+                          <modifiables>newWithdraw</modifiables>
+                          <modifiables>result</modifiables>
+                          <modifiables>tmp</modifiables>
+                        </preCondition>
+                        <guards name="tmp == true"/>
+                        <commands name="statement">
+                          <refinement name="result = false;" context="high" typeableResult="true" typeableText="result = false: target SL is higher than value SL. (using local promotion)">
+                            <postCondition name="intermediateCond">
+                              <modifiables>a.withdraw</modifiables>
+                              <modifiables>newWithdraw</modifiables>
+                              <modifiables>result</modifiables>
+                              <modifiables>tmp</modifiables>
+                            </postCondition>
+                            <preCondition name="(intermediateCond) &amp; (tmp == true)">
+                              <modifiables>a.withdraw</modifiables>
+                              <modifiables>newWithdraw</modifiables>
+                              <modifiables>result</modifiables>
+                              <modifiables>tmp</modifiables>
+                            </preCondition>
+                          </refinement>
+                          <postCondition name="intermediateCond">
+                            <modifiables>a.withdraw</modifiables>
+                            <modifiables>newWithdraw</modifiables>
+                            <modifiables>result</modifiables>
+                            <modifiables>tmp</modifiables>
+                          </postCondition>
+                          <preCondition name="(intermediateCond) &amp; (tmp == true)">
+                            <modifiables>a.withdraw</modifiables>
+                            <modifiables>newWithdraw</modifiables>
+                            <modifiables>result</modifiables>
+                            <modifiables>tmp</modifiables>
+                          </preCondition>
+                        </commands>
+                      </refinement>
+                      <postCondition name="intermediateCond">
+                        <modifiables>a.withdraw</modifiables>
+                        <modifiables>newWithdraw</modifiables>
+                        <modifiables>result</modifiables>
+                        <modifiables>tmp</modifiables>
+                      </postCondition>
+                      <preCondition name="intermediateCond">
+                        <modifiables>a.withdraw</modifiables>
+                        <modifiables>newWithdraw</modifiables>
+                        <modifiables>result</modifiables>
+                        <modifiables>tmp</modifiables>
+                      </preCondition>
+                    </secondStatement>
+                    <intermediateCondition name="intermediateCond">
+                      <modifiables>a.withdraw</modifiables>
+                      <modifiables>newWithdraw</modifiables>
+                      <modifiables>result</modifiables>
+                      <modifiables>tmp</modifiables>
+                    </intermediateCondition>
+                  </refinement>
+                  <postCondition name="intermediateCond">
+                    <modifiables>a.withdraw</modifiables>
+                    <modifiables>newWithdraw</modifiables>
+                    <modifiables>result</modifiables>
+                    <modifiables>tmp</modifiables>
+                  </postCondition>
+                  <preCondition name="intermediateCond">
+                    <modifiables>a.withdraw</modifiables>
+                    <modifiables>newWithdraw</modifiables>
+                    <modifiables>result</modifiables>
+                    <modifiables>tmp</modifiables>
+                  </preCondition>
+                </firstStatement>
+                <secondStatement name="statement2">
+                  <refinement name="a.withdraw = newWithdraw;" context="none" typeableResult="true" typeableText="a.withdraw = newWithdraw: Security levels are equal.">
+                    <postCondition name="post">
+                      <modifiables>a.withdraw</modifiables>
+                      <modifiables>newWithdraw</modifiables>
+                      <modifiables>result</modifiables>
+                      <modifiables>tmp</modifiables>
+                    </postCondition>
+                    <preCondition name="intermediateCond">
+                      <modifiables>a.withdraw</modifiables>
+                      <modifiables>newWithdraw</modifiables>
+                      <modifiables>result</modifiables>
+                      <modifiables>tmp</modifiables>
+                    </preCondition>
+                  </refinement>
+                  <postCondition name="post">
+                    <modifiables>a.withdraw</modifiables>
+                    <modifiables>newWithdraw</modifiables>
+                    <modifiables>result</modifiables>
+                    <modifiables>tmp</modifiables>
+                  </postCondition>
+                  <preCondition name="intermediateCond">
+                    <modifiables>a.withdraw</modifiables>
+                    <modifiables>newWithdraw</modifiables>
+                    <modifiables>result</modifiables>
+                    <modifiables>tmp</modifiables>
+                  </preCondition>
+                </secondStatement>
+                <intermediateCondition name="intermediateCond">
+                  <modifiables>a.withdraw</modifiables>
+                  <modifiables>newWithdraw</modifiables>
+                  <modifiables>result</modifiables>
+                  <modifiables>tmp</modifiables>
+                </intermediateCondition>
+              </refinement>
+              <postCondition name="post">
+                <modifiables>a.withdraw</modifiables>
+                <modifiables>newWithdraw</modifiables>
+                <modifiables>result</modifiables>
+                <modifiables>tmp</modifiables>
+              </postCondition>
+              <preCondition name="intermediateCond">
+                <modifiables>a.withdraw</modifiables>
+                <modifiables>newWithdraw</modifiables>
+                <modifiables>result</modifiables>
+                <modifiables>tmp</modifiables>
+              </preCondition>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond">
+              <modifiables>a.withdraw</modifiables>
+              <modifiables>newWithdraw</modifiables>
+              <modifiables>result</modifiables>
+              <modifiables>tmp</modifiables>
+            </intermediateCondition>
+          </refinement>
+          <postCondition name="post">
+            <modifiables>a.withdraw</modifiables>
+            <modifiables>newWithdraw</modifiables>
+            <modifiables>result</modifiables>
+            <modifiables>tmp</modifiables>
+          </postCondition>
+          <preCondition name="intermediateCond">
+            <modifiables>newWithdraw</modifiables>
+          </preCondition>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond">
+          <modifiables>newWithdraw</modifiables>
+        </intermediateCondition>
+      </refinement>
+      <postCondition name="post">
+        <modifiables>a.withdraw</modifiables>
+        <modifiables>newWithdraw</modifiables>
+        <modifiables>result</modifiables>
+        <modifiables>tmp</modifiables>
+      </postCondition>
+      <preCondition name="pre"/>
+    </statement>
+    <atType name="newWithdraw"/>
+    <atType name="newWithdraw"/>
+    <atType name="newWithdraw"/>
+    <atType name="newWithdraw"/>
+    <atType name="newWithdraw"/>
+    <atType name="newWithdraw"/>
+    <atType name="newWithdraw"/>
+    <atType name="newWithdraw"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+    <security level="high" mutationModifier="IMMUTABLE"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="Account a" confidentiality="low" modifier="mut"/>
+    <variables name="boolean tmp" confidentiality="high" modifier="imm"/>
+    <variables name="int x" kind="PARAM" confidentiality="low" modifier="imm"/>
+    <variables name="boolean result" confidentiality="high" modifier="imm"/>
+    <variables name="int newWithdraw" confidentiality="low" modifier="imm"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>
