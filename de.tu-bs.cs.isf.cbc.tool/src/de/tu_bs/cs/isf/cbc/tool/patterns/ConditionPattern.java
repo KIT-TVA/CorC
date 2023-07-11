@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -300,9 +301,16 @@ public class ConditionPattern extends IdPattern implements IPattern {
 				}
 			}
 
-			UpdateOriginalCallsToProve.updateOriginalCallsToProve(condition);
-			UpdateMethodCallsToProve.updateMethodCallsToProve(condition);
-			UpdateContractsToProve.updateContractsToProve(condition);
+			try {
+				if (project.hasNature("de.ovgu.featureide.core.featureProjectNature")) {
+					UpdateOriginalCallsToProve.updateOriginalCallsToProve(condition);
+					UpdateMethodCallsToProve.updateMethodCallsToProve(condition);
+					UpdateContractsToProve.updateContractsToProve(condition);
+				}
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+			
 			UpdateConditionsOfChildren.updateConditionsofChildren(condition);
 		} else if (condition.eContainer() instanceof GlobalConditions) {
 			CbCFormula formula = null;

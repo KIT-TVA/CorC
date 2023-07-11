@@ -85,7 +85,7 @@ public class KeYInteraction {
 				env.getUi().getProofControl().startAutoMode(proof);
 				while (env.getUi().getProofControl().isInAutoMode()) {
 					if (monitor.isCanceled()) {
-						env.getUi().getProofControl().stopAndWaitAutoMode();
+						env.getUi().getProofControl().stopAutoMode();
 						Console.println("  Proof is canceled.");
 					}
 				}

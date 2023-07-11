@@ -504,6 +504,9 @@ public class AbstractIFbCParser {
 		}
 
 		final JavaClass javaClass = javaClassesForProject.get(previousEntity.getType());
+		if (javaClass == null) {
+			throw new IFbCException("Cannot find Java Class for " + previousEntity + ".");
+		}
 		final Optional<Field> field = javaClass.getFieldForFieldName(valueName);
 		if (!field.isPresent()) {
 			throw new IFbCException("Cannot find field " + valueName + " in type " + previousEntity.getType() + ".");
@@ -654,6 +657,10 @@ public class AbstractIFbCParser {
 				return changedTypes.get(exprString);
 			}
 			final IFbCReferenceEntity referenceEntity = diagramVariables.get(exprString);
+			if (referenceEntity == null) {
+				System.out.println("Variable " + exprString + " is not created. Create Variable.");
+				return null;
+			}
 			return referenceEntity.getSecurityLevel();
 		}
 		if (expression.isFieldAccessExpr()) {

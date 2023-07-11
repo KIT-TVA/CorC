@@ -203,8 +203,8 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				}
 			} else if (cur instanceof CompositionStatement) {
 				var comp = (CompositionStatement)cur;
-				if ((comp.getFirstStatement().getRefinement().isTested() || comp.getFirstStatement().getRefinement().isProven())
-						&& (comp.getSecondStatement().getRefinement().isTested() || comp.getSecondStatement().getRefinement().isProven()) && !comp.isProven()) {
+				if ((comp.getFirstStatement().getRefinement() != null && (comp.getFirstStatement().getRefinement().isTested() || comp.getFirstStatement().getRefinement().isProven()))
+						&& (comp.getSecondStatement().getRefinement() != null && (comp.getSecondStatement().getRefinement().isTested() || comp.getSecondStatement().getRefinement().isProven())) && !comp.isProven()) {
 					comp.setTested(status);
 				} else {
 					comp.setTested(false);

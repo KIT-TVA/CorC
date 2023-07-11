@@ -568,7 +568,7 @@ public class ProveWithKey {
 		content.setSrcFolder(sourceFolder);
 		content.readVariables(vars);
 		content.readGlobalConditions(conds);
-		content.readInvariants(readInvariantsFromClass(uri.split("/")[4]));
+		//content.readInvariants(readInvariantsFromClass(uri.split("/")[4]));
 
 		//content.setPreFromCondition(preCondition);
 		//content.setPostFromCondition(postCondition);
@@ -577,7 +577,7 @@ public class ProveWithKey {
 		content.rename(renaming);
 		content.replaceThisWithSelf();
 		content.addSelfForFields(vars);
-		content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
+		//content.addSelfForFields(readFieldsFromClass(uri.split("/")[4]));
 
 		content.addSelf(formula);
 		content.handleOld(formula, vars);
