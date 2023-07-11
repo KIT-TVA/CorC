@@ -1,17 +1,13 @@
 package de.tu_bs.cs.isf.cbc.util;
 
-import java.io.StreamTokenizer;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,15 +15,7 @@ import java.util.stream.Stream;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-//import org.hamcrest.core.IsInstanceOf;
-import org.stringtemplate.v4.compiler.CodeGenerator.primary_return;
 
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.PrivateKeyResolver;
-
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
@@ -44,7 +32,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
-import de.uka.ilkd.key.java.statement.If;
 
 public class KeYFileContent {	
 	public static final String REGEX_BEFORE_VARIABLE_KEYWORD = "(?<![a-zA-Z0-9_\\.]|self\\.)(";
