@@ -3,6 +3,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   	<modelVersion>4.0.0</modelVersion>
 
+  	<!-- The parent pom.xml and its children were build using the website 
+https://eclipse.dev/Xtext/documentation/350_continuous_integration.html#tycho-build 
+and the associated git repository
+https://github.com/xtext/maven-xtext-example
+git@github.com:xtext/maven-xtext-example.git-->
+
+
   	<groupId>de.tu-bs.cbc</groupId>
   	<artifactId>CorC-feat-autobuild_final</artifactId>
   	<version>0.0.1-SNAPSHOT</version>
@@ -47,8 +54,8 @@
 
 	          	<!-- xtend-maven-plugin is in pluginManagement instead of in plugins
 		       so that it doesn't run before the exec-maven-plugin's *.mwe2 gen;
-		       this way we can list it after. 
-      			-->
+		       this way we can list it after.-->
+      			
 			    <plugin>
 			      	<groupId>org.eclipse.xtend</groupId>
 			      	<artifactId>xtend-maven-plugin</artifactId>

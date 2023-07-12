@@ -47,36 +47,6 @@
             <artifactId>xtext-antlr-generator</artifactId>
             <version>2.1.1</version>
           </dependency>
-          <!--<dependency>
-            <groupId>org.eclipse.emf</groupId>
-            <artifactId>org.eclipse.emf.mwe2.launch</artifactId>
-            <version>2.15.0.M1</version>
-          </dependency>
-          <dependency>
-            <groupId>org.eclipse.xtext</groupId>
-            <artifactId>org.eclipse.xtext.common.types</artifactId>
-            <version>${xtext-version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.eclipse.xtext</groupId>
-            <artifactId>org.eclipse.xtext.xtext.generator</artifactId>
-            <version>2.32.0.M0</version>
-          </dependency>
-          <dependency>
-            <groupId>org.eclipse.xtext</groupId>
-            <artifactId>org.eclipse.xtext.xbase</artifactId>
-            <version>${xtext-version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.eclipse.xtext</groupId>
-            <artifactId>xtext-antlr-generator</artifactId>
-            <version>[2.1.1, 3)</version>
-          </dependency>
-          <dependency>
-            <groupId>org.eclipse.xtext</groupId>
-            <artifactId>org.eclipse.xtext.xbase.lib</artifactId>
-            <version>${xtext-version}</version>
-          </dependency>-->
         </dependencies>
       </plugin>
       <plugin>
@@ -90,7 +60,7 @@
         <configuration>
           <filesets combine.children="append">
             <fileset>
-              <directory>${basedir}/../de.tu-bs.cs.isf.cbc.model/src-gen/</directory>
+              <directory>${project.basedir}/src-gen/</directory>
               <includes>
                 <include>**/*</include>
               </includes>
