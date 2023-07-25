@@ -166,6 +166,9 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 
 	private void createUniqueMethodFilesForClass(String className) throws Exception {
 		for(MetaMethod metaMethod: uniqueMetaMethods) {
+			if (metaMethod.metaMethodName.equals("nextDay")) {
+				var a = 2;
+			}
 			GenerateDiagramFromModel diagramGenerator = new GenerateDiagramFromModel();
 			var metaMethodResource = metaMethod.toResourceObject(className);
 			diagramGenerator.execute(metaMethodResource);

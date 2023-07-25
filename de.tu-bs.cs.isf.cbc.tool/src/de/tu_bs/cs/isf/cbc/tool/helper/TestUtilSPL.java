@@ -168,7 +168,7 @@ public class TestUtilSPL {
 		return signature + "{\n" + "\t" + code + "}\n";
 	}
 	
-	public void handleOriginalCode(final IFeatureProvider fp, final URI projectPath, String code, final Features features, final List<MethodHandler> newMethods, String signature, final JavaVariables vars) throws ReferenceException {
+	public void handleOriginalCode(final IFeatureProvider fp, final URI projectPath, String code, final Features features, final List<MethodHandler> newMethods, String signature, final JavaVariables vars) throws ReferenceException, TestAndAssertionGeneratorException {
 		if (!code.contains("original")) {
 			return;
 		}

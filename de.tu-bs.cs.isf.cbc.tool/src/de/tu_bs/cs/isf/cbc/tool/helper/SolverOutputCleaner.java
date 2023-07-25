@@ -6,6 +6,7 @@ import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
 
 
 public class SolverOutputCleaner {	
+	private String counterexample;
 	private ArrayList<Variable> variables;
 	
 	public SolverOutputCleaner() {
@@ -13,12 +14,17 @@ public class SolverOutputCleaner {
 	}
 
 	public void clean(String counterexample) throws SettingsException {
+		this.counterexample = counterexample;
 		var exampleParts = counterexample.split(";;");
 		var values = exampleParts[exampleParts.length-1];
 		values = values.substring(values.indexOf("\n")+1, values.length());
 		var lines = values.split("\n");
 		var relevantLines = extractRelevantLines(lines);
 		createVariables(relevantLines);
+	}
+	
+	public String raw() {
+		return this.counterexample;
 	}
 
 	public String cleaned() {

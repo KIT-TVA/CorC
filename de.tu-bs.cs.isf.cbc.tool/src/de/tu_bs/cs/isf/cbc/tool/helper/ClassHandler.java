@@ -470,17 +470,13 @@ public class ClassHandler {
 		return code.substring(0, code.indexOf("{")).trim();
 	}
 	
-	public static String getImportsStr(String cn) {
+	public static String getImportsStr() {
 		final var code = new StringBuffer();
-		//code.append("package tests;\n\n");
 		code.append("import org.testng.ITestContext;\n");
 		code.append("import org.testng.Assert;\n");
 		code.append("import org.testng.annotations.Test;\n");
 		code.append("import java.util.Arrays;\n");
 		code.append("import java.util.stream.IntStream;\n");
-		if (!cn.isEmpty()) {
-			code.append("import tests." + cn + ";\n");
-		}
 		code.append("import java.util.function.Supplier;\n\n");
 		return code.toString();
 	}

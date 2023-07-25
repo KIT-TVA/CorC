@@ -275,11 +275,11 @@ public class MetaMethod {
 		boolean allOriginalsResolved = false;
 		while(!allOriginalsResolved) {
 			AbstractStatement statementThatCallsOriginal = searchOriginalStatement(formulaStatement);
-			Console.println("Found original: " +statementThatCallsOriginal);
+			//Console.println("Found original: " +statementThatCallsOriginal);
 			allOriginalsResolved = (statementThatCallsOriginal == null);
 			if(!allOriginalsResolved) {
-				statementThatCallsOriginal.setRefinement(resolveOriginal());
-				Console.println("Replaced Original with Selection: " + this.currentMethod.nameOfFeature);
+				statementThatCallsOriginal.setRefinement(resolveOriginal(statementThatCallsOriginal));
+				//Console.println("Replaced Original with Selection: " + this.currentMethod.nameOfFeature);
 			}
 			this.currentMethodIndex = 0;
 		}
@@ -682,7 +682,7 @@ public class MetaMethod {
 	}
 	
 	
-	private SelectionStatement resolveOriginal() {
+	private SelectionStatement resolveOriginal(AbstractStatement originalStatement) {
 		
 		SelectionStatement newSelection = CbcmodelFactory.eINSTANCE.createSelectionStatement();
 		newSelection.getGuards().add(CbcmodelFactory.eINSTANCE.createCondition());
@@ -715,9 +715,11 @@ public class MetaMethod {
 		if(this.currentMethod.nameOfFeature.equals(this.hierachicalComposition[this.hierachicalComposition.length-1])) {
 			SkipStatement finalSkip = CbcmodelFactory.eINSTANCE.createSkipStatement();
 			finalSkip.setPreCondition(CbcmodelFactory.eINSTANCE.createCondition());
-			finalSkip.getPreCondition().setName("final skip statement pre condition + PARENT" +this.currentMethod.nameOfFeature);
+			//finalSkip.getPreCondition().setName("final skip statement pre condition + PARENT" +this.currentMethod.nameOfFeature);
+			finalSkip.getPreCondition().setName(originalStatement.getPreCondition().getName());
 			finalSkip.setPostCondition(CbcmodelFactory.eINSTANCE.createCondition());
-			finalSkip.getPostCondition().setName("final skip statement post condition + PARENT" +this.currentMethod.nameOfFeature);
+			//finalSkip.getPostCondition().setName("final skip statement post condition + PARENT" +this.currentMethod.nameOfFeature);
+			finalSkip.getPostCondition().setName(originalStatement.getPostCondition().getName());
 			finalSkip.setName("final");
 			secondStatement.setRefinement(finalSkip);
 		}
@@ -746,8 +748,6 @@ public class MetaMethod {
 	
 	//returnt das statement, dessen Verfeinerung "original(" beinhaltet.
 	private AbstractStatement searchOriginalStatement (AbstractStatement statement) {
-		
-		
 		if (statement == null) {
 			return null;
 		}
@@ -763,69 +763,31 @@ public class MetaMethod {
 			if(foundStatement == null) {
 				foundStatement = searchOriginalStatement(((CompositionStatement) statement).getSecondStatement());
 			}
-			if (foundStatement == null) {
-				var jsdklfjsd = 2;
-			}
 		}
-
 		if (statement instanceof SelectionStatement) {
-			
-			if(((SelectionStatement) statement).getGuards().get(0).getName().contains("FV_"))
+			var selectionGuardStatement = ((SelectionStatement) statement).getGuards().get(0);
+			if(selectionGuardStatement.getName().contains("FV_"))
 			{	
-				/*String nameOfFeatureInSelection = ((SelectionStatement) statement).getGuards().get(0).getName();
-				 Pattern pattern = Pattern.compile("FV_(.*?)\\s");
-				 Matcher matcher = pattern.matcher(nameOfFeatureInSelection);
-					if (matcher.find())
-					{
-						nameOfFeatureInSelection= matcher.group(1);
-					}
-				
-				for(MethodStruct method: this.listOfMethods) {
-					if (method.nameOfFeature.equals(nameOfFeatureInSelection)) {
-						this.currentMethod = method;
-					}
-				}*/
-			
-				
 				if(this.currentMethodIndex < this.methodsInDescendingOrder.length-1) {
 					this.currentMethodIndex = (this.currentMethodIndex +1);
 					this.currentMethod = this.methodsInDescendingOrder[this.currentMethodIndex];
 				}
 			}
-			
-			
 			for (AbstractStatement currentSelectionStatement : ((SelectionStatement) statement).getCommands() ) {
-				
 				if(foundStatement != null) {break;}
 				foundStatement = searchOriginalStatement(currentSelectionStatement);
 			}
-			
-			/*if(foundStatement == null 
-					&& ((SelectionStatement) statement).getGuards().get(0).getName().contains("FV_")
-					&& !(this.currentMethod.nameOfFeature.equals(this.methodsInDescendingOrder[this.methodsInDescendingOrder.length-1].nameOfFeature))){	
-				if(this.currentMethodIndex > 0 ) {
-					this.currentMethodIndex = (this.currentMethodIndex -1);
-					this.currentMethod = this.methodsInDescendingOrder[this.currentMethodIndex];
-				}
-			}*/
-			if(foundStatement == null && ((SelectionStatement) statement).getGuards().get(0).getName().contains("FV_")){
-				String nameOfFeatureInSelectionUP = ((SelectionStatement) statement).getGuards().get(0).getName();
-				String nameOfFeatureInSelection  = "";
+			if(foundStatement == null && selectionGuardStatement.getName().contains("FV_")){
+				String nameOfFeatureInSelectionUP = selectionGuardStatement.getName();
 				Pattern pattern = Pattern.compile("FV_(.*?)\\s");
 				Matcher matcher = pattern.matcher(nameOfFeatureInSelectionUP);
 				if (matcher.find())
 				{
-					// == <FEATURENAME>
 					nameOfFeatureInSelectionUP = matcher.group(1); 
-					
-					// == <Featurename>
-					nameOfFeatureInSelection = nameOfFeatureInSelectionUP.charAt(0) + nameOfFeatureInSelectionUP.substring(1).toLowerCase();
-					
 				}
 				int searchIndex = -1;
-			
 				for(int i = 0 ; i < this.methodsInDescendingOrder.length; i++) {
-					if (nameOfFeatureInSelection.equals(this.methodsInDescendingOrder[i].nameOfFeature)) {
+					if (nameOfFeatureInSelectionUP.equals(this.methodsInDescendingOrder[i].nameOfFeature.toUpperCase())) {
 						searchIndex = i;
 						break;
 					}
@@ -833,40 +795,11 @@ public class MetaMethod {
 				if(searchIndex != -1 && !(searchIndex == this.methodsInDescendingOrder.length -1)) {
 					this.currentMethod = this.methodsInDescendingOrder[searchIndex];
 					this.currentMethodIndex = searchIndex;
-					int debug = 0;
 				}
 			}
-			 
 		}
 		if (statement instanceof SmallRepetitionStatement) {
-			
-			//foundStatement = searchOriginalStatement(((SmallRepetitionStatement) statement).getStartStatement());
-			
-			if(foundStatement == null) {
-				foundStatement = searchOriginalStatement(((SmallRepetitionStatement) statement).getLoopStatement());
-			}
-		}
-		/*
-		if (statement instanceof Composition3Statement) {
-			foundStatement = searchOriginalStatement(((Composition3Statement) statement).getFirstStatement());
-			if(foundStatement == null) {
-				foundStatement = searchOriginalStatement(((Composition3Statement) statement).getSecondStatement());
-				if(foundStatement == null) {
-					foundStatement = searchOriginalStatement(((Composition3Statement) statement).getThirdStatement());
-				}
-			}
-			
-			
-		}*/
-
-		if (statement instanceof ReturnStatement) {
-			int a = 329;
-		}
-		if (statement instanceof MethodStatement) {
-			int b = 2389;
-		}
-		if (statement instanceof OriginalStatement) {
-			int c = 2398;
+			foundStatement = searchOriginalStatement(((SmallRepetitionStatement) statement).getLoopStatement());
 		}
 		if(foundStatement == null) {
 			foundStatement = searchOriginalStatement(statement.getRefinement());

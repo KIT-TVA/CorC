@@ -1,6 +1,7 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -206,7 +207,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		try {
 			testStatement(statement, vars, conds, formula, returnStatement, features);
 			return (System.nanoTime() - start) / 1000000;
-		} catch (TestAndAssertionGeneratorException | TestStatementException | ReferenceException | UnexpectedTokenException | DiagnosticsException e) {
+		} catch (TestAndAssertionGeneratorException | TestStatementException | ReferenceException | UnexpectedTokenException | DiagnosticsException | MalformedURLException | ClassNotFoundException e) {
 			Console.println(e.getMessage(), Colors.RED);
 			e.printStackTrace();
 			return -1;
@@ -444,7 +445,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 
 	private List<String> placeDummyMethod(final List<String> dependencies, final String testClassName, final String innerMethod, String fullMethod) {
 		final var code = new StringBuffer();
-		code.append(ClassHandler.getImportsStr(""));
+		code.append(ClassHandler.getImportsStr());
 		
 		for (int i = 0; i < dependencies.size(); i++) {
 			if (dependencies.get(i).isBlank()) {
@@ -509,7 +510,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return "org.testng_" + highestVersion;
 	}
 	
-	private boolean executeTest(final String testName, final TestAndAssertionGenerator generator) throws DiagnosticsException {
+	private boolean executeTest(final String testName, final TestAndAssertionGenerator generator) throws DiagnosticsException, MalformedURLException, ClassNotFoundException {
 		final XmlSuite suite;			
 		// first create the xml suite needed to run TestNG
 		suite = generator.createXmlSuite("file://" + FileUtil.getProjectLocation(this.projectPath) + "/tests/", testName);		
@@ -681,8 +682,9 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	 * @return Generated data.
 	 * @throws UnexpectedTokenException 
 	 * @throws SettingsException 
+	 * @throws TestStatementException 
 	 */
-	private List<InputData> genInputs(String preConditions, final String className, final AbstractStatement statement, final CbCFormula formula, final JavaVariables vars) throws UnexpectedTokenException, SettingsException {
+	private List<InputData> genInputs(String preConditions, final String className, final AbstractStatement statement, final CbCFormula formula, final JavaVariables vars) throws UnexpectedTokenException, SettingsException, TestStatementException {
 		final PreConditionSolver preSolver = new PreConditionSolver(vars);
 		List<InputData> data;
 		try {
@@ -716,7 +718,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 					e.printStackTrace();
 					Console.println("TestStatement: Couldn't parse preconditions of neither the statement nor the formula.");
 					Console.println("TestStatement: Consider using 'usePreConditions(false)' in 'PreConditionSolver'.");
-					return null;
+					throw new TestStatementException("Canno't generate tests for this method.");
 				}
 			}
 		}
@@ -745,7 +747,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		}
 	}
 		
-	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException, DiagnosticsException, SettingsException {		
+	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException, DiagnosticsException, SettingsException, MalformedURLException, ClassNotFoundException {		
 		final JavaVariable returnVar = Variable.getReturnVar(vars);
 		final String className = ClassHandler.getClassName(formula);
 		String statementName = statement.getName().trim();
@@ -923,7 +925,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return code;
 	}
 	
-	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException, DiagnosticsException, SettingsException {		
+	public boolean testStatement(final AbstractStatement statement, final JavaVariables vars, final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement) throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException, UnexpectedTokenException, DiagnosticsException, SettingsException, MalformedURLException, ClassNotFoundException {		
 		return testStatement(statement, vars, conds, formula, isReturnStatement, null);
 	}
 
