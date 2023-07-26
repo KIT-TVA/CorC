@@ -33,9 +33,10 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.PredefinedColoredAreas;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
+import de.tu_bs.cs.isf.cbc.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
@@ -44,8 +45,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
+import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import helper.ClassUtil;
 
 /**
  * Class that creates the graphical representation of Methods
@@ -234,7 +235,7 @@ public class VariablesPattern extends IdPattern implements IPattern {
 				if (classResource != null && classResource.getContents().get(0) instanceof ModelClass) {
 					ModelClass mc = (ModelClass) classResource.getContents().get(0);
 					fields = mc.getFields();
-					for (de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method m : mc.getMethods()) {
+					for (Method m : mc.getMethods()) {
 						if (m.getName().equals(methodName)) {
 							params = m.getParameters();
 							break;
@@ -314,7 +315,7 @@ public class VariablesPattern extends IdPattern implements IPattern {
 				if (classResource != null && classResource.getContents().get(0) instanceof ModelClass) {
 					ModelClass mc = (ModelClass) classResource.getContents().get(0);
 					fields = mc.getFields();
-					for (de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method m : mc.getMethods()) {
+					for (Method m : mc.getMethods()) {
 						if (m.getName().equals(methodName)) {
 							params = m.getParameters();
 							break;

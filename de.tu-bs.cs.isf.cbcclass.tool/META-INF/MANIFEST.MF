@@ -7,7 +7,6 @@ Automatic-Module-Name: de.tu.bs.cs.isf.cbcclass.tool
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.graphiti,
  org.eclipse.graphiti.ui,
- de.tu_bs.cs.isf.cbc.cbcclass.model,
  de.tu-bs.cs.isf.cbc.model,
  org.eclipse.emf.common,
  org.eclipse.graphiti.mm,
@@ -26,5 +25,4 @@ Import-Package: de.tu_bs.cs.isf.cbc.tool.diagram,
  org.eclipse.emf.ecore.xmi.impl,
  org.eclipse.graphiti.pattern;version="0.13.2",
  org.eclipse.graphiti.pattern.id
-Export-Package: de.tu_bs.cs.isf.cbcclass.tool.patterns,
- helper
+Export-Package: de.tu_bs.cs.isf.cbcclass.tool.patterns

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cbcmodel" nsURI="http://www.example.org/cbcmodel" nsPrefix="cbcmodel">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cbcmodel" nsURI="http://www.example.org/cbcmodel" nsPrefix="de.tu-bs.cs.isf.cbc.cbcmodel">
   <eClassifiers xsi:type="ecore:EClass" name="CbCFormula">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="statement" lowerBound="1"
@@ -17,8 +17,8 @@
         defaultValueLiteral=""/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral=""/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="methodObj" eType="ecore:EClass ../../de.tu_bs.cs.isf.cbc.cbcclass.model/model/cbcclass.ecore#//Method"
-        eOpposite="../../de.tu_bs.cs.isf.cbc.cbcclass.model/model/cbcclass.ecore#//Method/cbcStartTriple"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodObj" eType="ecore:EClass cbcclass.ecore#//Method"
+        eOpposite="cbcclass.ecore#//Method/cbcStartTriple"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="tested" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="atType" upperBound="-1"
         eType="#//AtType" containment="true"/>
@@ -93,14 +93,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
         eType="#//JavaVariable" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
-        eType="ecore:EClass ../../de.tu_bs.cs.isf.cbc.cbcclass.model/model/cbcclass.ecore#//Field">
+        eType="ecore:EClass cbcclass.ecore#//Field">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="get" value="if (eDirectResource() != null) { &#x9;&#x9;&#x9;if (eDirectResource().getResourceSet() != null) { &#x9;&#x9;&#x9;&#x9;if (eDirectResource().getResourceSet().getResources() != null) { &#x9;&#x9;&#x9;&#x9;&#x9;EList&lt;Resource> resources = eDirectResource().getResourceSet().getResources(); &#x9;&#x9;&#x9;&#x9;&#x9;URI uri = eDirectResource().getURI(); &#x9;&#x9;&#x9;&#x9;&#x9;uri = uri.trimSegments(1); &#x9;&#x9;&#x9;&#x9;&#x9;uri = uri.appendSegment(uri.lastSegment() + &quot;.cbcclass&quot;); &#x9;&#x9;&#x9;&#x9;&#x9;for (Resource res : resources) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if (res.getURI().equals(uri)) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;EList&lt;EObject> content = res.getContents(); &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for (EObject o : content) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if (o instanceof ModelClass) { &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;return ((ModelClass) o).getFields(); &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;&#x9;} &#x9;&#x9;&#x9;} &#x9;&#x9;}&#x9; &#x9;&#x9;if (fields == null) { &#x9;&#x9;&#x9;fields = new EObjectResolvingEList&lt;Field>(Field.class, this, CbcmodelPackage.JAVA_VARIABLES__FIELDS); &#x9;&#x9;} &#x9;&#x9;return fields;"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
-        eType="ecore:EClass ../../de.tu_bs.cs.isf.cbc.cbcclass.model/model/cbcclass.ecore#//Parameter"
-        containment="true">
+        eType="ecore:EClass cbcclass.ecore#//Parameter" containment="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="get"/>
       </eAnnotations>

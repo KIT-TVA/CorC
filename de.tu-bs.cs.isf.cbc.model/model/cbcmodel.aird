@@ -776,7 +776,9 @@
     <semanticResources>pathmap:/javaclass/java.lang.IllegalAccessException.java</semanticResources>
     <semanticResources>platform:/resource/de.tu_bs.cs.isf.cbc.cbcclass.model/model/cbcclass.ecore</semanticResources>
     <semanticResources>platform:/resource/de.tu_bs.cs.isf.cbc.cbcclass.model/model/cbcclass.genmodel</semanticResources>
+    <semanticResources>cbcclass.ecore</semanticResources>
     <semanticResources>cbcmodel.genmodel</semanticResources>
+    <semanticResources>genmodel.genmodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_oNTJkRhnEeu74r7X1vovKw">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
       <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_rIM0cBhnEeu74r7X1vovKw" name="cbcmodel class diagram" repPath="#_rIKYMBhnEeu74r7X1vovKw" changeId="f5dc8d41-456b-4034-afa5-7ffe3e5e6300">

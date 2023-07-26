@@ -31,7 +31,7 @@ class ProjectDelta implements IResourceDeltaVisitor {
 			System.out.print(res.getFullPath());
 			System.out.println(" was added.");
 			if (Objects.equals(res.getFullPath().lastSegment(), "model.xml")) {
-				FeatureModelDelta fmd = new FeatureModelDelta(res);
+				new FeatureModelDelta(res);
 			}
 			break;
 		case IResourceDelta.REMOVED:
@@ -39,7 +39,7 @@ class ProjectDelta implements IResourceDeltaVisitor {
 		case IResourceDelta.CHANGED:
 			// only if feature-diagram changes
 			if (Objects.equals(res.getFullPath().lastSegment(), "model.xml")) {
-				FeatureModelDelta fmd = new FeatureModelDelta(res);
+				new FeatureModelDelta(res);
 			}
 			break;
 		}
