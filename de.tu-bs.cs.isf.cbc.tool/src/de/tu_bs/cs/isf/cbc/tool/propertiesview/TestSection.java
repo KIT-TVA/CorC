@@ -101,6 +101,13 @@ public class TestSection extends GFPropertySection implements ITabbedPropertyCon
 					values.setLongStr(longText.getText());
 					values.setCharStr(charText.getText());
 					values.setStringStr(strText.getText());
+					byteText.setText(values.getByteStr());
+					booleanText.setText(values.getBooleanStr());
+					shortText.setText(values.getShortStr());
+					intText.setText(values.getIntStr());
+					longText.setText(values.getLongStr());
+					charText.setText(values.getCharStr());
+					strText.setText(values.getStringStr());
 					values.save();
 				} catch (SettingsException e1) {
 					e1.printStackTrace();

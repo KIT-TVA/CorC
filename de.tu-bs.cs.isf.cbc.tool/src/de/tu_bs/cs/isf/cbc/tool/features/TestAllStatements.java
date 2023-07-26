@@ -75,20 +75,6 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		return uri;
 	}
 	
-	private void initDiagramParts(Diagram diag, JavaVariables vars, GlobalConditions conds, CbCFormula formula) {
-		/*
-		for (Shape shape : diag.getChildren()) {
-			Object obj = getBusinessObjectForPictogramElement(shape);
-			if (obj instanceof JavaVariables) {
-				vars = (JavaVariables) obj;
-			} else if (obj instanceof GlobalConditions) {
-				conds = (GlobalConditions) obj;
-			} else if (obj instanceof CbCFormula) {
-				formula = (CbCFormula) obj;
-			}
-		}*/	
-	}
-	
 	public void testDiagram(final Diagram diag) throws SettingsException {
 		final URI uri;
 		boolean returnStatement;
@@ -97,7 +83,6 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		JavaVariables vars = extractor.getVars();
 		GlobalConditions conds = extractor.getConds();
 		CbCFormula formula = extractor.getFormula();
-		//initDiagramParts(diag, vars, conds, formula);
 		
 		final TestStatement ts = new TestStatement(fp);
 		uri = getUri(diag);

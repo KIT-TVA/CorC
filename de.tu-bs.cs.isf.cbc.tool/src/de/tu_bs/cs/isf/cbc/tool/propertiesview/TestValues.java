@@ -59,13 +59,13 @@ public final class TestValues implements Serializable {
 
 	public static void useDefaults() {
 		instance = new TestValues();
-		instance.setBooleanStr("false, true");
-		instance.setByteStr(Byte.MIN_VALUE + ", -1, 0, 1, " + Byte.MAX_VALUE);
-		instance.setCharStr("x, 0, \\s, @, ;");
-		instance.setIntStr(Integer.MIN_VALUE + ", -1, 0, 1, " + Integer.MAX_VALUE);
-		instance.setLongStr(Long.MIN_VALUE + ", -1, 0, 1, " + Long.MAX_VALUE);
-		instance.setShortStr(Short.MIN_VALUE + ", -1, 0, 1, " + Short.MAX_VALUE);
-		instance.setStringStr("x, xy, 1xy, 1xy@;,");
+		instance.setDefaultBooleanStr();
+		instance.setDefaultByteStr();
+		instance.setDefaultCharStr();
+		instance.setDefaultIntStr();
+		instance.setDefaultLongStr();
+		instance.setDefaultShortStr();
+		instance.setDefaultStringStr();
 		instance.save();
 	}
 
@@ -101,7 +101,39 @@ public final class TestValues implements Serializable {
 	}
 
 	public void setByteStr(String byteStr) {
-		instance.byteStr = byteStr;
+		if (!checkByteInput(byteStr)) {
+			instance.setDefaultByteStr();
+		} else {
+			instance.byteStr = byteStr;
+		}
+	}
+
+	public void setDefaultBooleanStr() {
+		instance.setBooleanStr("false, true");
+	}
+	
+	public void setDefaultByteStr() {
+		instance.setByteStr(Byte.MIN_VALUE + ", -1, 0, 1, " + Byte.MAX_VALUE);
+	}
+
+	public void setDefaultShortStr() {
+		instance.setShortStr(Short.MIN_VALUE + ", -1, 0, 1, " + Short.MAX_VALUE);
+	}
+
+	public void setDefaultIntStr() {
+		instance.setIntStr(Integer.MIN_VALUE + ", -1, 0, 1, " + Integer.MAX_VALUE);
+	}
+
+	public void setDefaultLongStr() {
+		instance.setLongStr(Long.MIN_VALUE + ", -1, 0, 1, " + Long.MAX_VALUE);
+	}
+
+	public void setDefaultCharStr() {
+		instance.setCharStr("x, 0, \\s, @, ;");
+	}
+
+	public void setDefaultStringStr() {
+		instance.setStringStr("x, xy, 1xy, 1xy@;,");
 	}
 
 	public String getShortStr() {
@@ -109,7 +141,11 @@ public final class TestValues implements Serializable {
 	}
 
 	public void setShortStr(String shortStr) {
-		instance.shortStr = shortStr;
+		if (!checkShortInput(shortStr)) {
+			instance.setDefaultShortStr();
+		} else {
+			instance.shortStr = shortStr;
+		}
 	}
 
 	public String getIntStr() {
@@ -117,7 +153,11 @@ public final class TestValues implements Serializable {
 	}
 
 	public void setIntStr(String intStr) {
-		instance.intStr = intStr;
+		if (!checkIntegerInput(intStr)) {
+			instance.setDefaultIntStr();
+		} else {
+			instance.intStr = intStr;
+		}
 	}
 
 	public String getLongStr() {
@@ -125,7 +165,11 @@ public final class TestValues implements Serializable {
 	}
 
 	public void setLongStr(String longStr) {
-		instance.longStr = longStr;
+		if (!checkLongInput(longStr)) {
+			instance.setDefaultLongStr();
+		} else {
+			instance.longStr = longStr;
+		}
 	}
 
 	public String getCharStr() {
@@ -133,7 +177,11 @@ public final class TestValues implements Serializable {
 	}
 
 	public void setCharStr(String charStr) {
-		instance.charStr = charStr;
+		if (!checkCharInput(charStr)) {
+			instance.setDefaultCharStr();
+		} else {
+			instance.charStr = charStr;
+		}
 	}
 
 	public String getStringStr() {
@@ -149,6 +197,78 @@ public final class TestValues implements Serializable {
 	}
 
 	public void setBooleanStr(String booleanStr) {
-		instance.booleanStr = booleanStr;
+		if (!checkBooleanInput(booleanStr)) {
+			instance.setDefaultBooleanStr();
+		} else {
+			instance.booleanStr = booleanStr;
+		}
+	}
+	
+	private boolean checkBooleanInput(String input) {
+		String[] splitted = input.split("\\,");
+		for (var s : splitted) {
+			if (!s.trim().equals("true") && !s.trim().equals("false")) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean checkByteInput(String input) {
+		String[] splitted = input.split("\\,");
+		for (var s : splitted) {
+			try {
+				Byte.parseByte(s.trim());
+			} catch (NumberFormatException e) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean checkShortInput(String input) {
+		String[] splitted = input.split("\\,");
+		for (var s : splitted) {
+			try {
+				Short.parseShort(s.trim());
+			} catch (NumberFormatException e) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean checkIntegerInput(String input) {
+		String[] splitted = input.split("\\,");
+		for (var s : splitted) {
+			try {
+				Integer.parseInt(s.trim());
+			} catch (NumberFormatException e) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean checkLongInput(String input) {
+		String[] splitted = input.split("\\,");
+		for (var s : splitted) {
+			try {
+				Long.parseLong(s.trim());
+			} catch (NumberFormatException e) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean checkCharInput(String input) {
+		String[] splitted = input.split("\\,");
+		for (var s : splitted) {
+			if (s.trim().length() != 1 && !s.trim().equals("\\s")) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
