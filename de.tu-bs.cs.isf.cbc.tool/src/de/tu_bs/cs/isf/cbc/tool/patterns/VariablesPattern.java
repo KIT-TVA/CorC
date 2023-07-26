@@ -44,6 +44,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl;
+import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
 import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
@@ -86,13 +87,8 @@ public class VariablesPattern extends IdPattern implements IPattern {
 
 	@Override
 	public boolean canCreate(ICreateContext context) {
-		JavaVariables vars = null;
-		for (Shape shape : getDiagram().getChildren()) {
-			Object obj = getBusinessObjectForPictogramElement(shape);
-			if (obj instanceof JavaVariables) {
-				vars = (JavaVariables) obj;
-			}
-		}
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
+		JavaVariables vars = extractor.getVars();
 		if (vars != null)
 			return false;
 		return context.getTargetContainer() instanceof Diagram;

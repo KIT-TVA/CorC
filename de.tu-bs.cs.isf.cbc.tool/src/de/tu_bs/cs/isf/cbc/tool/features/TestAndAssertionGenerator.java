@@ -76,6 +76,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
 import de.tu_bs.cs.isf.cbc.tool.helper.ConditionHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputDataTupel;
@@ -148,23 +149,15 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		final URI uri = getDiagram().eResource().getURI();
 		final List<String> globalVars = new ArrayList<String>();
 		String signatureString = "";
-		JavaVariables vars = null;
-		CbCFormula formula = null;
-		GlobalConditions globalConditions = null;
+		
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
+		JavaVariables vars = extractor.getVars();
+		CbCFormula formula = extractor.getFormula();
+		GlobalConditions globalConditions = extractor.getConds();
 		
 		setProjectPath(uri);
 		FileHandler.getInstance().clearLog(uri);
 
-		for (Shape shape : getDiagram().getChildren()) {
-			Object obj = getBusinessObjectForPictogramElement(shape);
-			if (obj instanceof JavaVariables) {
-				vars = (JavaVariables) obj;
-			} else if (obj instanceof CbCFormula) {
-				formula = (CbCFormula) obj;
-			} else if (obj instanceof GlobalConditions) {
-				globalConditions = (GlobalConditions) obj;
-			}
-		}
 		
 		if (formula.getMethodObj() == null) {
 			if (this.showWarnings) {
@@ -1559,25 +1552,13 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		String signatureString;
 		final LinkedList<String> localVariables = new LinkedList<String>();
 		JavaVariable returnVariable = null;
-		JavaVariables vars = null;
-		Renaming renaming = null;
-		CbCFormula formula = null;
-		GlobalConditions globalConditions = null;
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
+		JavaVariables vars = extractor.getVars();
+		Renaming renaming = extractor.getRenaming();
+		CbCFormula formula = extractor.getFormula();
+		GlobalConditions globalConditions = extractor.getConds();
 		String globalVariables = "";
 		int counter = 0;
-
-		for (Shape shape : diagram.getChildren()) {
-			Object obj = getBusinessObjectForPictogramElement(shape);
-			if (obj instanceof JavaVariables) {
-				vars = (JavaVariables) obj;
-			} else if (obj instanceof Renaming) {
-				renaming = (Renaming) obj;
-			} else if (obj instanceof CbCFormula) {
-				formula = (CbCFormula) obj;
-			} else if (obj instanceof GlobalConditions) {
-				globalConditions = (GlobalConditions) obj;
-			}
-		}
 		
 		if (formula.getMethodObj() == null) {
 			List<String> params = new ArrayList<String>();
@@ -2580,17 +2561,10 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				return sig;
 			}
 
-			JavaVariables vars = null;
-			CbCFormula formula = null;
+			DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
+			JavaVariables vars = extractor.getVars();
+			CbCFormula formula = extractor.getFormula();
 
-			for (Shape shape : diagram.getChildren()) {
-				Object obj = getBusinessObjectForPictogramElement(shape);
-				if (obj instanceof JavaVariables) {
-					vars = (JavaVariables) obj;
-				} else if (obj instanceof CbCFormula) {
-					formula = (CbCFormula) obj;
-				}
-			}	
 			int diagramParams = 0;
 			for (var v : vars.getVariables()) {
 				if (v.getKind().equals(VariableKind.PARAM)) {
@@ -2668,7 +2642,6 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		Diagram diagram;
 		boolean isConstructor = false;
 		
-		
 		if (getMethodName(signature).equals(className)) {
 			isConstructor = true;
 		}
@@ -2683,15 +2656,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 				// try to load the code from the java src folder
 				return getCodeOfSignatureOfLoadedFile(className, signature, isConstructor);
 			}
-			JavaVariables vars = null;
-
-			for (Shape shape : diagram.getChildren()) {
-				Object obj = getBusinessObjectForPictogramElement(shape);
-				if (obj instanceof JavaVariables) {
-					vars = (JavaVariables) obj;
-					break;
-				}
-			}	
+			DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
+			JavaVariables vars = extractor.getVars();
 
 			int diagramParams = 0;
 			// TODO: Check if this works for all cases

@@ -17,6 +17,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
+import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -74,13 +75,8 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		return uri;
 	}
 	
-	public void testDiagram(final Diagram diag) throws SettingsException {
-		final URI uri;
-		boolean returnStatement;
-		
-		JavaVariables vars = null;
-		GlobalConditions conds = null;
-		CbCFormula formula = null;
+	private void initDiagramParts(Diagram diag, JavaVariables vars, GlobalConditions conds, CbCFormula formula) {
+		/*
 		for (Shape shape : diag.getChildren()) {
 			Object obj = getBusinessObjectForPictogramElement(shape);
 			if (obj instanceof JavaVariables) {
@@ -90,7 +86,18 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 			} else if (obj instanceof CbCFormula) {
 				formula = (CbCFormula) obj;
 			}
-		}	
+		}*/	
+	}
+	
+	public void testDiagram(final Diagram diag) throws SettingsException {
+		final URI uri;
+		boolean returnStatement;
+		
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(diag);
+		JavaVariables vars = extractor.getVars();
+		GlobalConditions conds = extractor.getConds();
+		CbCFormula formula = extractor.getFormula();
+		//initDiagramParts(diag, vars, conds, formula);
 		
 		final TestStatement ts = new TestStatement(fp);
 		uri = getUri(diag);

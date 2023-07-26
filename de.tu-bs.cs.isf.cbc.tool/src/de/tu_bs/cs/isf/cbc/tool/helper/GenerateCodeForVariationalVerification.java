@@ -228,22 +228,11 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 	
 	private String generateMethodForClass(Diagram diagram, String methodName) {
 		diagram.eResource().getAllContents();
-		JavaVariables vars = null;
-		Renaming renaming = null;
-		CbCFormula formula = null;
-		GlobalConditions globalConditions = null;
-		for (Shape shape : diagram.getChildren()) {
-			Object obj = getBusinessObjectForPictogramElement(shape);
-			if (obj instanceof JavaVariables) {
-				vars = (JavaVariables) obj;
-			} else if (obj instanceof Renaming) {
-				renaming = (Renaming) obj;
-			} else if (obj instanceof CbCFormula) {
-				formula = (CbCFormula) obj;
-			} else if (obj instanceof GlobalConditions) {
-				globalConditions = (GlobalConditions) obj;
-			}
-		}
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
+		JavaVariables vars = extractor.getVars();
+		GlobalConditions globalConditions = extractor.getConds();
+		Renaming renaming = extractor.getRenaming();
+		CbCFormula formula = extractor.getFormula();
 
 		String signatureString = formula.getMethodObj().getSignature().replaceFirst(formula.getMethodObj().getName(), methodName);
 		JavaVariable returnVariable = null;

@@ -42,6 +42,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
+import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
 
 /**
@@ -89,20 +90,10 @@ public class GenerateTextualRepresentation extends MyAbstractAsynchronousCustomF
 		uriTextFile = uriTextFile.appendFileExtension("cbctxt");
 		uri = uri.appendFileExtension("cbcmodel");
     	CbCFormula formula = CbcModelUtil.readFormula(uri);
-    	JavaVariables vars = null;
-		GlobalConditions conds = null;
-		Renaming renaming = null;
-		for (Shape shape : getDiagram().getChildren()) {
-			Object obj = getBusinessObjectForPictogramElement(shape);
-			if (obj instanceof JavaVariables) {
-				vars = (JavaVariables) obj;
-			} else if (obj instanceof GlobalConditions) {
-				conds = (GlobalConditions) obj;
-			} else if (obj instanceof Renaming) {
-				renaming = (Renaming) obj;
-			}
-		}
-    	
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
+    	JavaVariables vars = extractor.getVars();
+		GlobalConditions conds = extractor.getConds();
+		Renaming renaming = extractor.getRenaming();
     	
         String content = generateContentOfFormula(formula);
         if (conds != null)

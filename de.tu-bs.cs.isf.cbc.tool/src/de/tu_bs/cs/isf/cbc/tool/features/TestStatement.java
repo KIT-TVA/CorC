@@ -51,6 +51,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
 import de.tu_bs.cs.isf.cbc.tool.helper.ConditionHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
 import de.tu_bs.cs.isf.cbc.tool.helper.JavaCondition;
@@ -130,19 +131,10 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			if (bo instanceof AbstractStatement) {
 				returnStatement = bo instanceof ReturnStatement;
 				AbstractStatement statement = (AbstractStatement) bo;
-				JavaVariables vars = null;
-				GlobalConditions conds = null;
-				CbCFormula formula = null;
-				for (Shape shape : getDiagram().getChildren()) {
-					Object obj = getBusinessObjectForPictogramElement(shape);
-					if (obj instanceof JavaVariables) {
-						vars = (JavaVariables) obj;
-					} else if (obj instanceof GlobalConditions) {
-						conds = (GlobalConditions) obj;
-					} else if (obj instanceof CbCFormula) {
-						formula = (CbCFormula) obj;
-					}
-				}	
+				DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
+				JavaVariables vars = extractor.getVars();
+				GlobalConditions conds = extractor.getConds();
+				CbCFormula formula = extractor.getFormula();
 				uri = getDiagram().eResource().getURI();
 				this.projectPath = uri;
 				DataCollector dataCollector;
@@ -606,16 +598,14 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		
 		
 		while (cur != null) {
-			if (cur instanceof AbstractStatement) {
-				containers.push(((AbstractStatement)cur).getName());
-			} else if (cur instanceof CompositionStatement) {
+			if (cur instanceof CompositionStatement) {
 				containers.push(((CompositionStatement)cur).getName());
 			} else if (cur instanceof MethodStatement) {
 				containers.push(((MethodStatement)cur).getName());
 			} else if (cur instanceof ReturnStatement) {
 				containers.push(((ReturnStatement)cur).getName());
 			} else if (cur instanceof SelectionStatement) {
-				containers.push(((SelectionStatement)cur).getName());
+				containers.push(((SelectionStatement)cur).getGuards().get(0).getName());
 			} else if (cur instanceof SkipStatement) {
 				containers.push(((SkipStatement)cur).getName());
 			} else if (cur instanceof SmallRepetitionStatement) {
@@ -624,6 +614,8 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				containers.push(((StrengthWeakStatement)cur).getName());
 			} else if (cur instanceof OriginalStatement) {
 				containers.push(((OriginalStatement)cur).getName());
+			} else if (cur instanceof AbstractStatement) {
+				containers.push(((AbstractStatement)cur).getName());
 			}
 			cur = cur.eContainer();
 		}

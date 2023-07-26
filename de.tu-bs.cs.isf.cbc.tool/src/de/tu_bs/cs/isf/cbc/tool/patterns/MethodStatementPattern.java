@@ -44,6 +44,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
 import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
+import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateModifiableOfConditions;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
@@ -491,13 +492,8 @@ public class MethodStatementPattern extends IdPattern implements IPattern {
 		statement.setTested(false);
 		TestStatement.setPathTested(statement, false);
 		updateParent(statement);
-		JavaVariables vars = null;
-		for (Shape shape : getDiagram().getChildren()) {
-			Object obj = getBusinessObjectForPictogramElement(shape);
-			if (obj instanceof JavaVariables) {
-				vars = (JavaVariables) obj;
-			}
-		}
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
+		JavaVariables vars = extractor.getVars();
 		UpdateModifiableOfConditions.setVars(vars);
 		FileUtil.setApplicationUri(getDiagram().eResource().getURI());
 		UpdateModifiableOfConditions.updateAssignmentStatement(statement, new FileUtil(getDiagram().eResource().getURI().toPlatformString(true)));

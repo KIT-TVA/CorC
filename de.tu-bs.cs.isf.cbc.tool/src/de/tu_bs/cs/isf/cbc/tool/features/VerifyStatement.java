@@ -26,6 +26,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
@@ -94,22 +95,11 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			if (bo instanceof AbstractStatement) {
 				boolean returnStatement = bo instanceof ReturnStatement;
 				AbstractStatement statement = (AbstractStatement) bo;
-				JavaVariables vars = null;
-				GlobalConditions conds = null;
-				Renaming renaming = null;
-				CbCFormula formula = null;
-				for (Shape shape : getDiagram().getChildren()) {
-					Object obj = getBusinessObjectForPictogramElement(shape);
-					if (obj instanceof JavaVariables) {
-						vars = (JavaVariables) obj;
-					} else if (obj instanceof GlobalConditions) {
-						conds = (GlobalConditions) obj;
-					} else if (obj instanceof Renaming) {
-						renaming = (Renaming) obj;
-					} else if (obj instanceof CbCFormula) {
-						formula = (CbCFormula) obj;
-					}
-				}
+				DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
+				JavaVariables vars = extractor.getVars();
+				GlobalConditions conds = extractor.getConds();
+				Renaming renaming = extractor.getRenaming();
+				CbCFormula formula = extractor.getFormula();
 				
 				boolean proven = false;
 				URI uri = getDiagram().eResource().getURI();

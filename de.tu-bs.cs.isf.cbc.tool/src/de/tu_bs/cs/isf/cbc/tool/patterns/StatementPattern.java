@@ -45,6 +45,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetProjectUtil;
+import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.tool.helper.HighlightHelper;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateInformationFlow;
 import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
@@ -503,13 +504,8 @@ public class StatementPattern extends IdPattern implements IPattern {
 		TestStatement.setPathTested(statement, false);
 		updateParent(statement);
 		
-		JavaVariables vars = null;
-		for (Shape shape : getDiagram().getChildren()) {
-			Object obj = getBusinessObjectForPictogramElement(shape);
-			if (obj instanceof JavaVariables) {
-				vars = (JavaVariables) obj;
-			}
-		}
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
+		JavaVariables vars = extractor.getVars();
 		UpdateModifiableOfConditions.setVars(vars);
 		UpdateModifiableOfConditions.updateAssignmentStatement(statement, new FileUtil(getDiagram().eResource().getURI().toPlatformString(true)));
 		

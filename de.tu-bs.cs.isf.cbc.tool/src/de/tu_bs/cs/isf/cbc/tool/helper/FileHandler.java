@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -90,7 +91,8 @@ public class FileHandler {
 			} 
 			Files.write(Paths.get(javaFile.getPath()), new byte[] {}, StandardOpenOption.TRUNCATE_EXISTING);
 			Files.write(Paths.get(javaFile.getPath()), content.getBytes(), StandardOpenOption.WRITE);
-		} catch (IOException e) {
+			ResourcesPlugin.getWorkspace().getRoot().refreshLocal(2, null);
+		} catch (IOException | CoreException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -107,10 +109,12 @@ public class FileHandler {
 		try {
 			if (!folder.exists()) {
 				folder.create(true, true, null);
+				ResourcesPlugin.getWorkspace().getRoot().refreshLocal(2, null);
 			}
 			var javaFile = new File(folder.getLocation().toOSString() + "/" + fileName);
 			if (!javaFile.exists()){
 				javaFile.createNewFile();
+				ResourcesPlugin.getWorkspace().getRoot().refreshLocal(2, null);
 		    }
 			writeToFile(folder.getLocation().toOSString(), fileName, code);
 		} catch (IOException e) {

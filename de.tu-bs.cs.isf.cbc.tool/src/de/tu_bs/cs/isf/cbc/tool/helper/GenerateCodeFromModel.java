@@ -53,22 +53,11 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
-		JavaVariables vars = null;
-		Renaming renaming = null;
-		CbCFormula formula = null;
-		GlobalConditions globalConditions = null;
-		for (Shape shape : getDiagram().getChildren()) {
-			Object obj = getBusinessObjectForPictogramElement(shape);
-			if (obj instanceof JavaVariables) {
-				vars = (JavaVariables) obj;
-			} else if (obj instanceof Renaming) {
-				renaming = (Renaming) obj;
-			} else if (obj instanceof CbCFormula) {
-				formula = (CbCFormula) obj;
-			} else if (obj instanceof GlobalConditions) {
-				globalConditions = (GlobalConditions) obj;
-			}
-		} 
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
+		JavaVariables vars = extractor.getVars();
+		GlobalConditions globalConditions = extractor.getConds();
+		Renaming renaming = extractor.getRenaming();
+		CbCFormula formula = extractor.getFormula();
 		
 		String signatureString = formula.getMethodObj() != null ? formula.getMethodObj().getSignature() : ("public void " + formula.getName().toLowerCase() + " ()");
 		

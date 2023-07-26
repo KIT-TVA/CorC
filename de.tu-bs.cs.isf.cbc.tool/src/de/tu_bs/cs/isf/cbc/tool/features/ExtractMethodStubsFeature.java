@@ -20,6 +20,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
+import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 
@@ -46,19 +47,10 @@ public class ExtractMethodStubsFeature extends MyAbstractAsynchronousCustomFeatu
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
-		JavaVariables vars = null;
-		Renaming renaming = null;
-		CbCFormula formula = null;
-		for (Shape shape : getDiagram().getChildren()) {
-			Object obj = getBusinessObjectForPictogramElement(shape);
-			if (obj instanceof JavaVariables) {
-				vars = (JavaVariables) obj;
-			} else if (obj instanceof Renaming) {
-				renaming = (Renaming) obj;
-			} else if (obj instanceof CbCFormula) {
-				formula = (CbCFormula) obj;
-			}
-		}
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
+		JavaVariables vars = extractor.getVars();
+		Renaming renaming = extractor.getRenaming();
+		CbCFormula formula = extractor.getFormula();
 		URI uri = getDiagram().eResource().getURI();
 		String location = FileUtil.getProjectLocation(uri) + "/code-gen/MethodStubs.java";
 		String code = ConstructCodeBlock.constructMethodStubsForExport(formula, renaming, vars);

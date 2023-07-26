@@ -12,6 +12,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
+import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -72,19 +73,10 @@ public class GenerateIntermediateConditionFeature2 extends MyAbstractAsynchronou
 						compoStatement = null;
 	            	}
 				}
-				JavaVariables vars = null;
-				GlobalConditions conds = null;
-				Renaming renaming = null;
-				for (Shape shape : getDiagram().getChildren()) {
-					Object obj = getBusinessObjectForPictogramElement(shape);
-					if (obj instanceof JavaVariables) {
-						vars = (JavaVariables) obj;
-					} else if (obj instanceof GlobalConditions) {
-						conds = (GlobalConditions) obj;
-					} else if (obj instanceof Renaming) {
-						renaming = (Renaming) obj;
-					}
-				}
+				DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
+				JavaVariables vars = extractor.getVars();
+				GlobalConditions conds = extractor.getConds();
+				Renaming renaming = extractor.getRenaming();
 				String weakestPre = "";
 
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
