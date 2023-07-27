@@ -144,7 +144,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 				metaClass.create();
 				NAME_OF_JAVA_FILE = cbcClass;
 				extractCbCModelFilesFromClass(cbcClass);
-				printAllDetectedMethods();
+				//printAllDetectedMethods();
 				determineUniqueMethods(metaClass, cbcClass);
 				createUniqueMethodFilesForClass(cbcClass);
 				createAndSaveJavaFilesWithMethodStubsForClass(cbcClass);
@@ -166,13 +166,11 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 
 	private void createUniqueMethodFilesForClass(String className) throws Exception {
 		for(MetaMethod metaMethod: uniqueMetaMethods) {
-			if (metaMethod.metaMethodName.equals("nextDay")) {
-				var a = 2;
-			}
+			Console.println("Generating diagram for method '" + metaMethod.metaMethodName + "'...");
 			GenerateDiagramFromModel diagramGenerator = new GenerateDiagramFromModel();
 			var metaMethodResource = metaMethod.toResourceObject(className);
+			Console.println("Generated diagram.");
 			diagramGenerator.execute(metaMethodResource);
-			Console.println("Generated MetaMethod File for :" + metaMethod.metaMethodName + ".diagram");
 		}
 	}
 	
@@ -238,21 +236,16 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			 IFeatureModel featModel =  FeatureModelManager.load(pathToModelXML);
 			 
 			 FEATURE_ORDER = featModel.getFeatureOrderList();
-			 Console.println("Feature Order List:" + FEATURE_ORDER);
-			 Console.println("Features :" + featModel.getFeatures());
 			 FEATURES = new ArrayList<>(featModel.getFeatures());
 			 FeatureModelFormula formula = new FeatureModelFormula(featModel);
-			 //Console.println("constraints: " + featModel.getConstraints());
 			 
 			 FEATURE_VARIABLES = new String [FEATURES.size()];
 			 for(int i = 0 ; i < FEATURES.size(); i++) {
 				 FEATURE_VARIABLES[i] = MetaVariablesClass.NAME + "." + "FV_" + FEATURES.get(i).toString().toUpperCase();
 			 }
 			 
-			 Console.println("Searching for alternative Features..");
 			 //Searching for alterantive Feature Group and Store children in Map 'alternativeFeatures'
 			 for(IFeature currentFeature: featModel.getFeatures()) {
-				 Console.println("Feature: " + currentFeature.getName());
 				
 				 if(currentFeature.getStructure().isAlternative()) {
 					 if(!alternativeFeatures.containsKey(currentFeature.getName())) {
@@ -266,15 +259,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 				 }
 				 
 			 }
-			 if(alternativeFeatures.isEmpty()) {
-				 Console.println("No alternative Feature Group found.");
-			 }else {
-				 Console.println("Found Alternative Features:" + alternativeFeatures);
-			 }
-			 
-			 Console.println("Rohe Formel: " + formula.getCNF());
-			 Console.println("Rohe Formel: " + formula.getCNF());
-			 Console.println("Rohe Formel: " + formula.getCNFNode());
 			 FEATURE_MODEL_FORMULA_CNF = translateCNF(String.valueOf(formula.getCNFNode()));
 		 }
 	}
@@ -284,7 +268,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			 cnf = cnf.replaceAll("([\\w]+)", "FV_$1");
 			 cnf = cnf.replaceAll("\\b(?<!-)(\\w+)\\b", "$1 = TRUE");
 			 cnf = cnf.replaceAll("-(\\w+)", "$1 = FALSE");
-			 Console.println("Feature Model Formula: " + cnf);
 			 cnf = prefixMetaVars(cnf);
 			 return cnf;
 	}
@@ -323,9 +306,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 	
 	private void extractCbCModelFilesFromClass(String className) {
 		try {
-			
-			Console.println("-----------");
-			Console.println("Finding cbcmodel files for class " + className + ":");
 			for(IResource currentFolderMember : FEATURE_FOLDER_SELECTED_BY_USER.members()) {
 				// features/<fn>/
 				IFolder currentfeatureNameSubFolder = (IFolder) currentFolderMember;
@@ -337,7 +317,6 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 					// features/<fn>/className/
 					for(IResource currentFileInDiagram: ((IFolder) classFolder).members()) {
 						if(currentFileInDiagram.getFullPath().toPortableString().endsWith("cbcmodel")) {
-							Console.println("Found cbcmodel file: " + currentFileInDiagram.getFullPath());
 							String nameOfCurrentMethod = currentFileInDiagram.getName().split("\\.")[0];
 							if(!uniqueMetaMethodNames.contains(nameOfCurrentMethod)) {
 								uniqueMetaMethodNames.add(nameOfCurrentMethod);

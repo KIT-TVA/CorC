@@ -93,17 +93,6 @@ public class MetaMethod {
 		this.metaPostCondition = createMetaPostCondition();
 		
 		this.featureVariables = features;
-		
-		Console.println("Generated meta method for method " + this.metaMethodName + ":");
-		Console.println("{");
-		Console.println("\tFeature Model: " +this.featureModelFormulaCNF);
-		Console.println("\tMeta Pre Condition: " + this.metaPreConditon.getName().replaceAll("\\r\\n|\\r|\\n", " "));
-		Console.println("\tMeta Post Condition: " + this.metaPostCondition.getName().replaceAll("\\r\\n|\\r|\\n", " "));
-		Console.println("\t Resolved Methods:");
-		for(MethodStruct method: this.listOfMethods) {
-			Console.println("\t\t Feature: " +method.nameOfFeature);
-		}
-		Console.println("}");
 	}
 	
 	private MethodStruct[] bringMethodsToDescendingOrder() {
@@ -146,8 +135,6 @@ public class MetaMethod {
 		for(String feature: newHiearchie) {
 			hierachialChain += feature + "->";
 		}
-		Console.println(this.metaMethodName + ": "+hierachialChain);
-		
 		return newHiearchie;
 	}
 
