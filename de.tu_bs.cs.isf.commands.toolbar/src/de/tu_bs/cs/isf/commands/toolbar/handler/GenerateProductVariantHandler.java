@@ -30,10 +30,10 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import de.ovgu.featureide.fm.core.base.IFeatureModel;
 import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Visibility;
+import de.tu_bs.cs.isf.cbc.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
+import de.tu_bs.cs.isf.cbc.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique;
@@ -47,7 +47,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import helper.ClassUtil;
+import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 
 public class GenerateProductVariantHandler extends AbstractHandler {
 

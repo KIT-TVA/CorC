@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ExampleWizard
 Bundle-SymbolicName: de.tu-bs.cs.isf.wizards;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: com.google.common.io;version="2.2.0",
  de.tu_bs.cs.isf.cbc.cbcmodel,
  org.eclipse.core.resources,
@@ -17,16 +17,12 @@ Import-Package: com.google.common.io;version="2.2.0",
  org.eclipse.jface.dialogs,
  org.eclipse.jface.viewers,
  org.eclipse.jface.wizard,
- org.eclipse.swt,
- org.eclipse.swt.events,
- org.eclipse.swt.graphics,
- org.eclipse.swt.layout,
- org.eclipse.swt.widgets,
- org.eclipse.ui,
  org.eclipse.ui.internal,
  org.osgi.framework;version="1.8.0"
 Export-Package: de.tu_bs.cs.isf.corc.exampleWizard,
  de.tu_bs.cs.isf.corc.newFileWizard,
  newDiagramWizard
 Require-Bundle: org.eclipse.emf.common;bundle-version="2.12.0",
- org.eclipse.jface
+ org.eclipse.jface,
+ org.eclipse.ui,
+ org.eclipse.swt
