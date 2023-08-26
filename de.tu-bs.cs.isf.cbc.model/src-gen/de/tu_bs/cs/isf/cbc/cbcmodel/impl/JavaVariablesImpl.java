@@ -3,23 +3,23 @@
 package de.tu_bs.cs.isf.cbc.cbcmodel.impl;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
-
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
-
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -39,8 +39,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements JavaVariables
-{
+public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements JavaVariables {
 	/**
 	 * The cached value of the '{@link #getVariables() <em>Variables</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -76,8 +75,7 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected JavaVariablesImpl()
-	{
+	protected JavaVariablesImpl() {
 		super();
 	}
 
@@ -87,8 +85,7 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return CbcmodelPackage.Literals.JAVA_VARIABLES;
 	}
 
@@ -98,10 +95,8 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 * @generated
 	 */
 	@Override
-	public EList<JavaVariable> getVariables()
-	{
-		if (variables == null)
-		{
+	public EList<JavaVariable> getVariables() {
+		if (variables == null) {
 			variables = new EObjectContainmentEList<JavaVariable>(JavaVariable.class, this, CbcmodelPackage.JAVA_VARIABLES__VARIABLES);
 		}
 		return variables;
@@ -110,31 +105,72 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
-	public EList<Field> getFields()
-	{
-		if (fields == null)
-		{
+	public EList<Field> getFields() {
+		if (eDirectResource() != null) {
+			if (eDirectResource().getResourceSet() != null) {
+				if (eDirectResource().getResourceSet().getResources() != null) {
+					EList<Resource> resources = eDirectResource().getResourceSet().getResources();
+					URI uri = eDirectResource().getURI();
+					uri = uri.trimSegments(1);
+					uri = uri.appendSegment(uri.lastSegment() + ".cbcclass");
+					for (Resource res : resources) {
+						if (res.getURI().equals(uri)) {
+							EList<EObject> content = res.getContents();
+							for (EObject o : content) {
+								if (o instanceof ModelClass) {
+									return ((ModelClass) o).getFields();
+								}
+							}
+						}
+					}
+				}
+			}
+		}	
+		if (fields == null) {
 			fields = new EObjectResolvingEList<Field>(Field.class, this, CbcmodelPackage.JAVA_VARIABLES__FIELDS);
 		}
 		return fields;
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
-	public EList<Parameter> getParams()
-	{
-		if (params == null)
-		{
-			params = new EObjectContainmentEList<Parameter>(Parameter.class, this, CbcmodelPackage.JAVA_VARIABLES__PARAMS);
+	public EList<Parameter> getParams() {
+		if (eDirectResource() != null) {
+			String methodName = eDirectResource().getURI().trimFileExtension().lastSegment();
+			if (eDirectResource().getResourceSet() != null) {
+				if (eDirectResource().getResourceSet().getResources() != null) {
+					EList<Resource> resources = eDirectResource().getResourceSet().getResources();
+					URI uri = eDirectResource().getURI();
+					uri = uri.trimSegments(1);
+					uri = uri.appendSegment(uri.lastSegment() + ".cbcclass");
+					for (Resource res : resources) {
+						if (res.getURI().equals(uri) || res.getURI().toString().endsWith(uri.toString().replace("platform:/resource",""))) {
+							EList<EObject> content = res.getContents();
+							for (EObject o : content) {
+								if (o instanceof ModelClass) {
+									ModelClass mc = (ModelClass) o;
+									for (Method method : mc.getMethods()) {
+										if (method.getName().equals(methodName)) {
+											return method.getParameters();
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
-		return params;
+		if (params == null) {
+			params = new EObjectResolvingEList<Parameter>(Parameter.class, this, CbcmodelPackage.JAVA_VARIABLES__PARAMS);
+		}
+		return params;	
 	}
 
 	/**
@@ -143,10 +179,8 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
 			case CbcmodelPackage.JAVA_VARIABLES__VARIABLES:
 				return ((InternalEList<?>)getVariables()).basicRemove(otherEnd, msgs);
 			case CbcmodelPackage.JAVA_VARIABLES__PARAMS:
@@ -161,10 +195,8 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case CbcmodelPackage.JAVA_VARIABLES__VARIABLES:
 				return getVariables();
 			case CbcmodelPackage.JAVA_VARIABLES__FIELDS:
@@ -182,10 +214,8 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case CbcmodelPackage.JAVA_VARIABLES__VARIABLES:
 				getVariables().clear();
 				getVariables().addAll((Collection<? extends JavaVariable>)newValue);
@@ -208,10 +238,8 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case CbcmodelPackage.JAVA_VARIABLES__VARIABLES:
 				getVariables().clear();
 				return;
@@ -231,10 +259,8 @@ public class JavaVariablesImpl extends MinimalEObjectImpl.Container implements J
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case CbcmodelPackage.JAVA_VARIABLES__VARIABLES:
 				return variables != null && !variables.isEmpty();
 			case CbcmodelPackage.JAVA_VARIABLES__FIELDS:
