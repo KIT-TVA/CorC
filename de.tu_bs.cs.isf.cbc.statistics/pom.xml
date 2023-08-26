@@ -57,7 +57,7 @@
         <configuration>
           <filesets combine.children="append">
             <fileset>
-              <directory>${basedir}/../de.tu_bs.cs.isf.cbc.statistics/src-gen/</directory>
+              <directory>${project.basedir}/src-gen/</directory>
               <includes>
                 <include>**/*</include>
               </includes>

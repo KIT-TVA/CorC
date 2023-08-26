@@ -58,14 +58,15 @@
         <artifactId>maven-clean-plugin</artifactId>
         <version>3.1.0</version>
         <configuration>
-          <filesets combine.children="append">
-            <fileset>
-              <directory>${project.basedir}/src-gen/</directory>
-              <includes>
-                <include>**/*</include>
-              </includes>
-            </fileset>
-          </filesets>
+            <filesets combine.children="append">
+              <fileset>
+                <directory>${project.basedir}/src-gen/</directory>
+                <excludes>
+                  <exclude>**/MethodImpl.java</exclude>
+                  <exclude>**/JavaVariablesImpl.java</exclude>
+                </excludes>
+              </fileset>
+            </filesets>
         </configuration>
       </plugin>
     </plugins>
