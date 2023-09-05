@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Mutation
+Bundle-SymbolicName: de.tu-bs.cs.isf.cbc.mutation
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: de.tu.bs.cs.isf.cbc.mutation
+Bundle-RequiredExecutionEnvironment: JavaSE-16
+Require-Bundle: org.key_project.core;bundle-version="1.0.0",
+ org.apache.commons.io;bundle-version="2.8.0",
+ org.key_project.util;bundle-version="1.0.0"

@@ -1,0 +1,8 @@
+{
+"MuJava_Home": "C:\\Users\\Fynn\\Desktop\\Work\\Workspace\\de.tu-bs.cs.isf.cbc.mutation\\muJava\\Output",
+"Source": "C:\\Users\\Fynn\\Desktop\\Work\\Mutation\\MutationAnalysisForDBC-FormaliSE21\\Studies\\verification-tasks\\ReduxProblemSolved\\openjml\\CashAmount.java",
+"Method": "int_cents()",
+"MethodSignature": "public int cents()",
+"ProjectPath": "C:\\Users\\Fynn\\Desktop\\Work\\Mutation\\MutationAnalysisForDBC-FormaliSE21\\Studies\\verification-tasks\\ReduxProblemSolved\\openjml",
+"Traditional": ["PS"],
+}
