@@ -40,6 +40,7 @@
     <genClasses ecoreClass="cbcmodel.ecore#//Condition">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/modifiables"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/codeRepresentation"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Condition/confToVarsMap"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Condition/atTypesToVarsMap"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/capsulesUsed"/>
@@ -54,6 +55,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/comment"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/tested"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/codeRepresentation"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/context"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/typeableResult"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/typeableText"/>

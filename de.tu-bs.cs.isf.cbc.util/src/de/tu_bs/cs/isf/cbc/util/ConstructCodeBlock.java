@@ -462,8 +462,6 @@ public class ConstructCodeBlock {
 		return code.toString();
 	}
 
-
-
 	private static String constructCodeBlockOfChildStatement(AbstractStatement refinement) {
 		if (refinement.getClass().equals(AbstractStatementImpl.class) || refinement.getClass().equals(OriginalStatementImpl.class) || refinement.getClass().equals(MethodStatementImpl.class)) {
 			// behandlung von AbstractStatementImpl nur von Tobi
@@ -489,24 +487,34 @@ public class ConstructCodeBlock {
 			} else {
 				statements = allStatements + "\n";
 			}
+			// The reason for the empty try block, is that the exception occurs every time but the
+			// values get set anyways. In order for the program to not crash we need to catch that
+			// exception. This should probably be handled differently though...
+			try { refinement.setCodeRepresentation(statements); } catch (IllegalStateException e) {}
 			// return statements;
 			return statements;
 			// return refinement.getName() + "\n";
 		} else if (refinement.getClass().equals(SkipStatementImpl.class)) {
-			return ";\n";
+			String rep = ";\n";
+			try { refinement.setCodeRepresentation(rep); } catch (IllegalStateException e) {}
+			return rep;
 		} else if (refinement.getClass().equals(ReturnStatementImpl.class)) {
+			String rep = "return " + refinement.getName() + "\n";
 			if(returnVariable != null) {//In case of void method with "return;", returnVariable will be null
 				String returnString = returnStatement(returnVariable.getName().split(" ")[1], refinement.getName().trim());
 				if(returnString.isEmpty()) {
-					return "return " + refinement.getName() + "\n";
+					try { refinement.setCodeRepresentation(rep); } catch (IllegalStateException e) {}
+					return rep;
 				}				
 				for(int i = 0; i < positionIndex; i++) {
 					returnString = returnString + "\t";
 				}
 				returnString = returnString + "return " + returnVariable.getName().split(" ")[1] + ";\n";
+				try { refinement.setCodeRepresentation(returnString); } catch (IllegalStateException e) {}
 				return returnString; 
 			}
-			return "return " + refinement.getName() + "\n";
+			try { refinement.setCodeRepresentation(rep); } catch (IllegalStateException e) {}
+			return rep;
 		} else if (refinement.getClass().equals(SelectionStatementImpl.class)) {
 			return constructSelection((SelectionStatement) refinement);
 		} else if (refinement.getClass().equals(CompositionStatementImpl.class)) {
@@ -559,6 +567,7 @@ public class ConstructCodeBlock {
 			if(guard.trim().equals("FALSE"))
 				guard = "false";
 			
+			try { statement.getGuards().get(0).setCodeRepresentation(guard); } catch (IllegalStateException e) {}
 			buffer.append("if (" + guard + ") {\n");
 
 			positionIndex++;
@@ -595,6 +604,7 @@ public class ConstructCodeBlock {
 			if(guard.trim().equals("FALSE"))
 				guard = "false";
 			
+			try { statement.getGuards().get(i).setCodeRepresentation(guard); } catch (IllegalStateException e) {}
 			buffer.append(" else if (" + guard + ") {\n");
 			positionIndex++;
 			if (statement.getCommands().get(i).getRefinement() != null) {
@@ -710,6 +720,8 @@ public class ConstructCodeBlock {
 				guard = "true";
 			if(guard.trim().equals("FALSE"))
 				guard = "false";
+		
+			try { statement.getGuard().setCodeRepresentation(guard); } catch (IllegalStateException e) {}
 			
 			buffer.append("while (" + guard + ") {\n");
 			positionIndex++;

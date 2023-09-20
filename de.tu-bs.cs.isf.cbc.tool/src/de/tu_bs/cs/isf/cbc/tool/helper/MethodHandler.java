@@ -86,6 +86,9 @@ public class MethodHandler {
 		}
 		method = method.substring(0, method.indexOf('{'));
 		method = method.trim();
+		if (method.contains("*/")) {
+			method = method.substring(method.lastIndexOf("*/") + 2, method.length()).trim();
+		}
 		return method;
 	}
 	

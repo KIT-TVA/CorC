@@ -1,9 +1,12 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,16 +15,21 @@ import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.ui.services.GraphitiUi;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.mutation.feature.Mutator;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
 import diagnostics.DataCollector;
@@ -129,34 +137,48 @@ public class FileHandler {
 	
 	public boolean deleteFolder(final URI projectPath, final String folderName) {
 			var project = FileUtil.getProject(projectPath);
-			var folder = project.getFolder(folderName);
-			if (!folder.exists()) {
-				return false;
-			}
-			var files = FileUtil.getFiles(folder, "");
-			for (var file : files) {
-				deleteSpecificFile(file.getLocation().toOSString());
-			}
-			var folderObj = new File(FileUtil.getProjectLocation(projectPath) + "/" + folderName);
 			try {
-				Files.delete(Paths.get(folderObj.getPath()));
-			} catch (IOException e) {
-				e.printStackTrace();
-				return false;
-			}
-			return true;
-	}
-	
-	public boolean createFolder(final URI projectPath, final String folderName) {
-			var project = FileUtil.getProject(projectPath);
-			try {
-				project.getFolder(folderName).create(true, true, null);
+				project.refreshLocal(1, null);
 			} catch (CoreException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return false;
 			}
-			return true;
+			var folder = project.getFolder(folderName);
+			return deleteFolder(folder);
+	}
+	
+	public boolean deleteFolder(IFolder folder) {
+		if (!folder.exists()) {
+			return false;
+		}
+		var files = FileUtil.getFiles(folder, "");
+		for (var file : files) {
+			deleteSpecificFile(file.getLocation().toOSString());
+		}
+		try {
+			folder.delete(true, null);
+			folder.refreshLocal(2, null);
+		} catch (CoreException e1) {
+			e1.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public IFolder getFolder(URI projectPath, String folderName) {
+			var project = FileUtil.getProject(projectPath);
+			return project.getFolder(folderName);
+	}
+	
+	public IFolder createFolder(final URI projectPath, final String folderName) {
+			var project = FileUtil.getProject(projectPath);
+			try {
+				project.getFolder(folderName).create(true, true, null);
+				project.getFolder(folderName).refreshLocal(2, null);
+			} catch (CoreException e) {
+				//e.printStackTrace();
+			}
+			return project.getFolder(folderName);
 	}
 	
 	public boolean deleteSpecificFile(final String fullFilePath) {
@@ -259,7 +281,7 @@ public class FileHandler {
 		final var project = FileUtil.getProject(uri);
 		try {
 			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
-				if (uri.path().contains(MetaClass.FOLDER_NAME)) {
+				if (uri.path().contains(MetaClass.FOLDER_NAME) || uri.path().contains(Mutator.FOLDER_NAME)) {
 					return false;
 				}
 				return true;
@@ -311,5 +333,14 @@ public class FileHandler {
 			createFolder(projectPath, diagFolder + "/" + config);
 			createFile(projectPath, diagFolder + "/" + config, "DiagnosticData", dataCollector.getConfigRep(config));
 		}
+	}
+
+	public Diagram loadDiagram(IFolder folder, String name) {
+		IFile diagramFile = folder.getFile(name + ".diagram");
+		if (!diagramFile.exists()) {
+			return null;
+		}
+		ResourceSet rs = new ResourceSetImpl();
+		return GetDiagramUtil.getDiagramFromFile(diagramFile, rs);
 	}
 }

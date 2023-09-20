@@ -44,6 +44,11 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 public class GenerateDiagramFromModel {
+	private Diagram diagram;
+	
+	public Diagram getDiagram() {
+		return diagram;
+	}
 
 	public GenerateDiagramFromModel() {
 	}
@@ -68,7 +73,7 @@ public class GenerateDiagramFromModel {
 		URI uri = resource.getURI().trimFileExtension();
 		uri = uri.appendFileExtension("diagram");
 		// Create the diagram and its file
-		Diagram diagram = Graphiti.getPeCreateService().createDiagram("cbc", formula.getName(), true);
+		diagram = Graphiti.getPeCreateService().createDiagram("cbc", formula.getName(), true);
 		Resource diagramResource = resourceSet.createResource(uri);
 		diagramResource.getContents().add(diagram);
 

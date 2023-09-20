@@ -55,6 +55,11 @@
     </propertyTab>
     <propertyTab
          category="Graphiti"
+         id="Mutation"
+         label="Mutation">
+    </propertyTab>
+    <propertyTab
+         category="Graphiti"
          id="Configurations"
          label="Configurations">
     </propertyTab>
@@ -105,6 +110,12 @@
               filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterCodeReader"
               id="Testing"
               tab="Testing">
+        </propertySection>
+        <propertySection
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.MutationSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterCodeReader"
+              id="Mutation"
+              tab="Mutation">
         </propertySection>
         <propertySection
               afterSection="Replacements"

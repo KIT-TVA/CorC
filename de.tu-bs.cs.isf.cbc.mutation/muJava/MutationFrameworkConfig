@@ -1,0 +1,9 @@
+{
+"MuJava_Home": "C:\\Users\\Fynn\\Desktop\\Work\\CorC\\de.tu-bs.cs.isf.cbc.mutation\\muJava\\muJavaMutantStructure",
+"Source": "C:\\Users\\Fynn\\Desktop\\Work\\Mutation\\MutationAnalysisForDBC-FormaliSE21\\MutationFramework\\Source\\MutationTarget.java",
+"Method": "add(int,int)",
+"MethodSignature": "public int add(int a, int b)",
+"ProjectPath": "C:\\Users\\Fynn\\Desktop\\Work\\Mutation\\MutationAnalysisForDBC-FormaliSE21\\MutationFramework\\Source",
+"Traditional": ["AORB"],
+"bin": "C:\\Users\\Fynn\\Desktop\\Work\\CorC\\de.tu-bs.cs.isf.cbc.mutation\\muJava\\bin"
+}

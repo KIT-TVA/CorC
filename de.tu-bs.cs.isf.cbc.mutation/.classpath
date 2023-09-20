@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-16">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_202">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="lib" path="JsonJava/json-java.jar"/>
 	<classpathentry kind="lib" path="muJava/mujava.jar"/>
 	<classpathentry kind="lib" path="muJava/openjava.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_202/lib/tools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
