@@ -11,6 +11,7 @@ import java.util.Scanner;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -32,9 +33,11 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
+import de.tu_bs.cs.isf.cbc.mutation.util.CodeRepresentationFinder;
 import de.tu_bs.cs.isf.cbc.mutation.util.CopyDiagram;
 import de.tu_bs.cs.isf.cbc.mutation.util.DirectoryCreator;
 import de.tu_bs.cs.isf.cbc.mutation.util.JavaDirectoryLoader;
+import de.tu_bs.cs.isf.cbc.tool.exceptions.CodeRepresentationFinderException;
 import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeGenerator;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
@@ -83,14 +86,13 @@ public class Mutator {
 		cleanUp();
 	}
 
-	public void generateDiagrams() {
+	public void generateDiagrams() throws CodeRepresentationFinderException {
 		String originalCode = getOriginalCode();
 		DiffChecker dc = new DiffChecker();
 		for (String mutant : mutants) {
 			dc.check(originalCode, mutant);
 			LinePair diffLine = dc.nextDiff();	
 			applyMutation(diffLine);
-			int test = 0;
 		}
 	}
 	
@@ -186,6 +188,14 @@ public class Mutator {
 	private String readLines(File f) throws FileNotFoundException {
 		String code = "";
 		Scanner scanner = new Scanner(f);
+		code = clearScanner(scanner);
+		code = CodeHandler.indentCode(code, 0);
+		scanner.close();
+		return code;
+	}
+	
+	private String clearScanner(Scanner scanner) {
+		String code = "";
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
 			if (isMuJavaComment(line)) {
@@ -193,8 +203,6 @@ public class Mutator {
 			}
 			code += line + "\n";
 		}
-		code = CodeHandler.indentCode(code, 0);
-		scanner.close();
 		return code;
 	}
 	
@@ -202,87 +210,27 @@ public class Mutator {
 		return line.contains("//");
 	}
 	
-	private void cleanUp() {
+	private void cleanUp() throws CoreException {
 		FileHandler.getInstance().deleteFolder(classUri, FOLDER_NAME);
+		this.mutationFolder.refreshLocal(2, null);
 	}
 	
-	private void applyMutation(LinePair diffLine) {
-		ResourceSet rs = new ResourceSetImpl();
-		String diagCopyName = this.originalDiagram.getName() + this.mutationCount;
-		String diagCopyPath = this.mutationFolder.getLocation().toOSString() + File.separator + diagCopyName + ".diagram";
-		CopyDiagram cd = new CopyDiagram(diagCopyPath, this.originalDiagram, this.originalDiagram.getName() + "Mutant" + this.mutationCount);
-		Diagram diagCopy = cd.get();
+	private void applyMutation(LinePair diffLine) throws CodeRepresentationFinderException {
 		this.mutationCount++;
-		DiagramPartsExtractor dpe = new DiagramPartsExtractor(diagCopy);
-		AbstractStatement firstStatement = dpe.getFormula().getStatement();
-		AbstractStatement targetStatement;
-		if ((targetStatement = findStatementRep(firstStatement, diffLine.originalLine)) != null) {
-			try { targetStatement.setName(diffLine.newLine + "\n"); } catch (IllegalStateException e) {}
-		} else {
-			Condition targetGuard = findGuardRep(firstStatement, diffLine.originalLine);
-			if (targetGuard == null) {
-				return; // TODO: Fix null issue
-			}
-			try {targetGuard.setName(diffLine.newLine + "\n"); } catch (IllegalStateException e) {}
-		}
+		String mutantName = this.originalDiagram.getName() + "Mutant" + this.mutationCount;
+		String diagCopyPath = this.mutationFolder.getLocation().toOSString() + File.separator + mutantName + ".diagram";
+		CopyDiagram cd = new CopyDiagram(diagCopyPath, this.originalDiagram, mutantName);
+		Diagram diagCopy = cd.get();
+		changeTargetLine(diagCopy, diffLine);
 		cd.save();
 	}
 	
-	private AbstractStatement findStatementRep(EObject cur, String targetRep) {
-		if (cur instanceof AbstractStatement) {
-			AbstractStatement statement = (AbstractStatement)cur;
-			String test1 = statement.getCodeRepresentation();
-			String test2 = targetRep;
-			if (statement.getCodeRepresentation() != null 
-					&& statement.getCodeRepresentation().trim().equals(targetRep)) {
-				return statement;
-			}
-		}
-		if (cur instanceof CompositionStatement) {
-			CompositionStatement cs = (CompositionStatement)cur;
-			AbstractStatement c = findStatementRep(cs.getFirstStatement(), targetRep);
-			if (c == null) {
-				return findStatementRep(cs.getSecondStatement(), targetRep);
-			} else {
-				return c;
-			}
-		}
-		for (EObject child : cur.eContents()) {
-			return findStatementRep(child, targetRep);
-		}
-		return null;
+	private void changeTargetLine(Diagram diagCopy, LinePair diffLine) throws CodeRepresentationFinderException {
+		DiagramPartsExtractor dpe = new DiagramPartsExtractor(diagCopy);
+		AbstractStatement firstStatement = dpe.getFormula().getStatement();
+		CodeRepresentationFinder crf = new CodeRepresentationFinder();
+		EObject target = crf.find(firstStatement, diffLine.originalLine);
+		((AbstractStatement)target).setName(diffLine.newLine + "\n");
 	}
 	
-	private Condition findGuardRep(EObject cur, String targetRep) {
-		if (cur instanceof SelectionStatement) {
-			SelectionStatement statement = (SelectionStatement)cur;
-			for (Condition condition : statement.getGuards()) {
-				if (condition.getCodeRepresentation() != null 
-						&& condition.getCodeRepresentation().trim().equals(targetRep)) {
-					return condition;
-				}
-			}
-		} else if (cur instanceof SmallRepetitionStatement) {
-			SmallRepetitionStatement statement = (SmallRepetitionStatement)cur;
-			if (statement.getGuard().getCodeRepresentation() != null 
-					&& statement.getGuard().getCodeRepresentation().trim().equals(targetRep)) {
-				return statement.getGuard();
-			}
-		}
-		if (cur instanceof CompositionStatement) {
-			CompositionStatement cs = (CompositionStatement)cur;
-			Condition c = findGuardRep(cs.getFirstStatement(), targetRep);
-			if (c == null) {
-				return findGuardRep(cs.getSecondStatement(), targetRep);
-			} else {
-				return c;
-			}
-		}
-		for (EObject child : cur.eContents()) {
-			return findGuardRep(child, targetRep);
-		}
-		// should never happen since actual code must
-		// either be a statement or a condition and statements got checked before this.
-		return null;
-	}
 }

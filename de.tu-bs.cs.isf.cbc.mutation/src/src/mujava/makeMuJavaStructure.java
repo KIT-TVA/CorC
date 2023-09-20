@@ -19,6 +19,8 @@ package src.mujava;
 
 import java.io.*;
 
+import de.tu_bs.cs.isf.cbc.mutation.util.NoOpPrintStream;
+
 /**
  * <p>Description: </p>
  * @author Yu-Seung Ma
@@ -28,7 +30,12 @@ import java.io.*;
 public class makeMuJavaStructure {
 
   public static void main(String[] args) {
-    MutationSystem.setJMutationStructure();
+	System.setOut(new NoOpPrintStream(new OutputStream() {
+		public void write(int a) {
+			// no op
+		}
+	}));
+    //MutationSystem.setJMutationStructure();
     makeDir(new File(MutationSystem.SYSTEM_HOME));
     makeDir(new File(MutationSystem.SRC_PATH));
     makeDir(new File(MutationSystem.CLASS_PATH));
@@ -37,12 +44,12 @@ public class makeMuJavaStructure {
   }
 
   public static void makeDir(File dir){
-    System.out.println("\nMake " + dir.getAbsolutePath() + " directory...");
+    //System.out.println("\nMake " + dir.getAbsolutePath() + " directory...");
     boolean newly_made = dir.mkdir();
     if(!newly_made){
-      System.out.println(dir.getAbsolutePath() + " directory exists already.");
+      //System.out.println(dir.getAbsolutePath() + " directory exists already.");
     }else{
-      System.out.println("Making " + dir.getAbsolutePath() + " directory " + " ...done.");
+      //System.out.println("Making " + dir.getAbsolutePath() + " directory " + " ...done.");
     }
   }
 }

@@ -208,7 +208,7 @@ public class Mutator extends src.mujava.openjava.extension.VariableBinder
    public PrintWriter getPrintWriter(String f_name) throws IOException
    {
       File outfile = new File(f_name);
-      System.out.println("Create Parent Directorys? : " + outfile.getParentFile().mkdirs());
+      outfile.getParentFile().mkdirs();
 //      System.out.println(outfile.canWrite());
 //      System.out.println(outfile.isDirectory());
       FileWriter fout = new FileWriter( outfile );

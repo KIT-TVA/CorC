@@ -109,7 +109,7 @@ public class GenerateDiagramFromModel {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
-			System.out.println("Local refresh not available!");
+			//System.out.println("Local refresh not available!");
 		}
 	}
 

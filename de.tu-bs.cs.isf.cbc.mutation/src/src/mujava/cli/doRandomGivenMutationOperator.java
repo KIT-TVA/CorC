@@ -108,11 +108,11 @@ public class doRandomGivenMutationOperator {
 		double totalMS = 0.0;
 		for (Pair ms : mutationScores)
 		{
-			System.out.println(ms.testSet + ": " + ms.mutationScore);
+			//System.out.println(ms.testSet + ": " + ms.mutationScore);
 			totalMS=totalMS+ms.mutationScore;
 		}
 		double avgMS = totalMS / mutationScores.size();
-		System.out.println("avg: " + avgMS);
+		//System.out.println("avg: " + avgMS);
 		
 		// write files
 		writeResultToFiles(mutationScores, resultPath, targets);

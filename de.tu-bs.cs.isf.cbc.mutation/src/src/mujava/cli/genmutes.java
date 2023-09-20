@@ -288,7 +288,7 @@ public class genmutes {
 			// For example: org/apache/bcel/Class.java
 			File file = file_list[i];
 			try {
-				System.out.println((i + 1) + " : " + file.getName());
+				//System.out.println((i + 1) + " : " + file.getName());
 				// [1] Examine if the target class is interface or abstract
 				// class
 				// In that case, we can't apply mutation testing.
