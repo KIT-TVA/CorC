@@ -27,6 +27,16 @@ public class CodeRepresentationFinder {
 	private AbstractStatement findStatementRep(EObject cur) {
 		if (cur instanceof AbstractStatement) {
 			AbstractStatement statement = (AbstractStatement)cur;
+			/*
+			if (statement.getCodeRepresentation() == null) {
+				return null;
+			}
+			String[] lines = statement.getCodeRepresentation().split("\n");
+			for (String line : lines) {
+				if (line.trim().equals(targetRep)) {
+					return statement;
+				}
+			}*/
 			if (statement.getCodeRepresentation() != null 
 					&& statement.getCodeRepresentation().trim().equals(targetRep)) {
 				return statement;
@@ -79,6 +89,7 @@ public class CodeRepresentationFinder {
 		for (EObject child : cur.eContents()) {
 			return findConditionRep(child);
 		}
-		throw new CodeRepresentationFinderException("The code representation '" + this.targetRep + "' couldn't be found.");
+		return null;
+		//throw new CodeRepresentationFinderException("The code representation '" + this.targetRep + "' couldn't be found.");
 	}
 }

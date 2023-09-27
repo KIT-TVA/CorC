@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -29,6 +30,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
@@ -37,6 +39,7 @@ import de.tu_bs.cs.isf.cbc.mutation.util.CodeRepresentationFinder;
 import de.tu_bs.cs.isf.cbc.mutation.util.CopyDiagram;
 import de.tu_bs.cs.isf.cbc.mutation.util.DirectoryCreator;
 import de.tu_bs.cs.isf.cbc.mutation.util.JavaDirectoryLoader;
+import de.tu_bs.cs.isf.cbc.mutation.util.MutatedClass;
 import de.tu_bs.cs.isf.cbc.tool.exceptions.CodeRepresentationFinderException;
 import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeGenerator;
@@ -63,9 +66,11 @@ public class Mutator {
 	private String[] operators;
 	private String originalCode;
 	private String[] mutants; 
+	private String[] mutantNames;
 	private Diagram originalDiagram;
 	private IFolder mutationFolder;
 	private int mutationCount;
+	//private JavaVariables diagramVars;
 	
 	public Mutator(List<String> operators) {
 		this.operators = new String[operators.size()];
@@ -83,10 +88,11 @@ public class Mutator {
 		generateFiles();
 		File[] mutants = getMutants();
 		this.mutants = readCode(mutants);
+		this.mutantNames = new String[mutants.length];
 		cleanUp();
 	}
 
-	public void generateDiagrams() throws CodeRepresentationFinderException {
+	public void generateDiagrams() throws CodeRepresentationFinderException, IOException, CoreException {
 		String originalCode = getOriginalCode();
 		DiffChecker dc = new DiffChecker();
 		for (String mutant : mutants) {
@@ -94,6 +100,8 @@ public class Mutator {
 			LinePair diffLine = dc.nextDiff();	
 			applyMutation(diffLine);
 		}
+		MutatedClass mc = new MutatedClass(this.originalDiagram, mutantNames);
+		mc.generate();
 	}
 	
 	private void setup() {
@@ -215,22 +223,37 @@ public class Mutator {
 		this.mutationFolder.refreshLocal(2, null);
 	}
 	
-	private void applyMutation(LinePair diffLine) throws CodeRepresentationFinderException {
+	private void applyMutation(LinePair diffLine) throws CodeRepresentationFinderException, IOException, CoreException {
 		this.mutationCount++;
 		String mutantName = this.originalDiagram.getName() + "Mutant" + this.mutationCount;
-		String diagCopyPath = this.mutationFolder.getLocation().toOSString() + File.separator + mutantName + ".diagram";
+		this.mutantNames[this.mutationCount-1] = mutantName;
+		String diagCopyPath = this.mutationFolder.getLocation().toOSString() + File.separator + mutantName;
 		CopyDiagram cd = new CopyDiagram(diagCopyPath, this.originalDiagram, mutantName);
-		Diagram diagCopy = cd.get();
-		changeTargetLine(diagCopy, diffLine);
+		Resource res = cd.getResource();
+		//diagramVars = cd.getVars();
+		changeTargetLine(res, diffLine);
 		cd.save();
 	}
 	
-	private void changeTargetLine(Diagram diagCopy, LinePair diffLine) throws CodeRepresentationFinderException {
-		DiagramPartsExtractor dpe = new DiagramPartsExtractor(diagCopy);
-		AbstractStatement firstStatement = dpe.getFormula().getStatement();
+	private void changeTargetLine(Resource resource, LinePair diffLine) throws CodeRepresentationFinderException, IOException {
+		CbCFormula formula = null;
+		for (EObject o : resource.getContents()) {
+			if (o instanceof CbCFormula) {
+				formula = (CbCFormula)o;
+				break;
+			}
+		}
+		AbstractStatement firstStatement = formula.getStatement();
 		CodeRepresentationFinder crf = new CodeRepresentationFinder();
 		EObject target = crf.find(firstStatement, diffLine.originalLine);
-		((AbstractStatement)target).setName(diffLine.newLine + "\n");
+		if (target instanceof AbstractStatement) {
+			((AbstractStatement)target).setName(diffLine.newLine + "\n");
+		} else if (target instanceof Condition) {
+			((Condition)target).setName(diffLine.newLine + "\n");
+		} else {
+			// error...
+		}
+		resource.save(Collections.EMPTY_MAP);
 	}
 	
 }

@@ -567,7 +567,7 @@ public class ConstructCodeBlock {
 			if(guard.trim().equals("FALSE"))
 				guard = "false";
 			
-			try { statement.getGuards().get(0).setCodeRepresentation(guard); } catch (IllegalStateException e) {}
+			try { statement.getGuards().get(0).setCodeRepresentation("if (" + guard + ") {\n"); } catch (IllegalStateException e) {}
 			buffer.append("if (" + guard + ") {\n");
 
 			positionIndex++;
@@ -604,7 +604,7 @@ public class ConstructCodeBlock {
 			if(guard.trim().equals("FALSE"))
 				guard = "false";
 			
-			try { statement.getGuards().get(i).setCodeRepresentation(guard); } catch (IllegalStateException e) {}
+			try { statement.getGuards().get(i).setCodeRepresentation(" else if (" + guard + ") {\n"); } catch (IllegalStateException e) {}
 			buffer.append(" else if (" + guard + ") {\n");
 			positionIndex++;
 			if (statement.getCommands().get(i).getRefinement() != null) {
@@ -721,7 +721,7 @@ public class ConstructCodeBlock {
 			if(guard.trim().equals("FALSE"))
 				guard = "false";
 		
-			try { statement.getGuard().setCodeRepresentation(guard); } catch (IllegalStateException e) {}
+			try { statement.getGuard().setCodeRepresentation("while (" + guard + ") {\n"); } catch (IllegalStateException e) {}
 			
 			buffer.append("while (" + guard + ") {\n");
 			positionIndex++;

@@ -1,86 +1,139 @@
 package de.tu_bs.cs.isf.cbc.mutation.util;
 
-import org.eclipse.emf.common.util.EList;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
+import de.tu_bs.cs.isf.cbc.mutation.feature.Mutator;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
+import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 public class CopyDiagram {
 	private String name;
+	private URI originalPath;
 	private URI path;
 	private Resource diagResource;
-	private Diagram copy;
+	private CbCFormula newFormula;
+	//private JavaVariables vars;
 	
-	public CopyDiagram(String newDiagramPath, Diagram diagram, String newName) {
+	public CopyDiagram(String newDiagramPath, Diagram diagram, String newName) throws IOException {
 		name = newName;
-		path = URI.createFileURI(newDiagramPath);
+		originalPath = diagram.eResource().getURI();
+		path = URI.createFileURI(newDiagramPath + ".cbcmodel");
 		copyDiagram(diagram);
 	}
 	
-	public Diagram get() {
-		return this.copy;
+	public Resource getResource() {
+		return diagResource;
 	}
+	
+	/*
+	public JavaVariables getVars() {
+		return this.vars;
+	}*/
 
 	public void save() {
 		GenerateDiagramFromModel gm = new GenerateDiagramFromModel();
 		gm.execute(diagResource);
-		copy = gm.getDiagram();
 	}
 	
-	private void copyDiagram(Diagram diagram) {
+	private void copyDiagram(Diagram diagram) throws IOException {
 		DiagramPartsExtractor dpeOriginal = new DiagramPartsExtractor(diagram);
-		copy = EcoreUtil.copy(diagram);
-		ResourceSet resourceSet = new ResourceSetImpl();
-		diagResource = resourceSet.createResource(path);
-		DiagramPartsExtractor dpe = new DiagramPartsExtractor(copy);
-		dpe.setFormula(CbcmodelFactory.eINSTANCE.createCbCFormula());
-		dpe.getFormula().setName(name);
-		dpe.setConds(CbcmodelFactory.eINSTANCE.createGlobalConditions());
-		dpe.setRenaming(CbcmodelFactory.eINSTANCE.createRenaming());
-		dpe.setVars(CbcmodelFactory.eINSTANCE.createJavaVariables());
-		dpe.getFormula().setStatement(copyRefinements(dpeOriginal.getFormula().getStatement()));
-		for (Condition c : dpeOriginal.getConds().getConditions()) {
-			dpe.getConds().getConditions().add(copyCondition(c));
+		ResourceSet newRs = new ResourceSetImpl();
+		diagResource = newRs.createResource(this.path);
+		copyFormula(dpeOriginal.getFormula());
+		copyConditions(dpeOriginal.getConds());
+		copyVars(dpeOriginal.getVars());
+		copyRenaming(dpeOriginal.getRenaming());
+		diagResource.save(Collections.EMPTY_MAP);
+	}
+	
+	private void copyFormula(CbCFormula formula) {
+		newFormula = CbcmodelFactory.eINSTANCE.createCbCFormula();
+		newFormula.setClassName(this.originalPath.segment(this.originalPath.segmentCount()-2));
+		newFormula.setName(name);
+		newFormula.setStatement(copyRefinements(formula.getStatement()));
+		diagResource.getContents().add(newFormula);
+	}
+
+	private void copyConditions(GlobalConditions conditions) {
+		if (conditions == null) {
+			return;
 		}
-		if (dpeOriginal.getRenaming() != null) {
-			for (Rename r : dpeOriginal.getRenaming().getRename()) {
-				Rename newR = CbcmodelFactory.eINSTANCE.createRename();
-				newR.setFunction(r.getFunction());
-				newR.setNewName(r.getNewName());
-				newR.setType(r.getType());
-			}
+		GlobalConditions newGc = CbcmodelFactory.eINSTANCE.createGlobalConditions();
+		for (Condition c : conditions.getConditions()) {
+			newGc.getConditions().add(copyCondition(c));
 		}
-		for (JavaVariable v : dpeOriginal.getVars().getVariables()) {
+		diagResource.getContents().add(newGc);
+	}
+	
+	private void copyVars(JavaVariables vars) {
+		if (vars == null) {
+			return;
+		}
+		JavaVariables newJv = CbcmodelFactory.eINSTANCE.createJavaVariables();
+		for (JavaVariable v : vars.getVariables()) {
 			JavaVariable newV = CbcmodelFactory.eINSTANCE.createJavaVariable();
 			newV.setKind(v.getKind());
 			newV.setName(v.getName());
-			dpe.getVars().getVariables().add(newV);
+			newJv.getVariables().add(newV);
 		}
-		diagResource.getContents().add(dpe.getFormula());
-		//diagResource.getContents().add(dpe.getRenaming());
-		diagResource.getContents().add(dpe.getConds());
-		diagResource.getContents().add(dpe.getVars());
+		newJv.getFields().addAll(vars.getFields());
+		newJv.getParams().addAll(vars.getParams());
+		diagResource.getContents().add(newJv);
+	}
+	
+	private void copyRenaming(Renaming renaming) {
+		if (renaming == null) {
+			return;
+		}
+		Renaming newRn = CbcmodelFactory.eINSTANCE.createRenaming();
+		for (Rename r : renaming.getRename()) {
+			Rename newR = CbcmodelFactory.eINSTANCE.createRename();
+			newR.setFunction(r.getFunction());
+			newR.setNewName(r.getNewName());
+			newR.setType(r.getType());
+		}
+		diagResource.getContents().add(newRn);
 	}
 	
 	private AbstractStatement copyStatement(AbstractStatement statement) {
