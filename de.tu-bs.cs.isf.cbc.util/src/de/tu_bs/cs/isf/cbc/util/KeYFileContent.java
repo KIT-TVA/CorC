@@ -47,7 +47,7 @@ public class KeYFileContent {
 	private String statement = "";
 	
 	private Renaming renaming;
-	private CbCFormula self;
+	private String self;
 
 	private JavaVariables programVariables;
 	private List<Condition> globalConditions;
@@ -215,8 +215,7 @@ public class KeYFileContent {
 				className += formula.getMethodObj().getParentClass().getPackage() + ".";
 			}
 			className += formula.getClassName();
-			self = CbcmodelFactory.eINSTANCE.createCbCFormula();
-			self.setClassName(className + " self");
+			self = className + " self";
 		}
 	}
 	
@@ -295,13 +294,12 @@ public class KeYFileContent {
 				"\\javaSource \"{0}\";\n"
 				+ "\\include \"{1}\";\n"
 				+ "\\programVariables '{'\n"
-				+ "{2}{3};\n"
+				+ "{2}"
 				+ "Heap heapAtPre;\n"
 				+ "'}'", 
 				location + srcFolder,
 				helper,
-				getProgramVariablesString(oldReplacements),
-				self.getClassName());
+				getProgramVariablesString(oldReplacements));
 	}
 	
 	private String getKeyProblem(Map<String, OldReplacement> oldReplacements) {
@@ -332,6 +330,10 @@ public class KeYFileContent {
 		for (String var : varsForOldReplacement.keySet()) {
 			builder.append(removeStaticNonNull(var) + varsForOldReplacement.get(var) + OLD_VARS_SUFFIX + ";\n");
 		}
+		
+		if (self != null && !self.isBlank()) {
+			builder.append(self +";\n");
+		}
 		return builder.toString();
 	}
 
@@ -340,7 +342,9 @@ public class KeYFileContent {
 		preConditions.addAll(this.preConditions.stream().map(Condition::getName).toList());
 		preConditions.add(getGlobalConditionsString(oldReplacements));
 		preConditions.add(getConditionObjectsCreatedString(oldReplacements));
-		preConditions.add(getSelfConditionsString());
+		if (self != null) { 
+			preConditions.add(getSelfConditionsString());
+		}
 	    preConditions.add("wellFormed(heap)");
 		preConditions.removeIf(v -> v.equals(""));
 		
@@ -438,7 +442,7 @@ public class KeYFileContent {
 	private String getSelfConditionsString() {
 		List<String> selfcond = new ArrayList<>();
 		selfcond.add("self.<created>=TRUE & ");
-		selfcond.add(self.getClassName().replace(" self", ""));
+		selfcond.add(self.replace(" self", ""));
 		selfcond.add("::exactInstance(self)=TRUE & !self = null & self.<inv>");
 		
 		return String.join("", selfcond);
@@ -573,7 +577,7 @@ public class KeYFileContent {
 		return oldKeywords;
 	}
 	
-	private Map<String, OldReplacement> addOldVariables(CbCFormula formula, Set<String> oldKeywords) {
+	private Map<String, OldReplacement> addOldVariables(String self, Set<String> oldKeywords) {
 		Map<String, OldReplacement> newReplacements = new HashMap<>();
 		// Add new old variables to variable List
 		int counterForVarNaming = 0;
@@ -640,7 +644,7 @@ public class KeYFileContent {
 				if (currentClassName.startsWith("self") || currentClassName.startsWith("this")
 						|| isFirstAccessedVarInCurrentClass) {
 					// TODO: solve differently
-					currentClassName = formula.getClassName().replace(" self", "");
+					currentClassName = self.replace(" self", "");
 				}
 				if (isFirstAccessedVarInCurrentClass)
 					startIndex = 0;
