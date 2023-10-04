@@ -3,7 +3,7 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 import java.util.Random;
 
 import de.tu_bs.cs.isf.cbc.util.Console;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.propertiesview.TestValues;
 
 /**

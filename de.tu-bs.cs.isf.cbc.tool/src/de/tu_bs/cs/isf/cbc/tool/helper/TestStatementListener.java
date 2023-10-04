@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.RGB;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 
-import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
+import de.tu_bs.cs.isf.cbc.exceptions.DiagnosticsException;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 

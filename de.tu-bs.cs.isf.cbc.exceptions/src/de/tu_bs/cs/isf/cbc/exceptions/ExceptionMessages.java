@@ -1,4 +1,4 @@
-package de.tu_bs.cs.isf.cbc.tool.exceptions;
+package de.tu_bs.cs.isf.cbc.exceptions;
 
 import org.eclipse.core.resources.IFolder;
 

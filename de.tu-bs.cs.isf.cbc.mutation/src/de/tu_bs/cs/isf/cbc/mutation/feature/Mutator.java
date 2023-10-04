@@ -35,12 +35,14 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
+import de.tu_bs.cs.isf.cbc.exceptions.CodeRepresentationFinderException;
+import de.tu_bs.cs.isf.cbc.exceptions.MutatorException;
 import de.tu_bs.cs.isf.cbc.mutation.util.CodeRepresentationFinder;
 import de.tu_bs.cs.isf.cbc.mutation.util.CopyDiagram;
 import de.tu_bs.cs.isf.cbc.mutation.util.DirectoryCreator;
+import de.tu_bs.cs.isf.cbc.mutation.util.FileReader;
 import de.tu_bs.cs.isf.cbc.mutation.util.JavaDirectoryLoader;
 import de.tu_bs.cs.isf.cbc.mutation.util.MutatedClass;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.CodeRepresentationFinderException;
 import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeGenerator;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
@@ -70,7 +72,6 @@ public class Mutator {
 	private Diagram originalDiagram;
 	private IFolder mutationFolder;
 	private int mutationCount;
-	//private JavaVariables diagramVars;
 	
 	public Mutator(List<String> operators) {
 		this.operators = new String[operators.size()];
@@ -92,7 +93,7 @@ public class Mutator {
 		cleanUp();
 	}
 
-	public void generateDiagrams() throws CodeRepresentationFinderException, IOException, CoreException {
+	public void generateDiagrams() throws CodeRepresentationFinderException, IOException, CoreException, MutatorException {
 		String originalCode = getOriginalCode();
 		DiffChecker dc = new DiffChecker();
 		for (String mutant : mutants) {
@@ -124,9 +125,8 @@ public class Mutator {
 	}
 	
 	private void getClassInformation() {
-		String location = FileUtil.getProjectLocation(originalDiagram.eResource().getURI());
 		className = originalDiagram.eResource().getURI().segment(originalDiagram.eResource().getURI().segmentCount() - 2);
-		classUri = originalDiagram.eResource().getURI();//.trimSegments(1);
+		classUri = originalDiagram.eResource().getURI();
 	}
 	
 	private String constructCode() throws Exception {
@@ -187,35 +187,10 @@ public class Mutator {
 		String[] codes = new String[mutants.length];
 		int i = 0;
 		for (File f : mutants) {
-			codes[i] = readLines(f);
+			codes[i] = new FileReader(f).readLines();
 			i++;
 		}
 		return codes;
-	}
-	
-	private String readLines(File f) throws FileNotFoundException {
-		String code = "";
-		Scanner scanner = new Scanner(f);
-		code = clearScanner(scanner);
-		code = CodeHandler.indentCode(code, 0);
-		scanner.close();
-		return code;
-	}
-	
-	private String clearScanner(Scanner scanner) {
-		String code = "";
-		while (scanner.hasNextLine()) {
-			String line = scanner.nextLine();
-			if (isMuJavaComment(line)) {
-				continue;
-			}
-			code += line + "\n";
-		}
-		return code;
-	}
-	
-	private boolean isMuJavaComment(String line) {
-		return line.contains("//");
 	}
 	
 	private void cleanUp() throws CoreException {
@@ -223,19 +198,18 @@ public class Mutator {
 		this.mutationFolder.refreshLocal(2, null);
 	}
 	
-	private void applyMutation(LinePair diffLine) throws CodeRepresentationFinderException, IOException, CoreException {
+	private void applyMutation(LinePair diffLine) throws CodeRepresentationFinderException, IOException, CoreException, MutatorException {
 		this.mutationCount++;
 		String mutantName = this.originalDiagram.getName() + "Mutant" + this.mutationCount;
 		this.mutantNames[this.mutationCount-1] = mutantName;
 		String diagCopyPath = this.mutationFolder.getLocation().toOSString() + File.separator + mutantName;
 		CopyDiagram cd = new CopyDiagram(diagCopyPath, this.originalDiagram, mutantName);
 		Resource res = cd.getResource();
-		//diagramVars = cd.getVars();
 		changeTargetLine(res, diffLine);
 		cd.save();
 	}
 	
-	private void changeTargetLine(Resource resource, LinePair diffLine) throws CodeRepresentationFinderException, IOException {
+	private void changeTargetLine(Resource resource, LinePair diffLine) throws CodeRepresentationFinderException, IOException, MutatorException {
 		CbCFormula formula = null;
 		for (EObject o : resource.getContents()) {
 			if (o instanceof CbCFormula) {
@@ -247,11 +221,15 @@ public class Mutator {
 		CodeRepresentationFinder crf = new CodeRepresentationFinder();
 		EObject target = crf.find(firstStatement, diffLine.originalLine);
 		if (target instanceof AbstractStatement) {
-			((AbstractStatement)target).setName(diffLine.newLine + "\n");
+			AbstractStatement targetAs = (AbstractStatement)target;
+			targetAs.setName(targetAs.getName().replace(diffLine.originalLine, diffLine.newLine));
+			targetAs.setProven(false);
 		} else if (target instanceof Condition) {
-			((Condition)target).setName(diffLine.newLine + "\n");
+			Condition targetC = (Condition)target;
+			targetC.setName(targetC.getName().replace(diffLine.originalLine, diffLine.newLine));
+			((AbstractStatement)target.eContainer()).setProven(false);
 		} else {
-			// error...
+			//throw new MutatorException("Couldn't find code representation '" + diffLine.originalLine + "'.");
 		}
 		resource.save(Collections.EMPTY_MAP);
 	}

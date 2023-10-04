@@ -7,7 +7,7 @@ import java.util.List;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
 /**
  * Used for representing java variables for testing purposes. Also contains some useful methods for variable handling.

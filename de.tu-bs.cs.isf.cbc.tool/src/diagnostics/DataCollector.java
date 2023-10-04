@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 
-import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
+import de.tu_bs.cs.isf.cbc.exceptions.DiagnosticsException;
+import de.tu_bs.cs.isf.cbc.exceptions.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 
 public class DataCollector {

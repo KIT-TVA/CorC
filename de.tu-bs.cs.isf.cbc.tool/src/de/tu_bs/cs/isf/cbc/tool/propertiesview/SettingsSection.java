@@ -29,7 +29,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
-import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 
 /**

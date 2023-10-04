@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.tu_bs.cs.isf.cbc.tool.exceptions.NotImplementedException;
+import de.tu_bs.cs.isf.cbc.exceptions.NotImplementedException;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.*;
 import de.tu_bs.cs.isf.cbc.util.Console;
 

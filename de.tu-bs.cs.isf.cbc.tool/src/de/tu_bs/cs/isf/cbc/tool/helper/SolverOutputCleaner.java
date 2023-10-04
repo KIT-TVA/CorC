@@ -2,7 +2,7 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 
 import java.util.ArrayList;
 
-import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
 
 public class SolverOutputCleaner {	

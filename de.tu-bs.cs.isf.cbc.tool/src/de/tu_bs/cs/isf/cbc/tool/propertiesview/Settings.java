@@ -6,7 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
 public final class Settings implements Serializable {
 	private static Settings instance;

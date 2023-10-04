@@ -1,11 +1,5 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
-import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.IdentifierNotFoundException;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.PreConditionSolverException;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.TestFailedException;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.ConditionParser;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.Node;
 import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.NotNode;
@@ -26,6 +20,12 @@ import com.microsoft.z3.Solver;
 import com.microsoft.z3.Status;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.exceptions.ExceptionMessages;
+import de.tu_bs.cs.isf.cbc.exceptions.IdentifierNotFoundException;
+import de.tu_bs.cs.isf.cbc.exceptions.PreConditionSolverException;
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
+import de.tu_bs.cs.isf.cbc.exceptions.TestFailedException;
+import de.tu_bs.cs.isf.cbc.exceptions.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
 /**

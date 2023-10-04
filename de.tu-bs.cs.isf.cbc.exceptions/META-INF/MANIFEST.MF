@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Exceptions
+Bundle-SymbolicName: de.tu-bs.cs.isf.cbc.exceptions
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: de.tu.bs.cs.isf.cbc.exceptions
+Bundle-RequiredExecutionEnvironment: JavaSE-16
+Require-Bundle: org.eclipse.core.resources
+Export-Package: de.tu_bs.cs.isf.cbc.exceptions

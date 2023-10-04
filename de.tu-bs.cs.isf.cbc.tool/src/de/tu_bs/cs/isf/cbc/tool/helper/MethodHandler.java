@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 import org.eclipse.xtext.util.Exceptions;
 
-import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.MethodHandlerException;
+import de.tu_bs.cs.isf.cbc.exceptions.ExceptionMessages;
+import de.tu_bs.cs.isf.cbc.exceptions.MethodHandlerException;
 
 public class MethodHandler {
 	private String contract;

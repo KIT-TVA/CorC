@@ -6,11 +6,11 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 
-import de.tu_bs.cs.isf.cbc.tool.exceptions.ExceptionMessages;
+import de.tu_bs.cs.isf.cbc.exceptions.DiagnosticsException;
+import de.tu_bs.cs.isf.cbc.exceptions.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
 
 /**
  * Parses diagnostic data given a diagram path, if it exits.

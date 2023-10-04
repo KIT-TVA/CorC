@@ -19,13 +19,12 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;  
 import org.testng.ITestResult;
 
-import de.tu_bs.cs.isf.cbc.tool.exceptions.DiagnosticsException;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import diagnostics.DataCollector;
-import diagnostics.DataType;  
-
+import diagnostics.DataType;
+import de.tu_bs.cs.isf.cbc.exceptions.DiagnosticsException;
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.propertiesview.Settings;
 
 /**

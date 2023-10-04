@@ -7,7 +7,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.CodeRepresentationFinderException;
+import de.tu_bs.cs.isf.cbc.exceptions.CodeRepresentationFinderException;
 
 public class CodeRepresentationFinder {
 	private String targetRep;
@@ -27,23 +27,25 @@ public class CodeRepresentationFinder {
 	private AbstractStatement findStatementRep(EObject cur) {
 		if (cur instanceof AbstractStatement) {
 			AbstractStatement statement = (AbstractStatement)cur;
-			/*
-			if (statement.getCodeRepresentation() == null) {
-				return null;
-			}
-			String[] lines = statement.getCodeRepresentation().split("\n");
-			for (String line : lines) {
-				if (line.trim().equals(targetRep)) {
-					return statement;
+			if (statement.getCodeRepresentation() != null) {
+				String[] lines = statement.getCodeRepresentation().split("\n");
+				for (String line : lines) {
+					if (line.trim().equals(targetRep)) {
+						return statement;
+					}
 				}
-			}*/
+			}
+			/*
 			if (statement.getCodeRepresentation() != null 
 					&& statement.getCodeRepresentation().trim().equals(targetRep)) {
 				return statement;
-			}
+			}*/
 		}
 		if (cur instanceof CompositionStatement) {
 			return handleComposition(cur);
+		}
+		if (cur instanceof SmallRepetitionStatement) {
+			return handleRepetition(cur);
 		}
 		for (EObject child : cur.eContents()) {
 			return findStatementRep(child);
@@ -52,13 +54,18 @@ public class CodeRepresentationFinder {
 	}
 	
 	private AbstractStatement handleComposition(EObject cur) {
-			CompositionStatement cs = (CompositionStatement)cur;
-			AbstractStatement c = findStatementRep(cs.getFirstStatement());
-			if (c == null) {
-				return findStatementRep(cs.getSecondStatement());
-			} else {
-				return c;
-			}
+		CompositionStatement cs = (CompositionStatement)cur;
+		AbstractStatement c = findStatementRep(cs.getFirstStatement());
+		if (c == null) {
+			return findStatementRep(cs.getSecondStatement());
+		} else {
+			return c;
+		}
+	}
+	
+	private AbstractStatement handleRepetition(EObject cur) {
+		SmallRepetitionStatement srs = (SmallRepetitionStatement)cur;
+		return findStatementRep(srs.getLoopStatement());
 	}
 	
 	private Condition findConditionRep(EObject cur) throws CodeRepresentationFinderException {

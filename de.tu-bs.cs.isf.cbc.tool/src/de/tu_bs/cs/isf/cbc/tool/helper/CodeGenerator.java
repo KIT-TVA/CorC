@@ -14,7 +14,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
-import de.tu_bs.cs.isf.cbc.tool.exceptions.CodeGeneratorException;
+import de.tu_bs.cs.isf.cbc.exceptions.CodeGeneratorException;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 

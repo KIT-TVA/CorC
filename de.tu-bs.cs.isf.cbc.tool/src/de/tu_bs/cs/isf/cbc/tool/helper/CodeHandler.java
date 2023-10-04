@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import de.tu_bs.cs.isf.cbc.tool.exceptions.TestStatementException;
+import de.tu_bs.cs.isf.cbc.exceptions.TestStatementException;
 import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
 
 public final class CodeHandler {
