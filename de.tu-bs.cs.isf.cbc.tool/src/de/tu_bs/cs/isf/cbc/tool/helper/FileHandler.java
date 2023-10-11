@@ -29,7 +29,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.mutation.feature.Mutator;
+import de.tu_bs.cs.isf.cbc.mutation.feature.ImplMutator;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
 import diagnostics.DataCollector;
@@ -281,7 +281,7 @@ public class FileHandler {
 		final var project = FileUtil.getProject(uri);
 		try {
 			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
-				if (uri.path().contains(MetaClass.FOLDER_NAME) || uri.path().contains(Mutator.FOLDER_NAME)) {
+				if (uri.path().contains(MetaClass.FOLDER_NAME) || uri.path().contains(ImplMutator.FOLDER_NAME)) {
 					return false;
 				}
 				return true;

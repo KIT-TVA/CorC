@@ -1,8 +1,8 @@
 package src.com.beust.jcommander;
 
-import src.com.beust.jcommander.internal.Maps;
-
 import java.util.Map;
+
+import src.com.beust.jcommander.internal.Maps;
 
 /**
  * Helper class to perform fuzzy key look ups: looking up case insensitive or

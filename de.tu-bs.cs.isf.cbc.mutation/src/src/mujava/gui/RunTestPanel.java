@@ -18,23 +18,47 @@
 
 package src.mujava.gui;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.Vector;
 
-import javax.swing.*;
-import javax.swing.table.*;
-import javax.swing.border.*;
-
-import src.mujava.gui.util.*;
-
-import java.io.*;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
 
 import src.mujava.MutationSystem;
 import src.mujava.TestExecuter;
-import src.mujava.util.*;
-import src.mujava.test.*;
-
-import java.util.Vector;
+import src.mujava.gui.util.CMSummaryTableModel;
+import src.mujava.gui.util.TMSummaryTableModel;
+import src.mujava.test.NoMutantDirException;
+import src.mujava.test.NoMutantException;
+import src.mujava.test.TestResult;
+import src.mujava.util.DirFileFilter;
+import src.mujava.util.ExtensionFilter;
+import src.mujava.util.MutantDirFilter;
 
 /**
  * <p>Panel for running mutant against a given test suite</p>

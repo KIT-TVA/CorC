@@ -15,9 +15,14 @@
  */ 
 package src.mujava.op.basic;
 
-import openjava.mop.*;
-import openjava.ptree.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import openjava.mop.FileEnvironment;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.UnaryExpression;
 
 /**
  * <p>Generate LOD (Logical Operator Deletion) mutants --

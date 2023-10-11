@@ -15,8 +15,9 @@
  */ 
 package src.mujava.op.exception;
 
-import openjava.mop.*;
-import openjava.ptree.*;
+import openjava.mop.FileEnvironment;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
 
 /**
  * <p>Description: </p>

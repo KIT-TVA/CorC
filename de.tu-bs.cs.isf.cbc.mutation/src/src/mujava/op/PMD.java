@@ -15,9 +15,16 @@
  */ 
 package src.mujava.op;
 
-import java.io.*;
-import openjava.mop.*;
-import openjava.ptree.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import openjava.mop.FileEnvironment;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.FieldDeclaration;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.TypeName;
+import openjava.ptree.VariableDeclaration;
 import src.mujava.MutationSystem;
 import src.mujava.util.InheritanceINFO;
 

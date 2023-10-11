@@ -17,8 +17,11 @@
 
 package src.mujava.gui;
 
-import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
+
 import src.mujava.MutationSystem;
 
 /**

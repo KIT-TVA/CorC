@@ -18,11 +18,11 @@
 
 package src.com.beust.jcommander;
 
+import static java.lang.annotation.ElementType.TYPE;
+
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.TYPE;
 
 /**
  * An annotation used to specify settings for parameter parsing.

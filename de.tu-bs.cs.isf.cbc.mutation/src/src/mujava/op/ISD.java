@@ -15,11 +15,29 @@
  */ 
 package src.mujava.op;
 
-import java.io.*;
-import java.util.*;
-import openjava.mop.*;
-import openjava.ptree.*;
-import java.lang.reflect.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Stack;
+import java.util.Vector;
+
+import openjava.mop.FileEnvironment;
+import openjava.mop.OJClass;
+import openjava.mop.OJMethod;
+import openjava.ptree.AssignmentExpression;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.Expression;
+import openjava.ptree.ExpressionList;
+import openjava.ptree.FieldAccess;
+import openjava.ptree.MethodCall;
+import openjava.ptree.MethodDeclaration;
+import openjava.ptree.ParameterList;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.SelfAccess;
+import openjava.ptree.Variable;
 import src.mujava.MutationSystem;
 
 /**

@@ -32,8 +32,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import com.sun.tools.classfile.Opcode.Set;
  /**
  * <p>
  * Description: The Class doRandomGivenPercentMutants. 

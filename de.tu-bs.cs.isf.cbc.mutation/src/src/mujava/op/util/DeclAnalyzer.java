@@ -15,11 +15,18 @@
  */ 
 package src.mujava.op.util;
 
-import src.mujava.MutationSystem;
-import openjava.mop.*;
-import openjava.ptree.CompilationUnit;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import java.io.*;
+import openjava.mop.Environment;
+import openjava.mop.MOPException;
+import openjava.mop.OJClass;
+import openjava.mop.OJField;
+import openjava.mop.OJMethod;
+import openjava.ptree.CompilationUnit;
+import src.mujava.MutationSystem;
 
 /**
  * <p>Description: </p>

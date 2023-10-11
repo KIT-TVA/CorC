@@ -15,9 +15,15 @@
  */ 
 package src.mujava.op;
 
-import java.io.*;
-import openjava.mop.*;
-import openjava.ptree.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import openjava.mop.NoSuchMemberException;
+import openjava.mop.OJConstructor;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.ConstructorDeclaration;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.StatementList;
 import src.mujava.op.util.DeclAnalyzer;
 
 /**

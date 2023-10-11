@@ -16,18 +16,21 @@
  
 package src.mujava;
 
-import openjava.mop.OJSystem;
-import openjava.mop.OJClass;
-
-import java.io.*;
-
-import src.mujava.util.*;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Vector;
+
+import openjava.mop.OJClass;
+import openjava.mop.OJSystem;
+import src.mujava.util.DirFileFilter;
+import src.mujava.util.ExtensionFilter;
+import src.mujava.util.InheritanceINFO;
 
 /**
  * <p>Description: Control an entire MuJava system -- 

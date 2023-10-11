@@ -19,17 +19,13 @@
 package src.mujava.cli;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 import src.com.beust.jcommander.JCommander;
-
-import src.mujava.MutationSystem;
 /**
  * <p>
  * Description: Create new test session API for command line version

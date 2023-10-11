@@ -18,10 +18,22 @@
  */
 package src.mujava.op.util;
 
-import src.mujava.*;
-import java.io.*;
-import openjava.mop.*;
-import openjava.ptree.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import openjava.mop.Environment;
+import openjava.mop.FileEnvironment;
+import openjava.mop.OJClass;
+import openjava.mop.OJMethod;
+import openjava.ptree.ArrayAccess;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.Expression;
+import openjava.ptree.MethodDeclaration;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.TypeName;
+import src.mujava.MutationSystem;
 
 /**
  * <p>File Analyzer for generating mutants </p>

@@ -1,9 +1,9 @@
 package src.com.beust.jcommander.internal;
 
-import src.com.beust.jcommander.ParameterException;
-
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
+
+import src.com.beust.jcommander.ParameterException;
 
 public class JDK6Console implements Console {
 

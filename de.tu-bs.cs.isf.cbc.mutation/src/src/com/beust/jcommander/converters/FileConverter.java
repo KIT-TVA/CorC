@@ -18,9 +18,9 @@
 
 package src.com.beust.jcommander.converters;
 
-import src.com.beust.jcommander.IStringConverter;
-
 import java.io.File;
+
+import src.com.beust.jcommander.IStringConverter;
 
 /**
  * Convert a string into a file.

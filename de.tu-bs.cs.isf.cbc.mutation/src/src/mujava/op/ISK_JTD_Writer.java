@@ -15,8 +15,11 @@
  */ 
 package src.mujava.op;
 
-import java.io.*;
-import openjava.ptree.*;
+import java.io.PrintWriter;
+
+import openjava.ptree.FieldAccess;
+import openjava.ptree.MethodCall;
+import openjava.ptree.ParseTreeException;
 import src.mujava.op.util.MutantCodeWriter;
 
 /**

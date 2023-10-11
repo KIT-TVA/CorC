@@ -17,8 +17,18 @@
 
 package src.mujava.op;
 
-import openjava.mop.*;
-import openjava.ptree.*;
+import openjava.mop.Environment;
+import openjava.ptree.AssignmentExpression;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.ConstructorDeclaration;
+import openjava.ptree.Expression;
+import openjava.ptree.FieldAccess;
+import openjava.ptree.MethodDeclaration;
+import openjava.ptree.Parameter;
+import openjava.ptree.ParameterList;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.SelfAccess;
+import openjava.ptree.Variable;
 
 /**
  * <p>Description: Examine if insertion or deletion of a certain 

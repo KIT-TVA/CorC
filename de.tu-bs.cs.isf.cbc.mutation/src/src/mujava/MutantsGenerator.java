@@ -17,20 +17,34 @@
  
 package src.mujava;
 
-import openjava.mop.*;
-import openjava.ptree.*;
-import openjava.tools.parser.*;
-import openjava.ptree.util.*;
-
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
-
-import src.mujava.cli.Util;
-import src.mujava.op.util.*;
-import src.mujava.util.*;
+import java.util.Vector;
 
 import com.sun.tools.javac.Main;
+
+import openjava.mop.Environment;
+import openjava.mop.FileEnvironment;
+import openjava.mop.OJClass;
+import openjava.mop.OJSystem;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.ClassDeclarationList;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.ModifierList;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.util.MemberAccessCorrector;
+import openjava.ptree.util.TypeNameQualifier;
+import openjava.tools.parser.ParseException;
+import openjava.tools.parser.Parser;
+import src.mujava.cli.Util;
+import src.mujava.op.util.DeclAnalyzer;
+import src.mujava.op.util.MutantCodeWriter;
+import src.mujava.util.Debug;
+import src.mujava.util.ExtensionFilter;
+import src.mujava.util.MutantDirFilter;
 
 /**
  * <p>Generate mutants according to selected mutation 

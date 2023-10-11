@@ -17,8 +17,8 @@
 
 package src.mujava.util;
 
-import java.io.FilenameFilter;
 import java.io.File;
+import java.io.FilenameFilter;
 
 /**
  * <p>Description: </p>

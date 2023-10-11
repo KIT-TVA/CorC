@@ -18,9 +18,11 @@
 
 package src.mujava.op;
 
+import java.io.PrintWriter;
+
+import openjava.ptree.ModifierList;
+import openjava.ptree.ParseTreeException;
 import src.mujava.op.util.MutantCodeWriter;
-import openjava.ptree.*;
-import java.io.*;
 
 /**
  * <p>Output and log AMC mutants to files</p>

@@ -23,7 +23,8 @@
 
 package src.mujava.op.util;
 
-import java.io.*;
+import java.io.PrintWriter;
+
 import src.mujava.MutationSystem;
 
 

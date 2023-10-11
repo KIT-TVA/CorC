@@ -15,9 +15,16 @@
  */ 
 package src.mujava.op;
 
-import java.io.*;
-import openjava.mop.*;
-import openjava.ptree.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import openjava.mop.FileEnvironment;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.FieldDeclaration;
+import openjava.ptree.ModifierList;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.VariableInitializer;
 
 /**
  * <p>Generate JID (Java-specific member variable initialization deletion) --

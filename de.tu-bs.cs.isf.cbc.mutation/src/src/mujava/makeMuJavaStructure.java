@@ -17,7 +17,8 @@
 
 package src.mujava;
 
-import java.io.*;
+import java.io.File;
+import java.io.OutputStream;
 
 import de.tu_bs.cs.isf.cbc.mutation.util.NoOpPrintStream;
 

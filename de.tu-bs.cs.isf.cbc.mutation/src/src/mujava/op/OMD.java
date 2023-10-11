@@ -15,9 +15,16 @@
  */ 
 package src.mujava.op;
 
-import java.io.*;
-import openjava.mop.*;
-import openjava.ptree.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import openjava.mop.CannotAlterException;
+import openjava.mop.OJClass;
+import openjava.mop.OJClassNotFoundException;
+import openjava.mop.OJMethod;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.MethodDeclaration;
+import openjava.ptree.ParseTreeException;
 import src.mujava.op.util.DeclAnalyzer;
 
 /**

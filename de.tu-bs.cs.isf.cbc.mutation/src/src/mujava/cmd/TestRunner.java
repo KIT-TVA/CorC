@@ -18,7 +18,7 @@
 package src.mujava.cmd;
 
 import src.mujava.TestExecuter;
-import src.mujava.test.*;
+import src.mujava.test.TestResult;
 /**
  * <p>
  * Description: 

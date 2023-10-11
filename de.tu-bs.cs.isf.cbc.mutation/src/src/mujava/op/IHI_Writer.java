@@ -15,10 +15,16 @@
  */ 
 package src.mujava.op;
 
-import java.io.*;
-import openjava.ptree.*;
-import src.mujava.op.util.MutantCodeWriter;
+import java.io.PrintWriter;
+
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.FieldDeclaration;
+import openjava.ptree.MemberDeclarationList;
+import openjava.ptree.ModifierList;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.TypeName;
 import src.mujava.MutationSystem;
+import src.mujava.op.util.MutantCodeWriter;
 
 /**
  * <p>Output and log IHI mutants to files</p>

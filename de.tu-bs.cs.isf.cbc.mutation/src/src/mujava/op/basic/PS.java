@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 
 import openjava.mop.FileEnvironment;
-import openjava.ptree.BinaryExpression;
 import openjava.ptree.ClassDeclaration;
 import openjava.ptree.CompilationUnit;
 import openjava.ptree.ForStatement;
@@ -32,7 +31,7 @@ public class PS extends MethodLevelMutator {
 		if (original == null)
 			return;
 
-		String[] lines = original.split(System.getProperty("line.separator"));
+		String[] lines = original.split("\\n");
 		int i = 0;
 		for (String line : lines) {
 			if (line.contains("ensures")) {

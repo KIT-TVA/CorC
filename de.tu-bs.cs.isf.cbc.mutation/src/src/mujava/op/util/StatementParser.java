@@ -23,10 +23,14 @@
 
 package src.mujava.op.util;
 
-import java.io.*;
-import java.util.*;
-import java.lang.Object;
-import openjava.ptree.*;
+import java.util.StringTokenizer;
+
+import openjava.ptree.BinaryExpression;
+import openjava.ptree.Expression;
+import openjava.ptree.IfStatement;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.Statement;
+import openjava.ptree.StatementList;
 
 public class StatementParser 
 {

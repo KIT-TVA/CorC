@@ -15,13 +15,39 @@
  */ 
 package src.mujava.op.basic;
 
-import openjava.mop.*;
-import openjava.ptree.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import java.io.*;
-import java.util.ArrayList;
-
-import com.sun.tools.javac.resources.legacy;
+import openjava.mop.FileEnvironment;
+import openjava.ptree.BreakStatement;
+import openjava.ptree.CaseGroup;
+import openjava.ptree.CaseGroupList;
+import openjava.ptree.CatchBlock;
+import openjava.ptree.CatchList;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.ConstructorDeclaration;
+import openjava.ptree.ContinueStatement;
+import openjava.ptree.DoWhileStatement;
+import openjava.ptree.EmptyStatement;
+import openjava.ptree.Expression;
+import openjava.ptree.ExpressionStatement;
+import openjava.ptree.ForStatement;
+import openjava.ptree.IfStatement;
+import openjava.ptree.LabeledStatement;
+import openjava.ptree.Literal;
+import openjava.ptree.MethodDeclaration;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.ReturnStatement;
+import openjava.ptree.Statement;
+import openjava.ptree.StatementList;
+import openjava.ptree.SwitchStatement;
+import openjava.ptree.SynchronizedStatement;
+import openjava.ptree.ThrowStatement;
+import openjava.ptree.TryStatement;
+import openjava.ptree.TypeName;
+import openjava.ptree.VariableDeclaration;
+import openjava.ptree.WhileStatement;
 
 
 /**

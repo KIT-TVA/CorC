@@ -1,10 +1,10 @@
 package src.com.beust.jcommander.internal;
 
-import src.com.beust.jcommander.ParameterException;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import src.com.beust.jcommander.ParameterException;
 
 public class DefaultConsole implements Console {
 

@@ -15,9 +15,14 @@
  */ 
 package src.mujava.op;
 
-import java.io.*;
-import openjava.mop.*;
-import openjava.ptree.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import openjava.mop.FileEnvironment;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.ConstructorInvocation;
+import openjava.ptree.ParseTreeException;
 
 /**
  * <p>Generate IPC (Explicit call to parent's constructor deletion) mutants --

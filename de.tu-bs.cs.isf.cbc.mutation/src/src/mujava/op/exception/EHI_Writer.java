@@ -15,7 +15,8 @@
  */ 
 package src.mujava.op.exception;
 
-import java.io.*;
+import java.io.PrintWriter;
+
 import src.mujava.op.util.MutantCodeWriter;
 
 /**

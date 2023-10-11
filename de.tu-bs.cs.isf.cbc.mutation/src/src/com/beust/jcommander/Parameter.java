@@ -21,14 +21,14 @@ package src.com.beust.jcommander;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 import src.com.beust.jcommander.converters.CommaParameterSplitter;
 import src.com.beust.jcommander.converters.IParameterSplitter;
 import src.com.beust.jcommander.converters.NoConverter;
 import src.com.beust.jcommander.validators.NoValidator;
 import src.com.beust.jcommander.validators.NoValueValidator;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
 
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 @Target({ FIELD, METHOD })

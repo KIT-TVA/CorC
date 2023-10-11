@@ -16,11 +16,13 @@
  
 package src.mujava;
 
-import src.mujava.MutationSystem;
+import java.io.File;
+import java.io.PrintWriter;
+
+import com.sun.tools.javac.Main;
+
 import src.mujava.util.Debug;
 import src.mujava.util.ExtensionFilter;
-import com.sun.tools.javac.Main;
-import java.io.*;
 
 /**
  * <p>Description: </p>

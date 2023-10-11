@@ -18,12 +18,12 @@
 
 package src.com.beust.jcommander.defaultprovider;
 
-import src.com.beust.jcommander.IDefaultProvider;
-import src.com.beust.jcommander.ParameterException;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
+
+import src.com.beust.jcommander.IDefaultProvider;
+import src.com.beust.jcommander.ParameterException;
 
 /**
  * A default provider that reads its default values from a property file.

@@ -25,33 +25,18 @@
 
 package src.mujava.cli;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.LineNumberReader;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.ToolProvider;
-
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-
-import src.mujava.MutationSystem;
-import src.mujava.OpenJavaException;
-import src.mujava.TraditionalMutantsGenerator;
-import src.mujava.TraditionalMutantsGeneratorCLI;
 
 import src.com.beust.jcommander.JCommander;
+import src.mujava.MutationSystem;
+import src.mujava.OpenJavaException;
+import src.mujava.TraditionalMutantsGeneratorCLI;
 
 public class genmutes {
 	// static String sessionName = new String();

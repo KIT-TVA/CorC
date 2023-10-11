@@ -15,8 +15,17 @@
  */ 
 package src.mujava.op;
 
-import openjava.mop.*;
-import openjava.ptree.*;
+import openjava.mop.FileEnvironment;
+import openjava.mop.OJClass;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.Expression;
+import openjava.ptree.ExpressionList;
+import openjava.ptree.MethodCall;
+import openjava.ptree.MethodDeclaration;
+import openjava.ptree.ParameterList;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.TypeName;
 /**
  * <p>Description: </p>
  * @author Yu-Seung Ma

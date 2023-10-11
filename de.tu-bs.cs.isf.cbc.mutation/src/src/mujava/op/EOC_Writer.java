@@ -17,8 +17,18 @@
 
 package src.mujava.op;
 
-import java.io.*;
-import openjava.ptree.*;
+import java.io.PrintWriter;
+
+import openjava.ptree.ArrayAccess;
+import openjava.ptree.BinaryExpression;
+import openjava.ptree.Expression;
+import openjava.ptree.ExpressionList;
+import openjava.ptree.FieldAccess;
+import openjava.ptree.Leaf;
+import openjava.ptree.MethodCall;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.TypeName;
+import openjava.ptree.Variable;
 import src.mujava.op.util.MutantCodeWriter;
 
 /**

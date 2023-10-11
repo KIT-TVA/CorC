@@ -15,9 +15,11 @@
  */ 
 package src.mujava.op.basic;
 
+import java.io.PrintWriter;
+
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.UnaryExpression;
 import src.mujava.op.util.TraditionalMutantCodeWriter;
-import openjava.ptree.*;
-import java.io.*;
 
 /**
  * <p>Output and log COD mutants to files </p>

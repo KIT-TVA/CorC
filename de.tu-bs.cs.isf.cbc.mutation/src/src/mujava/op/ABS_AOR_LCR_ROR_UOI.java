@@ -16,9 +16,27 @@
 
 package src.mujava.op;
 
-import openjava.mop.*;
-import openjava.ptree.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import openjava.mop.FileEnvironment;
+import openjava.mop.OJClass;
+import openjava.mop.OJSystem;
+import openjava.ptree.AssignmentExpression;
+import openjava.ptree.BinaryExpression;
+import openjava.ptree.CaseGroup;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.Expression;
+import openjava.ptree.ExpressionStatement;
+import openjava.ptree.FieldDeclaration;
+import openjava.ptree.MethodCall;
+import openjava.ptree.Parameter;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.StatementList;
+import openjava.ptree.UnaryExpression;
+import openjava.ptree.Variable;
+import openjava.ptree.VariableDeclaration;
 
 /**
  * <p>Generate ABS (Absolute Value Insertion), AOR (Arithmetic Operator Replacement),

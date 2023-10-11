@@ -17,6 +17,7 @@
 package src.mujava.gui.util;
 
 import javax.swing.table.AbstractTableModel;
+
 import src.mujava.MutationSystem;
 
 /**

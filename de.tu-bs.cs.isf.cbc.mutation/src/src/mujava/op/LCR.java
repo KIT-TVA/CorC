@@ -15,8 +15,9 @@
  */ 
 package src.mujava.op;
 
-import openjava.mop.*;
-import openjava.ptree.*;
+import openjava.mop.FileEnvironment;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
 
 /**
  * <p>Generate LCR (Logical Operator Replacement) mutants -- 

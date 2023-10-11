@@ -17,10 +17,18 @@
 
 package src.mujava;
 
-import openjava.ptree.*;
-import java.io.*;
-import src.mujava.op.exception.*;
-import src.mujava.op.util.*;
+import java.io.File;
+
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.ClassDeclarationList;
+import openjava.ptree.ParseTreeException;
+import src.mujava.op.exception.EFD;
+import src.mujava.op.exception.EHC;
+import src.mujava.op.exception.EHD;
+import src.mujava.op.exception.EHI;
+import src.mujava.op.exception.ETC;
+import src.mujava.op.exception.ETD;
+import src.mujava.op.util.CodeChangeLog;
 import src.mujava.util.Debug;
 
 /**

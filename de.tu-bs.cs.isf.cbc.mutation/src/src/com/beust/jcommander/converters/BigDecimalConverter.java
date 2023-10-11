@@ -18,9 +18,9 @@
 
 package src.com.beust.jcommander.converters;
 
-import src.com.beust.jcommander.ParameterException;
-
 import java.math.BigDecimal;
+
+import src.com.beust.jcommander.ParameterException;
 
 /**
  * Converts a String to a BigDecimal.

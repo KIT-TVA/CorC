@@ -17,8 +17,7 @@
 
 package src.mujava.util;
 
-import java.lang.System;
-import java.io.*;
+import java.io.PrintStream;
 
 /**
  * <p>Description: </p>

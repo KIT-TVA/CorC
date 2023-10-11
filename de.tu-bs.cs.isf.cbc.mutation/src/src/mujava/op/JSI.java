@@ -15,10 +15,16 @@
  */ 
 package src.mujava.op;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Vector;
-import openjava.mop.*;
-import openjava.ptree.*;
+
+import openjava.mop.FileEnvironment;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.FieldDeclaration;
+import openjava.ptree.ModifierList;
+import openjava.ptree.ParseTreeException;
 
 /**
  * <p>Generate JSI (Java-specific static modifier insertion) --

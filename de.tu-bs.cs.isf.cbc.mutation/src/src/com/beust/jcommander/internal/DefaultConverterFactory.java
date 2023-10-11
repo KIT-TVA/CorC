@@ -18,6 +18,11 @@
 
 package src.com.beust.jcommander.internal;
 
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Map;
+
 import src.com.beust.jcommander.IStringConverter;
 import src.com.beust.jcommander.IStringConverterFactory;
 import src.com.beust.jcommander.converters.BigDecimalConverter;
@@ -29,11 +34,6 @@ import src.com.beust.jcommander.converters.ISO8601DateConverter;
 import src.com.beust.jcommander.converters.IntegerConverter;
 import src.com.beust.jcommander.converters.LongConverter;
 import src.com.beust.jcommander.converters.StringConverter;
-
-import java.io.File;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Map;
 
 public class DefaultConverterFactory implements IStringConverterFactory {
   /**

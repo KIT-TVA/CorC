@@ -15,13 +15,21 @@
  */ 
 package src.mujava.op;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.util.Vector;
-import openjava.mop.*;
-import openjava.ptree.*;
-import java.io.*;
+
+import openjava.mop.FileEnvironment;
+import openjava.mop.OJClass;
+import openjava.mop.OJMethod;
+import openjava.ptree.AllocationExpression;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.TypeName;
 import src.mujava.MutationSystem;
 import src.mujava.util.InheritanceINFO;
-import java.lang.reflect.*;
 
 /**
  * <p>Generate PNC (New method call with child class type) mutants --

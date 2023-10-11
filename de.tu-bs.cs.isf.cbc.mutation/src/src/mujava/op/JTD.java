@@ -15,10 +15,24 @@
  */ 
 package src.mujava.op;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Vector;
-import openjava.mop.*;
-import openjava.ptree.*;
+
+import openjava.mop.FileEnvironment;
+import openjava.ptree.AssignmentExpression;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.ConstructorDeclaration;
+import openjava.ptree.Expression;
+import openjava.ptree.FieldAccess;
+import openjava.ptree.FieldDeclaration;
+import openjava.ptree.MethodCall;
+import openjava.ptree.MethodDeclaration;
+import openjava.ptree.Parameter;
+import openjava.ptree.ParameterList;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.SelfAccess;
 
 /**
  * <p>Generate JTD (Java-specific this keyword deletion) --

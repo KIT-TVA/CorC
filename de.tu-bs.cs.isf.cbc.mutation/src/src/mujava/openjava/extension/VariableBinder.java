@@ -22,19 +22,15 @@ import openjava.mop.Environment;
 import openjava.mop.OJClass;
 import openjava.mop.OJClassNotFoundException;
 import openjava.mop.Toolbox;
-import openjava.ptree.EnumConstant;
 import openjava.ptree.ForStatement;
-import openjava.ptree.MemberDeclaration;
 import openjava.ptree.Parameter;
 import openjava.ptree.ParseTreeException;
 import openjava.ptree.Statement;
 import openjava.ptree.TypeName;
 import openjava.ptree.TypeParameter;
-import openjava.ptree.TypeParameterList;
 import openjava.ptree.VariableDeclaration;
 import openjava.ptree.VariableDeclarator;
-import openjava.tools.DebugOut;
-import openjava.ptree.MethodDeclaration;;
+import openjava.tools.DebugOut;;
 
 /**
  * The class <code>VariableBinder</code>

@@ -15,10 +15,18 @@
  */ 
 package src.mujava.op.basic;
 
-import openjava.mop.*;
-import openjava.ptree.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import java.io.*;
+import openjava.mop.FileEnvironment;
+import openjava.ptree.ArrayAccess;
+import openjava.ptree.BinaryExpression;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.Expression;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.UnaryExpression;
+import openjava.ptree.Variable;
 
 /**
  * <p>Generate VDL (Variable DeLetion) mutants

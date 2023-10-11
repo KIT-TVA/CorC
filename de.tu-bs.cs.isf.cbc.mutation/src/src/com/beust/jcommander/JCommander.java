@@ -38,8 +38,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import src.mujava.cli.Util;
-
 import src.com.beust.jcommander.FuzzyMap.IKey;
 import src.com.beust.jcommander.converters.IParameterSplitter;
 import src.com.beust.jcommander.converters.NoConverter;
@@ -51,6 +49,7 @@ import src.com.beust.jcommander.internal.JDK6Console;
 import src.com.beust.jcommander.internal.Lists;
 import src.com.beust.jcommander.internal.Maps;
 import src.com.beust.jcommander.internal.Nullable;
+import src.mujava.cli.Util;
 
 /**
  * The main class for JCommander. It's responsible for parsing the object that contains

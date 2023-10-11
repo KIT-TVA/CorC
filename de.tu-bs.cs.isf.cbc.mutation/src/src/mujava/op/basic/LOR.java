@@ -15,9 +15,16 @@
  */ 
 package src.mujava.op.basic;
 
-import openjava.mop.*;
-import openjava.ptree.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import openjava.mop.FileEnvironment;
+import openjava.mop.OJSystem;
+import openjava.ptree.BinaryExpression;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.Expression;
+import openjava.ptree.ParseTreeException;
 
 /**
  * <p>Generate LOR (Logical Operator Replacement) mutants --

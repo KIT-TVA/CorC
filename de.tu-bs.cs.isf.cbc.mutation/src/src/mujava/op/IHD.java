@@ -17,9 +17,14 @@
 
 package src.mujava.op;
 
-import java.io.*;
-import openjava.mop.*;
-import openjava.ptree.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import openjava.mop.Environment;
+import openjava.mop.OJField;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.FieldDeclaration;
+import openjava.ptree.ParseTreeException;
 import src.mujava.op.util.DeclAnalyzer;
 
 /**

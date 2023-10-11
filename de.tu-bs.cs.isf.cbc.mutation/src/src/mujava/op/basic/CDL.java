@@ -15,12 +15,25 @@
  */ 
 package src.mujava.op.basic;
 
-import openjava.mop.*;
-import openjava.ptree.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import java.io.*;
-
-import org.hamcrest.core.IsInstanceOf;
+import openjava.mop.FileEnvironment;
+import openjava.ptree.AllocationExpression;
+import openjava.ptree.ArrayAccess;
+import openjava.ptree.ArrayAllocationExpression;
+import openjava.ptree.AssignmentExpression;
+import openjava.ptree.BinaryExpression;
+import openjava.ptree.CastExpression;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.ConditionalExpression;
+import openjava.ptree.Expression;
+import openjava.ptree.FieldAccess;
+import openjava.ptree.MethodCall;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.UnaryExpression;
+import openjava.ptree.Variable;
 
 /**
  * <p>Generate CDL (Constants DeLetion) mutants

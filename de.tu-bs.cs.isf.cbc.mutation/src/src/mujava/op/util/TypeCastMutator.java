@@ -17,9 +17,15 @@
 
 package src.mujava.op.util;
 
-import java.lang.reflect.*;
-import openjava.mop.*;
-import openjava.ptree.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+
+import openjava.mop.FileEnvironment;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.ExpressionList;
+import openjava.ptree.MethodCall;
+import openjava.ptree.ParseTreeException;
 
 
 /**

@@ -18,10 +18,10 @@
 
 package src.com.beust.jcommander;
 
+import static java.lang.annotation.ElementType.FIELD;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.FIELD;
 
 /**
  * <p>When applied to a field all of its child fields annotated

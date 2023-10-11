@@ -15,12 +15,17 @@
  */ 
 package src.mujava.op.basic;
 
-import openjava.mop.*;
-import openjava.ptree.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import java.io.*;
-
-import org.hamcrest.core.IsInstanceOf;
+import openjava.mop.FileEnvironment;
+import openjava.ptree.AssignmentExpression;
+import openjava.ptree.BinaryExpression;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.Expression;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.UnaryExpression;
 
 /**
  * <p>Generate ODL (Arithmetic Operator Replacement (Binary)) mutants -- 

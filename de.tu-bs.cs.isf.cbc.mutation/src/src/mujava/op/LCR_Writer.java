@@ -15,10 +15,17 @@
  */ 
 package src.mujava.op;
 
-import src.mujava.op.util.MutantCodeWriter;
-import openjava.ptree.*;
+import java.io.PrintWriter;
 
-import java.io.*;
+import openjava.ptree.AssignmentExpression;
+import openjava.ptree.BinaryExpression;
+import openjava.ptree.CastExpression;
+import openjava.ptree.ConditionalExpression;
+import openjava.ptree.Expression;
+import openjava.ptree.InstanceofExpression;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.UnaryExpression;
+import src.mujava.op.util.MutantCodeWriter;
 
 /**
  * <p>Description: </p>

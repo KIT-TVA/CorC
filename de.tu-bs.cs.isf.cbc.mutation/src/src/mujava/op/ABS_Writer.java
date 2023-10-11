@@ -19,9 +19,13 @@
 
 package src.mujava.op;
 
+import java.io.PrintWriter;
+
+import openjava.ptree.BinaryExpression;
+import openjava.ptree.MethodCall;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.Variable;
 import src.mujava.op.util.MutantCodeWriter;
-import openjava.ptree.*;
-import java.io.*;
 
 /**
  * <p>Output and log ABS mutants to files </p>

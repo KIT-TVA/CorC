@@ -15,12 +15,25 @@
  */ 
 package src.mujava.op;
 
-import java.io.*;
-import openjava.ptree.*;
-import src.mujava.op.util.ScopeHandlingMutantCodeWriter;
+import java.io.PrintWriter;
 
 //import java.util.Enumeration;
-import openjava.mop.*;
+import openjava.mop.Environment;
+import openjava.mop.OJClass;
+import openjava.ptree.ArrayAccess;
+import openjava.ptree.Expression;
+import openjava.ptree.ExpressionList;
+import openjava.ptree.FieldAccess;
+import openjava.ptree.Leaf;
+import openjava.ptree.MethodCall;
+import openjava.ptree.MethodDeclaration;
+import openjava.ptree.ModifierList;
+import openjava.ptree.ParameterList;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.StatementList;
+import openjava.ptree.TypeName;
+import openjava.ptree.Variable;
+import src.mujava.op.util.ScopeHandlingMutantCodeWriter;
 
 /**
  * <p>Output and log IOR mutants to files</p>

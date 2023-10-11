@@ -2,10 +2,8 @@ package src.mujava.op.basic;
 
 import java.io.PrintWriter;
 
-import openjava.ptree.BinaryExpression;
 import openjava.ptree.MethodDeclaration;
 import openjava.ptree.ParseTreeException;
-import openjava.ptree.UnaryExpression;
 import src.mujava.op.util.TraditionalMutantCodeWriter;
 
 public class PW_Writer extends TraditionalMutantCodeWriter {

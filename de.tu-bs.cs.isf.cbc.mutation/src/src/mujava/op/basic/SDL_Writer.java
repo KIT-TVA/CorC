@@ -15,10 +15,18 @@
  */ 
 package src.mujava.op.basic;
 
-import src.mujava.op.util.TraditionalMutantCodeWriter;
-import openjava.ptree.*;
+import java.io.PrintWriter;
 
-import java.io.*;
+import openjava.ptree.CaseGroupList;
+import openjava.ptree.ForStatement;
+import openjava.ptree.IfStatement;
+import openjava.ptree.Literal;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.ReturnStatement;
+import openjava.ptree.StatementList;
+import openjava.ptree.TryStatement;
+import openjava.ptree.WhileStatement;
+import src.mujava.op.util.TraditionalMutantCodeWriter;
 
 /**
  * <p>Output and log SDL mutants to files </p>

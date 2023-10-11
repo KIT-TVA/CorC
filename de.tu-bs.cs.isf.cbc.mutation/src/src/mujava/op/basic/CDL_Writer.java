@@ -15,10 +15,14 @@
  */ 
 package src.mujava.op.basic;
 
-import src.mujava.op.util.TraditionalMutantCodeWriter;
-import openjava.ptree.*;
+import java.io.PrintWriter;
 
-import java.io.*;
+import openjava.ptree.AssignmentExpression;
+import openjava.ptree.BinaryExpression;
+import openjava.ptree.Expression;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.UnaryExpression;
+import src.mujava.op.util.TraditionalMutantCodeWriter;
 
 /**
  * <p>Output and log CDL mutants to files </p>

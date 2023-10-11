@@ -15,10 +15,11 @@
  */ 
 package src.mujava.op;
 
-import src.mujava.op.util.MutantCodeWriter;
-import openjava.ptree.*;
+import java.io.PrintWriter;
 
-import java.io.*;
+import openjava.ptree.BinaryExpression;
+import openjava.ptree.ParseTreeException;
+import src.mujava.op.util.MutantCodeWriter;
 
 /**
  * <p>Output and log ROR mutants to files</p>

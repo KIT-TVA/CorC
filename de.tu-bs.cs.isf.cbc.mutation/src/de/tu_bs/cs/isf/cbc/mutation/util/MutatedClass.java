@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -22,7 +21,7 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.mutation.feature.Mutator;
+import de.tu_bs.cs.isf.cbc.mutation.feature.ImplMutator;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
@@ -43,7 +42,7 @@ public class MutatedClass {
 	
 	public void generate() throws IOException, CoreException {
 		IProject project = FileUtil.getProject(projectPath);
-		IFolder mutationFolder = project.getFolder(Mutator.FOLDER_NAME);
+		IFolder mutationFolder = project.getFolder(ImplMutator.FOLDER_NAME);
 		mutationFolderPath = mutationFolder.getLocation().toOSString();
 		Collection<Resource> classes = FileUtil.getCbCClasses(project);
 		ModelClass clazz = findClass(classes);

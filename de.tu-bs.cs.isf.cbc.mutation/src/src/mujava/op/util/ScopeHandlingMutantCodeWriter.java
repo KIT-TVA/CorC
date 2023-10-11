@@ -15,10 +15,37 @@
  */ 
 package src.mujava.op.util;
 
-import java.io.*;
-import java.util.*;
-import openjava.mop.*;
-import openjava.ptree.*;
+import java.io.PrintWriter;
+import java.util.Stack;
+
+import openjava.mop.ClassEnvironment;
+import openjava.mop.ClosedEnvironment;
+import openjava.mop.Environment;
+import openjava.mop.FileEnvironment;
+import openjava.mop.OJClass;
+import openjava.mop.OJClassNotFoundException;
+import openjava.ptree.ArrayAccess;
+import openjava.ptree.Block;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
+import openjava.ptree.ConstructorDeclaration;
+import openjava.ptree.DoWhileStatement;
+import openjava.ptree.Expression;
+import openjava.ptree.ForStatement;
+import openjava.ptree.IfStatement;
+import openjava.ptree.MemberDeclaration;
+import openjava.ptree.MemberDeclarationList;
+import openjava.ptree.MemberInitializer;
+import openjava.ptree.MethodDeclaration;
+import openjava.ptree.Parameter;
+import openjava.ptree.ParseTreeException;
+import openjava.ptree.SwitchStatement;
+import openjava.ptree.SynchronizedStatement;
+import openjava.ptree.TryStatement;
+import openjava.ptree.TypeName;
+import openjava.ptree.VariableDeclaration;
+import openjava.ptree.VariableDeclarator;
+import openjava.ptree.WhileStatement;
 
 /**
  * <p>Description: </p>

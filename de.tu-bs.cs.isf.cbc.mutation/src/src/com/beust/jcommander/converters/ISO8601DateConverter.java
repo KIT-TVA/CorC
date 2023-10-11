@@ -18,11 +18,11 @@
 
 package src.com.beust.jcommander.converters;
 
-import src.com.beust.jcommander.ParameterException;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import src.com.beust.jcommander.ParameterException;
 
 /**
  * Converts a String to a Date.

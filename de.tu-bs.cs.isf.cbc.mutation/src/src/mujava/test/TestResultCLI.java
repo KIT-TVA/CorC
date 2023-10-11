@@ -20,7 +20,6 @@ package src.mujava.test;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,7 +30,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Vector;
 
-import src.mujava.MutationSystem;
 import src.mujava.TestExecuterCLI;
 import src.mujava.cli.Util;
 import src.mujava.cli.runmutes;

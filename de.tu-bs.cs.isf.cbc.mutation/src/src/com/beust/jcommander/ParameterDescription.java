@@ -18,9 +18,6 @@
 
 package src.com.beust.jcommander;
 
-import src.com.beust.jcommander.validators.NoValidator;
-import src.com.beust.jcommander.validators.NoValueValidator;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -33,6 +30,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import src.com.beust.jcommander.validators.NoValidator;
+import src.com.beust.jcommander.validators.NoValueValidator;
 
 public class ParameterDescription {
   private Object m_object;

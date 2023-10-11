@@ -2,11 +2,11 @@ package src.com.beust.jcommander;
 
 import static java.lang.annotation.ElementType.FIELD;
 
-import src.com.beust.jcommander.validators.NoValidator;
-import src.com.beust.jcommander.validators.NoValueValidator;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
+import src.com.beust.jcommander.validators.NoValidator;
+import src.com.beust.jcommander.validators.NoValueValidator;
 
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 @Target({ FIELD })

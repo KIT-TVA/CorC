@@ -18,13 +18,38 @@
 
 package src.mujava;
 
-import openjava.ptree.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 
-import src.mujava.op.basic.*;
-import src.mujava.op.util.*;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.ClassDeclarationList;
+import openjava.ptree.ParseTreeException;
+import src.mujava.op.basic.AODS;
+import src.mujava.op.basic.AODU;
+import src.mujava.op.basic.AOIS;
+import src.mujava.op.basic.AOIU;
+import src.mujava.op.basic.AORB;
+import src.mujava.op.basic.AORS;
+import src.mujava.op.basic.ASRS;
+import src.mujava.op.basic.CDL;
+import src.mujava.op.basic.COD;
+import src.mujava.op.basic.COI;
+import src.mujava.op.basic.COR;
+import src.mujava.op.basic.CreateDirForEachMethod;
+import src.mujava.op.basic.LOD;
+import src.mujava.op.basic.LOI;
+import src.mujava.op.basic.LOR;
+import src.mujava.op.basic.ODL;
+import src.mujava.op.basic.ROR;
+import src.mujava.op.basic.SDL;
+import src.mujava.op.basic.SOR;
+import src.mujava.op.basic.VDL;
+import src.mujava.op.util.CodeChangeLog;
 import src.mujava.util.Debug;
 /**
  * <p>

@@ -289,6 +289,12 @@ public class Parser {
 	}
 	
 	public static String rewriteJMLConditionToKeY(String condition) {
+		condition = condition.replaceAll("@", "");
+		condition = condition.replaceAll("/\\*", "");
+		condition = condition.replaceAll("\\*/", "");
+		condition = condition.replaceAll("//", "");
+		condition = condition.replaceAll("requires", "");
+		condition = condition.replaceAll("ensures", "");
 		condition = condition.replaceAll("==>", "->");
 		condition = condition.replaceAll("<==>", "<->");
 		condition = condition.replaceAll("==", "=");

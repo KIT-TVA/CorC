@@ -17,8 +17,9 @@
 
 package src.mujava.op;
 
-import openjava.mop.*;
-import openjava.ptree.*;
+import openjava.mop.FileEnvironment;
+import openjava.ptree.ClassDeclaration;
+import openjava.ptree.CompilationUnit;
 
 /**
  * <p>Generate ABS (Absolute Value Insertion) mutants --
