@@ -616,6 +616,7 @@ public class ProveWithKey {
 		content.addVariable("int variant");
 		content.readGlobalConditions(conds);
 		content.setPreFromCondition(invariant.getName() + " & " + guard.getName());
+		content.setVariantPost(variant.getName());
 		content.setStatement(code);
 		content.rename(renaming);
 		content.addSelf(formula);

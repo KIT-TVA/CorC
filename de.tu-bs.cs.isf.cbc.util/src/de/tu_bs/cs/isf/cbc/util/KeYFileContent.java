@@ -55,6 +55,7 @@ public class KeYFileContent {
 	private List<Condition> postConditions;
 	// TODO: ProveWithKey passes this to us as String. It would be better to keep it as Variable.
 	private List<String> unmodifiableVars;
+	private String variant;
 	
 	private Map<String, List<Field>> methodClassVarMap = null;
 	private Map<String, String> returnTypeMap = null;
@@ -453,7 +454,7 @@ public class KeYFileContent {
         assignments.add("heapAtPre := heap");
         assignments.addAll(getUnmodifiableAssignments());
         assignments.addAll(getOldAssignments(oldReplacements));
-        
+        if (variant != null) assignments.add("variant := " + variant);
         assignments.removeIf(v -> v.equals(""));
 	    
 	    return String.join(" || ", assignments); 
@@ -496,6 +497,11 @@ public class KeYFileContent {
 			conds.add(MessageFormat.format("{0} = {1}_old", varName, varName));
 		}
 		return conds;
+	}
+	
+	public void setVariantPost(String variant) {
+		this.variant = variant;
+		setPostFromCondition("(" + variant + ") <variant & " + variant + ">=0");
 	}
 	
 	private String replaceThisWithSelf(String string) {
