@@ -53,6 +53,10 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 	private TabbedPropertySheetPage tabbedPropertySheetPage;
 	
 	private Group cbcGroup;
+	private Group implGroup;
+	private Group contractGroup;
+	
+	
 	private Condition selectedCondition;
 	
 	private Device device = Display.getCurrent ();
@@ -109,12 +113,12 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 		
 		composite.setLayout(gridLayout);
 		
-		Group implGroup = createButtonGroup(composite, "Implementation Mutation Operators");
+		implGroup = createButtonGroup(composite, "Implementation Mutation Operators");
 		for (var implOperator : implOperators) {
 			createCheckbox(implGroup, implOperator);
 		}
 		
-		Group contractGroup = createButtonGroup(composite, "Contract Mutation Operators");
+		contractGroup = createButtonGroup(composite, "Contract Mutation Operators");
 		for (var contractOperator : contractOperators) {
 			createCheckbox(contractGroup, contractOperator);
 		}
@@ -123,6 +127,7 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 		for (var cbcOperator : cbcOperators) {
 			createCheckbox(cbcGroup, cbcOperator);
 		}
+		
 		
 		var generateBtn = createButton(composite, "Generate Mutants");
 		
@@ -137,12 +142,14 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 		if(bo instanceof Condition) {
 			this.selectedCondition = (Condition)bo;
 			this.cbcGroup.setVisible(true);
-			/*
-			CbCMutator mutator = new CbCMutator();
-			mutator.mutate(bo);*/
+			this.contractGroup.setVisible(false);
+			this.implGroup.setVisible(false);
+			this.cbcGroup.setLocation(5, 5);
 		} else {
 			this.selectedCondition = null;
 			this.cbcGroup.setVisible(false);
+			this.contractGroup.setVisible(true);
+			this.implGroup.setVisible(true);
 		}
 	}
 	
@@ -200,13 +207,12 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 	}
 	
 	private void generateMutatedDiagrams(List<String> ops) throws Exception {
-		CbCMutator cbcMutator = new CbCMutator(ops);
-		//cbcMutator.setSelectedCondition(this.selectedCondition);
-		cbcMutator.mutate(getDiagram());
-		cbcMutator.generateDiagrams();
 		ImplMutator implMutator = new ImplMutator(ops);
-		implMutator.mutate(getDiagram());
-		implMutator.generateDiagrams();
+		implMutator.mutate(getDiagram(), null);
+		if (this.selectedCondition != null) {
+			CbCMutator cbcMutator = new CbCMutator(ops);
+			cbcMutator.mutate(getDiagram(), this.selectedCondition);
+		}
 	}
 
 	private String getOperator(Button btn) {

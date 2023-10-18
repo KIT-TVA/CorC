@@ -1,10 +1,12 @@
 package de.tu_bs.cs.isf.cbc.mutation.feature;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -35,28 +37,26 @@ import src.mujava.makeMuJavaStructure;
 public class ImplMutator extends Mutator {
 	private String className;
 	private String originalCode;
-	private String[] mutants; 
-	private String[] mutantNames;
 	
 	public ImplMutator(List<String> operators) {
 		super(operators);
 	}
 	
 	@Override
-	public void mutate(Diagram diagramToMutate) throws Exception {
-		originalDiagram = diagramToMutate;
+	public void mutate(Diagram diagramToMutate, Condition condition) throws Exception {
+		setup(diagramToMutate);
 		getClassInformation();
 		originalCode = constructCode();
-		setup();
 		generateFiles();
 		File[] mutants = getMutants();
 		this.mutants = readCode(mutants);
 		this.mutantNames = new String[mutants.length];
 		cleanUp();
+		generateDiagrams();
 	}
 
 	@Override
-	public void generateDiagrams() throws CodeRepresentationFinderException, IOException, CoreException, MutatorException {
+	protected void generateDiagrams() throws CodeRepresentationFinderException, IOException, CoreException, MutatorException {
 		String originalCode = getOriginalCode();
 		DiffChecker dc = new DiffChecker();
 		for (String mutant : mutants) {
@@ -73,6 +73,17 @@ public class ImplMutator extends Mutator {
 		String location = setupMuJava();
 		File targetFile = generateFile(location, originalDiagram.getName(), originalCode);
 		executeMuJava(targetFile);
+	}
+
+	protected File generateFile(String location, String name, String code) throws IOException {
+		location = location + File.separator + "src" + File.separator + name + ".java";
+		File f = new File(location);
+		f.createNewFile();
+		FileWriter fw = new FileWriter(f);
+		fw.write(code);
+		fw.close();
+		FileUtils.copyFile(f, new File(MutationSystem.CLASS_PATH + File.separator + f.getName()));
+		return f;
 	}
 
 	protected String getOriginalCode() {
@@ -137,13 +148,7 @@ public class ImplMutator extends Mutator {
 	}
 	
 	protected boolean changeTargetLine(Resource resource, LinePair diffLine) throws CodeRepresentationFinderException, IOException, MutatorException {
-		CbCFormula formula = null;
-		for (EObject o : resource.getContents()) {
-			if (o instanceof CbCFormula) {
-				formula = (CbCFormula)o;
-				break;
-			}
-		}
+		CbCFormula formula = getFormulaFrom(resource);
 		AbstractStatement firstStatement = formula.getStatement();
 		CodeRepresentationFinder crf = new CodeRepresentationFinder();
 		EObject target = crf.find(firstStatement, diffLine.originalLine);

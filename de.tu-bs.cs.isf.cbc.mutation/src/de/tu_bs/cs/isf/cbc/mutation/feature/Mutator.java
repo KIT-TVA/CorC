@@ -10,8 +10,12 @@ import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.mutation.util.FileReader;
 import de.tu_bs.cs.isf.cbc.mutation.util.JavaDirectoryLoader;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
@@ -23,6 +27,8 @@ public abstract class Mutator {
 	protected int mutationCount;
 	protected Diagram originalDiagram;
 	protected IFolder mutationFolder;
+	protected String[] mutants; 
+	protected String[] mutantNames;
 	protected URI classUri;
 	
 	public Mutator(List<String> operators) {
@@ -33,25 +39,16 @@ public abstract class Mutator {
 		}
 	}
 	
-	public void mutate(Diagram diagram) throws Exception {}
-	public void generateDiagrams() throws Exception {}
+	public void mutate(Diagram diagram, Condition condition) throws Exception {}
+	protected void generateDiagrams() throws Exception {}
 
-	protected void setup() {
+	protected void setup(Diagram diagram) {
+		this.originalDiagram = diagram;
 		mutationFolder = FileHandler.getInstance().getFolder(originalDiagram.eResource().getURI(), FOLDER_NAME);
 		FileHandler.getInstance().deleteFolder(mutationFolder);
 		FileHandler.getInstance().createFolder(originalDiagram.eResource().getURI(), FOLDER_NAME);
 	}
 
-	protected File generateFile(String location, String name, String code) throws IOException {
-		location = location + File.separator + "src" + File.separator + name + ".java";
-		File f = new File(location);
-		f.createNewFile();
-		FileWriter fw = new FileWriter(f);
-		fw.write(code);
-		fw.close();
-		FileUtils.copyFile(f, new File(MutationSystem.CLASS_PATH + File.separator + f.getName()));
-		return f;
-	}
 
 	protected File[] getMutants() {
 		JavaDirectoryLoader loader = new JavaDirectoryLoader();
@@ -72,5 +69,16 @@ public abstract class Mutator {
 	protected void cleanUp() throws CoreException {
 		FileHandler.getInstance().deleteFolder(classUri, FOLDER_NAME);
 		this.mutationFolder.refreshLocal(2, null);
+	}
+	
+	protected CbCFormula getFormulaFrom(Resource resource) {
+		CbCFormula formula = null;
+		for (EObject o : resource.getContents()) {
+			if (o instanceof CbCFormula) {
+				formula = (CbCFormula)o;
+				break;
+			}
+		}
+		return formula;
 	}
 }

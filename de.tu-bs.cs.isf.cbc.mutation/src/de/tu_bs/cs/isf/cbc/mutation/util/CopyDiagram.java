@@ -121,7 +121,7 @@ public class CopyDiagram {
 		AbstractStatement newS = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 		newS.setCodeRepresentation(statement.getCodeRepresentation());
 		newS.setComment(statement.getComment());
-		newS.generateID();
+		newS.setId(statement.getId());
 		newS.setName(statement.getName());
 		newS.setPostCondition(copyCondition(statement.getPostCondition()));
 		newS.setPreCondition(copyCondition(statement.getPreCondition()));
@@ -157,7 +157,7 @@ public class CopyDiagram {
 				cs.setCodeRepresentation(originalCs.getCodeRepresentation());
 				cs.setComment(originalCs.getComment());
 				cs.setFirstStatement(copyStatement(originalCs.getFirstStatement()));
-				cs.generateID();
+				cs.setId(originalCs.getId());
 				cs.setIntermediateCondition(copyCondition(originalCs.getIntermediateCondition()));
 				cs.setName(originalCs.getName());
 				cs.setPostCondition(copyCondition(originalCs.getPostCondition()));
@@ -184,7 +184,7 @@ public class CopyDiagram {
 				SmallRepetitionStatement newRs = CbcmodelFactory.eINSTANCE.createSmallRepetitionStatement();
 				newRs.setCodeRepresentation(originalRs.getCodeRepresentation());
 				newRs.setComment(originalRs.getComment());
-				newRs.generateID();
+				newRs.setId(originalRs.getId());
 				newRs.setName(originalRs.getName());
 				newRs.setPostCondition(copyCondition(originalRs.getPostCondition()));
 				newRs.setPreCondition(copyCondition(originalRs.getPreCondition()));
