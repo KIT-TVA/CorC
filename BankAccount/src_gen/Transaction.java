@@ -8,10 +8,7 @@ public class Transaction {
 	/*@
 	@ normal_behavior
 	@ requires source != destination;
-	@ ensures \result == true ==> (\old(destination.balance) + amount == destination.balance)
-  && \result == true ==> (\old(source.balance) - amount == source.balance)
-  && \result == false ==> (\old(destination.balance) == destination.balance) 
-  && \result == false ==> (\old(source.balance) == source.balance);
+	@ ensures \result == true ==> (\old(destination.balance) + amount == destination.balance)  && \result == true ==> (\old(source.balance) - amount == source.balance)  && \result == false ==> (\old(destination.balance) == destination.balance)   && \result == false ==> (\old(source.balance) == source.balance);
 	@ assignable \nothing;
 	@*/
 	public boolean transfer(int amount) {
