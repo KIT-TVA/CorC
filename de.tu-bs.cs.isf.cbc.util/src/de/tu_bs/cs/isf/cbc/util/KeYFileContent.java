@@ -129,6 +129,18 @@ public class KeYFileContent {
 				}
 				programVariables.getVariables().add(variable);
 			}
+			/*
+			int originalSize = vars.getParams().size();
+			for (int i = 0; i < originalSize; i++) {
+				Parameter param = vars.getParams().get(0);
+				if (param.getName().equals("ret")) {
+					returnVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
+					returnVariable.setKind(VariableKind.RETURNPARAM);
+					returnVariable.setName(param.getType() + " " + param.getName());
+				}
+				programVariables.getParams().add(param);
+			}
+			*/
 			for (Parameter param : vars.getParams()) {
 				if (param.getName().equals("ret")) {
 					returnVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
