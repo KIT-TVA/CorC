@@ -4,11 +4,11 @@ Tool Support for Correctness-by-Construction
 # [C-CorC](https://github.com/KIT-TVA/CorC/wiki/CorC-for-Information-Flow)
 Tool Support for Confidentiality- and Correctness-by-Construction
 
-# <span style="color:#007A61">CorC Setup Guide & Case Study Introduction (2023-11-14)</span>
+# CorC Setup Guide & Case Study Introduction (2023-11-14)
 Installation guide for plugins and properties for **development with CorC** with introduction of case studies.
-## <span style="color:#007A61">Java Version</span>
+## Java Version
 Please use [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archive-downloads.html). CorC may not work out of the box with newer versions.
-## <span style="color:#007A61">Setup</span>
+## Setup
 ### Software
 > Install [Eclipse Modelling Tools](https://www.eclipse.org/downloads/packages/release/2023-09/r) (Version 2023-09). 
 
@@ -28,7 +28,7 @@ Please use [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-ar
 
 - **Z3** Get the latest release of [Z3](https://github.com/Z3Prover/z3/releases) and add it to the environment variable [PATH](https://www.wikihow.com/Change-the-PATH-Environment-Variable-on-Windows).
 
-## <span style="color:#007A61">Properties & Initialisation</span>
+## Properties & Initialisation
 1. Clone the repo:
     ```sh
     git clone https://github.com/KIT-TVA/CorC.git
@@ -53,7 +53,7 @@ Please use [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-ar
 
 5. Select any package and run project as *Eclipse Application*.
 
-## <span style="color:#007A61">Examples and Case Studies</span>
+## Examples and Case Studies
 We provide different examples and case studies to explore CorC!
 ### Examples
 Create CorC-examples via *File -> New -> Other... -> CorC -> CorC Examples ->* Select examples you want to create.
@@ -75,7 +75,7 @@ The IntegerList implements a list of integers with add and sort operations.
 - **IntegerList** Object-oriented implementation with class structure and CbC-Classes.
 - **IntegerListOO** Object-oriented implementation with class structure and CbC-Classes. Non-SPL implementation.
 
-## <span style="color:#007A61">Common Issues</span>
+## Common Issues
 
 **Problem:** Multiple resolving errors after generating model files.
 
