@@ -45,7 +45,7 @@ Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archi
     - `de.tu_bs.cs.isf.lattice`
 
 4. `Right click -> Generate Model/Edit/Editor Code` in **all** of the following files: 
-    - `*.cbc.model -> model -> cbcmodel.genmodel`
+    - `*.cbc.model -> model -> genmodel.genmodel`
     - `*.cbc.statistics -> model -> cbcstatistics.genmodel` 
 
 5. Select any package and run project as `Eclipse Application`.
