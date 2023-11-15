@@ -1,19 +1,19 @@
-# [CorC](https://github.com/KIT-TVA/CorC/wiki)
-Tool Support for Correctness-by-Construction
+# CorC
 
-# [C-CorC](https://github.com/KIT-TVA/CorC/wiki/CorC-for-Information-Flow)
-Tool Support for Confidentiality- and Correctness-by-Construction
+CbC is an approach to incrementally create correct programs. Guided by pre-/postcondition specications, a program is created using refinement rules, guaranteeing the resulting implementation is correct. With [CorC](https://github.com/KIT-TVA/CorC/wiki), we implemented a graphical and textual IDE to create programs following the CbC approach. Starting with an abstract specification, CorC supports CbC developers in refining a program by a sequence of refinement steps and in verifying the correctness of these refinement steps using a theorem prover.
 
-# CorC Setup Guide & Case Study Introduction (2023-11-14)
-Installation guide for plugins and properties for **development with CorC** with introduction of case studies.
+# C-CorC
+CorC for information flow ([C-CorC](https://github.com/KIT-TVA/CorC/wiki/CorC-for-Information-Flow)) is an extension of CorC. 
+
+# Getting Started 
+CorC requires [Eclipse Modelling Tools (EMT)](https://www.eclipse.org/downloads/packages/release/2023-09/r/eclipse-modeling-tools) to be installed and extended with various plugins.
 ## Java Version
-Please use [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archive-downloads.html). CorC may not work out of the box with newer versions.
-## Setup
-### Software
-> Install [Eclipse Modelling Tools](https://www.eclipse.org/downloads/packages/release/2023-09/r) (Version 2023-09). 
+Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archive-downloads.html). CorC may not work out of the box with newer versions.
+## Eclipse Modelling Tools
+Install [Eclipse Modelling Tools](https://www.eclipse.org/downloads/packages/release/2023-09/r/eclipse-modeling-tools) (Version 2023-09). 
 
 
-### **Plugins**
+## EMT Plugins
 - **Graphiti** Install Graphiti using the update site https://download.eclipse.org/graphiti/updates/0.18.0/
 
 - **KeY** Install KeY using the update site https://formal.iti.kit.edu/key/download/releases/2.6/eclipse/ (disable *Group items* to show available plugins, install all)
@@ -28,7 +28,7 @@ Please use [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-ar
 
 - **Z3** Get the latest release of [Z3](https://github.com/Z3Prover/z3/releases) and add it to the environment variable [PATH](https://www.wikihow.com/Change-the-PATH-Environment-Variable-on-Windows).
 
-## Properties & Initialisation
+## CorC Setup
 1. Clone the repo:
     ```sh
     git clone https://github.com/KIT-TVA/CorC.git
@@ -48,34 +48,33 @@ Please use [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-ar
 
 4. *Right click -> Generate Model/Edit/Editor Code* in **all** of the following files: 
     - *\*.cbc.model -> model -> cbcmodel.genmodel*
-    - *\*.cbcclass.model -> model -> cbcclass.genmodel*
     - *\*.cbc.statistics -> model -> cbcstatistics.genmodel* 
 
 5. Select any package and run project as *Eclipse Application*.
 
-## Examples and Case Studies
+# Examples & Case Study Introduction
 We provide different examples and case studies to explore CorC!
-### Examples
+## Examples
 Create CorC-examples via *File -> New -> Other... -> CorC -> CorC Examples ->* Select examples you want to create.
-### Case studies
+## Case studies
 The repository you checked out contains various software product line case studies. They can be loaded via *File -> Open project from file system*. 
-#### BankAccount
+### BankAccount
 The BankAccount implements basic functions of a bank account such as withdrawals, limits, money transfers and checking the account balance.
 - **BankAccount** Object-oriented implementation with class structure and CbC-Classes.
 - **BankAccountOO** Object-oriented implementation with class structure and CbC-Classes. Non-SPL implementation.
-#### Elevator
+### Elevator
 The Elevator implements basic functions of an elevator such as the movement and entering and leaving of persons.
 - **Elevator** Object-oriented implementation with class structure and CbC-Classes.
-#### Email
+### Email
 The product line Email implements basic functions of an email system including server- and client-side interactions.
 - **EmailOO** Object-oriented implementation with class structure and CbC-Classes. Non-SPL implementation.
 - **EmailFeatureInteraction** Java-Implementation without implementation with CbC.
-#### IntegerList
+### IntegerList
 The IntegerList implements a list of integers with add and sort operations.
 - **IntegerList** Object-oriented implementation with class structure and CbC-Classes.
 - **IntegerListOO** Object-oriented implementation with class structure and CbC-Classes. Non-SPL implementation.
 
-## Common Issues
+# Common Issues
 
 **Problem:** Multiple resolving errors after generating model files.
 
