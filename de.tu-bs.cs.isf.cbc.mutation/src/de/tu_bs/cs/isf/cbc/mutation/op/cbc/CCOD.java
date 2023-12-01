@@ -6,9 +6,9 @@ import java.util.List;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.exceptions.MutatorException;
 
-public class CAORB extends CbCMutationOp {
-	public CAORB() {
-		ops = Arrays.asList("+", "-", "*", "/", "%");
+public class CCOD extends CbCMutationOp {
+	public CCOD() {
+		ops = Arrays.asList("!", OP_REMOVE);
 	}
 	
 	@Override

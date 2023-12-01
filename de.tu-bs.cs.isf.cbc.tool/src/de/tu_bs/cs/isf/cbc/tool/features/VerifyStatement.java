@@ -17,6 +17,8 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
+import com.google.common.collect.ImmutableCollection;
+
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
@@ -25,8 +27,10 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
+import de.tu_bs.cs.isf.cbc.mutation.feature.Mutator;
 import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
+import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
@@ -136,7 +140,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
-			String callingClass = uri.segment(uri.segmentCount() - 2) + "";
+			String callingClass = FeatureCaller.getInstance().getCallingClass(uri);
 			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, platformUri, formula, new FileUtil(platformUri), "", "");
 			proven = prove.proveStatementWithKey(returnStatement, false, callingClass, true);
 		} else {
@@ -148,9 +152,9 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 	private boolean executeVariationalVerification(IProject project, URI uri, AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
 		DataCollector.checkForId(statement);
 		boolean proven = false;
-		String callingFeature = uri.segment(uri.segmentCount() - 3) + "";
-		String callingClass = uri.segment(uri.segmentCount() - 2) + "";
-		String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
+		String callingFeature = FeatureCaller.getInstance().getCallingFeature(uri);
+		String callingClass = FeatureCaller.getInstance().getCallingClass(uri);
+		String callingMethod = FeatureCaller.getInstance().getCallingMethod(uri);
 		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.trimFileExtension().segmentCount() - 1), true, callingClass, false, null);
 		String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
 		
@@ -190,10 +194,13 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			for (Diagram dia : diagrams) {
 				if (variantFound) break;
 				URI diagramUri = dia.eResource().getURI();
-				if (diagramUri.segment(diagramUri.segmentCount() - 3).equalsIgnoreCase(featureName)
-						&& diagramUri.segment(diagramUri.segmentCount() - 2).equals(className)
-						&& diagramUri.trimFileExtension().lastSegment().equals(methodName)
-						&& diagramUri.trimFileExtension().lastSegment().matches("[a-z][a-zA-Z]*")) {
+				String diagramFeature = FeatureCaller.getInstance().getCallingFeature(diagramUri);
+				String diagramClass = FeatureCaller.getInstance().getCallingClass(diagramUri);
+				String diagramMethod = FeatureCaller.getInstance().getCallingMethod(diagramUri);
+				if (diagramFeature.equalsIgnoreCase(featureName)
+						&& diagramClass.equals(className)
+						&& diagramMethod.equals(methodName)
+						&& diagramMethod.matches("[a-z][a-zA-Z]*")) {
 					for (Shape shape : dia.getChildren()) {
 						Object obj = getBusinessObjectForPictogramElement(shape);
 						if (obj instanceof CbCFormula) {
@@ -220,10 +227,13 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			for (Diagram dia : diagrams) {
 				if (variantFound) break;
 				URI diagramUri = dia.eResource().getURI();
-				if (diagramUri.segment(diagramUri.segmentCount() - 3).equalsIgnoreCase(featureName)
-						&& diagramUri.segment(diagramUri.segmentCount() - 2).equals(className)
-						&& diagramUri.trimFileExtension().lastSegment().equals(methodName)
-						&& diagramUri.trimFileExtension().lastSegment().matches("[a-z][a-zA-Z]*")) {
+				String diagramFeature = FeatureCaller.getInstance().getCallingFeature(diagramUri);
+				String diagramClass = FeatureCaller.getInstance().getCallingClass(diagramUri);
+				String diagramMethod = FeatureCaller.getInstance().getCallingMethod(diagramUri);
+				if (diagramFeature.equalsIgnoreCase(featureName)
+						&& diagramClass.equals(className)
+						&& diagramMethod.equals(methodName)
+						&& diagramMethod.matches("[a-z][a-zA-Z]*")) {
 					for (Shape shape : dia.getChildren()) {
 						Object obj = getBusinessObjectForPictogramElement(shape);
 						if (obj instanceof JavaVariables) {

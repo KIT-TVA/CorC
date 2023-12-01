@@ -39,7 +39,9 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.mutation.feature.CbCMutator;
 import de.tu_bs.cs.isf.cbc.mutation.feature.ImplMutator;
+import de.tu_bs.cs.isf.cbc.mutation.feature.Mutator;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
+import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
 
 /**
  * Class for the Mutation-Tab of the Properties-View.
@@ -52,9 +54,12 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 	private Composite parent;
 	private TabbedPropertySheetPage tabbedPropertySheetPage;
 	
+	private Composite composite;
+	
 	private Group cbcGroup;
 	private Group implGroup;
 	private Group contractGroup;
+	private Button generateBtn;
 	
 	
 	private Condition selectedCondition;
@@ -84,8 +89,8 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 	
 	// Contract Mutation Operators
 	private final String[] contractOperators = new String[] {
-			"PW | {P}S{Q}  →  {P'}S{Q} with P ⇒ P'",
-			"PS | {P}S{Q}  →  {P}S{Q'} with Q' ⇒ Q"
+			Mutator.PW_RENAME + " | ==, >, <, >=, <=, &&, forall",
+			Mutator.PS_RENAME + " | >=, <=, !=, >, <, ||, exists"
 	};
 	
 	// CbC Mutation Operators
@@ -93,6 +98,8 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 			"CAORB | Apply AORB to selected condition.",
 			"CROR | Apply ROR to selected condition.",
 			"CCOR | Apply COR to selected condition.",
+			"CCOD | Apply COD to selected condition.",
+			"CLOR | Apply LOR to selected condition.",
 	};
 	// TODO: Adjust Mutator to support more contract mutation operators.
 
@@ -104,7 +111,7 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 		this.tabbedPropertySheetPage = tabbedPropertySheetPage;
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 		
-		Composite composite = factory.createFlatFormComposite(parent);
+		composite = factory.createFlatFormComposite(parent);
 		
 		// Defining GridLayout for properties-view
 		GridLayout gridLayout = new GridLayout();
@@ -112,6 +119,8 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 		gridLayout.verticalSpacing = 5;
 		
 		composite.setLayout(gridLayout);
+		composite.setBackground(new Color(254, 250, 224));
+		composite.setForeground(new Color(212, 163, 115));
 		
 		implGroup = createButtonGroup(composite, "Implementation Mutation Operators");
 		for (var implOperator : implOperators) {
@@ -127,25 +136,28 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 		for (var cbcOperator : cbcOperators) {
 			createCheckbox(cbcGroup, cbcOperator);
 		}
+		this.cbcGroup.setLocation(5, 5);
+
 		
-		
-		var generateBtn = createButton(composite, "Generate Mutants");
+		this.generateBtn = createButton(composite, "Generate Mutants");
 		
 		addListener(generateBtn);
 	}
 	
 	@Override
 	public void refresh() {
+		this.cbcGroup.setLocation(5, 5);
 		CbCDiagramTypeProvider diagramProvider = new CbCDiagramTypeProvider();
 		PictogramElement pe = getSelectedPictogramElement();
 		var bo = diagramProvider.getFeatureProvider().getBusinessObjectForPictogramElement(pe);
 		if(bo instanceof Condition) {
 			this.selectedCondition = (Condition)bo;
 			this.cbcGroup.setVisible(true);
+			this.generateBtn.setLocation(this.cbcGroup.getLocation().x, this.cbcGroup.getLocation().y + this.cbcGroup.getSize().y + 5);
 			this.contractGroup.setVisible(false);
 			this.implGroup.setVisible(false);
-			this.cbcGroup.setLocation(5, 5);
 		} else {
+			this.generateBtn.setLocation(this.implGroup.getLocation().x, this.implGroup.getLocation().y + this.implGroup.getSize().y + 5);
 			this.selectedCondition = null;
 			this.cbcGroup.setVisible(false);
 			this.contractGroup.setVisible(true);
@@ -159,15 +171,17 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 		GridLayout buttonGroupLayout = new GridLayout();
 		buttonGroupLayout.numColumns = 1;
 		buttonGroup.setLayout(buttonGroupLayout);
-		buttonGroup.setBackground(white);
 		buttonGroup.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		buttonGroup.setBackground(parent.getBackground());
+		buttonGroup.setForeground(parent.getForeground());
 		return buttonGroup;
 	}
 	
 	private Button createCheckbox(Composite buttonGroup, String name) {
 		Button newButton = new Button(buttonGroup, SWT.CHECK);
 		newButton.setText(name);
-		newButton.setBackground(white);
+		newButton.setForeground(buttonGroup.getForeground());
+		newButton.setBackground(buttonGroup.getBackground());
 		buttons.add(newButton);
 		return newButton;
 	}
@@ -175,7 +189,8 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 	private Button createButton(Composite buttonGroup, String name) {
 		Button newButton = new Button(buttonGroup, SWT.PUSH);
 		newButton.setText(name);
-		newButton.setBackground(white);
+		newButton.setForeground(buttonGroup.getForeground());
+		newButton.setBackground(buttonGroup.getBackground());
 		buttons.add(newButton);
 		return newButton;
 	}

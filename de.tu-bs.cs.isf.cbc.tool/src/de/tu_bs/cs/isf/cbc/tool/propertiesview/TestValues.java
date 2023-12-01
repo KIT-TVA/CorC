@@ -44,7 +44,8 @@ public final class TestValues implements Serializable {
             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
         	instance = (TestValues)objectIn.readObject();
         } catch (Exception e) {
-            throw new SettingsException("Cannot read test values from '" + filePath + "'.");
+        	useDefaults();
+            //throw new SettingsException("Cannot read test values from '" + filePath + "'.");
         }
     }
     

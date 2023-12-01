@@ -10,6 +10,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 
@@ -23,11 +24,11 @@ public class Features {
 	private int curFeature = 0;
 	private int configs = -1;
 	
-	public Features(final URI uri) {
+	public Features(final URI uri) throws FeatureCallerException{
 		this.uri = uri;
-		callingClass = uri.segment(uri.segmentCount()-2) + "";
-		callingFeature = uri.segment(uri.segmentCount()-3) + "";
-		callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
+		callingClass = FeatureCaller.getInstance().getCallingClass(uri);
+		callingFeature = FeatureCaller.getInstance().getCallingFeature(uri);
+		callingMethod = FeatureCaller.getInstance().getCallingMethod(uri);
 		featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);
 		configs = featureConfigs.length;
 	}
@@ -90,7 +91,7 @@ public class Features {
 			return null;
 		}
 		final ResourceSet rSet = new ResourceSetImpl();
-		final IFolder folder = FileUtil.getProject(uri).getFolder("features").getFolder(featureName).getFolder(className);
+		final IFolder folder = FileUtil.getProject(uri).getFolder(FeatureCaller.FEATURE_FOLDER).getFolder(featureName).getFolder(className);
 		if (folder == null) {
 			return null;
 		}
@@ -170,4 +171,5 @@ public class Features {
 		}
 		return false;
 	}
+	
 }

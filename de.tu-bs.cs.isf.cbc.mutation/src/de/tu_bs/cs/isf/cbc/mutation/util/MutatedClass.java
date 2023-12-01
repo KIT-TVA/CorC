@@ -2,11 +2,8 @@ package de.tu_bs.cs.isf.cbc.mutation.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -21,71 +18,125 @@ import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.mutation.feature.ImplMutator;
+import de.tu_bs.cs.isf.cbc.exceptions.FileHandlerException;
+import de.tu_bs.cs.isf.cbc.mutation.feature.Mutator;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.MethodHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateDiagram;
 
 public class MutatedClass {
-	private URI projectPath;
+	private Mutator mutator;
 	private JavaVariables diagramVars;
-	private String[] mutantNames;
+	private ModelClass mutatedModel;
 	int mutationCount;
-	String mutationFolderPath;
 	
-	public MutatedClass(Diagram originalDiagram, String[] mutantNames) {
-		DiagramPartsExtractor dpe = new DiagramPartsExtractor(originalDiagram);
-		this.projectPath = originalDiagram.eResource().getURI();
+	public MutatedClass(Mutator mutator) {
+		this.mutator = mutator;
+		DiagramPartsExtractor dpe = new DiagramPartsExtractor(mutator.getOriginalDiagram());
 		this.diagramVars = dpe.getVars();
-		this.mutantNames = mutantNames;
 		this.mutationCount = 0;
 	}
 	
-	public void generate() throws IOException, CoreException {
-		IProject project = FileUtil.getProject(projectPath);
-		IFolder mutationFolder = project.getFolder(ImplMutator.FOLDER_NAME);
-		mutationFolderPath = mutationFolder.getLocation().toOSString();
-		Collection<Resource> classes = FileUtil.getCbCClasses(project);
-		ModelClass clazz = findClass(classes);
+	public void generate() throws IOException, CoreException, FileHandlerException {
+		if (!mutator.hasClass()) {
+			return;
+		}
+		ModelClass clazz = FileHandler.getInstance().getClassOf(mutator.getOriginalDiagram());
 		copyClass(clazz);
+		addMutatedMethods();
+	}
+	
+	private void addMutatedMethods() throws IOException, CoreException {
+		if (mutatedModel == null) {
+			return;
+		}
+		for (Diagram mutant : mutator.getMutantDiagrams()) {
+			if (mutant == null) continue;
+			mutatedModel.getMethods().add(createDummyMethod(mutatedModel, mutant));
+		}
+		mutatedModel.eResource().save(Collections.EMPTY_MAP);
 	}
 	
 	private void copyClass(ModelClass model) throws IOException, CoreException {
 		if (model == null) {
 			return;
 		}
-		String newClassPath = this.mutationFolderPath + File.separator + model.getName() + ".cbcclass";
-		ModelClass newC = CbcclassFactory.eINSTANCE.createModelClass();
-		newC.setJavaClassURI(newClassPath);
-		newC.setName(model.getName());
-		newC.getFields().addAll(model.getFields());
-		newC.getClassInvariants().addAll(model.getClassInvariants());
-		for (String mutantName : mutantNames) {
-			newC.getMethods().add(createDummyMethod(newC, mutantName));
+		createMutatedClass(model.getName());
+		mutatedModel.getFields().addAll(model.getFields());
+		mutatedModel.getClassInvariants().addAll(model.getClassInvariants());
+		generateMethods();
+		saveClass();
+		updateDiagrams();
+		saveFormulae();
+	}
+	
+	private void createMutatedClass(String mutateeName) {
+		this.mutatedModel = CbcclassFactory.eINSTANCE.createModelClass();
+		this.mutatedModel.setInheritsFrom(null);
+		this.mutatedModel.setName(mutateeName + "Mutant");
+	}
+	
+	private void generateMethods() throws IOException {
+		for (Diagram mutant : mutator.getMutantDiagrams()) {
+			if (mutant == null) continue;
+			mutatedModel.getMethods().add(createDummyMethod(mutatedModel, mutant));
 		}
+	}
+	
+	private void saveClass() throws IOException {
+		String mutationFolderPath = mutator.getMutationFolder().getLocation().toOSString();
+		String newClassPath = mutationFolderPath + File.separator + mutatedModel.getName() + ".cbcclass";
+		this.mutatedModel.setJavaClassURI(newClassPath);
 		ResourceSet rs = new ResourceSetImpl();
 		URI newClassUri = URI.createFileURI(newClassPath);
 		Resource clazzResource = rs.createResource(newClassUri, null);
-		clazzResource.getContents().add(newC);
+		clazzResource.getContents().add(mutatedModel);
 		clazzResource.save(Collections.EMPTY_MAP);
-		ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
-	}
-
-	private ModelClass findClass(Collection<Resource> classes) {
-		String className = this.projectPath.segment(this.projectPath.segmentCount()-2);
-		for (Resource r : classes) {
-			ModelClass clazz = (ModelClass)r.getContents().get(0);
-			if (clazz.getName().equals(className)) {
-				return clazz;
-			}
-		}
-		return null;
 	}
 	
-	private Method createDummyMethod(ModelClass clazz, String methodName) {
+	private void updateDiagrams() throws IOException, CoreException {
+		for (Diagram d : this.mutator.getMutantDiagrams()) {
+			if (d == null) continue;
+			DiagramPartsExtractor dpe = new DiagramPartsExtractor(d);
+			dpe.getVars().getFields().addAll(this.mutatedModel.getFields());
+			addParams(dpe);
+			d.eResource().save(Collections.EMPTY_MAP);
+		}
+	}
+	
+	private void addParams(DiagramPartsExtractor dpe) {
+		for (Method m : this.mutatedModel.getMethods()) {
+			String curN = m.getName();
+			String targetName = dpe.getFormula().getName();
+			if (m.getName().equals(dpe.getFormula().getName())) {
+				dpe.getVars().getParams().addAll(m.getParameters());
+			}
+		}
+	}
+	
+	private void saveFormulae() throws IOException, CoreException {
+		for (Method m : mutatedModel.getMethods()) {
+			m.getCbcStartTriple().eResource().save(Collections.EMPTY_MAP);
+		}
+	}
+
+	private Method createDummyMethod(ModelClass clazz, Diagram mutant) throws IOException {
 		Method newM = CbcclassFactory.eINSTANCE.createMethod();
+		newM.setCbcDiagramURI(mutant.getName() + ".diagram");
 		newM.setParentClass(clazz);
-		newM.setName(methodName);
 		addDiagramParams(newM);
+		DiagramPartsExtractor dpe = new DiagramPartsExtractor(mutant);
+		newM.setName(mutant.getName()); // This will get overriden by setSignature.
+		if (dpe.getFormula().getMethodName().contains(" ")) { 
+			newM.setSignature(dpe.getFormula().getMethodName());
+			// reset methodName of the formula (we used it to pass the signature) since if not done, verifying of some methods won't 
+			// work because the original calls will not be resolved correctly
+			dpe.getFormula().setMethodName(MethodHandler.getMethodNameFromSig(dpe.getFormula().getMethodName()));
+		}
+		newM.setCbcStartTriple(dpe.getFormula());
+		mutant.eResource().getContents().add(newM);
+		dpe.getFormula().setMethodObj(newM);
 		return newM;
 	}
 	
@@ -97,25 +148,4 @@ public class MutatedClass {
 			newM.getParameters().add(newP);
 		}
 	}
-	
-/*	
-	
-	private Method copyMethod(ModelClass clazz, Method method) {
-		Method newM = CbcclassFactory.eINSTANCE.createMethod();
-		newM.setAssignable(method.getAssignable());
-		newM.setCbcDiagramURI(projectPath.toFileString().replace(".cbcmodel", ".diagram"));
-		//newM.setCbcStartTriple(newFormula);
-		newM.setIsStatic(method.isIsStatic());
-		newM.setName(this.mutantNames[this.mutationCount]);
-		newM.setParentClass(clazz);
-		if (method.getCbcStartTriple().getStatement() != null) {
-			newM.getPrecondition().setName(method.getPrecondition().getName());
-			newM.getPostcondition().setName(method.getPostcondition().getName());
-		}
-		newM.setReturnType(method.getReturnType());
-		//String newSignature = method.getSignature().replace(method.getName(), name);
-		//newM.setSignature(newSignature);
-		newM.setVisibility(method.getVisibility());
-		return newM;
-	}*/
 }

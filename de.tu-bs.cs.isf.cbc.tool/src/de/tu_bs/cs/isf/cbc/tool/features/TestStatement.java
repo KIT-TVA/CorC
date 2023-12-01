@@ -41,6 +41,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.exceptions.DiagnosticsException;
 import de.tu_bs.cs.isf.cbc.exceptions.ExceptionMessages;
+import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
 import de.tu_bs.cs.isf.cbc.exceptions.PreConditionSolverException;
 import de.tu_bs.cs.isf.cbc.exceptions.ReferenceException;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
@@ -147,7 +148,12 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				FileHandler.getInstance().clearLog(this.projectPath);
 				Features features = null;
 				if (FileHandler.getInstance().isSPL(uri)) {
-					features = new Features(uri);
+					try {
+						features = new Features(uri);
+					} catch (FeatureCallerException e) {
+						e.printStackTrace();
+						return;
+					}
 				} else {
 					features = null;
 				}
@@ -766,6 +772,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		final var abstractMethods = new ArrayList<MethodHandler>();
 		if (FileHandler.getInstance().isSPL(projectPath)) {
 			if (code.contains("original") || statementName.contains("original")) {
+				var testsdfjj = formula;
 				TestUtilSPL.getInstance().handleOriginalCode(fp, projectPath, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, originalMethods, formula.getMethodObj().getSignature(), vars);
 				code = code.replaceAll("original\\(", originalMethods.get(0).getMethodName() + "(");
 			}

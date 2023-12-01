@@ -76,7 +76,7 @@ public class UpdateOriginalCallsToProve {
 		String method = uri.trimFileExtension().lastSegment();
 		
 		// get current Class
-		String className = uri.segment(uri.segmentCount() - 2);
+		String className = FeatureCaller.getInstance().getCallingClass(uri);
 
 		// get all features which could be affected in reverse order
 		List<String> affectedOriginalFeatures = new ArrayList<String>();

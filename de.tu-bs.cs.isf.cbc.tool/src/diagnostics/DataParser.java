@@ -8,6 +8,7 @@ import org.eclipse.emf.common.util.URI;
 
 import de.tu_bs.cs.isf.cbc.exceptions.DiagnosticsException;
 import de.tu_bs.cs.isf.cbc.exceptions.ExceptionMessages;
+import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
@@ -20,7 +21,7 @@ public class DataParser {
 	private final Features features;
 	private final DataCollector dataCollector;
 
-	public DataParser(final URI diagramPath) throws DiagnosticsException {
+	public DataParser(final URI diagramPath) throws DiagnosticsException, FeatureCallerException {
 		if (diagramPath == null) {
 			throw new DiagnosticsException(ExceptionMessages.URI_NULL);
 		}

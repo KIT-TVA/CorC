@@ -22,6 +22,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
+import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -73,15 +74,20 @@ public class OpenStatisticsViewHandler extends AbstractHandler {
 		final URI projectUri = URI.createPlatformResourceURI(resource.getFullPath().toOSString());
 		if (FileHandler.getInstance().isSPL(projectUri)) {
 			Console.println("[SPL detected]", blue);
-			var features = new Features(projectUri);
-			while (features.getNextConfig() != null) {
-				Console.println(" > Configuration: [" + features.getConfigRep() + "]", blue);
-				if (dialog.setDataSPL(allDiagramFiles, features.getConfigRep(), features)) {
-					Console.println(" > Generated data.");
-				} else {
-					Console.println(" > Couldn't generate data.");
-					return null;
+			try {
+				var features = new Features(projectUri);
+				while (features.getNextConfig() != null) {
+					Console.println(" > Configuration: [" + features.getConfigRep() + "]", blue);
+					if (dialog.setDataSPL(allDiagramFiles, features.getConfigRep(), features)) {
+						Console.println(" > Generated data.");
+					} else {
+						Console.println(" > Couldn't generate data.");
+						return null;
+					}
 				}
+			} catch (FeatureCallerException e) {
+				e.printStackTrace();
+				return null;
 			}
 		} else {
 			// set entries 

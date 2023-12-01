@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -17,6 +19,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.exceptions.CodeRepresentationFinderException;
+import de.tu_bs.cs.isf.cbc.exceptions.FileHandlerException;
 import de.tu_bs.cs.isf.cbc.exceptions.MutatorException;
 import de.tu_bs.cs.isf.cbc.mutation.util.CodeRepresentationFinder;
 import de.tu_bs.cs.isf.cbc.mutation.util.CopyDiagram;
@@ -35,7 +38,6 @@ import src.mujava.OpenJavaException;
 import src.mujava.makeMuJavaStructure;
 
 public class ImplMutator extends Mutator {
-	private String className;
 	private String originalCode;
 	
 	public ImplMutator(List<String> operators) {
@@ -45,18 +47,17 @@ public class ImplMutator extends Mutator {
 	@Override
 	public void mutate(Diagram diagramToMutate, Condition condition) throws Exception {
 		setup(diagramToMutate);
-		getClassInformation();
 		originalCode = constructCode();
 		generateFiles();
 		File[] mutants = getMutants();
 		this.mutants = readCode(mutants);
-		this.mutantNames = new String[mutants.length];
 		cleanUp();
 		generateDiagrams();
+		ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
 	}
 
 	@Override
-	protected void generateDiagrams() throws CodeRepresentationFinderException, IOException, CoreException, MutatorException {
+	protected void generateDiagrams() throws CodeRepresentationFinderException, IOException, CoreException, MutatorException, FileHandlerException {
 		String originalCode = getOriginalCode();
 		DiffChecker dc = new DiffChecker();
 		for (String mutant : mutants) {
@@ -64,14 +65,14 @@ public class ImplMutator extends Mutator {
 			LinePair diffLine = dc.nextDiff();	
 			applyMutation(diffLine);
 		}
-		MutatedClass mc = new MutatedClass(this.originalDiagram, mutantNames);
+		MutatedClass mc = new MutatedClass(this);
 		mc.generate();
 	}
 	
 
 	protected void generateFiles() throws IOException, OpenJavaException {
 		String location = setupMuJava();
-		File targetFile = generateFile(location, originalDiagram.getName(), originalCode);
+		File targetFile = generateFile(location, getOriginalDiagram().getName(), originalCode);
 		executeMuJava(targetFile);
 	}
 
@@ -93,14 +94,9 @@ public class ImplMutator extends Mutator {
 		return CodeHandler.indentCode(originalCode, 0);
 	}
 	
-	protected void getClassInformation() {
-		className = originalDiagram.eResource().getURI().segment(originalDiagram.eResource().getURI().segmentCount() - 2);
-		classUri = originalDiagram.eResource().getURI();
-	}
-	
 	protected String constructCode() throws Exception {
 		ClassHandler ch = new ClassHandler(this.className, this.classUri);
-		String diagramAsCode = CodeGenerator.getInstance().generateCodeFor(originalDiagram);
+		String diagramAsCode = CodeGenerator.getInstance().generateCodeFor(getOriginalDiagram());
 		String signature = MethodHandler.getSignatureFromCode(diagramAsCode);
 		String contract = MethodHandler.getContractFromCode(diagramAsCode, signature);
 		MethodHandler mh = new MethodHandler(contract, signature, diagramAsCode);
@@ -109,7 +105,7 @@ public class ImplMutator extends Mutator {
 	}
 	
 	protected String setupMuJava() {
-		String location = FileUtil.getProjectLocation(originalDiagram.eResource().getURI()) + File.separator + FOLDER_NAME;
+		String location = FileUtil.getProjectLocation(getOriginalDiagram().eResource().getURI()) + File.separator + FOLDER_NAME;
 		MutationSystem.CLASS_NAME = className;
 		setMuJavaPaths(location);
 		makeMuJavaStructure.main(null);
@@ -137,18 +133,19 @@ public class ImplMutator extends Mutator {
 	
 	protected void applyMutation(LinePair diffLine) throws CodeRepresentationFinderException, IOException, CoreException, MutatorException {
 		this.mutationCount++;
-		String mutantName = this.originalDiagram.getName() + "Mutant" + this.mutationCount;
-		this.mutantNames[this.mutationCount-1] = mutantName;
-		String diagCopyPath = this.mutationFolder.getLocation().toOSString() + File.separator + mutantName;
-		CopyDiagram cd = new CopyDiagram(diagCopyPath, this.originalDiagram, mutantName);
+		String mutantName = this.mutantBaseName + this.mutationCount;
+		String diagCopyPath = this.mutationFolder.getLocation().toOSString() + File.separator + mutantName;//diagPath;//this.mutationFolder.getLocation().toOSString() + File.separator + mutantName;
+		CopyDiagram cd = new CopyDiagram(diagCopyPath, this.getOriginalDiagram(), mutantName);
 		Resource res = cd.getResource();
 		if (changeTargetLine(res, diffLine)) {
 			cd.save();
 		}
+		this.getMutantDiagrams().add(cd.getDiagram());
 	}
 	
 	protected boolean changeTargetLine(Resource resource, LinePair diffLine) throws CodeRepresentationFinderException, IOException, MutatorException {
 		CbCFormula formula = getFormulaFrom(resource);
+		unproveEverything(formula.getStatement());
 		AbstractStatement firstStatement = formula.getStatement();
 		CodeRepresentationFinder crf = new CodeRepresentationFinder();
 		EObject target = crf.find(firstStatement, diffLine.originalLine);

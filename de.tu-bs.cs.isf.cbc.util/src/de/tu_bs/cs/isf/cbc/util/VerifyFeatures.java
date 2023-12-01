@@ -27,6 +27,8 @@ import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
 import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager; //Notices changes of model.xml
 import de.ovgu.featureide.fm.core.io.manager.FileHandler;
 import de.ovgu.featureide.fm.core.job.LongRunningWrapper;
+import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
+import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
 
 public class VerifyFeatures {
 	static {
@@ -60,7 +62,7 @@ public class VerifyFeatures {
 			createEmptyConfiguration(path);
 			featModel = FeatureModelManager.load(path);
 			featureOrder = featModel.getFeatureOrderList();
-			callingFeature = uri.segment(uri.segmentCount() - 3) + "";
+			callingFeature = FeatureCaller.getInstance().getCallingFeature(uri);
 			configurations = new String[0][];
 
 			IFeatureModel featureModel = FeatureModelManager.load(path);

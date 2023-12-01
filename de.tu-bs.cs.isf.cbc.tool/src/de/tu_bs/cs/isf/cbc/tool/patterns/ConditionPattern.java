@@ -6,6 +6,7 @@ import java.util.Collections;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -25,6 +26,9 @@ import org.eclipse.graphiti.pattern.IPattern;
 import org.eclipse.graphiti.pattern.id.IdLayoutContext;
 import org.eclipse.graphiti.pattern.id.IdPattern;
 import org.eclipse.graphiti.pattern.id.IdUpdateContext;
+import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.services.IPeService;
+import org.eclipse.xtext.resource.SaveOptions;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
@@ -43,6 +47,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
 import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
+import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
+import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetProjectUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;
@@ -268,7 +274,7 @@ public class ConditionPattern extends IdPattern implements IPattern {
 			Text text = (Text)shape.getGraphicsAlgorithm();
 			text.setValue("{" + condition.getName() + "}");
 		} else if (!(condition.eContainer() instanceof GlobalConditions)) {
-			if (peURI.lastSegment().contains(peURI.segment(peURI.segmentCount()-2))) { //change from CbCClass
+			if (peURI.lastSegment().contains(FeatureCaller.getInstance().getCallingClass(peURI))) { //change from CbCClass
 				try {
 					condition.eResource().setTrackingModification(true);
 					condition.eResource().save(Collections.EMPTY_MAP);

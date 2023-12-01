@@ -53,7 +53,7 @@ public class GenerateDiagramFromModel {
 	public GenerateDiagramFromModel() {
 	}
 	
-	public void execute(Resource resource) {
+	public Diagram execute(Resource resource) {
 		CbCFormula formula = null;
 		JavaVariables vars = null;
 		GlobalConditions conds = null;
@@ -93,9 +93,9 @@ public class GenerateDiagramFromModel {
 		//if(javaClass != null)
 			//addElement(featureProvider, javaClass, diagram, 600, 20);
 		
-		UpdateDiagram.run(diagram);
-		
 		try {
+			UpdateDiagram.run(diagram);
+		
 			diagramResource.save(Collections.EMPTY_MAP);
 			diagramResource.setTrackingModification(true);
 			String projectPath = FileUtil.getProjectLocation(diagram.eResource().getURI());
@@ -111,6 +111,7 @@ public class GenerateDiagramFromModel {
 		} catch (NullPointerException e) {
 			//System.out.println("Local refresh not available!");
 		}
+		return diagram;
 	}
 
 	private void addFormula(IFeatureProvider featureProvider, CbCFormula formula, Diagram diagram, int x, int y) {

@@ -94,7 +94,7 @@ public class InputData {
 	
 	public String getRandomValue() {
 		if (this.values.length == 0) {
-			Console.println("InputDataInfo: Variable " + getName() + " has no values.");
+			//Console.println("InputDataInfo: Variable " + getName() + " has no values.");
 			return "";
 		}
 		final Random rng = new Random();

@@ -1,7 +1,9 @@
 package de.tu_bs.cs.isf.cbc.mutation.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -10,6 +12,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -29,6 +34,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
+import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
 
 public class CopyDiagram {
@@ -37,8 +43,10 @@ public class CopyDiagram {
 	private URI path;
 	private Resource diagResource;
 	private CbCFormula newFormula;
+	private Diagram newDiagram;
 	
 	public CopyDiagram(String newDiagramPath, Diagram diagram, String newName) throws IOException {
+		newDiagram = null;
 		name = newName;
 		originalPath = diagram.eResource().getURI();
 		path = URI.createFileURI(newDiagramPath + ".cbcmodel");
@@ -49,9 +57,13 @@ public class CopyDiagram {
 		return diagResource;
 	}
 	
+	public Diagram getDiagram() {
+		return newDiagram;
+	}
+	
 	public void save() {
 		GenerateDiagramFromModel gm = new GenerateDiagramFromModel();
-		gm.execute(diagResource);
+		newDiagram = gm.execute(diagResource);
 	}
 	
 	private void copyDiagram(Diagram diagram) throws IOException {
@@ -67,8 +79,11 @@ public class CopyDiagram {
 	
 	private void copyFormula(CbCFormula formula) {
 		newFormula = CbcmodelFactory.eINSTANCE.createCbCFormula();
-		newFormula.setClassName(this.originalPath.segment(this.originalPath.segmentCount()-2));
-		newFormula.setName(name);
+		newFormula.setClassName(FeatureCaller.getInstance().getCallingClass(this.originalPath));
+		newFormula.setName(formula.getName()); // Set this to value of variable 'name' if mutant name should be used
+		if (formula.getMethodObj() != null) {
+			newFormula.setMethodName(formula.getMethodObj().getSignature()); // TODO: Find better way of passing the signature to the new method obj created in MutatedClass.
+		}
 		newFormula.setStatement(copyRefinements(formula.getStatement()));
 		diagResource.getContents().add(newFormula);
 	}
@@ -95,8 +110,26 @@ public class CopyDiagram {
 			newV.setName(v.getName());
 			newJv.getVariables().add(newV);
 		}
-		newJv.getFields().addAll(vars.getFields());
-		newJv.getParams().addAll(vars.getParams());
+	
+	/*	
+		for (Field f : vars.getFields()) {
+			Field newF = CbcclassFactory.eINSTANCE.createField();
+			newF.setIsFinal(f.isIsFinal());
+			newF.setIsStatic(f.isIsStatic());
+			newF.setName(f.getName());
+			newF.setType(f.getType());
+			newF.setVisibility(f.getVisibility());
+			newJv.getFields().add(newF);
+		}*/
+		//newJv.getFields().addAll(vars.getFields());
+/*
+		for (Parameter p : vars.getParams()) {
+			Parameter newP = CbcclassFactory.eINSTANCE.createParameter();
+			newP.setName(p.getName());
+			newP.setType(p.getType());
+			newJv.getParams().add(newP);
+		}*/
+		//newJv.getParams().addAll(vars.getParams());
 		diagResource.getContents().add(newJv);
 	}
 	
@@ -114,20 +147,33 @@ public class CopyDiagram {
 		diagResource.getContents().add(newRn);
 	}
 	
-	private AbstractStatement copyStatement(AbstractStatement statement) {
+	private <T> T copyStatement(T statement) {
 		if (statement == null) {
 			return null;
 		}
-		AbstractStatement newS = CbcmodelFactory.eINSTANCE.createAbstractStatement();
-		newS.setCodeRepresentation(statement.getCodeRepresentation());
-		newS.setComment(statement.getComment());
-		newS.setId(statement.getId());
-		newS.setName(statement.getName());
-		newS.setPostCondition(copyCondition(statement.getPostCondition()));
-		newS.setPreCondition(copyCondition(statement.getPreCondition()));
-		newS.setProven(statement.isProven());
-		newS.setRefinement(copyRefinements(statement.getRefinement()));
-		newS.setTested(statement.isTested());
+		T newS;
+		if (statement instanceof SkipStatement) {
+			newS = (T)CbcmodelFactory.eINSTANCE.createSkipStatement();
+		} else if (statement instanceof ReturnStatement) {
+			newS = (T)CbcmodelFactory.eINSTANCE.createReturnStatement();
+		} else if (statement instanceof MethodStatement) {
+			newS = (T)CbcmodelFactory.eINSTANCE.createMethodStatement();
+		} else if (statement instanceof StrengthWeakStatement) {
+			newS = (T)CbcmodelFactory.eINSTANCE.createStrengthWeakStatement();
+		} else if (statement instanceof OriginalStatement) {
+			newS = (T)CbcmodelFactory.eINSTANCE.createOriginalStatement();
+		} else {
+			newS = (T)CbcmodelFactory.eINSTANCE.createAbstractStatement();
+		}
+		((AbstractStatement)newS).setCodeRepresentation(((AbstractStatement)statement).getCodeRepresentation());
+		((AbstractStatement)newS).setComment(((AbstractStatement)statement).getComment());
+		((AbstractStatement)newS).setId(((AbstractStatement)statement).getId());
+		((AbstractStatement)newS).setName(((AbstractStatement)statement).getName());
+		((AbstractStatement)newS).setPostCondition(copyCondition(((AbstractStatement)statement).getPostCondition()));
+		((AbstractStatement)newS).setPreCondition(copyCondition(((AbstractStatement)statement).getPreCondition()));
+		((AbstractStatement)newS).setProven(((AbstractStatement)statement).isProven());
+		((AbstractStatement)newS).setRefinement(copyRefinements(((AbstractStatement)statement).getRefinement()));
+		((AbstractStatement)newS).setTested(((AbstractStatement)statement).isTested());
 		return newS;
 	}
 	
@@ -168,16 +214,28 @@ public class CopyDiagram {
 				cs.setSecondStatement(copyStatement(originalCs.getSecondStatement()));
 				return cs;
 			} else if (curSource instanceof MethodStatement) {
-				MethodStatement newM = (MethodStatement)copyStatement((AbstractStatement)curSource);
+				MethodStatement newM = (MethodStatement)copyStatement((MethodStatement)curSource);
 				return newM;
 			} else if (curSource instanceof ReturnStatement) {
-				ReturnStatement newR = (ReturnStatement)copyStatement((AbstractStatement)curSource);
+				ReturnStatement newR = (ReturnStatement)copyStatement((ReturnStatement)curSource);
 				return newR;
 			} else if (curSource instanceof SelectionStatement) {
-				SelectionStatement newS = (SelectionStatement)copyStatement((AbstractStatement)curSource);
+				SelectionStatement originalS = (SelectionStatement)curSource;
+				SelectionStatement newS = CbcmodelFactory.eINSTANCE.createSelectionStatement();
+				newS.setCodeRepresentation(originalS.getCodeRepresentation());
+				newS.setComment(originalS.getComment());
+				newS.setId(originalS.getId());
+				newS.setName(originalS.getName());
+				newS.setPostCondition(copyCondition(originalS.getPostCondition()));
+				newS.setPreCondition(copyCondition(originalS.getPreCondition()));
+				newS.setProven(originalS.isProven());
+				newS.setRefinement(copyStatement(originalS.getRefinement()));
+				newS.setTested(originalS.isTested());
+				newS.getGuards().addAll(copyGuards(originalS.getGuards()));
+				newS.getCommands().addAll(copyCommands(originalS.getCommands()));
 				return newS;
 			} else if (curSource instanceof SkipStatement) {
-				SkipStatement newS = (SkipStatement)copyStatement((AbstractStatement)curSource);
+				SkipStatement newS = (SkipStatement)copyStatement((SkipStatement)curSource);
 				return newS;
 			} else if (curSource instanceof SmallRepetitionStatement) {
 				SmallRepetitionStatement originalRs = (SmallRepetitionStatement)curSource;
@@ -200,15 +258,27 @@ public class CopyDiagram {
 				newRs.setVariantProven(originalRs.isVariantProven());
 				return newRs;
 			} else if (curSource instanceof StrengthWeakStatement) {
-				StrengthWeakStatement newR = (StrengthWeakStatement)copyStatement((AbstractStatement)curSource);
+				StrengthWeakStatement newR = (StrengthWeakStatement)copyStatement((StrengthWeakStatement)curSource);
 				return newR;
 			} else if (curSource instanceof OriginalStatement) {
-				OriginalStatement newR = (OriginalStatement)copyStatement((AbstractStatement)curSource);
+				OriginalStatement newR = (OriginalStatement)copyStatement((OriginalStatement)curSource);
 				return newR;
 			} else if (curSource instanceof AbstractStatement) {
 				AbstractStatement newR = (AbstractStatement)copyStatement((AbstractStatement)curSource);
 				return newR;
 			}
 			return null;
+	}
+	
+	private List<Condition> copyGuards(List<Condition> conditions) {
+		ArrayList<Condition> newCons = new ArrayList<Condition>();
+		conditions.stream().forEach(c -> newCons.add(copyCondition(c)));
+		return newCons;
+	}
+	
+	private List<AbstractStatement> copyCommands(List<AbstractStatement> statements) {
+		ArrayList<AbstractStatement> newStatements = new ArrayList<AbstractStatement>();
+		statements.stream().forEach(s -> newStatements.add(copyStatement(s)));
+		return newStatements;
 	}
 }

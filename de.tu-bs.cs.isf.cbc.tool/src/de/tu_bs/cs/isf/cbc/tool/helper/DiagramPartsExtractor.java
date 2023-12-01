@@ -25,12 +25,15 @@ import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 public class DiagramPartsExtractor {
 	private Diagram diag;
 	private ArrayList<EObject> businessObjects;
-	private JavaVariables vars;
-	private GlobalConditions conds;
-	private CbCFormula formula;
-	private Renaming renaming;
+	private JavaVariables vars = null;
+	private GlobalConditions conds = null;
+	private CbCFormula formula = null;
+	private Renaming renaming = null;
 	
 	public DiagramPartsExtractor(Diagram diag) {
+		if (diag == null) {
+			return;
+		}
 		this.diag = diag;
 		businessObjects = getAllBusinessObjects();
 		

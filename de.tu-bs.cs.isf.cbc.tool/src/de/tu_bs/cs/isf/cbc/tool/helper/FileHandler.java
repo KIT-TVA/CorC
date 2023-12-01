@@ -28,7 +28,9 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 
+import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.exceptions.FileHandlerException;
 import de.tu_bs.cs.isf.cbc.mutation.feature.ImplMutator;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
@@ -169,6 +171,41 @@ public class FileHandler {
 			var project = FileUtil.getProject(projectPath);
 			return project.getFolder(folderName);
 	}
+
+	public ModelClass getClassOf(Diagram diagram){
+		DiagramPartsExtractor dpe = new DiagramPartsExtractor(diagram);
+		String className = dpe.getFormula().getClassName();
+		URI diagUri = diagram.eResource().getURI();
+		IProject project = FileUtil.getProject(diagUri);
+		var classes = FileUtil.getCbCClasses(project);
+		for (Resource r : classes) {
+			ModelClass clazz = (ModelClass)r.getContents().get(0);
+			String curPath = getInnerPath(clazz.eResource().getURI().path());
+			String targetPath = getInnerPath(diagUri.path());
+			if (curPath.contains(targetPath) && clazz.getName().equals(className)) {
+				return clazz;
+			}
+		}
+		return null;
+		//throw new FileHandlerException("Couldn't find class of the diagram '" + diagUri + "'.");
+	}
+
+	public ModelClass getClass(Diagram diagInProject, String className){
+		IProject project = FileUtil.getProject(diagInProject.eResource().getURI());
+		var classes = FileUtil.getCbCClasses(project);
+		for (Resource r : classes) {
+			ModelClass cur = (ModelClass)r.getContents().get(0);
+			if (cur.getName().equals(className)) {
+				return cur;
+			}
+		}
+		return null;
+	}
+	
+	private String getInnerPath(String path) {
+		path = path.substring(path.indexOf("/") + 1, path.lastIndexOf("/"));
+		return path.substring(path.indexOf("/") + 1, path.length());
+	}
 	
 	public IFolder createFolder(final URI projectPath, final String folderName) {
 			var project = FileUtil.getProject(projectPath);
@@ -180,7 +217,7 @@ public class FileHandler {
 			}
 			return project.getFolder(folderName);
 	}
-	
+
 	public boolean deleteSpecificFile(final String fullFilePath) {
 		try {
 			var javaFile = new File(fullFilePath);
@@ -281,7 +318,7 @@ public class FileHandler {
 		final var project = FileUtil.getProject(uri);
 		try {
 			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
-				if (uri.path().contains(MetaClass.FOLDER_NAME) || uri.path().contains(ImplMutator.FOLDER_NAME)) {
+				if (uri.path().contains(MetaClass.FOLDER_NAME)) {
 					return false;
 				}
 				return true;
@@ -343,4 +380,5 @@ public class FileHandler {
 		ResourceSet rs = new ResourceSetImpl();
 		return GetDiagramUtil.getDiagramFromFile(diagramFile, rs);
 	}
+
 }

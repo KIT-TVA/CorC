@@ -463,4 +463,35 @@ public final class CodeHandler {
 		}
 		return bound.trim();
 	}
+	
+	public static String createHorizontalLine(String input) {
+		int maxLineLen = 0;
+		var lines = input.split("\\n");
+		for (var line : lines) {
+			maxLineLen = line.length() > maxLineLen ? line.length() : maxLineLen;
+		}
+		String upperLine = "+----";
+		for (int i = 0; i < maxLineLen; i++) {
+			upperLine += "-";
+		}
+		upperLine += "----+";
+		return upperLine;
+	}
+	
+	public static String createVerticalLines(String input, String horizontalLine) {
+		String output = "";
+		var lines = input.split("\\n");
+		for (var line : lines) {
+			line = line.replaceAll("\\r", "");
+			line = "|    " + line;
+			output += line;
+			var end = "    |\n";
+			int diff = horizontalLine.length() - line.length() - end.length();
+			for (int i = 0; i <= diff; i++) {
+				output += " ";
+			}
+			output += end;
+		}
+		return output.substring(0, output.length()-1);
+	}
 }

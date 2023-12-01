@@ -113,7 +113,7 @@ public class FileUtil implements IFileUtil{
 		}
 		IProject thisProject = null;
 		for (IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-			if (p.getFile(new Path(uriPath)).exists() && p.getName().equalsIgnoreCase(projectName)) {
+			if ((p.getFile(new Path(uriPath)).exists() || p.getFolder(new Path(uriPath)).exists()) && p.getName().equalsIgnoreCase(projectName)) {
 				thisProject = p;
 				break;
 			}
@@ -277,9 +277,27 @@ public class FileUtil implements IFileUtil{
         return getFiles(p, ".java");
      }
     
+    public static List<IFile> getFilesContainingString(String s, IContainer p) {
+        final List<IFile> files = new ArrayList<IFile>(); try {
+             final IResource[] members = p.members();
+             for (final IResource resource : members) {
+                  if (resource instanceof IContainer) {
+                	  files.addAll(getFilesContainingString(s, (IContainer) resource));
+                  } else if (resource instanceof IFile) {
+                      final IFile file = (IFile) resource;
+                      if (file.getName().contains(s)) {
+                    	  files.add(file);
+                      }
+                  }
+             }
+        } catch (final CoreException e) {
+                 e.printStackTrace();
+        }
+        return files;
+    }
+    
     public static List<IFile> getFiles(IContainer p, String fileExtension) {
-        final List<IFile> files = new ArrayList<IFile>();
-        try {
+        final List<IFile> files = new ArrayList<IFile>(); try {
              final IResource[] members = p.members();
              for (final IResource resource : members) {
                   if (resource instanceof IContainer) {

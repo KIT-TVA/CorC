@@ -65,6 +65,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.exceptions.DiagnosticsException;
 import de.tu_bs.cs.isf.cbc.exceptions.ExceptionMessages;
+import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
 import de.tu_bs.cs.isf.cbc.exceptions.PreConditionSolverException;
 import de.tu_bs.cs.isf.cbc.exceptions.ReferenceException;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
@@ -219,12 +220,12 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		Console.clear();	
 		Console.println("Start testing...\n");  
 		Features features = null;
-		if (FileHandler.getInstance().isSPL(uri)) {
-			features = new Features(uri);
-		} else {
-			features = null;
-		}
 		try {
+			if (FileHandler.getInstance().isSPL(uri)) {
+				features = new Features(uri);
+			} else {
+				features = null;
+			}
 			if (features != null) {
 				Console.println("[SPL detected]", Colors.BLUE);
 				for (int i = 0; i < features.getSize(); i++) {
@@ -239,7 +240,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			} else {
 				test(uri, formula, vars, globalConditions, signatureString, globalVars, features);
 			}	
-		} catch (ReferenceException | TestAndAssertionGeneratorException | PreConditionSolverException | UnexpectedTokenException | TestStatementException | DiagnosticsException | SettingsException | MalformedURLException | ClassNotFoundException e) {
+		} catch (ReferenceException | TestAndAssertionGeneratorException | PreConditionSolverException | UnexpectedTokenException | TestStatementException | DiagnosticsException | SettingsException | MalformedURLException | ClassNotFoundException | FeatureCallerException e) {
 			Console.println(e.getMessage(), Colors.RED);
 			e.printStackTrace();
 			return;

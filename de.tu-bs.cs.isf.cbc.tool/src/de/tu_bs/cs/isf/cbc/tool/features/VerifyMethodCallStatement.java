@@ -20,6 +20,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
+import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -114,7 +115,7 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 		if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
-			String callingClass = uri.segment(uri.segmentCount() - 2) + "";
+			String callingClass = FeatureCaller.getInstance().getCallingClass(uri);
 			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, platformUri, formula, new FileUtil(platformUri), "");
 			proven = prove.proveStatementWithKey(returnStatement, false, callingClass, true);
 		} else {
@@ -127,9 +128,9 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 		DataCollector.checkForId(statement);
 		boolean proven = false;
 		VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
-		String callingFeature = uri.segment(uri.segmentCount() - 3) + "";
-		String callingClass = uri.segment(uri.segmentCount() - 2) + "";
-		String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
+		String callingFeature = FeatureCaller.getInstance().getCallingFeature(uri);
+		String callingClass = FeatureCaller.getInstance().getCallingClass(uri);
+		String callingMethod = FeatureCaller.getInstance().getCallingMethod(uri);
 		String varM = handleVarM(Parser.extractMethodNameFromStatemtent(statement.getName()), callingClass, vars);
 		String varMParts[] = varM.split("\\.");
 		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, varM, false, callingClass, false, null);

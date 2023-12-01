@@ -160,9 +160,12 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			for (String feature : config) {
 				for (Diagram dia : getDiagrams()) {
 					URI diagramUri = dia.eResource().getURI();
-					if (diagramUri.segment(diagramUri.segmentCount() - 3).equals(feature)
-							&& diagramUri.segment(diagramUri.segmentCount() - 2).equals(className)
-							&& diagramUri.trimFileExtension().lastSegment().matches("[a-z][a-zA-Z0-9]*")) {
+					String diagramFeature = FeatureCaller.getInstance().getCallingFeature(diagramUri);
+					String diagramClass = FeatureCaller.getInstance().getCallingClass(diagramUri);
+					String diagramMethod = FeatureCaller.getInstance().getCallingMethod(diagramUri);
+					if (diagramFeature.equals(feature)
+							&& diagramClass.equals(className)
+							&& diagramMethod.matches("[a-z][a-zA-Z0-9]*")) {
 						if (!dia.getName().equalsIgnoreCase(callingMethod) || !handledCallingMethod) {
 							String pattern = ".* " + dia.getName() + "\\(.*\\) \\{.*";
 							boolean addedToList = false;
@@ -182,9 +185,9 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 										oldVersionOfMethod = oldVersionOfMethod.replace("original_" + dia.getName() + "(", "original_original_" + dia.getName() + "(");
 										oldVersionOfMethod = oldVersionOfMethod.replace(" " + dia.getName() + "(", " original_" + dia.getName() + "(");
 										newVersionOfMethod = newVersionOfMethod.replace("original(", "original_" + dia.getName() + "(");
-										if (diagramUri.segment(diagramUri.segmentCount() - 3).equals(callingFeature) 
-												&& diagramUri.segment(diagramUri.segmentCount() - 2).equals(callingClass) 
-												&& diagramUri.segment(diagramUri.segmentCount() - 1).equals(callingMethod + ".diagram")) {
+										if (diagramFeature.equals(callingFeature) 
+												&& diagramClass.equals(callingClass) 
+												&& diagramMethod.equals(callingMethod + ".diagram")) {
 											handledCallingMethod = true;
 										}
 									}

@@ -15,6 +15,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.exceptions.DiagnosticsException;
+import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
@@ -59,7 +60,7 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		
 		try {
 			testDiagram(getDiagram());
-		} catch (SettingsException e) {
+		} catch (SettingsException | FeatureCallerException e) {
 			e.printStackTrace();
 			return;
 		}
@@ -75,7 +76,7 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		return uri;
 	}
 	
-	public void testDiagram(final Diagram diag) throws SettingsException {
+	public void testDiagram(final Diagram diag) throws SettingsException, FeatureCallerException {
 		final URI uri;
 		boolean returnStatement;
 		

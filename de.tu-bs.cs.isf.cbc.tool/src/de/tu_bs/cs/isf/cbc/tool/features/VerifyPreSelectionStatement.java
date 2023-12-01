@@ -18,6 +18,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
+import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
@@ -95,9 +96,9 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), "");
 				if (isVariational) {
 					Console.println("--------------- Triggered variational verification ---------------");
-					String callingClass = uri.segment(uri.segmentCount()-2) + "";
-					String callingFeature = uri.segment(uri.segmentCount()-3) + "";
-					String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
+					String callingClass = FeatureCaller.getInstance().getCallingClass(uri);
+					String callingFeature = FeatureCaller.getInstance().getCallingFeature(uri);
+					String callingMethod = FeatureCaller.getInstance().getCallingMethod(uri);
 					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
 					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 					for (int i = 0; i < featureConfigs.length; i++) {
