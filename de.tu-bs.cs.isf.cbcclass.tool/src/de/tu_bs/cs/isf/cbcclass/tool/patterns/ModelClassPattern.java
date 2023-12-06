@@ -21,6 +21,7 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
+import org.eclipse.graphiti.mm.algorithms.Image;
 import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
@@ -47,6 +48,7 @@ import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 import de.tu_bs.cs.isf.cbcclass.tool.helper.CbcClassUtil;
@@ -62,6 +64,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 	public String getCreateDescription() {
 		return "Create a Model Class";
 	}
+	
 	
 	private static final String ID_NAME_TEXT = "nameText";
 	private static final String ID_CLASS_FIELDS_TEXT = "fieldsNameText";
@@ -80,12 +83,14 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 	
 	private int width;
 	private int height;	
+	private int numShapesOfEmptyClass;
 	
 	public static ModelClass instance;	
 	private IProject project;
 	
 	public ModelClassPattern() {
 		super();
+		this.numShapesOfEmptyClass = 8;
 	}
 	
 	@Override
@@ -196,6 +201,9 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 		link(outerContainerShape, addedModelClass);	
 		
 		// ModelClass
+		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
+		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
+		setId(image, ID_IMAGE_PROVEN);
 		
 		Shape textShapeName = peCreateService.createShape(outerContainerShape, false);
 		MultiText nameText = gaService.createMultiText(textShapeName, addedModelClass.getName());
@@ -340,15 +348,15 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 				inheritedInvs = mc.getInheritsFrom().getClassInvariants();
 				inheritedFields = mc.getInheritsFrom().getFields();
 			}
-			
 			int size = invs.size() + fields.size() + inheritedInvs.size() + inheritedFields.size();
-			if (containerShape.getChildren().size() - 8 != size) {
-				return Reason.createTrueReason("Number of Elements differ. Expected: " + size + " Actual: " + (containerShape.getChildren().size() - 8));
+			if (containerShape.getChildren().size() - numShapesOfEmptyClass != size) { 
+				int actual = (containerShape.getChildren().size() - numShapesOfEmptyClass);
+				return Reason.createTrueReason("Number of Elements differ. Expected: " + size + " Actual: " + actual);
 			}
 			
 			List<Integer> found = new ArrayList<Integer>();
 			EList<Shape> shapes = containerShape.getChildren();
-			for (int i = 8; i < shapes.size(); i++) {
+			for (int i = numShapesOfEmptyClass; i < shapes.size(); i++) {
 				Shape shape = shapes.get(i);
 				EList<EObject> objects = shape.eContents();
 				for (int j = 0; j < objects.size(); j++) {
@@ -435,7 +443,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 			}
 
 			List<Integer> checkedShapes = new ArrayList<>();
-			checkedShapes.add(0); //prove shape
+			checkedShapes.add(0); //prove shape 
 			checkedShapes.add(1); //modelclass name
 			checkedShapes.add(2); //line above inv
 			checkedShapes.add(3); //inv name
@@ -451,7 +459,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 				Condition inv = i < inheritedInvs.size() ? inheritedInvs.get(i) : invs.get(i - inheritedInvs.size());
 				EList<Shape> shapes = ((ContainerShape) context.getPictogramElement()).getChildren();
 				boolean check = false;
-				for (int j = 8; j < shapes.size(); j++) {
+				for (int j = numShapesOfEmptyClass; j < shapes.size(); j++) {
 					Shape shape = shapes.get(j);
 					if (shape.getGraphicsAlgorithm() instanceof TextImpl) {
 						Text text = (Text) shape.getGraphicsAlgorithm();
@@ -493,7 +501,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 				Field field = i < inheritedFields.size() ? inheritedFields.get(i) : fields.get(i - inheritedFields.size());
 				EList<Shape> shapes = ((ContainerShape) context.getPictogramElement()).getChildren();
 				boolean check = false;
-				for (int j = 8; j < shapes.size(); j++) {
+				for (int j = numShapesOfEmptyClass; j < shapes.size(); j++) { 
 					Shape shape = shapes.get(j);
 					if (shape.getGraphicsAlgorithm() instanceof TextImpl) {
 						Text text = (Text) shape.getGraphicsAlgorithm();
@@ -531,7 +539,7 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 
 			EList<Shape> shapes = ((ContainerShape) context.getPictogramElement()).getChildren();
 			int counter = 0;
-			for (int i = 8; i < shapes.size(); i++) {
+			for (int i = numShapesOfEmptyClass; i < shapes.size(); i++) {
 				if (!checkedShapes.contains(i)) {
 					Shape shape = shapes.get(i - counter);
 					int indexToDelete = getIndex(shape.getGraphicsAlgorithm());
