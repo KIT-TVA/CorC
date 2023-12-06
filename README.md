@@ -44,9 +44,11 @@ Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archi
     - `de.tu_bs.cs.isf.commands.toolbar`
     - `de.tu_bs.cs.isf.lattice`
 
-4. `Right click -> Generate Model/Edit/Editor Code` in **all** of the following files: 
+4.  Open:
     - `*.cbc.model -> model -> genmodel.genmodel`
     - `*.cbc.statistics -> model -> cbcstatistics.genmodel` 
+    
+    Right click and `Generate Model/Edit/Editor Code` for all files listed.
 
 5. Select any package and run project as `Eclipse Application`.
 
@@ -73,6 +75,12 @@ The IntegerList implements a list of integers with add and sort operations.
 - **IntegerListOO** Object-oriented implementation with class structure and CbC-Classes. Non-SPL implementation.
 
 # Common Issues
+
+**Problem:** EMT gets stuck while trying to generate a model.
+
+**Solution:** Terminate EMT using any process manager and generate the model again.
+
+---
 
 **Problem:** Multiple resolving errors after generating model files.
 

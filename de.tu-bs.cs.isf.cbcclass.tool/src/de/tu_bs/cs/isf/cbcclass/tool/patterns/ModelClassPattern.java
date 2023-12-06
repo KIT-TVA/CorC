@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -345,8 +347,10 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 			List<Condition> inheritedInvs = new ArrayList<Condition>();
 			List<Field> inheritedFields = new ArrayList<Field>();
 			if (mc.getInheritsFrom() != null) {
-				inheritedInvs = mc.getInheritsFrom().getClassInvariants();
-				inheritedFields = mc.getInheritsFrom().getFields();
+				var inheritee = (ModelClass)ClassUtil.getClassModelResource(FileUtil.getProjectLocation(mc.getInheritsFrom().eResource().getURI()), mc.getInheritsFrom().getName()).getContents().get(0);
+				//mc.setInheritsFrom(mc);
+				inheritedInvs = inheritee.getClassInvariants();
+				inheritedFields = inheritee.getFields();
 			}
 			int size = invs.size() + fields.size() + inheritedInvs.size() + inheritedFields.size();
 			if (containerShape.getChildren().size() - numShapesOfEmptyClass != size) { 
@@ -432,14 +436,15 @@ public class ModelClassPattern extends IdPattern implements IPattern {
 			List<Condition> inheritedInvs = new ArrayList<Condition>();
 			List<Field> inheritedFields = new ArrayList<Field>();
 			if (modelClass.getInheritsFrom() != null) {
-				for (int i = 0; i < modelClass.getInheritsFrom().getFields().size(); i++) {
-					if (modelClass.getInheritsFrom().getFields().get(i).getName() == null) {
-						modelClass.getInheritsFrom().getFields().remove(i);
+				var inheritee = (ModelClass)ClassUtil.getClassModelResource(FileUtil.getProjectLocation(modelClass.getInheritsFrom().eResource().getURI()), modelClass.getInheritsFrom().getName()).getContents().get(0);
+				for (int i = 0; i < inheritee.getFields().size(); i++) {
+					if (inheritee.getFields().get(i).getName() == null) {
+						inheritee.getFields().remove(i);
 						i--;
 					}
 				}
-				inheritedInvs = modelClass.getInheritsFrom().getClassInvariants();
-				inheritedFields = modelClass.getInheritsFrom().getFields();
+				inheritedInvs = inheritee.getClassInvariants();
+				inheritedFields = inheritee.getFields();
 			}
 
 			List<Integer> checkedShapes = new ArrayList<>();
