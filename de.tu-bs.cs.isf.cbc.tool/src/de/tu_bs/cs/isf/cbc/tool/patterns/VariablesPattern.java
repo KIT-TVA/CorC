@@ -183,7 +183,7 @@ public class VariablesPattern extends IdPattern implements IPattern {
 			String featureName = ((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI().segment(((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI().segmentCount() - 3);
 			String className = ((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI().segment(((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI().segmentCount() - 2);
 			Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);
-			if (classResource != null &&((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
+			if (classResource != null && classResource.getContents().size() > 0 && ((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
 				inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();	
 			}
 		}
@@ -232,7 +232,7 @@ public class VariablesPattern extends IdPattern implements IPattern {
 			// in some cases getFields/getParams do not return fields/params; backup via modelclass
 			if (fields.size() == 0 || params.size() == 0) {
 				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);				
-				if (classResource != null && classResource.getContents().get(0) instanceof ModelClass) {
+				if (classResource != null && classResource.getContents().size() > 0 && classResource.getContents().get(0) instanceof ModelClass) {
 					ModelClass mc = (ModelClass) classResource.getContents().get(0);
 					fields = mc.getFields();
 					for (Method m : mc.getMethods()) {
@@ -312,7 +312,7 @@ public class VariablesPattern extends IdPattern implements IPattern {
 			// in some cases getFields/getParams do not return fields/params; backup via modelclass
 			if (fields.size() == 0 || params.size() == 0) {
 				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);				
-				if (classResource != null && classResource.getContents().get(0) instanceof ModelClass) {
+				if (classResource != null && classResource.getContents().size() > 0 && classResource.getContents().get(0) instanceof ModelClass) {
 					ModelClass mc = (ModelClass) classResource.getContents().get(0);
 					fields = mc.getFields();
 					for (Method m : mc.getMethods()) {

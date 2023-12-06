@@ -198,7 +198,7 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 		} else if (bo instanceof CbCFormula) {
 			String comment = ((CbCFormula) bo).getComment();
 			CbCFormula domainObject = (CbCFormula) bo;
-			if (domainObject.getMethodObj() != null && domainObject.getMethodObj().getParentClass().getInheritsFrom() != null) {
+			if (domainObject.getMethodObj() != null && domainObject.getMethodObj().getParentClass() != null && domainObject.getMethodObj().getParentClass().getInheritsFrom() != null) {
 				for (Method m : domainObject.getMethodObj().getParentClass().getInheritsFrom().getMethods()) {
 					if (m.getCbcStartTriple().getName().equals(domainObject.getName())) {
 						comment = "This method has a super implementation. See properties view for more information." + (comment == null ? "" : (" // " + comment));

@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
+import org.eclipse.graphiti.features.context.IAreaContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
@@ -37,6 +38,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.mm.pictograms.impl.PictogramElementImpl;
 import org.eclipse.graphiti.pattern.IPattern;
 import org.eclipse.graphiti.pattern.id.IdLayoutContext;
 import org.eclipse.graphiti.pattern.id.IdPattern;
@@ -118,6 +120,9 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 
 	@Override
 	public boolean canCreate(ICreateContext context) {
+		if (!(context.getTargetContainer() instanceof Diagram)) {
+			return false;
+		}
 		return true;
 	}
 
@@ -141,18 +146,20 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		Resource cbcclassResource = ClassUtil.getClassModelResource("platform:/resource/" + projectName, className, featureName);
 		rs = cbcclassResource.getResourceSet();
 		
+		
 		Method method = CbcclassFactory.eINSTANCE.createMethod();
 		method.setSignature(input);
 		method.setIsStatic(input.contains(" static "));
 		
-		Resource resource = null;
+		Resource classResource = null;
 		try {
-			resource = CbcClassUtil.getResource(getDiagram());
+			classResource = CbcClassUtil.getResource(getDiagram());
 		} catch (IOException | CoreException e1) {
 			e1.printStackTrace();
+			return null;
 		}
 		
-		for (EObject obj : resource.getContents()) {
+		for (EObject obj : classResource.getContents()) {
 			if (obj instanceof ModelClass) {
 				method.setParentClass((ModelClass) obj);
 			}
@@ -223,8 +230,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		if (!alreadyExisting) {
 			GenerateDiagramFromModel gdfm = new GenerateDiagramFromModel();
 			gdfm.execute(cbcmodelResource);
-		}		
-		
+		}
 		addGraphicalRepresentation(context, method);
 		ClassUtil.refreshProject(FileUtil.getProjectLocation(relURIdiagram));
 		return new Object[] { method };

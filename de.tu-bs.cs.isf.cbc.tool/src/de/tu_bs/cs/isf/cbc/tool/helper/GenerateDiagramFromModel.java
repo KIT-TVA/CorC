@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -94,7 +95,8 @@ public class GenerateDiagramFromModel {
 			URI fullUri = URI.createURI("file:/" + projectPath.substring(0, projectPath.lastIndexOf("/") + 1) + uri.toString().replace("platform:/resource/", ""));
 			IPath iLocation = Path.fromOSString(fullUri.toFileString());
 			IFile ifile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(iLocation);
-			ifile.getParent().refreshLocal(1, null);
+			//ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+			ifile.getParent().refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (CoreException e) {

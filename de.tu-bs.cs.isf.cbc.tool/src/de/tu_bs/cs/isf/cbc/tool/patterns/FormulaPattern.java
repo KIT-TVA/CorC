@@ -423,7 +423,7 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		} else if (id.equals(ID_IMAGE_INHERITANCE)) {
 			CbCFormula domainObject = (CbCFormula) context.getDomainObject();
 			boolean superImpl = false;
-			if (domainObject.getMethodObj() != null && domainObject.getMethodObj().getParentClass().getInheritsFrom() != null) {
+			if (domainObject.getMethodObj() != null && domainObject.getMethodObj().getParentClass() != null &&  domainObject.getMethodObj().getParentClass().getInheritsFrom() != null) {
 				for (Method m : domainObject.getMethodObj().getParentClass().getInheritsFrom().getMethods()) {
 					if (m.getCbcStartTriple().getName().equals(domainObject.getName())) {
 						superImpl = true;
