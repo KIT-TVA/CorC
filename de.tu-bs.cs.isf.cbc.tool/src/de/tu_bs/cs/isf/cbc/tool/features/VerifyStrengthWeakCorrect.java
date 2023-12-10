@@ -15,11 +15,11 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
-import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+import de.tu_bs.cs.isf.cbc.statistics.StatDataCollector;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
@@ -80,7 +80,7 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 					GlobalConditions conds = extractor.getConds();
 					Renaming renaming = extractor.getRenaming();
 					CbCFormula formula = extractor.getFormula();
-					DataCollector.checkForId(statement);
+					StatDataCollector.checkForId(statement);
 					boolean proven1 = false;
 					boolean proven2 = false;
 					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
@@ -97,9 +97,9 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), "");
 					if (isVariational) {
 						Console.println("--------------- Triggered variational verification ---------------");
-						String callingClass = FeatureCaller.getInstance().getCallingClass(uri);
-						String callingFeature = FeatureCaller.getInstance().getCallingFeature(uri);
-						String callingMethod = FeatureCaller.getInstance().getCallingMethod(uri);
+						String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+						String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
+						String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 						String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
 						GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 						for (int i = 0; i < featureConfigs.length; i++) {

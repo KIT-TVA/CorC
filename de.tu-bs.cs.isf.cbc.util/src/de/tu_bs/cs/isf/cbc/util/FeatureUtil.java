@@ -1,4 +1,4 @@
-package de.tu_bs.cs.isf.cbc.tool.helper;
+package de.tu_bs.cs.isf.cbc.util;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
@@ -6,14 +6,13 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
-import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
-public final class FeatureCaller {
+public final class FeatureUtil {
 	public static String FEATURE_FOLDER = "features";
 	
-	private static FeatureCaller instance = new FeatureCaller();
+	private static FeatureUtil instance = new FeatureUtil();
 	
-	public static FeatureCaller getInstance() {
+	public static FeatureUtil getInstance() {
 		return instance;
 	}
 
@@ -21,6 +20,10 @@ public final class FeatureCaller {
 		// Assumption: There are three cases: SPL, OO or non-class
 		String className = getClassIfSPL(uri); 
 		return className.isEmpty() ? getClassIfOO(uri) : className;
+	}
+	
+	public String getCallingClass(String path) {
+		return getCallingClass(URI.createPlatformResourceURI(path));
 	}
 	
 	private String getClassIfSPL(URI uri) {
@@ -39,12 +42,26 @@ public final class FeatureCaller {
 		}
 		path = path.replaceAll("\\\\", "/");
 		String potentialClassName = path.substring(path.indexOf("src") + 4, path.length());
+		if (potentialClassName.indexOf("/") == -1) {
+			return "";
+		}
 		potentialClassName = potentialClassName.substring(0, potentialClassName.indexOf("/"));
 		IProject project = FileUtil.getProject(uri);
 		for (Resource r : FileUtil.getCbCClasses(project)) {
 			ModelClass clazz = (ModelClass)r.getContents().get(0);
 			if (clazz.getName().equals(potentialClassName)) {
 				return potentialClassName;
+			}
+		}
+		return "";
+	}
+	
+	public String getCallingFeature(String path) {
+		path = path.replaceAll("\\\\", "/");
+		var segments = path.split("/");
+		for (int i = 0; i < segments.length; i++) {
+			if (segments[i].equals(FEATURE_FOLDER)) {
+				return segments[i+1];
 			}
 		}
 		return "";

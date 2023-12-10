@@ -34,9 +34,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
-import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+import de.tu_bs.cs.isf.cbc.statistics.StatDataCollector;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.tool.helper.IdAdder;
@@ -44,6 +43,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.UpdateDiagram;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.Parser;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
@@ -104,7 +104,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 
 		IProject project = FileUtil.getProjectFromFileInProject(uri);
 		
-		DataCollector.checkForId(statement);
+		StatDataCollector.checkForId(statement);
 		
 		verifyStmt = new VerifyStatement(super.getFeatureProvider());
 		genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
@@ -116,9 +116,9 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		
 		if (isVariational) {
 			Console.println("Starting variational verification...\n");
-			String callingClass = FeatureCaller.getInstance().getCallingClass(uri);
-			String callingFeature = FeatureCaller.getInstance().getCallingFeature(uri);
-			String callingMethod = FeatureCaller.getInstance().getCallingMethod(uri);
+			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+			String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
+			String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 			String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
 			configs = featureConfigs.length-1;
 			for (int i = 0; i < featureConfigs.length; i++) {
@@ -178,10 +178,10 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		if (!statement.isProven()) {
 			boolean proven = false;
 			URI uRi = URI.createPlatformResourceURI(uri, true);
-			String callingFeature = uri.split("/")[3];
-			String callingClass = uri.split("/")[4];
-			String callingMethod = uri.split("/")[5].split("\\.")[0];
-			String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true, null);
+			String callingFeature = FeatureUtil.getInstance().getCallingFeature(uRi);
+			String callingClass = FeatureUtil.getInstance().getCallingClass(uRi);
+			String callingMethod = FeatureUtil.getInstance().getCallingMethod(uRi);
+			String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, callingMethod, true, callingClass, true, null);
 			if (featureConfigsRelevant != null) {
 				String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
@@ -212,12 +212,12 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			boolean proven = false;
 			if (!isVariational) {
 				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), "");
-				proven = prove.proveStatementWithKey(returnStatement, false, URI.createPlatformResourceURI(uri, true).segment(URI.createPlatformResourceURI(uri, true).segmentCount() - 2), false);
+				proven = prove.proveStatementWithKey(returnStatement, false, FeatureUtil.getInstance().getCallingClass(URI.createPlatformResourceURI(uri, true)), false);
 			} else {
 				URI uRi = URI.createPlatformResourceURI(uri, true);
-				String callingFeature = uri.split("/")[3];
-				String callingClass = uri.split("/")[4];
-				String callingMethod = uri.split("/")[5].split("\\.")[0];
+				String callingFeature = FeatureUtil.getInstance().getCallingFeature(uRi);
+				String callingClass = FeatureUtil.getInstance().getCallingClass(uRi);
+				String callingMethod = FeatureUtil.getInstance().getCallingMethod(uRi);
 				String varM = handleVarM(Parser.extractMethodNameFromStatemtent(statement.getName()), callingClass, vars);
 				String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, varM, false, callingClass, true, null);
 				String[][] originalFeatureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, varM, false, callingClass, true, uri.split("/")[5]);
@@ -280,13 +280,13 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			boolean proven = false;
 			if (!isVariational) {
 				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), "");
-				proven = prove.proveStatementWithKey(returnStatement, false, URI.createPlatformResourceURI(uri, true).segment(URI.createPlatformResourceURI(uri, true).segmentCount() - 2), false);
+				proven = prove.proveStatementWithKey(returnStatement, false, FeatureUtil.getInstance().getCallingClass(URI.createPlatformResourceURI(uri, true)), false);
 			} else {
 				URI uRi = URI.createPlatformResourceURI(uri, true);
-				String callingFeature = uri.split("/")[3];
-				String callingClass = uri.split("/")[4];
-				String callingMethod = uri.split("/")[5].split("\\.")[0];
-				String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, uRi.trimFileExtension().segment(uRi.segmentCount() - 1), true, callingClass, true, null);
+				String callingFeature = FeatureUtil.getInstance().getCallingFeature(uRi);
+				String callingClass = FeatureUtil.getInstance().getCallingClass(uRi);
+				String callingMethod = FeatureUtil.getInstance().getCallingMethod(uRi);
+				String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uRi, callingMethod, true, callingClass, true, null);
 				
 				if (featureConfigsRelevant != null) {
 					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);

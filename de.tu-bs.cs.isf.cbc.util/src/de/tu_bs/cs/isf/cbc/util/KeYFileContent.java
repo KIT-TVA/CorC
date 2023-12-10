@@ -298,6 +298,9 @@ public class KeYFileContent {
 				postConditions.forEach(c -> c.setName(c.getName().replaceAll(pattern.pattern(), "self." + field.getName())));
 				globalConditions.forEach(c -> c.setName(c.getName().replaceAll(pattern.pattern(), "self." + field.getName())));
 				unmodifiableVars.forEach(s -> s.replaceAll(pattern.pattern(), "self." + field.getName()));
+				if (variant != null) {
+					variant = variant.replaceAll(pattern.pattern(), "self." + field.getName());
+				}
 			}
 		}
 	}

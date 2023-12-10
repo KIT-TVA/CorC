@@ -101,7 +101,7 @@ public class FileHandler {
 			} 
 			Files.write(Paths.get(javaFile.getPath()), new byte[] {}, StandardOpenOption.TRUNCATE_EXISTING);
 			Files.write(Paths.get(javaFile.getPath()), content.getBytes(), StandardOpenOption.WRITE);
-			ResourcesPlugin.getWorkspace().getRoot().refreshLocal(2, null);
+			ResourcesPlugin.getWorkspace().getRoot().refreshLocal(1, null);
 		} catch (IOException | CoreException e) {
 			e.printStackTrace();
 			return false;

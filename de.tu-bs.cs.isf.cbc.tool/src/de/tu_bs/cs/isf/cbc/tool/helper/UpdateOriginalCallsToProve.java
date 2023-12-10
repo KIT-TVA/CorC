@@ -39,6 +39,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.OriginalStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCFeatureProvider;
 import de.tu_bs.cs.isf.cbc.tool.propertiesview.FeatureModel;
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 
 /**
  * Class for handling originals-calls which could be affect due
@@ -76,7 +77,7 @@ public class UpdateOriginalCallsToProve {
 		String method = uri.trimFileExtension().lastSegment();
 		
 		// get current Class
-		String className = FeatureCaller.getInstance().getCallingClass(uri);
+		String className = FeatureUtil.getInstance().getCallingClass(uri);
 
 		// get all features which could be affected in reverse order
 		List<String> affectedOriginalFeatures = new ArrayList<String>();

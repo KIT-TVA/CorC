@@ -7,6 +7,10 @@ import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
+import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
+import de.tu_bs.cs.isf.cbc.tool.propertiesview.Settings;
+
 /**
  * Class to open a console in the runtime instance
  * @author Tobias
@@ -93,6 +97,24 @@ public class Console {
 			MessageConsoleStream out = findConsole().newMessageStream();
 			out.setColor(color);
 			out.print("" + message);
+		}
+	}
+	
+	public static void printWarn(Object message) {
+		try {
+			if (!Settings.get().testWarningsEnabled()) {
+				return;
+			}
+		} catch (SettingsException e) {
+			e.printStackTrace();
+			return;
+		}
+		if (message == null) {
+			message = new String("null");
+		} else {
+			MessageConsoleStream out = findConsole().newMessageStream();
+			out.setColor(Colors.WARNING);
+			out.println("" + message);
 		}
 	}
 	

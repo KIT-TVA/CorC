@@ -31,6 +31,7 @@ import de.tu_bs.cs.isf.cbc.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
@@ -118,7 +119,7 @@ public class ProveWithKey {
 			String proveFolderLocation = filePath.substring(0, filePath.lastIndexOf(File.separator));
 			FileNameManager fileManager = new FileNameManager();
 			if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation) && !isVariationalProject) {
-				Console.println("Already true... skip");
+				Console.println("  Already true... skip");
 				return true;
 			}
 		}
@@ -135,7 +136,7 @@ public class ProveWithKey {
 			String proveFolderLocation = filePath.substring(0, filePath.lastIndexOf(File.separator));
 			FileNameManager fileManager = new FileNameManager();
 			if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation) && !isVariationalProject) {
-				Console.println("Already true... skip");
+				Console.println("  Already true... skip");
 				return true;
 			}
 		}
@@ -144,7 +145,7 @@ public class ProveWithKey {
 	}
 
 	public File createProveStatementWithKey(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, boolean override, String callingMethod, String varM, boolean returnStatement, String callingClass) {
-		String callingFeature = uri.split("/")[3];
+		String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 		KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
 		JavaVariables varsFromJavaClass = readFieldsFromClass(callingClass);
 		content.setSrcFolder(sourceFolder);

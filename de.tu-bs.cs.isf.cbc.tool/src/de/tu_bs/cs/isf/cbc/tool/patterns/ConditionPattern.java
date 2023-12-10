@@ -55,6 +55,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateInformationFlow;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateMethodCallsToProve;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.lattice.Lattice;
 import de.tu_bs.cs.isf.lattice.Lattices;
 
@@ -274,7 +275,7 @@ public class ConditionPattern extends IdPattern implements IPattern {
 			Text text = (Text)shape.getGraphicsAlgorithm();
 			text.setValue("{" + condition.getName() + "}");
 		} else if (!(condition.eContainer() instanceof GlobalConditions)) {
-			if (peURI.lastSegment().contains(FeatureCaller.getInstance().getCallingClass(peURI))) { //change from CbCClass
+			if (peURI.lastSegment().contains(FeatureUtil.getInstance().getCallingClass(peURI))) { //change from CbCClass
 				try {
 					condition.eResource().setTrackingModification(true);
 					condition.eResource().save(Collections.EMPTY_MAP);

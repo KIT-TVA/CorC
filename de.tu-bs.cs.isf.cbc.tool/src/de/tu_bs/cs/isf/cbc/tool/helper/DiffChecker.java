@@ -21,8 +21,8 @@ public class DiffChecker {
 		newStr = preprocess(newStr);
 		String[] originalLinesA = originalStr.split("\\n");
 		String[] newLinesA = newStr.split("\\n");
-		Object[] originalLines = Arrays.asList(originalLinesA).stream().filter(line -> !line.isEmpty()).toArray();
-		Object[] newLines = Arrays.asList(newLinesA).stream().filter(line -> !line.isEmpty() && !line.equals("null")).toArray();
+		Object[] originalLines = Arrays.asList(originalLinesA).stream().filter(line -> !line.trim().isEmpty()).toArray();
+		Object[] newLines = Arrays.asList(newLinesA).stream().filter(line -> !line.trim().isEmpty() && !line.equals("null")).toArray();
 
 		int max = originalLines.length > newLines.length ? originalLines.length : newLines.length;
 		int min = originalLines.length < max ? originalLines.length : newLines.length;

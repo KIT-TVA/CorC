@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.exceptions.ClassHandlerException;
 import de.tu_bs.cs.isf.cbc.exceptions.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.exceptions.IdentifierNotFoundException;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
@@ -38,8 +39,8 @@ public class ClassHandler {
 		this.projectUri = projectUri;
 		try {
 			setup();
-		} catch (IdentifierNotFoundException e) {
-			Console.println(e.getMessage());
+		} catch (ClassHandlerException e) {
+			//Console.println(e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -66,7 +67,7 @@ public class ClassHandler {
 		return gVars;
 	}
 	
-	public void setup() throws IdentifierNotFoundException, SettingsException {
+	public void setup() throws SettingsException, ClassHandlerException {
 		String classCode;
 		final List<String> gVars;
 		final List<String> featuregVars = new ArrayList<String>();
@@ -90,7 +91,7 @@ public class ClassHandler {
 			}
 		}
 		if (gVars == null) {
-			throw new IdentifierNotFoundException(ExceptionMessages.gVarsOfClass(className));
+			throw new ClassHandlerException(ExceptionMessages.gVarsOfClass(className));
 		}
 		// generate global vars and fields
 		for (int i = 0; i < gVars.size(); i++) {

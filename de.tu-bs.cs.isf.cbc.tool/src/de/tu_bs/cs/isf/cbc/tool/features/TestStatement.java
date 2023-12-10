@@ -48,6 +48,7 @@ import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.exceptions.TestAndAssertionGeneratorException;
 import de.tu_bs.cs.isf.cbc.exceptions.TestStatementException;
 import de.tu_bs.cs.isf.cbc.exceptions.UnexpectedTokenException;
+import de.tu_bs.cs.isf.cbc.statistics.StatDataCollector;
 import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
@@ -697,7 +698,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		// if that also doesn't work, try just the precondition from the first hoare tripel
 		// if there is still no solution, return false	
 		if (data == null) {
-			Console.println("TestStatementInfo: Couldn't generate data using all preconditions. Falling back to the precondition of the statement under test.");
+			Console.printWarn("TestStatementInfo: Couldn't generate data using all preconditions. Falling back to the precondition of the statement under test.");
 			preConditions = ConditionHandler.cleanCondition(projectPath, statement.getPreCondition().getName(), className);
 			try {
 				data = preSolver.solve(preConditions);
@@ -707,15 +708,15 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 				data = null;
 			}
 			if (data == null) {
-				Console.println("TestStatementInfo: Couldn't generate data using the precondition of the statement under test. Falling back to the precondition of the formula.");
+				Console.printWarn("TestStatementInfo: Couldn't generate data using the precondition of the statement under test. Falling back to the precondition of the formula.");
 				preConditions = ConditionHandler.cleanCondition(projectPath, formula.getStatement().getPreCondition().getName(), className);
 				try {
 					data = preSolver.solve(preConditions);
 				} catch (PreConditionSolverException e) {
 					Console.println(e.getClass().getName() + ": " + e.getMessage(), Colors.RED);
 					e.printStackTrace();
-					Console.println("TestStatement: Couldn't parse preconditions of neither the statement nor the formula.");
-					Console.println("TestStatement: Consider using 'usePreConditions(false)' in 'PreConditionSolver'.");
+					Console.printWarn("TestStatementInfo: Couldn't parse preconditions of neither the statement nor the formula.");
+					Console.printWarn("TestStatementInfo: Consider using 'usePreConditions(false)' in 'PreConditionSolver'.");
 					throw new TestStatementException("Canno't generate tests for this method.");
 				}
 			}
@@ -749,6 +750,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		final JavaVariable returnVar = Variable.getReturnVar(vars);
 		final String className = ClassHandler.getClassName(formula);
 		String statementName = statement.getName().trim();
+		StatDataCollector.checkForId(statement);
 		TestAndAssertionGenerator generator = new TestAndAssertionGenerator(fp);
 		generator.setProjectPath(projectPath);
 		

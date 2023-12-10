@@ -28,14 +28,14 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.mutation.feature.Mutator;
-import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+import de.tu_bs.cs.isf.cbc.statistics.StatDataCollector;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
@@ -101,6 +101,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				AbstractStatement statement = (AbstractStatement) bo;
 				DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
 				JavaVariables vars = extractor.getVars();
+				var ffssf = vars.getFields();
 				GlobalConditions conds = extractor.getConds();
 				Renaming renaming = extractor.getRenaming();
 				CbCFormula formula = extractor.getFormula();
@@ -134,13 +135,13 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 	}
 
 	private boolean executeNormalVerification(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
-		DataCollector.checkForId(statement);
+		StatDataCollector.checkForId(statement);
 		boolean proven = false;
 		Console.println("Starting verification...\n");
 		if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
-			String callingClass = FeatureCaller.getInstance().getCallingClass(uri);
+			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, platformUri, formula, new FileUtil(platformUri), "", "");
 			proven = prove.proveStatementWithKey(returnStatement, false, callingClass, true);
 		} else {
@@ -150,11 +151,11 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 	}
 
 	private boolean executeVariationalVerification(IProject project, URI uri, AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
-		DataCollector.checkForId(statement);
+		StatDataCollector.checkForId(statement);
 		boolean proven = false;
-		String callingFeature = FeatureCaller.getInstance().getCallingFeature(uri);
-		String callingClass = FeatureCaller.getInstance().getCallingClass(uri);
-		String callingMethod = FeatureCaller.getInstance().getCallingMethod(uri);
+		String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
+		String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+		String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.trimFileExtension().segmentCount() - 1), true, callingClass, false, null);
 		String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
 		
@@ -194,9 +195,9 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			for (Diagram dia : diagrams) {
 				if (variantFound) break;
 				URI diagramUri = dia.eResource().getURI();
-				String diagramFeature = FeatureCaller.getInstance().getCallingFeature(diagramUri);
-				String diagramClass = FeatureCaller.getInstance().getCallingClass(diagramUri);
-				String diagramMethod = FeatureCaller.getInstance().getCallingMethod(diagramUri);
+				String diagramFeature = FeatureUtil.getInstance().getCallingFeature(diagramUri);
+				String diagramClass = FeatureUtil.getInstance().getCallingClass(diagramUri);
+				String diagramMethod = FeatureUtil.getInstance().getCallingMethod(diagramUri);
 				if (diagramFeature.equalsIgnoreCase(featureName)
 						&& diagramClass.equals(className)
 						&& diagramMethod.equals(methodName)
@@ -227,9 +228,9 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			for (Diagram dia : diagrams) {
 				if (variantFound) break;
 				URI diagramUri = dia.eResource().getURI();
-				String diagramFeature = FeatureCaller.getInstance().getCallingFeature(diagramUri);
-				String diagramClass = FeatureCaller.getInstance().getCallingClass(diagramUri);
-				String diagramMethod = FeatureCaller.getInstance().getCallingMethod(diagramUri);
+				String diagramFeature = FeatureUtil.getInstance().getCallingFeature(diagramUri);
+				String diagramClass = FeatureUtil.getInstance().getCallingClass(diagramUri);
+				String diagramMethod = FeatureUtil.getInstance().getCallingMethod(diagramUri);
 				if (diagramFeature.equalsIgnoreCase(featureName)
 						&& diagramClass.equals(className)
 						&& diagramMethod.equals(methodName)

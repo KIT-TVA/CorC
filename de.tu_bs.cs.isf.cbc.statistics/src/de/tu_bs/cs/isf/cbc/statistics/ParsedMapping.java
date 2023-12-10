@@ -42,7 +42,7 @@ public class ParsedMapping {
 	private void parse() {
 		final ResourceSet rSet = new ResourceSetImpl();
 		this.keyFilePath = file.getLocation().toOSString();
-		this.diagramName = DataCollector.getFolderName(this.keyFilePath);
+		this.diagramName = StatDataCollector.getFolderName(this.keyFilePath);
 		this.diagramPath = Path.fromOSString(parseDiagramPathFromProofFile(file)).toPortableString();
 		var diagramFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(Path.fromPortableString(this.diagramPath));
 		var diagram = GetDiagramUtil.getDiagramFromFile(diagramFile, rSet);
@@ -67,7 +67,7 @@ public class ParsedMapping {
 			this.statementId = statement.getId();
 		}
 		String problem = parseProblem();
-		this.problemHash = DataCollector.getHashFromProblem(problem);
+		this.problemHash = StatDataCollector.getHashFromProblem(problem);
 	}
 	
 	private String parseDiagramPathFromProofFile(IFile file) {

@@ -11,6 +11,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 
@@ -26,9 +27,9 @@ public class Features {
 	
 	public Features(final URI uri) throws FeatureCallerException{
 		this.uri = uri;
-		callingClass = FeatureCaller.getInstance().getCallingClass(uri);
-		callingFeature = FeatureCaller.getInstance().getCallingFeature(uri);
-		callingMethod = FeatureCaller.getInstance().getCallingMethod(uri);
+		callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+		callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
+		callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 		featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);
 		configs = featureConfigs.length;
 	}
@@ -91,7 +92,7 @@ public class Features {
 			return null;
 		}
 		final ResourceSet rSet = new ResourceSetImpl();
-		final IFolder folder = FileUtil.getProject(uri).getFolder(FeatureCaller.FEATURE_FOLDER).getFolder(featureName).getFolder(className);
+		final IFolder folder = FileUtil.getProject(uri).getFolder(FeatureUtil.FEATURE_FOLDER).getFolder(featureName).getFolder(className);
 		if (folder == null) {
 			return null;
 		}

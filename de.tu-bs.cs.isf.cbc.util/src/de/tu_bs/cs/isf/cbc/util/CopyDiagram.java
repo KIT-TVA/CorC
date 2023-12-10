@@ -1,4 +1,4 @@
-package de.tu_bs.cs.isf.cbc.mutation.util;
+package de.tu_bs.cs.isf.cbc.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,9 +12,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -34,7 +31,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
 
 public class CopyDiagram {
@@ -72,17 +68,17 @@ public class CopyDiagram {
 		diagResource = newRs.createResource(this.path);
 		copyFormula(dpeOriginal.getFormula());
 		copyConditions(dpeOriginal.getConds());
-		copyVars(dpeOriginal.getVars());
+		copyVars(dpeOriginal.getVars(), dpeOriginal.getFormula());
 		copyRenaming(dpeOriginal.getRenaming());
 		diagResource.save(Collections.EMPTY_MAP);
 	}
 	
 	private void copyFormula(CbCFormula formula) {
 		newFormula = CbcmodelFactory.eINSTANCE.createCbCFormula();
-		newFormula.setClassName(FeatureCaller.getInstance().getCallingClass(this.originalPath));
-		newFormula.setName(formula.getName()); // Set this to value of variable 'name' if mutant name should be used
+		newFormula.setClassName(FeatureUtil.getInstance().getCallingClass(this.originalPath));
+		newFormula.setName(name); 
 		if (formula.getMethodObj() != null) {
-			newFormula.setMethodName(formula.getMethodObj().getSignature()); // TODO: Find better way of passing the signature to the new method obj created in MutatedClass.
+			newFormula.setMethodName(formula.getMethodObj().getSignature().replaceFirst(formula.getName(), name)); // TODO: Find better way of passing the signature to the new method obj created in MutatedClass.
 		}
 		newFormula.setStatement(copyRefinements(formula.getStatement()));
 		diagResource.getContents().add(newFormula);
@@ -99,7 +95,7 @@ public class CopyDiagram {
 		diagResource.getContents().add(newGc);
 	}
 	
-	private void copyVars(JavaVariables vars) {
+	private void copyVars(JavaVariables vars, CbCFormula formula) {
 		if (vars == null) {
 			return;
 		}
@@ -110,26 +106,7 @@ public class CopyDiagram {
 			newV.setName(v.getName());
 			newJv.getVariables().add(newV);
 		}
-	
-	/*	
-		for (Field f : vars.getFields()) {
-			Field newF = CbcclassFactory.eINSTANCE.createField();
-			newF.setIsFinal(f.isIsFinal());
-			newF.setIsStatic(f.isIsStatic());
-			newF.setName(f.getName());
-			newF.setType(f.getType());
-			newF.setVisibility(f.getVisibility());
-			newJv.getFields().add(newF);
-		}*/
-		//newJv.getFields().addAll(vars.getFields());
-/*
-		for (Parameter p : vars.getParams()) {
-			Parameter newP = CbcclassFactory.eINSTANCE.createParameter();
-			newP.setName(p.getName());
-			newP.setType(p.getType());
-			newJv.getParams().add(newP);
-		}*/
-		//newJv.getParams().addAll(vars.getParams());
+		// Note: Fields and Params will not be copied since they should be set by the class.
 		diagResource.getContents().add(newJv);
 	}
 	

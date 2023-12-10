@@ -5,8 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.IFile;
@@ -27,9 +29,9 @@ import de.tu_bs.cs.isf.cbc.exceptions.FileHandlerException;
 import de.tu_bs.cs.isf.cbc.mutation.util.FileReader;
 import de.tu_bs.cs.isf.cbc.mutation.util.JavaDirectoryLoader;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import src.mujava.MutationSystem;
 
@@ -100,9 +102,9 @@ public abstract class Mutator {
 		this.setOriginalDiagram(diagram);
 		this.mutantBaseName = this.getOriginalDiagram().getName() + "Mutant";
 		classUri = getOriginalDiagram().eResource().getURI();
-		className = FeatureCaller.getInstance().getCallingClass(classUri);
+		className = FeatureUtil.getInstance().getCallingClass(classUri);
 		className = className.isEmpty() ? "NoClass" : className;
-		//deleteMutationFiles();
+		deleteMutationFiles();
 		mutationFolder = getClassFolder(getOriginalDiagram()).getFolder(FOLDER_NAME);
 		//mutationFolder = FileHandler.getInstance().getFolder(originalDiagram.eResource().getURI(), FOLDER_NAME);
 		FileHandler.getInstance().deleteFolder(mutationFolder);
@@ -122,10 +124,30 @@ public abstract class Mutator {
 		String[] codes = new String[mutants.length];
 		int i = 0;
 		for (File f : mutants) {
-			codes[i] = new FileReader(f).readLines();
+			codes[i] = mergeElseIfs(new FileReader(f).readLines());
 			i++;
 		}
 		return codes;
+	}
+	
+	private String mergeElseIfs(String code) {
+		String[] lines = code.split("\\n");
+		String[] out = new String[lines.length];
+		int offset = 0;
+		for (int i = 0; i < lines.length - 1; i++) {
+			if (lines[i].contains("else {") && lines[i+1].contains("if")) {
+				out[i] = lines[i].substring(0, lines[i].length() - 1) + lines[i+1].stripLeading();
+				i++;
+				while (!lines[++i].contains("}")) {
+					out[i-1] = lines[i];
+				}
+				offset -= 2;
+			} else {
+				out[i+offset] = lines[i];
+			}
+		}
+		code = Arrays.stream(out).filter(l -> l != null).collect(Collectors.joining("\n"));
+		return code;
 	}
 
 	protected void cleanUp() throws CoreException {

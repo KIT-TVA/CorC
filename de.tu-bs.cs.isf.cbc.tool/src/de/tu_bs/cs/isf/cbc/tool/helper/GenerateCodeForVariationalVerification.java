@@ -45,6 +45,7 @@ import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.IFileUtil;
 import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
@@ -160,9 +161,9 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			for (String feature : config) {
 				for (Diagram dia : getDiagrams()) {
 					URI diagramUri = dia.eResource().getURI();
-					String diagramFeature = FeatureCaller.getInstance().getCallingFeature(diagramUri);
-					String diagramClass = FeatureCaller.getInstance().getCallingClass(diagramUri);
-					String diagramMethod = FeatureCaller.getInstance().getCallingMethod(diagramUri);
+					String diagramFeature = FeatureUtil.getInstance().getCallingFeature(diagramUri);
+					String diagramClass = FeatureUtil.getInstance().getCallingClass(diagramUri);
+					String diagramMethod = FeatureUtil.getInstance().getCallingMethod(diagramUri);
 					if (diagramFeature.equals(feature)
 							&& diagramClass.equals(className)
 							&& diagramMethod.matches("[a-z][a-zA-Z0-9]*")) {

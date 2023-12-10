@@ -61,9 +61,7 @@ public class TestAndAssertionListener implements ITestListener {
 			  if (contextVar.startsWith(testNr)) {
 				  var varWithoutId = contextVar.substring(contextVar.indexOf(testNr) + testNr.length(), contextVar.length());
 				  if (context.getAttribute(contextVar) == null) {
-					  if (Settings.get().testWarningsEnabled()) {
-						  Console.println("TestAndAssertionListenerWarning: Couldn't get value for variable '" + varWithoutId + "'.");
-					  }
+					  Console.printWarn("TestAndAssertionListenerWarning: Couldn't get value for variable '" + varWithoutId + "'.");
 					  continue;
 				  }
 				  varsWithValues.put(varWithoutId, context.getAttribute(contextVar).toString());

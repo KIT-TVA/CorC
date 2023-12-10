@@ -18,12 +18,12 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
-import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+import de.tu_bs.cs.isf.cbc.statistics.StatDataCollector;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.Parser;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
@@ -109,13 +109,13 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 	}
 
 	private boolean executeNormalVerification(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
-		DataCollector.checkForId(statement);
+		StatDataCollector.checkForId(statement);
 		boolean proven = false;
 		Console.println("--------------- Triggered verification ---------------");
 		if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
-			String callingClass = FeatureCaller.getInstance().getCallingClass(uri);
+			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, platformUri, formula, new FileUtil(platformUri), "");
 			proven = prove.proveStatementWithKey(returnStatement, false, callingClass, true);
 		} else {
@@ -125,12 +125,12 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 	}
 
 	private boolean executeVariationalVerification(IProject project, URI uri, AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
-		DataCollector.checkForId(statement);
+		StatDataCollector.checkForId(statement);
 		boolean proven = false;
 		VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
-		String callingFeature = FeatureCaller.getInstance().getCallingFeature(uri);
-		String callingClass = FeatureCaller.getInstance().getCallingClass(uri);
-		String callingMethod = FeatureCaller.getInstance().getCallingMethod(uri);
+		String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
+		String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+		String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 		String varM = handleVarM(Parser.extractMethodNameFromStatemtent(statement.getName()), callingClass, vars);
 		String varMParts[] = varM.split("\\.");
 		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, varM, false, callingClass, false, null);

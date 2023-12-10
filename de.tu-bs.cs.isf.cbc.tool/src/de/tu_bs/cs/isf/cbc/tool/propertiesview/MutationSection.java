@@ -73,19 +73,23 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 			"AORB | a + b  →  M₁: a - b  M₂: a * b  M₃: a / b",
 			"AORS | i++  →  M₁: i--  M₂: ++i  M₃: --i",
 			"AOIU | a < b  →  M₁: -a < b  M₂: a < -b ...",
-			"AOIS | a  →  M₁: --a  M₂: ++a  M₃: a++  M₄: a--",
-			"AODU | -e  →  M₁: e",
-			"AODS | a++  →  M₁: i",
 			"ROR | a < b → M₁: a <= b  M₂: a >= b ...",
 			"COR | a || b → M₁: a && b  M₂: a & b ...",
 			"COD | !a → M₁: a",
-			"COI | a → M₁: !a",
 			"SOR | a >> b → M₁: a << b  M₂: a >>>> b",
 			"LOR | a | b →  M₁: a & b  M₂: a ^ b",
-			"LOI | a →  M₁: ˜a",
 			"LOD | ˜a →  M₁: a",
 			"ASRS | a += b → M₁: a -= b  M₂: a *= b ..."
 	};
+	
+	/* Excluded operators:
+	 * 
+			"COI | a → M₁: !a",
+			"LOI | a →  M₁: ˜a",
+			"AODU | -e  →  M₁: e",
+			"AODS | a++  →  M₁: i",
+			"AOIS | a  →  M₁: --a  M₂: ++a  M₃: a++  M₄: a--",
+	 */
 	
 	// Contract Mutation Operators
 	private final String[] contractOperators = new String[] {

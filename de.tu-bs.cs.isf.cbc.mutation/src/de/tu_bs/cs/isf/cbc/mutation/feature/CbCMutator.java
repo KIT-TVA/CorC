@@ -19,8 +19,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.exceptions.MutatorException;
 import de.tu_bs.cs.isf.cbc.mutation.op.cbc.CbCMutationOp;
-import de.tu_bs.cs.isf.cbc.mutation.util.CopyDiagram;
 import de.tu_bs.cs.isf.cbc.mutation.util.MutatedClass;
+import de.tu_bs.cs.isf.cbc.util.CopyDiagram;
 
 public class CbCMutator extends Mutator {
 	private Condition condition;

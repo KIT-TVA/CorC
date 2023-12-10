@@ -243,9 +243,7 @@ public class PreConditionSolver {
 				}
 			}
 		}
-    	if (showWarnings) {
-    		Console.println("PreConditionSolverWarning: Type of identifier '" + tree.getRep() + "' is not supported.");
-    	}
+		Console.printWarn("PreConditionSolverWarning: Type of identifier '" + tree.getRep() + "' is not supported.");
     	FileHandler.getInstance().log("PreConditionSolverWarning: Type of identifier '" + tree.getRep() + "' is not supported.");
 		return context.mkTrue();
     }
@@ -538,7 +536,7 @@ public class PreConditionSolver {
 				}
 			}
 		} catch (TestFailedException e) {
-			Console.println("PreConditionSolverInfo: Preconditions are not satisfiable.");
+			Console.printWarn("PreConditionSolverWarning: Preconditions are not satisfiable.");
 			return null;
 		}
 		return output;	

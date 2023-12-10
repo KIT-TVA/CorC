@@ -31,7 +31,7 @@ import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.Statistics;
 
-public class DataCollector {
+public class StatDataCollector {
 	private IFeatureProvider fp;
 
 	// TODO: data is constantly saved -> implement something to clean database

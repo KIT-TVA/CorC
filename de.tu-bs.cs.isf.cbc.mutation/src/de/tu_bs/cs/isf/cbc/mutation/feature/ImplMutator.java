@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.CopyDiagram;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
@@ -22,7 +23,6 @@ import de.tu_bs.cs.isf.cbc.exceptions.CodeRepresentationFinderException;
 import de.tu_bs.cs.isf.cbc.exceptions.FileHandlerException;
 import de.tu_bs.cs.isf.cbc.exceptions.MutatorException;
 import de.tu_bs.cs.isf.cbc.mutation.util.CodeRepresentationFinder;
-import de.tu_bs.cs.isf.cbc.mutation.util.CopyDiagram;
 import de.tu_bs.cs.isf.cbc.mutation.util.DirectoryCreator;
 import de.tu_bs.cs.isf.cbc.mutation.util.MutatedClass;
 import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;

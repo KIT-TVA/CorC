@@ -17,6 +17,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.exceptions.DiagnosticsException;
 import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
+import de.tu_bs.cs.isf.cbc.statistics.StatDataCollector;
 import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.tool.helper.Features;
@@ -84,6 +85,7 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 		JavaVariables vars = extractor.getVars();
 		GlobalConditions conds = extractor.getConds();
 		CbCFormula formula = extractor.getFormula();
+		StatDataCollector.checkForId(formula.getStatement());
 		
 		final TestStatement ts = new TestStatement(fp);
 		uri = getUri(diag);

@@ -8,5 +8,6 @@ public final class Colors {
 	  public static final Color GREEN = new Color(new RGB(161, 193, 129));
 	  public static final Color BLUE = new Color(new RGB(42, 157, 143));
 	  public static final Color BLACK = new Color(new RGB(0, 0, 0));
+	  public static final Color WARNING = new Color(new RGB(233, 196, 106));
 	  public static Color HIGHLIGHT_COLOR = new Color(new RGB(255, 25, 25));
 }

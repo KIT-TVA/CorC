@@ -15,12 +15,12 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
-import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+import de.tu_bs.cs.isf.cbc.statistics.StatDataCollector;
 import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
@@ -91,12 +91,12 @@ public class VerifyOriginalCallStatement extends MyAbstractAsynchronousCustomFea
 	}
 
 	private boolean executeVerification(IProject project, URI uri, AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
-		DataCollector.checkForId(statement);
+		StatDataCollector.checkForId(statement);
 		boolean proven = false;
 		VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
-		String callingFeature = FeatureCaller.getInstance().getCallingFeature(uri);
-		String callingClass = FeatureCaller.getInstance().getCallingClass(uri);
-		String callingMethod = FeatureCaller.getInstance().getCallingMethod(uri);
+		String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
+		String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+		String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, callingMethod, true, callingClass, false, null);
 		String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, callingMethod, true, callingClass, true, null);
 		

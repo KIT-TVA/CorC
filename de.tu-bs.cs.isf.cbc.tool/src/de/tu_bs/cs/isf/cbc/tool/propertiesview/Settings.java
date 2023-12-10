@@ -1,5 +1,6 @@
 package de.tu_bs.cs.isf.cbc.tool.propertiesview;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -7,6 +8,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
+import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
+import de.tu_bs.cs.isf.cbc.util.Console;
 
 public final class Settings implements Serializable {
 	private static Settings instance;
@@ -23,9 +26,20 @@ public final class Settings implements Serializable {
     }
     
     public static void read() throws SettingsException {
-        try (FileInputStream fileIn = new FileInputStream(filePath);
-            ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
-        	instance = (Settings)objectIn.readObject();
+        try {
+        	File settingsFile = new File(filePath);
+        	if (!settingsFile.exists()) {
+				if (settingsFile.canWrite()) {
+					Console.println("Can't access settings file. Please restart CorC with administrator rights.", Colors.RED);
+					return;
+				}
+        		instance = new Settings();
+        		_save();
+        	} else {
+				FileInputStream fileIn = new FileInputStream(filePath);
+				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+				instance = (Settings)objectIn.readObject();
+        	}
         } catch (Exception e) {
             throw new SettingsException("Cannot read settings from '" + filePath + "'.");
         }
@@ -58,10 +72,15 @@ public final class Settings implements Serializable {
     public void setCounterExamples(boolean counterExamples) {
     	instance.counterExamples = counterExamples;
     }
-
+    
     public void save() {
-        try (FileOutputStream fileOut = new FileOutputStream(filePath);
-             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
+    	_save();
+    }
+
+    private static void _save() {
+        try {
+        	FileOutputStream fileOut = new FileOutputStream(filePath);
+        	ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(instance);
         } catch (Exception e) {
             e.printStackTrace();

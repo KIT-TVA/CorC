@@ -21,6 +21,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
+
 /**
  * Class for showing Notifications for critical proofs
  * 
@@ -60,8 +62,8 @@ public class NotificationPopup extends AbstractNotificationPopup {
 		buttonGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		for (int i = 0; i < uris.size(); i++) {
-			String curFeature = FeatureCaller.getInstance().getCallingFeature(uris.get(i));
-			String curMethod = FeatureCaller.getInstance().getCallingMethod(uris.get(i));
+			String curFeature = FeatureUtil.getInstance().getCallingFeature(uris.get(i));
+			String curMethod = FeatureUtil.getInstance().getCallingMethod(uris.get(i));
 			String output = "Feature: " + curFeature + ", Method: "
 					+ curMethod;
 			Button newButton = new Button(buttonGroup, SWT.DEFAULT);

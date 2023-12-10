@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.antlr.runtime.RecognitionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -18,7 +19,9 @@ import org.key_project.util.collection.ImmutableSet;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
+import de.tu_bs.cs.isf.cbc.statistics.StatDataCollector;
+import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
 import de.uka.ilkd.key.control.KeYEnvironment;
 import de.uka.ilkd.key.gui.MainWindow;
 import de.uka.ilkd.key.java.abstraction.KeYJavaType;
@@ -102,7 +105,7 @@ public class KeYInteraction {
 
 				try {
 					// TODO: inlining may be important too
-					DataCollector collector = new DataCollector();
+					StatDataCollector collector = new StatDataCollector();
 					collector.collectCorcStatistics(proof, formula, statement, problem, uri);
 				} catch (RuntimeException e) {
 						Console.println(
@@ -140,6 +143,21 @@ public class KeYInteraction {
 			Console.println("  > Check the renaming field for any spelling errors");
 			Console.println("  > Check whether the function resides in the right class / file");
 			Console.println("  > Check whether the return type of the function matches");
+			if (error.getCause() instanceof RecognitionException) {
+				RecognitionException recE = (RecognitionException)error.getCause();
+				var inputStream = recE.input.toString();
+				var beforeError = inputStream.substring(0, recE.index);
+				var afterError = inputStream.substring(recE.index, inputStream.length());
+				String line = CodeHandler.createHorizontalLine(beforeError + "\n" + afterError);
+				beforeError = CodeHandler.createVerticalLines(beforeError, line);
+				afterError = CodeHandler.createVerticalLines(afterError, line);
+				Console.println("Input:");
+				Console.println(line);
+				Console.println(beforeError, Colors.GREEN);
+				Console.println(afterError, Colors.RED);
+				Console.println(line);
+			} else {
+			}
 			error.printStackTrace();
 		} else if (error.getClass() == PosConvertException.class) {
 			Console.println("  A PosConvertException occured.");
@@ -249,7 +267,7 @@ public class KeYInteraction {
 //						MainWindow.getInstance().setVisible(true);
 					env.getUi().getProofControl().startAndWaitForAutoMode(proof);
 					// Show proof result
-					Console.println("Proof is closed: " + proof.openGoals().isEmpty());
+					Console.println("  Proof is closed: " + proof.openGoals().isEmpty());
 					try {
 						String locationWithoutFileEnding = location.toString().substring(0,
 								location.toString().indexOf("."));
