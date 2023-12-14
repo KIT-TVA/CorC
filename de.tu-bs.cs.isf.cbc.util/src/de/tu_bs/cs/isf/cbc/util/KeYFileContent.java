@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.Method;
@@ -147,11 +148,10 @@ public class KeYFileContent {
 					returnVariable.setKind(VariableKind.RETURNPARAM);
 					returnVariable.setName(param.getType() + " " + param.getName());
 				}
-				
-				programVariables.getParams().add(param);
+				programVariables.getParams().add(EcoreUtil.copy(param));
 			}
 			for (Field field : vars.getFields()) {
-				programVariables.getFields().add(field);
+				programVariables.getFields().add(EcoreUtil.copy(field));
 			}
 
 		}

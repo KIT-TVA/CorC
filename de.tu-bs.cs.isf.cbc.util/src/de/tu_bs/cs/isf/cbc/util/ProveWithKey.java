@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,6 +19,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.common.collect.Lists;
 
@@ -42,6 +44,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 import de.tu_bs.cs.isf.cbc.tool.features.CounterExampleGenerator;
 import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
+import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
 
@@ -119,7 +122,7 @@ public class ProveWithKey {
 			String proveFolderLocation = filePath.substring(0, filePath.lastIndexOf(File.separator));
 			FileNameManager fileManager = new FileNameManager();
 			if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation) && !isVariationalProject) {
-				Console.println("  Already true... skip");
+				Console.println("  Already true... skip\n");
 				return true;
 			}
 		}
@@ -136,18 +139,26 @@ public class ProveWithKey {
 			String proveFolderLocation = filePath.substring(0, filePath.lastIndexOf(File.separator));
 			FileNameManager fileManager = new FileNameManager();
 			if (fileManager.isKeYFileWithHashProven(problemHash, proveFolderLocation) && !isVariationalProject) {
-				Console.println("  Already true... skip");
+				Console.println("  Already true... skip\n");
 				return true;
 			}
 		}
 		Console.println("  Verify Pre -> {Statement} Post");
 		return proveWithKey(location, inlining);
 	}
+	
+	private Collection<Parameter> copyMethodParams(String uri, String callingMethod, String callingClass) {
+		var project = FileUtil.getProjectLocationS(uri);
+		ModelClass clazz = FileHandler.getInstance().getClass(project, callingClass);
+		Method method = clazz.getMethods().stream().filter(m -> m.getName().equals(callingMethod)).findFirst().get();
+		return EcoreUtil.copyAll(method.getParameters());
+	}
 
 	public File createProveStatementWithKey(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, boolean override, String callingMethod, String varM, boolean returnStatement, String callingClass) {
 		String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 		KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
 		JavaVariables varsFromJavaClass = readFieldsFromClass(callingClass);
+		addExistingVarsTo(varsFromJavaClass);
 		content.setSrcFolder(sourceFolder);
 		content.readVariables(varsFromJavaClass);
 		JavaVariable returnVariable = content.readVariables(vars);
@@ -587,11 +598,27 @@ public class ProveWithKey {
 		Console.println("  Verify Pre -> Invariant");
 		return proveWithKey(location, false);
 	}
+	
+	private String getMethodName(String uri) {
+		uri = uri.replaceAll("\\\\", "/");
+		return uri.substring(uri.lastIndexOf("/") + 1, uri.length()).split("\\.")[0];
+	}
+	
+	private void addExistingVarsTo(JavaVariables targetVars) {
+		JavaVariables copyVars = EcoreUtil.copy(vars);
+		var callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+		targetVars.getParams().addAll(copyMethodParams(uri, getMethodName(uri), callingClass));
+		targetVars.getVariables().addAll(copyVars.getVariables());
+		targetVars.getFields().addAll(copyVars.getFields());
+	}
 
 	public File createProveCImpliesCWithKey(String preCondition, String postCondition, boolean override) {
 		KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
-		content.readVariables(vars);
+		var callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+		JavaVariables varsFromJavaClass = readFieldsFromClass(callingClass);
+		addExistingVarsTo(varsFromJavaClass);
+		content.readVariables(varsFromJavaClass);
 		content.readGlobalConditions(conds);
 
 		//content.readInvariants(readInvariantsFromClass(uri.split("/")[4]));
@@ -641,7 +668,10 @@ public class ProveWithKey {
 	public File createProveVariantWithKey(String code, Condition invariant, Condition guard, Variant variant, boolean override) {
 		KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
-		content.readVariables(vars);
+		var callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+		JavaVariables varsFromJavaClass = readFieldsFromClass(callingClass);
+		addExistingVarsTo(varsFromJavaClass);
+		content.readVariables(varsFromJavaClass);
 		content.addVariable("int variant");
 		content.readGlobalConditions(conds);
 		content.setPreFromCondition(invariant.getName() + " & " + guard.getName());
@@ -666,7 +696,7 @@ public class ProveWithKey {
 	private File createProveUseWeakestPreWithKey(boolean override) {
 		KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
-		content.readVariables(vars);
+		content.readVariables(EcoreUtil.copy(vars));
 		content.readGlobalConditions(conds);
 		content.readInvariants(readInvariantsFromClass(uri.split("/")[4]));
 		content.setStatement(statement.getName());

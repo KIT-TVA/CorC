@@ -192,6 +192,10 @@ public class FileHandler {
 
 	public ModelClass getClass(Diagram diagInProject, String className){
 		IProject project = FileUtil.getProject(diagInProject.eResource().getURI());
+		return getClass(project, className);
+	}
+	
+	public ModelClass getClass(IProject project, String className) {
 		var classes = FileUtil.getCbCClasses(project);
 		for (Resource r : classes) {
 			ModelClass cur = (ModelClass)r.getContents().get(0);

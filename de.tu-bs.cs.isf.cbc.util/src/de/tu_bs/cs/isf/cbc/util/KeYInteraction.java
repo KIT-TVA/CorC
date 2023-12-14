@@ -267,7 +267,7 @@ public class KeYInteraction {
 //						MainWindow.getInstance().setVisible(true);
 					env.getUi().getProofControl().startAndWaitForAutoMode(proof);
 					// Show proof result
-					Console.println("  Proof is closed: " + proof.openGoals().isEmpty());
+					Console.println("  Proof is closed: " + proof.openGoals().isEmpty() + "\n");
 					try {
 						String locationWithoutFileEnding = location.toString().substring(0,
 								location.toString().indexOf("."));
