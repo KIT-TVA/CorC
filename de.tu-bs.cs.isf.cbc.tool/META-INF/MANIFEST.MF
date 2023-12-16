@@ -43,7 +43,6 @@ Import-Package: de.ovgu.featureide.fm.core.base,
  org.eclipse.jdt.core,
  org.key_project.util.collection
 Export-Package: de.tu_bs.cs.isf.cbc.tool.diagram,
- de.tu_bs.cs.isf.cbc.tool.exceptions,
  de.tu_bs.cs.isf.cbc.tool.features,
  de.tu_bs.cs.isf.cbc.tool.helper,
  de.tu_bs.cs.isf.cbc.tool.model,

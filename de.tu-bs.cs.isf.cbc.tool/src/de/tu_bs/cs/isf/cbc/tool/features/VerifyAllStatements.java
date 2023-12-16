@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
@@ -91,12 +92,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     	Console.clear();
     	long startTime = System.nanoTime();
 		DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
-    	JavaVariables vars = extractor.getVars();
-		GlobalConditions conds = extractor.getConds();
-		Renaming renaming = extractor.getRenaming();
 		CbCFormula formula = extractor.getFormula();		
 		AbstractStatement statement = formula.getStatement();
-		String uriString = getDiagram().eResource().getURI().toPlatformString(true);
 		URI uri = getDiagram().eResource().getURI();
 		// delete 'tests' folder if it exists because it will cause reference errors
 		// since key doesn't use TestNG.
@@ -126,14 +123,14 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 				for (String s : featureConfigs[i]) configName += s;
 				configNum = i;
 				genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
-				if (!proveChildStatement(statement.getRefinement(), vars, conds, renaming, formula, uriString, null)) {
+				if (!proveChildStatement(statement.getRefinement(), getDiagram(), null)) {
 					statement.setProven(false);
 					return;
 				}
 			}
 		} else {
 			Console.println("Starting verification...\n");
-			if (!proveChildStatement(statement.getRefinement(), vars, conds, renaming, formula, uriString, null)) {
+			if (!proveChildStatement(statement.getRefinement(), getDiagram(), null)) {
 				statement.setProven(false);
 				return;
 			}
@@ -144,40 +141,44 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		Console.println("Time needed: " + duration + "ms");
     }   
     
-	private static boolean proveChildStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
-    		CbCFormula formula, String uri, IProgressMonitor monitor) {
+	private static boolean proveChildStatement(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor) {
 		boolean prove = false;
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
+    	JavaVariables vars = extractor.getVars();
+		GlobalConditions conds = extractor.getConds();
+		Renaming renaming = extractor.getRenaming();
+		CbCFormula formula = extractor.getFormula();		
+		String uri = diagram.eResource().getURI().toPlatformString(true);
 		 if (statement instanceof SmallRepetitionStatement) {
-			prove = proveSmallReptitionStatement(statement, vars, conds, renaming, formula, uri, monitor);
+			prove = proveSmallReptitionStatement(statement, diagram, monitor);
 		} else if (statement instanceof CompositionStatement) {
-			prove = proveCompositionStatement(statement, vars, conds, renaming, formula, uri, monitor);
+			prove = proveCompositionStatement(statement, diagram, monitor);
 		} else if (statement instanceof SelectionStatement) {
-			prove = proveSelectionStatement(statement, vars, conds, renaming, formula, uri, monitor);
+			prove = proveSelectionStatement(statement, diagram, monitor);
 		} else if(statement instanceof ReturnStatement) {
 			Console.println("-> Return Statement");
-			prove = proveAbstractStatement(statement, vars, conds, true, renaming, formula, uri, monitor);
+			prove = proveAbstractStatement(statement, diagram, true, monitor);
 		} else if(statement.getComment() != null) {
 			Console.println("-> Return Statement");
 			if(statement.getComment().equals("returnStatement"))
-				prove = proveAbstractStatement(statement, vars, conds, true, renaming, formula, uri, monitor);
+				prove = proveAbstractStatement(statement, diagram, true, monitor);
 		} else if (statement instanceof MethodStatement) {
-			prove = proveMethodStatement(statement, vars, conds, false, renaming, formula, uri, monitor);
+			prove = proveMethodStatement(statement, diagram, false, monitor);
 		} else if (statement instanceof OriginalStatement) {
-			prove = proveOriginalStatement(statement, vars, conds, false, renaming, formula, uri, monitor);
+			prove = proveOriginalStatement(statement, diagram, false, monitor);
 		} else if (statement instanceof AbstractStatement) {
-			prove = proveAbstractStatement(statement, vars, conds, false, renaming, formula, uri, monitor);
+			prove = proveAbstractStatement(statement, diagram, false, monitor);
 		}
 		return prove;
 	}
 
-	private static boolean proveOriginalStatement(AbstractStatement statement, JavaVariables vars,
-			GlobalConditions conds, boolean returnStatement, Renaming renaming, CbCFormula formula, String uri,
+	private static boolean proveOriginalStatement(AbstractStatement statement, Diagram diagram, boolean returnStatement,
 			IProgressMonitor monitor) {
 		if (!isVariational)
 			return false;
 		if (!statement.isProven()) {
 			boolean proven = false;
-			URI uRi = URI.createPlatformResourceURI(uri, true);
+			URI uRi = URI.createPlatformResourceURI(diagram.eResource().getURI().toPlatformString(true), true);
 			String callingFeature = FeatureUtil.getInstance().getCallingFeature(uRi);
 			String callingClass = FeatureUtil.getInstance().getCallingClass(uRi);
 			String callingMethod = FeatureUtil.getInstance().getCallingMethod(uRi);
@@ -185,7 +186,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			if (featureConfigsRelevant != null) {
 				String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), configName);
+					ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uRi.toPlatformString(true)), configName);
 					List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
 					List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], callingMethod);
 					proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, false);
@@ -206,12 +207,14 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		}
 	}
 
-	private static boolean proveMethodStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds,
-			boolean returnStatement, Renaming renaming, CbCFormula formula, String uri, IProgressMonitor monitor) {
+	private static boolean proveMethodStatement(AbstractStatement statement, Diagram diagram, boolean returnStatement, IProgressMonitor monitor) {
 		if (!statement.isProven()) {
 			boolean proven = false;
+			DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
+			JavaVariables vars = extractor.getVars();
+			String uri = diagram.eResource().getURI().toPlatformString(true);
 			if (!isVariational) {
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), "");
+				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri), "");
 				proven = prove.proveStatementWithKey(returnStatement, false, FeatureUtil.getInstance().getCallingClass(URI.createPlatformResourceURI(uri, true)), false);
 			} else {
 				URI uRi = URI.createPlatformResourceURI(uri, true);
@@ -228,7 +231,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant,	callingFeature, varM.contains(".") ? varMParts[0] : callingClass);
 					String[] variantsOriginal = verifyStmt.generateVariantsStringFromFeatureConfigs(originalFeatureConfigsRelevant, callingFeature, callingClass);
 					if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), configName);
+						ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uRi.toPlatformString(true)), configName);
 						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], varMParts[1].toLowerCase());
 						List<CbCFormula> refinementsOriginal = verifyStmt.generateCbCFormulasForRefinements(variantsOriginal[configNum], callingMethod);
 						List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], varMParts[1].toLowerCase());
@@ -251,19 +254,18 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		}
 	}
 
-	private static boolean proveCompositionStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, 
-    		CbCFormula formula, String uri, IProgressMonitor monitor) {
+	private static boolean proveCompositionStatement(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor) {
     	boolean prove1, prove2 = false;
     	CompositionStatement compositionStatement = (CompositionStatement) statement;
     	if (compositionStatement.getFirstStatement().getRefinement() != null) {
-    		prove1 = proveChildStatement(compositionStatement.getFirstStatement().getRefinement(), vars, conds, renaming, formula, uri, monitor);
+    		prove1 = proveChildStatement(compositionStatement.getFirstStatement().getRefinement(), diagram, monitor);
     	} else {
-    		prove1 = proveChildStatement(compositionStatement.getFirstStatement(), vars, conds, renaming, formula, uri, monitor);
+    		prove1 = proveChildStatement(compositionStatement.getFirstStatement(), diagram, monitor);
     	}
     	if (compositionStatement.getSecondStatement().getRefinement() != null) {
-    		prove2 = proveChildStatement(compositionStatement.getSecondStatement().getRefinement(), vars, conds, renaming, formula, uri, monitor);
+    		prove2 = proveChildStatement(compositionStatement.getSecondStatement().getRefinement(), diagram, monitor);
     	} else {
-    		prove2 = proveChildStatement(compositionStatement.getSecondStatement(), vars, conds, renaming, formula, uri, monitor);
+    		prove2 = proveChildStatement(compositionStatement.getSecondStatement(), diagram, monitor);
     	}
     	if (prove1 && prove2 && true && configs == configNum)  {
     		statement.setProven(true);
@@ -273,13 +275,13 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		return (prove1 && prove2 && true);
     }
 
-	private static boolean proveAbstractStatement(AbstractStatement statement, JavaVariables vars,
-			GlobalConditions conds, boolean returnStatement, Renaming renaming, CbCFormula formula, String uri,
-			IProgressMonitor monitor) {
+	private static boolean proveAbstractStatement(AbstractStatement statement, Diagram diagram, boolean returnStatement, IProgressMonitor monitor) {
 		if (!statement.isProven()) {
 			boolean proven = false;
+			DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
+			String uri = diagram.eResource().getURI().toPlatformString(true);
 			if (!isVariational) {
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), "");
+				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri), "");
 				proven = prove.proveStatementWithKey(returnStatement, false, FeatureUtil.getInstance().getCallingClass(URI.createPlatformResourceURI(uri, true)), false);
 			} else {
 				URI uRi = URI.createPlatformResourceURI(uri, true);
@@ -291,7 +293,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 				if (featureConfigsRelevant != null) {
 					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 					if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-						ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uRi.toPlatformString(true), formula, new FileUtil(uRi.toPlatformString(true)), configName);
+						ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uRi.toPlatformString(true)), configName);
 						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
 						List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], callingMethod);
 						proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, false);
@@ -312,19 +314,18 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		}
 	}
     
-    private static boolean proveSelectionStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, 
-    		CbCFormula formula, String uri, IProgressMonitor monitor) {
+    private static boolean proveSelectionStatement(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor) {
     	boolean proven = true;
     	SelectionStatement selectionStatement = (SelectionStatement) statement;
 		for (AbstractStatement childStatement : selectionStatement.getCommands()) {
-			proven = (proveChildStatement(childStatement.getRefinement(), vars, conds, renaming, formula, uri, monitor) && proven && true);
+			proven = (proveChildStatement(childStatement.getRefinement(), diagram, monitor) && proven && true);
 		}
 		boolean provePre = selectionStatement.isPreProve();
 		if (!(selectionStatement.isProven() && provePre && true)) {
 			if (!selectionStatement.isPreProve()) {
 				EList<Condition> guards = selectionStatement.getGuards();
 				Condition preCondition = selectionStatement.getParent().getPreCondition();
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), configName);
+				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(diagram.eResource().getURI().toPlatformString(true)), configName);
 				provePre = prove.provePreSelWithKey(guards, preCondition);
 				if (configs == configNum) selectionStatement.setPreProve(provePre);
 			}
@@ -340,12 +341,11 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     	}
     }
 	
-	private static boolean proveSmallReptitionStatement(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, 
-			CbCFormula formula, String uri, IProgressMonitor monitor) {
+	private static boolean proveSmallReptitionStatement(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor) {
 		SmallRepetitionStatement repStatement = (SmallRepetitionStatement) statement;
 		boolean proven = true;
 		if (repStatement.getLoopStatement().getRefinement() != null) {
-			proven = (proveChildStatement(repStatement.getLoopStatement().getRefinement(), vars, conds, renaming, formula, uri, null) && proven && true);
+			proven = (proveChildStatement(repStatement.getLoopStatement().getRefinement(), diagram, null) && proven && true);
 		}
 		boolean provePre = repStatement.isPreProven();
 		boolean provePost = repStatement.isPostProven();
@@ -357,7 +357,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			Condition postCondition = repStatement.getParent().getPostCondition();
 			String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, false);
 			Variant variant = repStatement.getVariant();
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri, formula, new FileUtil(uri), configName);
+			ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(diagram.eResource().getURI().toPlatformString(true)), configName);
 			if (!provePre) {
 				provePre = prove.proveCImpliesCWithKey(preCondition, invariant);
 				if (configs == configNum) repStatement.setPreProven(provePre);

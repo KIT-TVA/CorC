@@ -22,3 +22,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: de.tu_bs.cs.isf.cbc.statistics,
  de.tu_bs.cs.isf.cbc.statistics.impl,
  de.tu_bs.cs.isf.cbc.statistics.util
+Import-Package: de.tu_bs.cs.isf.cbc.util

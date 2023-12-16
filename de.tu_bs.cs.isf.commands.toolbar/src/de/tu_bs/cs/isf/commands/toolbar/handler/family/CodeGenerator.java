@@ -6,8 +6,8 @@ import java.util.Collection;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;

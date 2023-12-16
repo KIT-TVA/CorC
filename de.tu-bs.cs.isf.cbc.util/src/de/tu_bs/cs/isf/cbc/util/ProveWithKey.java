@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import com.google.common.collect.Lists;
 
@@ -28,6 +29,7 @@ import com.google.common.hash.Hashing;
 import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
@@ -44,6 +46,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 import de.tu_bs.cs.isf.cbc.tool.features.CounterExampleGenerator;
 import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
+import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
@@ -51,7 +54,7 @@ import de.uka.ilkd.key.proof.Proof;
 import de.tu_bs.cs.isf.cbc.tool.propertiesview.Settings;
 
 public class ProveWithKey {
-	public static final String SRC_FOLDER = "src_gen";
+	public static final String SRC_FOLDER = "/src_gen";
 	
 	public static final String REGEX_ORIGINAL = "original";
 	public static final String REGEX_RESULT = "\\\\result";
@@ -63,6 +66,7 @@ public class ProveWithKey {
 	public static HashMap<String, Integer> allStatistics = new HashMap<String, Integer>();
 
 	AbstractStatement statement;
+	private Diagram diagramToProve;
 	private JavaVariables vars;
 	private GlobalConditions conds;
 	private Renaming renaming;
@@ -76,21 +80,22 @@ public class ProveWithKey {
 	private String problem;
 	private String subProofName = "";
 	
-	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
-			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String configName) {
-		this(statement, vars, conds, renaming, monitor, uri, formula, fileHandler, ProveWithKey.SRC_FOLDER, configName);
+	public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler, String configName) {
+		this(statement, diagram, monitor, fileHandler, ProveWithKey.SRC_FOLDER, configName);
 	}
 
-	public ProveWithKey(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming,
-			IProgressMonitor monitor, String uri, CbCFormula formula, IFileUtil fileHandler, String srcFolder, String configName) {
+	public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler, String srcFolder, String configName) {
 		this.statement = statement;	
-		this.vars = vars;
-		this.conds = conds;
-		this.renaming = renaming;
 		this.monitor = monitor;
-		this.uri = uri;
-		this.formula = formula;
 		this.fileHandler = fileHandler;
+		this.diagramToProve = diagram;	
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagramToProve);
+    	vars = extractor.getVars();
+		conds = extractor.getConds();
+		renaming = extractor.getRenaming();
+		formula = extractor.getFormula();		
+		this.uri = diagramToProve.eResource().getURI().toPlatformString(true);
+
 		if (uri.contains(MetaClass.FOLDER_NAME)) {
 			String className = uri.substring(0, uri.lastIndexOf("/"));
 			className = className.substring(className.lastIndexOf("/") + 1, className.length());
@@ -149,7 +154,7 @@ public class ProveWithKey {
 	
 	private Collection<Parameter> copyMethodParams(String uri, String callingMethod, String callingClass) {
 		var project = FileUtil.getProjectLocationS(uri);
-		ModelClass clazz = FileHandler.getInstance().getClass(project, callingClass);
+		ModelClass clazz = FileHandler.getInstance().getClassOf(this.diagramToProve);
 		Method method = clazz.getMethods().stream().filter(m -> m.getName().equals(callingMethod)).findFirst().get();
 		return EcoreUtil.copyAll(method.getParameters());
 	}
@@ -607,9 +612,10 @@ public class ProveWithKey {
 	private void addExistingVarsTo(JavaVariables targetVars) {
 		JavaVariables copyVars = EcoreUtil.copy(vars);
 		var callingClass = FeatureUtil.getInstance().getCallingClass(uri);
-		targetVars.getParams().addAll(copyMethodParams(uri, getMethodName(uri), callingClass));
 		targetVars.getVariables().addAll(copyVars.getVariables());
 		targetVars.getFields().addAll(copyVars.getFields());
+		if (callingClass.isEmpty()) return;
+		targetVars.getParams().addAll(copyMethodParams(uri, getMethodName(uri), callingClass));
 	}
 
 	public File createProveCImpliesCWithKey(String preCondition, String postCondition, boolean override) {

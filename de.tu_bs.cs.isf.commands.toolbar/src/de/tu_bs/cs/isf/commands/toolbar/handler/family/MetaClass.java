@@ -9,10 +9,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateModelFromCode;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;

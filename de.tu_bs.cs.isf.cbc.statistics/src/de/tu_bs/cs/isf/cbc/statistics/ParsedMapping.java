@@ -15,7 +15,6 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
-import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 import org.eclipse.core.runtime.Path;
 

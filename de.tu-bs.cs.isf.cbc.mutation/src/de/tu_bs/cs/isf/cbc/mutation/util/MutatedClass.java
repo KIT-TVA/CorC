@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
+import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.exceptions.FileHandlerException;
 import de.tu_bs.cs.isf.cbc.mutation.feature.Mutator;
@@ -28,7 +28,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.UpdateDiagram;
 public class MutatedClass {
 	private Mutator mutator;
 	private JavaVariables diagramVars;
-	private ModelClass mutatedModel;
+	private de.tu_bs.cs.isf.cbc.cbcclass.ModelClass mutatedModel;
 	int mutationCount;
 	
 	public MutatedClass(Mutator mutator) {
@@ -74,7 +74,7 @@ public class MutatedClass {
 	private void createMutatedClass(String mutateeName) {
 		this.mutatedModel = CbcclassFactory.eINSTANCE.createModelClass();
 		this.mutatedModel.setInheritsFrom(null);
-		this.mutatedModel.setName(mutateeName + "Mutant");
+		this.mutatedModel.setName(mutateeName);// + "Mutant");
 	}
 	
 	private void generateMethods() throws IOException {
@@ -137,6 +137,7 @@ public class MutatedClass {
 		newM.setCbcStartTriple(dpe.getFormula());
 		mutant.eResource().getContents().add(newM);
 		dpe.getFormula().setMethodObj(newM);
+		//dpe.getFormula().setClassName(clazz.getName());
 		return newM;
 	}
 	

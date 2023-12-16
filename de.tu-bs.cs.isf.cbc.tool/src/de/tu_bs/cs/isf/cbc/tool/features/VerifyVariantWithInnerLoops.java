@@ -106,7 +106,7 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), "");
+				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), "");
 				if (isVariational) {
 					Console.println("--------------- Triggered variational verification ---------------");
 					String callingClass = FeatureUtil.getInstance().getCallingClass(uri);

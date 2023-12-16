@@ -4,8 +4,7 @@
     editorDirectory="/de.tu-bs.cs.isf.cbc.model.editor/src-gen" modelPluginID="de.tu-bs.cs.isf.cbc.model"
     forceOverwrite="true" modelName="Genmodel" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     testsDirectory="/de.tu-bs.cs.isf.cbc.model.tests/src-gen" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="8.0" copyrightFields="false"
-    operationReflection="true" importOrganizing="true">
+    complianceLevel="8.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
   <foreignModel>cbcmodel.ecore</foreignModel>
   <genPackages prefix="Cbcmodel" basePackage="de.tu_bs.cs.isf.cbc" disposableProviderFactory="true"
       ecorePackage="cbcmodel.ecore#/">
@@ -40,10 +39,10 @@
     <genClasses ecoreClass="cbcmodel.ecore#//Condition">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/modifiables"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/codeRepresentation"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Condition/confToVarsMap"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cbcmodel.ecore#//Condition/atTypesToVarsMap"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/capsulesUsed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//Condition/codeRepresentation"/>
     </genClasses>
     <genClasses ecoreClass="cbcmodel.ecore#//AbstractStatement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/name"/>
@@ -55,10 +54,10 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/comment"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/tested"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/codeRepresentation"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/context"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/typeableResult"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/typeableText"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AbstractStatement/codeRepresentation"/>
       <genOperations ecoreOperation="cbcmodel.ecore#//AbstractStatement/generateID"
           body="if(id==null) id = java.util.UUID.randomUUID().toString();"/>
     </genClasses>
@@ -136,8 +135,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cbcmodel.ecore#//AtType/name"/>
     </genClasses>
   </genPackages>
-  <genPackages prefix="Cbcclass" basePackage="de.tu_bs.cs.isf.cbc"
-      disposableProviderFactory="true" ecorePackage="cbcclass.ecore#/">
+  <genPackages prefix="Cbcclass" basePackage="de.tu_bs.cs.isf.cbc" disposableProviderFactory="true"
+      ecorePackage="cbcclass.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="cbcclass.ecore#//Visibility">
       <genEnumLiterals ecoreEnumLiteral="cbcclass.ecore#//Visibility/PUBLIC"/>
       <genEnumLiterals ecoreEnumLiteral="cbcclass.ecore#//Visibility/PRIVATE"/>

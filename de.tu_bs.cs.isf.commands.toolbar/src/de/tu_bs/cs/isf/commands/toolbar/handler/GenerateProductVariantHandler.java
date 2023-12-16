@@ -137,10 +137,7 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 										String newField = f.getVisibility().toString().toLowerCase() + (f.getVisibility().equals(Visibility.PRIVATE) ? " /*@spec_public@*/ " : "") + (f.isIsStatic() ? " static " : " ") + f.getType() + " " + f.getName() + ";";
 										if (!codeFields.contains(newField)) {
 											codeFields += "    " + newField + "\n";
-										} else {
-											Console.println("ERROR: The field " + newField + " is defined in more than one implementation of " + className + ".");
-										}
-									}
+										} 									}
 								}
 							}
 						}

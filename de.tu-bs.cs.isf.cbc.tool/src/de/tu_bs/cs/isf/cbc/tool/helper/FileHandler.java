@@ -28,7 +28,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.exceptions.FileHandlerException;
 import de.tu_bs.cs.isf.cbc.mutation.feature.ImplMutator;

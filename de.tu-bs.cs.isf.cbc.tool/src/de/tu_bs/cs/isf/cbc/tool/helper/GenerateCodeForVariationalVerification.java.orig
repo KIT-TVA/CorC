@@ -45,13 +45,17 @@ import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
-import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.IFileUtil;
-import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
+<<<<<<< HEAD
 import de.tu_bs.cs.isf.cbc.util.ClassUtil;
+=======
+import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
+import helper.ClassUtil;
+>>>>>>> 0d4aa2b5 (Added feature needed for a paper. Also fixed ambigious java file searching during verification and other fixes.)
 
 public class GenerateCodeForVariationalVerification extends MyAbstractAsynchronousCustomFeature{
+	public static final Color blue = new Color(new RGB(10, 10, 200));
 	private IFileUtil fileHandler;
 	
 	public GenerateCodeForVariationalVerification(IFeatureProvider fp) {
@@ -72,7 +76,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 				output += config[j] + ", ";
 			}
 		}
-		Console.println(output + "]", Colors.BLUE);
+		Console.println(output + "]", blue);
 		deleteExistingClasses(location + "/src_gen/");
 		writeFile(location + "/src_gen/" + callingClass + ".java", "public class " + callingClass + " {\n}");
 		generateClasses(location + "/src_gen/", config, callingFeature, callingClass, callingMethod.toLowerCase());
@@ -146,7 +150,10 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 									String newField = f.getVisibility().toString().toLowerCase() + (f.getVisibility().equals(Visibility.PRIVATE) ? " /*@spec_public@*/ " : "") + (f.isIsStatic() ? " static " : " ") + f.getType() + " " + f.getName() + ";";
 									if (!codeFields.contains(newField)) {
 										codeFields += "    " + newField + "\n";
-									} 								}
+									} else {
+										Console.println("ERROR: The field " + newField + " is defined in more than one implementation of " + className + ".");
+									}
+								}
 							}
 						}
 					}
@@ -158,12 +165,9 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			for (String feature : config) {
 				for (Diagram dia : getDiagrams()) {
 					URI diagramUri = dia.eResource().getURI();
-					String diagramFeature = FeatureUtil.getInstance().getCallingFeature(diagramUri);
-					String diagramClass = FeatureUtil.getInstance().getCallingClass(diagramUri);
-					String diagramMethod = FeatureUtil.getInstance().getCallingMethod(diagramUri);
-					if (diagramFeature.equals(feature)
-							&& diagramClass.equals(className)
-							&& diagramMethod.matches("[a-z][a-zA-Z0-9]*")) {
+					if (diagramUri.segment(diagramUri.segmentCount() - 3).equals(feature)
+							&& diagramUri.segment(diagramUri.segmentCount() - 2).equals(className)
+							&& diagramUri.trimFileExtension().lastSegment().matches("[a-z][a-zA-Z0-9]*")) {
 						if (!dia.getName().equalsIgnoreCase(callingMethod) || !handledCallingMethod) {
 							String pattern = ".* " + dia.getName() + "\\(.*\\) \\{.*";
 							boolean addedToList = false;
@@ -183,9 +187,9 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 										oldVersionOfMethod = oldVersionOfMethod.replace("original_" + dia.getName() + "(", "original_original_" + dia.getName() + "(");
 										oldVersionOfMethod = oldVersionOfMethod.replace(" " + dia.getName() + "(", " original_" + dia.getName() + "(");
 										newVersionOfMethod = newVersionOfMethod.replace("original(", "original_" + dia.getName() + "(");
-										if (diagramFeature.equals(callingFeature) 
-												&& diagramClass.equals(callingClass) 
-												&& diagramMethod.equals(callingMethod + ".diagram")) {
+										if (diagramUri.segment(diagramUri.segmentCount() - 3).equals(callingFeature) 
+												&& diagramUri.segment(diagramUri.segmentCount() - 2).equals(callingClass) 
+												&& diagramUri.segment(diagramUri.segmentCount() - 1).equals(callingMethod + ".diagram")) {
 											handledCallingMethod = true;
 										}
 									}
@@ -229,11 +233,22 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 	
 	private String generateMethodForClass(Diagram diagram, String methodName) {
 		diagram.eResource().getAllContents();
-		DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
-		JavaVariables vars = extractor.getVars();
-		GlobalConditions globalConditions = extractor.getConds();
-		Renaming renaming = extractor.getRenaming();
-		CbCFormula formula = extractor.getFormula();
+		JavaVariables vars = null;
+		Renaming renaming = null;
+		CbCFormula formula = null;
+		GlobalConditions globalConditions = null;
+		for (Shape shape : diagram.getChildren()) {
+			Object obj = getBusinessObjectForPictogramElement(shape);
+			if (obj instanceof JavaVariables) {
+				vars = (JavaVariables) obj;
+			} else if (obj instanceof Renaming) {
+				renaming = (Renaming) obj;
+			} else if (obj instanceof CbCFormula) {
+				formula = (CbCFormula) obj;
+			} else if (obj instanceof GlobalConditions) {
+				globalConditions = (GlobalConditions) obj;
+			}
+		}
 
 		String signatureString = formula.getMethodObj().getSignature().replaceFirst(formula.getMethodObj().getName(), methodName);
 		JavaVariable returnVariable = null;
@@ -390,7 +405,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			IResource fileResource = ResourcesPlugin.getWorkspace().getRoot().findMember(platformString);
 			if (fileResource != null) {
 				IProject project = fileResource.getProject();
-				result = GetDiagramUtil.getDiagrams(project);
+				result = GetDiagramUtil.getDiagrams(project, false);
 			}
 		}
 		return result;

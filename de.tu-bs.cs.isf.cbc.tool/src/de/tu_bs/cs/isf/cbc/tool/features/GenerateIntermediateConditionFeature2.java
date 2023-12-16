@@ -73,15 +73,10 @@ public class GenerateIntermediateConditionFeature2 extends MyAbstractAsynchronou
 						compoStatement = null;
 	            	}
 				}
-				DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
-				JavaVariables vars = extractor.getVars();
-				GlobalConditions conds = extractor.getConds();
-				Renaming renaming = extractor.getRenaming();
 				String weakestPre = "";
-
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, null, new FileUtil(uriString), "");
+					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), "");
 					weakestPre = prove.proveUseWeakestPreWithKey();
 				} else {
 					Console.println("Statement is not in correct format.");

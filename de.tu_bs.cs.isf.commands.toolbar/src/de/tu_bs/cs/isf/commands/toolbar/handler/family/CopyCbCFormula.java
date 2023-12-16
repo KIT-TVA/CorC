@@ -3,7 +3,7 @@ package de.tu_bs.cs.isf.commands.toolbar.handler.family;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
+import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;

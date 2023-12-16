@@ -47,8 +47,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
 import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
-import de.tu_bs.cs.isf.cbc.tool.helper.FeatureCaller;
-import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetProjectUtil;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;

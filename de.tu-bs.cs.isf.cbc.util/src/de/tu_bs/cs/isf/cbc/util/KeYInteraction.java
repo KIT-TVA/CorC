@@ -143,6 +143,7 @@ public class KeYInteraction {
 			Console.println("  > Check the renaming field for any spelling errors");
 			Console.println("  > Check whether the function resides in the right class / file");
 			Console.println("  > Check whether the return type of the function matches");
+			/*
 			if (error.getCause() instanceof RecognitionException) {
 				RecognitionException recE = (RecognitionException)error.getCause();
 				var inputStream = recE.input.toString();
@@ -157,7 +158,7 @@ public class KeYInteraction {
 				Console.println(afterError, Colors.RED);
 				Console.println(line);
 			} else {
-			}
+			}*/
 			error.printStackTrace();
 		} else if (error.getClass() == PosConvertException.class) {
 			Console.println("  A PosConvertException occured.");

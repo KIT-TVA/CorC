@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;

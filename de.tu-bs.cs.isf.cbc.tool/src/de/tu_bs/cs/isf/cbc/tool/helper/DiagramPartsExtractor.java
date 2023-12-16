@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.impl.AbstractFeature;
@@ -49,7 +50,7 @@ public class DiagramPartsExtractor {
 			}
 		}	
 	}
-
+	
 	public JavaVariables getVars() {
 		return vars;
 	}
@@ -82,7 +83,7 @@ public class DiagramPartsExtractor {
 	public void setRenaming(Renaming renaming) {
 		setBusinessObj(renaming);
 	}
-
+	
 	private void setBusinessObj(Object obj) {
 		var contents = this.diag.eContents();
 		for (int i = 0; i < contents.size(); i++) {

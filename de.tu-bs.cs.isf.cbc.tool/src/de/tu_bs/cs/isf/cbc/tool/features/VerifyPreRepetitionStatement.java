@@ -75,11 +75,6 @@ public class VerifyPreRepetitionStatement extends MyAbstractAsynchronousCustomFe
 			if (bo instanceof SmallRepetitionStatement) {
 				SmallRepetitionStatement statement = (SmallRepetitionStatement) bo;
 				AbstractStatement parent = statement.getParent();
-				DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
-				JavaVariables vars = extractor.getVars();
-				GlobalConditions conds = extractor.getConds();
-				Renaming renaming = extractor.getRenaming();
-				CbCFormula formula = extractor.getFormula();
 				StatDataCollector.checkForId(statement);
 				boolean proven = false;
 				String uriString = getDiagram().eResource().getURI().toPlatformString(true);
@@ -93,7 +88,7 @@ public class VerifyPreRepetitionStatement extends MyAbstractAsynchronousCustomFe
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
-				ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), "");
+				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), "");
 				if (isVariational) {
 					Console.println("--------------- Triggered variational verification ---------------");
 					String callingClass = FeatureUtil.getInstance().getCallingClass(uri);

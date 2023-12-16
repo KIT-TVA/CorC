@@ -380,10 +380,14 @@ public class GenerateModelFromCode {
 
 	}
 
+<<<<<<< HEAD
+	public void saveResource(Resource r) {
+=======
 	public static void saveResource(Resource r) {
+>>>>>>> 350a3eb7 (Meta product generator can now generate meta products based on multiple classes. Made many other changes and fixes.)
 		try {
 			r.save(Collections.EMPTY_MAP);
-			r.setTrackingModification(true);
+			r.setTrackingModification(true);     
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
 			IPath iLocation = Path.fromOSString(r.getURI().toFileString());
 			IFile ifile = workspace.getRoot().getFileForLocation(iLocation);

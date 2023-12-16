@@ -19,9 +19,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.ovgu.featureide.fm.core.ExtensionManager;
 import de.ovgu.featureide.fm.core.base.IFeature;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Parameter;
+import de.tu_bs.cs.isf.cbc.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;

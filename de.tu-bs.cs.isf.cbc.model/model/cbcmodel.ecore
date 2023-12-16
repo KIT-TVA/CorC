@@ -29,13 +29,13 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifiables" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="codeRepresentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="confToVarsMap" upperBound="-1"
         eType="#//ConfToVarsMap" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="atTypesToVarsMap" upperBound="-1"
         eType="#//AtTypesToVarsMap" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="capsulesUsed" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="codeRepresentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbstractStatement">
     <eOperations name="generateID" lowerBound="1"/>
@@ -55,6 +55,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="context" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeableResult" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeableText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="codeRepresentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SkipStatement" eSuperTypes="#//AbstractStatement"/>
   <eClassifiers xsi:type="ecore:EClass" name="CompositionStatement" eSuperTypes="#//AbstractStatement">

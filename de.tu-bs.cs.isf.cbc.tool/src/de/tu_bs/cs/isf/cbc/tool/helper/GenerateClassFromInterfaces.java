@@ -39,6 +39,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.exceptions.NotImplementedException;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 
@@ -99,16 +100,19 @@ public class GenerateClassFromInterfaces {
 		}
 	}
 	
-	private void verifyImplications(String path) {
+	private void verifyImplications(String path) throws NotImplementedException {
 		for (Method abstractMethod : abstractMethods) {
 			for (Method concreteMethod : concreteMethods) {
 				if (abstractMethod.getMethodName().equals(concreteMethod.getMethodName())) {
 					for (int i = 0; i < abstractMethod.getPreCondition().size(); i++) {
 						JavaVariables vars = parametersToJavaVars(abstractMethod);
 						GlobalConditions conds = CbcmodelFactory.eINSTANCE.createGlobalConditions();
-						ProveWithKey proveImplication = new ProveWithKey(null, vars, conds, null, null, path, null, new FileUtil(path), "/src_key");
+						// TODO: pass a diagram into ProveWithKey for this to work.
+						throw new NotImplementedException("");
+						/*
+						ProveWithKey proveImplication = new ProveWithKey(null, diagram, null, new FileUtil(path), "/src_key");
 						proveImplication.proveCImpliesCWithKey(createConditionForKeY(abstractMethod.getPreCondition().get(i), vars, conds), createConditionForKeY(concreteMethod.getPreCondition().get(i), vars, conds));
-						proveImplication.proveCImpliesCWithKey(createConditionForKeY(concreteMethod.getPostCondition().get(i), vars, conds), createConditionForKeY(abstractMethod.getPostCondition().get(i), vars, conds));
+						proveImplication.proveCImpliesCWithKey(createConditionForKeY(concreteMethod.getPostCondition().get(i), vars, conds), createConditionForKeY(abstractMethod.getPostCondition().get(i), vars, conds));*/
 					}
 				}
 			}

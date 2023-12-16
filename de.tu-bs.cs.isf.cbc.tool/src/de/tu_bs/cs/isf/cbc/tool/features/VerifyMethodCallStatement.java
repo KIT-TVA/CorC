@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
@@ -75,11 +76,6 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
 			if (bo instanceof AbstractStatement) {
 				AbstractStatement statement = (AbstractStatement) bo;
-				DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
-				JavaVariables vars = extractor.getVars();
-				GlobalConditions conds = extractor.getConds();
-				Renaming renaming = extractor.getRenaming();
-				CbCFormula formula = extractor.getFormula();
 				
 				boolean proven = false;
 				URI uri = getDiagram().eResource().getURI();
@@ -94,9 +90,9 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 				}
 
 				if (isVariational) {
-					proven = executeVariationalVerification(project, uri, statement, vars, conds, renaming, formula, false, monitor);
+					proven = executeVariationalVerification(project, statement, getDiagram(), false, monitor);
 				} else {
-					proven = executeNormalVerification(statement, vars, conds, renaming, formula, false, monitor);
+					proven = executeNormalVerification(statement, getDiagram(), false, monitor);
 				}
 				statement.setProven(proven);
 				updatePictogramElement(((Shape) pes[0]).getContainer());
@@ -108,7 +104,7 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 		monitor.done();
 	}
 
-	private boolean executeNormalVerification(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
+	private boolean executeNormalVerification(AbstractStatement statement, Diagram diagram, boolean returnStatement, IProgressMonitor monitor) {
 		StatDataCollector.checkForId(statement);
 		boolean proven = false;
 		Console.println("--------------- Triggered verification ---------------");
@@ -116,7 +112,7 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
 			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, platformUri, formula, new FileUtil(platformUri), "");
+			ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(platformUri), "");
 			proven = prove.proveStatementWithKey(returnStatement, false, callingClass, true);
 		} else {
 			Console.println("Statement is not in correct format.");
@@ -124,9 +120,12 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 		return proven;
 	}
 
-	private boolean executeVariationalVerification(IProject project, URI uri, AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
+	private boolean executeVariationalVerification(IProject project, AbstractStatement statement, Diagram diagram, boolean returnStatement, IProgressMonitor monitor) {
 		StatDataCollector.checkForId(statement);
 		boolean proven = false;
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
+    	JavaVariables vars = extractor.getVars();
+		URI uri = diagram.eResource().getURI();
 		VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
 		String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 		String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
@@ -149,7 +148,7 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 					genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
 					String configName = "";
 					for (String s : featureConfigs[i]) configName += s;
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true), formula, new FileUtil(uri.toPlatformString(true)), configName);
+					ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri.toPlatformString(true)), configName);
 					List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i], varMParts[1].toLowerCase());
 					List<CbCFormula> refinementsOriginal = verifyStmt.generateCbCFormulasForRefinements(variantsOriginal[i], callingMethod);
 					List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[i], varMParts[1].toLowerCase());

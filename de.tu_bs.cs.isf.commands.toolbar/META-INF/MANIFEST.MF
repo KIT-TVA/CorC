@@ -3,8 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Toolbar
 Bundle-SymbolicName: de.tu_bs.cs.isf.commands.toolbar;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui,
+Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
  de.tu-bs.cs.isf.cbc.util;bundle-version="1.0.0",
  org.eclipse.emf.ecore,
@@ -12,18 +11,17 @@ Require-Bundle: org.eclipse.core.runtime,
  de.tu-bs.cs.isf.cbc.model,
  org.emftext.language.java,
  org.eclipse.emf.ecore.xmi,
- de.ovgu.featureide.fm.core,
- org.eclipse.graphiti.mm
- org.eclipse.emf.common
+ de.ovgu.featureide.fm.core
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: de.tu_bs.cs.isf.cbc.tool.helper,
- newDiagramWizard,
  de.tu_bs.cs.isf.cbc.tool.model,
- helper,
+ newDiagramWizard,
+ org.eclipse.core.runtime;version="3.7.0",
+ org.eclipse.graphiti.mm.pictograms;version="0.18.0",
  org.eclipse.jdt.core,
  org.eclipse.jdt.internal.compiler.batch,
  org.eclipse.jdt.internal.core,
  org.eclipse.jface.text,
- org.emftext.language.java.resource.java.util,
- org.emftext.language.java.containers
+ org.emftext.language.java.containers,
+ org.emftext.language.java.resource.java.util
 Export-Package: de.tu_bs.cs.isf.commands.toolbar.handler.family

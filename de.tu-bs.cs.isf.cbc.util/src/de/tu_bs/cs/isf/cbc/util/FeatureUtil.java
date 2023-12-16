@@ -4,7 +4,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
 
 public final class FeatureUtil {
@@ -48,6 +48,7 @@ public final class FeatureUtil {
 		potentialClassName = potentialClassName.substring(0, potentialClassName.indexOf("/"));
 		IProject project = FileUtil.getProject(uri);
 		for (Resource r : FileUtil.getCbCClasses(project)) {
+			if (r.getContents().size() == 0) continue;
 			ModelClass clazz = (ModelClass)r.getContents().get(0);
 			if (clazz.getName().equals(potentialClassName)) {
 				return potentialClassName;

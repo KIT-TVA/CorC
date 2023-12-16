@@ -2,8 +2,8 @@ package de.tu_bs.cs.isf.commands.toolbar.handler.family;
 
 import org.eclipse.core.resources.IProject;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassFactory;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
