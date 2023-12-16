@@ -17,6 +17,7 @@ git@github.com:xtext/maven-xtext-example.git-->
 
   	<modules>
 	    <module>de.tu-bs.cs.isf.cbc.model</module>
+			<module>de.tu-bs.cs.isf.cbc.mutation</module>
 	    <module>de.tu-bs.cs.isf.cbc.tool</module>
 	    <module>de.tu-bs.cs.isf.cbc.util</module>
 	    <module>de.tu-bs.cs.isf.cbcclass.tool</module>
