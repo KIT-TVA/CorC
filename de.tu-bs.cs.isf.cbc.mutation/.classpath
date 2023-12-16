@@ -7,8 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="lib" path="muJava/mujava.jar"/>
 	<classpathentry kind="lib" path="muJava/openjava.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_202/lib/tools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

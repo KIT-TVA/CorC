@@ -35,6 +35,9 @@ import de.ovgu.featureide.fm.core.base.IFeature;
 import de.ovgu.featureide.fm.core.base.IFeatureModel;
 import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
 import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager;
+import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
+import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
@@ -185,7 +188,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		var files = FileUtil.getJavaFilesFromProject(project);
 		for (var file : files) {
 			if (file.getName().equals(className + "_helper.java")) {
-				var code = Files.readString(Paths.get(file.getLocation().toOSString()));
+				var code = Files.lines(Paths.get(file.getLocation().toOSString())).collect(java.util.stream.Collectors.joining(System.lineSeparator()));
 				code = "public class " + className + " " + code.substring(code.indexOf("{"), code.length());
 				codes.add(code);
 			}

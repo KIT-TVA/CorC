@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.ui,
  org.emftext.language.java,
  org.eclipse.emf.ecore.xmi,
  de.ovgu.featureide.fm.core
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-16
 Import-Package: de.tu_bs.cs.isf.cbc.tool.helper,
  de.tu_bs.cs.isf.cbc.tool.model,
  newDiagramWizard,
