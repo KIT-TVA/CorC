@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -20,10 +18,9 @@ import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.exceptions.FileHandlerException;
 import de.tu_bs.cs.isf.cbc.mutation.feature.Mutator;
-import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
-import de.tu_bs.cs.isf.cbc.tool.helper.MethodHandler;
-import de.tu_bs.cs.isf.cbc.tool.helper.UpdateDiagram;
+import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
+import de.tu_bs.cs.isf.cbc.util.FileHandler;
+import de.tu_bs.cs.isf.cbc.util.MethodHandler;
 
 public class MutatedClass {
 	private Mutator mutator;
@@ -42,7 +39,7 @@ public class MutatedClass {
 		if (!mutator.hasClass()) {
 			return;
 		}
-		ModelClass clazz = FileHandler.getInstance().getClassOf(mutator.getOriginalDiagram());
+		ModelClass clazz = FileHandler.instance.getClassOf(mutator.getOriginalDiagram());
 		copyClass(clazz);
 		addMutatedMethods();
 	}

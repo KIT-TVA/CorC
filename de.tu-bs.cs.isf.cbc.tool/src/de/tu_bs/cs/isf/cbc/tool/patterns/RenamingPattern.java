@@ -32,7 +32,7 @@ import org.eclipse.graphiti.util.PredefinedColoredAreas;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
-import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
+import de.tu_bs.cs.isf.cbc.util.CbcModelUtil;
 
 /**
  * Class that creates the graphical representation for renaming

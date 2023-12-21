@@ -35,20 +35,20 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
-import de.tu_bs.cs.isf.cbc.statistics.StatDataCollector;
-import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
-import de.tu_bs.cs.isf.cbc.tool.helper.IdAdder;
-import de.tu_bs.cs.isf.cbc.tool.helper.UpdateDiagram;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
+import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
+import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.IdAdder;
 import de.tu_bs.cs.isf.cbc.util.Parser;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
+import de.tu_bs.cs.isf.cbc.util.UpdateDiagram;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
+import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 
 
 /**
@@ -97,7 +97,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		URI uri = getDiagram().eResource().getURI();
 		// delete 'tests' folder if it exists because it will cause reference errors
 		// since key doesn't use TestNG.
-		FileHandler.getInstance().deleteFolder(uri, "tests");
+		FileHandler.instance.deleteFolder(uri, "tests");
 
 		IProject project = FileUtil.getProjectFromFileInProject(uri);
 		
@@ -105,7 +105,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 		
 		verifyStmt = new VerifyStatement(super.getFeatureProvider());
 		genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
-		if (FileHandler.getInstance().isSPL(uri)) {
+		if (FileHandler.instance.isSPL(uri)) {
 			isVariational = true;
 		} else {
 			isVariational = false;

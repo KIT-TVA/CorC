@@ -35,12 +35,13 @@ import de.ovgu.featureide.fm.core.base.IFeature;
 import de.ovgu.featureide.fm.core.base.IFeatureModel;
 import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
 import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager;
-import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
-import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
-import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
+import de.tu_bs.cs.isf.cbc.util.ClassHandler;
+import de.tu_bs.cs.isf.cbc.util.CodeHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.GenerateDiagramFromModel;
+import de.tu_bs.cs.isf.cbc.util.consts.MetaNames;
 
 
 public class GenerateMetaProductHandler extends AbstractHandler implements IHandler{
@@ -165,7 +166,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 	}
 	
 	private void createAndSaveJavaFilesWithMethodStubsForClass(String className) throws CodeMergeException, IOException, CoreException {
-		String location = project.getLocation().toString() + "/" + MetaClass.FOLDER_NAME + "/" + className + "/" + NAME_OF_JAVA_FILE + ".java";
+		String location = project.getLocation().toString() + "/" + MetaNames.FOLDER_NAME + "/" + className + "/" + NAME_OF_JAVA_FILE + ".java";
 		CodeGenerator gener;
 		List<String> codes = new ArrayList<String>();
 		

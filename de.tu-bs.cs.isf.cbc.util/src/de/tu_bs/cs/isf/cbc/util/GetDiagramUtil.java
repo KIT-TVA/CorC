@@ -18,21 +18,30 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
-public class GetDiagramUtil {
+import de.tu_bs.cs.isf.cbc.util.consts.MetaNames;
 
-    public static Collection<Diagram> getDiagrams(IProject p) {
+public class GetDiagramUtil {
+	
+	public static Collection<Diagram> getDiagrams(IProject p, boolean includeMetaDiagrams) {
        final List<IFile> files = getDiagramFiles(p);
        final List<Diagram> diagramList = new ArrayList<Diagram>();
        final ResourceSet rSet = new ResourceSetImpl();
        for (final IFile file : files) {
+    	   if (!includeMetaDiagrams && file.getLocation().toOSString().contains(MetaNames.FOLDER_NAME)) {
+    		   continue;
+    	   }
             final Diagram diagram = getDiagramFromFile(file, rSet);
             if (diagram != null) {
                 diagramList.add(diagram);
             }
        }
        return diagramList;
+	}
+ 
+    public static Collection<Diagram> getDiagrams(IProject p) {
+    	return getDiagrams(p, true);
     }
-
+ 
     private static List<IFile> getDiagramFiles(IContainer folder) {
        final List<IFile> ret = new ArrayList<IFile>();
        try {
@@ -52,7 +61,7 @@ public class GetDiagramUtil {
        }
        return ret;
     }
-
+ 
     public static Diagram getDiagramFromFile(IFile file, ResourceSet resourceSet) {
        final URI resourceURI = getFileURI(file, resourceSet);
        Resource resource;
@@ -66,19 +75,43 @@ public class GetDiagramUtil {
                      return (Diagram) object;
                  }
              }
-       }
+            }
        } catch (final WrappedException e) {
                 e.printStackTrace();
        }
        return null;
     }
+    
+	public static Diagram getDiagramFromResource(Resource resource) {
+		if (resource != null) {
+			URI uri = resource.getURI();
+			if (!uri.fileExtension().equals("diagram")) {
+				uri = uri.trimFragment();
+				uri = uri.trimFileExtension();
+				uri = uri.appendFileExtension("diagram");
+				ResourceSet rSet = new ResourceSetImpl();
+				resource = rSet.getResource(uri, true);
+			}
+			if (resource != null) {
+				// does resource contain a diagram as root object?
+				final EList<EObject> contents = resource.getContents();
+				for (final EObject object : contents) {
+					if (object instanceof Diagram) {
+						return (Diagram) object;
+					}
+				}
+			}
 
+		}
+		return null;
+	}
+    
     public static Resource getResourceFromFile(IFile file, ResourceSet resourceSet) {
     	final URI resourceURI = getFileURI(file, resourceSet);
         Resource resource = resourceSet.getResource(resourceURI, true);
     	return resource;
     }
-
+ 
     private static URI getFileURI(IFile file, ResourceSet resourceSet) {
        final String pathName = file.getLocation().toPortableString();
        URI resourceURI = URI.createFileURI(pathName);

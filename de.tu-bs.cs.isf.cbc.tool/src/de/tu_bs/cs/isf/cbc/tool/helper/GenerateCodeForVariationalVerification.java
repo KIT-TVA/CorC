@@ -25,9 +25,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
@@ -43,13 +40,15 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.ClassUtil;
+import de.tu_bs.cs.isf.cbc.util.Colors;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
+import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.util.IFileUtil;
-import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
-import de.tu_bs.cs.isf.cbc.util.ClassUtil;
+import de.tu_bs.cs.isf.cbc.util.consts.MetaNames;
 
 public class GenerateCodeForVariationalVerification extends MyAbstractAsynchronousCustomFeature{
 	private IFileUtil fileHandler;
@@ -92,7 +91,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 	
 	private void removeMetaFiles(List<IFile> classFiles) {
 		for (int i = 0; i < classFiles.size(); i++) {
-			if (classFiles.get(i).getLocation().toOSString().contains(MetaClass.FOLDER_NAME)) {
+			if (classFiles.get(i).getLocation().toOSString().contains(MetaNames.FOLDER_NAME)) {
 				classFiles.remove(i);
 				i--;
 			}

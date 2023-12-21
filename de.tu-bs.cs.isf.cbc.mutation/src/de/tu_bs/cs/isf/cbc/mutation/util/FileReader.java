@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
+import de.tu_bs.cs.isf.cbc.util.CodeHandler;
 
 public class FileReader {
 	private Scanner scanner;

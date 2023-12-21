@@ -7,7 +7,6 @@ import java.util.List;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -17,7 +16,6 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-import com.google.common.collect.ImmutableCollection;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
@@ -27,18 +25,17 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
-import de.tu_bs.cs.isf.cbc.mutation.feature.Mutator;
-import de.tu_bs.cs.isf.cbc.statistics.StatDataCollector;
-import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
-import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
+import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
+import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 
 /**
  * Class that changes the abstract value of algorithms
@@ -104,11 +101,11 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				URI uri = getDiagram().eResource().getURI();
 				// delete 'tests' folder if it exists because it will cause reference errors
 				// since key doesn't use TestNG.
-				FileHandler.getInstance().deleteFolder(uri, "tests");
+				FileHandler.instance.deleteFolder(uri, "tests");
 
 				IProject project = FileUtil.getProjectFromFileInProject(uri);
 				boolean isVariational = false;
-				if (FileHandler.getInstance().isSPL(uri)) {
+				if (FileHandler.instance.isSPL(uri)) {
 					isVariational = true;
 				}
 

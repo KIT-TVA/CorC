@@ -4,7 +4,8 @@ import java.io.IOException;
 
 import org.eclipse.core.runtime.CoreException;
 
-import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
+import de.tu_bs.cs.isf.cbc.util.CodeHandler;
+import de.tu_bs.cs.isf.cbc.util.consts.MetaNames;
 
 public class MetaVariablesClass {
 	public static final String NAME = "MetaVariables";
@@ -24,7 +25,7 @@ public class MetaVariablesClass {
 	}
 	
 	public void saveToFile() throws IOException, CoreException {
-		String location = this.projectLocation + "/" + MetaClass.FOLDER_NAME + "/MetaVariables.java";
+		String location = this.projectLocation + "/" + MetaNames.FOLDER_NAME + "/MetaVariables.java";
 		GenerateMetaProductHandler.saveJavaFile(location, this.code);
 	}
 	

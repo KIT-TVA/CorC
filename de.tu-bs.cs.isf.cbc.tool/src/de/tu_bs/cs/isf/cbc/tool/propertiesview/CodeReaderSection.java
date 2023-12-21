@@ -28,10 +28,10 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
-import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateMethodCallsToProve;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
+import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
 
 /**
  * Class for the Code-Reader-Tab of the Properties-View. Formats CorC-Code to

@@ -14,10 +14,13 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.exceptions.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.exceptions.ReferenceException;
 import de.tu_bs.cs.isf.cbc.exceptions.UnexpectedTokenException;
-import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.ConditionParser;
-import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.Node;
+import de.tu_bs.cs.isf.cbc.util.CodeHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.InputData;
+import de.tu_bs.cs.isf.cbc.util.JavaCondition;
+import de.tu_bs.cs.isf.cbc.util.conditionparser.ConditionParser;
+import de.tu_bs.cs.isf.cbc.util.conditionparser.Node;
 
 public final class ConditionHandler {
 	/**

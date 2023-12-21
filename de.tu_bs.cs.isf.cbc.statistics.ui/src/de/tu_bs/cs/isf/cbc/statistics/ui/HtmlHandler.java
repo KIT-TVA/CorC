@@ -14,9 +14,9 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 
 import de.tu_bs.cs.isf.cbc.statistics.DiagramType;
-import de.tu_bs.cs.isf.cbc.statistics.RHelper;
 import de.tu_bs.cs.isf.cbc.statistics.StatisticsEntry;
-import de.tu_bs.cs.isf.cbc.tool.helper.Features;
+import de.tu_bs.cs.isf.cbc.util.Features;
+import de.tu_bs.cs.isf.cbc.util.statistics.RHelper;
 
 public class HtmlHandler {
 

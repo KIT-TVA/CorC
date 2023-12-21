@@ -11,7 +11,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateModelFromCode;
+import de.tu_bs.cs.isf.cbc.util.GenerateModelFromCode;
 
 public class GenerateDiagramsFromClassHandler extends AbstractHandler {
 

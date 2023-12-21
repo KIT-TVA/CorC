@@ -11,9 +11,10 @@ import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
-import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
+import de.tu_bs.cs.isf.cbc.util.CodeHandler;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.Parser;
+import de.tu_bs.cs.isf.cbc.util.consts.MetaNames;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 public class CodeGenerator {
@@ -37,7 +38,7 @@ public class CodeGenerator {
 	private ModelClass getMetaCbcClass(Collection<Resource> classes, String className) throws CodeGeneratorException {
 		for (var c : classes) {
 			ModelClass modelClass = ((ModelClass)c.getContents().get(0));
-			if (!c.getURI().toFileString().contains(MetaClass.FOLDER_NAME)) {
+			if (!c.getURI().toFileString().contains(MetaNames.FOLDER_NAME)) {
 				continue;
 			}
 			if (modelClass.getName().equals(className) && hasTargetMethod(modelClass)) {

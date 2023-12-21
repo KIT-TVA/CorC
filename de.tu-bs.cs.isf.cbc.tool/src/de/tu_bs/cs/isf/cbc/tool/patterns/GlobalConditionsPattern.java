@@ -33,7 +33,7 @@ import org.eclipse.graphiti.util.PredefinedColoredAreas;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
-import de.tu_bs.cs.isf.cbc.tool.model.CbcModelUtil;
+import de.tu_bs.cs.isf.cbc.util.CbcModelUtil;
 
 /**
  * Class that creates the graphical representation of global conditions

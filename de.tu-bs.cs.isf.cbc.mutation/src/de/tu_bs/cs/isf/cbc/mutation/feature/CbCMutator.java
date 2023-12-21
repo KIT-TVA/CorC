@@ -2,7 +2,6 @@ package de.tu_bs.cs.isf.cbc.mutation.feature;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
-import de.tu_bs.cs.isf.cbc.exceptions.MutatorException;
 import de.tu_bs.cs.isf.cbc.mutation.op.cbc.CbCMutationOp;
 import de.tu_bs.cs.isf.cbc.mutation.util.MutatedClass;
 import de.tu_bs.cs.isf.cbc.util.CopyDiagram;
@@ -25,16 +23,7 @@ import de.tu_bs.cs.isf.cbc.util.CopyDiagram;
 public class CbCMutator extends Mutator {
 	private Condition condition;
 	private String targetId;
-	private int totalMutantNum;
 	private int curPos;
-
-	private int test = 0;
-
-	public CbCMutator(List<String> operators) {
-		super(operators);
-		curPos = 0;
-		totalMutantNum = 0;
-	}
 
 	@Override
 	public void mutate(Diagram diagram, Condition condition) throws Exception {
@@ -57,10 +46,14 @@ public class CbCMutator extends Mutator {
 			this.curPos++;
 		}
 	}
-	
+
+	protected CbCMutator(List<String> operators) {
+		super(operators);
+		curPos = 0;
+	}
+
 	private void generateMutants() throws Exception {
 		applyMutationOperators();
-		//generateMutantNames(totalMutantNum);
 		MutatedClass mc = new MutatedClass(this);
 		mc.generate();
 	}
@@ -69,22 +62,12 @@ public class CbCMutator extends Mutator {
 		for (String opStr : operators) {
 			CbCMutationOp op = CbCMutationOp.get(opStr);
 			mutants = op.apply(condition);
-			totalMutantNum += mutants.length;
 			generateDiagrams();
 		}
 	}
 	
-	/*
-	private void generateMutantNames(int size) {
-		mutantNames = new String[size];
-		for (int i = 0; i < size; i++) {
-			mutantNames[i] = this.originalDiagram.getName() + "Mutant" + i;
-		}
-	}*/
-	
 	private void applyMutationsToDiagrams(Resource resource, String mutant) throws IOException {
 		CbCFormula formula = this.getFormulaFrom(resource);
-		// TODO: set everything to uproven.
 		unproveEverything(formula.getStatement());
 		Condition c = findConditionIn(formula.getStatement());
 		if (c == null) {

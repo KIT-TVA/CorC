@@ -23,9 +23,9 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
 import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
-import de.tu_bs.cs.isf.cbc.tool.helper.Features;
-import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.Features;
+import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 
 public class OpenStatisticsViewHandler extends AbstractHandler {
@@ -72,7 +72,7 @@ public class OpenStatisticsViewHandler extends AbstractHandler {
 		}
 		final StatisticsDialog dialog = new StatisticsDialog(Display.getCurrent().getActiveShell());
 		final URI projectUri = URI.createPlatformResourceURI(resource.getFullPath().toOSString());
-		if (FileHandler.getInstance().isSPL(projectUri)) {
+		if (FileHandler.instance.isSPL(projectUri)) {
 			Console.println("[SPL detected]", blue);
 			try {
 				var features = new Features(projectUri);

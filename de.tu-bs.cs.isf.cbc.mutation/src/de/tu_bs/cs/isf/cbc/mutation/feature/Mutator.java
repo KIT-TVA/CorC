@@ -2,19 +2,14 @@ package de.tu_bs.cs.isf.cbc.mutation.feature;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -26,19 +21,19 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.exceptions.FileHandlerException;
+import de.tu_bs.cs.isf.cbc.mutation.op.cbc.CbCMutationOp;
+import de.tu_bs.cs.isf.cbc.mutation.op.cbc.NOOP;
 import de.tu_bs.cs.isf.cbc.mutation.util.FileReader;
 import de.tu_bs.cs.isf.cbc.mutation.util.JavaDirectoryLoader;
-import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
-import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
+import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import src.mujava.MutationSystem;
 
 public abstract class Mutator {
-	public static String PW_RENAME = "Pre Boundaries";
-	public static String PS_RENAME = "Post Boundaries";
-	public static String FOLDER_NAME = "mutations";
+	private static final String PW_RENAME = "Pre Boundaries";
+	private static final String PS_RENAME = "Post Boundaries";
+	private static final String FOLDER_NAME = "mutations";
 
 	protected String[] operators;
 	protected int mutationCount;
@@ -51,8 +46,47 @@ public abstract class Mutator {
 	protected String className;
 	private boolean hasClass;
 	
-	public Mutator(List<String> operators) {
-		this.setMutantDiagrams(new ArrayList<Diagram>());
+	public static Mutator get(List<String> operators) {
+		if(operators.stream().anyMatch(o -> !(CbCMutationOp.get(o) instanceof NOOP))) {
+			return new CbCMutator(operators);
+		} else {
+			return new ImplMutator(operators);
+		}
+	}
+	
+	public static String getPwRename() {
+		return PW_RENAME;
+	}
+	
+	public static String getPsRename() {
+		return PS_RENAME;
+	}
+	
+	public static String getFolderName() {
+		return FOLDER_NAME;
+	}
+	
+	public IFolder getMutationFolder() {
+		return this.mutationFolder;
+	}
+
+	public Diagram getOriginalDiagram() {
+		return originalDiagram;
+	}
+	
+	public List<Diagram> getMutantDiagrams() {
+		return mutantDiagrams;
+	}
+
+	public boolean hasClass() {
+		return hasClass;
+	}
+	
+	public void mutate(Diagram diagram, Condition condition) throws Exception {}
+	protected void generateDiagrams() throws Exception {}
+
+	protected Mutator(List<String> operators) {
+		this.setMutantDiagrams(new ArrayList<>());
 		this.operators = new String[operators.size()];
 		this.mutationCount = 0;
 		for (int i = 0; i < operators.size(); i++) {
@@ -66,38 +100,6 @@ public abstract class Mutator {
 		}
 	}
 	
-	public IFolder getMutationFolder() {
-		return this.mutationFolder;
-	}
-
-	public Diagram getOriginalDiagram() {
-		return originalDiagram;
-	}
-	
-	private void setOriginalDiagram(Diagram diagram) {
-		this.originalDiagram = diagram;
-	}
-
-	public List<Diagram> getMutantDiagrams() {
-		return mutantDiagrams;
-	}
-
-	private void setMutantDiagrams(List<Diagram> mutantDiagrams) {
-		this.mutantDiagrams = mutantDiagrams;
-	}
-
-	public boolean hasClass() {
-		return hasClass;
-	}
-
-	private void setHasClass(boolean hasClass) {
-		this.hasClass = hasClass;
-	}
-
-	
-	public void mutate(Diagram diagram, Condition condition) throws Exception {}
-	protected void generateDiagrams() throws Exception {}
-
 	protected void setup(Diagram diagram) throws CoreException, FileHandlerException {
 		this.setOriginalDiagram(diagram);
 		this.mutantBaseName = this.getOriginalDiagram().getName() + "Mutant";
@@ -106,9 +108,7 @@ public abstract class Mutator {
 		className = className.isEmpty() ? "NoClass" : className;
 		deleteMutationFiles();
 		mutationFolder = getClassFolder(getOriginalDiagram()).getFolder(FOLDER_NAME);
-		//mutationFolder = FileHandler.getInstance().getFolder(originalDiagram.eResource().getURI(), FOLDER_NAME);
-		FileHandler.getInstance().deleteFolder(mutationFolder);
-		//FileHandler.getInstance().createFolder(originalDiagram.eResource().getURI(), FOLDER_NAME);
+		FileHandler.instance.deleteFolder(mutationFolder);
 		mutationFolder.create(true, true, null);
 		mutationFolder.refreshLocal(2, null);
 	}
@@ -128,6 +128,18 @@ public abstract class Mutator {
 			i++;
 		}
 		return codes;
+	}
+
+	private void setHasClass(boolean hasClass) {
+		this.hasClass = hasClass;
+	}
+
+	private void setMutantDiagrams(List<Diagram> mutantDiagrams) {
+		this.mutantDiagrams = mutantDiagrams;
+	}
+
+	private void setOriginalDiagram(Diagram diagram) {
+		this.originalDiagram = diagram;
 	}
 	
 	private String mergeElseIfs(String code) {
@@ -151,7 +163,7 @@ public abstract class Mutator {
 	}
 
 	protected void cleanUp() throws CoreException {
-		FileHandler.getInstance().deleteFolder(classUri, FOLDER_NAME);
+		FileHandler.instance.deleteFolder(classUri, FOLDER_NAME);
 		this.mutationFolder.refreshLocal(2, null);
 	}
 	
@@ -185,7 +197,7 @@ public abstract class Mutator {
 	private IFolder getClassFolder(Diagram diagram) throws FileHandlerException {
 		URI diagUri = diagram.eResource().getURI();
 		IProject project = FileUtil.getProject(diagUri);
-		ModelClass clazz = FileHandler.getInstance().getClassOf(diagram);
+		ModelClass clazz = FileHandler.instance.getClassOf(diagram);
 		String folderPath = ""; 
 		if (clazz == null) {
 			folderPath = diagUri.trimSegments(1).toPlatformString(true);
@@ -195,7 +207,6 @@ public abstract class Mutator {
 		} else {
 			for (int i = clazz.eResource().getURI().segmentCount() - 2; i >= 0; i--) {
 				if (clazz.eResource().getURI().segment(i).equals(project.getName())) {
-					//folderPath = "/" + clazz.eResource().getURI().segment(i-1) + folderPath;
 					break;
 				}
 				folderPath = "/" + clazz.eResource().getURI().segment(i) + folderPath;

@@ -8,8 +8,6 @@ import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
-import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
-import de.tu_bs.cs.isf.cbc.tool.propertiesview.Settings;
 
 /**
  * Class to open a console in the runtime instance

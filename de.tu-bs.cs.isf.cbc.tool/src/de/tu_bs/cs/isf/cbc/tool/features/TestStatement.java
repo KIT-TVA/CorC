@@ -48,28 +48,28 @@ import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.exceptions.TestAndAssertionGeneratorException;
 import de.tu_bs.cs.isf.cbc.exceptions.TestStatementException;
 import de.tu_bs.cs.isf.cbc.exceptions.UnexpectedTokenException;
-import de.tu_bs.cs.isf.cbc.statistics.StatDataCollector;
-import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
-import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
-import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
 import de.tu_bs.cs.isf.cbc.tool.helper.ConditionHandler;
-import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.Features;
-import de.tu_bs.cs.isf.cbc.tool.helper.InputData;
-import de.tu_bs.cs.isf.cbc.tool.helper.JavaCondition;
-import de.tu_bs.cs.isf.cbc.tool.helper.MethodHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolver;
 import de.tu_bs.cs.isf.cbc.tool.helper.TestStatementListener;
-import de.tu_bs.cs.isf.cbc.tool.helper.TestUtilSPL;
-import de.tu_bs.cs.isf.cbc.tool.helper.Token;
-import de.tu_bs.cs.isf.cbc.tool.helper.TokenType;
-import de.tu_bs.cs.isf.cbc.tool.helper.Tokenizer;
-import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
-import de.tu_bs.cs.isf.cbc.tool.helper.Variable;
+import de.tu_bs.cs.isf.cbc.util.ClassHandler;
+import de.tu_bs.cs.isf.cbc.util.CodeHandler;
+import de.tu_bs.cs.isf.cbc.util.Colors;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
+import de.tu_bs.cs.isf.cbc.util.Features;
+import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import diagnostics.DataCollector;
-import diagnostics.DataType;
+import de.tu_bs.cs.isf.cbc.util.InputData;
+import de.tu_bs.cs.isf.cbc.util.JavaCondition;
+import de.tu_bs.cs.isf.cbc.util.MethodHandler;
+import de.tu_bs.cs.isf.cbc.util.TestUtilSPL;
+import de.tu_bs.cs.isf.cbc.util.Token;
+import de.tu_bs.cs.isf.cbc.util.TokenType;
+import de.tu_bs.cs.isf.cbc.util.Tokenizer;
+import de.tu_bs.cs.isf.cbc.util.Variable;
+import de.tu_bs.cs.isf.cbc.util.diagnostics.DataCollector;
+import de.tu_bs.cs.isf.cbc.util.diagnostics.DataType;
+import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 
 /**
  * Class for testing a single statement.
@@ -146,9 +146,9 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 					e.printStackTrace();
 					return;
 				}
-				FileHandler.getInstance().clearLog(this.projectPath);
+				FileHandler.instance.clearLog(this.projectPath);
 				Features features = null;
-				if (FileHandler.getInstance().isSPL(uri)) {
+				if (FileHandler.instance.isSPL(uri)) {
 					try {
 						features = new Features(uri);
 					} catch (FeatureCallerException e) {
@@ -175,7 +175,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 						}
 						dataCollector.addData(features.getCurConfigName(), getStatementPath(statement), pathTime); 
 						// save configuration in a separate file
-						FileHandler.getInstance().saveConfig(uri, formula, features, false);
+						FileHandler.instance.saveConfig(uri, formula, features, false);
 					}		
 				} else {
 					float pathTime;
@@ -772,7 +772,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		}
 		final var originalMethods = new ArrayList<MethodHandler>();
 		final var abstractMethods = new ArrayList<MethodHandler>();
-		if (FileHandler.getInstance().isSPL(projectPath)) {
+		if (FileHandler.instance.isSPL(projectPath)) {
 			if (code.contains("original") || statementName.contains("original")) {
 				var testsdfjj = formula;
 				TestUtilSPL.getInstance().handleOriginalCode(fp, projectPath, code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, originalMethods, formula.getMethodObj().getSignature(), vars);

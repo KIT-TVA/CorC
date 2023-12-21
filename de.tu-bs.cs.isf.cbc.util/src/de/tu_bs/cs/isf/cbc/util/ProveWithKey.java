@@ -44,14 +44,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
-import de.tu_bs.cs.isf.cbc.tool.features.CounterExampleGenerator;
-import de.tu_bs.cs.isf.commands.toolbar.handler.family.MetaClass;
-import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
+import de.tu_bs.cs.isf.cbc.util.consts.MetaNames;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
-
-import de.tu_bs.cs.isf.cbc.tool.propertiesview.Settings;
 
 public class ProveWithKey {
 	public static final String SRC_FOLDER = "/src_gen";
@@ -96,10 +91,10 @@ public class ProveWithKey {
 		formula = extractor.getFormula();		
 		this.uri = diagramToProve.eResource().getURI().toPlatformString(true);
 
-		if (uri.contains(MetaClass.FOLDER_NAME)) {
+		if (uri.contains(MetaNames.FOLDER_NAME)) {
 			String className = uri.substring(0, uri.lastIndexOf("/"));
 			className = className.substring(className.lastIndexOf("/") + 1, className.length());
-			this.sourceFolder = MetaClass.FOLDER_NAME; /*+ "/" + className;*/
+			this.sourceFolder = MetaNames.FOLDER_NAME; /*+ "/" + className;*/
 		} else {
 			this.sourceFolder = srcFolder;
 		}
@@ -154,7 +149,7 @@ public class ProveWithKey {
 	
 	private Collection<Parameter> copyMethodParams(String uri, String callingMethod, String callingClass) {
 		var project = FileUtil.getProjectLocationS(uri);
-		ModelClass clazz = FileHandler.getInstance().getClassOf(this.diagramToProve);
+		ModelClass clazz = FileHandler.instance.getClassOf(this.diagramToProve);
 		Method method = clazz.getMethods().stream().filter(m -> m.getName().equals(callingMethod)).findFirst().get();
 		return EcoreUtil.copyAll(method.getParameters());
 	}

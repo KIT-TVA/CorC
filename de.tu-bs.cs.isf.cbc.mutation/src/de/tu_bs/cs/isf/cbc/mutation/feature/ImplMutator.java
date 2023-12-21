@@ -14,8 +14,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
+import de.tu_bs.cs.isf.cbc.util.ClassHandler;
+import de.tu_bs.cs.isf.cbc.util.CodeGenerator;
+import de.tu_bs.cs.isf.cbc.util.CodeHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.CopyDiagram;
+import de.tu_bs.cs.isf.cbc.util.DiffChecker;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
@@ -25,13 +29,9 @@ import de.tu_bs.cs.isf.cbc.exceptions.MutatorException;
 import de.tu_bs.cs.isf.cbc.mutation.util.CodeRepresentationFinder;
 import de.tu_bs.cs.isf.cbc.mutation.util.DirectoryCreator;
 import de.tu_bs.cs.isf.cbc.mutation.util.MutatedClass;
-import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
-import de.tu_bs.cs.isf.cbc.tool.helper.CodeGenerator;
-import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
-import de.tu_bs.cs.isf.cbc.tool.helper.DiffChecker;
-import de.tu_bs.cs.isf.cbc.tool.helper.LinePair;
-import de.tu_bs.cs.isf.cbc.tool.helper.MethodHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.LinePair;
+import de.tu_bs.cs.isf.cbc.util.MethodHandler;
 import src.mujava.AllMutantsGenerator;
 import src.mujava.MutationSystem;
 import src.mujava.OpenJavaException;
@@ -39,10 +39,6 @@ import src.mujava.makeMuJavaStructure;
 
 public class ImplMutator extends Mutator {
 	private String originalCode;
-	
-	public ImplMutator(List<String> operators) {
-		super(operators);
-	}
 	
 	@Override
 	public void mutate(Diagram diagramToMutate, Condition condition) throws Exception {
@@ -58,10 +54,9 @@ public class ImplMutator extends Mutator {
 
 	@Override
 	protected void generateDiagrams() throws CodeRepresentationFinderException, IOException, CoreException, MutatorException, FileHandlerException {
-		String originalCode = getOriginalCode();
 		DiffChecker dc = new DiffChecker();
 		for (String mutant : mutants) {
-			dc.check(originalCode, mutant);
+			dc.check(getOriginalCode(), mutant);
 			LinePair diffLine = dc.nextDiff();	
 			applyMutation(diffLine);
 		}
@@ -69,7 +64,10 @@ public class ImplMutator extends Mutator {
 		mc.generate();
 	}
 	
-
+	protected ImplMutator(List<String> operators) {
+		super(operators);
+	}
+	
 	protected void generateFiles() throws IOException, OpenJavaException {
 		String location = setupMuJava();
 		File targetFile = generateFile(location, getOriginalDiagram().getName(), originalCode);
@@ -96,7 +94,7 @@ public class ImplMutator extends Mutator {
 	
 	protected String constructCode() throws Exception {
 		ClassHandler ch = new ClassHandler(this.className, this.classUri);
-		String diagramAsCode = CodeGenerator.getInstance().generateCodeFor(getOriginalDiagram());
+		String diagramAsCode = CodeGenerator.instance.generateCodeFor(getOriginalDiagram());
 		String signature = MethodHandler.getSignatureFromCode(diagramAsCode);
 		String contract = MethodHandler.getContractFromCode(diagramAsCode, signature);
 		MethodHandler mh = new MethodHandler(contract, signature, diagramAsCode);
@@ -105,7 +103,7 @@ public class ImplMutator extends Mutator {
 	}
 	
 	protected String setupMuJava() {
-		String location = FileUtil.getProjectLocation(getOriginalDiagram().eResource().getURI()) + File.separator + FOLDER_NAME;
+		String location = FileUtil.getProjectLocation(getOriginalDiagram().eResource().getURI()) + File.separator + getFolderName();
 		MutationSystem.CLASS_NAME = className;
 		setMuJavaPaths(location);
 		makeMuJavaStructure.main(null);

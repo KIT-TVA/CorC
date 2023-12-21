@@ -8,9 +8,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
-import de.tu_bs.cs.isf.cbc.tool.helper.ClassHandler;
-import de.tu_bs.cs.isf.cbc.tool.helper.MethodHandler;
+import de.tu_bs.cs.isf.cbc.util.ClassHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.MethodHandler;
 
 public class DummyMethod {
 	private Method method;

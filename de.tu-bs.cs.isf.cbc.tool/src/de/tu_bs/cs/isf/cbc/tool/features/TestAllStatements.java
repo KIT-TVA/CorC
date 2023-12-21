@@ -17,14 +17,14 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.exceptions.DiagnosticsException;
 import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
-import de.tu_bs.cs.isf.cbc.statistics.StatDataCollector;
-import de.tu_bs.cs.isf.cbc.tool.helper.Colors;
-import de.tu_bs.cs.isf.cbc.tool.helper.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.tool.helper.Features;
-import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
+import de.tu_bs.cs.isf.cbc.util.Colors;
 import de.tu_bs.cs.isf.cbc.util.Console;
-import diagnostics.DataCollector;
-import diagnostics.DataType;
+import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
+import de.tu_bs.cs.isf.cbc.util.Features;
+import de.tu_bs.cs.isf.cbc.util.FileHandler;
+import de.tu_bs.cs.isf.cbc.util.diagnostics.DataCollector;
+import de.tu_bs.cs.isf.cbc.util.diagnostics.DataType;
+import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 
 /**
  * Feature for testing all statements.
@@ -97,10 +97,10 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 			return;
 		}
 		ts.setUri(uri);
-		FileHandler.getInstance().clearLog(diag.eResource().getURI());
+		FileHandler.instance.clearLog(diag.eResource().getURI());
 		var allStatements = TestStatement.collectAllStatements(formula);
 		Features features = null;
-		if (FileHandler.getInstance().isSPL(uri)) {
+		if (FileHandler.instance.isSPL(uri)) {
 			features = new Features(uri);
 		} else {
 			features = null;
@@ -122,7 +122,7 @@ public class TestAllStatements extends MyAbstractAsynchronousCustomFeature{
 				float pathTime = ts.testPath((AbstractStatement)statement, vars, conds, formula, returnStatement, features);
 				dataCollector.addData(features.getCurConfigName(), ts.getStatementPath(statement), pathTime); 
 			}
-			FileHandler.getInstance().saveConfig(uri, formula, features, false);
+			FileHandler.instance.saveConfig(uri, formula, features, false);
 		}
 		dataCollector.finish();
 	}

@@ -1,12 +1,5 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
-import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.ConditionParser;
-import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.Node;
-import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.NotNode;
-import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.OpNode;
-import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.QuantorNode;
-import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.RelNode;
-import de.tu_bs.cs.isf.cbc.tool.helper.conditionparser.SingleNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +20,17 @@ import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.exceptions.TestFailedException;
 import de.tu_bs.cs.isf.cbc.exceptions.UnexpectedTokenException;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.FileHandler;
+import de.tu_bs.cs.isf.cbc.util.InputData;
+import de.tu_bs.cs.isf.cbc.util.TokenType;
+import de.tu_bs.cs.isf.cbc.util.Variable;
+import de.tu_bs.cs.isf.cbc.util.conditionparser.ConditionParser;
+import de.tu_bs.cs.isf.cbc.util.conditionparser.Node;
+import de.tu_bs.cs.isf.cbc.util.conditionparser.NotNode;
+import de.tu_bs.cs.isf.cbc.util.conditionparser.OpNode;
+import de.tu_bs.cs.isf.cbc.util.conditionparser.QuantorNode;
+import de.tu_bs.cs.isf.cbc.util.conditionparser.RelNode;
+import de.tu_bs.cs.isf.cbc.util.conditionparser.SingleNode;
 
 /**
  * Translates an AST into the syntax of the Z3-Solver.
@@ -244,7 +248,7 @@ public class PreConditionSolver {
 			}
 		}
 		Console.printWarn("PreConditionSolverWarning: Type of identifier '" + tree.getRep() + "' is not supported.");
-    	FileHandler.getInstance().log("PreConditionSolverWarning: Type of identifier '" + tree.getRep() + "' is not supported.");
+    	FileHandler.instance.log("PreConditionSolverWarning: Type of identifier '" + tree.getRep() + "' is not supported.");
 		return context.mkTrue();
     }
     

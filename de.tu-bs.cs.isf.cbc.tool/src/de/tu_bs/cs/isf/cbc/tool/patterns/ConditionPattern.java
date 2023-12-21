@@ -48,12 +48,12 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
 import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetProjectUtil;
-import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateContractsToProve;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateInformationFlow;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateMethodCallsToProve;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateOriginalCallsToProve;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
+import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.lattice.Lattice;
 import de.tu_bs.cs.isf.lattice.Lattices;
 

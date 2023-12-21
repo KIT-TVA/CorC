@@ -24,8 +24,8 @@ import org.eclipse.swt.widgets.Shell;
 import de.tu_bs.cs.isf.cbc.statistics.CSVHelper;
 import de.tu_bs.cs.isf.cbc.statistics.StatisticsDatabase;
 import de.tu_bs.cs.isf.cbc.statistics.StatisticsEntry;
-import de.tu_bs.cs.isf.cbc.tool.helper.Features;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.Features;
 
 
 public class StatisticsDialog extends TitleAreaDialog {

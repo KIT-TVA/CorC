@@ -14,7 +14,7 @@ public abstract class CbCMutationOp {
 	int opToMutateStart;
 	int opToMutateEnd;
 	
-	public static CbCMutationOp get(String opName) throws MutatorException {
+	public static CbCMutationOp get(String opName) {
 		switch (opName) {
 			case "CAORB":
 				return new CAORB();

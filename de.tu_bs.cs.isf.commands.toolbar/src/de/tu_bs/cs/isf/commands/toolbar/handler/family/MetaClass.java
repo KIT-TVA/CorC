@@ -14,12 +14,11 @@ import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateModelFromCode;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.GenerateModelFromCode;
+import de.tu_bs.cs.isf.cbc.util.consts.MetaNames;
 
 public class MetaClass {
-	public static final String FOLDER_NAME = "meta_product_gen";
-	
 	private ModelClass[] models;
 	private IProject project;
 	private ModelClass metaModel;
@@ -36,7 +35,7 @@ public class MetaClass {
 	}
 	
 	public void create() {
-		IFolder metaFolder = project.getFolder(MetaClass.FOLDER_NAME);
+		IFolder metaFolder = project.getFolder(MetaNames.FOLDER_NAME);
 		IFolder classFolder = metaFolder.getFolder(metaModel.getName());
 		ResourceSet rs = new ResourceSetImpl();
 		var cbcclassResource = rs
@@ -71,7 +70,7 @@ public class MetaClass {
 	}
 	
 	private static boolean isRelevant(ModelClass cbcClass, String className, org.eclipse.emf.ecore.resource.Resource res) {
-		return cbcClass.getName().equals(className) && !res.getURI().path().contains(MetaClass.FOLDER_NAME);
+		return cbcClass.getName().equals(className) && !res.getURI().path().contains(MetaNames.FOLDER_NAME);
 	}
 	
 	private MetaClass(ModelClass[] models, String className) {

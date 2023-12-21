@@ -50,8 +50,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateModelFromCode;
+import de.tu_bs.cs.isf.cbc.util.GenerateDiagramFromModel;
+import de.tu_bs.cs.isf.cbc.util.GenerateModelFromCode;
 
 
 public class GenerateDiagramFromClassHandler extends AbstractHandler {

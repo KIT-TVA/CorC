@@ -2,7 +2,7 @@ package de.tu_bs.cs.isf.commands.toolbar.handler.family;
 
 import java.util.List;
 
-import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
+import de.tu_bs.cs.isf.cbc.util.CodeHandler;
 
 public class CodeMerge {
 	private String className;

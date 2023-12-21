@@ -3,8 +3,8 @@ package de.tu_bs.cs.isf.commands.toolbar.handler.family;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.tu_bs.cs.isf.cbc.tool.helper.CodeHandler;
-import de.tu_bs.cs.isf.cbc.tool.helper.MethodHandler;
+import de.tu_bs.cs.isf.cbc.util.CodeHandler;
+import de.tu_bs.cs.isf.cbc.util.MethodHandler;
 
 public class JavaMethods {
 	final List<MethodHandler> methods = new ArrayList<MethodHandler>();

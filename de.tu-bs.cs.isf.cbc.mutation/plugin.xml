@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs
+            contributorId="cbc.PropertyContributor">
+         <propertyTab
+               category="Graphiti"
+               id="Mutation"
+               label="Mutation">
+         </propertyTab>
+      </propertyTabs>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections
+            contributorId="cbc.PropertyContributor">
+         <propertySection
+               class="de.tu_bs.cs.isf.cbc.mutation.propertiesview.MutationSection"
+               filter="de.tu_bs.cs.isf.cbc.mutation.propertiesview.MutationFilter"
+               id="Mutation"
+               tab="Mutation">
+         </propertySection>
+      </propertySections>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            contributorId="cbc.PropertyContributor">
+         <propertyCategory
+               category="Graphiti"></propertyCategory>
+      </propertyContributor>
+   </extension>
+
+</plugin>

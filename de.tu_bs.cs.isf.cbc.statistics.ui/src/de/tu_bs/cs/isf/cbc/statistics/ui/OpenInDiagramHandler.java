@@ -23,7 +23,6 @@ import org.eclipse.ui.part.FileEditorInput;
 
 import de.tu_bs.cs.isf.cbc.statistics.StatisticsDatabase;
 import de.tu_bs.cs.isf.cbc.statistics.StatisticsEntry;
-import de.tu_bs.cs.isf.cbc.tool.helper.HighlightHelper;
 
 public class OpenInDiagramHandler extends AbstractHandler {
 
@@ -58,7 +57,7 @@ public class OpenInDiagramHandler extends AbstractHandler {
 		IFile diagramFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 		
 		showInEditor(diagramFile);
-		HighlightHelper.instance.registerElementToHighlight(dbEntry.getMapping().getCorcElementId());
+		//HighlightHelper.instance.registerElementToHighlight(dbEntry.getMapping().getCorcElementId()); TODO: Move this feature to *.tool package
 		
 		return null;
 	}

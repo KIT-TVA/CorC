@@ -61,10 +61,10 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbcclass.tool.helper.CbcClassUtil;
 import de.tu_bs.cs.isf.cbcclass.tool.helper.ModelClassHelper;
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
-import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.GenerateDiagramFromModel;
+import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
 
 public class MethodClassPattern extends IdPattern implements IPattern {
 

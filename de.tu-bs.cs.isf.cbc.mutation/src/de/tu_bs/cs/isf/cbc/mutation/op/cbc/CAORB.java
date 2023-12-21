@@ -1,7 +1,6 @@
 package de.tu_bs.cs.isf.cbc.mutation.op.cbc;
 
 import java.util.Arrays;
-import java.util.List;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.exceptions.MutatorException;

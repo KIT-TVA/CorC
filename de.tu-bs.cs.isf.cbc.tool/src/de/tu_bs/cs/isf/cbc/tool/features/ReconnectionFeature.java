@@ -15,8 +15,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
 import de.tu_bs.cs.isf.cbc.tool.helper.GetProjectUtil;
-import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateInformationFlow;
+import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
 import de.tu_bs.cs.isf.lattice.Lattice;
 import de.tu_bs.cs.isf.lattice.Lattices;
 

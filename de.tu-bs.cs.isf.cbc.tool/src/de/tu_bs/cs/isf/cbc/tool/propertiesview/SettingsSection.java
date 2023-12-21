@@ -30,7 +30,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
-import de.tu_bs.cs.isf.cbc.tool.helper.FileHandler;
+import de.tu_bs.cs.isf.cbc.util.FileHandler;
+import de.tu_bs.cs.isf.cbc.util.Settings;
 
 /**
  * Class for the Behavior-Tab of the Properties-View.
