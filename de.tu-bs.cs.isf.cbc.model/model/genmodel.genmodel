@@ -4,7 +4,8 @@
     editorDirectory="/de.tu-bs.cs.isf.cbc.model.editor/src-gen" modelPluginID="de.tu-bs.cs.isf.cbc.model"
     forceOverwrite="true" modelName="Genmodel" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     testsDirectory="/de.tu-bs.cs.isf.cbc.model.tests/src-gen" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="8.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+    complianceLevel="8.0" suppressGenModelAnnotations="false" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
   <foreignModel>cbcmodel.ecore</foreignModel>
   <genPackages prefix="Cbcmodel" basePackage="de.tu_bs.cs.isf.cbc" disposableProviderFactory="true"
       ecorePackage="cbcmodel.ecore#/">
