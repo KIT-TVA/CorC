@@ -141,6 +141,16 @@ public class ImplMutator extends Mutator {
 		this.getMutantDiagrams().add(cd.getDiagram());
 	}
 	
+	private String getConditionStr(String javaCondition) {
+		if (javaCondition.startsWith("while")) {
+			return javaCondition.substring("while (".length(), javaCondition.length() - ") {".length());
+		} else if (javaCondition.startsWith("if")) {
+			return javaCondition.substring("if (".length(), javaCondition.length() - ") {".length());
+		} else {
+			return javaCondition;
+		}
+	}
+	
 	protected boolean changeTargetLine(Resource resource, LinePair diffLine) throws CodeRepresentationFinderException, IOException, MutatorException {
 		CbCFormula formula = getFormulaFrom(resource);
 		unproveEverything(formula.getStatement());
@@ -156,7 +166,7 @@ public class ImplMutator extends Mutator {
 			if (crf.isContract()) {
 				targetC.setName(crf.transformJMLToJavaDL(diffLine.newLine));
 			} else {
-				targetC.setName(targetC.getName().replace(diffLine.originalLine, diffLine.newLine));
+				targetC.setName(targetC.getName().replace(getConditionStr(diffLine.originalLine), getConditionStr(diffLine.newLine)));
 			}
 			((AbstractStatement)target.eContainer()).setProven(false);
 		} else {
