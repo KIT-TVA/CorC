@@ -652,6 +652,61 @@ public class ProveWithKey {
 		return defString + "}\n\n" + rulesString + "}";
 	}
 	
+	private List<String> calculateOriginalPredicates(List<CbCFormula> refinements, JavaVariables varsFromJavaClass, String callingClass) {
+		if (refinements == null || refinements.size() == 0) return null; 
+		String refinedPre = Parser.getConditionFromCondition(refinements.get(0).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", "");
+		String refinedPost = Parser.getConditionFromCondition(refinements.get(0).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", "");;
+		for (int i = 1; i < refinements.size(); i++) {
+			refinedPre = applyCompositionTechnique("requires", refinedPre, Parser.getConditionFromCondition(refinements.get(i).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", ""), refinements.get(i-1).getCompositionTechnique(), true);
+			refinedPost = applyCompositionTechnique("ensures", refinedPost, Parser.getConditionFromCondition(refinements.get(i).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", ""), refinements.get(i-1).getCompositionTechnique(), true);
+		}	
+		
+		refinedPre = replaceOld(refinedPre);
+		refinedPost = replaceOld(refinedPost);
+		for (Field var : varsFromJavaClass.getFields()) {
+			Pattern pattern = Pattern.compile("([^a-zA-Z_]|^)" + var.getName().trim() + "([^a-zA-Z_]|$)");
+		    Matcher matcher = pattern.matcher(refinedPre);
+		    while (matcher.find()) {
+		    	if (matcher.start() > 4 && !refinedPre.substring(matcher.start() - 4).startsWith("self.")) {
+		    		refinedPre = new StringBuilder(refinedPre).insert(matcher.start() + 1, "self.").toString();
+			    	matcher = pattern.matcher(refinedPre);
+		    	}
+		    }
+		    matcher = pattern.matcher(refinedPost);
+		    while (matcher.find()) {
+		    	if (matcher.start() > 4 && !refinedPost.substring(matcher.start() - 4).startsWith("self.")) {
+		    		refinedPost = new StringBuilder(refinedPost).insert(matcher.start() + 1, "self.").toString();
+			    	matcher = pattern.matcher(refinedPost);
+		    	}
+		    }
+			
+		}
+		List<String> ret = new ArrayList<>();
+		ret.add(refinedPre);
+		ret.add(refinedPost);
+		return ret;
+	}
+
+	private String replaceOld(String condition) {
+		while (condition.contains("\\old(")) {
+			int start = condition.indexOf("\\old(");
+			String toReplace = "\\old(";
+			for (int i = start + 5; i < condition.length(); i++) {
+				toReplace += condition.charAt(i);
+				if (condition.charAt(i) == ')' || condition.charAt(i) == '.') {
+					break;
+				}
+			}
+			String var = toReplace.replace("\\old(", "").replace(")", "").replace(".", "");
+			if (toReplace.endsWith(")")) {
+				condition = condition.replace(toReplace, var + "_oldVal");
+			} else if (toReplace.endsWith(".")) {
+				condition = condition.replace(toReplace, var + "_oldVal.");
+			}
+		}
+		return condition;
+	}
+
 	private static String applyPredicates(String condition) {
 		if (predicates != null) {
 			for (Predicate p : predicates) {
