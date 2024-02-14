@@ -49,7 +49,7 @@ import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
 
 public class ProveWithKey {
-	public static final String SRC_FOLDER = "/src_gen";
+	public static final String SRC_FOLDER = ""; //Fix für Pfadfehler bei Repetition, Selection und Methodenaufrufen. War vorher "/src_gen"
 	
 	public static final String REGEX_ORIGINAL = "original";
 	public static final String REGEX_RESULT = "\\\\result";
@@ -179,7 +179,7 @@ public class ProveWithKey {
 		problem = content.getKeYStatementContent();	
 		problem = problem.replaceAll("static", "");
 		problem = problem.replaceAll("return", ""); // TODO replace with correct handling of return
-
+		
 		String location = fileHandler.getLocationString(uri) + configName;
 		File keyFile = fileHandler.writeFile(problem, location, override, statement, subProofName);
 		return keyFile;
