@@ -366,6 +366,7 @@ public class KeYFileContent {
 		
 	    String result = String.join(" & ", preConditions);
 	    result = replaceThisWithSelf(result);
+	    result = renameCondition(result);
 	    
 		return replaceOldKeyword(result, oldReplacements);
 	}
@@ -378,6 +379,7 @@ public class KeYFileContent {
 		
 		String result =  String.join(" & ", postConditions);
 		result = replaceThisWithSelf(result);
+		result = renameCondition(result);
 		
 		return replaceOldKeyword(result, oldReplacements);
 	}
