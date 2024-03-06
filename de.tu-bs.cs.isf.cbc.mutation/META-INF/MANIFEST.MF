@@ -9,7 +9,7 @@ Require-Bundle: org.junit,
  org.eclipse.graphiti.ui;bundle-version="0.18.0",
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.graphiti;bundle-version="0.18.0",
- org.apache.commons.io;bundle-version="2.8.0"
+ org.apache.commons.commons-io
 Import-Package: de.tu_bs.cs.isf.cbc.cbcclass,
  de.tu_bs.cs.isf.cbc.cbcmodel,
  de.tu_bs.cs.isf.cbc.exceptions,

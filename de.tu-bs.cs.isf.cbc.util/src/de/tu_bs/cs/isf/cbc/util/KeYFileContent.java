@@ -35,9 +35,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 
 public class KeYFileContent {	
-	public static final String REGEX_BEFORE_VARIABLE_KEYWORD = "(?<![a-zA-Z0-9_\\.]|self\\.)(";
-	public static final String REGEX_AFTER_VARIABLE_KEYWORD = ")(?![a-zA-Z0-9_])";
-	public static final Pattern REGEX_THIS_KEYWORD = Pattern.compile("(?<![a-zA-Z0-9_])(this)(?![a-zA-Z0-9_])");
+	public static final Pattern REGEX_THIS_KEYWORD = Pattern.compile("\\b(this)\\b");//("(?<![a-zA-Z0-9_])(this)(?![a-zA-Z0-9_])");
 	public static final String OLD_VARS_SUFFIX = "_oldVal";
 	public static final Pattern REGEX_RESULT_KEYWORD = Pattern.compile("(\\\\result)");
 	
@@ -274,6 +272,7 @@ public class KeYFileContent {
 	}
 	
 	public String getKeYContent(boolean withStatement) {
+		replaceThisForSelfInStatement();
 		addSelfForFields();
 		
 		Set<String> oldKeywords = extractOldKeywordVariables();
@@ -289,11 +288,14 @@ public class KeYFileContent {
 		return builder.toString();
 	}
 	
+	private void replaceThisForSelfInStatement() {
+		statement = statement.replaceAll("\\b(this.)\\b", "self.");
+	}
+	
 	private void addSelfForFields() {
 		for (Field field : programVariables.getFields()) {
 			if (!nameOfLocalVars.contains(field.getName()) /*&& !field.isIsStatic()*/) {
-				Pattern pattern = Pattern.compile(REGEX_BEFORE_VARIABLE_KEYWORD + field.getName() + REGEX_AFTER_VARIABLE_KEYWORD);
-				statement = statement.replaceAll(pattern.pattern(), "self." + field.getName());
+				Pattern pattern = Pattern.compile("\\b(this\\." + field.getName() + ")\\b");
 				preConditions.forEach(c -> c.setName(c.getName().replaceAll(pattern.pattern(), "self." + field.getName())));
 				postConditions.forEach(c -> c.setName(c.getName().replaceAll(pattern.pattern(), "self." + field.getName())));
 				globalConditions.forEach(c -> c.setName(c.getName().replaceAll(pattern.pattern(), "self." + field.getName())));
@@ -328,15 +330,21 @@ public class KeYFileContent {
 	private String getProgramVariablesString(Map<String, OldReplacement> oldReplacements) {
 		StringBuilder builder = new StringBuilder();
 		for (JavaVariable var : programVariables.getVariables()) {
-			builder.append(removeStaticNonNull(var.getName()) + ";\n");
+			if (!builder.toString().contains(var.getName())) {
+				builder.append(removeStaticNonNull(var.getName()) + ";\n");
+			}
 		}
 		
 		for (Parameter param : programVariables.getParams()) {
-			builder.append(removeStaticNonNull(param.getType() + " " + param.getName()) + ";\n");
+			if (!builder.toString().contains(param.getType() + " " + param.getName())) {
+				builder.append(removeStaticNonNull(param.getType() + " " + param.getName()) + ";\n");
+			}
 		}
 		
 		for (String unmodifiableVar : getUnmodifiableProgramVars()) {
-			builder.append(removeStaticNonNull(unmodifiableVar) + ";\n");
+			if (!builder.toString().contains(unmodifiableVar)) {
+				builder.append(removeStaticNonNull(unmodifiableVar) + ";\n");
+			}
 		}
 		
 //		for (String var : oldReplacements.keySet()) {
@@ -793,6 +801,7 @@ public class KeYFileContent {
 		private int index;
 		
 		OldReplacement(String var, int index) {
+			var = var.replaceAll("this\\.", "self.");
 			this.var = var;
 			this.index = index;
 		}
