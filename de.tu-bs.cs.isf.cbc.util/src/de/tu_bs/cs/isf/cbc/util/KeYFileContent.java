@@ -295,7 +295,8 @@ public class KeYFileContent {
 	private void addSelfForFields() {
 		for (Field field : programVariables.getFields()) {
 			if (!nameOfLocalVars.contains(field.getName()) /*&& !field.isIsStatic()*/) {
-				Pattern pattern = Pattern.compile("\\b(this\\." + field.getName() + ")\\b");
+				Pattern pattern = Pattern.compile("(?<!\\.)\\b" + field.getName() + "\\b");
+				statement = statement.replaceAll(pattern.pattern(), "self." + field.getName());
 				preConditions.forEach(c -> c.setName(c.getName().replaceAll(pattern.pattern(), "self." + field.getName())));
 				postConditions.forEach(c -> c.setName(c.getName().replaceAll(pattern.pattern(), "self." + field.getName())));
 				globalConditions.forEach(c -> c.setName(c.getName().replaceAll(pattern.pattern(), "self." + field.getName())));
