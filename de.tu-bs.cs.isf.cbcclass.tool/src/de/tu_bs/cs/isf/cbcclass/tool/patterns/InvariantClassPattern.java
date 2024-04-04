@@ -170,3 +170,4 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 		super.delete(context);
 	}
 }
+
