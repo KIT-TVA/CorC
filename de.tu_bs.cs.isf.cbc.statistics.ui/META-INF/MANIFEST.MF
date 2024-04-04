@@ -12,5 +12,5 @@ Require-Bundle: de.tu_bs.cs.isf.cbc.statistics,
  org.eclipse.core.runtime,
  de.tu-bs.cs.isf.cbc.util,
  de.tu-bs.cs.isf.cbc.model,
- org.eclipse.ui.ide
-Import-Package: de.tu_bs.cs.isf.cbc.exceptions
+ org.eclipse.ui.ide,
+ de.tu-bs.cs.isf.cbc.exceptions

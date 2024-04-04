@@ -11,6 +11,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
+import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 
 public class Features {
 	private final URI uri;

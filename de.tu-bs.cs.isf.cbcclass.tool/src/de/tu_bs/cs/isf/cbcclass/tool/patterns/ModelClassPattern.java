@@ -52,8 +52,8 @@ import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCImageProvider;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import model.CbcClassUtil;
 import de.tu_bs.cs.isf.cbc.util.ClassUtil;
-import de.tu_bs.cs.isf.cbcclass.tool.helper.CbcClassUtil;
 
 public class ModelClassPattern extends IdPattern implements IPattern {
 

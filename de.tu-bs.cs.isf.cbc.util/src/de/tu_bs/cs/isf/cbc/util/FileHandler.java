@@ -21,6 +21,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.util.consts.MetaNames;
 import de.tu_bs.cs.isf.cbc.util.diagnostics.DataCollector;
 import de.tu_bs.cs.isf.cbc.util.diagnostics.DataType;

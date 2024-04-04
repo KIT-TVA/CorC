@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
+import de.tu_bs.cs.isf.cbc.tool.helper.Predicate;
 
 public class FileUtil implements IFileUtil{
 	
@@ -334,5 +335,17 @@ public class FileUtil implements IFileUtil{
        resourceURI = resourceSet.getURIConverter().normalize(resourceURI);
        return resourceURI;
     }
+
+	@Override
+	public File writeFile(String problem, String helper, String location, boolean override, AbstractStatement statement,
+			String subProofName) {
+		// TODO Auto-generated method stub
+		return null; }
+
+	@Override
+	public List<Predicate> readPredicates(String filePath) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

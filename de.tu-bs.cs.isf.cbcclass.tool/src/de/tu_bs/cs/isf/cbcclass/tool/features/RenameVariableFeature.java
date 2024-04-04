@@ -6,7 +6,7 @@ import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 
 public class RenameVariableFeature extends AbstractCustomFeature {

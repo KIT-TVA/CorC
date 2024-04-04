@@ -15,7 +15,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
-
+import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import org.eclipse.emf.common.util.URI;
 
 public class ClassUtil {

@@ -57,28 +57,16 @@ import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.impl.VoidImpl;
 import org.emftext.language.java.variables.LocalVariable;
 import org.emftext.language.java.variables.impl.VariableImpl;
-
 import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassPackage;
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
-import de.tu_bs.cs.isf.cbc.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
-import de.tu_bs.cs.isf.cbc.cbcclass.Visibility;
-import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
-import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
-import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
-import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 
 public class GenerateModelFromCode {
 	// Content of Class

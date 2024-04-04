@@ -41,7 +41,6 @@ import org.emftext.language.java.statements.Statement;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassPackage;
-import de.tu_bs.cs.isf.cbc.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;

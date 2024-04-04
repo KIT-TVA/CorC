@@ -1,16 +1,14 @@
 package de.tu_bs.cs.isf.cbc.util;
 
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 
-/**
- * Class to open a console in the runtime instance
- * @author Tobias
- *
- */
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
+
 public class Console {
 	
 	/**
@@ -63,6 +61,54 @@ public class Console {
 	public static void println() {
 		MessageConsoleStream out = findConsole().newMessageStream();
 		out.println();
+	}
+	
+	/**
+	 * prints a colored line on the console
+	 * @param message the line which should be printed
+	 * @param color the color the text should have
+	 */
+	public static void println(Object message, Color color) {
+		if (message == null) {
+			message = new String("null");
+		} else {
+			MessageConsoleStream out = findConsole().newMessageStream();
+			out.setColor(color);
+			out.println("" + message);
+		}
+	}
+	
+	/**
+	 * prints a colored text on the console
+	 * @param message the line which should be printed
+	 * @param color the color the text should have
+	 */
+	public static void print(Object message, Color color) {
+		if (message == null) {
+			message = new String("null");
+		} else {
+			MessageConsoleStream out = findConsole().newMessageStream();
+			out.setColor(color);
+			out.print("" + message);
+		}
+	}
+	
+	public static void printWarn(Object message) {
+		try {
+			if (!Settings.get().testWarningsEnabled()) {
+				return;
+			}
+		} catch (SettingsException e) {
+			e.printStackTrace();
+			return;
+		}
+		if (message == null) {
+			message = new String("null");
+		} else {
+			MessageConsoleStream out = findConsole().newMessageStream();
+			out.setColor(Colors.WARNING);
+			out.println("" + message);
+		}
 	}
 	
 	/**

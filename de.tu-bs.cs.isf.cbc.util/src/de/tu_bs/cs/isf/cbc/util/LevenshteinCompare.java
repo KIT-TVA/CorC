@@ -30,7 +30,7 @@ public class LevenshteinCompare {
 	 * @param s2	String number two, which is compared to String number two
 	 * @return		the Levenshtein Distance of the two Strings
 	 */
-	private static int getDistance(String s1, String s2) {
+	static int getDistance(String s1, String s2) {
 		// degenerate cases
 		if (s1.equals(s2)) {
 			return 0;

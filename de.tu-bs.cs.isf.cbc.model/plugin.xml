@@ -15,4 +15,12 @@
             genModel="model/test.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated genmodel -->
+      <package
+            uri="http://www.example.org/cbcclass"
+            class="de.tu_bs.cs.isf.cbc.cbcclass.CbcclassPackage"
+            genModel="model/genmodel.genmodel"/>
+   </extension>
+
 </plugin>
