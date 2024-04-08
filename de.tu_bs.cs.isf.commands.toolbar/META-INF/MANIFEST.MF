@@ -19,3 +19,6 @@ Import-Package: newDiagramWizard,
  org.emftext.language.java.containers,
  org.emftext.language.java.resource.java.util
 Export-Package: de.tu_bs.cs.isf.commands.toolbar.handler.family
+Bundle-ClassPath: lib/javaparser-core-3.25.9-SNAPSHOT.jar,
+ lib/javaparser-symbol-solver-core-3.25.9-SNAPSHOT.jar,
+ .

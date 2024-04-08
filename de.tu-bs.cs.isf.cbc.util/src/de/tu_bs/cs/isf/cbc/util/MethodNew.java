@@ -3,8 +3,10 @@ package de.tu_bs.cs.isf.cbc.util;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Method {
-	private org.emftext.language.java.members.Method emfMethod;
+import com.github.javaparser.ast.body.MethodDeclaration;
+
+public class MethodNew {
+	private MethodDeclaration methodDeclaration;
 	private String methodName;
 	private String className;
 	private boolean isAbstract;
@@ -15,10 +17,10 @@ public class Method {
 	private String returnType;
 	
 	
-	public Method(org.emftext.language.java.members.Method emfMethod, String methodName, String className, 
+	public MethodNew(MethodDeclaration methodDeclaration, String methodName, String className, 
 			boolean isAbstract, List<String> preCondition,
 			List<String> postCondition, String feature, List<String> parameter, String returnType) {
-		this.setEmfMethod(emfMethod);
+		this.methodDeclaration = methodDeclaration;
 		this.methodName = methodName;
 		this.className = className;
 		this.isAbstract = isAbstract;
@@ -29,12 +31,12 @@ public class Method {
 		this.returnType = returnType;
 	}
 
-	public org.emftext.language.java.members.Method getEmfMethod() {
-		return emfMethod;
+	public MethodDeclaration getMethodDeclaration() {
+		return methodDeclaration;
 	}
 
-	public void setEmfMethod(org.emftext.language.java.members.Method emfMethod) {
-		this.emfMethod = emfMethod;
+	public void setMethodDeclaration(MethodDeclaration methodDeclaration) {
+		this.methodDeclaration = methodDeclaration;
 	}
 
 	public String getMethodName() {
