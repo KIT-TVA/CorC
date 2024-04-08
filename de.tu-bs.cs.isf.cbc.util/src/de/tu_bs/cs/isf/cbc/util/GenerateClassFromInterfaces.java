@@ -36,14 +36,14 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.exceptions.NotImplementedException;
 
 public class GenerateClassFromInterfaces {
-	private List<MethodNew> methods = new ArrayList<MethodNew>();
+	private List<Method> methods = new ArrayList<Method>();
 	private List<FieldDeclaration> fields = new ArrayList<FieldDeclaration>();
 	private String newTraitName;
 	private List<String> composedTraits = new ArrayList<>();
 	private List<Map.Entry<String,String>> removedMethods = new ArrayList<>();
 	private IProject project;
-	List<MethodNew> abstractMethods;
-	List<MethodNew> concreteMethods;
+	List<Method> abstractMethods;
+	List<Method> concreteMethods;
 
 	public GenerateClassFromInterfaces() {
 		
@@ -93,8 +93,8 @@ public class GenerateClassFromInterfaces {
 	}
 	
 	private void verifyImplications(String path) throws NotImplementedException {
-		for (MethodNew abstractMethod : abstractMethods) {
-			for (MethodNew concreteMethod : concreteMethods) {
+		for (Method abstractMethod : abstractMethods) {
+			for (Method concreteMethod : concreteMethods) {
 				if (abstractMethod.getMethodName().equals(concreteMethod.getMethodName())) {
 					for (int i = 0; i < abstractMethod.getPreCondition().size(); i++) {
 						JavaVariables vars = parametersToJavaVars(abstractMethod);
@@ -121,7 +121,7 @@ public class GenerateClassFromInterfaces {
 		return condition;
 	}
 
-	private JavaVariables parametersToJavaVars(MethodNew abstractMethod) {
+	private JavaVariables parametersToJavaVars(Method abstractMethod) {
 		JavaVariables javaVariables = CbcmodelFactory.eINSTANCE.createJavaVariables();
 		for (String parameter : abstractMethod.getParameters()) {
 			JavaVariable javaVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
@@ -195,16 +195,16 @@ public class GenerateClassFromInterfaces {
 		
 		checkForConsistency(concreteMethods);
 
-		for (MethodNew method : concreteMethods) {
+		for (Method method : concreteMethods) {
 			builder.append(getJMLSpecification(method.getMethodDeclaration()));
 			//TODO: Was wird hier gemacht?
 			builder.append(method.createSignature());
 			builder.append("\n");
 		}
 		
-		for (MethodNew method : abstractMethods) {
+		for (Method method : abstractMethods) {
 			boolean isImplemented = false;
-			for (MethodNew concreteMethod : concreteMethods) {
+			for (Method concreteMethod : concreteMethods) {
 				if (concreteMethod.getMethodName().equals(method.getMethodName())) {
 					isImplemented = true;
 				}
@@ -219,7 +219,7 @@ public class GenerateClassFromInterfaces {
 		return builder.toString();
 	}
 
-	private void checkForConsistency(List<MethodNew> concreteMethods) throws Exception {
+	private void checkForConsistency(List<Method> concreteMethods) throws Exception {
 		for (int i = 0; i < concreteMethods.size(); i++) {
 			for (int j = i+1; j < concreteMethods.size(); j++) {
 				if (concreteMethods.get(i).getMethodName().equals(concreteMethods.get(j).getMethodName())) {
@@ -253,9 +253,9 @@ public class GenerateClassFromInterfaces {
 		return jmlAnnotation;
 	}
 
-	private List<MethodNew> getMethods(boolean isAbstract) {
-		List<MethodNew> returnList = new ArrayList<>(); 
-		for (MethodNew method : methods) {
+	private List<Method> getMethods(boolean isAbstract) {
+		List<Method> returnList = new ArrayList<>(); 
+		for (Method method : methods) {
 			if (composedTraits.contains(method.getClassName()) 
 					&& (method.isAbstract() == isAbstract && (isAbstract == isMadeAbstract(method)))) {
 				returnList.add(method);
@@ -264,7 +264,7 @@ public class GenerateClassFromInterfaces {
 		return returnList;
 	}
 
-	private boolean isMadeAbstract(MethodNew method) {
+	private boolean isMadeAbstract(Method method) {
 		if (method.isAbstract()) return true;
 		for (Entry<String,String> entry : removedMethods) {
 			if (method.getClassName().equals(entry.getKey())
@@ -353,7 +353,7 @@ public class GenerateClassFromInterfaces {
 			postCondition.add(getPostCondition(currentJmlPart));
 
 		} while (index != -1);
-		MethodNew method = new MethodNew(methodDeclaration, methodDeclaration.getNameAsString(), className, isAbstract, preCondition, postCondition,
+		Method method = new Method(methodDeclaration, methodDeclaration.getNameAsString(), className, isAbstract, preCondition, postCondition,
 				null, getParameters(methodDeclaration), methodDeclaration.getTypeAsString());
 		methods.add(method);
 	}

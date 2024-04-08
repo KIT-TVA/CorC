@@ -31,17 +31,17 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.util.ClassOrInterfaceCollector;
-import de.tu_bs.cs.isf.cbc.util.GenerateModelFromCodeNew;
+import de.tu_bs.cs.isf.cbc.util.GenerateModelFromCode;
 import de.tu_bs.cs.isf.cbc.util.StatementsCollector;
 
 public class GenerateModelFromCodeTest {
-	private GenerateModelFromCodeNew generateModelFromCode;
+	private GenerateModelFromCode generateModelFromCode;
 	private ClassOrInterfaceCollector collector;
 	private String javaClass;
 	
 	@BeforeEach
 	void before() {
-		this.generateModelFromCode = new GenerateModelFromCodeNew();
+		this.generateModelFromCode = new GenerateModelFromCode();
 		this.collector = new ClassOrInterfaceCollector();
 		this.javaClass = null;
 	}
