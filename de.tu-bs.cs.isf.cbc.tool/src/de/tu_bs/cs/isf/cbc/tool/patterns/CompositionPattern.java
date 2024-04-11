@@ -46,11 +46,14 @@ public class CompositionPattern extends IdPattern implements IPattern {
 
 	private static final String ID_ST1_TEXT = "statement1NameText";
 	private static final String ID_CONDITION_TEXT = "conditionText";
+	private static final String ID_CONDITION_MOD = "otherConditionModifiables";
 	private static final String ID_ST2_TEXT = "statement2NameText";
 	private static final String ID_MAIN_RECTANGLE = "mainRectangle";
 	private static final String ID_NAME_TEXT = "nameText";
 	private static final String ID_PRE1_TEXT = "pre1NameText";
+	private static final String ID_PRE1_MOD = "preConditionModifiables";
 	private static final String ID_POST2_TEXT = "post2NameText";
+	private static final String ID_POST2_MOD = "postConditionModifiables";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
 	//Header:
 	private static final String ID_PRE_HEADER = "preHeader";
@@ -63,6 +66,9 @@ public class CompositionPattern extends IdPattern implements IPattern {
 	private static final String ID_HOR2_LINE = "hor2Line";
 	private static final String ID_HOR3_LINE = "hor3Line";
 	private static final String ID_HOR4_LINE = "hor4Line";
+	private static final String ID_HOR5_LINE = "hor5Line";
+	private static final String ID_HOR6_LINE = "hor6Line";
+	private static final String ID_HOR7_LINE = "hor7Line";
 	private static final String ID_VER1_LINE = "ver1Line";
 	private static final String ID_VER2_LINE = "ver2Line";
 	private static final String ID_VER3_LINE = "ver3Line";
@@ -134,12 +140,13 @@ public class CompositionPattern extends IdPattern implements IPattern {
 	@Override
 	public PictogramElement doAdd(IAddContext context) {
 		manageColor(IColorConstant.DARK_GREEN);
+		manageColor(IColorConstant.LIGHT_ORANGE);
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
 		CompositionStatement addedStatement = (CompositionStatement) context.getNewObject();
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		IGaService gaService = Graphiti.getGaService();
 		int width = context.getWidth() <= 0 ? 500 : context.getWidth();
-        int height = context.getHeight() <= 0 ? 300 : context.getHeight();
+        int height = context.getHeight() <= 0 ? 350 : context.getHeight();
         //font:
         Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
         
@@ -171,6 +178,17 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		conditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		conditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		
+		Shape textShapeIntmConditionMod = peCreateService.createShape(outerContainerShape, true);
+		MultiText intmConditionTextMod = gaService.createMultiText(textShapeIntmConditionMod, "");
+		setId(intmConditionTextMod, ID_CONDITION_MOD);
+		String modString = "";
+		for (String s : addedStatement.getIntermediateCondition().getModifiables()) {
+			modString += s + ", ";
+		}
+		intmConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+		intmConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		intmConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		
 		Shape textShapeStatement2 = peCreateService.createShape(outerContainerShape, true);
 		MultiText statement2Text = gaService.createMultiText(textShapeStatement2, "");
 		setId(statement2Text, ID_ST2_TEXT);
@@ -191,11 +209,33 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		pre1NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		pre1NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		
+		Shape textShapePreConditionMod = peCreateService.createShape(outerContainerShape, true);
+		MultiText preConditionTextMod = gaService.createMultiText(textShapePreConditionMod, "");
+		setId(preConditionTextMod, ID_PRE1_MOD);
+		modString = "";
+		for (String s : addedStatement.getIntermediateCondition().getModifiables()) {
+			modString += s + ", ";
+		}
+		preConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+		preConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		preConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		
 		Shape post2Shape = peCreateService.createShape(outerContainerShape, false);
 		MultiText post2NameText = gaService.createMultiText(post2Shape, "{" + addedStatement.getSecondStatement().getPostCondition().getName()+ "}");
 		setId(post2NameText, ID_POST2_TEXT);
 		post2NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		post2NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+		
+		Shape textShapePostConditionMod = peCreateService.createShape(outerContainerShape, true);
+		MultiText postConditionTextMod = gaService.createMultiText(textShapePostConditionMod, "");
+		setId(postConditionTextMod, ID_POST2_MOD);
+		modString = "";
+		for (String s : addedStatement.getIntermediateCondition().getModifiables()) {
+			modString += s + ", ";
+		}
+		postConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+		postConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+		postConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
@@ -253,6 +293,18 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		Polyline hor4Line = gaService.createPolyline(hor4LineShape);
 		setId(hor4Line, ID_HOR4_LINE);
 		
+		Shape hor5LineShape = peCreateService.createShape(outerContainerShape, false);
+		Polyline hor5Line = gaService.createPolyline(hor5LineShape);
+		setId(hor5Line, ID_HOR5_LINE);
+		
+		Shape hor6LineShape = peCreateService.createShape(outerContainerShape, false);
+		Polyline hor6Line = gaService.createPolyline(hor6LineShape);
+		setId(hor6Line, ID_HOR6_LINE);
+		
+		Shape hor7LineShape = peCreateService.createShape(outerContainerShape, false);
+		Polyline hor7Line = gaService.createPolyline(hor7LineShape);
+		setId(hor7Line, ID_HOR7_LINE);
+		
 		Shape ver1LineShape = peCreateService.createShape(outerContainerShape, false);
 		Polyline ver1Line = gaService.createPolyline(ver1LineShape);
 		setId(ver1Line, ID_VER1_LINE);
@@ -271,10 +323,13 @@ public class CompositionPattern extends IdPattern implements IPattern {
 
 		link(outerContainerShape, addedStatement);
 		link(textShapeCondition, addedStatement.getIntermediateCondition());
+		link(textShapeIntmConditionMod, addedStatement.getIntermediateCondition());
 		link(textShapeStatement1, addedStatement.getFirstStatement());
 		link(textShapeStatement2, addedStatement.getSecondStatement());
 		link(pre1Shape, addedStatement.getFirstStatement().getPreCondition());
+		link(textShapePreConditionMod, addedStatement.getFirstStatement().getPreCondition());
 		link(post2Shape, addedStatement.getSecondStatement().getPostCondition());
+		link(textShapePostConditionMod, addedStatement.getSecondStatement().getPostCondition());
 		link(proveShape, addedStatement);
 		
 		return outerContainerShape;
@@ -288,7 +343,7 @@ public class CompositionPattern extends IdPattern implements IPattern {
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		int thirdWidth = mainRectangle.getWidth() / 3;
 		int halfWidth = mainRectangle.getWidth() / 2;
-		int sizeName = 60; //size of the name from the Statement (Composition)
+		int sizeName = 40; //size of the name from the Statement (Composition)
 		int HeightWithoutName = mainRectangle.getHeight() - sizeName; //size from the statement without the Name block, -20 for some space
 		int sizeHeader = 20;
 		int blockSize = HeightWithoutName / 2 - sizeHeader; //size from one block (statement, pre, ..)
@@ -302,16 +357,25 @@ public class CompositionPattern extends IdPattern implements IPattern {
 			Graphiti.getGaService().setLocationAndSize(ga, 0, positionLine2 + sizeHeader, thirdWidth, blockSize);
 			changesDone = true;
 		} else if (id.equals(ID_CONDITION_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth, positionLine2 + sizeHeader, thirdWidth, blockSize);
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth, positionLine2 + sizeHeader + blockSize/3, thirdWidth, 2 * blockSize/3);
+			changesDone = true;
+		} else if (id.equals(ID_CONDITION_MOD)) {
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth, positionLine2 + sizeHeader, thirdWidth, blockSize/3);
 			changesDone = true;
 		} else if (id.equals(ID_ST2_TEXT)) {
 			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, positionLine2 + sizeHeader, thirdWidth, blockSize);
 			changesDone = true;
 		} else if (id.equals(ID_PRE1_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, 0, positionLine1 + sizeHeader, halfWidth, blockSize);
+			Graphiti.getGaService().setLocationAndSize(ga, 0, positionLine1 + sizeHeader + blockSize/3, halfWidth, 2 * blockSize/3);
 			changesDone = true;
-		}  else if (id.equals(ID_POST2_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, halfWidth, positionLine1 + sizeHeader, halfWidth, blockSize);
+		} else if (id.equals(ID_PRE1_MOD)) {
+			Graphiti.getGaService().setLocationAndSize(ga, 0, positionLine1 + sizeHeader, halfWidth, blockSize/3);
+			changesDone = true;
+		} else if (id.equals(ID_POST2_TEXT)) {
+			Graphiti.getGaService().setLocationAndSize(ga, halfWidth, positionLine1 + sizeHeader + blockSize/3, halfWidth, 2 * blockSize/3);
+			changesDone = true;
+		} else if (id.equals(ID_POST2_MOD)) {
+			Graphiti.getGaService().setLocationAndSize(ga, halfWidth, positionLine1 + sizeHeader, halfWidth, blockSize/3);
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
@@ -362,6 +426,27 @@ public class CompositionPattern extends IdPattern implements IPattern {
 					new int[] { 0, positionLine2 + sizeHeader, mainRectangle.getWidth(), positionLine2 + sizeHeader});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
+		} else if (id.equals(ID_HOR5_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService().createPointList(
+					new int[] { thirdWidth, positionLine2 + sizeHeader + blockSize/3, thirdWidth*2, positionLine2 + sizeHeader + blockSize/3});
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
+		} else if (id.equals(ID_HOR6_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService().createPointList(
+					new int[] { 0, positionLine1 + sizeHeader + blockSize/3, halfWidth, positionLine1 + sizeHeader + blockSize/3});
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
+		} else if (id.equals(ID_HOR7_LINE)) {
+			Polyline polyline = (Polyline) ga;
+			polyline.getPoints().clear();
+			List<Point> pointList = Graphiti.getGaService().createPointList(
+					new int[] { halfWidth, positionLine1 + sizeHeader + blockSize/3, mainRectangle.getWidth(), positionLine1 + sizeHeader + blockSize/3});
+			polyline.getPoints().addAll(pointList);
+			changesDone = true;
 		} else if (id.equals(ID_VER1_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
@@ -397,8 +482,12 @@ public class CompositionPattern extends IdPattern implements IPattern {
 					((rectangle.getForeground() != null && !rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN))) 
 							|| rectangle.getForeground() == null)) {
 				return Reason.createTrueReason("Statement is proven. Expected green color.");
-			} else if (!checkIsProven(domainObject) && 
-					((rectangle.getForeground() != null && rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN))) 
+			} else if (!checkIsProven(domainObject) && domainObject.isTested() &&
+					((rectangle.getForeground() != null && !rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE))) 
+							|| rectangle.getForeground() == null)) {
+				return Reason.createTrueReason("Statement is tested. Expected orange color.");
+			} else if (!checkIsProven(domainObject) && !domainObject.isTested() && 
+					((rectangle.getForeground() != null && (rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN)) || rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE)))) 
 							|| rectangle.getForeground() == null)) {
 				return Reason.createTrueReason("Statement is not proven. Expected red color.");
 			}  
@@ -424,8 +513,13 @@ public class CompositionPattern extends IdPattern implements IPattern {
 				domainObject.setProven(true);
 				rectangle.setForeground(manageColor(IColorConstant.DARK_GREEN));
 				updateParent(domainObject);
+			} else if (domainObject.isTested()) {
+				domainObject.setTested(true);
+				rectangle.setForeground(manageColor(IColorConstant.LIGHT_ORANGE));
+				updateParent(domainObject);
 			} else {
 				domainObject.setProven(false);
+				domainObject.setTested(false);
 				rectangle.setForeground(manageColor(IColorConstant.RED));
 				updateParent(domainObject);
 			}

@@ -184,6 +184,24 @@ public interface CbcmodelFactory extends EFactory {
 	OriginalStatement createOriginalStatement();
 
 	/**
+	 * Returns a new object of class '<em>Security</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Security</em>'.
+	 * @generated
+	 */
+	Security createSecurity();
+
+	/**
+	 * Returns a new object of class '<em>At Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>At Type</em>'.
+	 * @generated
+	 */
+	AtType createAtType();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

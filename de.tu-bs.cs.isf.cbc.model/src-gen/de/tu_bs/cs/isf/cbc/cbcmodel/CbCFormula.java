@@ -2,7 +2,9 @@
  */
 package de.tu_bs.cs.isf.cbc.cbcmodel;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.Method;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -25,6 +27,9 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getClassName <em>Class Name</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getMethodName <em>Method Name</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getMethodObj <em>Method Obj</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#isTested <em>Tested</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getAtType <em>At Type</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#getSecurity <em>Security</em>}</li>
  * </ul>
  *
  * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getCbCFormula()
@@ -238,13 +243,13 @@ public interface CbCFormula extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Method Obj</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getCbcStartTriple <em>Cbc Start Triple</em>}'.
+	 * It is bidirectional and its opposite is '{@link de.tu_bs.cs.isf.cbc.cbcclass.Method#getCbcStartTriple <em>Cbc Start Triple</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Method Obj</em>' reference.
 	 * @see #setMethodObj(Method)
 	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getCbCFormula_MethodObj()
-	 * @see de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method#getCbcStartTriple
+	 * @see de.tu_bs.cs.isf.cbc.cbcclass.Method#getCbcStartTriple
 	 * @model opposite="cbcStartTriple"
 	 * @generated
 	 */
@@ -259,5 +264,51 @@ public interface CbCFormula extends EObject {
 	 * @generated
 	 */
 	void setMethodObj(Method value);
+
+	/**
+	 * Returns the value of the '<em><b>Tested</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Tested</em>' attribute.
+	 * @see #setTested(boolean)
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getCbCFormula_Tested()
+	 * @model
+	 * @generated
+	 */
+	boolean isTested();
+
+	/**
+	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula#isTested <em>Tested</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Tested</em>' attribute.
+	 * @see #isTested()
+	 * @generated
+	 */
+	void setTested(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>At Type</b></em>' containment reference list.
+	 * The list contents are of type {@link de.tu_bs.cs.isf.cbc.cbcmodel.AtType}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>At Type</em>' containment reference list.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getCbCFormula_AtType()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<AtType> getAtType();
+
+	/**
+	 * Returns the value of the '<em><b>Security</b></em>' containment reference list.
+	 * The list contents are of type {@link de.tu_bs.cs.isf.cbc.cbcmodel.Security}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Security</em>' containment reference list.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getCbCFormula_Security()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Security> getSecurity();
 
 } // CbCFormula

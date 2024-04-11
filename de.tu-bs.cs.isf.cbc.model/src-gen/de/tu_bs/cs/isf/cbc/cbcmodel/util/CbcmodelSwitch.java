@@ -4,6 +4,10 @@ package de.tu_bs.cs.isf.cbc.cbcmodel.util;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.*;
 
+import java.util.Map;
+
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -179,6 +183,30 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 				OriginalStatement originalStatement = (OriginalStatement)theEObject;
 				T result = caseOriginalStatement(originalStatement);
 				if (result == null) result = caseAbstractStatement(originalStatement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CbcmodelPackage.CONF_TO_VARS_MAP: {
+				@SuppressWarnings("unchecked") Map.Entry<String, Security> confToVarsMap = (Map.Entry<String, Security>)theEObject;
+				T result = caseConfToVarsMap(confToVarsMap);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CbcmodelPackage.SECURITY: {
+				Security security = (Security)theEObject;
+				T result = caseSecurity(security);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CbcmodelPackage.AT_TYPES_TO_VARS_MAP: {
+				@SuppressWarnings("unchecked") Map.Entry<String, EList<AtType>> atTypesToVarsMap = (Map.Entry<String, EList<AtType>>)theEObject;
+				T result = caseAtTypesToVarsMap(atTypesToVarsMap);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CbcmodelPackage.AT_TYPE: {
+				AtType atType = (AtType)theEObject;
+				T result = caseAtType(atType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -453,6 +481,66 @@ public class CbcmodelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseOriginalStatement(OriginalStatement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Conf To Vars Map</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Conf To Vars Map</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseConfToVarsMap(Map.Entry<String, Security> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Security</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Security</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSecurity(Security object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>At Types To Vars Map</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>At Types To Vars Map</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAtTypesToVarsMap(Map.Entry<String, EList<AtType>> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>At Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>At Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAtType(AtType object) {
 		return null;
 	}
 

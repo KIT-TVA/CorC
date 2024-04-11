@@ -1,7 +1,5 @@
 package de.tu_bs.cs.isf.corc.predicateWizard;
 
-import de.tu_bs.cs.isf.cbc.tool.helper.Predicate;
-import de.tu_bs.cs.isf.cbc.tool.helper.PredicateDefinition;
 
 import javax.swing.JOptionPane;
 import java.io.BufferedWriter;
@@ -21,6 +19,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
@@ -40,6 +39,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
+
+import de.tu_bs.cs.isf.cbc.util.Predicate;
+import de.tu_bs.cs.isf.cbc.util.PredicateDefinition;
 
 public class PredicateManagementTypePage extends WizardPage {
 	private ArrayList<Predicate> predicates;
@@ -110,7 +112,7 @@ public class PredicateManagementTypePage extends WizardPage {
 		
 		// BUTTON add predicate
 		GridData gridData_button_addPredicate = new GridData();
-		Image image_button_addPredicate = new Image(null, "C:\\Users\\mko\\Documents\\ISF\\0_feat-CorC2.0variableSpecifications\\CorC\\de.tu-bs.cs.isf.wizards\\icons\\add.gif");
+		Image image_button_addPredicate = new Image(null, getIconPath("add.gif"));
 		buttonAddPredicate = new Button(groupList, SWT.PUSH);
 		buttonAddPredicate.setImage(image_button_addPredicate);
 		buttonAddPredicate.setLayoutData(gridData_button_addPredicate);
@@ -119,7 +121,7 @@ public class PredicateManagementTypePage extends WizardPage {
 		GridData gridData_button_delPredicate = new GridData();
 		gridData_button_delPredicate.horizontalSpan = 1;
 		gridData_button_delPredicate.horizontalAlignment = GridData.FILL_HORIZONTAL;
-		Image image_button_delPredicate = new Image(null, "C:\\Users\\mko\\Documents\\ISF\\0_feat-CorC2.0variableSpecifications\\CorC\\de.tu-bs.cs.isf.wizards\\icons\\remove.gif");
+		Image image_button_delPredicate = new Image(null, getIconPath("remove.gif"));
 		buttonDelPredicate = new Button(groupList, SWT.PUSH);
 		buttonDelPredicate.setImage(image_button_delPredicate);
 		buttonDelPredicate.setLayoutData(gridData_button_delPredicate);
@@ -504,4 +506,10 @@ public class PredicateManagementTypePage extends WizardPage {
         text.setStyleRanges(styles);
         shell.open();
     }
+	
+	private String getIconPath(String iconName) {
+		String loc = Platform.getBundle("de.tu-bs.cs.isf.wizards").getLocation();
+		loc = loc.substring(loc.indexOf("file:/") + "file:/".length(), loc.length() - 1);
+		return loc + Platform.getBundle("de.tu-bs.cs.isf.wizards").getEntry("icons/" + iconName).getPath();
+	}
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+<<<<<<< HEAD
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated test -->
+      <package
+            uri="http://www.example.org/cbcmodel"
+            class="de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage"
+            genModel="model/test.genmodel"/>
+=======
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated genmodel -->
+      <package
+            uri="http://www.example.org/cbcmodel"
+            class="de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage"
+            genModel="model/genmodel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated genmodel -->
+      <package
+            uri="http://www.example.org/cbcclass"
+            class="de.tu_bs.cs.isf.cbc.cbcclass.CbcclassPackage"
+            genModel="model/genmodel.genmodel"/>
+>>>>>>> master
+   </extension>
+
+</plugin>

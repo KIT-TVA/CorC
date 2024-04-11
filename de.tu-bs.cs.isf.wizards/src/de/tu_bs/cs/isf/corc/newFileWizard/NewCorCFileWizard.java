@@ -26,7 +26,7 @@ import org.eclipse.ui.IWorkbench;
  */
 public class NewCorCFileWizard extends Wizard implements INewWizard {
 	
-	private chooseDiagramTypePage typePage = new chooseDiagramTypePage();
+	private chooseDiagramTypePage typePage;
 	private Resource diagramResource;
 	private Resource modelResource;
 	private Diagram diagram;
@@ -34,6 +34,7 @@ public class NewCorCFileWizard extends Wizard implements INewWizard {
 	
 	@Override
 	public void addPages() {
+		typePage = new chooseDiagramTypePage();
 		addPage(typePage);
 	}
 	@Override
@@ -102,10 +103,8 @@ public class NewCorCFileWizard extends Wizard implements INewWizard {
 			
 			return true;
 		} else if (typePage.corcclass) {
-			
 			ResourceSet resourceSet = new ResourceSetImpl();
-			String absolute = ResourcesPlugin.getWorkspace().getRoot().getLocationURI().toString().replace("file:/", "");
-			URI diagramuri = URI.createPlatformResourceURI(typePage.path.getText().replace(absolute, "") + "/" + typePage.name.getText());
+			URI diagramuri = URI.createURI("file:/"+ typePage.path.getText() + "/" + typePage.name.getText());
 			URI modeluri = diagramuri;
 			diagramuri = diagramuri.appendFileExtension("diagram");		
 			modeluri = modeluri.appendFileExtension("cbcclass");

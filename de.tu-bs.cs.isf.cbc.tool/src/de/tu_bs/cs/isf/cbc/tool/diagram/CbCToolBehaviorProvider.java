@@ -24,7 +24,6 @@ import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IContextButtonPadData;
 import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IToolBehaviorProvider;
-
 import de.tu_bs.cs.isf.cbc.cbcclass.Method;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
@@ -107,6 +106,12 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 	@Override
 	public IContextMenuEntry[] getContextMenu(ICustomContext context) {
 		// create a sub-menu for all custom features
+		ContextMenuEntry subMenuTest = new ContextMenuEntry(null, context);
+		subMenuTest.setText("Test");
+		subMenuTest.setDescription("Test features submenu");
+		// display sub-menu hierarchical or flat
+		subMenuTest.setSubmenu(true);
+		
 		ContextMenuEntry subMenuVerify = new ContextMenuEntry(null, context);
 		subMenuVerify.setText("Verify");
 		subMenuVerify.setDescription("Verify features submenu");
@@ -124,7 +129,10 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 		for (int i = 0; i < customFeatures.length; i++) {
 			ICustomFeature customFeature = customFeatures[i];
 			if (customFeature.canExecute(context)) {
-				if (customFeature.getName().contains("Verify")) {
+				if (customFeature.getName().contains("Test") || customFeature.getName().contains("test")) {
+					ContextMenuEntry menuEntry = new ContextMenuEntry(customFeature, context);
+					subMenuTest.add(menuEntry);
+				} else if (customFeature.getName().contains("Verify")) {
 					ContextMenuEntry menuEntry = new ContextMenuEntry(customFeature, context);
 					subMenuVerify.add(menuEntry);
 				} else {
@@ -134,7 +142,7 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 			}
 		}
 
-		IContextMenuEntry ret[] = new IContextMenuEntry[] { subMenuVerify, subMenuPrint };
+		IContextMenuEntry ret[] = new IContextMenuEntry[] { subMenuTest, subMenuVerify, subMenuPrint };
 		return ret;
 	}
 
@@ -190,7 +198,7 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 		} else if (bo instanceof CbCFormula) {
 			String comment = ((CbCFormula) bo).getComment();
 			CbCFormula domainObject = (CbCFormula) bo;
-			if (domainObject.getMethodObj() != null && domainObject.getMethodObj().getParentClass().getInheritsFrom() != null) {
+			if (domainObject.getMethodObj() != null && domainObject.getMethodObj().getParentClass() != null && domainObject.getMethodObj().getParentClass().getInheritsFrom() != null) {
 				for (Method m : domainObject.getMethodObj().getParentClass().getInheritsFrom().getMethods()) {
 					if (m.getCbcStartTriple().getName().equals(domainObject.getName())) {
 						comment = "This method has a super implementation. See properties view for more information." + (comment == null ? "" : (" // " + comment));

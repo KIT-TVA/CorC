@@ -5,7 +5,6 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 
-
 public class UpdateDiagram {
 	public static boolean run(Diagram diagram) {
 		Console.println("Updating Diagram '" + diagram.getName() + "'...");

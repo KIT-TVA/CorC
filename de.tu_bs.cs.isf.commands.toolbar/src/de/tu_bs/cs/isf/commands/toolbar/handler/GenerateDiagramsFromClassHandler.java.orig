@@ -1,0 +1,91 @@
+package de.tu_bs.cs.isf.commands.toolbar.handler;
+
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+<<<<<<< HEAD
+import org.eclipse.core.resources.IFile;
+<<<<<<<< HEAD:de.tu_bs.cs.isf.commands.toolbar/src/de/tu_bs/cs/isf/commands/toolbar/handler/GenerateDiagramsFromClassHandler.java
+import org.eclipse.jdt.internal.core.CompilationUnit;
+========
+import org.eclipse.core.resources.IProject;
+>>>>>>>> master:de.tu_bs.cs.isf.commands.toolbar/src/de/tu_bs/cs/isf/commands/toolbar/handler/GenerateClassesFromInterfacesHandler.java
+=======
+import org.eclipse.core.internal.resources.File;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+>>>>>>> master
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.handlers.HandlerUtil;
+
+<<<<<<< HEAD
+<<<<<<<< HEAD:de.tu_bs.cs.isf.commands.toolbar/src/de/tu_bs/cs/isf/commands/toolbar/handler/GenerateDiagramsFromClassHandler.java
+import de.tu_bs.cs.isf.cbc.tool.helper.GenerateModelFromCode;
+
+public class GenerateDiagramsFromClassHandler extends AbstractHandler {
+========
+import de.tu_bs.cs.isf.cbc.util.GenerateClassFromInterfaces;
+
+public class GenerateClassesFromInterfacesHandler extends AbstractHandler {
+>>>>>>>> master:de.tu_bs.cs.isf.commands.toolbar/src/de/tu_bs/cs/isf/commands/toolbar/handler/GenerateClassesFromInterfacesHandler.java
+=======
+import de.tu_bs.cs.isf.cbc.util.GenerateModelFromCode;
+
+public class GenerateDiagramsFromClassHandler extends AbstractHandler {
+>>>>>>> master
+
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
+		if (selection != null & selection instanceof IStructuredSelection) {
+			IStructuredSelection strucSelection = (IStructuredSelection) selection;
+			if (strucSelection.size() != 1) {
+<<<<<<< HEAD
+<<<<<<<< HEAD:de.tu_bs.cs.isf.commands.toolbar/src/de/tu_bs/cs/isf/commands/toolbar/handler/GenerateDiagramsFromClassHandler.java
+				throw new ExecutionException("Select only one file.");
+			}
+			CompilationUnit u = (CompilationUnit) strucSelection.getFirstElement();
+			IFile file = (IFile) u.getResource();
+
+			final String PARM_MSG = "de.tu_bs.cs.isf.commands.toolbar.msg";
+			String msg = event.getParameter(PARM_MSG);
+
+			GenerateModelFromCode gmfc = new GenerateModelFromCode();
+			gmfc.execute(file);
+========
+				throw new ExecutionException("Select only one file/project.");
+			}
+			GenerateClassFromInterfaces gen = new GenerateClassFromInterfaces();
+			if (strucSelection.getFirstElement() instanceof IProject) {
+				IProject project = (IProject) strucSelection.getFirstElement();
+				gen.execute(project);
+			} else if (strucSelection.getFirstElement() instanceof IFile) {
+				IFile file = (IFile) strucSelection.getFirstElement();
+				gen.execute(file);
+			}		
+>>>>>>>> master:de.tu_bs.cs.isf.commands.toolbar/src/de/tu_bs/cs/isf/commands/toolbar/handler/GenerateClassesFromInterfacesHandler.java
+		}
+		return null;
+	}
+	
+
+}
+=======
+				throw new ExecutionException("Select only one file.");
+			}
+			
+			IResource res = ((File) strucSelection.getFirstElement());
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(res.getFullPath());
+
+			final String PARM_MSG = "de.tu_bs.cs.isf.commands.toolbar.msg";
+			String msg = event.getParameter(PARM_MSG);
+			
+			GenerateModelFromCode gmfc = new GenerateModelFromCode();
+			gmfc.execute(file);
+		}
+		return null;
+	}
+}
+>>>>>>> master

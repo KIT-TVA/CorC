@@ -46,7 +46,15 @@ public class VerifyFeatures {
 	private static FeatureModelFormula featureModel;
 	private static IFeatureModel featModel;
 	private static Configuration configuration;
+
 	private static ConfigurationAnalyzer configurationAnalyzer;
+	
+	public static List<String> getAllFeatures(String splitUri) {
+		thisProject = FileUtil.getProjectFromFileInProject(URI.createURI("/" + splitUri + "/model.xml"));
+		path = Paths.get(thisProject.getLocation() + "/model.xml");
+		IFeatureModel featureModel = FeatureModelManager.load(path);
+		return featureModel.getFeatureOrderList();
+	}	
 	
 	public static String[][] verifyConfig(IProject project, URI uri_new, String method, boolean original, String callingClass, boolean cleanFromIrrelevant, String methodOriginal) {
 		uri = uri_new;
@@ -81,6 +89,7 @@ public class VerifyFeatures {
 		}
 		checkConfigs(method, methodOriginal != null ? true : original, callingClass, cleanFromIrrelevant, methodOriginal);
 		return configurations;
+		
 	}
 
 	// calculates feature-configurations

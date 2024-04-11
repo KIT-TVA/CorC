@@ -1,8 +1,5 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +12,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -65,8 +61,10 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
     static int configs = 0;
     static boolean isVariational = false;
     static String configName = "";
+    static String[] config;
     static VerifyStatement verifyStmt;
     static GenerateCodeForVariationalVerification genCode;
+    static String[][] featureConfigs;
     /**
      * Constructor of the class
      * @param fp	The FeatureProvider
@@ -120,11 +118,17 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 			String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 			String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
-			String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
+			featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
 			configs = featureConfigs.length-1;
 			for (int i = 0; i < featureConfigs.length; i++) {
 				configName = "";
-				for (String s : featureConfigs[i]) configName += s;
+				config = new String[featureConfigs[i].length];
+				int j = 0;
+				for (String s : featureConfigs[i]) {
+					configName += s;
+					config[j] = s;
+					j++;
+				}
 				configNum = i;
 				genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
 				if (!proveChildStatement(statement.getRefinement(), getDiagram(), null)) {
@@ -190,7 +194,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			if (featureConfigsRelevant != null) {
 				String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-					ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uRi.toPlatformString(true)), configName);
+					ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uRi.toPlatformString(true)), null, "", config);
 					List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
 					List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], callingMethod);
 					proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, false);
@@ -297,7 +301,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 				if (featureConfigsRelevant != null) {
 					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 					if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
-						ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uRi.toPlatformString(true)), configName);
+						ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uRi.toPlatformString(true)), null, "", config);
 						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[configNum], callingMethod);
 						List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[configNum], callingMethod);
 						proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, false);
@@ -329,7 +333,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			if (!selectionStatement.isPreProve()) {
 				EList<Condition> guards = selectionStatement.getGuards();
 				Condition preCondition = selectionStatement.getParent().getPreCondition();
-				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(diagram.eResource().getURI().toPlatformString(true)), configName);
+				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(diagram.eResource().getURI().toPlatformString(true)), null, "", config);
 				provePre = prove.provePreSelWithKey(guards, preCondition);
 				if (configs == configNum) selectionStatement.setPreProve(provePre);
 			}
@@ -361,7 +365,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			Condition postCondition = repStatement.getParent().getPostCondition();
 			String code = ConstructCodeBlock.constructCodeBlockAndVerify(statement, false);
 			Variant variant = repStatement.getVariant();
-			ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(diagram.eResource().getURI().toPlatformString(true)), configName);
+			ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(diagram.eResource().getURI().toPlatformString(true)), null, "", config);
 			if (!provePre) {
 				provePre = prove.proveCImpliesCWithKey(preCondition, invariant);
 				if (configs == configNum) repStatement.setPreProven(provePre);

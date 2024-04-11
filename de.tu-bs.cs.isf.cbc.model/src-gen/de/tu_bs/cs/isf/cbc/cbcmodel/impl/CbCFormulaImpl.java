@@ -2,23 +2,32 @@
  */
 package de.tu_bs.cs.isf.cbc.cbcmodel.impl;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage;
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassPackage;
+import de.tu_bs.cs.isf.cbc.cbcclass.Method;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.AtType;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Security;
+
+import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -38,6 +47,9 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getClassName <em>Class Name</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getMethodName <em>Method Name</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getMethodObj <em>Method Obj</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#isTested <em>Tested</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getAtType <em>At Type</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.CbCFormulaImpl#getSecurity <em>Security</em>}</li>
  * </ul>
  *
  * @generated
@@ -202,6 +214,46 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * @ordered
 	 */
 	protected Method methodObj;
+
+	/**
+	 * The default value of the '{@link #isTested() <em>Tested</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isTested()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean TESTED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isTested() <em>Tested</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isTested()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean tested = TESTED_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getAtType() <em>At Type</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAtType()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<AtType> atType;
+
+	/**
+	 * The cached value of the '{@link #getSecurity() <em>Security</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSecurity()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Security> security;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -563,6 +615,55 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * @generated
 	 */
 	@Override
+	public boolean isTested() {
+		return tested;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setTested(boolean newTested) {
+		boolean oldTested = tested;
+		tested = newTested;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.CB_CFORMULA__TESTED, oldTested, tested));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EList<AtType> getAtType() {
+		if (atType == null) {
+			atType = new EObjectContainmentEList<AtType>(AtType.class, this, CbcmodelPackage.CB_CFORMULA__AT_TYPE);
+		}
+		return atType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EList<Security> getSecurity() {
+		if (security == null) {
+			security = new EObjectContainmentEList<Security>(Security.class, this, CbcmodelPackage.CB_CFORMULA__SECURITY);
+		}
+		return security;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case CbcmodelPackage.CB_CFORMULA__METHOD_OBJ:
@@ -589,6 +690,10 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 				return basicSetPostCondition(null, msgs);
 			case CbcmodelPackage.CB_CFORMULA__METHOD_OBJ:
 				return basicSetMethodObj(null, msgs);
+			case CbcmodelPackage.CB_CFORMULA__AT_TYPE:
+				return ((InternalEList<?>)getAtType()).basicRemove(otherEnd, msgs);
+			case CbcmodelPackage.CB_CFORMULA__SECURITY:
+				return ((InternalEList<?>)getSecurity()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -622,6 +727,12 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 			case CbcmodelPackage.CB_CFORMULA__METHOD_OBJ:
 				if (resolve) return getMethodObj();
 				return basicGetMethodObj();
+			case CbcmodelPackage.CB_CFORMULA__TESTED:
+				return isTested();
+			case CbcmodelPackage.CB_CFORMULA__AT_TYPE:
+				return getAtType();
+			case CbcmodelPackage.CB_CFORMULA__SECURITY:
+				return getSecurity();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -631,6 +742,7 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -663,6 +775,17 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 				return;
 			case CbcmodelPackage.CB_CFORMULA__METHOD_OBJ:
 				setMethodObj((Method)newValue);
+				return;
+			case CbcmodelPackage.CB_CFORMULA__TESTED:
+				setTested((Boolean)newValue);
+				return;
+			case CbcmodelPackage.CB_CFORMULA__AT_TYPE:
+				getAtType().clear();
+				getAtType().addAll((Collection<? extends AtType>)newValue);
+				return;
+			case CbcmodelPackage.CB_CFORMULA__SECURITY:
+				getSecurity().clear();
+				getSecurity().addAll((Collection<? extends Security>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -706,6 +829,15 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 			case CbcmodelPackage.CB_CFORMULA__METHOD_OBJ:
 				setMethodObj((Method)null);
 				return;
+			case CbcmodelPackage.CB_CFORMULA__TESTED:
+				setTested(TESTED_EDEFAULT);
+				return;
+			case CbcmodelPackage.CB_CFORMULA__AT_TYPE:
+				getAtType().clear();
+				return;
+			case CbcmodelPackage.CB_CFORMULA__SECURITY:
+				getSecurity().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -738,6 +870,12 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 				return METHOD_NAME_EDEFAULT == null ? methodName != null : !METHOD_NAME_EDEFAULT.equals(methodName);
 			case CbcmodelPackage.CB_CFORMULA__METHOD_OBJ:
 				return methodObj != null;
+			case CbcmodelPackage.CB_CFORMULA__TESTED:
+				return tested != TESTED_EDEFAULT;
+			case CbcmodelPackage.CB_CFORMULA__AT_TYPE:
+				return atType != null && !atType.isEmpty();
+			case CbcmodelPackage.CB_CFORMULA__SECURITY:
+				return security != null && !security.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -764,6 +902,8 @@ public class CbCFormulaImpl extends MinimalEObjectImpl.Container implements CbCF
 		result.append(className);
 		result.append(", methodName: ");
 		result.append(methodName);
+		result.append(", tested: ");
+		result.append(tested);
 		result.append(')');
 		return result.toString();
 	}

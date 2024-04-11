@@ -9,6 +9,11 @@ import org.eclipse.ui.console.MessageConsoleStream;
 
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
+/**
+ * Class to open a console in the runtime instance
+ * @author Tobias
+ *
+ */
 public class Console {
 	
 	/**

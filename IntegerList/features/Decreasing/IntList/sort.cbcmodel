@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="sort" proven="true" comment="" className="IntList" methodName="sort">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="sort" proven="true" comment="" className="IntList" methodName="sort">
     <statement name="statement" id="32a7d6d4-ac49-46d1-a9a7-86a0807f3b14">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="d14fe0df-652d-4ec4-b0dd-7d833cf2961a">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="d14fe0df-652d-4ec4-b0dd-7d833cf2961a">
         <firstStatement name="statement1" id="75d491a2-be29-4ba4-95b0-69e72b65a0bb">
           <refinement name="i = 0;" proven="true" id="793d258e-7aad-429f-b4e5-9a6094184576">
             <postCondition name="i=0">
@@ -16,7 +16,7 @@
           <preCondition name="data &#xD;&#xA;= \old(data)"/>
         </firstStatement>
         <secondStatement name="statement2" id="98fcb499-cead-4240-867f-b6334c6ff7eb">
-          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="99ea8221-050c-4c85-a093-871742161f8a" variantProven="true" preProven="true" postProven="true">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="99ea8221-050c-4c85-a093-871742161f8a" variantProven="true" preProven="true" postProven="true">
             <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] >= data[k+1])))">
               <modifiables>i</modifiables>
             </postCondition>
@@ -24,7 +24,7 @@
               <modifiables>i</modifiables>
             </preCondition>
             <loopStatement name="loop" id="80b9adec-6aaf-43b4-a3b6-52d157182bfa">
-              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="8a675bde-28a7-4a14-97a1-03966c4b7d24">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="8a675bde-28a7-4a14-97a1-03966c4b7d24">
                 <firstStatement name="statement1" id="cc825d71-2d7f-47e0-86cf-3b95ffafb78d">
                   <refinement name="j = data.length-2;" proven="true" id="ab4d3f19-29d1-4024-9483-f3290be0d703">
                     <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] >= data[m])))) &amp; j = data.length-2">
@@ -44,9 +44,9 @@
                   </preCondition>
                 </firstStatement>
                 <secondStatement name="statement2" id="e0362bbc-8b80-4293-a5fc-f8c3910fb2dc">
-                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="bd4fe6a9-97e3-4198-acaf-30eaa1316c23">
+                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="bd4fe6a9-97e3-4198-acaf-30eaa1316c23">
                     <firstStatement name="statement1" id="8a4930f3-c638-4489-97ac-aae7c08dcc2f">
-                      <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="8fd96ac6-2a4c-4f4a-beac-16ab88e3803f" variantProven="true" preProven="true" postProven="true">
+                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="8fd96ac6-2a4c-4f4a-beac-16ab88e3803f" variantProven="true" preProven="true" postProven="true">
                         <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] >= data[m]))))">
                           <modifiables>i</modifiables>
                           <modifiables>j</modifiables>
@@ -56,9 +56,9 @@
                           <modifiables>j</modifiables>
                         </preCondition>
                         <loopStatement name="loop" id="5bd8ed9a-07c5-47b4-8d4d-71363093e613">
-                          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="06f93232-0fcb-482b-86c2-2cc9c1dadf9e">
+                          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="06f93232-0fcb-482b-86c2-2cc9c1dadf9e">
                             <firstStatement name="statement1" id="372fd0a3-718b-4956-a632-904eaca09b8f">
-                              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="65b2d0ae-3d59-4f96-9d7e-6f6eacbe907f" preProve="true">
+                              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="65b2d0ae-3d59-4f96-9d7e-6f6eacbe907f" preProve="true">
                                 <guards name="data[j] &lt; data[j+1]"/>
                                 <guards name="data[j] >= data[j+1]"/>
                                 <commands name="statement" id="291ee1a5-9472-4d81-ac17-7809db983084">
@@ -88,7 +88,7 @@
                                   </preCondition>
                                 </commands>
                                 <commands name="statement" id="e8a7d18b-1dac-45a7-90c4-ebd8868a7cbc">
-                                  <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true" id="cba231b4-2f34-4cd6-b515-e00e830d504d">
+                                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SkipStatement" name=";" proven="true" id="cba231b4-2f34-4cd6-b515-e00e830d504d">
                                     <postCondition name="(\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] >= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j] >= data[h]))">
                                       <modifiables>data[j+1]</modifiables>
                                       <modifiables>data[j]</modifiables>
@@ -293,15 +293,15 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="IntList.cbcclass#//@methods.0"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
     <variables name="int tmp"/>
     <variables name="int j"/>
     <variables name="int i"/>
-  </cbcmodel:JavaVariables>
-  <cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
     <conditions name="data != null"/>
     <conditions name="i >= 0 &amp; i &lt;= data.length"/>
     <conditions name="j &lt;= data.length-2 &amp; j >= i-1"/>
-  </cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
 </xmi:XMI>

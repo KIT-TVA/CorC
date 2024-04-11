@@ -1,8 +1,5 @@
 package de.tu_bs.cs.isf.corc.predicateWizard;
 
-import de.tu_bs.cs.isf.cbc.tool.helper.Predicate;
-import de.tu_bs.cs.isf.cbc.tool.helper.PredicateDefinition;
-
 import javax.swing.JOptionPane;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -21,6 +18,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
@@ -43,6 +41,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
+
+import de.tu_bs.cs.isf.cbc.util.Predicate;
+import de.tu_bs.cs.isf.cbc.util.PredicateDefinition;
 
 public class PredicateManagementTypePageSPL extends WizardPage {
 	private ArrayList<Predicate> predicates;
@@ -113,7 +114,7 @@ public class PredicateManagementTypePageSPL extends WizardPage {
 		
 		// BUTTON add predicate
 		GridData gridData_button_addPredicate = new GridData();
-		Image image_button_addPredicate = new Image(null, "C:\\Users\\mko\\Documents\\ISF\\0_feat-CorC2.0variableSpecifications\\CorC\\de.tu-bs.cs.isf.wizards\\icons\\add.gif");
+		Image image_button_addPredicate = new Image(null, getIconPath("add.gif"));
 		buttonAddPredicate = new Button(groupList, SWT.PUSH);
 		buttonAddPredicate.setImage(image_button_addPredicate);
 		buttonAddPredicate.setLayoutData(gridData_button_addPredicate);
@@ -122,7 +123,7 @@ public class PredicateManagementTypePageSPL extends WizardPage {
 		GridData gridData_button_delPredicate = new GridData();
 		gridData_button_delPredicate.horizontalSpan = 1;
 		gridData_button_delPredicate.horizontalAlignment = GridData.FILL_HORIZONTAL;
-		Image image_button_delPredicate = new Image(null, "C:\\Users\\mko\\Documents\\ISF\\0_feat-CorC2.0variableSpecifications\\CorC\\de.tu-bs.cs.isf.wizards\\icons\\remove.gif");
+		Image image_button_delPredicate = new Image(null, getIconPath("remove.gif"));
 		buttonDelPredicate = new Button(groupList, SWT.PUSH);
 		buttonDelPredicate.setImage(image_button_delPredicate);
 		buttonDelPredicate.setLayoutData(gridData_button_delPredicate);
@@ -309,7 +310,7 @@ public class PredicateManagementTypePageSPL extends WizardPage {
 	    new Label(groupConfig, SWT.NULL).setText("Presence condition:");
 	    Text presenceField = new Text(groupConfig, SWT.SINGLE | SWT.BORDER);
 	    presenceField.setLayoutData(gridData_label_presence);
-	    presenceField.setText(pDef.presenceCondition);
+	    presenceField.setText(pDef != null ? pDef.presenceCondition : "true");
 	    presenceField.setToolTipText("Provide logical formula expressing where this definition should be available.");
 	    
 		// COMPOSITE error/restore/save
@@ -588,14 +589,14 @@ public class PredicateManagementTypePageSPL extends WizardPage {
      	
      	StyledText text = new StyledText(shell, SWT.MULTI | SWT.BORDER | SWT.WRAP);
      	text.setText("---Available Predicates---\r\n"
-     			+ "Displays all predicates of the project the currently selected file is part of. Predicates can be added and deleted using the buttons above the list of predicates. The list displays the signature of the available predicates without the parameter's names. It is not possible to create duplicate predicates, even if the parameters differ.\r\n"
+     			+ "Displays all predicates of the project the currently selected file is part of. Predicates can be added and deleted using the buttons above the list of predicates. The list displays the signature of the available predicates without the parameter's names and the number of definitions. It is not possible to create duplicate predicates, even if the parameters differ.\r\n"
      			+ "\r\n"
      			+ "---Predicate Properties---\r\n"
      			+ "Enables the definition of predicates. For every predicate created, at least one definition has to be declared. New definitions can be added via the Add new tab. For every definition, the following fields have to be set:\r\n"
      			+ "Name: Internal name of the predicate's definition to differentiate the definitions. This name does not influence the construction or verification of programs containing the predicate.\r\n"
      			+ "Signature: Signature of the predicate in method signature style. Provide name and parameters. For every parameter, provide type and name. The parameter's order is considered when replacing predicates by their definition at verification time. The signature must not be edited in other than the first definition of a predicate. Example: newPredicate(int[] array, int number, String word).\r\n"
      			+ "Definition: The definition a predicate should be replaced by. The parameters declared in the signature will be replaced by the parameters provided by the predicate call in the program when the verification is started. Be aware that bound variables (\\forall, \\exists) must not exist in the terms the parameters of the predicate are replaced by. It is not allowed to use the keyword \\old in the definition of a predicate. Please provide old values of a field or variable by adding a new parameter to the predicate's definition. Example: data[data.length - 1] = newTop.\r\n"
-     			+ "Availability of Predicate: It is possible to define when a predicate's definition should be available. Formulate presence conditions using feature's names and symbols &&, ||, ->, and !. Use space between every feature and symbol. Paranthesis are allowed. Example: featureA && featureB || (featureC -> featureD).\r\n"
+     			+ "Availability of Predicate: It is possible to define when a predicate's definition should be available. Formulate presence conditions using feature's names and symbols &, |, ->, and !. Use space between every feature and symbol. Paranthesis are allowed. Example: featureA & featureB | (featureC -> featureD).\r\n"
      			+ "Delete Definition: Currently displayed definition is deleted. Only available if current predicate contains more than one definition. To delete a predicate, use delete button above predicates list.\r\n"
      			+ "Restore Definition: Values of the currently displayed definition are restored to the last saved state.\r\n"
      			+ "Save Definition: Saves the current values of the currently displayed definition. Please consider error messages when saving definitions.");
@@ -606,8 +607,8 @@ public class PredicateManagementTypePageSPL extends WizardPage {
         
      	StyleRange[] styles = new StyleRange[15];
      	                         //AvailablePreds, PredProps, AddnewBtn, Name, Sign, SignEx, Def,  forExist, old,  DefEx, AvailPred, AvailEx, Del,  Res,  Save
-     	int[] starts = new int[]  {0,              367,       543,       616,  801,  1136,   1189, 1438,     1570, 1724,  1757,      2021,    2070, 2267, 2371};
-     	int[] lengths = new int[] {26,             26,        7,         5,    10,   50,     11,   16,       4,    30,    26,        46,      18,   19,   16};
+     	int[] starts = new int[]  {0,              397,       573,       646,  831,  1166,   1219, 1468,     1600, 1754,  1787,      2049,    2096, 2293, 2397};
+     	int[] lengths = new int[] {26,             26,        7,         5,    10,   50,     11,   16,       4,    30,    26,        44,      18,   20,   17};
      	for (int i = 0; i < styles.length; i++) {
      		styles[i] = new StyleRange();
      		styles[i].start = starts[i];
@@ -621,4 +622,10 @@ public class PredicateManagementTypePageSPL extends WizardPage {
         text.setStyleRanges(styles);
         shell.open();
     }
+	
+	private String getIconPath(String iconName) {
+		String loc = Platform.getBundle("de.tu-bs.cs.isf.wizards").getLocation();
+		loc = loc.substring(loc.indexOf("file:/") + "file:/".length(), loc.length() - 1);
+		return loc + Platform.getBundle("de.tu-bs.cs.isf.wizards").getEntry("icons/" + iconName).getPath();
+	}
 }

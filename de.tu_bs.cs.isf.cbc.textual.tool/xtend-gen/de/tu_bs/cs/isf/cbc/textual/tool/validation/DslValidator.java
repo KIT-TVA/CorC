@@ -27,9 +27,9 @@ import org.eclipse.xtext.validation.CheckType;
 @SuppressWarnings("all")
 public class DslValidator extends AbstractDslValidator {
   public static final String INVALID_NAME = "invalidName";
-  
+
   public static final String NOT_PROVED = "notProved";
-  
+
   @Check
   public void checkSyntaxOfStatement(final AbstractStatement statement) {
     boolean _equals = statement.getClass().equals(AbstractStatementImpl.class);
@@ -45,7 +45,7 @@ public class DslValidator extends AbstractDslValidator {
       }
     }
   }
-  
+
   @Check
   public void checkSyntaxOfRetunrStatement(final ReturnStatement statement) {
     boolean _equals = statement.getClass().equals(ReturnStatementImpl.class);
@@ -61,26 +61,26 @@ public class DslValidator extends AbstractDslValidator {
       }
     }
   }
-  
+
   @Check
   public void checkSyntaxOfCondition(final Condition condition) {
     throw new Error("Unresolved compilation problems:"
       + "\nThe method readAndTestAssertWithJaMoPP(String) is undefined for the type Class<CompareMethodBodies>"
       + "\n! cannot be resolved");
   }
-  
+
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfStatement(final AbstractStatement statement) {
     throw new Error("Unresolved compilation problems:"
       + "\nThe method checkFileIsProven(URI, int) is undefined for the type Class<ProveWithKey>");
   }
-  
+
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfReturnStatement(final ReturnStatement statement) {
     throw new Error("Unresolved compilation problems:"
       + "\nThe method checkFileIsProven(URI, int) is undefined for the type Class<ProveWithKey>");
   }
-  
+
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfStrengthWeakStatement(final StrengthWeakStatement statement) {
     throw new Error("Unresolved compilation problems:"
@@ -88,20 +88,20 @@ public class DslValidator extends AbstractDslValidator {
       + "\nThe method checkFileIsProven(URI, int) is undefined for the type Class<ProveWithKey>"
       + "\nThe method checkFileIsProven(URI, int) is undefined for the type Class<ProveWithKey>");
   }
-  
+
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfMethodStatement(final MethodStatement statement) {
     throw new Error("Unresolved compilation problems:"
       + "\nThe method checkFileIsProven(URI, int) is undefined for the type Class<ProveWithKey>"
       + "\nThe method checkFileIsProven(URI, int) is undefined for the type Class<ProveWithKey>");
   }
-  
+
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfSkipStatement(final SkipStatement statement) {
     throw new Error("Unresolved compilation problems:"
       + "\nThe method checkFileIsProven(URI, int) is undefined for the type Class<ProveWithKey>");
   }
-  
+
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfRepetitionStatement(final SmallRepetitionStatement statement) {
     throw new Error("Unresolved compilation problems:"
@@ -109,7 +109,7 @@ public class DslValidator extends AbstractDslValidator {
       + "\nThe method checkFileIsProven(URI, int) is undefined for the type Class<ProveWithKey>"
       + "\nThe method checkFileIsProven(URI, int) is undefined for the type Class<ProveWithKey>");
   }
-  
+
   @Check(CheckType.EXPENSIVE)
   public void checkProveOfSelectionStatement(final SelectionStatement statement) {
     throw new Error("Unresolved compilation problems:"

@@ -22,7 +22,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateDiagramFromModel;
+import de.tu_bs.cs.isf.cbc.util.GenerateDiagramFromModel;
 
 public class GenerateHandler extends AbstractHandler implements IHandler {
 

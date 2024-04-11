@@ -30,7 +30,7 @@ public class DslLabelProvider extends DefaultEObjectLabelProvider {
   public DslLabelProvider(final AdapterFactoryLabelProvider delegate) {
     super(delegate);
   }
-  
+
   public String text(final Condition condition) {
     String _xifexpression = null;
     EObject _eContainer = condition.eContainer();
@@ -129,34 +129,34 @@ public class DslLabelProvider extends DefaultEObjectLabelProvider {
     }
     return _xifexpression;
   }
-  
+
   public String text(final Variant variant) {
     String _name = variant.getName();
     return ("variant: " + _name);
   }
-  
+
   public String text(final SmallRepetitionStatementImpl std) {
     return "Repetition Statement";
   }
-  
+
   public String text(final CompositionStatementImpl std) {
     return "Composition Statement";
   }
-  
+
   public String text(final SelectionStatementImpl std) {
     return "Selection Statement";
   }
-  
+
   public String text(final MethodStatementImpl std) {
     String _name = std.getName();
     return ("MethodStatement: " + _name);
   }
-  
+
   public String text(final AbstractStatementImpl std) {
     String _name = std.getName();
     return ("Statement: " + _name);
   }
-  
+
   public String text(final CbCFormula formula) {
     String _name = formula.getName();
     return ("Formula: " + _name);

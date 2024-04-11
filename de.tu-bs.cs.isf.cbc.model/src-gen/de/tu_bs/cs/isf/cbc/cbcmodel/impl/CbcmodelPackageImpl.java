@@ -2,11 +2,12 @@
  */
 package de.tu_bs.cs.isf.cbc.cbcmodel.impl;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.CbcclassPackage;
+import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassPackage;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.impl.CbcclassPackageImpl;
+import de.tu_bs.cs.isf.cbc.cbcclass.impl.CbcclassPackageImpl;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.AtType;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCProblem;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -22,12 +23,15 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Rename;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Security;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
+
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -176,6 +180,34 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass confToVarsMapEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass securityEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass atTypesToVarsMapEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass atTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum variableKindEEnum = null;
 
 	/**
@@ -203,7 +235,6 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	private CbcmodelPackageImpl() {
 		super(eNS_URI, CbcmodelFactory.eINSTANCE);
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -368,6 +399,36 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * @generated
 	 */
 	@Override
+	public EAttribute getCbCFormula_Tested() {
+		return (EAttribute)cbCFormulaEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getCbCFormula_AtType() {
+		return (EReference)cbCFormulaEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getCbCFormula_Security() {
+		return (EReference)cbCFormulaEClass.getEStructuralFeatures().get(12);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getCondition() {
 		return conditionEClass;
 	}
@@ -380,6 +441,56 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	@Override
 	public EAttribute getCondition_Name() {
 		return (EAttribute)conditionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCondition_Modifiables() {
+		return (EAttribute)conditionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getCondition_ConfToVarsMap() {
+		return (EReference)conditionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getCondition_AtTypesToVarsMap() {
+		return (EReference)conditionEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCondition_CapsulesUsed() {
+		return (EAttribute)conditionEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCondition_CodeRepresentation() {
+		return (EAttribute)conditionEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -470,6 +581,56 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	@Override
 	public EAttribute getAbstractStatement_Id() {
 		return (EAttribute)abstractStatementEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getAbstractStatement_Tested() {
+		return (EAttribute)abstractStatementEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getAbstractStatement_Context() {
+		return (EAttribute)abstractStatementEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getAbstractStatement_TypeableResult() {
+		return (EAttribute)abstractStatementEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getAbstractStatement_TypeableText() {
+		return (EAttribute)abstractStatementEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getAbstractStatement_CodeRepresentation() {
+		return (EAttribute)abstractStatementEClass.getEStructuralFeatures().get(12);
 	}
 
 	/**
@@ -768,8 +929,28 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * @generated
 	 */
 	@Override
-	public EAttribute getJavaVariable_DisplayedName() {
+	public EAttribute getJavaVariable_Confidentiality() {
 		return (EAttribute)javaVariableEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getJavaVariable_Modifier() {
+		return (EAttribute)javaVariableEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getJavaVariable_DisplayedName() {
+		return (EAttribute)javaVariableEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -928,6 +1109,116 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 	 * @generated
 	 */
 	@Override
+	public EClass getConfToVarsMap() {
+		return confToVarsMapEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getConfToVarsMap_Key() {
+		return (EAttribute)confToVarsMapEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getConfToVarsMap_Value() {
+		return (EReference)confToVarsMapEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getSecurity() {
+		return securityEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getSecurity_Level() {
+		return (EAttribute)securityEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getSecurity_MutationModifier() {
+		return (EAttribute)securityEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getAtTypesToVarsMap() {
+		return atTypesToVarsMapEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getAtTypesToVarsMap_Key() {
+		return (EAttribute)atTypesToVarsMapEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getAtTypesToVarsMap_Value() {
+		return (EReference)atTypesToVarsMapEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getAtType() {
+		return atTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getAtType_Name() {
+		return (EAttribute)atTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EEnum getVariableKind() {
 		return variableKindEEnum;
 	}
@@ -982,9 +1273,17 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		createEAttribute(cbCFormulaEClass, CB_CFORMULA__CLASS_NAME);
 		createEAttribute(cbCFormulaEClass, CB_CFORMULA__METHOD_NAME);
 		createEReference(cbCFormulaEClass, CB_CFORMULA__METHOD_OBJ);
+		createEAttribute(cbCFormulaEClass, CB_CFORMULA__TESTED);
+		createEReference(cbCFormulaEClass, CB_CFORMULA__AT_TYPE);
+		createEReference(cbCFormulaEClass, CB_CFORMULA__SECURITY);
 
 		conditionEClass = createEClass(CONDITION);
 		createEAttribute(conditionEClass, CONDITION__NAME);
+		createEAttribute(conditionEClass, CONDITION__MODIFIABLES);
+		createEReference(conditionEClass, CONDITION__CONF_TO_VARS_MAP);
+		createEReference(conditionEClass, CONDITION__AT_TYPES_TO_VARS_MAP);
+		createEAttribute(conditionEClass, CONDITION__CAPSULES_USED);
+		createEAttribute(conditionEClass, CONDITION__CODE_REPRESENTATION);
 
 		abstractStatementEClass = createEClass(ABSTRACT_STATEMENT);
 		createEAttribute(abstractStatementEClass, ABSTRACT_STATEMENT__NAME);
@@ -995,6 +1294,11 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		createEAttribute(abstractStatementEClass, ABSTRACT_STATEMENT__PROVEN);
 		createEAttribute(abstractStatementEClass, ABSTRACT_STATEMENT__COMMENT);
 		createEAttribute(abstractStatementEClass, ABSTRACT_STATEMENT__ID);
+		createEAttribute(abstractStatementEClass, ABSTRACT_STATEMENT__TESTED);
+		createEAttribute(abstractStatementEClass, ABSTRACT_STATEMENT__CONTEXT);
+		createEAttribute(abstractStatementEClass, ABSTRACT_STATEMENT__TYPEABLE_RESULT);
+		createEAttribute(abstractStatementEClass, ABSTRACT_STATEMENT__TYPEABLE_TEXT);
+		createEAttribute(abstractStatementEClass, ABSTRACT_STATEMENT__CODE_REPRESENTATION);
 		createEOperation(abstractStatementEClass, ABSTRACT_STATEMENT___GENERATE_ID);
 
 		skipStatementEClass = createEClass(SKIP_STATEMENT);
@@ -1033,6 +1337,8 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		javaVariableEClass = createEClass(JAVA_VARIABLE);
 		createEAttribute(javaVariableEClass, JAVA_VARIABLE__NAME);
 		createEAttribute(javaVariableEClass, JAVA_VARIABLE__KIND);
+		createEAttribute(javaVariableEClass, JAVA_VARIABLE__CONFIDENTIALITY);
+		createEAttribute(javaVariableEClass, JAVA_VARIABLE__MODIFIER);
 		createEAttribute(javaVariableEClass, JAVA_VARIABLE__DISPLAYED_NAME);
 
 		globalConditionsEClass = createEClass(GLOBAL_CONDITIONS);
@@ -1055,6 +1361,21 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		strengthWeakStatementEClass = createEClass(STRENGTH_WEAK_STATEMENT);
 
 		originalStatementEClass = createEClass(ORIGINAL_STATEMENT);
+
+		confToVarsMapEClass = createEClass(CONF_TO_VARS_MAP);
+		createEAttribute(confToVarsMapEClass, CONF_TO_VARS_MAP__KEY);
+		createEReference(confToVarsMapEClass, CONF_TO_VARS_MAP__VALUE);
+
+		securityEClass = createEClass(SECURITY);
+		createEAttribute(securityEClass, SECURITY__LEVEL);
+		createEAttribute(securityEClass, SECURITY__MUTATION_MODIFIER);
+
+		atTypesToVarsMapEClass = createEClass(AT_TYPES_TO_VARS_MAP);
+		createEAttribute(atTypesToVarsMapEClass, AT_TYPES_TO_VARS_MAP__KEY);
+		createEReference(atTypesToVarsMapEClass, AT_TYPES_TO_VARS_MAP__VALUE);
+
+		atTypeEClass = createEClass(AT_TYPE);
+		createEAttribute(atTypeEClass, AT_TYPE__NAME);
 
 		// Create enums
 		variableKindEEnum = createEEnum(VARIABLE_KIND);
@@ -1113,9 +1434,17 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		initEAttribute(getCbCFormula_ClassName(), ecorePackage.getEString(), "className", "", 0, 1, CbCFormula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCbCFormula_MethodName(), ecorePackage.getEString(), "methodName", "", 0, 1, CbCFormula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCbCFormula_MethodObj(), theCbcclassPackage.getMethod(), theCbcclassPackage.getMethod_CbcStartTriple(), "methodObj", null, 0, 1, CbCFormula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCbCFormula_Tested(), ecorePackage.getEBoolean(), "tested", null, 0, 1, CbCFormula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCbCFormula_AtType(), this.getAtType(), null, "atType", null, 0, -1, CbCFormula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCbCFormula_Security(), this.getSecurity(), null, "security", null, 0, -1, CbCFormula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(conditionEClass, Condition.class, "Condition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCondition_Name(), ecorePackage.getEString(), "name", null, 0, 1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCondition_Modifiables(), ecorePackage.getEString(), "modifiables", null, 0, -1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCondition_ConfToVarsMap(), this.getConfToVarsMap(), null, "confToVarsMap", null, 0, -1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCondition_AtTypesToVarsMap(), this.getAtTypesToVarsMap(), null, "atTypesToVarsMap", null, 0, -1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCondition_CapsulesUsed(), ecorePackage.getEString(), "capsulesUsed", null, 0, -1, Condition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCondition_CodeRepresentation(), ecorePackage.getEString(), "codeRepresentation", null, 0, 1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(abstractStatementEClass, AbstractStatement.class, "AbstractStatement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAbstractStatement_Name(), ecorePackage.getEString(), "name", null, 0, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1126,6 +1455,11 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		initEAttribute(getAbstractStatement_Proven(), ecorePackage.getEBoolean(), "proven", null, 0, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractStatement_Comment(), ecorePackage.getEString(), "comment", null, 0, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractStatement_Id(), ecorePackage.getEString(), "id", null, 1, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAbstractStatement_Tested(), ecorePackage.getEBoolean(), "tested", null, 0, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAbstractStatement_Context(), ecorePackage.getEString(), "context", null, 0, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAbstractStatement_TypeableResult(), ecorePackage.getEString(), "typeableResult", null, 0, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAbstractStatement_TypeableText(), ecorePackage.getEString(), "typeableText", null, 0, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAbstractStatement_CodeRepresentation(), ecorePackage.getEString(), "codeRepresentation", null, 0, 1, AbstractStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEOperation(getAbstractStatement__GenerateID(), null, "generateID", 1, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -1165,6 +1499,8 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 		initEClass(javaVariableEClass, JavaVariable.class, "JavaVariable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getJavaVariable_Name(), ecorePackage.getEString(), "name", "int a", 0, 1, JavaVariable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJavaVariable_Kind(), this.getVariableKind(), "kind", "LOCAL", 0, 1, JavaVariable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getJavaVariable_Confidentiality(), ecorePackage.getEString(), "confidentiality", null, 0, 1, JavaVariable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getJavaVariable_Modifier(), ecorePackage.getEString(), "modifier", null, 0, 1, JavaVariable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJavaVariable_DisplayedName(), ecorePackage.getEString(), "displayedName", "kind + \" \" + name", 0, 1, JavaVariable.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(globalConditionsEClass, GlobalConditions.class, "GlobalConditions", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1188,6 +1524,21 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 
 		initEClass(originalStatementEClass, OriginalStatement.class, "OriginalStatement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(confToVarsMapEClass, Map.Entry.class, "ConfToVarsMap", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getConfToVarsMap_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConfToVarsMap_Value(), this.getSecurity(), null, "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(securityEClass, Security.class, "Security", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSecurity_Level(), ecorePackage.getEString(), "level", null, 0, 1, Security.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSecurity_MutationModifier(), ecorePackage.getEString(), "mutationModifier", null, 0, 1, Security.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(atTypesToVarsMapEClass, Map.Entry.class, "AtTypesToVarsMap", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAtTypesToVarsMap_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAtTypesToVarsMap_Value(), this.getAtType(), null, "value", null, 0, -1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(atTypeEClass, AtType.class, "AtType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAtType_Name(), ecorePackage.getEString(), "name", null, 0, 1, AtType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Initialize enums and add enum literals
 		initEEnum(variableKindEEnum, VariableKind.class, "VariableKind");
 		addEEnumLiteral(variableKindEEnum, VariableKind.LOCAL);
@@ -1204,6 +1555,38 @@ public class CbcmodelPackageImpl extends EPackageImpl implements CbcmodelPackage
 
 		// Create resource
 		createResource(eNS_URI);
+
+		// Create annotations
+		// http://www.eclipse.org/emf/2002/GenModel
+		createGenModelAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/GenModel</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createGenModelAnnotations() {
+		String source = "http://www.eclipse.org/emf/2002/GenModel";
+		addAnnotation
+		  (getJavaVariables_Fields(),
+		   source,
+		   new String[] {
+			   "get", "if (eDirectResource() != null) { \t\t\tif (eDirectResource().getResourceSet() != null) { \t\t\t\tif (eDirectResource().getResourceSet().getResources() != null) { \t\t\t\t\tEList<Resource> resources = eDirectResource().getResourceSet().getResources(); \t\t\t\t\tURI uri = eDirectResource().getURI(); \t\t\t\t\turi = uri.trimSegments(1); \t\t\t\t\turi = uri.appendSegment(uri.lastSegment() + \".cbcclass\"); \t\t\t\t\tfor (Resource res : resources) { \t\t\t\t\t\tif (res.getURI().equals(uri)) { \t\t\t\t\t\t\tEList<EObject> content = res.getContents(); \t\t\t\t\t\t\tfor (EObject o : content) { \t\t\t\t\t\t\t\tif (o instanceof ModelClass) { \t\t\t\t\t\t\t\t\treturn ((ModelClass) o).getFields(); \t\t\t\t\t\t\t\t} \t\t\t\t\t\t\t} \t\t\t\t\t\t} \t\t\t\t\t} \t\t\t\t} \t\t\t} \t\t}\t \t\tif (fields == null) { \t\t\tfields = new EObjectResolvingEList<Field>(Field.class, this, CbcmodelPackage.JAVA_VARIABLES__FIELDS); \t\t} \t\treturn fields;"
+		   });
+		addAnnotation
+		  (getJavaVariables_Params(),
+		   source,
+		   new String[] {
+			   "get", null
+		   });
+		addAnnotation
+		  (getJavaVariable_DisplayedName(),
+		   source,
+		   new String[] {
+			   "get", "return getKind() + \" \" + getName();"
+		   });
 	}
 
 } //CbcmodelPackageImpl

@@ -30,7 +30,11 @@ import de.tu_bs.cs.isf.cbc.tool.features.RenameStatementFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameVariableFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.RenameVariantFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.ShowKeyFileFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.TestAllStatements;
+import de.tu_bs.cs.isf.cbc.tool.features.TestAndAssertionGenerator;
+import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.UpdateDiagramFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.UpdateInformationFlowFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyAllStatements;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyMethodCallStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyOriginalCallStatement;
@@ -51,10 +55,12 @@ import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeFromModel;
 import de.tu_bs.cs.isf.cbc.tool.patterns.CompositionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConditionPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.ConnectionPattern;
+import de.tu_bs.cs.isf.cbc.tool.patterns.FieldPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.FormulaPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.GlobalConditionsPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.MethodStatementPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.OriginalStatementPattern;
+import de.tu_bs.cs.isf.cbc.tool.patterns.ParameterPattern;
 //import de.tu_bs.cs.isf.cbc.tool.patterns.MethodStatementPattern;
 //import de.tu_bs.cs.isf.cbc.tool.patterns.OriginalStatementPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.RenamePattern;
@@ -89,6 +95,8 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 		addPattern(new VariablePattern());
 		addPattern(new RenamingPattern());
 		addPattern(new RenamePattern());
+		addPattern(new FieldPattern()); //this one is remove by getCreateFeatures() below
+		addPattern(new ParameterPattern()); //this one is remove by getCreateFeatures() below
 		addPattern(new VariantPattern()); //this one is remove by getCreateFeatures() below
 		addConnectionPattern(new ConnectionPattern());
 	}
@@ -96,11 +104,11 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	@Override
 	public ICreateFeature[] getCreateFeatures() {
 		ICreateFeature[] oldArray = super.getCreateFeatures();
-		ICreateFeature[] array = new ICreateFeature[oldArray.length];
-		for (int i = 0; i < oldArray.length; i++) {
+		ICreateFeature[] array = new ICreateFeature[oldArray.length-2];//remove the last two from above
+		for (int i = 0; i < array.length; i++) {
 			array[i] = oldArray[i];
 		}
-		array[array.length - 1] = new CreateExtraSelectionFeature(this);
+		array[array.length - 1] = new CreateExtraSelectionFeature(this);//replace the third last with ExtraSelection
 		return array;
 	}
 
@@ -122,7 +130,10 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 		return new ICustomFeature[] { 
 				new ExtractMethodStubsFeature(this), //!
 				new GenerateCodeFromModel(this),
-				new GenerateTextualRepresentation(this), 
+				new GenerateTextualRepresentation(this), 	
+				new TestAllStatements(this),
+				new TestStatement(this),
+	    		new TestAndAssertionGenerator(this),
 				new VerifyStatement(this),
 				new VerifyOriginalCallStatement(this),
 				new VerifyMethodCallStatement(this),
@@ -152,7 +163,8 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	    		new BelowImplementationFeature(this),
 	    		new VerifyAllStatements(this),
 				new VerifyStatementInlining(this),
-	    		new UpdateDiagramFeature(this),
-				new ShowKeyFileFeature(this)};
+	    		new UpdateDiagramFeature(this),	    		
+				new ShowKeyFileFeature(this),
+	    		new UpdateInformationFlowFeature(this)};
 	}
 }

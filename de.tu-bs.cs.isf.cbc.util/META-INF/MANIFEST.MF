@@ -22,14 +22,15 @@ Require-Bundle: org.key_project.core,
  org.eclipse.graphiti.ui,
  de.tu_bs.cs.isf.cbc.statistics,
  de.tu-bs.cs.isf.cbc.model,
- de.tu-bs.cs.isf.cbc.exceptions,
+ de.tu_bs.cs.isf.cbc.exceptions,
  org.eclipse.graphiti;bundle-version="0.18.0"
 Export-Package: de.tu_bs.cs.isf.cbc.util,
  de.tu_bs.cs.isf.cbc.util.conditionparser,
  de.tu_bs.cs.isf.cbc.util.consts,
  de.tu_bs.cs.isf.cbc.util.diagnostics,
  de.tu_bs.cs.isf.cbc.util.statistics
-Import-Package: org.eclipse.emf.ecore.xmi.impl;version="2.35.0",
+Import-Package: de.tu_bs.cs.isf.corc.predicateWizard,
+ org.eclipse.emf.ecore.xmi.impl;version="2.35.0",
  org.emftext.language.java.resource.java.util
 Bundle-ClassPath: lib/antlr-3.4.jar,
  lib/de.ovgu.featureide.lib.fm-v3.6.2.jar,

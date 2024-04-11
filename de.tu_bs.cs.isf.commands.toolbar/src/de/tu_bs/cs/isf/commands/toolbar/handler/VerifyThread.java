@@ -20,8 +20,12 @@ public class VerifyThread extends Thread {
 	public void run() {
 		for (IFile iFile : fileList) {
 			File file = iFile.getLocation().toFile();
-			ProveWithKey.proveWithKey(file, null, false, null, null, null, null);
+			try {
+				ProveWithKey.proveWithKey(file, null, false, null, null, null, null);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+		}
     }
 
 }

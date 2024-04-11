@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
-import de.tu_bs.cs.isf.cbc.tool.helper.Predicate;
 
 public interface IFileUtil {
 
@@ -19,6 +18,6 @@ public interface IFileUtil {
 	public String generateComposedClass(String project, String composedClassName, String className, String content, String contentOriginal);
 
 	public String getLocationString(String uri);
-
+	
 	public List<Predicate> readPredicates(String filePath);
 }

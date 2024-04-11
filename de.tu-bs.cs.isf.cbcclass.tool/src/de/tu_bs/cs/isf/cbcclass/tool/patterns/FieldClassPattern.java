@@ -278,7 +278,4 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 			layoutPictogramElement(container);
 		}
 	}
-
-
-
 }

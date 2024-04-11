@@ -7,7 +7,6 @@ import java.util.List;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -17,6 +16,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
+
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
@@ -25,14 +25,17 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
-import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
-import de.tu_bs.cs.isf.cbc.tool.helper.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
+import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
+import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 
 /**
  * Class that changes the abstract value of algorithms
@@ -85,6 +88,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 
 	void verifyStatement(ICustomContext context, IProgressMonitor monitor, boolean inlining) {
 		long startTime = System.nanoTime();
+		Console.clear();
 		monitor.beginTask("Verify statement", IProgressMonitor.UNKNOWN);
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
@@ -92,39 +96,23 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			if (bo instanceof AbstractStatement) {
 				boolean returnStatement = bo instanceof ReturnStatement;
 				AbstractStatement statement = (AbstractStatement) bo;
-				JavaVariables vars = null;
-				GlobalConditions conds = null;
-				Renaming renaming = null;
-				CbCFormula formula = null;
-				for (Shape shape : getDiagram().getChildren()) {
-					Object obj = getBusinessObjectForPictogramElement(shape);
-					if (obj instanceof JavaVariables) {
-						vars = (JavaVariables) obj;
-					} else if (obj instanceof GlobalConditions) {
-						conds = (GlobalConditions) obj;
-					} else if (obj instanceof Renaming) {
-						renaming = (Renaming) obj;
-					} else if (obj instanceof CbCFormula) {
-						formula = (CbCFormula) obj;
-					}
-				}
 				
 				boolean proven = false;
 				URI uri = getDiagram().eResource().getURI();
+				// delete 'tests' folder if it exists because it will cause reference errors
+				// since key doesn't use TestNG.
+				FileHandler.instance.deleteFolder(uri, "tests");
+
 				IProject project = FileUtil.getProjectFromFileInProject(uri);
 				boolean isVariational = false;
-				try {
-					if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
-						isVariational = true;
-					}
-				} catch (CoreException e) {
-					e.printStackTrace();
+				if (FileHandler.instance.isSPL(uri)) {
+					isVariational = true;
 				}
 
 				if (isVariational) {
-					proven = executeVariationalVerification(project, uri, statement, vars, conds, renaming, formula, returnStatement, monitor);
+					proven = executeVariationalVerification(project, statement, getDiagram(), returnStatement, monitor);
 				} else {
-					proven = executeNormalVerification(statement, vars, conds, renaming, formula, returnStatement, monitor);
+					proven = executeNormalVerification(statement, getDiagram(), returnStatement, monitor);
 				}
 				statement.setProven(proven);
 				updatePictogramElement(((Shape) pes[0]).getContainer());
@@ -132,19 +120,20 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		}
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1000000;
-		Console.println("--------------- Verification completed --------------- " + duration + "ms");
+		Console.println("\nVerification done."); 
+		Console.println("Time needed: " + duration + "ms");
 		monitor.done();
 	}
 
-	private boolean executeNormalVerification(AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
-		if (!DataCollector.checkForId(statement)) return false;
+	private boolean executeNormalVerification(AbstractStatement statement, Diagram diagram, boolean returnStatement, IProgressMonitor monitor) {
+		StatDataCollector.checkForId(statement);
 		boolean proven = false;
-		Console.println("--------------- Triggered verification ---------------");
+		Console.println("Starting verification...\n");
 		if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
-			String callingClass = uri.segment(uri.segmentCount() - 2) + "";
-			ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, platformUri, formula, new FileUtil(platformUri), null);
+			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+			ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(platformUri), "");
 			proven = prove.proveStatementWithKey(returnStatement, false, callingClass, true);
 		} else {
 			Console.println("Statement is not in correct format.");
@@ -152,16 +141,22 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		return proven;
 	}
 
-	private boolean executeVariationalVerification(IProject project, URI uri, AbstractStatement statement, JavaVariables vars, GlobalConditions conds, Renaming renaming, CbCFormula formula, boolean returnStatement, IProgressMonitor monitor) {
-		if (!DataCollector.checkForId(statement)) return false;
+	private boolean executeVariationalVerification(IProject project, AbstractStatement statement, Diagram diagram, boolean returnStatement, IProgressMonitor monitor) {
+		StatDataCollector.checkForId(statement);
 		boolean proven = false;
-		String callingFeature = uri.segment(uri.segmentCount() - 3) + "";
-		String callingClass = uri.segment(uri.segmentCount() - 2) + "";
-		String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
+    	JavaVariables vars = extractor.getVars();
+		GlobalConditions conds = extractor.getConds();
+		Renaming renaming = extractor.getRenaming();
+		CbCFormula formula = extractor.getFormula();		
+		URI uri = diagram.eResource().getURI();
+		String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
+		String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+		String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.trimFileExtension().segmentCount() - 1), true, callingClass, false, null);
 		String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
 		
-		Console.println("--------------- Triggered variational verification ---------------");
+		Console.println("Starting variational verification...\n");
 
 		// do for found configurations
 		GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
@@ -170,12 +165,11 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 				for (int i = 0; i < variants.length; i++) {
 					genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
-					String configName = "";
-					for (String s : featureConfigs[i]) configName += s;
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uri.toPlatformString(true), formula, new FileUtil(uri.toPlatformString(true)), featureConfigs[i]);
+					ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri.toPlatformString(true)), null, "", featureConfigs[i]);
 					List<CbCFormula> refinements = generateCbCFormulasForRefinements(variants[i], callingMethod);
 					List<JavaVariables> refinementsVars = generateJavaVariablesForRefinements(variants[i], callingMethod);
 					proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, true);
+				//i=100;
 				}
 			} else {
 				Console.println("  Statement is not in correct format.");
@@ -196,10 +190,13 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			for (Diagram dia : diagrams) {
 				if (variantFound) break;
 				URI diagramUri = dia.eResource().getURI();
-				if (diagramUri.segment(diagramUri.segmentCount() - 3).equalsIgnoreCase(featureName)
-						&& diagramUri.segment(diagramUri.segmentCount() - 2).equals(className)
-						&& diagramUri.trimFileExtension().lastSegment().equals(methodName)
-						&& diagramUri.trimFileExtension().lastSegment().matches("[a-z][a-zA-Z]*")) {
+				String diagramFeature = FeatureUtil.getInstance().getCallingFeature(diagramUri);
+				String diagramClass = FeatureUtil.getInstance().getCallingClass(diagramUri);
+				String diagramMethod = FeatureUtil.getInstance().getCallingMethod(diagramUri);
+				if (diagramFeature.equalsIgnoreCase(featureName)
+						&& diagramClass.equals(className)
+						&& diagramMethod.equals(methodName)
+						&& diagramMethod.matches("[a-z][a-zA-Z]*")) {
 					for (Shape shape : dia.getChildren()) {
 						Object obj = getBusinessObjectForPictogramElement(shape);
 						if (obj instanceof CbCFormula) {
@@ -226,10 +223,13 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			for (Diagram dia : diagrams) {
 				if (variantFound) break;
 				URI diagramUri = dia.eResource().getURI();
-				if (diagramUri.segment(diagramUri.segmentCount() - 3).equalsIgnoreCase(featureName)
-						&& diagramUri.segment(diagramUri.segmentCount() - 2).equals(className)
-						&& diagramUri.trimFileExtension().lastSegment().equals(methodName)
-						&& diagramUri.trimFileExtension().lastSegment().matches("[a-z][a-zA-Z]*")) {
+				String diagramFeature = FeatureUtil.getInstance().getCallingFeature(diagramUri);
+				String diagramClass = FeatureUtil.getInstance().getCallingClass(diagramUri);
+				String diagramMethod = FeatureUtil.getInstance().getCallingMethod(diagramUri);
+				if (diagramFeature.equalsIgnoreCase(featureName)
+						&& diagramClass.equals(className)
+						&& diagramMethod.equals(methodName)
+						&& diagramMethod.matches("[a-z][a-zA-Z]*")) {
 					for (Shape shape : dia.getChildren()) {
 						Object obj = getBusinessObjectForPictogramElement(shape);
 						if (obj instanceof JavaVariables) {

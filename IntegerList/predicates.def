@@ -1,0 +1,8 @@
++-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+
+\predicates {
+	np1(String str); //default:Base
+	\replacewith (1 = 1)
+	np1(String str); //default2:Base & Sorted
+	\replacewith (2 = 2)
+}
++-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+

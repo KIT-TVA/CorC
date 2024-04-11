@@ -4,7 +4,7 @@ package de.tu_bs.cs.isf.cbc.tool.helper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.junit.runner.manipulation.Ordering$Context;
+
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Expr;

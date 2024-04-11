@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="sort" className="IntList">
+    <statement name="statement">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement">
+        <guards name="MetaVariables.FV_DECREASING = TRUE"/>
+        <guards name="MetaVariables.FV_DECREASING = FALSE"/>
+        <commands name="statement">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement">
+            <firstStatement name="statement1">
+              <refinement name="i = 0;">
+                <postCondition name="(i=0) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                  <modifiables>i</modifiables>
+                </postCondition>
+                <preCondition name="((MetaVariables.FV_INCREASING = TRUE -> (this.data = \old(this.data))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (this.data &#xD;&#xA;= \old(this.data)))))) &amp; (MetaVariables.FV_DECREASING = TRUE)"/>
+              </refinement>
+              <postCondition name="(i=0) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                <modifiables>i</modifiables>
+              </postCondition>
+              <preCondition name="((MetaVariables.FV_INCREASING = TRUE -> (this.data = \old(this.data))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (this.data &#xD;&#xA;= \old(this.data)))))) &amp; (MetaVariables.FV_DECREASING = TRUE)"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SmallRepetitionStatement" name="repetitionStatement">
+                <postCondition name="(MetaVariables.FV_INCREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] &lt;= this.data[k+1]))))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] >= this.data[k+1])))))))">
+                  <modifiables>i</modifiables>
+                </postCondition>
+                <preCondition name="(i=0) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                  <modifiables>i</modifiables>
+                </preCondition>
+                <loopStatement name="loop">
+                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement">
+                    <firstStatement name="statement1">
+                      <refinement name="j = this.data.length-2;">
+                        <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m])))) &amp; j = this.data.length-2) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                          <modifiables>i</modifiables>
+                          <modifiables>j</modifiables>
+                        </postCondition>
+                        <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = TRUE)) &amp; (i &lt; this.data.length)">
+                          <modifiables>i</modifiables>
+                        </preCondition>
+                      </refinement>
+                      <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m])))) &amp; j = this.data.length-2) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                        <modifiables>i</modifiables>
+                        <modifiables>j</modifiables>
+                      </postCondition>
+                      <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = TRUE)) &amp; (i &lt; this.data.length)">
+                        <modifiables>i</modifiables>
+                      </preCondition>
+                    </firstStatement>
+                    <secondStatement name="statement2">
+                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement">
+                        <firstStatement name="statement1">
+                          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SmallRepetitionStatement" name="repetitionStatement">
+                            <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                              <modifiables>i</modifiables>
+                              <modifiables>j</modifiables>
+                            </postCondition>
+                            <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m])))) &amp; j = this.data.length-2) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                              <modifiables>i</modifiables>
+                              <modifiables>j</modifiables>
+                            </preCondition>
+                            <loopStatement name="loop">
+                              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement">
+                                <firstStatement name="statement1">
+                                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement" name="selectionStatement">
+                                    <guards name="this.data[j] &lt; this.data[j+1]"/>
+                                    <guards name="this.data[j] >= this.data[j+1]"/>
+                                    <commands name="statement">
+                                      <refinement name="tmp = this.data[j];&#xD;&#xA;this.data[j] = this.data[j+1];&#xD;&#xA;this.data[j+1] = tmp;">
+                                        <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                                          <modifiables>data[j+1]</modifiables>
+                                          <modifiables>data[j]</modifiables>
+                                          <modifiables>i</modifiables>
+                                          <modifiables>j</modifiables>
+                                          <modifiables>tmp</modifiables>
+                                        </postCondition>
+                                        <preCondition name="((((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)) &amp; (j>=i)) &amp; (this.data[j] &lt; this.data[j+1])">
+                                          <modifiables>i</modifiables>
+                                          <modifiables>j</modifiables>
+                                        </preCondition>
+                                      </refinement>
+                                      <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                                        <modifiables>data[j+1]</modifiables>
+                                        <modifiables>data[j]</modifiables>
+                                        <modifiables>i</modifiables>
+                                        <modifiables>j</modifiables>
+                                        <modifiables>tmp</modifiables>
+                                      </postCondition>
+                                      <preCondition name="((((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)) &amp; (j>=i)) &amp; (this.data[j] &lt; this.data[j+1])">
+                                        <modifiables>i</modifiables>
+                                        <modifiables>j</modifiables>
+                                      </preCondition>
+                                    </commands>
+                                    <commands name="statement">
+                                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SkipStatement" name=";">
+                                        <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                                          <modifiables>data[j+1]</modifiables>
+                                          <modifiables>data[j]</modifiables>
+                                          <modifiables>i</modifiables>
+                                          <modifiables>j</modifiables>
+                                          <modifiables>tmp</modifiables>
+                                        </postCondition>
+                                        <preCondition name="((((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)) &amp; (j>=i)) &amp; (this.data[j] >= this.data[j+1])">
+                                          <modifiables>i</modifiables>
+                                          <modifiables>j</modifiables>
+                                        </preCondition>
+                                      </refinement>
+                                      <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                                        <modifiables>data[j+1]</modifiables>
+                                        <modifiables>data[j]</modifiables>
+                                        <modifiables>i</modifiables>
+                                        <modifiables>j</modifiables>
+                                        <modifiables>tmp</modifiables>
+                                      </postCondition>
+                                      <preCondition name="((((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)) &amp; (j>=i)) &amp; (this.data[j] >= this.data[j+1])">
+                                        <modifiables>i</modifiables>
+                                        <modifiables>j</modifiables>
+                                      </preCondition>
+                                    </commands>
+                                  </refinement>
+                                  <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                                    <modifiables>data[j+1]</modifiables>
+                                    <modifiables>data[j]</modifiables>
+                                    <modifiables>i</modifiables>
+                                    <modifiables>j</modifiables>
+                                    <modifiables>tmp</modifiables>
+                                  </postCondition>
+                                  <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)) &amp; (j>=i)">
+                                    <modifiables>i</modifiables>
+                                    <modifiables>j</modifiables>
+                                  </preCondition>
+                                </firstStatement>
+                                <secondStatement name="statement2">
+                                  <refinement name="j--;">
+                                    <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                                      <modifiables>data[j+1]</modifiables>
+                                      <modifiables>data[j]</modifiables>
+                                      <modifiables>i</modifiables>
+                                      <modifiables>j</modifiables>
+                                      <modifiables>tmp</modifiables>
+                                    </postCondition>
+                                    <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                                      <modifiables>data[j+1]</modifiables>
+                                      <modifiables>data[j]</modifiables>
+                                      <modifiables>i</modifiables>
+                                      <modifiables>j</modifiables>
+                                      <modifiables>tmp</modifiables>
+                                    </preCondition>
+                                  </refinement>
+                                  <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                                    <modifiables>data[j+1]</modifiables>
+                                    <modifiables>data[j]</modifiables>
+                                    <modifiables>i</modifiables>
+                                    <modifiables>j</modifiables>
+                                    <modifiables>tmp</modifiables>
+                                  </postCondition>
+                                  <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                                    <modifiables>data[j+1]</modifiables>
+                                    <modifiables>data[j]</modifiables>
+                                    <modifiables>i</modifiables>
+                                    <modifiables>j</modifiables>
+                                    <modifiables>tmp</modifiables>
+                                  </preCondition>
+                                </secondStatement>
+                                <intermediateCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                                  <modifiables>data[j+1]</modifiables>
+                                  <modifiables>data[j]</modifiables>
+                                  <modifiables>i</modifiables>
+                                  <modifiables>j</modifiables>
+                                  <modifiables>tmp</modifiables>
+                                </intermediateCondition>
+                              </refinement>
+                              <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                                <modifiables>data[j+1]</modifiables>
+                                <modifiables>data[j]</modifiables>
+                                <modifiables>i</modifiables>
+                                <modifiables>j</modifiables>
+                                <modifiables>tmp</modifiables>
+                              </postCondition>
+                              <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)) &amp; (j>=i)">
+                                <modifiables>i</modifiables>
+                                <modifiables>j</modifiables>
+                              </preCondition>
+                            </loopStatement>
+                            <variant name="j+1"/>
+                            <invariant name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] >= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = TRUE)"/>
+                            <guard name="j>=i"/>
+                          </refinement>
+                          <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                            <modifiables>data[j+1]</modifiables>
+                            <modifiables>data[j]</modifiables>
+                            <modifiables>i</modifiables>
+                            <modifiables>j</modifiables>
+                            <modifiables>tmp</modifiables>
+                          </postCondition>
+                          <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m])))) &amp; j = this.data.length-2) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                            <modifiables>i</modifiables>
+                            <modifiables>j</modifiables>
+                          </preCondition>
+                        </firstStatement>
+                        <secondStatement name="statement2">
+                          <refinement name="i++;">
+                            <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                              <modifiables>data[j+1]</modifiables>
+                              <modifiables>data[j]</modifiables>
+                              <modifiables>i</modifiables>
+                              <modifiables>j</modifiables>
+                              <modifiables>tmp</modifiables>
+                            </postCondition>
+                            <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                              <modifiables>data[j+1]</modifiables>
+                              <modifiables>data[j]</modifiables>
+                              <modifiables>i</modifiables>
+                              <modifiables>j</modifiables>
+                              <modifiables>tmp</modifiables>
+                            </preCondition>
+                          </refinement>
+                          <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                            <modifiables>data[j+1]</modifiables>
+                            <modifiables>data[j]</modifiables>
+                            <modifiables>i</modifiables>
+                            <modifiables>j</modifiables>
+                            <modifiables>tmp</modifiables>
+                          </postCondition>
+                          <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                            <modifiables>data[j+1]</modifiables>
+                            <modifiables>data[j]</modifiables>
+                            <modifiables>i</modifiables>
+                            <modifiables>j</modifiables>
+                            <modifiables>tmp</modifiables>
+                          </preCondition>
+                        </secondStatement>
+                        <intermediateCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                          <modifiables>data[j+1]</modifiables>
+                          <modifiables>data[j]</modifiables>
+                          <modifiables>i</modifiables>
+                          <modifiables>j</modifiables>
+                          <modifiables>tmp</modifiables>
+                        </intermediateCondition>
+                      </refinement>
+                      <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                        <modifiables>data[j+1]</modifiables>
+                        <modifiables>data[j]</modifiables>
+                        <modifiables>i</modifiables>
+                        <modifiables>j</modifiables>
+                        <modifiables>tmp</modifiables>
+                      </postCondition>
+                      <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m])))) &amp; j = this.data.length-2) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                        <modifiables>i</modifiables>
+                        <modifiables>j</modifiables>
+                      </preCondition>
+                    </secondStatement>
+                    <intermediateCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m])))) &amp; j = this.data.length-2) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                      <modifiables>i</modifiables>
+                      <modifiables>j</modifiables>
+                    </intermediateCondition>
+                  </refinement>
+                  <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                    <modifiables>data[j+1]</modifiables>
+                    <modifiables>data[j]</modifiables>
+                    <modifiables>i</modifiables>
+                    <modifiables>j</modifiables>
+                    <modifiables>tmp</modifiables>
+                  </postCondition>
+                  <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = TRUE)) &amp; (i &lt; this.data.length)">
+                    <modifiables>i</modifiables>
+                  </preCondition>
+                </loopStatement>
+                <variant name="this.data.length-i"/>
+                <invariant name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] >= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = TRUE)"/>
+                <guard name="i &lt; this.data.length"/>
+              </refinement>
+              <postCondition name="(MetaVariables.FV_INCREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] &lt;= this.data[k+1]))))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] >= this.data[k+1])))))))">
+                <modifiables>data[j+1]</modifiables>
+                <modifiables>data[j]</modifiables>
+                <modifiables>i</modifiables>
+                <modifiables>j</modifiables>
+                <modifiables>tmp</modifiables>
+              </postCondition>
+              <preCondition name="(i=0) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+                <modifiables>i</modifiables>
+              </preCondition>
+            </secondStatement>
+            <intermediateCondition name="(i=0) &amp; (MetaVariables.FV_DECREASING = TRUE)">
+              <modifiables>i</modifiables>
+            </intermediateCondition>
+          </refinement>
+          <postCondition name="(MetaVariables.FV_INCREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] &lt;= this.data[k+1]))))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] >= this.data[k+1])))))))"/>
+          <preCondition name="((MetaVariables.FV_INCREASING = TRUE -> (this.data = \old(this.data))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (this.data &#xD;&#xA;= \old(this.data)))))) &amp; (MetaVariables.FV_DECREASING = TRUE)"/>
+        </commands>
+        <commands name="statement">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement">
+            <guards name="MetaVariables.FV_INCREASING = TRUE"/>
+            <guards name="MetaVariables.FV_INCREASING = FALSE"/>
+            <commands name="statement">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement">
+                <firstStatement name="statement1">
+                  <refinement name="i = 0;">
+                    <postCondition name="(i = 0) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                      <modifiables>i</modifiables>
+                    </postCondition>
+                    <preCondition name="(((MetaVariables.FV_INCREASING = TRUE -> (this.data = \old(this.data))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (this.data &#xD;&#xA;= \old(this.data)))))) &amp; (MetaVariables.FV_DECREASING = FALSE)) &amp; (MetaVariables.FV_INCREASING = TRUE)"/>
+                  </refinement>
+                  <postCondition name="(i = 0) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                    <modifiables>i</modifiables>
+                  </postCondition>
+                  <preCondition name="(((MetaVariables.FV_INCREASING = TRUE -> (this.data = \old(this.data))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (this.data &#xD;&#xA;= \old(this.data)))))) &amp; (MetaVariables.FV_DECREASING = FALSE)) &amp; (MetaVariables.FV_INCREASING = TRUE)"/>
+                </firstStatement>
+                <secondStatement name="statement2">
+                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SmallRepetitionStatement" name="repetitionStatement">
+                    <postCondition name="(MetaVariables.FV_INCREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] &lt;= this.data[k+1]))))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] >= this.data[k+1])))))))">
+                      <modifiables>i</modifiables>
+                    </postCondition>
+                    <preCondition name="(i = 0) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                      <modifiables>i</modifiables>
+                    </preCondition>
+                    <loopStatement name="loop">
+                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement">
+                        <firstStatement name="statement1">
+                          <refinement name="j = this.data.length-2;">
+                            <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m])))) &amp; j = this.data.length-2) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                              <modifiables>i</modifiables>
+                              <modifiables>j</modifiables>
+                            </postCondition>
+                            <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)) &amp; (i &lt; this.data.length)">
+                              <modifiables>i</modifiables>
+                            </preCondition>
+                          </refinement>
+                          <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m])))) &amp; j = this.data.length-2) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                            <modifiables>i</modifiables>
+                            <modifiables>j</modifiables>
+                          </postCondition>
+                          <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)) &amp; (i &lt; this.data.length)">
+                            <modifiables>i</modifiables>
+                          </preCondition>
+                        </firstStatement>
+                        <secondStatement name="statement2">
+                          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement">
+                            <firstStatement name="statement1">
+                              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SmallRepetitionStatement" name="repetitionStatement">
+                                <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                  <modifiables>i</modifiables>
+                                  <modifiables>j</modifiables>
+                                </postCondition>
+                                <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m])))) &amp; j = this.data.length-2) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                  <modifiables>i</modifiables>
+                                  <modifiables>j</modifiables>
+                                </preCondition>
+                                <loopStatement name="loop">
+                                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement">
+                                    <firstStatement name="statement1">
+                                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement" name="selectionStatement">
+                                        <guards name="this.data[j] > this.data[j+1]"/>
+                                        <guards name="this.data[j] &lt;= this.data[j+1]"/>
+                                        <commands name="statement">
+                                          <refinement name="tmp = this.data[j];&#xD;&#xA;this.data[j] = this.data[j+1];&#xD;&#xA;this.data[j+1] = tmp;">
+                                            <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                              <modifiables>data[j+1]</modifiables>
+                                              <modifiables>data[j]</modifiables>
+                                              <modifiables>i</modifiables>
+                                              <modifiables>j</modifiables>
+                                              <modifiables>tmp</modifiables>
+                                            </postCondition>
+                                            <preCondition name="((((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)) &amp; (j>=i)) &amp; (this.data[j] > this.data[j+1])">
+                                              <modifiables>i</modifiables>
+                                              <modifiables>j</modifiables>
+                                            </preCondition>
+                                          </refinement>
+                                          <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                            <modifiables>data[j+1]</modifiables>
+                                            <modifiables>data[j]</modifiables>
+                                            <modifiables>i</modifiables>
+                                            <modifiables>j</modifiables>
+                                            <modifiables>tmp</modifiables>
+                                          </postCondition>
+                                          <preCondition name="((((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)) &amp; (j>=i)) &amp; (this.data[j] > this.data[j+1])">
+                                            <modifiables>i</modifiables>
+                                            <modifiables>j</modifiables>
+                                          </preCondition>
+                                        </commands>
+                                        <commands name="statement">
+                                          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SkipStatement" name=";">
+                                            <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                              <modifiables>data[j+1]</modifiables>
+                                              <modifiables>data[j]</modifiables>
+                                              <modifiables>i</modifiables>
+                                              <modifiables>j</modifiables>
+                                              <modifiables>tmp</modifiables>
+                                            </postCondition>
+                                            <preCondition name="((((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)) &amp; (j>=i)) &amp; (this.data[j] &lt;= this.data[j+1])">
+                                              <modifiables>i</modifiables>
+                                              <modifiables>j</modifiables>
+                                            </preCondition>
+                                          </refinement>
+                                          <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                            <modifiables>data[j+1]</modifiables>
+                                            <modifiables>data[j]</modifiables>
+                                            <modifiables>i</modifiables>
+                                            <modifiables>j</modifiables>
+                                            <modifiables>tmp</modifiables>
+                                          </postCondition>
+                                          <preCondition name="((((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)) &amp; (j>=i)) &amp; (this.data[j] &lt;= this.data[j+1])">
+                                            <modifiables>i</modifiables>
+                                            <modifiables>j</modifiables>
+                                          </preCondition>
+                                        </commands>
+                                      </refinement>
+                                      <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                        <modifiables>data[j+1]</modifiables>
+                                        <modifiables>data[j]</modifiables>
+                                        <modifiables>i</modifiables>
+                                        <modifiables>j</modifiables>
+                                        <modifiables>tmp</modifiables>
+                                      </postCondition>
+                                      <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)) &amp; (j>=i)">
+                                        <modifiables>i</modifiables>
+                                        <modifiables>j</modifiables>
+                                      </preCondition>
+                                    </firstStatement>
+                                    <secondStatement name="statement2">
+                                      <refinement name="j--;">
+                                        <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                          <modifiables>data[j+1]</modifiables>
+                                          <modifiables>data[j]</modifiables>
+                                          <modifiables>i</modifiables>
+                                          <modifiables>j</modifiables>
+                                          <modifiables>tmp</modifiables>
+                                        </postCondition>
+                                        <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                          <modifiables>data[j+1]</modifiables>
+                                          <modifiables>data[j]</modifiables>
+                                          <modifiables>i</modifiables>
+                                          <modifiables>j</modifiables>
+                                          <modifiables>tmp</modifiables>
+                                        </preCondition>
+                                      </refinement>
+                                      <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                        <modifiables>data[j+1]</modifiables>
+                                        <modifiables>data[j]</modifiables>
+                                        <modifiables>i</modifiables>
+                                        <modifiables>j</modifiables>
+                                        <modifiables>tmp</modifiables>
+                                      </postCondition>
+                                      <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                        <modifiables>data[j+1]</modifiables>
+                                        <modifiables>data[j]</modifiables>
+                                        <modifiables>i</modifiables>
+                                        <modifiables>j</modifiables>
+                                        <modifiables>tmp</modifiables>
+                                      </preCondition>
+                                    </secondStatement>
+                                    <intermediateCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                      <modifiables>data[j+1]</modifiables>
+                                      <modifiables>data[j]</modifiables>
+                                      <modifiables>i</modifiables>
+                                      <modifiables>j</modifiables>
+                                      <modifiables>tmp</modifiables>
+                                    </intermediateCondition>
+                                  </refinement>
+                                  <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                    <modifiables>data[j+1]</modifiables>
+                                    <modifiables>data[j]</modifiables>
+                                    <modifiables>i</modifiables>
+                                    <modifiables>j</modifiables>
+                                    <modifiables>tmp</modifiables>
+                                  </postCondition>
+                                  <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)) &amp; (j>=i)">
+                                    <modifiables>i</modifiables>
+                                    <modifiables>j</modifiables>
+                                  </preCondition>
+                                </loopStatement>
+                                <variant name="j+1"/>
+                                <invariant name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; this.data.length -> this.data[j+1] &lt;= this.data[h]))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)"/>
+                                <guard name="j>=i"/>
+                              </refinement>
+                              <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                <modifiables>data[j+1]</modifiables>
+                                <modifiables>data[j]</modifiables>
+                                <modifiables>i</modifiables>
+                                <modifiables>j</modifiables>
+                                <modifiables>tmp</modifiables>
+                              </postCondition>
+                              <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m])))) &amp; j = this.data.length-2) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                <modifiables>i</modifiables>
+                                <modifiables>j</modifiables>
+                              </preCondition>
+                            </firstStatement>
+                            <secondStatement name="statement2">
+                              <refinement name="i++;">
+                                <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                  <modifiables>data[j+1]</modifiables>
+                                  <modifiables>data[j]</modifiables>
+                                  <modifiables>i</modifiables>
+                                  <modifiables>j</modifiables>
+                                  <modifiables>tmp</modifiables>
+                                </postCondition>
+                                <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                  <modifiables>data[j+1]</modifiables>
+                                  <modifiables>data[j]</modifiables>
+                                  <modifiables>i</modifiables>
+                                  <modifiables>j</modifiables>
+                                  <modifiables>tmp</modifiables>
+                                </preCondition>
+                              </refinement>
+                              <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                <modifiables>data[j+1]</modifiables>
+                                <modifiables>data[j]</modifiables>
+                                <modifiables>i</modifiables>
+                                <modifiables>j</modifiables>
+                                <modifiables>tmp</modifiables>
+                              </postCondition>
+                              <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                                <modifiables>data[j+1]</modifiables>
+                                <modifiables>data[j]</modifiables>
+                                <modifiables>i</modifiables>
+                                <modifiables>j</modifiables>
+                                <modifiables>tmp</modifiables>
+                              </preCondition>
+                            </secondStatement>
+                            <intermediateCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i+1 ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                              <modifiables>data[j+1]</modifiables>
+                              <modifiables>data[j]</modifiables>
+                              <modifiables>i</modifiables>
+                              <modifiables>j</modifiables>
+                              <modifiables>tmp</modifiables>
+                            </intermediateCondition>
+                          </refinement>
+                          <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                            <modifiables>data[j+1]</modifiables>
+                            <modifiables>data[j]</modifiables>
+                            <modifiables>i</modifiables>
+                            <modifiables>j</modifiables>
+                            <modifiables>tmp</modifiables>
+                          </postCondition>
+                          <preCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m])))) &amp; j = this.data.length-2) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                            <modifiables>i</modifiables>
+                            <modifiables>j</modifiables>
+                          </preCondition>
+                        </secondStatement>
+                        <intermediateCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m])))) &amp; j = this.data.length-2) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                          <modifiables>i</modifiables>
+                          <modifiables>j</modifiables>
+                        </intermediateCondition>
+                      </refinement>
+                      <postCondition name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                        <modifiables>data[j+1]</modifiables>
+                        <modifiables>data[j]</modifiables>
+                        <modifiables>i</modifiables>
+                        <modifiables>j</modifiables>
+                        <modifiables>tmp</modifiables>
+                      </postCondition>
+                      <preCondition name="(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)) &amp; (i &lt; this.data.length)">
+                        <modifiables>i</modifiables>
+                      </preCondition>
+                    </loopStatement>
+                    <variant name="this.data.length-i"/>
+                    <invariant name="((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; this.data.length ->&#xD;&#xA;this.data[k] &lt;= this.data[m]))))) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)"/>
+                    <guard name="i &lt; this.data.length"/>
+                  </refinement>
+                  <postCondition name="(MetaVariables.FV_INCREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] &lt;= this.data[k+1]))))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] >= this.data[k+1])))))))">
+                    <modifiables>data[j+1]</modifiables>
+                    <modifiables>data[j]</modifiables>
+                    <modifiables>i</modifiables>
+                    <modifiables>j</modifiables>
+                    <modifiables>tmp</modifiables>
+                  </postCondition>
+                  <preCondition name="(i = 0) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                    <modifiables>i</modifiables>
+                  </preCondition>
+                </secondStatement>
+                <intermediateCondition name="(i = 0) &amp; (MetaVariables.FV_DECREASING = FALSE &amp; MetaVariables.FV_INCREASING = TRUE)">
+                  <modifiables>i</modifiables>
+                </intermediateCondition>
+              </refinement>
+              <postCondition name="(MetaVariables.FV_INCREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] &lt;= this.data[k+1]))))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] >= this.data[k+1])))))))"/>
+              <preCondition name="(((MetaVariables.FV_INCREASING = TRUE -> (this.data = \old(this.data))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (this.data &#xD;&#xA;= \old(this.data)))))) &amp; (MetaVariables.FV_DECREASING = FALSE)) &amp; (MetaVariables.FV_INCREASING = TRUE)"/>
+            </commands>
+            <commands name="statement">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SkipStatement" name=";">
+                <postCondition name="(MetaVariables.FV_INCREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] &lt;= this.data[k+1]))))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] >= this.data[k+1])))))))"/>
+                <preCondition name="(((MetaVariables.FV_INCREASING = TRUE -> (this.data = \old(this.data))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (this.data &#xD;&#xA;= \old(this.data)))))) &amp; (MetaVariables.FV_DECREASING = FALSE)) &amp; (MetaVariables.FV_INCREASING = FALSE)"/>
+              </refinement>
+              <postCondition name="(MetaVariables.FV_INCREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] &lt;= this.data[k+1]))))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] >= this.data[k+1])))))))"/>
+              <preCondition name="(((MetaVariables.FV_INCREASING = TRUE -> (this.data = \old(this.data))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (this.data &#xD;&#xA;= \old(this.data)))))) &amp; (MetaVariables.FV_DECREASING = FALSE)) &amp; (MetaVariables.FV_INCREASING = FALSE)"/>
+            </commands>
+          </refinement>
+          <postCondition name="(MetaVariables.FV_INCREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] &lt;= this.data[k+1]))))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] >= this.data[k+1])))))))"/>
+          <preCondition name="((MetaVariables.FV_INCREASING = TRUE -> (this.data = \old(this.data))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (this.data &#xD;&#xA;= \old(this.data)))))) &amp; (MetaVariables.FV_DECREASING = FALSE)"/>
+        </commands>
+      </refinement>
+      <postCondition name="(MetaVariables.FV_INCREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] &lt;= this.data[k+1]))))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (((\forall int k; (0 &lt;= k &amp; k &lt; \old(this.data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; this.data.length&#xD;&#xA;&amp; this.data[z] = \old(this.data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; this.data.length-1 &#xD;&#xA;-> this.data[k] >= this.data[k+1])))))))">
+        <modifiables>data[j+1]</modifiables>
+        <modifiables>data[j]</modifiables>
+        <modifiables>i</modifiables>
+        <modifiables>j</modifiables>
+        <modifiables>tmp</modifiables>
+      </postCondition>
+      <preCondition name="(MetaVariables.FV_INCREASING = TRUE -> (this.data = \old(this.data))) &amp; (MetaVariables.FV_INCREASING = FALSE -> ((MetaVariables.FV_DECREASING = TRUE -> (this.data &#xD;&#xA;= \old(this.data)))))"/>
+    </statement>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
+    <conditions name="this.data != null"/>
+    <conditions name="i >= 0 &amp; i &lt;= this.data.length"/>
+    <conditions name="j &lt;= this.data.length-2 &amp; j >= i-1"/>
+    <conditions name="j &lt;= this.data.length-2 &amp; j >=i-1"/>
+    <conditions name="(MetaVariables.FV_INTEGERLIST = TRUE) &amp; (MetaVariables.FV_INTEGERLIST = TRUE | MetaVariables.FV_BASE = FALSE) &amp; (MetaVariables.FV_INTEGERLIST = TRUE | MetaVariables.FV_CONS = FALSE) &amp; (MetaVariables.FV_INTEGERLIST = TRUE | MetaVariables.FV_SORTED = FALSE) &amp; (MetaVariables.FV_BASE = TRUE | MetaVariables.FV_INTEGERLIST = FALSE) &amp; (MetaVariables.FV_SORTED = TRUE | MetaVariables.FV_INCREASING = FALSE) &amp; (MetaVariables.FV_SORTED = TRUE | MetaVariables.FV_DECREASING = FALSE) &amp; (MetaVariables.FV_INCREASING = TRUE | MetaVariables.FV_DECREASING = TRUE | MetaVariables.FV_SORTED = FALSE) &amp; (MetaVariables.FV_INCREASING = FALSE | MetaVariables.FV_DECREASING = FALSE)"/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
+    <variables name="int tmp"/>
+    <variables name="int j"/>
+    <variables name="int i"/>
+    <fields href="file:/C:/Important/Work/Master/CorC/IntegerList/meta_product_gen/IntList/IntList.cbcclass#//@fields.0"/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
+</xmi:XMI>

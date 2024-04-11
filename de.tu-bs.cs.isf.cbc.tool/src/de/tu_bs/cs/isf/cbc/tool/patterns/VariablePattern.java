@@ -1,5 +1,6 @@
 package de.tu_bs.cs.isf.cbc.tool.patterns;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -17,11 +18,18 @@ import org.eclipse.graphiti.pattern.id.IdLayoutContext;
 import org.eclipse.graphiti.pattern.id.IdPattern;
 import org.eclipse.graphiti.pattern.id.IdUpdateContext;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.model.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
+import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
+import de.tu_bs.cs.isf.cbc.tool.helper.GetProjectUtil;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateInformationFlow;
+import de.tu_bs.cs.isf.lattice.Lattice;
+import de.tu_bs.cs.isf.lattice.Lattices;
 
 /**
  * Class that creates the graphical representation of Methods
@@ -70,7 +78,7 @@ public class VariablePattern extends IdPattern implements IPattern {
 		JavaVariables variables = (JavaVariables) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 		variable.setKind(VariableKind.LOCAL);
-		variable.setName("int a");
+		variable.setName("int a_" + variables.getVariables().size());
 		variables.getVariables().add(variable);
 		updatePictogramElement(context.getTargetContainer());
 		return new Object[] { variable };
@@ -156,7 +164,7 @@ public class VariablePattern extends IdPattern implements IPattern {
 		if(value.trim().length() - value.trim().replaceAll(" ","").length() == 1 /*|| !value.contains("static")*/) {
 			variable.setKind(VariableKind.LOCAL);
 			variable.setName(value);
-		}else {			
+		} else {			
 			if(value.toLowerCase().contains("global param")) {
 				variable.setKind(VariableKind.GLOBAL_PARAM);
 				value = value.toLowerCase();
@@ -167,6 +175,25 @@ public class VariablePattern extends IdPattern implements IPattern {
 			}
 
 		}
+		
+		//Start of IFbC
+		final IProject project = GetProjectUtil.getProjectForDiagram(getDiagram());
+		final Lattice lattice = Lattices.getLatticeForProject(project);
+		if (lattice != null) {
+			for (Shape shape : getDiagram().getChildren()) {
+				Object obj = getBusinessObjectForPictogramElement(shape);
+				if (obj instanceof CbCFormula) {
+					CbCFormula formula = (CbCFormula) obj;
+					try {
+						UpdateInformationFlow.updateInformationFlow(project.getName(), formula.getStatement(), lattice);
+					} catch (IFbCException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		
 		updatePictogramElement(((Shape) context.getPictogramElement()));
 	}
 	

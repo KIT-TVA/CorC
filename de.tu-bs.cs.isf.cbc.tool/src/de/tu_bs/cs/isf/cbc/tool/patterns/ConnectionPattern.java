@@ -1,5 +1,6 @@
 package de.tu_bs.cs.isf.cbc.tool.patterns;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICreateConnectionContext;
@@ -23,7 +24,12 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
-import de.tu_bs.cs.isf.cbc.tool.helper.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
+import de.tu_bs.cs.isf.cbc.tool.helper.GetProjectUtil;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateInformationFlow;
+import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
+import de.tu_bs.cs.isf.lattice.Lattice;
+import de.tu_bs.cs.isf.lattice.Lattices;
 
 /**
  * Class that creates the graphical representation of the parent hierarchy between Algorithms
@@ -181,6 +187,19 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 		
 		sourceObject.setRefinement(targetObject);
 		UpdateConditionsOfChildren.updateRefinedStatement(sourceObject, targetObject);
+		
+		
+		//Start of IFbC
+		final IProject project = GetProjectUtil.getProjectForDiagram(getDiagram());
+		final Lattice lattice = Lattices.getLatticeForProject(project);
+		if (lattice != null) {
+			try {
+				UpdateInformationFlow.updateInformationFlow(project.getName(), sourceObject, lattice);
+			} catch (IFbCException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		AddConnectionContext addContext = new AddConnectionContext(sourceAnchor, targetAnchor);
 		Connection connection = (Connection) getFeatureProvider().addIfPossible(addContext);

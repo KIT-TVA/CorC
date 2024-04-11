@@ -21,6 +21,11 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#isProven <em>Proven</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getComment <em>Comment</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getId <em>Id</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#isTested <em>Tested</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getContext <em>Context</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getTypeableResult <em>Typeable Result</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getTypeableText <em>Typeable Text</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getCodeRepresentation <em>Code Representation</em>}</li>
  * </ul>
  *
  * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getAbstractStatement()
@@ -207,6 +212,116 @@ public interface AbstractStatement extends EObject {
 	 * @generated
 	 */
 	void setId(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Tested</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Tested</em>' attribute.
+	 * @see #setTested(boolean)
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getAbstractStatement_Tested()
+	 * @model
+	 * @generated
+	 */
+	boolean isTested();
+
+	/**
+	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#isTested <em>Tested</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Tested</em>' attribute.
+	 * @see #isTested()
+	 * @generated
+	 */
+	void setTested(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Context</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Context</em>' attribute.
+	 * @see #setContext(String)
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getAbstractStatement_Context()
+	 * @model
+	 * @generated
+	 */
+	String getContext();
+
+	/**
+	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getContext <em>Context</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Context</em>' attribute.
+	 * @see #getContext()
+	 * @generated
+	 */
+	void setContext(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Typeable Result</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Typeable Result</em>' attribute.
+	 * @see #setTypeableResult(String)
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getAbstractStatement_TypeableResult()
+	 * @model
+	 * @generated
+	 */
+	String getTypeableResult();
+
+	/**
+	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getTypeableResult <em>Typeable Result</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Typeable Result</em>' attribute.
+	 * @see #getTypeableResult()
+	 * @generated
+	 */
+	void setTypeableResult(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Typeable Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Typeable Text</em>' attribute.
+	 * @see #setTypeableText(String)
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getAbstractStatement_TypeableText()
+	 * @model
+	 * @generated
+	 */
+	String getTypeableText();
+
+	/**
+	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getTypeableText <em>Typeable Text</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Typeable Text</em>' attribute.
+	 * @see #getTypeableText()
+	 * @generated
+	 */
+	void setTypeableText(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Code Representation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Code Representation</em>' attribute.
+	 * @see #setCodeRepresentation(String)
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage#getAbstractStatement_CodeRepresentation()
+	 * @model
+	 * @generated
+	 */
+	String getCodeRepresentation();
+
+	/**
+	 * Sets the value of the '{@link de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement#getCodeRepresentation <em>Code Representation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Code Representation</em>' attribute.
+	 * @see #getCodeRepresentation()
+	 * @generated
+	 */
+	void setCodeRepresentation(String value);
 
 	/**
 	 * <!-- begin-user-doc -->

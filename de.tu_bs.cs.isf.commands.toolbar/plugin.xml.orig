@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               label="File">
+            <command
+                  commandId="org.eclipse.ui.file.exit"
+                  label="Exit">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+<<<<<<< HEAD
+=======
+      		defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.family.GenerateMetaProductHandler"
+            id="de.tu_bs.cs.isf.commands.toolbar.commandMeta"
+      		name="MetaProduct">
+      </command>
+      <command
+>>>>>>> master
+            defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.VerifyHandler"
+            id="de.tu_bs.cs.isf.commands.toolbar.command"
+            name="VerifyStatements">
+      </command>
+      <command
+            defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateHandler"
+            id="de.tu_bs.cs.isf.commands.toolbar.command1"
+            name="GenerateGraphical">
+      </command>
+      <command
+            defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.VerifyWithKeYHandler"
+            id="de.tu_bs.cs.isf.commands.toolbar.command3"
+            name="VerifyWithKeY">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+<<<<<<< HEAD
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="de.tu_bs.cs.isf.commands.toolbar.predicateManagement"
+               icon="icons/predicatemanager.png"
+               id="de.tu_bs.cs.isf.commands.toolbar.predicateManagement.mapping"
+               label="Open Predicate Management"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <test
+                        property="org.eclipse.core.resources.name"
+                        value="*.diagram">
+                  </test>
+               </iterate>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+=======
+      <menuContribution 
+            locationURI="popup:org.eclipse.ui.popup.any">
+      		<command 
+      			  commandId="de.tu_bs.cs.isf.commands.toolbar.commandMeta"
+      			  label="Generate Meta Product">
+      		</command>
+      </menuContribution>
+>>>>>>> master
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="de.tu_bs.cs.isf.commands.toolbar.toolbar">
+            <command
+                  commandId="de.tu_bs.cs.isf.commands.toolbar.command"
+                  icon="icons/keyproved16.png"
+                  label="Verify Statements"
+                  style="push">
+            </command>
+            <command
+                  commandId="de.tu_bs.cs.isf.commands.toolbar.command1"
+                  icon="icons/diagram.gif"
+                  label="Generate Graphical Representation"
+                  style="push">
+            </command>
+            <command
+                  commandId="de.tu_bs.cs.isf.commands.toolbar.command3"
+                  icon="icons/green.GIF"
+                  label="Verify with KeY"
+                  style="push">
+            </command>
+<<<<<<< HEAD
+            <command
+                  commandId="de.tu_bs.cs.isf.commands.toolbar.predicateManagement"
+                  icon="icons/predicatemanager.png"
+                  label="Predicate Management"
+                  style="push">
+            </command>
+=======
+>>>>>>> master
+         </toolbar>
+      </menuContribution>
+   </extension>
+   
+   
+   
+    <extension point="org.eclipse.ui.commands">
+     <category id="de.tu_bs.cs.isf.commands.toolbar.category1" name="DropDown Examples">
+     </category>
+     <command categoryId="de.tu_bs.cs.isf.commands.toolbar.category1" defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateModelAndDiagramHandler"  
+              id="de.tu_bs.cs.isf.commands.toolbar.command2" name="Drop">
+        <commandParameter id="de.tu_bs.cs.isf.commands.toolbar.msg" name="Message" optional="true">
+        </commandParameter>
+     </command>
+  </extension>
+  
+     <extension point="org.eclipse.ui.menus">
+     <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+        <toolbar id="de.tu_bs.cs.isf.commands.toolbar.toolbar">
+           <command commandId="de.tu_bs.cs.isf.commands.toolbar.command2" id="de.tu_bs.cs.isf.commands.toolbar.command2" style="pulldown" 
+                    icon="icons/GenerateDiagramAndModel2.png"
+                    tooltip="Generate model and diagram">
+           </command>
+        </toolbar>
+     </menuContribution>
+  </extension>
+  
+  <extension point="org.eclipse.ui.menus">
+     <menuContribution locationURI="menu:de.tu_bs.cs.isf.commands.toolbar.command2">
+        <command commandId="de.tu_bs.cs.isf.commands.toolbar.command2" label="With contract" style="push">
+           <parameter name="de.tu_bs.cs.isf.commands.toolbar.msg" value="Contract">
+           </parameter>
+        </command>
+        <separator name="additions" visible="false">
+        </separator>
+        <command commandId="de.tu_bs.cs.isf.commands.toolbar.command2" label="Without contract" style="push">
+           <parameter name="de.tu_bs.cs.isf.commands.toolbar.msg" value="NoContract">
+           </parameter>
+        </command>
+     </menuContribution>
+  </extension>
+  
+  <extension point= "org.eclipse.ui.menus" >
+  <menuContribution 
+  locationURI = "popup:org.eclipse.ui.popup.any" >
+  <command commandId= "de.tu_bs.cs.isf.commands.toolbar.generateDiagramsFromClassCommand"> label="Generate CbC Diagrams from Class"
+  <visibleWhen>
+	<with variable="activeMenuSelection">
+		<iterate
+			ifEmpty="false">
+			<adapt type="org.eclipse.core.resources.IResource">
+				<test property="org.eclipse.core.resources.name" value="*.java" />
+			</adapt>
+		</iterate>
+	</with>
+  </visibleWhen>
+  </command>
+  </menuContribution>
+  <menuContribution
+        locationURI="popup:org.eclipse.ui.popup.any">
+     <command
+           commandId="de.tu_bs.cs.isf.commands.toolbar.generateClassesFromInterfacesCommand">
+        label="Generate CbC Diagrams from Class"
+        <visibleWhen>
+           <with
+                 variable="activeMenuSelection">
+              <iterate
+                    ifEmpty="false">
+                 <or>
+                    <adapt
+                          type="org.eclipse.core.resources.IProject">
+                    </adapt>
+                    <test
+                          property="org.eclipse.core.resources.name"
+                          value="*.tc">
+                    </test>
+                 </or>
+              </iterate>
+           </with>
+        </visibleWhen>
+     </command>
+  </menuContribution>
+  </extension>
+  
+	<extension point="org.eclipse.ui.commands">
+	<command id="de.tu_bs.cs.isf.commands.toolbar.generateDiagramsFromClassCommand" defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateDiagramsFromClassHandler" name="Generate Diagrams from Class">
+	</command>
+ <command
+       defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateClassesFromInterfacesHandler"
+       id="de.tu_bs.cs.isf.commands.toolbar.generateClassesFromInterfacesCommand"
+       name="Check Trait Composition">
+ </command>
+	</extension>
+	
+	<extension point= "org.eclipse.ui.menus" >
+  <menuContribution 
+  locationURI = "popup:org.eclipse.ui.popup.any" >
+  <command commandId= "de.tu_bs.cs.isf.commands.toolbar.generateJavaCodeCommand"> label="Generate CbC Diagrams from Class"
+  <visibleWhen>
+	<with variable="activeMenuSelection">
+		<iterate
+			ifEmpty="false">
+				<or>
+				<test property="org.eclipse.core.resources.name" value="*.cbcmodel" />
+				<test property="org.eclipse.core.resources.name" value="*.cbcclass" />
+				<test property="org.eclipse.core.resources.name" value="*.diagram" />
+				</or>
+
+		</iterate>
+	</with>
+  </visibleWhen>
+  </command>
+  </menuContribution>
+  </extension>
+  
+	<extension point="org.eclipse.ui.commands">
+<<<<<<< HEAD
+	<command id="de.tu_bs.cs.isf.commands.toolbar.generateJavaCodeCommand" defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateJavaCodeHandler" name="Generate Java Code">
+	</command>
+	</extension>
+ <extension
+       point="org.eclipse.ui.commands">
+    <command
+          defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.PredicateWizardHandler"
+          id="de.tu_bs.cs.isf.commands.toolbar.predicateManagement"
+          name="Manage Predicates command">
+    </command>
+ </extension>
+=======
+		<command 
+			id="de.tu_bs.cs.isf.commands.toolbar.generateJavaCodeCommand" 
+			defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateJavaCodeHandler" 
+			name="Generate Java Code">
+		</command>
+	</extension>
+	
+	
+	
+	<extension point= "org.eclipse.ui.menus" >
+  <menuContribution 
+  locationURI = "popup:org.eclipse.ui.popup.any" >
+  <command commandId= "de.tu_bs.cs.isf.commands.toolbar.generateProductVariant" label="Generate Product Variant">
+  <visibleWhen>
+	<with variable="activeMenuSelection">
+		<iterate
+			ifEmpty="false">
+				
+				<test property="org.eclipse.core.resources.name" value="*.xml" />
+				
+
+		</iterate>
+	</with>
+  </visibleWhen>
+  </command>
+  </menuContribution>
+  </extension>
+  
+	<extension point="org.eclipse.ui.commands">
+		<command 
+			id="de.tu_bs.cs.isf.commands.toolbar.generateProductVariant" 
+			defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateProductVariantHandler" 
+			name="Generate Product Variant">
+		</command>
+	</extension>
+	
+>>>>>>> master
+
+</plugin>

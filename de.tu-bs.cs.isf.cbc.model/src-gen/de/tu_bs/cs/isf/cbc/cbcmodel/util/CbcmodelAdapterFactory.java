@@ -4,10 +4,14 @@ package de.tu_bs.cs.isf.cbc.cbcmodel.util;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.*;
 
+import java.util.Map;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -138,6 +142,22 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseOriginalStatement(OriginalStatement object) {
 				return createOriginalStatementAdapter();
+			}
+			@Override
+			public Adapter caseConfToVarsMap(Map.Entry<String, Security> object) {
+				return createConfToVarsMapAdapter();
+			}
+			@Override
+			public Adapter caseSecurity(Security object) {
+				return createSecurityAdapter();
+			}
+			@Override
+			public Adapter caseAtTypesToVarsMap(Map.Entry<String, EList<AtType>> object) {
+				return createAtTypesToVarsMapAdapter();
+			}
+			@Override
+			public Adapter caseAtType(AtType object) {
+				return createAtTypeAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -408,6 +428,62 @@ public class CbcmodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createOriginalStatementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Conf To Vars Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see java.util.Map.Entry
+	 * @generated
+	 */
+	public Adapter createConfToVarsMapAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.Security <em>Security</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.Security
+	 * @generated
+	 */
+	public Adapter createSecurityAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>At Types To Vars Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see java.util.Map.Entry
+	 * @generated
+	 */
+	public Adapter createAtTypesToVarsMapAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.tu_bs.cs.isf.cbc.cbcmodel.AtType <em>At Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.tu_bs.cs.isf.cbc.cbcmodel.AtType
+	 * @generated
+	 */
+	public Adapter createAtTypeAdapter() {
 		return null;
 	}
 

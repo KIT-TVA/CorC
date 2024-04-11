@@ -4,6 +4,10 @@ package de.tu_bs.cs.isf.cbc.cbcmodel.impl;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.*;
 
+import java.util.Map;
+
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -75,6 +79,10 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 			case CbcmodelPackage.CB_CPROBLEM: return createCbCProblem();
 			case CbcmodelPackage.STRENGTH_WEAK_STATEMENT: return createStrengthWeakStatement();
 			case CbcmodelPackage.ORIGINAL_STATEMENT: return createOriginalStatement();
+			case CbcmodelPackage.CONF_TO_VARS_MAP: return (EObject)createConfToVarsMap();
+			case CbcmodelPackage.SECURITY: return createSecurity();
+			case CbcmodelPackage.AT_TYPES_TO_VARS_MAP: return (EObject)createAtTypesToVarsMap();
+			case CbcmodelPackage.AT_TYPE: return createAtType();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -310,6 +318,48 @@ public class CbcmodelFactoryImpl extends EFactoryImpl implements CbcmodelFactory
 	public OriginalStatement createOriginalStatement() {
 		OriginalStatementImpl originalStatement = new OriginalStatementImpl();
 		return originalStatement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry<String, Security> createConfToVarsMap() {
+		ConfToVarsMapImpl confToVarsMap = new ConfToVarsMapImpl();
+		return confToVarsMap;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Security createSecurity() {
+		SecurityImpl security = new SecurityImpl();
+		return security;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry<String, EList<AtType>> createAtTypesToVarsMap() {
+		AtTypesToVarsMapImpl atTypesToVarsMap = new AtTypesToVarsMapImpl();
+		return atTypesToVarsMap;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public AtType createAtType() {
+		AtTypeImpl atType = new AtTypeImpl();
+		return atType;
 	}
 
 	/**

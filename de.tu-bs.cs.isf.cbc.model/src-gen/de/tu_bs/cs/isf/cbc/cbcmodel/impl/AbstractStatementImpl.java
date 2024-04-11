@@ -7,10 +7,12 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 
 import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
@@ -35,6 +37,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl#isProven <em>Proven</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl#getComment <em>Comment</em>}</li>
  *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl#getId <em>Id</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl#isTested <em>Tested</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl#getContext <em>Context</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl#getTypeableResult <em>Typeable Result</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl#getTypeableText <em>Typeable Text</em>}</li>
+ *   <li>{@link de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl#getCodeRepresentation <em>Code Representation</em>}</li>
  * </ul>
  *
  * @generated
@@ -149,6 +156,106 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * @ordered
 	 */
 	protected String id = ID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isTested() <em>Tested</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isTested()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean TESTED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isTested() <em>Tested</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isTested()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean tested = TESTED_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getContext() <em>Context</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getContext()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String CONTEXT_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getContext() <em>Context</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getContext()
+	 * @generated
+	 * @ordered
+	 */
+	protected String context = CONTEXT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTypeableResult() <em>Typeable Result</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTypeableResult()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TYPEABLE_RESULT_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getTypeableResult() <em>Typeable Result</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTypeableResult()
+	 * @generated
+	 * @ordered
+	 */
+	protected String typeableResult = TYPEABLE_RESULT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTypeableText() <em>Typeable Text</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTypeableText()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TYPEABLE_TEXT_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getTypeableText() <em>Typeable Text</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTypeableText()
+	 * @generated
+	 * @ordered
+	 */
+	protected String typeableText = TYPEABLE_TEXT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getCodeRepresentation() <em>Code Representation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCodeRepresentation()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String CODE_REPRESENTATION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getCodeRepresentation() <em>Code Representation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCodeRepresentation()
+	 * @generated
+	 * @ordered
+	 */
+	protected String codeRepresentation = CODE_REPRESENTATION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -445,6 +552,121 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 	 * @generated
 	 */
 	@Override
+	public boolean isTested() {
+		return tested;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setTested(boolean newTested) {
+		boolean oldTested = tested;
+		tested = newTested;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.ABSTRACT_STATEMENT__TESTED, oldTested, tested));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getContext() {
+		return context;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setContext(String newContext) {
+		String oldContext = context;
+		context = newContext;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.ABSTRACT_STATEMENT__CONTEXT, oldContext, context));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getTypeableResult() {
+		return typeableResult;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setTypeableResult(String newTypeableResult) {
+		String oldTypeableResult = typeableResult;
+		typeableResult = newTypeableResult;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.ABSTRACT_STATEMENT__TYPEABLE_RESULT, oldTypeableResult, typeableResult));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getTypeableText() {
+		return typeableText;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setTypeableText(String newTypeableText) {
+		String oldTypeableText = typeableText;
+		typeableText = newTypeableText;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.ABSTRACT_STATEMENT__TYPEABLE_TEXT, oldTypeableText, typeableText));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getCodeRepresentation() {
+		return codeRepresentation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setCodeRepresentation(String newCodeRepresentation) {
+		String oldCodeRepresentation = codeRepresentation;
+		codeRepresentation = newCodeRepresentation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CbcmodelPackage.ABSTRACT_STATEMENT__CODE_REPRESENTATION, oldCodeRepresentation, codeRepresentation));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public void generateID() {
 		if(id==null) id = java.util.UUID.randomUUID().toString();
 	}
@@ -527,6 +749,16 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 				return getComment();
 			case CbcmodelPackage.ABSTRACT_STATEMENT__ID:
 				return getId();
+			case CbcmodelPackage.ABSTRACT_STATEMENT__TESTED:
+				return isTested();
+			case CbcmodelPackage.ABSTRACT_STATEMENT__CONTEXT:
+				return getContext();
+			case CbcmodelPackage.ABSTRACT_STATEMENT__TYPEABLE_RESULT:
+				return getTypeableResult();
+			case CbcmodelPackage.ABSTRACT_STATEMENT__TYPEABLE_TEXT:
+				return getTypeableText();
+			case CbcmodelPackage.ABSTRACT_STATEMENT__CODE_REPRESENTATION:
+				return getCodeRepresentation();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -562,6 +794,21 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 				return;
 			case CbcmodelPackage.ABSTRACT_STATEMENT__ID:
 				setId((String)newValue);
+				return;
+			case CbcmodelPackage.ABSTRACT_STATEMENT__TESTED:
+				setTested((Boolean)newValue);
+				return;
+			case CbcmodelPackage.ABSTRACT_STATEMENT__CONTEXT:
+				setContext((String)newValue);
+				return;
+			case CbcmodelPackage.ABSTRACT_STATEMENT__TYPEABLE_RESULT:
+				setTypeableResult((String)newValue);
+				return;
+			case CbcmodelPackage.ABSTRACT_STATEMENT__TYPEABLE_TEXT:
+				setTypeableText((String)newValue);
+				return;
+			case CbcmodelPackage.ABSTRACT_STATEMENT__CODE_REPRESENTATION:
+				setCodeRepresentation((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -599,6 +846,21 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 			case CbcmodelPackage.ABSTRACT_STATEMENT__ID:
 				setId(ID_EDEFAULT);
 				return;
+			case CbcmodelPackage.ABSTRACT_STATEMENT__TESTED:
+				setTested(TESTED_EDEFAULT);
+				return;
+			case CbcmodelPackage.ABSTRACT_STATEMENT__CONTEXT:
+				setContext(CONTEXT_EDEFAULT);
+				return;
+			case CbcmodelPackage.ABSTRACT_STATEMENT__TYPEABLE_RESULT:
+				setTypeableResult(TYPEABLE_RESULT_EDEFAULT);
+				return;
+			case CbcmodelPackage.ABSTRACT_STATEMENT__TYPEABLE_TEXT:
+				setTypeableText(TYPEABLE_TEXT_EDEFAULT);
+				return;
+			case CbcmodelPackage.ABSTRACT_STATEMENT__CODE_REPRESENTATION:
+				setCodeRepresentation(CODE_REPRESENTATION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -627,6 +889,16 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 				return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
 			case CbcmodelPackage.ABSTRACT_STATEMENT__ID:
 				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+			case CbcmodelPackage.ABSTRACT_STATEMENT__TESTED:
+				return tested != TESTED_EDEFAULT;
+			case CbcmodelPackage.ABSTRACT_STATEMENT__CONTEXT:
+				return CONTEXT_EDEFAULT == null ? context != null : !CONTEXT_EDEFAULT.equals(context);
+			case CbcmodelPackage.ABSTRACT_STATEMENT__TYPEABLE_RESULT:
+				return TYPEABLE_RESULT_EDEFAULT == null ? typeableResult != null : !TYPEABLE_RESULT_EDEFAULT.equals(typeableResult);
+			case CbcmodelPackage.ABSTRACT_STATEMENT__TYPEABLE_TEXT:
+				return TYPEABLE_TEXT_EDEFAULT == null ? typeableText != null : !TYPEABLE_TEXT_EDEFAULT.equals(typeableText);
+			case CbcmodelPackage.ABSTRACT_STATEMENT__CODE_REPRESENTATION:
+				return CODE_REPRESENTATION_EDEFAULT == null ? codeRepresentation != null : !CODE_REPRESENTATION_EDEFAULT.equals(codeRepresentation);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -664,6 +936,16 @@ public class AbstractStatementImpl extends MinimalEObjectImpl.Container implemen
 		result.append(comment);
 		result.append(", id: ");
 		result.append(id);
+		result.append(", tested: ");
+		result.append(tested);
+		result.append(", context: ");
+		result.append(context);
+		result.append(", typeableResult: ");
+		result.append(typeableResult);
+		result.append(", typeableText: ");
+		result.append(typeableText);
+		result.append(", codeRepresentation: ");
+		result.append(codeRepresentation);
 		result.append(')');
 		return result.toString();
 	}

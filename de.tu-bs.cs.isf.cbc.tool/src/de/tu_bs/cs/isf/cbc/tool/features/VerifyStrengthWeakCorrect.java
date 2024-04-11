@@ -1,7 +1,5 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
-import java.util.List;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -17,12 +15,14 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
-import de.tu_bs.cs.isf.cbc.statistics.DataCollector;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
+import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 
 /**
  * Class that changes the abstract value of algorithms
@@ -75,23 +75,7 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 				StrengthWeakStatement statement = (StrengthWeakStatement) bo;
 				if (statement.getParent() != null) {
 					AbstractStatement parent = statement.getParent();
-					JavaVariables vars = null;
-					GlobalConditions conds = null;
-					Renaming renaming = null;
-					CbCFormula formula = null;
-					for (Shape shape : getDiagram().getChildren()) {
-						Object obj = getBusinessObjectForPictogramElement(shape);
-						if (obj instanceof JavaVariables) {
-							vars = (JavaVariables) obj;
-						} else if (obj instanceof GlobalConditions) {
-							conds = (GlobalConditions) obj;
-						} else if (obj instanceof Renaming) {
-							renaming = (Renaming) obj;
-						} else if (obj instanceof CbCFormula) {
-							formula = (CbCFormula) obj;
-						}
-					}
-					if (!DataCollector.checkForId(statement)) return;
+					StatDataCollector.checkForId(statement);
 					boolean proven1 = false;
 					boolean proven2 = false;
 					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
@@ -105,35 +89,26 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 					} catch (CoreException e) {
 						e.printStackTrace();
 					}
-					ProveWithKey prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), null);
+					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), "");
 					if (isVariational) {
 						Console.println("--------------- Triggered variational verification ---------------");
-						String callingClass = uri.segment(uri.segmentCount()-2) + "";
-						String callingFeature = uri.segment(uri.segmentCount()-3) + "";
-						String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
+						String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+						String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
+						String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 						String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
-						String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
-
 						GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
-						VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
-						
-						if (featureConfigs != null) {
-							String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
-							for (int i = 0; i < variants.length; i++) {
-								genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
-								prove = new ProveWithKey(statement, vars, conds, renaming, monitor, uriString, formula, new FileUtil(uriString), featureConfigs[i]);
-								List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i], callingMethod);
-								String configName = "";
-								for (String s : featureConfigs[i]) configName += s;
-								prove.setConfigName(configName);
-								proven1 = prove.proveCImpliesCWithKey(refinements, parent.getPreCondition(), statement.getPreCondition());
-								proven2 = prove.proveCImpliesCWithKey(refinements, statement.getPostCondition(), parent.getPostCondition());
-							}
+						for (int i = 0; i < featureConfigs.length; i++) {
+							genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
+							String configName = "";
+							for (String s : featureConfigs[i]) configName += s;
+							prove.setConfigName(configName);
+							proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition());
+							proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition());
 						}
 					} else {
 						Console.println("--------------- Triggered verification ---------------");
-						proven1 = prove.proveCImpliesCWithKey(null, parent.getPreCondition(), statement.getPreCondition());
-						proven2 = prove.proveCImpliesCWithKey(null, statement.getPostCondition(), parent.getPostCondition());
+						proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition());
+						proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition());
 					}		
 					Console.println("--------------- Verification completed --------------- ");
 					
