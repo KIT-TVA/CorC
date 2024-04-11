@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import org.antlr.runtime.RecognitionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -28,6 +28,7 @@ import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.Statistics;
 import de.uka.ilkd.key.proof.init.ProofInputException;
 import de.uka.ilkd.key.proof.io.ProblemLoaderException;
+import de.uka.ilkd.key.proof.io.ProofSaver;
 import de.uka.ilkd.key.java.ConvertException;
 import de.uka.ilkd.key.java.PosConvertException;
 import de.uka.ilkd.key.settings.ChoiceSettings;
@@ -57,7 +58,7 @@ public class KeYInteraction {
 			}
 			// Set Taclet options
 			ChoiceSettings choiceSettings = ProofSettings.DEFAULT_SETTINGS.getChoiceSettings();
-			HashMap<String, String> oldSettings = choiceSettings.getDefaultChoices();
+			Map<String, String> oldSettings = choiceSettings.getDefaultChoices();
 			HashMap<String, String> newSettings = new HashMap<String, String>(oldSettings);
 			newSettings.putAll(MiscTools.getDefaultTacletOptions());
 			newSettings.put("runtimeExceptions", "runtimeExceptions:ban");
@@ -99,7 +100,7 @@ public class KeYInteraction {
 
 			// Show proof result
 			try {
-				proof.saveToFile(location);
+				ProofSaver.saveToFile(location, proof);
 
 				try {
 					// TODO: inlining may be important too
@@ -213,7 +214,7 @@ public class KeYInteraction {
 			}
 			// Set Taclet options
 			ChoiceSettings choiceSettings = ProofSettings.DEFAULT_SETTINGS.getChoiceSettings();
-			HashMap<String, String> oldSettings = choiceSettings.getDefaultChoices();
+			Map<String, String> oldSettings = choiceSettings.getDefaultChoices();
 			HashMap<String, String> newSettings = new HashMap<String, String>(oldSettings);
 			newSettings.putAll(MiscTools.getDefaultTacletOptions());
 			newSettings.put("runtimeExceptions", "runtimeExceptions:ban");
@@ -271,7 +272,7 @@ public class KeYInteraction {
 						String locationWithoutFileEnding = location.toString().substring(0,
 								location.toString().indexOf("."));
 						keyFile = new File(locationWithoutFileEnding + ".proof");
-						proof.saveToFile(keyFile);
+						ProofSaver.saveToFile(keyFile, proof);
 						IWorkspace workspace = ResourcesPlugin.getWorkspace();
 						IPath iLocation = Path.fromOSString(keyFile.getAbsolutePath());
 						IFile ifile = workspace.getRoot().getFileForLocation(iLocation);

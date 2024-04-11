@@ -6,10 +6,10 @@ Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: de.tu.bs.cs.isf.cbc.mutation
 Bundle-RequiredExecutionEnvironment: JavaSE-16
 Require-Bundle: org.junit,
+ org.apache.commons.commons-io;bundle-version="2.13.0",
  org.eclipse.graphiti.ui;bundle-version="0.18.0",
- org.eclipse.ui.views.properties.tabbed,
- org.eclipse.graphiti;bundle-version="0.18.0",
- org.apache.commons.commons-io
+ org.eclipse.ui.views.properties.tabbed;bundle-version="3.10.100",
+ org.eclipse.graphiti;bundle-version="0.18.0"
 Import-Package: de.tu_bs.cs.isf.cbc.cbcclass,
  de.tu_bs.cs.isf.cbc.cbcmodel,
  de.tu_bs.cs.isf.cbc.exceptions,

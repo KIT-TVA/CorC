@@ -111,7 +111,7 @@ public class ProveWithKey {
 		if (uri.contains(MetaNames.FOLDER_NAME)) {
 			String className = uri.substring(0, uri.lastIndexOf("/"));
 			className = className.substring(className.lastIndexOf("/") + 1, className.length());
-			this.sourceFolder = "/" + MetaNames.FOLDER_NAME; /*+ "/" + className;*/
+			this.sourceFolder = MetaNames.FOLDER_NAME; /*+ "/" + className;*/
 		} else {
 			this.sourceFolder = srcFolder;
 		}
