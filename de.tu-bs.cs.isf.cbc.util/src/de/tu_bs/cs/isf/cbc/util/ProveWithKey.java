@@ -49,7 +49,7 @@ import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
 
 public class ProveWithKey {
-	public static final String SRC_FOLDER = "/src_gen";
+	public static final String SRC_FOLDER = ""; //Fix für Pfadfehler bei Repetition, Selection und Methodenaufrufen. War vorher "/src_gen"
 	
 	public static final String REGEX_ORIGINAL = "original";
 	public static final String REGEX_RESULT = "\\\\result";
@@ -94,7 +94,7 @@ public class ProveWithKey {
 		if (uri.contains(MetaNames.FOLDER_NAME)) {
 			String className = uri.substring(0, uri.lastIndexOf("/"));
 			className = className.substring(className.lastIndexOf("/") + 1, className.length());
-			this.sourceFolder = MetaNames.FOLDER_NAME; /*+ "/" + className;*/
+			this.sourceFolder = "/" + MetaNames.FOLDER_NAME; /*+ "/" + className;*/
 		} else {
 			this.sourceFolder = srcFolder;
 		}
@@ -179,7 +179,7 @@ public class ProveWithKey {
 		problem = content.getKeYStatementContent();	
 		problem = problem.replaceAll("static", "");
 		problem = problem.replaceAll("return", ""); // TODO replace with correct handling of return
-
+		
 		String location = fileHandler.getLocationString(uri) + configName;
 		File keyFile = fileHandler.writeFile(problem, location, override, statement, subProofName);
 		return keyFile;
@@ -607,10 +607,39 @@ public class ProveWithKey {
 	private void addExistingVarsTo(JavaVariables targetVars) {
 		JavaVariables copyVars = EcoreUtil.copy(vars);
 		var callingClass = FeatureUtil.getInstance().getCallingClass(uri);
-		targetVars.getVariables().addAll(copyVars.getVariables());
-		targetVars.getFields().addAll(copyVars.getFields());
+		addNewVars(targetVars, copyVars);
 		if (callingClass.isEmpty()) return;
 		targetVars.getParams().addAll(copyMethodParams(uri, getMethodName(uri), callingClass));
+	}
+	
+	private void addNewVars(final JavaVariables target, final JavaVariables source) {
+		boolean found = false;
+		for (int i = 0; i < source.getVariables().size(); i++) {
+			for (int j = 0; j < target.getVariables().size(); j++) {
+				if (target.getVariables().get(j).getName().equals(source.getVariables().get(i).getName())) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				target.getVariables().add(source.getVariables().get(i));
+				i--;
+			}
+			found = false;
+		}
+		for (int i = 0; i < source.getFields().size(); i++) {
+			for (int j = 0; j < target.getFields().size(); j++) {
+				if (target.getFields().get(j).getName().equals(source.getFields().get(i).getName())) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				target.getFields().add(source.getFields().get(i));
+				i--;
+			}
+			found = false;
+		}
 	}
 
 	public File createProveCImpliesCWithKey(String preCondition, String postCondition, boolean override) {

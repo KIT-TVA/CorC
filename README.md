@@ -33,7 +33,9 @@ Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archi
     ```
 2. Install **JaMoPP** using the two plugins inside package `*.tool.update` (disable `Group items` to show available plugins).
 3. Open the following packages in Eclipse Modelling Tools:
+    - `de.tu-bs.cs.isf.cbc.exceptions`
     - `de.tu-bs.cs.isf.cbc.model`
+    - `de.tu-bs.cs.isf.cbc.mutation`
     - `de.tu-bs.cs.isf.cbc.tool`
     - `de.tu-bs.cs.isf.cbc.util`
     - `de.tu-bs.cs.isf.cbcclass.tool`
