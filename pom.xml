@@ -28,6 +28,7 @@ git@github.com:xtext/maven-xtext-example.git-->
 	    <module>de.tu_bs.cs.isf.commands.toolbar</module>
 	    <module>de.tu_bs.cs.isf.cbc.parser</module>
 	    <module>de.tu_bs.cs.isf.lattice</module>
+	    <module>de.kit.tva.lost</module>
 	</modules>
 
 	<properties>

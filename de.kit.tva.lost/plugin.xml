@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="LOST"
+            id="LOST">
+      </category>
+      <view
+            id="de.kit.tva.lost.viewinit.LostEclipseView"
+            name="LOST Editor"
+            icon="icons/sample.png"
+            class="de.kit.tva.lost.viewinit.LostEclipseView"
+            category="LOST"
+            inject="true">
+      </view>
+   </extension>
+
+</plugin>

@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: LOST
+Bundle-SymbolicName: de.kit.tva.lost;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.ui.forms,
+ junit-jupiter-api;bundle-version="5.10.0",
+ junit-platform-suite-api;bundle-version="1.10.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-16
+Import-Package: javax.inject;version="[1.0.0,2.0.0)"
+Automatic-Module-Name: LOST
