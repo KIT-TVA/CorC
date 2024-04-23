@@ -12,7 +12,7 @@
             id="de.kit.tva.lost.viewinit.LostEclipseView"
             name="LOST Editor"
             icon="icons/sample.png"
-            class="de.kit.tva.lost.viewinit.LostEclipseView"
+            class="de.kit.tva.lost.views.init.LostEclipseView"
             category="LOST"
             inject="true">
       </view>

@@ -1,4 +1,4 @@
-package de.kit.tva.lost.viewinit;
+package de.kit.tva.lost.views.init;
 
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
