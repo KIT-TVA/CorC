@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import de.kit.tva.lost.views.CodeView;
 
-class CodeViewTest {
+class CodeViewTests {
 	private static StyledText codeField;
 
 	private CodeView instance;

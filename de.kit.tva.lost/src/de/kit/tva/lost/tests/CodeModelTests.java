@@ -9,7 +9,7 @@ import org.eclipse.swt.SWT;
 
 import de.kit.tva.lost.models.CodeModel;
 
-public class CodeModelTest {
+public class CodeModelTests {
 	private CodeModel instance = new CodeModel();
 	
 	@BeforeEach

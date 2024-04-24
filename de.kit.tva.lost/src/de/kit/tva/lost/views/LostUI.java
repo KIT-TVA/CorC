@@ -20,6 +20,7 @@ public class LostUI extends Composite {
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 	
 	private StyledText codeField;
+	private Button btnTranslate;
 	
 	/**
 	 * Create the composite.
@@ -40,7 +41,7 @@ public class LostUI extends Composite {
 		grpHeader.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 		formToolkit.adapt(grpHeader);
 		formToolkit.paintBordersFor(grpHeader);
-		GridLayout glGrpHeader = new GridLayout(2, false);
+		GridLayout glGrpHeader = new GridLayout(3, false);
 		glGrpHeader.marginTop = 5;
 		glGrpHeader.marginHeight = 0;
 		grpHeader.setLayout(glGrpHeader);
@@ -65,6 +66,12 @@ public class LostUI extends Composite {
 		btnExtended.setBounds(53, 0, 70, 16);
 		formToolkit.adapt(btnExtended, true, true);
 		btnExtended.setText("Extended");
+
+		btnTranslate = new Button(grpHeader, SWT.TOGGLE);
+		btnTranslate.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
+		btnTranslate.setFont(localResourceManager.create(FontDescriptor.createFrom("Segoe UI", 8, SWT.NORMAL)));
+		formToolkit.adapt(btnTranslate, true, true);
+		btnTranslate.setText("Translate");
 		
 		Button btnMonitor = new Button(grpHeader, SWT.TOGGLE);
 		btnMonitor.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
@@ -87,6 +94,10 @@ public class LostUI extends Composite {
 	
 	public StyledText getCodeField() {
 		return this.codeField;
+	}
+	
+	public Button getTranslateButton() {
+		return this.btnTranslate;
 	}
 	
 	private void createResourceManager() {
