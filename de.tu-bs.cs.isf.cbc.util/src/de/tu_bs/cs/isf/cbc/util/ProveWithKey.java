@@ -13,6 +13,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -45,25 +49,24 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 import de.tu_bs.cs.isf.cbc.util.consts.MetaNames;
+import de.tu_bs.cs.isf.cbc.util.KeYFileContent;
 import de.uka.ilkd.key.proof.Goal;
 import de.uka.ilkd.key.proof.Proof;
 
 public class ProveWithKey {
 	public static final String SRC_FOLDER = ""; //Fix für Pfadfehler bei Repetition, Selection und Methodenaufrufen. War vorher "/src_gen"
 	
+	public static final String REGEX_ORIGINAL_PRE = "\\\\original_pre";
+	public static final String REGEX_ORIGINAL_POST = "\\\\original_post";
 	public static final String REGEX_ORIGINAL = "original";
 	public static final String REGEX_RESULT = "\\\\result";
 
+	
 	public static final Pattern REGEX_THIS_KEYWORD = Pattern.compile("(?<![a-zA-Z0-9])(this)(?![a-zA-Z0-9])");
 	public static final Pattern REGEX_RESULT_KEYWORD = Pattern.compile("(\\\\result)");
 	public static final Pattern REGEX_OLD_KEYWORD = Pattern.compile("\\\\old\\((.*?)[\\)]+");
 	public static final String OLD_VARS_SUFFIX = "_oldVal";
 	public static HashMap<String, Integer> allStatistics = new HashMap<String, Integer>();
-	private static List<Predicate> predicates = null;
-	private static String predicatesForKeY = "";
-	
-	//private static List<Predicate> predicates = null;
-	//private static String predicatesForKeY = "";
 
 	AbstractStatement statement;
 	private Diagram diagramToProve;
@@ -76,27 +79,22 @@ public class ProveWithKey {
 	private static IFileUtil fileHandler;
 	private String sourceFolder;
 	private boolean isVariationalProject;
-	private String configName;
-	private String problem;
-	private String subProofName = "";
+	private static String configName;
+	private static List<String> configList;
+	private String problem = null;
 	private String helper;
+	private String subProofName = "";
+	private static String proofType;
+	private static List<Predicate> predicates = null;
+	private static String predicatesForKeY = "";
+	private static int configNum;
 	
-	public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler, String configName) {
-		this(statement, diagram, monitor, fileHandler, ProveWithKey.SRC_FOLDER, configName, null);
+	public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler, String[] config, int configNum, String proofType) {
+		this(statement, diagram, monitor, fileHandler, ProveWithKey.SRC_FOLDER, config, configNum, proofType);
 	}
-
-	/*
-	public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler, String srcFolder, String configName) {
-		this(statement, diagram, monitor, fileHandler, srcFolder, configName, null, -1);
-	}*/
 	
-	public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler, String srcFolder, String configName, String[] config) {
+	public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler, String srcFolder, String[] config, int configNum, String proofType) {
 		if (srcFolder == null) srcFolder = ProveWithKey.SRC_FOLDER;
-		if (configName.isEmpty() && config != null) {
-			for (String feature : config) {
-				configName += feature;
-			}
-		}
 		this.statement = statement;	
 		this.monitor = monitor;
 		this.fileHandler = fileHandler;
@@ -116,7 +114,16 @@ public class ProveWithKey {
 			this.sourceFolder = srcFolder;
 		}
 		this.isVariationalProject = false;
-		this.configName = configName.equals("") ? "" : ("/" + configName);
+		this.configList = new ArrayList<String>();
+		if (config != null) {
+			for (int i = 0; i < config.length; i++) {
+				this.configList.add(config[i]);
+			}
+		}
+		this.configName = "";
+		this.configNum = configNum;
+		this.proofType = proofType;
+		if (config != null) for (String s : config) this.configName += s;
 		IProject project = FileUtil.getProjectFromFileInProject(URI.createURI(uri));
 		try {
 			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
@@ -133,7 +140,7 @@ public class ProveWithKey {
 	
 	public boolean proveStatementWithKey(boolean returnStatement, boolean inlining, String callingClass, boolean forceProving) {
 		File location = createProveStatementWithKey(null, null, null, true, "", "", returnStatement, callingClass);
-		
+		if (location == null) return false;
 		// TODO: proving will only skip if already true
 		if (!forceProving) {
 			String problemHash = Hashing.sha256().hashString(problem, StandardCharsets.UTF_8).toString();
@@ -152,6 +159,7 @@ public class ProveWithKey {
 
 	public boolean proveStatementWithKey(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, boolean returnStatement, boolean inlining, String callingMethod, String varM, String callingClass, boolean forceProving) {
 		File location = createProveStatementWithKey(refinementsOriginal, refinements, refinementsVars, true, callingMethod, varM, returnStatement, callingClass);
+		if (location == null) return false;
 		if (!forceProving) {
 			String problemHash = Hashing.sha256().hashString(problem, StandardCharsets.UTF_8).toString();
 			String filePath = location.getAbsolutePath().toString();
@@ -182,26 +190,30 @@ public class ProveWithKey {
 		content.readVariables(varsFromJavaClass);
 		JavaVariable returnVariable = content.readVariables(vars);
 		
-		content.readGlobalConditions(conds);
-		readPrePostModVars(varM.length() == 0 ? refinements : refinementsOriginal, refinementsVars, returnVariable, content, callingClass);
-		
-		if (returnStatement) {
-			content.setStatement(";");
-			content.handleReturn(statement, returnVariable, formula);
-		} else {
-			content.setStatement(statement.getName());	
+		if (!proofType.equals(KeYInteraction.ABSTRACT_PROOF_COMPLETE)) {
+			content.readGlobalConditions(conds);
+			readPrePostModVars(varM.length() == 0 ? refinements : refinementsOriginal, refinementsVars, returnVariable, content, callingClass);
+			
+			if (returnStatement) {
+				content.setStatement(";");
+				content.handleReturn(statement, returnVariable, formula);
+			} else {
+				content.setStatement(statement.getName());	
+			}
+			content.rename(renaming);
+			replaceOriginalInStatement(refinementsOriginal, refinements, refinementsVars, callingMethod, content, varM, callingClass, callingFeature);
+			content.addSelf(formula);
+			content.setAbstractProof(proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN));
+			
+			problem = content.getKeYStatementContent();	
+			problem = problem.replaceAll("static", "");
+			problem = problem.replaceAll("return", ""); // TODO replace with correct handling of return
 		}
-		content.rename(renaming);
-		replaceOriginalInStatement(refinementsOriginal, refinements, refinementsVars, callingMethod, content, varM, callingClass, callingFeature);
-		content.addSelf(formula);
-		
-		problem = content.getKeYStatementContent();	
-		problem = problem.replaceAll("static", "");
-		problem = problem.replaceAll("return", ""); // TODO replace with correct handling of return
 		helper = collectPredicates();
+		List<String> originalPrePost = proofType.equals(KeYInteraction.ABSTRACT_PROOF_COMPLETE) ? calculateOriginalPredicates((refinements == null || refinements.size() == 0) ? refinementsOriginal : refinements, varsFromJavaClass, callingClass, returnVariable) : null;
 		
-		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(problem, helper, location, override, statement, subProofName);
+		String location = fileHandler.getLocationString(uri) + (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) ? "" : configName);
+		File keyFile = fileHandler.writeFile(proofType, problem, helper, location, override, statement, subProofName, configNum != 0, configName, originalPrePost);
 		return keyFile;
 	}
 
@@ -300,17 +312,16 @@ public class ProveWithKey {
 			postInvariant += " & " + c.getName();
 		}
 		
-		if (refinements != null && pre.equals(preFormula)) { // TODO composition only for pre post of formula. Extend to every case
+		if (refinements != null && pre.equals(preFormula) || formula.getCompositionTechnique().equals(CompositionTechnique.EXPLICIT_CONTRACTING)) { // TODO composition only for pre post of formula. Extend to every case
 			pre = composeContractForCbCDiagram(formula.getCompositionTechnique(), refinements, pre,	Parser.KEYWORD_JML_PRE, returnVariable);
 		}
-		if (refinements != null && post.equals(postFormula)) {
+		if (refinements != null && post.equals(postFormula)  || formula.getCompositionTechnique().equals(CompositionTechnique.EXPLICIT_CONTRACTING)) {
 			modifiables = composeModifiables(refinements, refinementsVars, modifiables, formula.getCompositionTechnique(), true);
 			post = composeContractForCbCDiagram(formula.getCompositionTechnique(), refinements, post, Parser.KEYWORD_JML_POST, returnVariable);
 		}
 
 		pre = "(" + pre + preInherited + ")";
 		post = "(" + post + postInherited + ")";
-		
 		if (pre.equals(preFormula)) pre += preInvariant;
 		if (pre.equals(preFormula)) post += postInvariant;
 		
@@ -366,7 +377,7 @@ public class ProveWithKey {
 	}
 
 	List<String> composeModifiables(List<CbCFormula> refinements, List<JavaVariables> refinementsVars, List<String> modifiables,	CompositionTechnique compTechnique, boolean includeFormulaModifiable) {
-		if (refinements != null && refinements.size() > 0) {
+		if (refinements != null && refinements.size() > 0 && refinementsVars != null && refinementsVars.size() > 0) {
 			for (int i = 0; i < refinements.size(); i++) {
 				if (!includeFormulaModifiable) {
 					compTechnique = refinements.get(i).getCompositionTechnique();
@@ -402,28 +413,50 @@ public class ProveWithKey {
 			}
 			break;
 		case CONJUNCTIVE_CONTRACTING:
-			modifiables.addAll(Lists.newArrayList(modifiableOriginal.split(",")));
+			if (!proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN)) modifiables.addAll(Lists.newArrayList(modifiableOriginal.split(",")));
 			break;
 		}
 		return modifiables;
 	}
 
-	private static String applyCompositionTechnique(String condition, String conditionOriginal,	CompositionTechnique compositionTechnique) {
+	private static String applyCompositionTechnique(String keyword, String condition, String conditionOriginal,	CompositionTechnique compositionTechnique, boolean keyContent) {
 		String composedCondition = condition;
 		switch (compositionTechnique) {
 		case CONTRACT_OVERRIDING:
 			composedCondition = condition;
 			break;
 		case CONJUNCTIVE_CONTRACTING:
-			if (conditionOriginal != "") {
-				composedCondition = "(" + condition + ") & (" + conditionOriginal + ")";
+			if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) && keyContent) {
+				composedCondition = "(" + composedCondition +  ") & (original)";
 			} else {
-				composedCondition = condition;
+				if (conditionOriginal != "") {
+					composedCondition = "(" + condition + ") & (" + conditionOriginal + ")";
+				} else {
+					composedCondition = condition;
+				}
 			}
 			break;
 		case EXPLICIT_CONTRACTING:
-			Pattern pattern = Pattern.compile(REGEX_ORIGINAL);
+			if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) && keyContent) {
+				composedCondition = composedCondition.replaceAll(REGEX_ORIGINAL_PRE, "original_pre").replaceAll(REGEX_ORIGINAL_POST, "original_post");
+				if (keyword.equals("requires")) {
+					return composedCondition.replace("original ", "original_pre");
+				} else {
+					return composedCondition.replace("original ", "original_post");
+				}
+				 
+			}
+			Pattern pattern = null;
+			if (keyword.equals("requires")) {
+				pattern = Pattern.compile(REGEX_ORIGINAL_PRE);
+			} else {
+				pattern = Pattern.compile(REGEX_ORIGINAL_POST);
+			}
 			Matcher matcher = pattern.matcher(condition);
+			if (!matcher.find()) {
+				pattern = Pattern.compile(REGEX_ORIGINAL);
+				matcher = pattern.matcher(condition);
+			}
 			composedCondition = matcher.replaceAll(Matcher.quoteReplacement(conditionOriginal));
 		}
 		return composedCondition;
@@ -433,20 +466,27 @@ public class ProveWithKey {
 		String composedCondition = condition;
 		CompositionTechnique compTechnique = compositionTechnique;
 		for (int i = 0; i < refinements.size(); i++) {
+			boolean originalPre = false;
+			boolean originalPost = false;
+			if (composedCondition.contains("\\original_pre")) {
+				originalPre = true;
+			} else if (composedCondition.contains("\\original_post")) {
+				originalPost = true;
+			}
+			
 			if (i != 0) {
 				refinements.get(i - 1).getCompositionTechnique();
 			}
 			String conditionOriginal = "";
-			switch (keyword) {
-			case "requires":
+			
+			if ((keyword.equals("requires") || originalPre) && !originalPost) {
 				conditionOriginal = Parser.getConditionFromCondition(refinements.get(i).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", "");
-				break;
-			case "ensures":
+				composedCondition = applyCompositionTechnique("requires", composedCondition, conditionOriginal, compTechnique, true);
+			} else {
 				conditionOriginal = Parser.getConditionFromCondition(refinements.get(i).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", "");
-				break;
+				composedCondition = applyCompositionTechnique("ensures", composedCondition, conditionOriginal, compTechnique, true);
 			}
-			composedCondition = applyCompositionTechnique(composedCondition, conditionOriginal, compTechnique);
-			if (compTechnique == CompositionTechnique.CONTRACT_OVERRIDING || (compTechnique == CompositionTechnique.EXPLICIT_CONTRACTING && !composedCondition.contains(REGEX_ORIGINAL))) {
+			if (compTechnique == CompositionTechnique.CONTRACT_OVERRIDING || (compTechnique == CompositionTechnique.EXPLICIT_CONTRACTING && !composedCondition.contains(REGEX_ORIGINAL) && !composedCondition.contains(REGEX_ORIGINAL_POST) && !composedCondition.contains(REGEX_ORIGINAL_PRE))) {
 				return resolveResultKeyword(composedCondition, returnVariable);
 			}
 		}
@@ -454,7 +494,7 @@ public class ProveWithKey {
 	}
 
 	public void generateComposedClass(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements, List<JavaVariables> refinementsVars, String callingMethod, String varM, String callingClass, String callingFeature) {
-		boolean originalNecessary = refinementsOriginal != null;
+		boolean originalNecessary = refinementsOriginal != null && refinementsOriginal.size() > 0;
 		int round = 0;
 		String className = varM.equals("") ? callingClass : varM.split("\\.")[0];
 		String methodName = varM.equals("") ? ("original_" + callingMethod) : varM.split("\\.")[1].toLowerCase();
@@ -527,9 +567,9 @@ public class ProveWithKey {
 	String composeContractForCalledOriginal(List<CbCFormula> refinements, String keyword) {
 		String composedCondition = "";
 		if (keyword.equals("requires")) {
-			composedCondition = Parser.rewriteConditionToJML(Parser.getConditionFromCondition(refinements.get(0).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", ""));
+			composedCondition = Parser.rewriteConditionToJML(applyPredicates(Parser.getConditionFromCondition(refinements.get(0).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", "")));
 		} else if (keyword.equals("ensures")) {
-			composedCondition = Parser.rewriteConditionToJML(Parser.getConditionFromCondition(refinements.get(0).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", ""));
+			composedCondition = Parser.rewriteConditionToJML(applyPredicates(Parser.getConditionFromCondition(refinements.get(0).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", "")));
 		}
 
 		CompositionTechnique compTechnique = refinements.get(0).getCompositionTechnique();
@@ -539,11 +579,11 @@ public class ProveWithKey {
 			}
 			String conditionOriginal = "";
 			if (keyword.equals("requires")) {
-				conditionOriginal = Parser.rewriteConditionToJML(Parser.getConditionFromCondition(refinements.get(i).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", ""));
+				conditionOriginal = Parser.rewriteConditionToJML(applyPredicates(Parser.getConditionFromCondition(refinements.get(i).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", "")));
 			} else if (keyword.equals("ensures")) {
-				conditionOriginal = Parser.rewriteConditionToJML(Parser.getConditionFromCondition(refinements.get(i).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", ""));
+				conditionOriginal = Parser.rewriteConditionToJML(applyPredicates(Parser.getConditionFromCondition(refinements.get(i).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", "")));
 			}
-			composedCondition = applyCompositionTechnique(composedCondition, conditionOriginal, compTechnique);
+			composedCondition = applyCompositionTechnique(keyword, composedCondition, conditionOriginal, compTechnique, false);
 			if (compTechnique == CompositionTechnique.CONTRACT_OVERRIDING || (compTechnique == CompositionTechnique.EXPLICIT_CONTRACTING && !composedCondition.contains(REGEX_ORIGINAL))) {
 				return composedCondition;
 			}
@@ -592,8 +632,8 @@ public class ProveWithKey {
 	
 	public static boolean proveWithKey(File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula, AbstractStatement statement, String problem, String uri) throws Exception {
 		Proof proof = null;
-		proof = KeYInteraction.startKeyProof(location, null, inlining, formula, statement, problem, uri);
-		if (proof != null) {
+		proof = KeYInteraction.startKeyProof(proofType, location, null, inlining, formula, statement, problem, uri, predicatesForKeY);
+ 		if (proof != null) {
 			boolean closed = proof.openGoals().isEmpty();
 			if (!closed) {
 				Console.println("  Proof could not be closed.");
@@ -612,9 +652,9 @@ public class ProveWithKey {
 		return false;
 	}
 
-	public boolean proveCImpliesCWithKey(Condition preCondition, Condition postCondition) {
+	public boolean proveCImpliesCWithKey(List<CbCFormula> refinements, Condition preCondition, Condition postCondition) {
 		subProofName = "precondition";
-		File location = createProveCImpliesCWithKey(preCondition.getName(), postCondition.getName(), true);
+		File location = createProveCImpliesCWithKey(refinements, preCondition.getName(), postCondition.getName(), true);
 		Console.println("  Verify Pre -> Invariant");
 		return proveWithKey(location, false);
 	}
@@ -662,38 +702,44 @@ public class ProveWithKey {
 		}
 	}
 
-	public File createProveCImpliesCWithKey(String preCondition, String postCondition, boolean override) {
+	public File createProveCImpliesCWithKey(List<CbCFormula> refinements, String preCondition, String postCondition, boolean override) {
 		KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
+		content.setLocation(fileHandler.getProjectLocation(uri));
 		content.setSrcFolder(sourceFolder);
 		var callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 		JavaVariables varsFromJavaClass = readFieldsFromClass(callingClass);
 		addExistingVarsTo(varsFromJavaClass);
+		JavaVariable returnVariable = content.readVariables(vars);
 		content.readVariables(varsFromJavaClass);
-		content.readGlobalConditions(conds);
+		if (!proofType.equals(KeYInteraction.ABSTRACT_PROOF_COMPLETE)) {
+			content.readGlobalConditions(conds);
 
-		//content.readInvariants(readInvariantsFromClass(uri.split("/")[4]));
-		content.setPreFromCondition(preCondition + applyLiskovInheritance(preCondition, Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre"));
-		content.setPostFromCondition(postCondition + applyLiskovInheritance(postCondition, Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName()), "post"));
-		content.rename(renaming);
-		content.addSelf(formula);
+			//content.readInvariants(readInvariantsFromClass(uri.split("/")[4]));
+			content.setPreFromCondition(preCondition + applyLiskovInheritance(preCondition, Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre"));
+			content.setPostFromCondition(postCondition + applyLiskovInheritance(postCondition, Parser.getConditionFromCondition(formula.getStatement().getPostCondition().getName()), "post"));
+			content.rename(renaming);
+			content.addSelf(formula);
 		
-		problem = content.getKeYCImpliesCContent();
+			problem = content.getKeYCImpliesCContent();
+		}
+			
 		helper = collectPredicates();
-
-		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(problem, helper, location, override, statement, subProofName);
+		List<String> originalPrePost = proofType.equals(KeYInteraction.ABSTRACT_PROOF_COMPLETE) ? calculateOriginalPredicates(refinements, varsFromJavaClass, callingClass, returnVariable) : null;
+		
+		String location = fileHandler.getLocationString(uri) + (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) ? "" : configName);
+		File keyFile = fileHandler.writeFile(proofType, problem, helper, location, override, statement, subProofName, configNum != 0, configName, originalPrePost);
 		return keyFile;
 	}
 
-	public boolean provePostRepetitionWithKey(Condition invariant, Condition guard, Condition postCondition) {
+	public boolean provePostRepetitionWithKey(List<CbCFormula> refinements, Condition invariant, Condition guard, Condition postCondition) {
 		subProofName = "postcondition";
 		String pre = invariant.getName() + " & !(" + guard.getName() + ")";
-		File location = createProveCImpliesCWithKey(pre, postCondition.getName(), true);
+		File location = createProveCImpliesCWithKey(refinements, pre, postCondition.getName(), true);
 		Console.println("  Verify (Invariant & !Guard) -> Post");
 		return proveWithKey(location, false);
 	}
 
-	public boolean provePreSelWithKey(EList<Condition> guards, Condition preCondition) {
+	public boolean provePreSelWithKey(List<CbCFormula> refinements, EList<Condition> guards, Condition preCondition) {
 		String guardString = "";
 		if (guards != null && guards.get(0) != null) {
 			guardString = "((" + guards.get(0).getName() + ")";
@@ -704,7 +750,7 @@ public class ProveWithKey {
 		} else {
 			guardString = "true";
 		}
-		File location = createProveCImpliesCWithKey(preCondition.getName(), guardString, true);
+		File location = createProveCImpliesCWithKey(refinements, preCondition.getName(), guardString, true);
 		Console.println("  Verify Pre -> GvGvG...");
 		return proveWithKey(location, false);
 	}
@@ -712,60 +758,67 @@ public class ProveWithKey {
 	public boolean proveVariantWithKey(String code, Condition invariant, Condition guard, Variant variant) {
 		subProofName = "variant";
 		File location = createProveVariantWithKey(code, invariant, guard, variant, true);
+		if (location == null) return false;
 		Console.println("Verify Pre -> {WhileStatement} (variant<variant0 & variant >= 0)");
 		return proveWithKey(location, false);
 	}
 
 	public File createProveVariantWithKey(String code, Condition invariant, Condition guard, Variant variant, boolean override) {
-		KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
-		content.setSrcFolder(sourceFolder);
-		var callingClass = FeatureUtil.getInstance().getCallingClass(uri);
-		JavaVariables varsFromJavaClass = readFieldsFromClass(callingClass);
-		addExistingVarsTo(varsFromJavaClass);
-		content.readVariables(varsFromJavaClass);
-		content.addVariable("int variant");
-		content.readGlobalConditions(conds);
-		content.setPreFromCondition(invariant.getName() + " & " + guard.getName());
-		content.setVariantPost(variant.getName());
-		content.setStatement(code);
-		content.rename(renaming);
-		content.addSelf(formula);
-		
-		problem = content.getKeYStatementContent();
+		if (!proofType.equals(KeYInteraction.ABSTRACT_PROOF_COMPLETE)) {		
+			KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
+			content.setSrcFolder(sourceFolder);
+			var callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+			JavaVariables varsFromJavaClass = readFieldsFromClass(callingClass);
+			addExistingVarsTo(varsFromJavaClass);
+			content.readVariables(varsFromJavaClass);
+			content.addVariable("int variant");
+			content.readGlobalConditions(conds);
+			content.setPreFromCondition(invariant.getName() + " & " + guard.getName());
+			content.setVariantPost(variant.getName());
+			content.setStatement(code);
+			content.rename(renaming);
+			content.addSelf(formula);
+			content.setAbstractProof(proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN));
+			
+			problem = content.getKeYStatementContent();
+		}
 		helper = collectPredicates();
-
-		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(problem, helper, location, override, statement, subProofName);
+		
+		String location = fileHandler.getLocationString(uri) + (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) ? "" : configName);
+		File keyFile = fileHandler.writeFile(proofType, problem, helper, location, override, statement, subProofName, configNum != 0, configName, null);
 		return keyFile;
 	}
 
 	public String proveUseWeakestPreWithKey() {
 		File location = createProveUseWeakestPreWithKey(true);
+		if (location == null) return "";
 		Console.println("Verify Pre -> {Statement} Post");
 		return createWPWithKey(location);
 	}
 
 	private File createProveUseWeakestPreWithKey(boolean override) {
-		KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
-		content.setSrcFolder(sourceFolder);
-		content.readVariables(EcoreUtil.copy(vars));
-		content.readGlobalConditions(conds);
-		content.readInvariants(readInvariantsFromClass(uri.split("/")[4]));
-		content.setStatement(statement.getName());
-		content.setPostFromCondition("(" + statement.getPostCondition().getName() + applyLiskovInheritance(statement.getPostCondition().getName(), Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre") + ")");
-		content.addSelf(formula);
-		content.rename(renaming);
+		if (!proofType.equals(KeYInteraction.ABSTRACT_PROOF_COMPLETE)) {
+			KeYFileContent content = new KeYFileContent(fileHandler.getProjectLocation(uri));
+			content.setSrcFolder(sourceFolder);
+			content.readVariables(EcoreUtil.copy(vars));
+			content.readGlobalConditions(conds);
+			content.readInvariants(readInvariantsFromClass(uri.split("/")[4]));
+			content.setStatement(statement.getName());
+			content.setPostFromCondition("(" + statement.getPostCondition().getName() + applyLiskovInheritance(statement.getPostCondition().getName(), Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre") + ")");
+			content.addSelf(formula);
+			content.rename(renaming);
 
-		problem = content.getKeYStatementContent();
+			problem = content.getKeYStatementContent();
+		}
 		helper = collectPredicates();
-
-		String location = fileHandler.getLocationString(uri) + configName;
-		File keyFile = fileHandler.writeFile(problem, helper, location, override, statement, subProofName);
+		
+		String location = fileHandler.getLocationString(uri) + (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) ? "" : configName);
+		File keyFile = fileHandler.writeFile(proofType, problem, helper, location, override, statement, subProofName, configNum != 0, configName, null);
 		return keyFile;
 	}
 
 	public String createWPWithKey(File location) {
-		Proof proof = KeYInteraction.startKeyProof(location, monitor, false, formula, statement, problem, uri);
+		Proof proof = KeYInteraction.startKeyProof(proofType, location, monitor, false, formula, statement, problem, uri, predicatesForKeY);
 		if (proof != null) {
 			String wp = "";
 			Iterator<Goal> it = proof.openGoals().iterator();
@@ -817,25 +870,22 @@ public class ProveWithKey {
 		additionalRules = lines.stream().collect(Collectors.joining("\n"));
 	}*/
 	
-	private static void readNonSplPredicates(String filePath) {
-		String projectName = filePath.substring(0, filePath.indexOf("src") - 1);
-		projectName = projectName.substring(projectName.lastIndexOf("/") + 1, projectName.length());
-		filePath = filePath.substring(0, filePath.indexOf(projectName)) + projectName + "/predicates.def";
-		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
-		for (Predicate p : readPredicates) {
-			predicates.add(p);
+	private static String getProjectName(CbCFormula formula, String filePath) {
+		filePath = filePath.replaceAll("\\\\", "/");
+		int nonSplProject = filePath.indexOf("src/");
+		String projectName;
+		if (nonSplProject != -1) {
+			return filePath.substring(0, filePath.indexOf("src") - 1);
+		} else {
+			String[] splitUri = formula.eResource().getURI().toString().split("/features/");
+			projectName = splitUri[0].split("/")[splitUri[0].split("/").length-1];
+			return projectName;
 		}
-		int a = 2;
 	}
 	
 	private static void readPredicates(String[] config, CbCFormula formula, String filePath) {
 		predicates = new ArrayList<Predicate>();
-		if (config == null || config.length == 0) {
-			readNonSplPredicates(filePath);
-			return;
-		}
-		String[] splitUri = formula.eResource().getURI().toString().split("/features/");
-		String projectName = splitUri[0].split("/")[splitUri[0].split("/").length-1];
+		String projectName = getProjectName(formula, filePath);
 		filePath = filePath.substring(0, filePath.indexOf(projectName)) + projectName + "/predicates.def";
 		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
 		for (Predicate p : readPredicates) {
@@ -901,13 +951,122 @@ public class ProveWithKey {
 	private String collectPredicates() {
 		String defString = "\\predicates {\n";
 		String rulesString = "\\rules {\n"; 
-		//rulesString += additionalRules;
 		predicatesForKeY ="";
 		for (Predicate p : predicates) {
 			defString += p.printDefForKeY();
 			rulesString += p.printReplaceForKeY();				
 			predicatesForKeY = predicatesForKeY.length() == 0 ? p.name : predicatesForKeY + "," + p.name;
 		}
+		if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN)) {
+			defString += "\toriginal_pre;\n" + "\toriginal_post;\n";
+			rulesString += "\toriginal_pre{\r\n"
+					+ "		\\find (original_pre)\r\n"
+					+ "		\\replacewith (true)\r\n"
+					+ "		\\heuristics(simplify)\r\n"
+					+ "	};\r\n";
+			rulesString += "\toriginal_post{\r\n"
+					+ "		\\find (original_post)\r\n"
+					+ "		\\replacewith (true)\r\n"
+					+ "		\\heuristics(simplify)\r\n"
+					+ "	};\r\n";
+			predicatesForKeY += predicatesForKeY.length() == 0 ? "original,original_pre,original_post" : ",original,original_pre,original_post";
+		}
 		return defString + "}\n\n" + rulesString + "}";
+	}
+	
+	private List<String> calculateOriginalPredicates(List<CbCFormula> refinements, JavaVariables varsFromJavaClass, String callingClass, JavaVariable returnVar) {
+		if (refinements == null || refinements.size() == 0) return null; 
+		String refinedPre = Parser.getConditionFromCondition(refinements.get(0).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", "");
+		String refinedPost = Parser.getConditionFromCondition(refinements.get(0).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", "");;
+		for (int i = 1; i < refinements.size(); i++) {
+			refinedPre = applyCompositionTechnique("requires", refinedPre, Parser.getConditionFromCondition(refinements.get(i).getStatement().getPreCondition().getName()).replace("\n", "").replace("\r", ""), refinements.get(i-1).getCompositionTechnique(), true);
+			refinedPost = applyCompositionTechnique("ensures", refinedPost, Parser.getConditionFromCondition(refinements.get(i).getStatement().getPostCondition().getName()).replace("\n", "").replace("\r", ""), refinements.get(i-1).getCompositionTechnique(), true);
+		}	
+		
+		refinedPre = replaceOld(refinedPre);
+		refinedPost = replaceOld(refinedPost);
+		refinedPre = resolveResultKeyword(refinedPre, returnVar);
+		refinedPost = resolveResultKeyword(refinedPost, returnVar);
+		for (Field var : varsFromJavaClass.getFields()) {
+			Pattern pattern = Pattern.compile("([^a-zA-Z_\\.]|^)" + var.getName().trim() + "([^a-zA-Z_]|$|\\.)");
+		    Matcher matcher = pattern.matcher(refinedPre);
+		    while (matcher.find()) {
+		    	if (matcher.start() <= 4) {
+		    		refinedPre = new StringBuilder(refinedPre).insert(matcher.start(), "self.").toString();
+			    	matcher = pattern.matcher(refinedPre);
+		    	} else if (matcher.start() > 4 && !refinedPre.substring(matcher.start() - 4).startsWith("self.")) {
+		    		refinedPre = new StringBuilder(refinedPre).insert(matcher.start() + 1, "self.").toString();
+			    	matcher = pattern.matcher(refinedPre);
+		    	}
+		    }
+		    matcher = pattern.matcher(refinedPost);
+		    while (matcher.find()) {
+		    	if (matcher.start() <= 4) {
+		    		refinedPost = new StringBuilder(refinedPost).insert(matcher.start(), "self.").toString();
+			    	matcher = pattern.matcher(refinedPost);
+		    	} else if (matcher.start() > 4 && !refinedPost.substring(matcher.start() - 4).startsWith("self.")) {
+		    		refinedPost = new StringBuilder(refinedPost).insert(matcher.start() + 1, "self.").toString();
+			    	matcher = pattern.matcher(refinedPost);
+		    	}
+		    }
+			
+		}		
+		refinedPre = refinedPre.replaceAll("this.", "self.");
+		refinedPost = refinedPost.replaceAll("this.", "self.");
+		List<String> ret = new ArrayList<>();
+		ret.add(refinedPre);
+		ret.add(refinedPost);
+		return ret;
+	}
+
+	private String replaceOld(String condition) {
+		while (condition.contains("\\old(")) {
+			boolean rememberPara = false;
+			int start = condition.indexOf("\\old(");
+			String toReplace = "\\old(";
+			for (int i = start + 5; i < condition.length(); i++) {
+				toReplace += condition.charAt(i);
+				if ((condition.charAt(i) == ')' || condition.charAt(i) == '.') && !toReplace.endsWith("this.")) {
+					if (condition.substring(i+1).startsWith("size()")) rememberPara = true;
+					break;
+				}
+			}
+			String var = toReplace.replace("this.", "").replace("\\old(", "").replace(")", "").replace(".", "");
+			if (toReplace.endsWith(")")) {
+				condition = condition.replace(toReplace, var + "_oldVal");
+			} else if (toReplace.endsWith(".") && rememberPara) {
+				condition = condition.replace(toReplace + "size())", var + "_oldVal.size()");
+			} else if (toReplace.endsWith(".")) {
+				condition = condition.replace(toReplace, var + "_oldVal");
+			}
+		}
+		return condition;
+	}
+
+	private static String applyPredicates(String condition) {
+		if (predicates != null) {
+			for (Predicate p : predicates) {
+				while (condition.contains(p.name + "(")) {
+					int index = condition.indexOf(p.name + "(") + p.name.length() + 1;
+					int startIndex = index;
+					int bracketCounter = 0;
+					while (condition.charAt(index) != ')' || bracketCounter != 0) {
+						if (condition.charAt(index) == ')') bracketCounter--;
+						if (condition.charAt(index) == '(') bracketCounter++;
+						index++;
+					}
+					String toReplace = condition.substring(startIndex, index);
+					String def = p.definitions.get(0).getReplace(true);
+					String[] params = toReplace.split(",");
+					if (params.length == p.varsTerms.size()) {
+						for (int i = 0; i < params.length; i++) {		
+							def = def.replace(p.varsTerms.get(i).split(" ")[1], params[i].trim());
+						}
+					}
+					condition = condition.replace(p.name + "(" + toReplace + ")", def);
+				}
+			}
+		}
+		return condition;
 	}
 }

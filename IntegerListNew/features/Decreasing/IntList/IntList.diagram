@@ -161,7 +161,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(data[j+1],data[j],i,j,tmp);&#xD;&#xA;((\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] >= data[k+1])))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{containsOldElements(data, \old(data))&#xD;&#xA;&amp; sorted(data)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>

@@ -188,7 +188,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{modifiable(data[*],i,tmp,tmp[i],tmp[tmp.length-1]);&#xD;&#xA;containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data))}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>

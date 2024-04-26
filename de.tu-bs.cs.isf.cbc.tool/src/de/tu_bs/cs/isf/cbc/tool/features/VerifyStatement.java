@@ -33,6 +33,7 @@ import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.GetDiagramUtil;
+import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
@@ -44,6 +45,11 @@ import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
  *
  */
 public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
+	private String proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
+	
+	public void setProofType(String proofType) {
+		this.proofType = proofType;
+	}
 
 	/**
 	 * Constructor of the class
@@ -118,6 +124,8 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 				updatePictogramElement(((Shape) pes[0]).getContainer());
 			}
 		}
+		// reset proof type since partial proofs also call this method.
+		proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1000000;
 		Console.println("\nVerification done."); 
@@ -133,7 +141,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
 			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
-			ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(platformUri), "");
+			ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(platformUri), null, 0, proofType);
 			proven = prove.proveStatementWithKey(returnStatement, false, callingClass, true);
 		} else {
 			Console.println("Statement is not in correct format.");
@@ -153,8 +161,8 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 		String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 		String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
-		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.trimFileExtension().segmentCount() - 1), true, callingClass, false, null);
-		String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
+		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, callingMethod, true, callingClass, false, null);
+		String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, callingMethod, true, callingClass, true, null);
 		
 		Console.println("Starting variational verification...\n");
 
@@ -164,12 +172,12 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			String[] variants = generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
 			if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 				for (int i = 0; i < variants.length; i++) {
-					genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
-					ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri.toPlatformString(true)), null, "", featureConfigs[i]);
+					genCode.setProofTypeInfo(i, proofType);
+					if(!genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i])) continue;
+					ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri.toPlatformString(true)), featureConfigs[i], i, proofType);
 					List<CbCFormula> refinements = generateCbCFormulasForRefinements(variants[i], callingMethod);
 					List<JavaVariables> refinementsVars = generateJavaVariablesForRefinements(variants[i], callingMethod);
 					proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, true);
-				//i=100;
 				}
 			} else {
 				Console.println("  Statement is not in correct format.");

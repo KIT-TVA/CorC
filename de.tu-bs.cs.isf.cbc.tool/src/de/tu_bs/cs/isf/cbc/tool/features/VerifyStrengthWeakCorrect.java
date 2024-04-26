@@ -1,5 +1,7 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -20,6 +22,7 @@ import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
@@ -31,6 +34,12 @@ import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
  *
  */
 public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeature {
+	private String proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
+	
+	public void setProofType(String proofType) {
+		this.proofType = proofType;
+	}
+	private static List<CbCFormula> refinements;
 
 	/**
 	 * Constructor of the class
@@ -89,7 +98,7 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 					} catch (CoreException e) {
 						e.printStackTrace();
 					}
-					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), "");
+					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), null, 0, proofType);
 					if (isVariational) {
 						Console.println("--------------- Triggered variational verification ---------------");
 						String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
@@ -100,15 +109,22 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 						for (int i = 0; i < featureConfigs.length; i++) {
 							genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
 							String configName = "";
-							for (String s : featureConfigs[i]) configName += s;
+
+							String configChain = "";
+							for (String s : featureConfigs[i])  {
+								configName += s;
+								configChain += s + ",";
+							}
+							refinements = new VerifyStatement(null).generateCbCFormulasForRefinements(configChain.substring(0, configChain.length()-1), callingMethod);
+							
 							prove.setConfigName(configName);
-							proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition());
-							proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition());
+							proven1 = prove.proveCImpliesCWithKey(refinements, parent.getPreCondition(), statement.getPreCondition());
+							proven2 = prove.proveCImpliesCWithKey(refinements, statement.getPostCondition(), parent.getPostCondition());
 						}
 					} else {
 						Console.println("--------------- Triggered verification ---------------");
-						proven1 = prove.proveCImpliesCWithKey(parent.getPreCondition(), statement.getPreCondition());
-						proven2 = prove.proveCImpliesCWithKey(statement.getPostCondition(), parent.getPostCondition());
+						proven1 = prove.proveCImpliesCWithKey(refinements, parent.getPreCondition(), statement.getPreCondition());
+						proven2 = prove.proveCImpliesCWithKey(refinements, statement.getPostCondition(), parent.getPostCondition());
 					}		
 					Console.println("--------------- Verification completed --------------- ");
 					
@@ -121,6 +137,8 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 				}
 			}
 		}
+		// reset proof type since partial proofs also call this method.
+		proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
 		monitor.done();
 	}
 }

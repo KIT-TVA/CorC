@@ -24,6 +24,7 @@ import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
@@ -35,6 +36,11 @@ import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
  *
  */
 public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFeature {
+	private String proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
+	
+	public void setProofType(String proofType) {
+		this.proofType = proofType;
+	}
 
 	/**
 	 * Constructor of the class
@@ -106,7 +112,7 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
-				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), "");
+				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), null, 0, proofType);
 				if (isVariational) {
 					Console.println("--------------- Triggered variational verification ---------------");
 					String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
@@ -115,6 +121,7 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
 					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 					for (int i = 0; i < featureConfigs.length; i++) {
+						prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), featureConfigs[i], i, proofType);
 						genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
 						String configName = "";
 						for (String s : featureConfigs[i]) configName += s;
@@ -141,6 +148,8 @@ public class VerifyVariantWithInnerLoops extends MyAbstractAsynchronousCustomFea
 				updatePictogramElement(((Shape)pes[0]).getContainer());
 			}
 		}
+		// reset proof type since partial proofs also call this method.
+		proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
 		monitor.done();
 	}
 }

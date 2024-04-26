@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Application" feature="BankAccount">
+  <fields type="Account" name="a"/>
+  <methods cbcDiagramURI="nextDay.diagram" name="nextDay" returnType="void">
+    <cbcStartTriple href="nextDay.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="nextYear.diagram" name="nextYear" returnType="void">
+    <cbcStartTriple href="nextYear.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="nextHour.diagram" name="nextHour" returnType="void">
+    <cbcStartTriple href="nextHour.cbcmodel#/0"/>
+  </methods>
+</cbcclass:ModelClass>

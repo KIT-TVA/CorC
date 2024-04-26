@@ -78,7 +78,7 @@ public class CodeGenerator {
 		URI uri = diag.eResource().getURI();
 		String location = FileUtil.getProjectLocation(uri);
 		location += "/code-gen" + File.separator + (formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName()) + ".java";
-		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString);
+		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString, new String[0]);
 		return code;
 	}
 

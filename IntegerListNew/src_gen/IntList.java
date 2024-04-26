@@ -10,8 +10,8 @@ public class IntList {
 	/*@
 	@ normal_behavior
 	@ requires true;
-	@ ensures (\exists int z; (0 <= z && z < data.length ==> data[z] == newTop))&& ((\forall int k; (0 <= k && k < \old(data).length ==> (\exists int z; (0 <= z && z < data.length && data[z] == \old(data)[k])))));
-	@ assignable data[*];
+	@ ensures (\exists int v; (0 <= v && v < data.length ==> data[v] == newTop))&& ((\forall int k; (0 <= k && k < \old(data).length ==> (\exists int z; (0 <= z && z < data.length && data[z] == \old(data)[k])))));
+	@ assignable \nothing;
 	@*/
 	public void original_original_push(int newTop) {
 		int i;
@@ -30,7 +30,7 @@ public class IntList {
 	/*@
 	@ normal_behavior
 	@ requires true;
-	@ ensures (\old(data).length < LIMIT) ==> (\exists int z; (0 <= z && z < data.length ==> data[z] == newTop))&& ((\forall int k; (0 <= k && k < \old(data).length ==> (\exists int z; (0 <= z && z < data.length && data[z] == \old(data)[k])))));
+	@ ensures (\old(data).length < LIMIT) ==> (\exists int v; (0 <= v && v < data.length ==> data[v] == newTop))&& ((\forall int k; (0 <= k && k < \old(data).length ==> (\exists int z; (0 <= z && z < data.length && data[z] == \old(data)[k])))));
 	@ assignable \nothing;
 	@*/
 	public void original_push(int newTop) {
@@ -45,7 +45,7 @@ public class IntList {
 	/*@
 	@ normal_behavior
 	@ requires true && (\forall int k; (0 <= k && k < data.length-1 ==> (data[k] <= data[k+1])));
-	@ ensures (\old(data).length < LIMIT) ==> (\exists int z; (0 <= z && z < data.length ==> data[z] == newTop))&& ((\forall int k; (0 <= k && k < \old(data).length ==> (\exists int z; (0 <= z && z < data.length && data[z] == \old(data)[k]))))) && (\forall int k; (0 <= k && k < data.length-1 ==> (data[k] <= data[k+1])));
+	@ ensures (\old(data).length < LIMIT) ==> (\exists int v; (0 <= v && v < data.length ==> data[v] == newTop))&& ((\forall int k; (0 <= k && k < \old(data).length ==> (\exists int z; (0 <= z && z < data.length && data[z] == \old(data)[k]))))) && (\forall int k; (0 <= k && k < data.length-1 ==> (data[k] <= data[k+1])));
 	@ assignable \nothing;
 	@*/
 	public void push(int newTop) {
@@ -58,7 +58,7 @@ public class IntList {
 	@ normal_behavior
 	@ requires data == \old(data);
 	@ ensures ((\forall int k; (0 <= k && k < \old(data).length ==> (\exists int z; (0 <= z && z < data.length && data[z] == \old(data)[k])))))&& (\forall int k; (0 <= k && k < data.length-1 ==> (data[k] <= data[k+1])));
-	@ assignable data[*];
+	@ assignable \nothing;
 	@*/
 	public void sort() {
 		int i;

@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.IntPredicate;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -45,10 +46,6 @@ public class FileUtil implements IFileUtil{
 
 	public File getClassFile(String className) {
 		URI uriTrimmed = URI.createPlatformResourceURI(applicationUri).trimFragment();
-		//URI testF = uriTrimmed.trimSegments(1);
-		//String lmao = testF.toPlatformString(true);
-		//lmao = lmao.substring(lmao.indexOf("/")+1, lmao.length());
-		//lmao = lmao.substring(lmao.indexOf("/")+1, lmao.length());
 		if (uriTrimmed.isPlatformResource()) {
 			String platformString = uriTrimmed.toPlatformString(true);
 			IResource fileResource = ResourcesPlugin.getWorkspace().getRoot().findMember(platformString);
@@ -182,14 +179,56 @@ public class FileUtil implements IFileUtil{
 		return thisProject;
 	}
 	
-	public File writeFile(String problem, String helper, String location, boolean override, AbstractStatement statement, String subProofName) {
+	public File writeFile(String proofType, String problem, String helper, String location, boolean override, AbstractStatement statement, String subProofName, boolean proofExists, String configName, List<String> originalPrePost) {
 		FileNameManager manager = new FileNameManager();
-		String keyFileName = manager.getFileName(problem, location, statement, subProofName);
 		
-		File keyFile = new File(location + keyFileName + ".key");
+		String keyFileName = "";		
+		File keyFile = null;
+		File keyHelperFile = null;
+		switch (proofType) {
+			case KeYInteraction.ABSTRACT_PROOF_FULL:
+				keyFileName = manager.getFileName(problem, location, statement, subProofName);
+				keyFile = new File(location + keyFileName + ".key");
+				keyHelperFile = new File(location + "/helper.key");
+				break;
+			case KeYInteraction.ABSTRACT_PROOF_BEGIN:
+				keyFileName = manager.getFileName(problem, location, statement, subProofName);
+				keyFile = new File(location + "/" + keyFileName + ".key");
+				keyHelperFile = new File(location + "/helper.key");
+				if (proofExists) {
+					return keyFile;
+				}
+				break;
+			case KeYInteraction.ABSTRACT_PROOF_COMPLETE:
+				keyFileName = manager.getFileName(problem, location, statement, subProofName);
+				keyFile = new File(location + "/" + keyFileName + ".key");
+				keyHelperFile = new File(location + "/helper.key");
+				String[] split = location.split("/");
+				String proveFolder = split[split.length-1];
+				File keyFileBegin = new File(location.trim().replace(proveFolder, proveFolder.replace(configName, "")) + "/" + keyFileName + ".key");
+				List<String> begin = readFileInList(keyFileBegin.toPath().toString());
+				problem = "";
+				for (String line : begin) {
+					if (!line.startsWith(" (builtin \"Use Operation Contract\"")) {
+						problem += line + "\n";
+					} else {
+						problem += "\n ) }";
+						break;
+					}
+				}
+				if (originalPrePost != null) {
+					problem = problem.replaceAll("original_pre\n", originalPrePost.get(0));
+					problem = problem.replaceAll("original_post\n", originalPrePost.get(1));
+					problem = problem.replaceAll("original_pre ", originalPrePost.get(0));
+					problem = problem.replaceAll("original_post ", originalPrePost.get(1));
+					problem = problem.replaceAll("original_pre\\)", originalPrePost.get(0) + ")");
+					problem = problem.replaceAll("original_post\\)", originalPrePost.get(1) + ")");
+					
+				}
+				override = true;
+				break;
+			}
 
-		File keyHelperFile = new File(location + "/helper.key");
-		
 		if (!keyFile.exists() || override) {
 			if (!keyHelperFile.exists() || override) {
 				try {
@@ -203,6 +242,10 @@ public class FileUtil implements IFileUtil{
 			return createFile(keyFile, problem);
 		}
 		return null;
+	}
+	
+	private boolean contains(String value, IntPredicate predicate) {
+	    return value.chars().anyMatch(predicate);
 	}
 
 	private File createFile(File file, String content) {

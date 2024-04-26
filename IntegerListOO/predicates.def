@@ -1,0 +1,14 @@
++-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+
+\predicates {
+	sorted(int[] list); //Increasing:default:default:increasing
+	\replacewith ((\forall int k; (0 <= k & k < list.length-1 -> (list[k] <= list[k+1]))))
+	sorted(int[] list); //Decreasing:default:default:decreasing
+	\replacewith ((\forall int k; (0 <= k & k < list.length-1 -> (list[k] >= list[k+1]))))
+	containsNewTop(int[] list, int new); //default:default:default:contains
+	\replacewith ((\exists int z; (0 <= z & z < list.length -> list[z] = new)))
+	containsOldElements(int[] list, int[] oldList); //default:default:default:contains
+	\replacewith (((\forall int k; (0 <= k & k < oldList.length -> (\exists int z; (0 <= z & z < list.length & list[z] = oldList[k]))))))
+	lastElementIsNew(int[] list, int new); //default:default:default:lastIsNew
+	\replacewith (list[list.length - 1] = new)
+}
++-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+

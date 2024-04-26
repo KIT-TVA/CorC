@@ -165,6 +165,7 @@ public class CounterExampleGenerator{
 	}
 	
 	private static String prettify(Term t)  {
+		/* TODO: KeyNewVersion
 		LogicPrinter logicPrinter = LogicPrinter.purePrinter(new NotationInfo(), serv);
 		try {
 			logicPrinter.printTerm(t);
@@ -173,7 +174,8 @@ public class CounterExampleGenerator{
 			return result.strip().replace("  ", " ");
 		} catch (Exception ex) {
 			return "Error while printing SequentFormula";
-		}
+		}*/
+		return null;
 	}
 	
 	private static String prettify(SequentFormula seq)  {
@@ -294,6 +296,8 @@ public class CounterExampleGenerator{
 		calculateProofPaths(proof.root());
 		SMTProblem problem = null;
 		
+
+		/* TODO: KeyNewVersion
 		for (int i = 0; i < list.size(); i++) {
 			var path = list.get(i);
 			problem = new SMTProblem(proof.getOpenGoal(path.current));
@@ -313,10 +317,11 @@ public class CounterExampleGenerator{
 			Console.println("  Z3 could prove that the program fulfills it's specification.");
 		} else if (problem.getFinalResult().isValid() == ThreeValuedTruth.UNKNOWN) {
 			Console.println("  A counterexample could not be generated.");
-		}
+		}*/
 	}
 	
 	private static SMTSolverResult runZ3(SMTProblem problem, Proof proof) {
+		/* TODO: KeyNewVersion
 			ProofIndependentSMTSettings sett = ProofIndependentSettings.DEFAULT_INSTANCE.getSMTSettings();
 			sett.setStoreSMTTranslationToFile(true);
 			DefaultSMTSettings settings = new DefaultSMTSettings(proof.getSettings().getSMTSettings(), sett, proof.getSettings().getNewSMTSettings(), proof);
@@ -325,6 +330,7 @@ public class CounterExampleGenerator{
 			launcher.launch(problem, serv, z3); 
 			
 			SMTSolverResult result = problem.getFinalResult();
-			return result;
+			return result; */
+		return null;
 	}
 }

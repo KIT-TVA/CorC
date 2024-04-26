@@ -48,10 +48,16 @@ import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.GetDiagramUtil;
 import de.tu_bs.cs.isf.cbc.util.IFileUtil;
+import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.consts.MetaNames;
 
 public class GenerateCodeForVariationalVerification extends MyAbstractAsynchronousCustomFeature{
 	private IFileUtil fileHandler;
+	private String[] config;
+	private String proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
+	private int variant = 0;
+
+	public String predicatesPath = "";
 	
 	public GenerateCodeForVariationalVerification(IFeatureProvider fp) {
 		super(fp);
@@ -62,7 +68,13 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 				
 	}	
 	
-	public void generate(IPath location, String callingFeature, String callingClass, String callingMethod, String[] config) {
+	public void setProofTypeInfo(int variant, String proofType) {
+		this.proofType = proofType;
+		this.variant = variant;
+	}
+	
+	public boolean generate(IPath location, String callingFeature, String callingClass, String callingMethod, String[] config) {
+		this.config = config;
 		String output = " > Configuration: [";
 		for (int j = 0; j < config.length; j++) {
 			if (j == config.length - 1) {
@@ -72,10 +84,16 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			}
 		}
 		Console.println(output + "]", Colors.BLUE);
+		if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) && variant > 0) {
+			Console.println("  Proof is not executed due to existing proof begin.");
+			return false;
+		}
+		
 		deleteExistingClasses(location + "/src_gen/");
 		writeFile(location + "/src_gen/" + callingClass + ".java", "public class " + callingClass + " {\n}");
 		generateClasses(location + "/src_gen/", config, callingFeature, callingClass, callingMethod.toLowerCase());
 		resolveRemainingExplicitOriginalInCondition(location + "/src_gen/");
+		return true;
 	}
 	
 	private void deleteExistingClasses(String classDirectory) {
@@ -184,7 +202,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 										newVersionOfMethod = newVersionOfMethod.replace("original(", "original_" + dia.getName() + "(");
 										if (diagramFeature.equals(callingFeature) 
 												&& diagramClass.equals(callingClass) 
-												&& diagramMethod.equals(callingMethod + ".diagram")) {
+												&& diagramMethod.equals(callingMethod)) {
 											handledCallingMethod = true;
 										}
 									}
@@ -230,9 +248,10 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 		diagram.eResource().getAllContents();
 		DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
 		JavaVariables vars = extractor.getVars();
-		GlobalConditions globalConditions = extractor.getConds();
+		GlobalConditions globalConditions = extractor.getConds();	
 		Renaming renaming = extractor.getRenaming();
 		CbCFormula formula = extractor.getFormula();
+		predicatesPath = formula.eResource().getURI().toString();
 
 		String signatureString = formula.getMethodObj().getSignature().replaceFirst(formula.getMethodObj().getName(), methodName);
 		JavaVariable returnVariable = null;
@@ -266,7 +285,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			localVariables.add(returnVariable.getName().replace("non-null", ""));
 		}
 		globalConditions = null;
-		return ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString);
+		return ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString, config);
 	}
 
 	private void resolveRemainingExplicitOriginalInCondition(String path) {
@@ -282,20 +301,28 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 					List<String> method = new ArrayList<String>();
 					method.add(line);
 					method.add(lines.get(++i));
-
+					
 					int depth = 0;
-					if ((lines.get(++i).contains("original ") || lines.get(i).contains("original;")) && lines.get(i).contains("@ requires")) {
+					if ((lines.get(++i).contains("original ") || lines.get(i).contains("original;") || lines.get(i).contains("\\original_pre") || lines.get(i).contains("\\original_post")) && lines.get(i).contains("@ requires")) {
 						String temp = lines.get(i);
 						String[] splittedSignatureLine = lines.get(i + 4).split("\\(")[0].split(" ");
 						String methodName = splittedSignatureLine[splittedSignatureLine.length - 1];
-						while (temp.contains("original ") || temp.contains("original;")) {
+						while (temp.contains("original ") || temp.contains("original;")  || temp.contains("\\original_pre") || temp.contains("\\original_post")) {
 							depth++;
 							for (int j = 0; j < lines.size(); j++) {
 								String originalMethod = methodName;
 								for (int k = 0; k < depth; k++) originalMethod = "original_" + originalMethod; 
 								if (lines.get(j).contains(" " + originalMethod) && lines.get(j).contains("{")) {
-									String newCondition = lines.get(j - 4).replace("\t", "").replace("@ requires ", "").trim().replace("\n", "");
-									temp = temp.replace("original", newCondition.substring(0, newCondition.length() - 1));
+									if (temp.contains("\\original_pre")) {
+										String newCondition = lines.get(j - 4).replace("\t", "").replace("@ requires ", "").trim().replace("\n", "");
+										temp = temp.replace("\\original_pre", newCondition.substring(0, newCondition.length() - 1));
+									} else if (temp.contains("\\original_post")){
+										String newCondition = lines.get(j - 3).replace("\t", "").replace("@ ensures ", "").trim().replace("\n", "");
+										temp = temp.replace("\\original_post", newCondition.substring(0, newCondition.length() - 1));
+									} else {
+										String newCondition = lines.get(j - 4).replace("\t", "").replace("@ requires ", "").trim().replace("\n", "");
+										temp = temp.replace("original", newCondition.substring(0, newCondition.length() - 1));
+									}
 								}
 							}
 						}
@@ -304,18 +331,26 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 						method.add(lines.get(i));
 					}
 					depth = 0;
-					if ((lines.get(++i).contains("original ") || lines.get(i).contains("original;")) && lines.get(i).contains("@ ensures")) {
+					if ((lines.get(++i).contains("original ") || lines.get(i).contains("original;") || lines.get(i).contains("\\original_pre") || lines.get(i).contains("\\original_post")) && lines.get(i).contains("@ ensures")) {
 						String temp = lines.get(i);
 						String[] splittedSignatureLine = lines.get(i + 3).split("\\(")[0].split(" ");
 						String methodName = splittedSignatureLine[splittedSignatureLine.length - 1];
-						while (temp.contains("original ") || temp.contains("original;")) {
+						while (temp.contains("original ") || temp.contains("original;") || temp.contains("\\original_pre") || temp.contains("\\original_post")) {
 							depth++;
 							for (int j = 0; j < lines.size(); j++) {
 								String originalMethod = methodName;
 								for (int k = 0; k < depth; k++) originalMethod = "original_" + originalMethod; 
 								if (lines.get(j).contains(" " + originalMethod) && lines.get(j).contains("{")) {
-									String newCondition = lines.get(j - 3).replace("\t", "").replace("@ ensures ", "").trim().replace("\n", "");
-									temp = temp.replace("original", newCondition.substring(0, newCondition.length() - 1));
+									if (temp.contains("\\original_pre")) {
+										String newCondition = lines.get(j - 4).replace("\t", "").replace("@ requires ", "").trim().replace("\n", "");
+										temp = temp.replace("\\original_pre", newCondition.substring(0, newCondition.length() - 1));
+									} else if (temp.contains("\\original_post")){
+										String newCondition = lines.get(j - 3).replace("\t", "").replace("@ ensures ", "").trim().replace("\n", "");
+										temp = temp.replace("\\original_post", newCondition.substring(0, newCondition.length() - 1));
+									} else {
+										String newCondition = lines.get(j - 4).replace("\t", "").replace("@ requires ", "").trim().replace("\n", "");
+										temp = temp.replace("original", newCondition.substring(0, newCondition.length() - 1));
+									}
 								}
 							}
 						}

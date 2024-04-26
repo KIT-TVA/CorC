@@ -29,11 +29,10 @@
     <postCondition name="post"/>
     <methodObj href="IntList.cbcclass#//@methods.0"/>
   </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
-    <fields href="IntList.cbcclass#//@fields.0"/>
-  </cbcmodel:JavaVariables>
+  <cbcmodel:JavaVariables/>
   <cbcmodel:GlobalConditions>
     <conditions name="data != null"/>
     <conditions name="data.length >= 0"/>
+    <conditions name="LIMIT > data.length"/>
   </cbcmodel:GlobalConditions>
 </xmi:XMI>

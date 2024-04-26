@@ -56,11 +56,15 @@ public class KeYFileContent {
 	private List<String> unmodifiableVars;
 	private String variant;
 	
+	
 	private Map<String, List<Field>> methodClassVarMap = null;
 	private Map<String, String> returnTypeMap = null;
 
 	private List<String> nameOfLocalVars;
 	private Map<String, Integer> varsForOldReplacement;
+	
+	List<String> assignments = new ArrayList<>();
+	boolean abstractProof = false;
 
 	public KeYFileContent(String location) {
 		this.location = location;
@@ -97,6 +101,10 @@ public class KeYFileContent {
 
 	public void setStatement(String statement) {
 		this.statement = statement;
+	}
+	
+	public void setAbstractProof(boolean isAbstract) {
+		this.abstractProof = isAbstract;
 	}
 	
 	public String getStatement() {
@@ -182,6 +190,12 @@ public class KeYFileContent {
 		}
 	}
 	
+	public void setPreFromCondition(Condition cond) {
+		if (cond != null) {
+			preConditions.add(cond);
+		}
+	}
+	
 	@Deprecated
 	public void setPreFromCondition(String cond) {
 		cond = Parser.getConditionFromCondition(cond);
@@ -189,12 +203,6 @@ public class KeYFileContent {
 		condition.setName(cond);
 		
 		setPreFromCondition(condition);
-	}
-	
-	public void setPreFromCondition(Condition cond) {
-		if (cond != null) {
-			preConditions.add(cond);
-		}
 	}
 	
 	@Deprecated
@@ -262,7 +270,7 @@ public class KeYFileContent {
 			}
 		}
 	}
-	
+
 	public String getKeYStatementContent() {
 		return 	getKeYContent(true);
 	}
@@ -356,6 +364,23 @@ public class KeYFileContent {
 			builder.append(removeStaticNonNull(var) + varsForOldReplacement.get(var) + OLD_VARS_SUFFIX + ";\n");
 		}
 		
+		// TODO: This code is originally from handleOld from pp branch but adjusted to fit new structure. This might not work as intented.
+		assignments = new ArrayList<String>();
+		if (abstractProof) {
+			for (Parameter p: programVariables.getParams()) {
+				if (!builder.toString().contains(p.getName() + OLD_VARS_SUFFIX)) {
+					builder.append(p.getType() + " "  + p.getName() + OLD_VARS_SUFFIX + ";\n");
+					assignments.add(p.getName()+ OLD_VARS_SUFFIX + " := " + p.getName());
+				}
+			}
+			for (Field f : programVariables.getFields()) {
+				if (!builder.toString().contains("self." + f.getName() + OLD_VARS_SUFFIX)) {
+					builder.append(f.getType() + " "  + f.getName() + OLD_VARS_SUFFIX + ";\n");
+					assignments.add(f.getName() + OLD_VARS_SUFFIX + " := " + "self." + f.getName());
+				}
+			}
+		}
+		
 		if (self != null && !self.isBlank()) {
 			builder.append(self +";\n");
 		}
@@ -378,6 +403,42 @@ public class KeYFileContent {
 	    result = renameCondition(result);
 	    
 		return replaceOldKeyword(result, oldReplacements);
+	}
+	
+	private String replaceOldKeyword(String condition, Map<String, OldReplacement> replacements) {
+		for (String key : replacements.keySet()) {
+			String varNameOnly = key.substring(key.lastIndexOf(".") + 1);
+			varNameOnly = varNameOnly.replaceAll("\\[.*\\]", "");
+			if (varNameOnly.contains("("))
+				varNameOnly = varNameOnly.substring(0, varNameOnly.indexOf("("));
+			
+			condition = condition.replace("\\old(" + replacements.get(key).var + ")", varNameOnly);
+			System.out.println("---");
+			System.out.println(condition);
+		}
+		if (condition.contains("\\old")) {
+			Console.println("Unsupported usage of \\old keyword in condition: '" + condition + "'");
+		}
+		return condition;
+	}
+	
+	private String replaceThisWithSelf(String string) {
+		return string.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
+	}
+	
+	private String renameCondition(String condition) {
+		String result = condition;
+		
+		if (this.renaming != null) {
+			for (Rename rename : this.renaming.getRename()) {
+				if (rename.getType().equalsIgnoreCase("boolean")) {
+					result = result.replaceAll(rename.getNewName(), "TRUE=" + rename.getFunction());
+				} else {
+					result = result.replaceAll(rename.getNewName(), rename.getFunction());
+				}
+			}
+		}
+		return result;
 	}
 	
 	private String getPostConditionsString(Map<String, OldReplacement> oldReplacements) {
@@ -415,6 +476,10 @@ public class KeYFileContent {
 			}
 		}
 		return String.join(" & ", conditions);
+	}
+	
+	private boolean isSimpleType(String type) {
+		return type.matches("^(void|byte|short|int|double|char|long|float|boolean)$");
 	}
 	
 	private String getConditionObjectsCreatedString(Map<String, OldReplacement> oldReplacements) {
@@ -476,7 +541,6 @@ public class KeYFileContent {
 	}
 	
 	private String getAssignmentString(Map<String, OldReplacement> oldReplacements) {
-        List<String> assignments = new ArrayList<>();
         assignments.add("heapAtPre := heap");
         assignments.addAll(getUnmodifiableAssignments());
         assignments.addAll(getOldAssignments(oldReplacements));
@@ -530,29 +594,6 @@ public class KeYFileContent {
 		setPostFromCondition("(" + variant + ") <variant & " + variant + ">=0");
 	}
 	
-	private String replaceThisWithSelf(String string) {
-		return string.replaceAll(REGEX_THIS_KEYWORD.pattern(), "self");
-	}
-	
-	private boolean isSimpleType(String type) {
-		return type.matches("^(void|byte|short|int|double|char|long|float|boolean)$");
-	}
-	
-	private String renameCondition(String condition) {
-		String result = condition;
-		
-		if (this.renaming != null) {
-			for (Rename rename : this.renaming.getRename()) {
-				if (rename.getType().equalsIgnoreCase("boolean")) {
-					result = result.replaceAll(rename.getNewName(), "TRUE=" + rename.getFunction());
-				} else {
-					result = result.replaceAll(rename.getNewName(), rename.getFunction());
-				}
-			}
-		}
-		return result;
-	}
-	
 	private String renameStatement(String statement) {
 		String result = statement;
 		
@@ -575,6 +616,15 @@ public class KeYFileContent {
 		 * of first-level parenthesis.
 		 */
 		String conditions = Stream.of(preConditions, postConditions, globalConditions).flatMap(List::stream).map(Condition::getName).collect(Collectors.joining(" & "));
+		// All fields and params have to be added to create an old variable due to partial proof for variable predicates
+		if (programVariables != null) { 
+			for (Parameter p : programVariables.getParams()) {
+				oldKeywords.add(p.getName());
+			}
+			for (Field f : programVariables.getFields()) {
+				oldKeywords.add("self." + f.getName());
+			}			
+		}
 		
 		String currentOldMatch = conditions;
 		if (currentOldMatch.contains("\\old(")) {
@@ -601,7 +651,7 @@ public class KeYFileContent {
 			}
 			for (int i1 = 0; i1 < beginIndizes.size(); i1++) {
 				String content = currentOldMatch.substring(beginIndizes.get(i1), endIndizes.get(i1));
-				if (!content.isEmpty()) {
+				if (!content.isEmpty() && !oldKeywords.contains(content)) {
 					oldKeywords.add(content);
 				}
 			}
@@ -618,6 +668,10 @@ public class KeYFileContent {
 			counterForVarNaming++;
 			// Get variable name with variable kind
 			String var = "";
+			String object = varUsedInOldContext.contains("self.") ? varUsedInOldContext.replaceFirst("self.", "") : "";
+			if (object.length() > 0 && object.contains(".")) { 
+				object = object.substring(0, object.lastIndexOf('.')).replaceAll("\\.", ""); 
+			} else object = "";
 			String lastVarUsedInOldContext = varUsedInOldContext.substring(varUsedInOldContext.lastIndexOf(".") + 1);
 			// Replace brackets
 			lastVarUsedInOldContext = lastVarUsedInOldContext.replaceAll("\\[.*\\]", "");
@@ -745,23 +799,6 @@ public class KeYFileContent {
 		return newReplacements;
 	}
 	
-	private String replaceOldKeyword(String condition, Map<String, OldReplacement> replacements) {
-		for (String key : replacements.keySet()) {
-			String varNameOnly = key.substring(key.lastIndexOf(".") + 1);
-			varNameOnly = varNameOnly.replaceAll("\\[.*\\]", "");
-			if (varNameOnly.contains("("))
-				varNameOnly = varNameOnly.substring(0, varNameOnly.indexOf("("));
-			
-			condition = condition.replace("\\old(" + replacements.get(key).var + ")", varNameOnly);
-			System.out.println("---");
-			System.out.println(condition);
-		}
-		if (condition.contains("\\old")) {
-			Console.println("Unsupported usage of \\old keyword in condition: '" + condition + "'");
-		}
-		return condition;
-	}
-
 	private Map<String, List<Field>> initMethodClassVarMap() {
 		Map<String, List<Field>> methodClassVarMap = new HashMap<>();
 		IProject project = FileUtil.getProjectFromProjectPath(location);

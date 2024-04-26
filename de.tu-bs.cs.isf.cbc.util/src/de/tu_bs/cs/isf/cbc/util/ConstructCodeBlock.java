@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
@@ -38,6 +40,7 @@ public class ConstructCodeBlock {
 	private static BufferedReader br;
 	private static JavaVariable returnVariable = null;
 	private static boolean withAsserts = true;
+	private static List<Predicate> predicates = null;
 	
 	private static final Pattern REGEX_PRIMITIVE_INTEGERS = Pattern.compile("(byte|char|short|int|long)");
 	private static final Pattern REGEX_PRIMITIVE_FLOAT = Pattern.compile("(float|double)");
@@ -205,9 +208,10 @@ public class ConstructCodeBlock {
 	}
 	
 	public static String constructCodeBlockForExport(
-			CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString) {
+			CbCFormula formula, GlobalConditions globalConditions, Renaming renaming, LinkedList<String> vars, JavaVariable returnVar, String signatureString, String[] config) {
 		handleInnerLoops = true;
 		withInvariants = true;
+		readPredicates(new FileUtil(formula.eResource().getURI().toPlatformString(true)), config, formula);
 		
 		String modifiableVariables = Parser.getModifieableVarsFromConditionExceptLocals(formula.getStatement().getPostCondition(), vars, null, returnVar);
 		modifiableVariables = modifiableVariables.replaceAll("\\)", "").replaceAll("\\(", "");
@@ -294,6 +298,85 @@ public class ConstructCodeBlock {
 
 		returnVariable = null;
 		return code.toString();
+	}
+	
+	private static String getProjectName(CbCFormula formula, FileUtil fileHandler, String filePath) {
+		filePath = filePath.replaceAll("\\\\", "/");
+		int nonSplProject = filePath.indexOf("src/");
+		String projectName;
+		if (nonSplProject != -1) {
+			return filePath.substring(0, filePath.indexOf("src") - 1);
+		} else {
+			String[] splitUri = formula.eResource().getURI().toString().split("/features/");
+			projectName = splitUri[0].split("/")[splitUri[0].split("/").length-1];
+			return projectName;
+		}
+	}
+
+	private static void readPredicates(FileUtil fileHandler, String[] config, CbCFormula formula) {
+		predicates = new ArrayList<Predicate>();
+		String filePath = formula.eResource().getURI().toString();
+		String projectName = getProjectName(formula, fileHandler, filePath);
+		filePath = filePath.substring(6, filePath.indexOf(projectName)) + projectName + "/predicates.def";
+		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
+		for (Predicate p : readPredicates) {
+			Predicate currentP = new Predicate(p.getSignature(true));
+			for (int i = 0; i < p.definitions.size(); i++) {
+				PredicateDefinition pDef = p.definitions.get(i);
+				String expression = " " + pDef.presenceCondition + " ";
+				List<String> allFeatures = VerifyFeatures.getAllFeatures(projectName);
+				for (String feature : config) {
+					expression = expression.replaceAll(" " + feature + " ", " true ");
+					allFeatures.remove(feature);
+				}
+				for (String feature : allFeatures) expression = expression.replaceAll(" !" + feature + " ", " true ");
+				if (expression.trim().equals("") || evaluateFormula(expression.replaceAll("!true", "false").trim())) {
+					currentP.definitions.add(pDef);
+				}
+			}
+			if (currentP.definitions.size() != 0) predicates.add(currentP);
+		}
+	}
+	
+	private static boolean evaluateFormula(String ex) {
+		ex = ex.trim();
+		if (ex.equals("true")) return true;
+		if (ex.equals("false")) return false;
+		if (ex.equals("()")) return false;
+		if (ex.equals("!false")) return true;
+		if (ex.equals("!true")) return false;
+		
+		if (ex.startsWith("true")) {
+			if (ex.charAt(5) == '&') {
+				return evaluateFormula(ex.replaceFirst("true & ", ""));
+			} else if (ex.charAt(5) == '|') {
+				return true;
+			} else if (ex.charAt(5) == '-' && ex.charAt(6) == '>') {
+				return evaluateFormula(ex.replaceFirst("true -> ", ""));
+			} else {
+				return false;
+			}
+		} else if (ex.startsWith("false")) {
+			if (ex.charAt(6) == '&') {
+				return false;
+			} else if (ex.charAt(6) == '|') {
+				return evaluateFormula(ex.replaceFirst("false \\| ", ""));
+			} else if (ex.charAt(6) == '-' && ex.charAt(7) == '>') {
+				return true;
+			} else {
+				return false;
+			}
+		} else if (ex.startsWith("(")) {
+			int i = ex.length() - 1;
+			while (ex.charAt(i) != ')' && i > 1) i--;
+			boolean innerEval = evaluateFormula(ex.substring(1, i));
+			ex = ex.replace(ex.substring(0, i+1), innerEval ? "true" : "false");
+			return evaluateFormula(ex);
+		} else if (ex.startsWith("!")) {
+			return !evaluateFormula(ex.substring(1));
+		} else {
+			return false;
+		}
 	}
 
 	private static String translateOldVariablesToJML(String post, LinkedList<String> vars) {
@@ -462,6 +545,8 @@ public class ConstructCodeBlock {
 		return code.toString();
 	}
 
+
+
 	private static String constructCodeBlockOfChildStatement(AbstractStatement refinement) {
 		if (refinement.getClass().equals(AbstractStatementImpl.class) || refinement.getClass().equals(OriginalStatementImpl.class) || refinement.getClass().equals(MethodStatementImpl.class)) {
 			// behandlung von AbstractStatementImpl nur von Tobi
@@ -560,7 +645,7 @@ public class ConstructCodeBlock {
 		if (!statement.getCommands().isEmpty()) {
 			String guard = statement.getGuards().get(0).getName();
 
-			guard = rewriteGuardToJavaCode(guard);
+			guard = rewriteGuardToJavaCode(applyPredicates(guard));
 
 			if(guard.trim().equals("TRUE"))
 				guard = "true";
@@ -597,7 +682,7 @@ public class ConstructCodeBlock {
 		for (int i = 1; i < statement.getCommands().size(); i++) {
 			String guard = statement.getGuards().get(i).getName();
 			// guard = guard.replaceAll("\\s=\\s", "==");
-			guard = rewriteGuardToJavaCode(guard);
+			guard = rewriteGuardToJavaCode(applyPredicates(guard));
 			
 			if(guard.trim().equals("TRUE"))
 				guard = "true";
@@ -758,7 +843,7 @@ public class ConstructCodeBlock {
 		if (condition.equals("")) {
 			return condition;
 		} else {
-			String jmlCondition = Parser.rewriteConditionToJML(condition);
+			String jmlCondition = Parser.rewriteConditionToJML(applyPredicates(condition));
 			if (renaming != null) {
 				ConstructCodeBlock.renaming = renaming;
 				//jmlCondition = useRenamingCondition(jmlCondition);
@@ -768,6 +853,36 @@ public class ConstructCodeBlock {
 			return jmlCondition;
 		}
 
+	}
+
+	private static String applyPredicates(String condition) {
+		if (predicates != null) {
+			for (Predicate p : predicates) {
+				while (condition.contains(p.name + "(")) {
+					int index = condition.indexOf(p.name + "(") + p.name.length() + 1;
+					int startIndex = index;
+					int bracketCounter = 0;
+					while (condition.charAt(index) != ')' || bracketCounter != 0) {
+						if (condition.charAt(index) == ')') bracketCounter--;
+						if (condition.charAt(index) == '(') bracketCounter++;
+						index++;
+					}
+					String toReplace = condition.substring(startIndex, index);
+					String def = "";
+					for (PredicateDefinition pDef : p.definitions) {
+						def += def.length() == 0 ? pDef.getReplace(true) : " & " + pDef.getReplace(true); 
+					}
+					String[] params = toReplace.split(",");
+					if (params.length == p.varsTerms.size() && !toReplace.equals("")) {
+						for (int i = 0; i < params.length; i++) {		
+							def = def.replace(p.varsTerms.get(i).split(" ")[1], params[i].trim());
+						}
+					}
+					condition = condition.replace(p.name + "(" + toReplace + ")", def);
+				}
+			}
+		}
+		return condition;
 	}
 
 	private static String rewriteGuardToJavaCode(String guard) {
