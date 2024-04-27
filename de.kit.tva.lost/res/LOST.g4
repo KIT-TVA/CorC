@@ -8,7 +8,11 @@ grammar LOST;
 
 // Parser rules
 
-program: initializer+ EOF;
+program : root EOF;
+
+root : diagram;
+
+diagram : 'D(' name ')' NL '\t' initializer+;
 
 initializer: NL* formula NL* | NL* vars NL* | NL* globalConditions NL* | NL* renaming NL*;
 
@@ -34,16 +38,9 @@ condition : '(' condition ')' | '(' condition ')' OP condition | quantor | ID | 
 
 quantor : ID '(' ID ID ';' condition ')';
 
-refinement : '\t'+ statement 
-| '\t'+ composition
-| '\t'+ selection
-| '\t'+ repetition
-| '\t'+ returnS
-| '\t'+ originalS
-| '\t'+ skipS
-| '\t'+ methodCallS
-| '\t'+ block
-| '\t'+ mlexpr;
+refinement : '\t'+ refinementRule; 
+
+refinementRule : statement | composition | selection | repetition | returnS | originalS | skipS | methodCallS | block | mlexpr;
 
 statement : (ID | javaReturn | '(' statement ')' | ID'()' | ID statement | ID OP assigner) ';' NL?;
 

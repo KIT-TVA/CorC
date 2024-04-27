@@ -9,7 +9,10 @@ Require-Bundle: org.eclipse.core.runtime,
  de.tu-bs.cs.isf.cbc.model,
  junit-jupiter-api;bundle-version="5.10.0",
  junit-platform-commons;bundle-version="1.10.0",
- javax.inject
+ javax.inject,
+ org.eclipse.graphiti.mm,
+ org.eclipse.graphiti,
+ org.eclipse.core.resources
 Bundle-RequiredExecutionEnvironment: JavaSE-16,
  JavaSE-17
 Import-Package: de.tu_bs.cs.isf.cbc.util,

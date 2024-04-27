@@ -3,6 +3,7 @@ package de.kit.tva.lost.interfaces;
 // Generated from LOST.g4 by ANTLR 4.4
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -22,7 +23,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterGuard(LOSTParser.GuardContext ctx) {
+    public void enterGuard(@NotNull LOSTParser.GuardContext ctx) {
     }
 
     /**
@@ -33,7 +34,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitGuard(LOSTParser.GuardContext ctx) {
+    public void exitGuard(@NotNull LOSTParser.GuardContext ctx) {
     }
 
     /**
@@ -44,7 +45,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterProgram(LOSTParser.ProgramContext ctx) {
+    public void enterProgram(@NotNull LOSTParser.ProgramContext ctx) {
     }
 
     /**
@@ -55,7 +56,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitProgram(LOSTParser.ProgramContext ctx) {
+    public void exitProgram(@NotNull LOSTParser.ProgramContext ctx) {
     }
 
     /**
@@ -66,7 +67,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterRepetition(LOSTParser.RepetitionContext ctx) {
+    public void enterRepetition(@NotNull LOSTParser.RepetitionContext ctx) {
     }
 
     /**
@@ -77,7 +78,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitRepetition(LOSTParser.RepetitionContext ctx) {
+    public void exitRepetition(@NotNull LOSTParser.RepetitionContext ctx) {
     }
 
     /**
@@ -88,7 +89,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterGlobalConditions(LOSTParser.GlobalConditionsContext ctx) {
+    public void enterGlobalConditions(@NotNull LOSTParser.GlobalConditionsContext ctx) {
     }
 
     /**
@@ -99,7 +100,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitGlobalConditions(LOSTParser.GlobalConditionsContext ctx) {
+    public void exitGlobalConditions(@NotNull LOSTParser.GlobalConditionsContext ctx) {
     }
 
     /**
@@ -110,7 +111,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterGuards(LOSTParser.GuardsContext ctx) {
+    public void enterGuards(@NotNull LOSTParser.GuardsContext ctx) {
     }
 
     /**
@@ -121,7 +122,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitGuards(LOSTParser.GuardsContext ctx) {
+    public void exitGuards(@NotNull LOSTParser.GuardsContext ctx) {
     }
 
     /**
@@ -132,7 +133,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterPost(LOSTParser.PostContext ctx) {
+    public void enterPost(@NotNull LOSTParser.PostContext ctx) {
     }
 
     /**
@@ -143,7 +144,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitPost(LOSTParser.PostContext ctx) {
+    public void exitPost(@NotNull LOSTParser.PostContext ctx) {
     }
 
     /**
@@ -154,7 +155,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterComposition(LOSTParser.CompositionContext ctx) {
+    public void enterComposition(@NotNull LOSTParser.CompositionContext ctx) {
     }
 
     /**
@@ -165,7 +166,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitComposition(LOSTParser.CompositionContext ctx) {
+    public void exitComposition(@NotNull LOSTParser.CompositionContext ctx) {
     }
 
     /**
@@ -176,7 +177,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterStatement(LOSTParser.StatementContext ctx) {
+    public void enterRoot(@NotNull LOSTParser.RootContext ctx) {
     }
 
     /**
@@ -187,7 +188,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitStatement(LOSTParser.StatementContext ctx) {
+    public void exitRoot(@NotNull LOSTParser.RootContext ctx) {
     }
 
     /**
@@ -198,7 +199,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterRefinement(LOSTParser.RefinementContext ctx) {
+    public void enterStatement(@NotNull LOSTParser.StatementContext ctx) {
     }
 
     /**
@@ -209,7 +210,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitRefinement(LOSTParser.RefinementContext ctx) {
+    public void exitStatement(@NotNull LOSTParser.StatementContext ctx) {
     }
 
     /**
@@ -220,7 +221,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterReturnS(LOSTParser.ReturnSContext ctx) {
+    public void enterRefinement(@NotNull LOSTParser.RefinementContext ctx) {
     }
 
     /**
@@ -231,7 +232,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitReturnS(LOSTParser.ReturnSContext ctx) {
+    public void exitRefinement(@NotNull LOSTParser.RefinementContext ctx) {
     }
 
     /**
@@ -242,7 +243,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterBlock(LOSTParser.BlockContext ctx) {
+    public void enterReturnS(@NotNull LOSTParser.ReturnSContext ctx) {
     }
 
     /**
@@ -253,7 +254,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitBlock(LOSTParser.BlockContext ctx) {
+    public void exitReturnS(@NotNull LOSTParser.ReturnSContext ctx) {
     }
 
     /**
@@ -264,7 +265,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterVars(LOSTParser.VarsContext ctx) {
+    public void enterBlock(@NotNull LOSTParser.BlockContext ctx) {
     }
 
     /**
@@ -275,7 +276,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitVars(LOSTParser.VarsContext ctx) {
+    public void exitBlock(@NotNull LOSTParser.BlockContext ctx) {
     }
 
     /**
@@ -286,7 +287,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterRenaming(LOSTParser.RenamingContext ctx) {
+    public void enterVars(@NotNull LOSTParser.VarsContext ctx) {
     }
 
     /**
@@ -297,7 +298,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitRenaming(LOSTParser.RenamingContext ctx) {
+    public void exitVars(@NotNull LOSTParser.VarsContext ctx) {
     }
 
     /**
@@ -308,7 +309,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterPre(LOSTParser.PreContext ctx) {
+    public void enterRenaming(@NotNull LOSTParser.RenamingContext ctx) {
     }
 
     /**
@@ -319,7 +320,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitPre(LOSTParser.PreContext ctx) {
+    public void exitRenaming(@NotNull LOSTParser.RenamingContext ctx) {
     }
 
     /**
@@ -330,7 +331,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterJavaReturn(LOSTParser.JavaReturnContext ctx) {
+    public void enterPre(@NotNull LOSTParser.PreContext ctx) {
     }
 
     /**
@@ -341,7 +342,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitJavaReturn(LOSTParser.JavaReturnContext ctx) {
+    public void exitPre(@NotNull LOSTParser.PreContext ctx) {
     }
 
     /**
@@ -352,7 +353,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterVar(LOSTParser.VarContext ctx) {
+    public void enterJavaReturn(@NotNull LOSTParser.JavaReturnContext ctx) {
     }
 
     /**
@@ -363,7 +364,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitVar(LOSTParser.VarContext ctx) {
+    public void exitJavaReturn(@NotNull LOSTParser.JavaReturnContext ctx) {
     }
 
     /**
@@ -374,7 +375,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterAssigner(LOSTParser.AssignerContext ctx) {
+    public void enterVar(@NotNull LOSTParser.VarContext ctx) {
     }
 
     /**
@@ -385,7 +386,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitAssigner(LOSTParser.AssignerContext ctx) {
+    public void exitVar(@NotNull LOSTParser.VarContext ctx) {
     }
 
     /**
@@ -396,7 +397,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterRefinementRule(LOSTParser.RefinementRuleContext ctx) {
+    public void enterAssigner(@NotNull LOSTParser.AssignerContext ctx) {
     }
 
     /**
@@ -407,7 +408,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitRefinementRule(LOSTParser.RefinementRuleContext ctx) {
+    public void exitAssigner(@NotNull LOSTParser.AssignerContext ctx) {
     }
 
     /**
@@ -418,7 +419,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterInitializer(LOSTParser.InitializerContext ctx) {
+    public void enterRefinementRule(@NotNull LOSTParser.RefinementRuleContext ctx) {
     }
 
     /**
@@ -429,7 +430,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitInitializer(LOSTParser.InitializerContext ctx) {
+    public void exitRefinementRule(@NotNull LOSTParser.RefinementRuleContext ctx) {
     }
 
     /**
@@ -440,7 +441,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterRenamer(LOSTParser.RenamerContext ctx) {
+    public void enterInitializer(@NotNull LOSTParser.InitializerContext ctx) {
     }
 
     /**
@@ -451,7 +452,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitRenamer(LOSTParser.RenamerContext ctx) {
+    public void exitInitializer(@NotNull LOSTParser.InitializerContext ctx) {
     }
 
     /**
@@ -462,7 +463,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterIntm(LOSTParser.IntmContext ctx) {
+    public void enterRenamer(@NotNull LOSTParser.RenamerContext ctx) {
     }
 
     /**
@@ -473,7 +474,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitIntm(LOSTParser.IntmContext ctx) {
+    public void exitRenamer(@NotNull LOSTParser.RenamerContext ctx) {
     }
 
     /**
@@ -484,7 +485,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterInv(LOSTParser.InvContext ctx) {
+    public void enterIntm(@NotNull LOSTParser.IntmContext ctx) {
     }
 
     /**
@@ -495,7 +496,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitInv(LOSTParser.InvContext ctx) {
+    public void exitIntm(@NotNull LOSTParser.IntmContext ctx) {
     }
 
     /**
@@ -506,7 +507,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterCondition(LOSTParser.ConditionContext ctx) {
+    public void enterDiagram(@NotNull LOSTParser.DiagramContext ctx) {
     }
 
     /**
@@ -517,7 +518,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitCondition(LOSTParser.ConditionContext ctx) {
+    public void exitDiagram(@NotNull LOSTParser.DiagramContext ctx) {
     }
 
     /**
@@ -528,7 +529,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterSkipS(LOSTParser.SkipSContext ctx) {
+    public void enterInv(@NotNull LOSTParser.InvContext ctx) {
     }
 
     /**
@@ -539,7 +540,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitSkipS(LOSTParser.SkipSContext ctx) {
+    public void exitInv(@NotNull LOSTParser.InvContext ctx) {
     }
 
     /**
@@ -550,7 +551,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterSelection(LOSTParser.SelectionContext ctx) {
+    public void enterCondition(@NotNull LOSTParser.ConditionContext ctx) {
     }
 
     /**
@@ -561,7 +562,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitSelection(LOSTParser.SelectionContext ctx) {
+    public void exitCondition(@NotNull LOSTParser.ConditionContext ctx) {
     }
 
     /**
@@ -572,7 +573,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterMlexpr(LOSTParser.MlexprContext ctx) {
+    public void enterSkipS(@NotNull LOSTParser.SkipSContext ctx) {
     }
 
     /**
@@ -583,7 +584,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitMlexpr(LOSTParser.MlexprContext ctx) {
+    public void exitSkipS(@NotNull LOSTParser.SkipSContext ctx) {
     }
 
     /**
@@ -594,7 +595,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterQuantor(LOSTParser.QuantorContext ctx) {
+    public void enterSelection(@NotNull LOSTParser.SelectionContext ctx) {
     }
 
     /**
@@ -605,7 +606,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitQuantor(LOSTParser.QuantorContext ctx) {
+    public void exitSelection(@NotNull LOSTParser.SelectionContext ctx) {
     }
 
     /**
@@ -616,7 +617,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterVariable(LOSTParser.VariableContext ctx) {
+    public void enterMlexpr(@NotNull LOSTParser.MlexprContext ctx) {
     }
 
     /**
@@ -627,7 +628,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitVariable(LOSTParser.VariableContext ctx) {
+    public void exitMlexpr(@NotNull LOSTParser.MlexprContext ctx) {
     }
 
     /**
@@ -638,7 +639,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterMethodCallS(LOSTParser.MethodCallSContext ctx) {
+    public void enterQuantor(@NotNull LOSTParser.QuantorContext ctx) {
     }
 
     /**
@@ -649,7 +650,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitMethodCallS(LOSTParser.MethodCallSContext ctx) {
+    public void exitQuantor(@NotNull LOSTParser.QuantorContext ctx) {
     }
 
     /**
@@ -660,7 +661,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterName(LOSTParser.NameContext ctx) {
+    public void enterVariable(@NotNull LOSTParser.VariableContext ctx) {
     }
 
     /**
@@ -671,7 +672,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitName(LOSTParser.NameContext ctx) {
+    public void exitVariable(@NotNull LOSTParser.VariableContext ctx) {
     }
 
     /**
@@ -682,7 +683,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterFormula(LOSTParser.FormulaContext ctx) {
+    public void enterMethodCallS(@NotNull LOSTParser.MethodCallSContext ctx) {
     }
 
     /**
@@ -693,7 +694,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitFormula(LOSTParser.FormulaContext ctx) {
+    public void exitMethodCallS(@NotNull LOSTParser.MethodCallSContext ctx) {
     }
 
     /**
@@ -704,7 +705,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterOriginalS(LOSTParser.OriginalSContext ctx) {
+    public void enterName(@NotNull LOSTParser.NameContext ctx) {
     }
 
     /**
@@ -715,7 +716,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitOriginalS(LOSTParser.OriginalSContext ctx) {
+    public void exitName(@NotNull LOSTParser.NameContext ctx) {
     }
 
     /**
@@ -726,7 +727,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void enterEveryRule(ParserRuleContext ctx) {
+    public void enterFormula(@NotNull LOSTParser.FormulaContext ctx) {
     }
 
     /**
@@ -737,7 +738,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void exitEveryRule(ParserRuleContext ctx) {
+    public void exitFormula(@NotNull LOSTParser.FormulaContext ctx) {
     }
 
     /**
@@ -748,7 +749,7 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void visitTerminal(TerminalNode node) {
+    public void enterOriginalS(@NotNull LOSTParser.OriginalSContext ctx) {
     }
 
     /**
@@ -759,6 +760,50 @@ public class LOSTBaseListener implements LOSTListener {
      * </p>
      */
     @Override
-    public void visitErrorNode(ErrorNode node) {
+    public void exitOriginalS(@NotNull LOSTParser.OriginalSContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * The default implementation does nothing.
+     * </p>
+     */
+    @Override
+    public void enterEveryRule(@NotNull ParserRuleContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * The default implementation does nothing.
+     * </p>
+     */
+    @Override
+    public void exitEveryRule(@NotNull ParserRuleContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * The default implementation does nothing.
+     * </p>
+     */
+    @Override
+    public void visitTerminal(@NotNull TerminalNode node) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * The default implementation does nothing.
+     * </p>
+     */
+    @Override
+    public void visitErrorNode(@NotNull ErrorNode node) {
     }
 }

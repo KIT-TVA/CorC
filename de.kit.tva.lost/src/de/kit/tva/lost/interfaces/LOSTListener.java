@@ -1,6 +1,7 @@
 package de.kit.tva.lost.interfaces;
 
 // Generated from LOST.g4 by ANTLR 4.4
+import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 import de.kit.tva.lost.models.LOSTParser;
@@ -15,446 +16,474 @@ public interface LOSTListener extends ParseTreeListener {
      * 
      * @param ctx the parse tree
      */
-    void enterGuard(LOSTParser.GuardContext ctx);
+    void enterGuard(@NotNull LOSTParser.GuardContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#guard}.
      * 
      * @param ctx the parse tree
      */
-    void exitGuard(LOSTParser.GuardContext ctx);
+    void exitGuard(@NotNull LOSTParser.GuardContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#program}.
      * 
      * @param ctx the parse tree
      */
-    void enterProgram(LOSTParser.ProgramContext ctx);
+    void enterProgram(@NotNull LOSTParser.ProgramContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#program}.
      * 
      * @param ctx the parse tree
      */
-    void exitProgram(LOSTParser.ProgramContext ctx);
+    void exitProgram(@NotNull LOSTParser.ProgramContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#repetition}.
      * 
      * @param ctx the parse tree
      */
-    void enterRepetition(LOSTParser.RepetitionContext ctx);
+    void enterRepetition(@NotNull LOSTParser.RepetitionContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#repetition}.
      * 
      * @param ctx the parse tree
      */
-    void exitRepetition(LOSTParser.RepetitionContext ctx);
+    void exitRepetition(@NotNull LOSTParser.RepetitionContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#globalConditions}.
      * 
      * @param ctx the parse tree
      */
-    void enterGlobalConditions(LOSTParser.GlobalConditionsContext ctx);
+    void enterGlobalConditions(@NotNull LOSTParser.GlobalConditionsContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#globalConditions}.
      * 
      * @param ctx the parse tree
      */
-    void exitGlobalConditions(LOSTParser.GlobalConditionsContext ctx);
+    void exitGlobalConditions(@NotNull LOSTParser.GlobalConditionsContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#guards}.
      * 
      * @param ctx the parse tree
      */
-    void enterGuards(LOSTParser.GuardsContext ctx);
+    void enterGuards(@NotNull LOSTParser.GuardsContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#guards}.
      * 
      * @param ctx the parse tree
      */
-    void exitGuards(LOSTParser.GuardsContext ctx);
+    void exitGuards(@NotNull LOSTParser.GuardsContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#post}.
      * 
      * @param ctx the parse tree
      */
-    void enterPost(LOSTParser.PostContext ctx);
+    void enterPost(@NotNull LOSTParser.PostContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#post}.
      * 
      * @param ctx the parse tree
      */
-    void exitPost(LOSTParser.PostContext ctx);
+    void exitPost(@NotNull LOSTParser.PostContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#composition}.
      * 
      * @param ctx the parse tree
      */
-    void enterComposition(LOSTParser.CompositionContext ctx);
+    void enterComposition(@NotNull LOSTParser.CompositionContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#composition}.
      * 
      * @param ctx the parse tree
      */
-    void exitComposition(LOSTParser.CompositionContext ctx);
+    void exitComposition(@NotNull LOSTParser.CompositionContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link LOSTParser#root}.
+     * 
+     * @param ctx the parse tree
+     */
+    void enterRoot(@NotNull LOSTParser.RootContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link LOSTParser#root}.
+     * 
+     * @param ctx the parse tree
+     */
+    void exitRoot(@NotNull LOSTParser.RootContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#statement}.
      * 
      * @param ctx the parse tree
      */
-    void enterStatement(LOSTParser.StatementContext ctx);
+    void enterStatement(@NotNull LOSTParser.StatementContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#statement}.
      * 
      * @param ctx the parse tree
      */
-    void exitStatement(LOSTParser.StatementContext ctx);
+    void exitStatement(@NotNull LOSTParser.StatementContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#refinement}.
      * 
      * @param ctx the parse tree
      */
-    void enterRefinement(LOSTParser.RefinementContext ctx);
+    void enterRefinement(@NotNull LOSTParser.RefinementContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#refinement}.
      * 
      * @param ctx the parse tree
      */
-    void exitRefinement(LOSTParser.RefinementContext ctx);
+    void exitRefinement(@NotNull LOSTParser.RefinementContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#returnS}.
      * 
      * @param ctx the parse tree
      */
-    void enterReturnS(LOSTParser.ReturnSContext ctx);
+    void enterReturnS(@NotNull LOSTParser.ReturnSContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#returnS}.
      * 
      * @param ctx the parse tree
      */
-    void exitReturnS(LOSTParser.ReturnSContext ctx);
+    void exitReturnS(@NotNull LOSTParser.ReturnSContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#block}.
      * 
      * @param ctx the parse tree
      */
-    void enterBlock(LOSTParser.BlockContext ctx);
+    void enterBlock(@NotNull LOSTParser.BlockContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#block}.
      * 
      * @param ctx the parse tree
      */
-    void exitBlock(LOSTParser.BlockContext ctx);
+    void exitBlock(@NotNull LOSTParser.BlockContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#vars}.
      * 
      * @param ctx the parse tree
      */
-    void enterVars(LOSTParser.VarsContext ctx);
+    void enterVars(@NotNull LOSTParser.VarsContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#vars}.
      * 
      * @param ctx the parse tree
      */
-    void exitVars(LOSTParser.VarsContext ctx);
+    void exitVars(@NotNull LOSTParser.VarsContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#renaming}.
      * 
      * @param ctx the parse tree
      */
-    void enterRenaming(LOSTParser.RenamingContext ctx);
+    void enterRenaming(@NotNull LOSTParser.RenamingContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#renaming}.
      * 
      * @param ctx the parse tree
      */
-    void exitRenaming(LOSTParser.RenamingContext ctx);
+    void exitRenaming(@NotNull LOSTParser.RenamingContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#pre}.
      * 
      * @param ctx the parse tree
      */
-    void enterPre(LOSTParser.PreContext ctx);
+    void enterPre(@NotNull LOSTParser.PreContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#pre}.
      * 
      * @param ctx the parse tree
      */
-    void exitPre(LOSTParser.PreContext ctx);
+    void exitPre(@NotNull LOSTParser.PreContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#javaReturn}.
      * 
      * @param ctx the parse tree
      */
-    void enterJavaReturn(LOSTParser.JavaReturnContext ctx);
+    void enterJavaReturn(@NotNull LOSTParser.JavaReturnContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#javaReturn}.
      * 
      * @param ctx the parse tree
      */
-    void exitJavaReturn(LOSTParser.JavaReturnContext ctx);
+    void exitJavaReturn(@NotNull LOSTParser.JavaReturnContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#var}.
      * 
      * @param ctx the parse tree
      */
-    void enterVar(LOSTParser.VarContext ctx);
+    void enterVar(@NotNull LOSTParser.VarContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#var}.
      * 
      * @param ctx the parse tree
      */
-    void exitVar(LOSTParser.VarContext ctx);
+    void exitVar(@NotNull LOSTParser.VarContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#assigner}.
      * 
      * @param ctx the parse tree
      */
-    void enterAssigner(LOSTParser.AssignerContext ctx);
+    void enterAssigner(@NotNull LOSTParser.AssignerContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#assigner}.
      * 
      * @param ctx the parse tree
      */
-    void exitAssigner(LOSTParser.AssignerContext ctx);
+    void exitAssigner(@NotNull LOSTParser.AssignerContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#refinementRule}.
      * 
      * @param ctx the parse tree
      */
-    void enterRefinementRule(LOSTParser.RefinementRuleContext ctx);
+    void enterRefinementRule(@NotNull LOSTParser.RefinementRuleContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#refinementRule}.
      * 
      * @param ctx the parse tree
      */
-    void exitRefinementRule(LOSTParser.RefinementRuleContext ctx);
+    void exitRefinementRule(@NotNull LOSTParser.RefinementRuleContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#initializer}.
      * 
      * @param ctx the parse tree
      */
-    void enterInitializer(LOSTParser.InitializerContext ctx);
+    void enterInitializer(@NotNull LOSTParser.InitializerContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#initializer}.
      * 
      * @param ctx the parse tree
      */
-    void exitInitializer(LOSTParser.InitializerContext ctx);
+    void exitInitializer(@NotNull LOSTParser.InitializerContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#renamer}.
      * 
      * @param ctx the parse tree
      */
-    void enterRenamer(LOSTParser.RenamerContext ctx);
+    void enterRenamer(@NotNull LOSTParser.RenamerContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#renamer}.
      * 
      * @param ctx the parse tree
      */
-    void exitRenamer(LOSTParser.RenamerContext ctx);
+    void exitRenamer(@NotNull LOSTParser.RenamerContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#intm}.
      * 
      * @param ctx the parse tree
      */
-    void enterIntm(LOSTParser.IntmContext ctx);
+    void enterIntm(@NotNull LOSTParser.IntmContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#intm}.
      * 
      * @param ctx the parse tree
      */
-    void exitIntm(LOSTParser.IntmContext ctx);
+    void exitIntm(@NotNull LOSTParser.IntmContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link LOSTParser#diagram}.
+     * 
+     * @param ctx the parse tree
+     */
+    void enterDiagram(@NotNull LOSTParser.DiagramContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link LOSTParser#diagram}.
+     * 
+     * @param ctx the parse tree
+     */
+    void exitDiagram(@NotNull LOSTParser.DiagramContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#inv}.
      * 
      * @param ctx the parse tree
      */
-    void enterInv(LOSTParser.InvContext ctx);
+    void enterInv(@NotNull LOSTParser.InvContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#inv}.
      * 
      * @param ctx the parse tree
      */
-    void exitInv(LOSTParser.InvContext ctx);
+    void exitInv(@NotNull LOSTParser.InvContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#condition}.
      * 
      * @param ctx the parse tree
      */
-    void enterCondition(LOSTParser.ConditionContext ctx);
+    void enterCondition(@NotNull LOSTParser.ConditionContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#condition}.
      * 
      * @param ctx the parse tree
      */
-    void exitCondition(LOSTParser.ConditionContext ctx);
+    void exitCondition(@NotNull LOSTParser.ConditionContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#skipS}.
      * 
      * @param ctx the parse tree
      */
-    void enterSkipS(LOSTParser.SkipSContext ctx);
+    void enterSkipS(@NotNull LOSTParser.SkipSContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#skipS}.
      * 
      * @param ctx the parse tree
      */
-    void exitSkipS(LOSTParser.SkipSContext ctx);
+    void exitSkipS(@NotNull LOSTParser.SkipSContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#selection}.
      * 
      * @param ctx the parse tree
      */
-    void enterSelection(LOSTParser.SelectionContext ctx);
+    void enterSelection(@NotNull LOSTParser.SelectionContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#selection}.
      * 
      * @param ctx the parse tree
      */
-    void exitSelection(LOSTParser.SelectionContext ctx);
+    void exitSelection(@NotNull LOSTParser.SelectionContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#mlexpr}.
      * 
      * @param ctx the parse tree
      */
-    void enterMlexpr(LOSTParser.MlexprContext ctx);
+    void enterMlexpr(@NotNull LOSTParser.MlexprContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#mlexpr}.
      * 
      * @param ctx the parse tree
      */
-    void exitMlexpr(LOSTParser.MlexprContext ctx);
+    void exitMlexpr(@NotNull LOSTParser.MlexprContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#quantor}.
      * 
      * @param ctx the parse tree
      */
-    void enterQuantor(LOSTParser.QuantorContext ctx);
+    void enterQuantor(@NotNull LOSTParser.QuantorContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#quantor}.
      * 
      * @param ctx the parse tree
      */
-    void exitQuantor(LOSTParser.QuantorContext ctx);
+    void exitQuantor(@NotNull LOSTParser.QuantorContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#variable}.
      * 
      * @param ctx the parse tree
      */
-    void enterVariable(LOSTParser.VariableContext ctx);
+    void enterVariable(@NotNull LOSTParser.VariableContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#variable}.
      * 
      * @param ctx the parse tree
      */
-    void exitVariable(LOSTParser.VariableContext ctx);
+    void exitVariable(@NotNull LOSTParser.VariableContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#methodCallS}.
      * 
      * @param ctx the parse tree
      */
-    void enterMethodCallS(LOSTParser.MethodCallSContext ctx);
+    void enterMethodCallS(@NotNull LOSTParser.MethodCallSContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#methodCallS}.
      * 
      * @param ctx the parse tree
      */
-    void exitMethodCallS(LOSTParser.MethodCallSContext ctx);
+    void exitMethodCallS(@NotNull LOSTParser.MethodCallSContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#name}.
      * 
      * @param ctx the parse tree
      */
-    void enterName(LOSTParser.NameContext ctx);
+    void enterName(@NotNull LOSTParser.NameContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#name}.
      * 
      * @param ctx the parse tree
      */
-    void exitName(LOSTParser.NameContext ctx);
+    void exitName(@NotNull LOSTParser.NameContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#formula}.
      * 
      * @param ctx the parse tree
      */
-    void enterFormula(LOSTParser.FormulaContext ctx);
+    void enterFormula(@NotNull LOSTParser.FormulaContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#formula}.
      * 
      * @param ctx the parse tree
      */
-    void exitFormula(LOSTParser.FormulaContext ctx);
+    void exitFormula(@NotNull LOSTParser.FormulaContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LOSTParser#originalS}.
      * 
      * @param ctx the parse tree
      */
-    void enterOriginalS(LOSTParser.OriginalSContext ctx);
+    void enterOriginalS(@NotNull LOSTParser.OriginalSContext ctx);
 
     /**
      * Exit a parse tree produced by {@link LOSTParser#originalS}.
      * 
      * @param ctx the parse tree
      */
-    void exitOriginalS(LOSTParser.OriginalSContext ctx);
+    void exitOriginalS(@NotNull LOSTParser.OriginalSContext ctx);
 }

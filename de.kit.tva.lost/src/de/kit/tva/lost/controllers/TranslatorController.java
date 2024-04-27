@@ -1,9 +1,13 @@
 package de.kit.tva.lost.controllers;
 
+import java.io.IOException;
+
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 
 import de.kit.tva.lost.interfaces.Controller;
+import de.kit.tva.lost.models.DiagramResourceModelException;
 import de.kit.tva.lost.models.TranslatorErrorListenerModel;
 import de.kit.tva.lost.models.TranslatorModel;
 import de.kit.tva.lost.views.CodeView;
@@ -35,8 +39,14 @@ public class TranslatorController implements Controller {
 	translatorView.getTranslateButton().addSelectionListener(new SelectionListener() {
 	    @Override
 	    public void widgetSelected(SelectionEvent e) {
-		translatorModel.translate(codeView.getCodeFieldText());
-		int isdjf = 2;
+		try {
+		    translatorModel.translate(codeView.getCodeFieldText());
+		} catch (DiagramResourceModelException | IOException | CoreException e1) {
+		    e1.printStackTrace();
+		    return;
+		}
+		var diag = translatorModel.getDiagram();
+		var sijf = 2;
 	    }
 
 	    @Override
