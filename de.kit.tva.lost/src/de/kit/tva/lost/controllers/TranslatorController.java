@@ -4,6 +4,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 
 import de.kit.tva.lost.interfaces.Controller;
+import de.kit.tva.lost.models.TranslatorErrorListenerModel;
 import de.kit.tva.lost.models.TranslatorModel;
 import de.kit.tva.lost.views.CodeView;
 import de.kit.tva.lost.views.TranslatorView;
@@ -24,7 +25,9 @@ public class TranslatorController implements Controller {
 
     @Override
     public void createModelObservers() {
-	// Empty since the button doesn't have to know anything about the model.
+	TranslatorErrorListenerModel.getInstance().addListener(() -> {
+	    codeView.updateCodeColor(TranslatorErrorListenerModel.getInstance().getCodeColor());
+	});
     }
 
     @Override
@@ -32,14 +35,8 @@ public class TranslatorController implements Controller {
 	translatorView.getTranslateButton().addSelectionListener(new SelectionListener() {
 	    @Override
 	    public void widgetSelected(SelectionEvent e) {
-		if (translatorModel.translate(codeView.getCodeFieldText())) {
-		    // success
-		    var i = 2;
-		    // TODO: Either update existing Diagram or create new one.
-		} else {
-		    // failure
-		    // TODO: Error highlighting in code
-		}
+		translatorModel.translate(codeView.getCodeFieldText());
+		int isdjf = 2;
 	    }
 
 	    @Override

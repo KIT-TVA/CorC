@@ -45,28 +45,23 @@ public class LOSTTranslator {
     CbCFormula formula;
     ProgramContext tree;
 
-    public LOSTTranslator() {
-    }
-
-    public boolean translate(String lostCode) {
+    public void translate(String lostCode) {
 	if (!genParseTree(lostCode)) {
-	    return false;
+	    return;
 	}
 	for (int i = 0; i < tree.getChildCount(); ++i) {
 	    addInitializers(tree.initializer(i));
 	}
-	return true;
     }
 
     private boolean genParseTree(String lostCode) {
 	LOSTLexer lexer = new LOSTLexer(CharStreams.fromString(lostCode));
 	CommonTokenStream tokens = new CommonTokenStream(lexer);
 	LOSTParser parser = new LOSTParser(tokens);
+	parser.removeErrorListeners();
+	parser.addErrorListener(TranslatorErrorListenerModel.getInstance());
 	this.tree = parser.program();
-	if (tree.EOF() == null) {
-	    return false;
-	}
-	return true;
+	return !TranslatorErrorListenerModel.getInstance().errorOccurred();
     }
 
     private void addInitializers(InitializerContext partTree) {

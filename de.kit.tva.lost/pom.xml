@@ -73,6 +73,11 @@
               <artifactId>junit-platform-commons</artifactId>
               <version>1.10.1</version>
             </artifactItem>
+            <artifactitem>
+			  <groupId>org.antlr</groupId>
+			  <artifactId>antlr4-runtime</artifactId>
+			  <version>4.9.3</version>
+			</artifactitem>
           </artifactItems>
           <skip>false</skip>
           <outputDirectory>${basedir}/lib</outputDirectory>

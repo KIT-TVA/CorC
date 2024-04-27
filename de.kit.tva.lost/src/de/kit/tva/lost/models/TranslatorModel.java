@@ -1,15 +1,15 @@
 package de.kit.tva.lost.models;
 
-import de.kit.tva.lost.interfaces.Model;
+import de.kit.tva.lost.interfaces.AbstractModel;
 
-public class TranslatorModel extends Model {
-    LOSTTranslator lostTranslator;
+public class TranslatorModel extends AbstractModel {
+    private LOSTTranslator lostTranslator;
 
     public TranslatorModel() {
 	lostTranslator = new LOSTTranslator();
     }
 
-    public boolean translate(String lostCode) {
-	return lostTranslator.translate(lostCode);
+    public void translate(String lostCode) {
+	lostTranslator.translate(lostCode);
     }
 }

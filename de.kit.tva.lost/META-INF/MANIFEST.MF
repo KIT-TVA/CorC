@@ -6,10 +6,17 @@ Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.ui.forms,
+ de.tu-bs.cs.isf.cbc.model,
  junit-jupiter-api;bundle-version="5.10.0",
- junit-platform-suite-api;bundle-version="1.10.0",
- org.antlr.runtime,
- de.tu-bs.cs.isf.cbc.model
-Bundle-RequiredExecutionEnvironment: JavaSE-16
-Import-Package: javax.inject;version="[1.0.0,2.0.0)"
+ junit-platform-commons;bundle-version="1.10.0",
+ javax.inject
+Bundle-RequiredExecutionEnvironment: JavaSE-16,
+ JavaSE-17
+Import-Package: de.tu_bs.cs.isf.cbc.util,
+ org.antlr.v4.runtime;version="4.7.2",
+ org.antlr.v4.runtime.atn;version="4.7.2",
+ org.antlr.v4.runtime.dfa;version="4.7.2",
+ org.antlr.v4.runtime.tree;version="4.7.2"
 Automatic-Module-Name: LOST
+Bundle-ClassPath: lib/,
+ .

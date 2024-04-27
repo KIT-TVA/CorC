@@ -36,6 +36,7 @@ public class LostEclipseView extends ViewPart {
     @Override
     public void createPartControl(Composite parent) {
 	LostUI ui = new LostUI(parent, STYLE);
+	codeField = ui.getCodeField();
 	initMVCs(ui);
     }
 
