@@ -2,7 +2,7 @@ package de.kit.tva.lost.models;
 
 import de.kit.tva.lost.interfaces.LOSTBaseListener;
 
-public class LOSTParserListener extends LOSTBaseListener {
+public class LostParserListener extends LOSTBaseListener {
 	private static String TRANSLATOR_EXC = "TranslatorException: ";
 	
 	private boolean formula;
@@ -15,28 +15,28 @@ public class LOSTParserListener extends LOSTBaseListener {
 	}
 
 	@Override 
-	public void exitVars(LOSTParser.VarsContext ctx) {
+	public void exitVars(LostParser.VarsContext ctx) {
 		if (vars) {
 			throw new RuntimeException(dublicateDefinition("Vars"));
 		}
 	}
 	
 	@Override 
-	public void exitGlobalConditions(LOSTParser.GlobalConditionsContext ctx) {
+	public void exitGlobalConditions(LostParser.GlobalConditionsContext ctx) {
 		if (globalConditions) {
 			throw new RuntimeException(dublicateDefinition("GC"));
 		}
 	}
 	
 	@Override 
-	public void exitRenaming(LOSTParser.RenamingContext ctx) {
+	public void exitRenaming(LostParser.RenamingContext ctx) {
 		if (renaming) {
 			throw new RuntimeException(dublicateDefinition("Renaming"));
 		}
 	}
 	
 	@Override 
-	public void exitFormula(LOSTParser.FormulaContext ctx) {
+	public void exitFormula(LostParser.FormulaContext ctx) {
 		if (formula) {
 			throw new RuntimeException(dublicateDefinition("F"));
 		}

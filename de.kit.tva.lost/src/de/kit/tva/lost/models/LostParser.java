@@ -20,7 +20,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import de.kit.tva.lost.interfaces.LOSTListener;
 
 @SuppressWarnings({ "all", "warnings", "unchecked", "unused", "cast" })
-public class LOSTParser extends Parser {
+public class LostParser extends Parser {
     static {
 	RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION);
     }
@@ -73,14 +73,14 @@ public class LOSTParser extends Parser {
 	return _ATN;
     }
 
-    public LOSTParser(TokenStream input) {
+    public LostParser(TokenStream input) {
 	super(input);
 	_interp = new ParserATNSimulator(this, _ATN, _decisionToDFA, _sharedContextCache);
     }
 
     public static class ProgramContext extends ParserRuleContext {
 	public TerminalNode EOF() {
-	    return getToken(LOSTParser.EOF, 0);
+	    return getToken(LostParser.EOF, 0);
 	}
 
 	public RootContext root() {
@@ -178,7 +178,7 @@ public class LOSTParser extends Parser {
 
     public static class DiagramContext extends ParserRuleContext {
 	public TerminalNode NL() {
-	    return getToken(LOSTParser.NL, 0);
+	    return getToken(LostParser.NL, 0);
 	}
 
 	public NameContext name() {
@@ -260,7 +260,7 @@ public class LOSTParser extends Parser {
 
     public static class InitializerContext extends ParserRuleContext {
 	public List<TerminalNode> NL() {
-	    return getTokens(LOSTParser.NL);
+	    return getTokens(LostParser.NL);
 	}
 
 	public FormulaContext formula() {
@@ -272,7 +272,7 @@ public class LOSTParser extends Parser {
 	}
 
 	public TerminalNode NL(int i) {
-	    return getToken(LOSTParser.NL, i);
+	    return getToken(LostParser.NL, i);
 	}
 
 	public RenamingContext renaming() {
@@ -470,7 +470,7 @@ public class LOSTParser extends Parser {
 
     public static class VarsContext extends ParserRuleContext {
 	public TerminalNode NL() {
-	    return getToken(LOSTParser.NL, 0);
+	    return getToken(LostParser.NL, 0);
 	}
 
 	public VariableContext variable(int i) {
@@ -541,15 +541,15 @@ public class LOSTParser extends Parser {
 
     public static class VariableContext extends ParserRuleContext {
 	public TerminalNode NL() {
-	    return getToken(LOSTParser.NL, 0);
+	    return getToken(LostParser.NL, 0);
 	}
 
 	public List<TerminalNode> ID() {
-	    return getTokens(LOSTParser.ID);
+	    return getTokens(LostParser.ID);
 	}
 
 	public TerminalNode ID(int i) {
-	    return getToken(LOSTParser.ID, i);
+	    return getToken(LostParser.ID, i);
 	}
 
 	public VariableContext(ParserRuleContext parent, int invokingState) {
@@ -609,7 +609,7 @@ public class LOSTParser extends Parser {
 
     public static class GlobalConditionsContext extends ParserRuleContext {
 	public List<TerminalNode> NL() {
-	    return getTokens(LOSTParser.NL);
+	    return getTokens(LostParser.NL);
 	}
 
 	public ConditionContext condition(int i) {
@@ -617,7 +617,7 @@ public class LOSTParser extends Parser {
 	}
 
 	public TerminalNode NL(int i) {
-	    return getToken(LOSTParser.NL, i);
+	    return getToken(LostParser.NL, i);
 	}
 
 	public List<ConditionContext> condition() {
@@ -688,7 +688,7 @@ public class LOSTParser extends Parser {
 
     public static class RenamingContext extends ParserRuleContext {
 	public TerminalNode NL() {
-	    return getToken(LOSTParser.NL, 0);
+	    return getToken(LostParser.NL, 0);
 	}
 
 	public List<RenamerContext> renamer() {
@@ -759,15 +759,15 @@ public class LOSTParser extends Parser {
 
     public static class RenamerContext extends ParserRuleContext {
 	public TerminalNode NL() {
-	    return getToken(LOSTParser.NL, 0);
+	    return getToken(LostParser.NL, 0);
 	}
 
 	public TerminalNode ID() {
-	    return getToken(LOSTParser.ID, 0);
+	    return getToken(LostParser.ID, 0);
 	}
 
 	public TerminalNode OP() {
-	    return getToken(LOSTParser.OP, 0);
+	    return getToken(LostParser.OP, 0);
 	}
 
 	public ConditionContext condition() {
@@ -831,7 +831,7 @@ public class LOSTParser extends Parser {
 
     public static class FormulaContext extends ParserRuleContext {
 	public TerminalNode NL() {
-	    return getToken(LOSTParser.NL, 0);
+	    return getToken(LostParser.NL, 0);
 	}
 
 	public PreContext pre() {
@@ -1051,7 +1051,7 @@ public class LOSTParser extends Parser {
 	}
 
 	public TerminalNode ID() {
-	    return getToken(LOSTParser.ID, 0);
+	    return getToken(LostParser.ID, 0);
 	}
 
 	public ConditionContext condition(int i) {
@@ -1059,7 +1059,7 @@ public class LOSTParser extends Parser {
 	}
 
 	public TerminalNode OP() {
-	    return getToken(LOSTParser.OP, 0);
+	    return getToken(LostParser.OP, 0);
 	}
 
 	public List<ConditionContext> condition() {
@@ -1159,11 +1159,11 @@ public class LOSTParser extends Parser {
 
     public static class QuantorContext extends ParserRuleContext {
 	public List<TerminalNode> ID() {
-	    return getTokens(LOSTParser.ID);
+	    return getTokens(LostParser.ID);
 	}
 
 	public TerminalNode ID(int i) {
-	    return getToken(LOSTParser.ID, i);
+	    return getToken(LostParser.ID, i);
 	}
 
 	public ConditionContext condition() {
@@ -1429,15 +1429,15 @@ public class LOSTParser extends Parser {
 
     public static class StatementContext extends ParserRuleContext {
 	public TerminalNode NL() {
-	    return getToken(LOSTParser.NL, 0);
+	    return getToken(LostParser.NL, 0);
 	}
 
 	public TerminalNode ID() {
-	    return getToken(LOSTParser.ID, 0);
+	    return getToken(LostParser.ID, 0);
 	}
 
 	public TerminalNode OP() {
-	    return getToken(LOSTParser.OP, 0);
+	    return getToken(LostParser.OP, 0);
 	}
 
 	public AssignerContext assigner() {
@@ -1548,7 +1548,7 @@ public class LOSTParser extends Parser {
 
     public static class JavaReturnContext extends ParserRuleContext {
 	public TerminalNode ID() {
-	    return getToken(LOSTParser.ID, 0);
+	    return getToken(LostParser.ID, 0);
 	}
 
 	public AssignerContext assigner() {
@@ -1600,11 +1600,11 @@ public class LOSTParser extends Parser {
 
     public static class AssignerContext extends ParserRuleContext {
 	public TerminalNode ID() {
-	    return getToken(LOSTParser.ID, 0);
+	    return getToken(LostParser.ID, 0);
 	}
 
 	public TerminalNode OP() {
-	    return getToken(LOSTParser.OP, 0);
+	    return getToken(LostParser.OP, 0);
 	}
 
 	public AssignerContext assigner() {
@@ -1692,7 +1692,7 @@ public class LOSTParser extends Parser {
 
     public static class CompositionContext extends ParserRuleContext {
 	public TerminalNode NL() {
-	    return getToken(LOSTParser.NL, 0);
+	    return getToken(LostParser.NL, 0);
 	}
 
 	public RefinementContext refinement(int i) {
@@ -1760,7 +1760,7 @@ public class LOSTParser extends Parser {
 
     public static class SelectionContext extends ParserRuleContext {
 	public TerminalNode NL() {
-	    return getToken(LOSTParser.NL, 0);
+	    return getToken(LostParser.NL, 0);
 	}
 
 	public GuardsContext guards() {
@@ -1919,7 +1919,7 @@ public class LOSTParser extends Parser {
 	}
 
 	public TerminalNode NL() {
-	    return getToken(LOSTParser.NL, 0);
+	    return getToken(LostParser.NL, 0);
 	}
 
 	public GuardContext guard() {
@@ -2089,7 +2089,7 @@ public class LOSTParser extends Parser {
 
     public static class VarContext extends ParserRuleContext {
 	public TerminalNode ID() {
-	    return getToken(LOSTParser.ID, 0);
+	    return getToken(LostParser.ID, 0);
 	}
 
 	public VarContext(ParserRuleContext parent, int invokingState) {
@@ -2233,7 +2233,7 @@ public class LOSTParser extends Parser {
 
     public static class SkipSContext extends ParserRuleContext {
 	public TerminalNode NL() {
-	    return getToken(LOSTParser.NL, 0);
+	    return getToken(LostParser.NL, 0);
 	}
 
 	public SkipSContext(ParserRuleContext parent, int invokingState) {
@@ -2335,7 +2335,7 @@ public class LOSTParser extends Parser {
 
     public static class BlockContext extends ParserRuleContext {
 	public TerminalNode NL() {
-	    return getToken(LOSTParser.NL, 0);
+	    return getToken(LostParser.NL, 0);
 	}
 
 	public PreContext pre() {
@@ -2413,7 +2413,7 @@ public class LOSTParser extends Parser {
 
     public static class NameContext extends ParserRuleContext {
 	public TerminalNode ID() {
-	    return getToken(LOSTParser.ID, 0);
+	    return getToken(LostParser.ID, 0);
 	}
 
 	public NameContext(ParserRuleContext parent, int invokingState) {
@@ -2461,7 +2461,7 @@ public class LOSTParser extends Parser {
 
     public static class MlexprContext extends ParserRuleContext {
 	public List<TerminalNode> NL() {
-	    return getTokens(LOSTParser.NL);
+	    return getTokens(LostParser.NL);
 	}
 
 	public StatementContext statement(int i) {
@@ -2469,7 +2469,7 @@ public class LOSTParser extends Parser {
 	}
 
 	public TerminalNode NL(int i) {
-	    return getToken(LOSTParser.NL, i);
+	    return getToken(LostParser.NL, i);
 	}
 
 	public List<StatementContext> statement() {

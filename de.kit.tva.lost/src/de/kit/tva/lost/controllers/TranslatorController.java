@@ -40,13 +40,12 @@ public class TranslatorController implements Controller {
 	    @Override
 	    public void widgetSelected(SelectionEvent e) {
 		try {
-		    translatorModel.translate(codeView.getCodeFieldText());
+		    if (!translatorModel.translate(codeView.getCodeFieldText())) {
+			return;
+		    }
 		} catch (DiagramResourceModelException | IOException | CoreException e1) {
 		    e1.printStackTrace();
-		    return;
 		}
-		var diag = translatorModel.getDiagram();
-		var sijf = 2;
 	    }
 
 	    @Override

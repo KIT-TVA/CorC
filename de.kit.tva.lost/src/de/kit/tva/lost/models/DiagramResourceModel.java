@@ -38,18 +38,13 @@ public class DiagramResourceModel {
 	ResourceSet resourceSet = new ResourceSetImpl();
 	IFolder currentFolder = getCurrentFolder();
 	var diagramFile = currentFolder.getFile(name + ".diagram");
-	if (diagramFile.exists()) {
+	var diagramResFile = currentFolder.getFile(name + ".cbcmodel");
+	if (diagramResFile.exists()) {
 	    wasCreated = false;
-	    return loadDiagramResource(diagramFile);
+	    return loadDiagramResource(diagramResFile);
 	}
 	wasCreated = true;
-	// URI diagramUri = URI.createPlatformResourceURI(currentFolder.getFullPath() +
-	// "/" + name + ".diagram");
 	URI modelUri = URI.createPlatformResourceURI(currentFolder.getFullPath() + "/" + name + ".cbcmodel");
-	/*
-	 * if (!createDiagramResource(name, resourceSet, diagramUri)) { throw new
-	 * DiagramModelException("Couldn't create the resource for the diagram."); }
-	 */
 	if (!createModelResource(resourceSet, modelUri)) {
 	    throw new DiagramResourceModelException("Couldn't create the model for the diagram.");
 	}
@@ -57,23 +52,13 @@ public class DiagramResourceModel {
 	return this.diagramResource;
     }
 
-    private Resource loadDiagramResource(IFile file) throws DiagramResourceModelException, IOException {
+    private Resource loadDiagramResource(IFile diagramResFile) throws DiagramResourceModelException, IOException {
 	ResourceSet rSet = new ResourceSetImpl();
-	URI fileUri = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
-	Resource fileResource = rSet.createResource(fileUri);
+	URI diagramResFileUri = URI.createPlatformResourceURI(diagramResFile.getFullPath().toString(), true);
+	Resource fileResource = rSet.createResource(diagramResFileUri);
 	fileResource.load(null);
 	return fileResource;
     }
-    /*
-     * private boolean createDiagramResource(String name, final ResourceSet
-     * resourceSet, URI diagramUri) { diagram =
-     * Graphiti.getPeCreateService().createDiagram("cbc", name, true);
-     * diagramResource = resourceSet.createResource(diagramUri);
-     * diagramResource.getContents().add(diagram); try {
-     * diagramResource.save(Collections.EMPTY_MAP);
-     * diagramResource.setTrackingModification(true); } catch (IOException e) {
-     * e.printStackTrace(); return false; } return true; }
-     */
 
     private boolean createModelResource(final ResourceSet resourceSet, URI modelUri) {
 	diagramResource = resourceSet.createResource(modelUri);

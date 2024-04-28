@@ -4,15 +4,15 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.jupiter.api.Test;
 
-import de.kit.tva.lost.models.LOSTLexer;
-import de.kit.tva.lost.models.LOSTParser;
+import de.kit.tva.lost.models.LostLexer;
+import de.kit.tva.lost.models.LostParser;
 
-public class LOSTGrammarTests {
+public class LostGrammarTests {
     private void genTree(String input) {
-	LOSTLexer lexer = new LOSTLexer(CharStreams.fromString(input));
+	LostLexer lexer = new LostLexer(CharStreams.fromString(input));
 	CommonTokenStream tokens = new CommonTokenStream(lexer);
-	LOSTParser parser = new LOSTParser(tokens);
-	LOSTParser.ProgramContext tree = parser.program();
+	LostParser parser = new LostParser(tokens);
+	LostParser.ProgramContext tree = parser.program();
 	printTree(input, tree.toStringTree());
     }
 

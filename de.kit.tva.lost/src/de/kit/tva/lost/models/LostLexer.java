@@ -11,7 +11,7 @@ import org.antlr.v4.runtime.atn.PredictionContextCache;
 import org.antlr.v4.runtime.dfa.DFA;
 
 @SuppressWarnings({ "all", "warnings", "unchecked", "unused", "cast" })
-public class LOSTLexer extends Lexer {
+public class LostLexer extends Lexer {
     static {
 	RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION);
     }
@@ -33,7 +33,7 @@ public class LOSTLexer extends Lexer {
 	    "T__19", "T__18", "T__17", "T__16", "T__15", "T__14", "T__13", "T__12", "T__11", "T__10", "T__9", "T__8",
 	    "T__7", "T__6", "T__5", "T__4", "T__3", "T__2", "T__1", "T__0", "WS", "NL", "OP", "ID" };
 
-    public LOSTLexer(CharStream input) {
+    public LostLexer(CharStream input) {
 	super(input);
 	_interp = new LexerATNSimulator(this, _ATN, _decisionToDFA, _sharedContextCache);
     }

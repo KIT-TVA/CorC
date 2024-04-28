@@ -7,24 +7,23 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import de.kit.tva.lost.models.LOSTParser.CompositionContext;
-import de.kit.tva.lost.models.LOSTParser.ConditionContext;
-import de.kit.tva.lost.models.LOSTParser.FormulaContext;
-import de.kit.tva.lost.models.LOSTParser.GlobalConditionsContext;
-import de.kit.tva.lost.models.LOSTParser.GuardsContext;
-import de.kit.tva.lost.models.LOSTParser.InitializerContext;
-import de.kit.tva.lost.models.LOSTParser.MethodCallSContext;
-import de.kit.tva.lost.models.LOSTParser.MlexprContext;
-import de.kit.tva.lost.models.LOSTParser.OriginalSContext;
-import de.kit.tva.lost.models.LOSTParser.ProgramContext;
-import de.kit.tva.lost.models.LOSTParser.RenamingContext;
-import de.kit.tva.lost.models.LOSTParser.RepetitionContext;
-import de.kit.tva.lost.models.LOSTParser.ReturnSContext;
-import de.kit.tva.lost.models.LOSTParser.SelectionContext;
-import de.kit.tva.lost.models.LOSTParser.SkipSContext;
-import de.kit.tva.lost.models.LOSTParser.StatementContext;
-import de.kit.tva.lost.models.LOSTParser.VariableContext;
-import de.kit.tva.lost.models.LOSTParser.VarsContext;
+import de.kit.tva.lost.models.LostParser.CompositionContext;
+import de.kit.tva.lost.models.LostParser.ConditionContext;
+import de.kit.tva.lost.models.LostParser.FormulaContext;
+import de.kit.tva.lost.models.LostParser.GlobalConditionsContext;
+import de.kit.tva.lost.models.LostParser.InitializerContext;
+import de.kit.tva.lost.models.LostParser.MethodCallSContext;
+import de.kit.tva.lost.models.LostParser.MlexprContext;
+import de.kit.tva.lost.models.LostParser.OriginalSContext;
+import de.kit.tva.lost.models.LostParser.ProgramContext;
+import de.kit.tva.lost.models.LostParser.RenamingContext;
+import de.kit.tva.lost.models.LostParser.RepetitionContext;
+import de.kit.tva.lost.models.LostParser.ReturnSContext;
+import de.kit.tva.lost.models.LostParser.SelectionContext;
+import de.kit.tva.lost.models.LostParser.SkipSContext;
+import de.kit.tva.lost.models.LostParser.StatementContext;
+import de.kit.tva.lost.models.LostParser.VariableContext;
+import de.kit.tva.lost.models.LostParser.VarsContext;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -42,7 +41,7 @@ import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
  * Translates a given LOST-Code into an equivalent CorC diagram model
  * {@link de.tu-bs.cs.isf.cbc.cbcclass.ModelClass}.
  */
-public class LOSTTranslator {
+public class LostTranslator {
     JavaVariables vars;
     GlobalConditions conds;
     Renaming renaming;
@@ -62,9 +61,9 @@ public class LOSTTranslator {
     }
 
     private boolean genParseTree(String lostCode) {
-	LOSTLexer lexer = new LOSTLexer(CharStreams.fromString(lostCode));
+	LostLexer lexer = new LostLexer(CharStreams.fromString(lostCode));
 	CommonTokenStream tokens = new CommonTokenStream(lexer);
-	LOSTParser parser = new LOSTParser(tokens);
+	LostParser parser = new LostParser(tokens);
 	parser.removeErrorListeners();
 	parser.addErrorListener(TranslatorErrorListenerModel.getInstance());
 	this.tree = parser.program();
@@ -176,7 +175,7 @@ public class LOSTTranslator {
 		    .toList();
 	    for (int i = 0; i < guards.size(); ++i) {
 		var g = CbcmodelFactory.eINSTANCE.createCondition();
-		g.setName(((GuardsContext) guards).condition(i).getText());
+		g.setName(selCtx.guards().condition(i).getText());
 		selection.getGuards().add(g);
 		selection.getCommands().add(dummyStatement(i));
 		walkRefinement(selection, selCtx.refinement(i));

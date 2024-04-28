@@ -1,7 +1,5 @@
-/*
- * package de.kit.tva.lost.tests;
- * 
- * public class TranslatorModelTests {
- * 
- * }
- */
+package de.kit.tva.lost.tests;
+
+public class TranslatorModelTests {
+
+}

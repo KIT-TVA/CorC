@@ -15,6 +15,7 @@ public class CodeView extends AbstractView {
 
     public void updateCode(String code) {
 	this.codeField.setText(code);
+	notifyListeners();
     }
 
     public StyledText getCodeField() {
@@ -50,10 +51,5 @@ public class CodeView extends AbstractView {
 	    sr.start--;
 	}
 	this.codeField.setStyleRange(sr);
-    }
-
-    public void resetColor() {
-	this.codeField.setStyleRanges(new StyleRange[0]);
-	this.codeField.setForeground(codeField.getForeground());
     }
 }
