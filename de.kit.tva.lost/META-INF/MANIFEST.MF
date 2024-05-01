@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: LOST
-Bundle-SymbolicName: de.kit.tva.lost;singleton:=true
+Bundle-SymbolicName: de.kit.tva.corc.lost;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
@@ -13,12 +13,13 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.graphiti.mm,
  org.eclipse.graphiti,
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-16,
- JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-17,
+ JavaSE-16
 Import-Package: de.tu_bs.cs.isf.cbc.util,
  org.antlr.v4.runtime;version="4.7.2",
  org.antlr.v4.runtime.atn;version="4.7.2",
  org.antlr.v4.runtime.dfa;version="4.7.2",
+ org.antlr.v4.runtime.misc;version="4.7.2",
  org.antlr.v4.runtime.tree;version="4.7.2"
 Automatic-Module-Name: LOST
 Bundle-ClassPath: lib/,

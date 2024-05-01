@@ -3,7 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Parser
 Bundle-SymbolicName: de.tu-bs.cs.isf.cbc.util
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-16
+Bundle-RequiredExecutionEnvironment: JavaSE-17,
+ JavaSE-16
 Require-Bundle: org.key_project.core,
  org.key_project.util,
  org.eclipse.core.resources,
