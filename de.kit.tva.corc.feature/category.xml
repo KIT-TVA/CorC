@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="de.kit.tva.corc.feature">
+      <category name="CorC"/>
+   </feature>
+   <feature id="de.hentschel.visualdbc.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="de.ovgu.featureide">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="de.ovgu.featureide.featuremodeling">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.graphiti.export.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.graphiti.export.feature.source">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.graphiti.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.graphiti.feature.examples">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.graphiti.feature.examples.source">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.graphiti.feature.source">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.graphiti.feature.tools">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.graphiti.feature.tools.source">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.graphiti.sdk.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.graphiti.sdk.feature.source">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.graphiti.sdk.plus.feature.source">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.bugzilla.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.builds.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.commons.activity.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.commons.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.commons.identity.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.commons.notifications.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.commons.repositories.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.context.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.egit.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.git.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.github.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.ide.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.jdt.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.jenkins.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.monitor.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.pde.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.reviews.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.tasks.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.team.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.versions.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.wikitext.editors_feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.key_project.jmlediting.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.key_project.key4eclipse.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.key_project.monkey.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.key_project.removegenerics.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.key_project.shellutility.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.key_project.stubby.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.testng.eclipse">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.testng.eclipse.maven.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.testng.p2.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.graphiti.sdk.plus.feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.wikitext_feature">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="antlr4ide.sdk">
+      <category name="dependencies"/>
+   </feature>
+   <feature id="org.eclipse.xtext.runtime">
+      <category name="dependencies"/>
+   </feature>
+   <category-def name="CorC" label="CorC"/>
+   <category-def name="dependencies" label="CorC Dependencies"/>
+</site>
