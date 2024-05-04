@@ -29,7 +29,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -241,12 +240,9 @@ public class GenerateModelWithoutContract {
 	 * @param parent
 	 */
 	private void handleStatement(Resource r, Statement statement, AbstractStatement parent) {
-		EList<Statement> blockStmts = new BasicEList<Statement>();
-		
 		if (statement.isExpressionStmt()) {
 			if (statement.asExpressionStmt().getExpression().isVariableDeclarationExpr()) {
 				VariableDeclarationExpr variableStmt = statement.asExpressionStmt().getExpression().asVariableDeclarationExpr();
-				//TODO: check if Variable is right
 				NodeList<VariableDeclarator> varDec = variableStmt.getVariables();
 				String text = varDec.get(0).toString();
 				if (text.contains("=")) {
@@ -262,6 +258,11 @@ public class GenerateModelWithoutContract {
 					UpdateConditionsOfChildren.updateRefinedStatement(parent, skipStatement);
 				}
 				addToVariables(varDec.get(0), (JavaVariables) r.getContents().get(1));
+			} else {
+				ExpressionStmt expressionStmt = statement.asExpressionStmt();
+				AbstractStatement s = createStatement(expressionStmt.getExpression().toString() + ";");
+				parent.setRefinement(s);
+				UpdateConditionsOfChildren.updateRefinedStatement(parent, s);
 			}
 		} else if (statement.isWhileStmt()) {
 			WhileStmt whileStmt = statement.asWhileStmt();
@@ -273,10 +274,11 @@ public class GenerateModelWithoutContract {
 			parent.setRefinement(repStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, repStatement);
 			if (whileStmt.getBody().isBlockStmt()) {
+				EList<Statement> whileBlock = new BasicEList<Statement>();
 				for (Statement stmt : whileStmt.getBody().asBlockStmt().getStatements()) {
-					blockStmts.add(stmt);
+					whileBlock.add(stmt);
 				}
-				handleListOfStatements(r, blockStmts, repStatement.getLoopStatement());
+				handleListOfStatements(r, whileBlock, repStatement.getLoopStatement());
 			}
 		} else if (statement.isIfStmt()) {
 			IfStmt ifStat = statement.asIfStmt();
@@ -291,22 +293,23 @@ public class GenerateModelWithoutContract {
 						("!" + "(" + conditionString + ")"));
 				parent.setRefinement(selStatement);
 				UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
-				//TODO: seperate blockStmtsListen
+				EList<Statement> ifBlock = new BasicEList<Statement>();
 				if (ifStat.getThenStmt().isBlockStmt()) {
 					for (Statement stmt : ifStat.getThenStmt().asBlockStmt().getStatements()) {
-						blockStmts.add(stmt);
+						ifBlock.add(stmt);
 					}
-					handleListOfStatements(r, blockStmts, selStatement.getCommands().get(0));
+					handleListOfStatements(r, ifBlock, selStatement.getCommands().get(0));
 				} else {
 					SkipStatement skipStatement = createSkipStatement();
 					parent.setRefinement(skipStatement);
 					UpdateConditionsOfChildren.updateRefinedStatement(parent, skipStatement);
 				}
+				EList<Statement> elseBlock = new BasicEList<Statement>();
 				if (elseStat.get().isBlockStmt()) {
 					for (Statement stmt : elseStat.get().asBlockStmt().getStatements()) {
-						blockStmts.add(stmt);
+						elseBlock.add(stmt);
 					}
-					handleListOfStatements(r, blockStmts, selStatement.getCommands().get(1));
+					handleListOfStatements(r, elseBlock, selStatement.getCommands().get(1));
 				} else {
 					SkipStatement skipStatement = createSkipStatement();
 					selStatement.getCommands().get(1).setRefinement(skipStatement);
@@ -316,11 +319,12 @@ public class GenerateModelWithoutContract {
 				SelectionStatement selStatement = createMultiSelection(ifStat.getCondition().toString());
 				parent.setRefinement(selStatement);
 				UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
+				EList<Statement> selBlock = new BasicEList<Statement>();
 				if (ifStat.getThenStmt().isBlockStmt()) {
 					for (Statement stmt : ifStat.getThenStmt().asBlockStmt().getStatements()) {
-						blockStmts.add(stmt);
+						selBlock.add(stmt);
 					}
-					handleListOfStatements(r, blockStmts, selStatement.getCommands().get(0));
+					handleListOfStatements(r, selBlock, selStatement.getCommands().get(0));
 				}
 				int i = 1;
 				while (ifStat.getElseStmt().isPresent() && ifStat.getElseStmt().get().isIfStmt()) {
@@ -349,8 +353,6 @@ public class GenerateModelWithoutContract {
 					i++;
 					ifStat = nextCondition;
 				}
-
-				//TODO: check if condition is right
 				if (ifStat.getElseStmt().isPresent() && ifStat.getElseStmt().get().isBlockStmt()) {
 					AbstractStatement nextStatement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 					nextStatement.setName("statement");
@@ -387,11 +389,9 @@ public class GenerateModelWithoutContract {
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, retStatement);
 		} else if (statement.isExpressionStmt()) {
 			ExpressionStmt expressionStmt = statement.asExpressionStmt();
-			//TODO: check if expression.toString() has the right value
 			AbstractStatement s = createStatement(expressionStmt.getExpression().toString() + ";");
 			parent.setRefinement(s);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, s);
-		//TODO: maybe also ForEachStmt()	
 		} else if (statement.isForStmt()) {
 			ForStmt forStmt = statement.asForStmt();
 
@@ -426,11 +426,12 @@ public class GenerateModelWithoutContract {
 			composition2.getSecondStatement().setRefinement(updateStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(composition2.getSecondStatement(), updateStatement);
 
+			EList<Statement> forBlock = new BasicEList<Statement>();
 			if (forStmt.getBody().isBlockStmt()) {
 				for (Statement stmt : forStmt.getBody().asBlockStmt().getStatements()) {
-					blockStmts.add(stmt);
+					forBlock.add(stmt);
 				}
-				handleListOfStatements(r, blockStmts, repStatement.getLoopStatement());
+				handleListOfStatements(r, forBlock, repStatement.getLoopStatement());
 			}
 		} else if (statement.isSwitchStmt()) {
 			SwitchStmt switchStmt = statement.asSwitchStmt();
@@ -445,10 +446,6 @@ public class GenerateModelWithoutContract {
 					firstCondition = label.get();
 				}
 			}
-
-			//TODO: wie werden switch entries hinzugefügt?
-			//case 1: x = 5; i + 1; break;
-			//was von den Statements wird hinzugefügt?
 			SelectionStatement selStatement = createMultiSelection(
 					switchVariable + " = " + firstCondition.toString());
 			parent.setRefinement(selStatement);
@@ -482,11 +479,11 @@ public class GenerateModelWithoutContract {
 					nextStatement.setPostCondition(nextPost);
 					UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
 					UpdateConditionsOfChildren.updateConditionsofChildren(nextPre);
-					EList<Statement> switchStmts1 = new BasicEList<Statement>();
+					EList<Statement> nonEmptySwitchStmts = new BasicEList<Statement>();
 					for (Statement stmt : normalCase.getStatements()) {
-						switchStmts1.add(stmt);
+						nonEmptySwitchStmts.add(stmt);
 					}
-					handleListOfStatements(r, switchStmts1, nextStatement);
+					handleListOfStatements(r, nonEmptySwitchStmts, nextStatement);
 
 				} else if (switchStmt.getEntry(i).getType().equals(SwitchEntry.Type.STATEMENT_GROUP)) {
 					SwitchEntry defaultCase = switchStmt.getEntry(i);
@@ -510,11 +507,11 @@ public class GenerateModelWithoutContract {
 					nextStatement.setPostCondition(nextPost);
 					UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
 					UpdateConditionsOfChildren.updateConditionsofChildren(nextPre);
-					EList<Statement> switchStmts2 = new BasicEList<Statement>();
+					EList<Statement> maybeEmtpySwtichStmt = new BasicEList<Statement>();
 					for (Statement stmt : defaultCase.getStatements()) {
-						switchStmts2.add(stmt);
+						maybeEmtpySwtichStmt.add(stmt);
 					}
-					handleListOfStatements(r, switchStmts2, nextStatement);
+					handleListOfStatements(r, maybeEmtpySwtichStmt, nextStatement);
 				}
 			}
 		} else if(statement.isEmptyStmt()) {

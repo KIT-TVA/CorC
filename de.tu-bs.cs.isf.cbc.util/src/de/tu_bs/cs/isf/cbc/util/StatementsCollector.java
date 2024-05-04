@@ -8,31 +8,35 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 public class StatementsCollector extends VoidVisitorAdapter<Void> {
 	private NodeList<Statement> statements;
+	private NodeList<Statement> assertStatements;
 	
 	public StatementsCollector() {
 		this.statements = new NodeList<>();
+		this.assertStatements = new NodeList<>();
 	}
 	
-	//TODO: visit all Statements needed in GenerateModelFromCode in Method handleStatement
+	//visit all Statements needed in the method handleStatement in GenerateModelFromCode
 	
 	@Override
 	public void visit(BlockStmt blockStmt, Void a) {
 		super.visit(blockStmt, a);
 		for (Statement stmt : blockStmt.getStatements()) {
 			stmt.removeComment();
-			this.statements.add(stmt);
+			if (stmt.isAssertStmt()) {
+				this.assertStatements.add(stmt);
+			} else {
+				this.statements.add(stmt);
+			}
 		}
-	}
-	
-	@Override
-	public void visit(ForStmt forStmt, Void a) {
-		super.visit(forStmt, a);
-		
 	}
 	
 	public NodeList<Statement> getStatements() {
         return statements;
     }
+	
+	public NodeList<Statement> getAssertStatements() {
+		return assertStatements;
+	}
 
     public void resetStatements() {
         statements = new NodeList <>();

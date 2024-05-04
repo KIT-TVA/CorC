@@ -205,7 +205,7 @@ public class GenerateDiagramFromClassHandler extends AbstractHandler {
 						}
 						jmlAnnotation = jmlAnnotation.substring(index + 4);
 
-						gmfc.addConditionsToFormula(formula, currentJmlPart, variables, method, conditions);
+						gmfc.addConditionsToFormula(formula, currentJmlPart, variables, conditions);
 
 					} while (index != -1);
 					
@@ -220,14 +220,18 @@ public class GenerateDiagramFromClassHandler extends AbstractHandler {
 					}
 
 					EList<Statement> listOfStatements = new BasicEList<Statement>();
-					//TODO: check if assert statements are collected
+					EList<Statement> listOfAssertStatements = new BasicEList<Statement>();
 					StatementsCollector statementsCollector = new StatementsCollector();
 					statementsCollector.visit(methodDeclaration, null);
 					for (int j = 0; j < statementsCollector.getStatements().size(); j++) {
 						listOfStatements.add(null);
 					}
+					for (int u = 0; u < statementsCollector.getAssertStatements().size(); u++) {
+						listOfAssertStatements.add(null);
+					}
 					Collections.copy(listOfStatements, statementsCollector.getStatements());
-					gmfc.handleListOfStatements(cbcmodelResource, listOfStatements, formula.getStatement());//throws error					
+					Collections.copy(listOfAssertStatements, statementsCollector.getAssertStatements());
+					gmfc.handleListOfStatements(cbcmodelResource, listOfStatements, listOfAssertStatements, formula.getStatement());//throws error					
 					for (int i = 0; i < variables.getVariables().size(); i++) {
 						JavaVariable var = variables.getVariables().get(i);
 						if (var.getKind().equals(VariableKind.PARAM) || var.getKind().equals(VariableKind.RETURN)) {

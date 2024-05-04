@@ -54,7 +54,8 @@ public class FileUtil implements IFileUtil{
 			IResource fileResource = ResourcesPlugin.getWorkspace().getRoot().findMember(platformString);
 			if (fileResource != null) {
 				IProject project = fileResource.getProject();
-				IFolder classFolder = project.getFolder("src_gen");
+				//TODO: change back to src_gen
+				IFolder classFolder = project.getFolder("src");
 				return traverseFolders(classFolder, className);
 
 			}

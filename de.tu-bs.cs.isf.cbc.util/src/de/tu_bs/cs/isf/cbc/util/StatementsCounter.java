@@ -6,9 +6,14 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.BreakStmt;
 import com.github.javaparser.ast.stmt.ContinueStmt;
 import com.github.javaparser.ast.stmt.DoStmt;
+import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
+import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.ForStmt;
+import com.github.javaparser.ast.stmt.LabeledStmt;
+import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.stmt.YieldStmt;
 
 import java.util.Optional;
 
@@ -24,9 +29,6 @@ public class StatementsCounter extends VoidVisitorAdapter<Void>{
 	public StatementsCounter() {
 		this.statementsCounter = 0;
 	}
-	
-	//TODO: Visit all Statements. Block Statements don't count, only the statements in them.
-	//TODO: Not finished
 	
 	@Override
 	public void visit(AssertStmt assertStmt, Void a) {
@@ -53,6 +55,18 @@ public class StatementsCounter extends VoidVisitorAdapter<Void>{
 	}
 	
 	@Override
+	public void visit(ExplicitConstructorInvocationStmt stmt, Void a) {
+		super.visit(stmt, a);
+		statementsCounter++;
+	}
+	
+	@Override
+	public void visit(ExpressionStmt expressionStmt, Void a) {
+		super.visit(expressionStmt, a);
+		statementsCounter++;
+	}
+	
+	@Override
 	public void visit(ForStmt forStmt, Void a) {
 		super.visit(forStmt, a);
 		statementsCounter += forStmt.getInitialization().size();
@@ -63,8 +77,19 @@ public class StatementsCounter extends VoidVisitorAdapter<Void>{
 	}
 	
 	@Override
-	public void visit(ExpressionStmt expressionStmt, Void a) {
-		super.visit(expressionStmt, a);
+	public void visit(LabeledStmt labeledStmt, Void a) {
+		super.visit(labeledStmt, a);
+		statementsCounter++;
+	}
+	
+	public void visit(ReturnStmt returnStmt, Void a) {
+		super.visit(returnStmt, a);
+		statementsCounter++;
+	}
+	
+	@Override
+	public void visit(YieldStmt yieldStmt, Void a) {
+		super.visit(yieldStmt, a);
 		statementsCounter++;
 	}
 	

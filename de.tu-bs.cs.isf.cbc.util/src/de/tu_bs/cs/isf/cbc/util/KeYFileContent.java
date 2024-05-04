@@ -822,6 +822,8 @@ public class KeYFileContent {
 	
 	private String getTypeFromVar(String varName) {
 		varName = removeStaticNonNull(varName);
+		//TODO: delete
+		System.out.println(varName);
 		return varName.substring(0, varName.indexOf(" "));
 	}
 	

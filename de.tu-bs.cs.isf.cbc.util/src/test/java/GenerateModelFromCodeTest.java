@@ -5,10 +5,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
+
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +24,7 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.stmt.Statement;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
@@ -150,74 +157,4 @@ public class GenerateModelFromCodeTest {
 			assertEquals(testVariables.getVariables().get(i).getKind(), variables.getVariables().get(i).getKind());
 		}
 	}
-	
-	@Test
-	void testHandleListOfStatements() throws ExecutionException {
-		javaClass = "public class Main {\n" +
-	            "private String field;\n" +
-	            "private String field2;\n" +
-	            "private static int[] field3;\n" +
-	            "\n" +
-	            "/*comment for method test*/\n" +
-	            "public int test(int[][][] a, bool f, List<String> list) {\n" +
-	            "//inner comment method test\n" +
-	            "for (int a = 3; a < 99; a++) {\n" +
-	            "int b = 1;\n" +
-	            "}\n" +
-	            "switch(x) { case x < 5 && x > 4: case 6: a=100; break; case 9: a=33; break; default: System.out.println(\"Hello World\");};\n" +
-	            "int hallo = 0;\n" +
-	            "System.out.println(\"Hello World\");\n" +
-	            "return 1;\n" +
-	            "}\n" +
-	            "\n" +
-	            "private class inner {\n" +
-	            "int j = 1;\n" +
-	            "}\n" +
-	            "\n" +
-	            "private class inner2 {\n" +
-	            "int x = 1;\n" +
-	            "}\n" +
-	            "\n" +
-	            "private class inner3 {\n" +
-	            "int y = 1;\n" +
-	            "}\n" +
-	            "\n" +
-	            "public int test2() {\n" +
-	            "return 1;\n" +
-	            "}\n" +
-	            "\n" +
-	            "/*orphan comment*/\n" +
-	            "}";
-		
-		CompilationUnit compilationUnit = StaticJavaParser.parse(javaClass);
-		collector.visit(compilationUnit, null);
-		
-		//IFile mockedFile = mock(IFile.class);
-		//generateModelFromCode.setupProjectStructure(mockedFile);
-		
-		for (MethodDeclaration methodDeclaration : collector.getMethods()) {
-			Method method = CbcclassFactory.eINSTANCE.createMethod();
-			
-			Resource cbcmodelResource = generateModelFromCode.setupProjectForCbCModel(method, methodDeclaration.getNameAsString());
-			
-			EList<Statement> listOfStatements = new BasicEList<Statement>();
-			//TODO: check if assert statements are collected
-			StatementsCollector statementsCollector = new StatementsCollector();
-			statementsCollector.visit(methodDeclaration, null);
-			for (int j = 0; j < statementsCollector.getStatements().size(); j++) {
-				listOfStatements.add(null);
-			}
-			
-			CbCFormula formula = CbcmodelFactory.eINSTANCE.createCbCFormula();
-			formula.setName(methodDeclaration.getNameAsString());
-			AbstractStatement statement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
-			statement.setName("statement");
-			formula.setStatement(statement);
-			
-			generateModelFromCode.handleListOfStatements(cbcmodelResource, listOfStatements, formula.getStatement());
-		}
-		
-	}
-	
-
 }

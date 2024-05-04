@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import com.github.javaparser.StaticJavaParser;
@@ -51,7 +50,6 @@ import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SwitchEntry;
 import com.github.javaparser.ast.stmt.SwitchStmt;
 import com.github.javaparser.ast.stmt.WhileStmt;
-import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassPackage;
@@ -114,13 +112,13 @@ public class GenerateModelFromCode {
 		
 		ClassOrInterfaceCollector collector = new ClassOrInterfaceCollector();
 		collector.visit(compilationUnit, null);
-
-		//TODO: pruefen, ob packagename gebraucht wird?
+		
 		/*
 		if (compilationUnit.getNamespacesAsString() != null && !compilationUnit.getNamespacesAsString().isEmpty()) {
 			packageName = compilationUnit.getNamespacesAsString().substring(0, compilationUnit.getNamespacesAsString().length()-1);
 		}
 		*/
+		
 		setupProjectStructure(iFile);
 		
 		ModelClass modelClass = instantiateModelClass(null);
@@ -184,7 +182,7 @@ public class GenerateModelFromCode {
 					}
 					jmlAnnotation = jmlAnnotation.substring(index + 4);
 
-					addConditionsToFormula(formula, currentJmlPart, variables, method, conditions);
+					addConditionsToFormula(formula, currentJmlPart, variables, conditions);
 
 				} while (index != -1);
 				
@@ -195,14 +193,18 @@ public class GenerateModelFromCode {
 				methods.add(method);
 
 				EList<Statement> listOfStatements = new BasicEList<Statement>();
-				//TODO: check if assert statements are collected
+				EList<Statement> listOfAssertStatements = new BasicEList<Statement>();
 				StatementsCollector statementsCollector = new StatementsCollector();
 				statementsCollector.visit(methodDeclaration, null);
 				for (int j = 0; j < statementsCollector.getStatements().size(); j++) {
 					listOfStatements.add(null);
 				}
+				for (int u = 0; u < statementsCollector.getAssertStatements().size(); u++) {
+					listOfAssertStatements.add(null);
+				}
 				Collections.copy(listOfStatements, statementsCollector.getStatements());
-				handleListOfStatements(cbcmodelResource, listOfStatements, formula.getStatement());					
+				Collections.copy(listOfAssertStatements, statementsCollector.getAssertStatements());
+				handleListOfStatements(cbcmodelResource, listOfStatements, listOfAssertStatements, formula.getStatement());					
 				for (int i = 0; i < variables.getVariables().size(); i++) {
 					JavaVariable var = variables.getVariables().get(i);
 					if (var.getKind().equals(VariableKind.PARAM) || var.getKind().equals(VariableKind.RETURN)) {
@@ -304,8 +306,7 @@ public class GenerateModelFromCode {
 		if (!type.isVoidType()) {
 			JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 			String typeString = methodDec.getTypeAsString();
-			//TODO: evtl. muss der Name auch noch mit in setName. Momentan wird nur der Typ übergeben
-			variable.setName(methodDec.getTypeAsString() + " ret");
+			variable.setName(typeString + " ret");
 			variable.setKind(VariableKind.RETURN);
 			variables.getVariables().add(variable);
 		}
@@ -440,11 +441,10 @@ public class GenerateModelFromCode {
 	 * @param variables
 	 * @param conditions
 	 */
-	public void addConditionsToFormula(CbCFormula formula, String jmlAnnotation, JavaVariables variables,
-			Method method, GlobalConditions conditions) {
+	public void addConditionsToFormula(CbCFormula formula, String jmlAnnotation, JavaVariables variables, GlobalConditions conditions) {
 		jmlAnnotation = replaceSpecialSymbols(jmlAnnotation);
 
-		jmlAnnotation = cbcWorkaroundForOldKeyword(jmlAnnotation, variables, conditions);
+		//jmlAnnotation = cbcWorkaroundForOldKeyword(jmlAnnotation, variables, conditions);
 
 		// adds pre condition
 		int startPre = jmlAnnotation.indexOf("requires");
@@ -480,10 +480,16 @@ public class GenerateModelFromCode {
 		postCond.setName(post);
 		formula.getPostCondition().setName(post);
 		formula.getStatement().getPostCondition().setName(post);
+		
+		// adds modifiables
+		int startMod = jmlAnnotation.indexOf("assignable");
+		int endMod = findEnd(jmlAnnotation, startMod);
+		for (String assign : jmlAnnotation.substring(startMod + 11, endMod).split(",")) {
+			formula.getStatement().getPostCondition().getModifiables().add(assign);
+		}
 	}
 
-	private String cbcWorkaroundForOldKeyword(String jmlAnnotation, JavaVariables variables,
-			GlobalConditions conditions) {
+	private String cbcWorkaroundForOldKeyword(String jmlAnnotation, JavaVariables variables, GlobalConditions conditions) {
 		int old = jmlAnnotation.indexOf("\\old");
 		while (old != -1) {
 			int endOld = findEndOfBracket(jmlAnnotation, old + 5);
@@ -690,6 +696,7 @@ public class GenerateModelFromCode {
 				name = oldPart;
 			}
 			newVariableName = "old_" + name;
+			newVariableName = "\\old" + "(" + oldPart + ")";
 			invariant = invariant.replace("\\old" + "(" + oldPart + ")", newVariableName + rest);
 			additionalPre.add(newVariableName + " = " + name);
 			old = invariant.indexOf("\\old", endOld + 5);
@@ -842,31 +849,37 @@ public class GenerateModelFromCode {
 	 * @param parent     the statements from the list should be connected to that
 	 *                   statement
 	 */
-	public void handleListOfStatements(Resource r, EList<Statement> statements, AbstractStatement parent) throws ExecutionException {
+	public void handleListOfStatements(Resource r, EList<Statement> statements, EList<Statement> assertStatements, AbstractStatement parent) throws ExecutionException {
 		if (statements.size() > 1) {
 			CompositionStatement composition = createComposition();
 			parent.setRefinement(composition);
 			
-			handleStatement(r, statements.get(0), composition.getFirstStatement());
-			int i = 1;
-			//TODO: check which position contains the assert stmt
-			if(statements.get(1).isAssertStmt()) { // assert statements contain intermediate conditions
-				AssertStmt assertSt = statements.get(1).asAssertStmt();
+			handleStatement(r, statements.get(0), assertStatements, composition.getFirstStatement());
+			int i = 0;
+			if(!assertStatements.isEmpty()) { // assert statements contain intermediate conditions
+				AssertStmt assertSt = assertStatements.get(0).asAssertStmt();
 				Condition intermediate = CbcmodelFactory.eINSTANCE.createCondition();
-				//TODO: check if name is set right
 				intermediate.setName(assertSt.toString());
 				composition.setIntermediateCondition(intermediate);
-				i = 2;
+				i = 1;
 			}
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, composition);
-			BasicEList<Statement> newStatementList = new BasicEList<Statement>();
-			while (i < statements.size()) {
-				newStatementList.add(statements.get(i));
+			
+			BasicEList<Statement> newAssertStatementList = new BasicEList<Statement>();
+			while (i < assertStatements.size()) {
+				newAssertStatementList.add(assertStatements.get(i));
 				i++;
 			}
-			handleListOfStatements(r, newStatementList, composition.getSecondStatement());//Todo: throws Error
+			
+			BasicEList<Statement> newStatementList = new BasicEList<Statement>();
+			int j = 1;
+			while (j < statements.size()) {
+				newStatementList.add(statements.get(j));
+				j++;
+			}
+			handleListOfStatements(r, newStatementList, newAssertStatementList, composition.getSecondStatement());//Todo: throws Error
 		} else if (statements.size() == 1) {
-			handleStatement(r, statements.get(0), parent);
+			handleStatement(r, statements.get(0), assertStatements, parent);
 			
 		} else {
 			SkipStatement skipStatement = createSkipStatement();
@@ -883,13 +896,10 @@ public class GenerateModelFromCode {
 	 * @param statement
 	 * @param parent
 	 */
-	private void handleStatement(Resource r, Statement statement, AbstractStatement parent) throws ExecutionException {
-		EList<Statement> blockStmts = new BasicEList<Statement>();
-		
+	private void handleStatement(Resource r, Statement statement, EList<Statement> assertStatements, AbstractStatement parent) throws ExecutionException {
 		if (statement.isExpressionStmt()) {
 			if (statement.asExpressionStmt().getExpression().isVariableDeclarationExpr()) {
 				VariableDeclarationExpr variableStmt = statement.asExpressionStmt().getExpression().asVariableDeclarationExpr();
-				//TODO: check if Variable is right
 				NodeList<VariableDeclarator> varDec = variableStmt.getVariables();
 				String text = varDec.get(0).toString();
 				if (text.contains("=")) {
@@ -905,6 +915,11 @@ public class GenerateModelFromCode {
 					UpdateConditionsOfChildren.updateRefinedStatement(parent, skipStatement);
 				}
 				addToVariables(varDec.get(0), (JavaVariables) r.getContents().get(1), VariableKind.LOCAL);
+			} else {
+				ExpressionStmt expressionStmt = statement.asExpressionStmt();
+				AbstractStatement s = createStatement(expressionStmt.getExpression().toString() + ";");
+				parent.setRefinement(s);
+				UpdateConditionsOfChildren.updateRefinedStatement(parent, s);
 			}
 		} else if (statement.isWhileStmt()) {
 			WhileStmt whileStmt = statement.asWhileStmt();
@@ -922,10 +937,11 @@ public class GenerateModelFromCode {
 			parent.setRefinement(repStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, repStatement);
 			if (whileStmt.getBody().isBlockStmt()) {
+				EList<Statement> whileBlock = new BasicEList<Statement>();
 				for (Statement stmt : whileStmt.getBody().asBlockStmt().getStatements()) {
-					blockStmts.add(stmt);
+					whileBlock.add(stmt);
 				}
-				handleListOfStatements(r, blockStmts, repStatement.getLoopStatement());
+				handleListOfStatements(r, whileBlock, assertStatements, repStatement.getLoopStatement());
 			}
 		} else if (statement.isIfStmt()) {
 			IfStmt ifStat = statement.asIfStmt();
@@ -940,22 +956,23 @@ public class GenerateModelFromCode {
 						("!" + "(" + conditionString + ")"));
 				parent.setRefinement(selStatement);
 				UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
-				//TODO: seperate blockStmtsListen
+				EList<Statement> ifBlock = new BasicEList<Statement>();
 				if (ifStat.getThenStmt().isBlockStmt()) {
 					for (Statement stmt : ifStat.getThenStmt().asBlockStmt().getStatements()) {
-						blockStmts.add(stmt);
+						ifBlock.add(stmt);
 					}
-					handleListOfStatements(r, blockStmts, selStatement.getCommands().get(0));
+					handleListOfStatements(r, ifBlock, assertStatements, selStatement.getCommands().get(0));
 				} else {
 					SkipStatement skipStatement = createSkipStatement();
 					parent.setRefinement(skipStatement);
 					UpdateConditionsOfChildren.updateRefinedStatement(parent, skipStatement);
 				}
+				EList<Statement> elseBlock = new BasicEList<Statement>();
 				if (elseStat.get().isBlockStmt()) {
 					for (Statement stmt : elseStat.get().asBlockStmt().getStatements()) {
-						blockStmts.add(stmt);
+					elseBlock.add(stmt);
 					}
-					handleListOfStatements(r, blockStmts, selStatement.getCommands().get(1));
+					handleListOfStatements(r, elseBlock, assertStatements, selStatement.getCommands().get(1));
 				} else {
 					SkipStatement skipStatement = createSkipStatement();
 					selStatement.getCommands().get(1).setRefinement(skipStatement);
@@ -965,11 +982,12 @@ public class GenerateModelFromCode {
 				SelectionStatement selStatement = createMultiSelection(ifStat.getCondition().toString());
 				parent.setRefinement(selStatement);
 				UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
+				EList<Statement> selBlock = new BasicEList<Statement>();
 				if (ifStat.getThenStmt().isBlockStmt()) {
 					for (Statement stmt : ifStat.getThenStmt().asBlockStmt().getStatements()) {
-						blockStmts.add(stmt);
+						selBlock.add(stmt);
 					}
-					handleListOfStatements(r, blockStmts, selStatement.getCommands().get(0));
+					handleListOfStatements(r, selBlock, assertStatements, selStatement.getCommands().get(0));
 				}
 				int i = 1;
 				while (ifStat.getElseStmt().isPresent() && ifStat.getElseStmt().get().isIfStmt()) {
@@ -993,7 +1011,7 @@ public class GenerateModelFromCode {
 						for (Statement stmt : ifStat.getThenStmt().asBlockStmt().getStatements()) {
 							privBlockStmts.add(stmt);
 						}
-						handleListOfStatements(r, privBlockStmts, selStatement.getCommands().get(i));
+						handleListOfStatements(r, privBlockStmts, assertStatements, selStatement.getCommands().get(i));
 					}
 					i++;
 					ifStat = nextCondition;
@@ -1023,7 +1041,7 @@ public class GenerateModelFromCode {
 					for (Statement stmt : ifStat.getThenStmt().asBlockStmt().getStatements()) {
 						privBlockStmts.add(stmt);
 					}
-					handleListOfStatements(r, privBlockStmts, selStatement.getCommands().get(i));
+					handleListOfStatements(r, privBlockStmts, assertStatements, selStatement.getCommands().get(i));
 				}
 			}
 
@@ -1035,13 +1053,6 @@ public class GenerateModelFromCode {
 				parent.setRefinement(retStatement);
 				UpdateConditionsOfChildren.updateRefinedStatement(parent, retStatement);
 			}
-		} else if (statement.isExpressionStmt()) {
-			ExpressionStmt expressionStmt = statement.asExpressionStmt();
-			//TODO: check if expression.toString() has the right value
-			AbstractStatement s = createStatement(expressionStmt.getExpression().toString() + ";");
-			parent.setRefinement(s);
-			UpdateConditionsOfChildren.updateRefinedStatement(parent, s);
-		//TODO: maybe also ForEachStmt()	
 		} else if (statement.isForStmt()) {
 			ForStmt forStmt = statement.asForStmt();
 
@@ -1077,11 +1088,12 @@ public class GenerateModelFromCode {
 			composition2.getSecondStatement().setRefinement(updateStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(composition2.getSecondStatement(), updateStatement);
 
+			EList<Statement> forBlock = new BasicEList<Statement>();
 			if (forStmt.getBody().isBlockStmt()) {
 				for (Statement stmt : forStmt.getBody().asBlockStmt().getStatements()) {
-					blockStmts.add(stmt);
+					forBlock.add(stmt);
 				}
-				handleListOfStatements(r, blockStmts, repStatement.getLoopStatement());
+				handleListOfStatements(r, forBlock, assertStatements, repStatement.getLoopStatement());
 			}
 		} else if (statement.isSwitchStmt()) {
 			SwitchStmt switchStmt = statement.asSwitchStmt();
@@ -1096,10 +1108,6 @@ public class GenerateModelFromCode {
 					firstCondition = label.get();
 				}
 			}
-
-			//TODO: wie werden switch entries hinzugefügt?
-			//case 1: x = 5; i + 1; break;
-			//was von den Statements wird hinzugefügt?
 			SelectionStatement selStatement = createMultiSelection(
 					switchVariable + " = " + firstCondition.toString());
 			parent.setRefinement(selStatement);
@@ -1108,7 +1116,7 @@ public class GenerateModelFromCode {
 			for (Statement stmt : sc.getStatements()) {
 				switchStmts.add(stmt);
 			}
-			handleListOfStatements(r, switchStmts, selStatement.getCommands().get(0));
+			handleListOfStatements(r, switchStmts, assertStatements, selStatement.getCommands().get(0));
 
 			for (int i = 1; i < switchStmt.getEntries().size(); i++) {
 				if (switchStmt.getEntry(i).getType().equals(SwitchEntry.Type.STATEMENT_GROUP) && switchStmt.getEntry(i).getLabels().isNonEmpty()) {
@@ -1133,11 +1141,11 @@ public class GenerateModelFromCode {
 					nextStatement.setPostCondition(nextPost);
 					UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
 					UpdateConditionsOfChildren.updateConditionsofChildren(nextPre);
-					EList<Statement> switchStmts1 = new BasicEList<Statement>();
+					EList<Statement> nonEmptySwitchStmts = new BasicEList<Statement>();
 					for (Statement stmt : normalCase.getStatements()) {
-						switchStmts1.add(stmt);
+						nonEmptySwitchStmts.add(stmt);
 					}
-					handleListOfStatements(r, switchStmts1, nextStatement);
+					handleListOfStatements(r, nonEmptySwitchStmts, assertStatements, nextStatement);
 
 				} else if (switchStmt.getEntry(i).getType().equals(SwitchEntry.Type.STATEMENT_GROUP)) {
 					SwitchEntry defaultCase = switchStmt.getEntry(i);
@@ -1161,11 +1169,11 @@ public class GenerateModelFromCode {
 					nextStatement.setPostCondition(nextPost);
 					UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
 					UpdateConditionsOfChildren.updateConditionsofChildren(nextPre);
-					EList<Statement> switchStmts2 = new BasicEList<Statement>();
+					EList<Statement> maybeEmtpySwtichStmt = new BasicEList<Statement>();
 					for (Statement stmt : defaultCase.getStatements()) {
-						switchStmts2.add(stmt);
+						maybeEmtpySwtichStmt.add(stmt);
 					}
-					handleListOfStatements(r, switchStmts2, nextStatement);
+					handleListOfStatements(r, maybeEmtpySwtichStmt, assertStatements, nextStatement);
 				}
 			}
 		} else if (statement.isEmptyStmt()) {
