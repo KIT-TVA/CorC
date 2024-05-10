@@ -27,6 +27,7 @@ public class CodeController implements Controller {
 	this.model.addListener(() -> {
 	    view.updateCode(model.getCode());
 	    view.setCaretOffset(model.getCurOffset());
+	    view.disableCodeIfNecessary(model.basicViewEnabled());
 	});
     }
 

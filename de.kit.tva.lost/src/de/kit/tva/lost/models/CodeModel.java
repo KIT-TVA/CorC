@@ -1,11 +1,14 @@
 package de.kit.tva.lost.models;
 
 import de.kit.tva.lost.interfaces.AbstractModel;
+import de.kit.tva.lost.interfaces.CodeView;
 
 public class CodeModel extends AbstractModel {
+    private String viewCode;
     private String code;
     private boolean outOfContext;
     private int curOffset = 0;
+    private boolean basicView = false;
 
     public String getCode() {
 	return code;
@@ -16,6 +19,10 @@ public class CodeModel extends AbstractModel {
 	    this.curOffset = offset;
 	}
 	notifyListeners();
+    }
+
+    public boolean basicViewEnabled() {
+	return this.basicView;
     }
 
     private void decrementCurOffset() {
@@ -39,6 +46,14 @@ public class CodeModel extends AbstractModel {
     public void setCode(String newCode) {
 	code = newCode;
 	notifyListeners();
+    }
+
+    public String getViewCode() {
+	return this.viewCode;
+    }
+
+    public void setViewCode(String newViewCode) {
+	this.viewCode = newViewCode;
     }
 
     public void addChar(char character) {
@@ -97,12 +112,14 @@ public class CodeModel extends AbstractModel {
     private void removeCharFromMiddle(char character) {
 	this.setCode(this.code.substring(0, curOffset) + '\n' + createNewLine(curOffset)
 		+ this.code.substring(curOffset, this.code.length()));
-	for (int i = 0; i < getTabAmountOfPrevLine(curOffset); i++) incrementCurOffset();
+	for (int i = 0; i < getTabAmountOfPrevLine(curOffset); i++)
+	    incrementCurOffset();
     }
 
     private void removeCharFromEnd(char character) {
 	var newLine = createNewLine(curOffset);
-	if (outOfContext) this.setCode(code.trim() + '\n');
+	if (outOfContext)
+	    this.setCode(code.trim() + '\n');
 	this.setCode(code + '\n' + newLine);
 	this.setCurOffset(this.code.length());
     }
@@ -117,15 +134,16 @@ public class CodeModel extends AbstractModel {
 	String prevLine = code.substring(0, offset);
 	int lastIndex = prevLine.lastIndexOf('\n') == -1 ? 0 : prevLine.lastIndexOf('\n');
 	prevLine = prevLine.substring(lastIndex, prevLine.length());
-	if (outOfContext(prevLine)) return 1;
+	if (outOfContext(prevLine))
+	    return 1;
 	return prevLine.chars().filter(c -> c == '\t').count();
     }
-    
+
     private boolean outOfContext(String prevLine) {
 	if (prevLine.trim().isEmpty()) {
-            this.setCode(this.getCode().trim());
-            this.outOfContext = true;
-	    return true; 
+	    this.setCode(this.getCode().trim());
+	    this.outOfContext = true;
+	    return true;
 	}
 	this.outOfContext = false;
 	return false;
@@ -137,5 +155,21 @@ public class CodeModel extends AbstractModel {
 	    newLine.append('\t');
 	}
 	return newLine.toString();
+    }
+
+    public void switchView() {
+	this.basicView = !this.basicView;
+	applyView();
+    }
+
+    private void applyView() {
+	CodeView codeView;
+	if (basicView) {
+	    codeView = new BasicCodeView();
+	} else {
+	    codeView = new ExtendedCodeView();
+	}
+	this.setViewCode(codeView.transform(this.code));
+	notifyListeners();
     }
 }

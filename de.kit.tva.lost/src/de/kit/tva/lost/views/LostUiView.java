@@ -138,7 +138,7 @@ public class LostUiView extends Composite implements View, Listener {
 	// Views
 	CodeView codeView = new CodeView(this.getCodeField());
 	// Controllers
-	new UiController(this, codeView, uiModel);
+	new UiController(this, codeView, uiModel, codeModel);
 	new CodeController(codeView, codeModel);
 	new TranslatorController(this, codeView, codeModel, translatorModel, diagramTranslatorModel);
     }
