@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature id="de.kit.tva.corc.feature">
-      <category name="CorC"/>
-   </feature>
    <feature id="de.hentschel.visualdbc.feature">
       <category name="dependencies"/>
    </feature>
@@ -146,6 +143,9 @@
    </feature>
    <feature id="org.eclipse.xtext.runtime">
       <category name="dependencies"/>
+   </feature>
+   <feature id="de.kit.tva.corc.feature">
+      <category name="CorC"/>
    </feature>
    <category-def name="CorC" label="CorC"/>
    <category-def name="dependencies" label="CorC Dependencies"/>

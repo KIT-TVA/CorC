@@ -35,7 +35,7 @@ public class CodeView extends AbstractView {
     }
 
     public void updateCodeColor(CodeColor codeColor) {
-	if (codeColor.startIndex == -1) {
+	if (codeColor.relStartIndex == -1) {
 	    this.codeField.setForeground(codeColor.colorToSet);
 	} else {
 	    setPartialCodeColor(codeColor);
@@ -44,12 +44,23 @@ public class CodeView extends AbstractView {
 
     private void setPartialCodeColor(CodeColor codeColor) {
 	StyleRange sr = new StyleRange();
-	sr.start = codeColor.startIndex;
-	sr.length = codeColor.endIndex - codeColor.startIndex;
+	if(!calcAbsIndicies(codeColor)) return;
+	sr.start = codeColor.relStartIndex;
+	sr.length = codeColor.relEndIndex - codeColor.relStartIndex;
 	sr.foreground = codeColor.colorToSet;
 	if (sr.start + sr.length > codeField.getText().length()) {
 	    sr.start--;
 	}
 	this.codeField.setStyleRange(sr);
+    }
+    
+    private boolean calcAbsIndicies(CodeColor codeColor) {
+	var lines = this.codeField.getText().split("\\n");
+	if (codeColor.line >= lines.length) return false;
+	for (int i = 0; i < codeColor.line; ++i) {
+	    codeColor.relStartIndex += lines[i].length();
+	    codeColor.relEndIndex += lines[i].length();
+	}
+	return true;
     }
 }

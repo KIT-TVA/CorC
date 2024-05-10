@@ -15,10 +15,19 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.ui.PlatformUI;
 
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
+
 public class DiagramResourceModel {
     private static DiagramResourceModel instance;
     private Resource diagramResource;
-    private boolean wasCreated;
+
+    private GlobalConditions conds;
+    private Renaming renaming;
+    private JavaVariables vars;
+    private CbCFormula formula;
 
     private DiagramResourceModel() {
     }
@@ -30,26 +39,36 @@ public class DiagramResourceModel {
 	return instance;
     }
 
-    public boolean wasCreated() {
-	return wasCreated;
-    }
-
     public Resource get(String name) throws DiagramResourceModelException, IOException {
 	ResourceSet resourceSet = new ResourceSetImpl();
 	IFolder currentFolder = getCurrentFolder();
-	var diagramFile = currentFolder.getFile(name + ".diagram");
 	var diagramResFile = currentFolder.getFile(name + ".cbcmodel");
 	if (diagramResFile.exists()) {
-	    wasCreated = false;
 	    return loadDiagramResource(diagramResFile);
 	}
-	wasCreated = true;
 	URI modelUri = URI.createPlatformResourceURI(currentFolder.getFullPath() + "/" + name + ".cbcmodel");
 	if (!createModelResource(resourceSet, modelUri)) {
 	    throw new DiagramResourceModelException("Couldn't create the model for the diagram.");
 	}
 	refreshWorkspace();
+	extractContents(this.diagramResource);
 	return this.diagramResource;
+    }
+
+    public GlobalConditions getConds() {
+	return this.conds;
+    }
+
+    public Renaming getRenaming() {
+	return renaming;
+    }
+
+    public JavaVariables getVars() {
+	return vars;
+    }
+
+    public CbCFormula getFormula() {
+	return formula;
     }
 
     private Resource loadDiagramResource(IFile diagramResFile) throws DiagramResourceModelException, IOException {
@@ -57,6 +76,7 @@ public class DiagramResourceModel {
 	URI diagramResFileUri = URI.createPlatformResourceURI(diagramResFile.getFullPath().toString(), true);
 	Resource fileResource = rSet.createResource(diagramResFileUri);
 	fileResource.load(null);
+	extractContents(fileResource);
 	return fileResource;
     }
 
@@ -93,5 +113,19 @@ public class DiagramResourceModel {
 		    "Please select a folder or file in the target folder in the project in which the diagram should be created.");
 	}
 	return (IFolder) res;
+    }
+
+    private void extractContents(Resource diagRes) {
+	for (int i = 0; i < diagRes.getContents().size(); i++) {
+	    if (diagRes.getContents().get(i) instanceof CbCFormula) {
+		this.formula = (CbCFormula) diagRes.getContents().get(i);
+	    } else if (diagRes.getContents().get(i) instanceof JavaVariables) {
+		this.vars = (JavaVariables) diagRes.getContents().get(i);
+	    } else if (diagRes.getContents().get(i) instanceof GlobalConditions) {
+		this.conds = (GlobalConditions) diagRes.getContents().get(i);
+	    } else if (diagRes.getContents().get(i) instanceof Renaming) {
+		this.renaming = (Renaming) diagRes.getContents().get(i);
+	    }
+	}
     }
 }

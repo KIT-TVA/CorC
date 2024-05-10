@@ -9,10 +9,10 @@
             id="LOST">
       </category>
       <view
-            id="de.kit.tva.corc.lost.boot.Bootstrap"
+            id="de.kit.tva.lost.boot.Bootstrap"
             name="LOST Editor"
             icon="icons/sample.png"
-            class="de.kit.tva.corc.lost.boot.Bootstrap"
+            class="de.kit.tva.lost.boot.Bootstrap"
             category="LOST"
             inject="true">
       </view>

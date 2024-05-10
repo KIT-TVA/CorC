@@ -22,7 +22,9 @@ import de.kit.tva.lost.controllers.UiController;
 import de.kit.tva.lost.interfaces.Listener;
 import de.kit.tva.lost.interfaces.View;
 import de.kit.tva.lost.models.CodeModel;
+import de.kit.tva.lost.models.DiagramTranslator;
 import de.kit.tva.lost.models.TranslatorModel;
+import de.kit.tva.lost.models.UiModel;
 
 public class LostUiView extends Composite implements View, Listener {
     private LocalResourceManager localResourceManager;
@@ -31,6 +33,7 @@ public class LostUiView extends Composite implements View, Listener {
     private Composite grpHeader;
     private Composite grpSyntax;
     private StyledText codeField;
+    private Button btnHelp;
     private Button btnTranslate;
     private Button btnLoad;
     private Button btnBasic;
@@ -47,7 +50,7 @@ public class LostUiView extends Composite implements View, Listener {
     public LostUiView(Composite parent, int style) {
 	super(parent, style);
 	createResourceManager();
-	GridLayout gridLayout = new GridLayout(2, false);
+	GridLayout gridLayout = new GridLayout(3, false);
 	gridLayout.marginHeight = 0;
 	setLayout(gridLayout);
 
@@ -67,6 +70,12 @@ public class LostUiView extends Composite implements View, Listener {
 	grpSyntax.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
 	formToolkit.adapt(grpSyntax);
 	formToolkit.paintBordersFor(grpSyntax);
+
+	btnHelp = new Button(this, SWT.FLAT);
+	btnHelp.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+	formToolkit.adapt(btnHelp, true, true);
+	btnHelp.setText("?");
+
 	/*
 	 * Button btnExhaustive = new Button(grpSyntax, SWT.RADIO);
 	 * btnExhaustive.setBounds(129, 0, 77, 16); formToolkit.adapt(btnExhaustive,
@@ -103,7 +112,7 @@ public class LostUiView extends Composite implements View, Listener {
 	codeField.setLeftMargin(5);
 	codeField.setRightMargin(5);
 	codeField.setTabStops(new int[] { 16 });
-	GridData gdCodeField = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+	GridData gdCodeField = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1);
 	gdCodeField.heightHint = 216;
 	codeField.setLayoutData(gdCodeField);
 	formToolkit.adapt(codeField);
@@ -122,15 +131,16 @@ public class LostUiView extends Composite implements View, Listener {
 
     private void initMVCs() {
 	// Models
+	UiModel uiModel = new UiModel();
 	CodeModel codeModel = new CodeModel();
 	TranslatorModel translatorModel = new TranslatorModel();
+	DiagramTranslator diagramTranslatorModel = new DiagramTranslator();
 	// Views
 	CodeView codeView = new CodeView(this.getCodeField());
-	TranslatorView translatorView = new TranslatorView(this.getTranslateButton());
 	// Controllers
-	new UiController(this, codeView);
+	new UiController(this, codeView, uiModel);
 	new CodeController(codeView, codeModel);
-	new TranslatorController(codeView, translatorView, translatorModel);
+	new TranslatorController(this, codeView, codeModel, translatorModel, diagramTranslatorModel);
     }
 
     public LostUiView getUI() {
@@ -147,6 +157,10 @@ public class LostUiView extends Composite implements View, Listener {
 
     public StyledText getCodeField() {
 	return this.codeField;
+    }
+
+    public Button getHelpButton() {
+	return this.btnHelp;
     }
 
     public Button getBasicViewButton() {

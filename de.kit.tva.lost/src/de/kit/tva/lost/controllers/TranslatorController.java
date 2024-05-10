@@ -2,26 +2,36 @@ package de.kit.tva.lost.controllers;
 
 import java.io.IOException;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.ui.PlatformUI;
 
 import de.kit.tva.lost.interfaces.Controller;
+import de.kit.tva.lost.models.CodeModel;
 import de.kit.tva.lost.models.DiagramResourceModelException;
+import de.kit.tva.lost.models.DiagramTranslator;
+import de.kit.tva.lost.models.DiagramTranslatorException;
 import de.kit.tva.lost.models.TranslatorErrorListenerModel;
 import de.kit.tva.lost.models.TranslatorModel;
 import de.kit.tva.lost.views.CodeView;
-import de.kit.tva.lost.views.TranslatorView;
+import de.kit.tva.lost.views.LostUiView;
 
 public class TranslatorController implements Controller {
     TranslatorModel translatorModel;
-    TranslatorView translatorView;
+    DiagramTranslator diagramTranslatorModel;
+    CodeModel codeModel;
+    LostUiView uiView;
     CodeView codeView;
 
-    public TranslatorController(CodeView codeView, TranslatorView translatorView, TranslatorModel translatorModel) {
+    public TranslatorController(LostUiView uiView, CodeView codeView, CodeModel codeModel,
+	    TranslatorModel translatorModel, DiagramTranslator diagramTranslatorModel) {
 	this.translatorModel = translatorModel;
-	this.translatorView = translatorView;
+	this.diagramTranslatorModel = diagramTranslatorModel;
 	this.codeView = codeView;
+	this.uiView = uiView;
+	this.codeModel = codeModel;
 	createModelObservers();
 	addViewListeners();
 	initModel();
@@ -36,7 +46,7 @@ public class TranslatorController implements Controller {
 
     @Override
     public void addViewListeners() {
-	translatorView.getTranslateButton().addSelectionListener(new SelectionListener() {
+	uiView.getTranslateButton().addSelectionListener(new SelectionListener() {
 	    @Override
 	    public void widgetSelected(SelectionEvent e) {
 		try {
@@ -54,11 +64,33 @@ public class TranslatorController implements Controller {
 	    }
 
 	});
+
+	uiView.getLoadButton().addSelectionListener(new SelectionListener() {
+
+	    @Override
+	    public void widgetSelected(SelectionEvent e) {
+		var currentDiagName = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+			.getActiveEditor().getEditorInput().getAdapter(IResource.class).getName().split("\\.")[0];
+		try {
+		    if (!diagramTranslatorModel.load(currentDiagName)) {
+			return;
+		    }
+		    codeModel.setCode(diagramTranslatorModel.getTranslatedCode());
+		} catch (DiagramTranslatorException | DiagramResourceModelException | IOException e1) {
+		    e1.printStackTrace();
+		}
+	    }
+
+	    @Override
+	    public void widgetDefaultSelected(SelectionEvent e) {
+		// Not relevant
+	    }
+
+	});
     }
 
     @Override
     public void initModel() {
-	translatorModel = new TranslatorModel();
     }
 
 }

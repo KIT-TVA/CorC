@@ -76,7 +76,7 @@ public class LostTranslatorTests {
 
     @Test
     public void variables() {
-	String input = new String("Vars\n" + "\tint a;\n" + "\tString b;\n" + "F(pre: x,post: y)\n" + "\tM: x();\n");
+	String input = new String("Vars\n" + "\tLOCAL int a;\n" + "\tRETURN String b;\n" + "F(pre: x,post: y)\n" + "\tM: x();\n");
 
 	assertTrue(translator.translate(PREFIX + input));
 

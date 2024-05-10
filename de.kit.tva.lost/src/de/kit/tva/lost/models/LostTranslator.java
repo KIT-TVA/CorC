@@ -16,6 +16,7 @@ import de.kit.tva.lost.models.LostParser.MethodCallSContext;
 import de.kit.tva.lost.models.LostParser.MlexprContext;
 import de.kit.tva.lost.models.LostParser.OriginalSContext;
 import de.kit.tva.lost.models.LostParser.ProgramContext;
+import de.kit.tva.lost.models.LostParser.RenamerContext;
 import de.kit.tva.lost.models.LostParser.RenamingContext;
 import de.kit.tva.lost.models.LostParser.RepetitionContext;
 import de.kit.tva.lost.models.LostParser.ReturnSContext;
@@ -42,10 +43,10 @@ import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
  * {@link de.tu-bs.cs.isf.cbc.cbcclass.ModelClass}.
  */
 public class LostTranslator {
-    JavaVariables vars;
-    GlobalConditions conds;
-    Renaming renaming;
-    CbCFormula formula = CbcmodelFactory.eINSTANCE.createCbCFormula();
+    private JavaVariables vars;
+    private GlobalConditions conds;
+    private Renaming renaming;
+    private CbCFormula formula = CbcmodelFactory.eINSTANCE.createCbCFormula();
     private ProgramContext tree;
     private GenerateModelFromCode gmfc = new GenerateModelFromCode();
 
@@ -59,7 +60,23 @@ public class LostTranslator {
 	}
 	return true;
     }
-
+    
+    public CbCFormula getFormula() {
+	return this.formula;
+    }
+    
+    public GlobalConditions getGlobalConditions() {
+	return this.conds;
+    }
+    
+    public Renaming getRenaming() {
+	return this.renaming;
+    }
+    
+    public JavaVariables getVariables() {
+	return this.vars;
+    }
+    
     private boolean genParseTree(String lostCode) {
 	LostLexer lexer = new LostLexer(CharStreams.fromString(lostCode));
 	CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -89,12 +106,9 @@ public class LostTranslator {
 	vars = CbcmodelFactory.eINSTANCE.createJavaVariables();
 	for (int i = 0; i < varsTree.getRuleContexts(VariableContext.class).size(); i++) {
 	    var variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
-	    var treeVariable = varsTree.variable(i).getText();
-	    var variableParts = treeVariable.split("\\s");
-	    for (int j = 0; j < variableParts.length; j++) {
-		variable.setKind(VariableKind.getByName(variableParts[0]));
-		variable.setName(String.join(" ", Arrays.copyOfRange(variableParts, 1, variableParts.length)));
-	    }
+	    var treeVariable = varsTree.variable(i);
+            variable.setKind(VariableKind.getByName(treeVariable.KIND().getText()));
+            variable.setName(treeVariable.TYPE().getText() + " " + treeVariable.ID());
 	    vars.getVariables().add(variable);
 	}
     }
@@ -108,8 +122,14 @@ public class LostTranslator {
 	}
     }
 
-    private void addRenamers(RenamingContext renamningTree) {
+    private void addRenamers(RenamingContext renamingTree) {
 	renaming = CbcmodelFactory.eINSTANCE.createRenaming();
+	for (int i = 0; i < renamingTree.getRuleContexts(RenamerContext.class).size(); i++) {
+	    var renamer = CbcmodelFactory.eINSTANCE.createRename();
+	    renamer.setFunction(renamingTree.renamer(i).ID().getText());
+	    renamer.setNewName(renamingTree.renamer(i).condition().getText());
+	    renaming.getRename().add(renamer);
+	}
     }
 
     private void addRefinements(FormulaContext formulaTree) {
@@ -158,8 +178,8 @@ public class LostTranslator {
 	    var intm = CbcmodelFactory.eINSTANCE.createCondition();
 	    cs.setIntermediateCondition(intm);
 	    cs.getIntermediateCondition().setName(csCtx.intm().condition().getText());
-	    walkRefinement(cs, csCtx.refinement(0).refinementRule().getChild(0));
-	    walkRefinement(cs, csCtx.refinement(1).refinementRule().getChild(0));
+	    walkRefinement(cs.getFirstStatement(), csCtx.refinement(0).refinementRule().getChild(0));
+	    walkRefinement(cs.getSecondStatement(), csCtx.refinement(1).refinementRule().getChild(0));
 	    setRefinement(parent, cs);
 	} else if (subtree instanceof StatementContext) {
 	    var sCtx = ((StatementContext) subtree);
@@ -178,7 +198,7 @@ public class LostTranslator {
 		g.setName(selCtx.guards().condition(i).getText());
 		selection.getGuards().add(g);
 		selection.getCommands().add(dummyStatement(i));
-		walkRefinement(selection, selCtx.refinement(i));
+		walkRefinement(selection.getCommands().get(i), selCtx.refinement(i).refinementRule().getChild(0));
 	    }
 	    setRefinement(parent, selection);
 	} else if (subtree instanceof RepetitionContext) {
@@ -195,7 +215,7 @@ public class LostTranslator {
 	    repetition.setGuard(guard);
 	    repetition.setVariant(variant);
 	    repetition.setLoopStatement(dummyStatement(1));
-	    walkRefinement(repetition, repCtx.refinement());
+	    walkRefinement(repetition.getLoopStatement(), repCtx.refinement().refinementRule().getChild(0));
 	    setRefinement(parent, repetition);
 	} else if (subtree instanceof ReturnSContext) {
 	    var retCtx = ((ReturnSContext) subtree);

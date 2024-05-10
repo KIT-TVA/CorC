@@ -4,6 +4,7 @@ import de.kit.tva.lost.interfaces.AbstractModel;
 
 public class CodeModel extends AbstractModel {
     private String code;
+    private boolean outOfContext;
     private int curOffset = 0;
 
     public String getCode() {
@@ -96,11 +97,13 @@ public class CodeModel extends AbstractModel {
     private void removeCharFromMiddle(char character) {
 	this.setCode(this.code.substring(0, curOffset) + '\n' + createNewLine(curOffset)
 		+ this.code.substring(curOffset, this.code.length()));
-	this.setCurOffset(this.code.length());
+	for (int i = 0; i < getTabAmountOfPrevLine(curOffset); i++) incrementCurOffset();
     }
 
     private void removeCharFromEnd(char character) {
-	this.setCode(code + '\n' + createNewLine(curOffset));
+	var newLine = createNewLine(curOffset);
+	if (outOfContext) this.setCode(code.trim() + '\n');
+	this.setCode(code + '\n' + newLine);
 	this.setCurOffset(this.code.length());
     }
 
@@ -114,7 +117,18 @@ public class CodeModel extends AbstractModel {
 	String prevLine = code.substring(0, offset);
 	int lastIndex = prevLine.lastIndexOf('\n') == -1 ? 0 : prevLine.lastIndexOf('\n');
 	prevLine = prevLine.substring(lastIndex, prevLine.length());
+	if (outOfContext(prevLine)) return 1;
 	return prevLine.chars().filter(c -> c == '\t').count();
+    }
+    
+    private boolean outOfContext(String prevLine) {
+	if (prevLine.trim().isEmpty()) {
+            this.setCode(this.getCode().trim());
+            this.outOfContext = true;
+	    return true; 
+	}
+	this.outOfContext = false;
+	return false;
     }
 
     private String tabbedLine(long num) {

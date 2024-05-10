@@ -7,7 +7,10 @@ With [CorC](https://github.com/KIT-TVA/CorC/wiki), we implemented a graphical an
 CorC is developed as an extension for [Eclipse Modelling Tools](https://www.eclipse.org/downloads/packages/release).
 
 # Getting Started 
-Installing CorC is simple. After installing EMT, install CorC via `Help -> Install New Software... -> Add` and enter the following URL: ?
+After installing [EMT](https://www.eclipse.org/downloads/packages/release), install CorC via `Help -> Install New Software... -> Add` and enter the following URL: 
+```
+  https://bwsyncandshare.kit.edu/s/bZBbggzfGmg4C9t/download
+```
 
 # Documentation
 Head over to our [wiki](https://github.com/fynndemmler/CorC/wiki) to find out more information about CorC.

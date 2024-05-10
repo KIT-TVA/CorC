@@ -22,7 +22,7 @@ public class TranslatorErrorListenerModel extends BaseErrorListener implements M
 
     public class CodeColor {
 	public Color colorToSet;
-	public int startIndex, endIndex;
+	public int line, relStartIndex, relEndIndex;
     }
 
     public boolean errorOccurred() {
@@ -39,8 +39,9 @@ public class TranslatorErrorListenerModel extends BaseErrorListener implements M
 	errorMsg = new ErrorMessage();
 	codeColor = new CodeColor();
 	codeColor.colorToSet = Colors.RED;
-	codeColor.startIndex = charPositionInLine;
-	codeColor.endIndex = charPositionInLine + 1;
+	codeColor.line = line - 1;
+	codeColor.relStartIndex = charPositionInLine;
+	codeColor.relEndIndex = charPositionInLine + 1;
 	errorMsg.line = line;
 	errorMsg.charPosition = charPositionInLine;
 	errorMsg.offender = offendingSymbol;
@@ -89,6 +90,7 @@ public class TranslatorErrorListenerModel extends BaseErrorListener implements M
     private CodeColor codeColor;
 
     private void printMsg(ErrorMessage msg) {
+	Console.clear();
 	Console.println(" > Error during translation:", Colors.RED);
 	Console.println("\t" + msg.text);
 	Console.println("\tLine: " + msg.line + " at index " + msg.charPosition);

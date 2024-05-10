@@ -4,3 +4,9 @@
 /LOSTLexer.tokens
 /LOSTListener.java
 /LOSTParser.java
+/LostBaseListener.java
+/LostLexer.java
+/LostListener.java
+/LostParser.java
+/Lost.tokens
+/LostLexer.tokens

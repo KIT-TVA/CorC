@@ -10,6 +10,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import de.kit.tva.lost.interfaces.AbstractModel;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.util.GenerateDiagramFromModel;
 
 /**
@@ -28,43 +31,34 @@ public class TranslatorModel extends AbstractModel {
 	    return false;
 	}
 	GenerateDiagramFromModel generator = new GenerateDiagramFromModel();
-	var diagramRes = DiagramResourceModel.getInstance().get(lostTranslator.formula.getName());
-	if (DiagramResourceModel.getInstance().wasCreated()) {
-	    addInitializersTo(lostTranslator.formula.getName(), diagramRes);
-	    return true;
-	}
-	if (!replaceFormula(diagramRes)) {
-	    return false;
-	}
-	generator.execute(diagramRes);
-	return true;
-    }
-
-    private boolean replaceFormula(Resource diagramResource) throws IOException, CoreException {
-	for (int i = 0; i < diagramResource.getContents().size(); ++i) {
-	    if (diagramResource.getContents().get(i) instanceof CbCFormula) {
-		diagramResource.getContents().remove(i);
-		diagramResource.getContents().add(lostTranslator.formula);
-		break;
-	    }
-	    if (i == diagramResource.getContents().size() - 1) {
-		return false;
-	    }
-	}
-	diagramResource.save(Collections.EMPTY_MAP);
+	var diagramRes = DiagramResourceModel.getInstance().get(lostTranslator.getFormula().getName());
+        addInitializersTo(lostTranslator.getFormula().getName(), diagramRes);
+        generator.execute(diagramRes);
 	return true;
     }
 
     private void addInitializersTo(String diagName, final Resource diagramRes) throws IOException, CoreException {
-	if (lostTranslator.conds != null)
-	    diagramRes.getContents().add(lostTranslator.conds);
-	if (lostTranslator.renaming != null)
-	    diagramRes.getContents().add(lostTranslator.renaming);
-	if (lostTranslator.vars != null)
-	    diagramRes.getContents().add(lostTranslator.vars);
-	lostTranslator.formula.setName(diagName);
-	diagramRes.getContents().add(lostTranslator.formula);
+	clearPrevious(diagramRes);
+	if (lostTranslator.getGlobalConditions() != null)
+	    diagramRes.getContents().add(lostTranslator.getGlobalConditions());
+	if (lostTranslator.getRenaming() != null)
+	    diagramRes.getContents().add(lostTranslator.getRenaming());
+	if (lostTranslator.getVariables() != null)
+	    diagramRes.getContents().add(lostTranslator.getVariables());
+	lostTranslator.getFormula().setName(diagName);
+	diagramRes.getContents().add(lostTranslator.getFormula());
 	diagramRes.save(Collections.EMPTY_MAP);
 	ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+    }
+    
+    private void clearPrevious(Resource diagRes) {
+	for (int i = 0; i < diagRes.getContents().size(); i++) {
+	    if (diagRes.getContents().get(i) instanceof CbCFormula 
+		    || diagRes.getContents().get(i) instanceof JavaVariables 
+		    || diagRes.getContents().get(i) instanceof GlobalConditions 
+		    || diagRes.getContents().get(i) instanceof Renaming) {
+		diagRes.getContents().remove(i);
+	    }
+	}
     }
 }
