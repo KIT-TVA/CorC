@@ -50,6 +50,7 @@ public class KeYInteraction {
 	public final static String ABSTRACT_PROOF_FULL = "abstract_full_proof";
 	public final static String ABSTRACT_PROOF_BEGIN = "abstract_proof_begin";
 	public final static String ABSTRACT_PROOF_COMPLETE = "abstract_proof_complete";
+	public final static String ABSTRACT_PROOF_GRAPH_BEGIN = "abstract_proof_graph_begin";
 	
 	public static Proof startKeyProof(String proofType, File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
 			AbstractStatement statement, String problem, String uri, String forbiddenRules) {

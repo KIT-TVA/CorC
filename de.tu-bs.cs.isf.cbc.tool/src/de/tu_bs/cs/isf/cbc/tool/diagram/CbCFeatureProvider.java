@@ -92,6 +92,7 @@ import de.tu_bs.cs.isf.cbc.tool.patterns.StrengthWeakStatementPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.VariablePattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.VariablesPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.VariantPattern;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyStatementProofGraphBegin;
 
 public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 
@@ -153,6 +154,7 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 				new TestStatement(this),
 	    		new TestAndAssertionGenerator(this),
 				new VerifyStatement(this),
+	    		new VerifyStatementProofGraphBegin(this),
 				new VerifyStatementPartialProofBegin(this),
 				new VerifyStatementPartialProofComplete(this),
 				new VerifyOriginalCallStatement(this),
