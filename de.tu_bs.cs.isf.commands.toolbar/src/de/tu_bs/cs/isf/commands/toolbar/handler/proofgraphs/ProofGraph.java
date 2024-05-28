@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import de.ovgu.featureide.fm.core.analysis.cnf.CNF;
 import de.ovgu.featureide.fm.core.analysis.cnf.Variables;
@@ -25,15 +26,24 @@ public class ProofGraph {
 	
 	// See if important (multiple edges get removed because set)
 	private final Map<ProofNode, Set<ProofNode>> adjacencyList;
-	private final Map<IFeature, Set<String>> featureMap;
+	private final Map<String, Set<String>> featureMap;
+	private final Map<String, UUID> idMap;
+	private final transient IFeatureModel featureModel;
 	
-	public ProofGraph() {
+	public ProofGraph(IFeatureModel featureModel) {
 		this.adjacencyList = new HashMap<ProofNode, Set<ProofNode>>();
-		this.featureMap = new HashMap<IFeature, Set<String>>();
+		this.featureMap = new HashMap<String, Set<String>>();
+		this.idMap = new HashMap<String, UUID>();
+		this.featureModel = featureModel;
 	}
 	
 	public void createNode(IFeature feature, String method) {
-		this.adjacencyList.computeIfAbsent(new ProofNode(feature, method), a -> new HashSet<ProofNode>());
+		this.adjacencyList.computeIfAbsent(new ProofNode(feature.getName(), method, getIdForFeature(feature.getName())), a -> new HashSet<ProofNode>());
+	}
+	
+	public UUID getIdForFeature(String feature) {
+		idMap.computeIfAbsent(feature, __ -> UUID.randomUUID());
+		return idMap.get(feature);
 	}
 	
 	public void createEdge(ProofNode nodeA, ProofNode nodeB) {
@@ -41,12 +51,12 @@ public class ProofGraph {
 		this.adjacencyList.get(nodeA).add(nodeB);
 	}
 	
-	public void addImplementedMethod(IFeature feature, String method) {
+	public void addImplementedMethod(String feature, String method) {
 		featureMap.computeIfAbsent(feature, __ -> new HashSet<String>());
 		featureMap.get(feature).add(method);
 	}
 	
-	public Set<String> getImplementedMethods(IFeature feature) {
+	public Set<String> getImplementedMethods(String feature) {
 		featureMap.computeIfAbsent(feature, __ -> new HashSet<String>());
 		return Set.copyOf(featureMap.get(feature));
 	}
@@ -92,9 +102,9 @@ public class ProofGraph {
 				}
 				
 				//########## STEP 2 - If features can't exist together remove########
-				Configuration configuration = new Configuration(new FeatureModelFormula(caller.getFeature().getFeatureModel()));
-				configuration.setManual(caller.getFeature().getName(), Selection.SELECTED);
-				configuration.setManual(val.getFeature().getName(), Selection.SELECTED);
+				Configuration configuration = new Configuration(new FeatureModelFormula(this.featureModel));
+				configuration.setManual(caller.getFeature(), Selection.SELECTED);
+				configuration.setManual(val.getFeature(), Selection.SELECTED);
 				CNF cnf = configuration.getFeatureModelFormula().getCNF();
 				AdvancedSatSolver solver = new AdvancedSatSolver(cnf);
 				Variables vars = cnf.getVariables();
@@ -121,9 +131,9 @@ public class ProofGraph {
 		this.adjacencyList.forEach((caller, called) -> {
 			List<ProofNode> toRemove = new ArrayList<ProofNode>();
 			called.forEach(val -> {
-				Configuration configuration = new Configuration(new FeatureModelFormula(caller.getFeature().getFeatureModel()));
-				configuration.setManual(caller.getFeature().getName(), Selection.SELECTED);
-				configuration.setManual(val.getFeature().getName(), Selection.UNSELECTED);
+				Configuration configuration = new Configuration(new FeatureModelFormula(this.featureModel));
+				configuration.setManual(caller.getFeature(), Selection.SELECTED);
+				configuration.setManual(val.getFeature(), Selection.UNSELECTED);
 				CNF cnf = configuration.getFeatureModelFormula().getCNF();
 				AdvancedSatSolver solver = new AdvancedSatSolver(cnf);
 				Variables vars = cnf.getVariables();
@@ -137,11 +147,10 @@ public class ProofGraph {
 				}
 				
 				if (solver.hasSolution() == SatResult.FALSE) {
-					IFeatureModel featureModel = val.getFeature().getFeatureModel();
-					int index = featureModel.getFeatureOrderList().indexOf(val.getFeature().getName());
+					int index = featureModel.getFeatureOrderList().indexOf(val.getFeature());
 					for (int i = index - 1; i >= 0; i--) {
-						IFeature featToRemove = featureModel.getFeature(featureModel.getFeatureOrderList().get(i));
-						this.featureMap.get(featToRemove).forEach(method -> toRemove.add(new ProofNode(featToRemove, method))); 
+						String featToRemove = featureModel.getFeature(featureModel.getFeatureOrderList().get(i)).getName();
+						this.featureMap.get(featToRemove).forEach(method -> toRemove.add(new ProofNode(featToRemove, method, getIdForFeature(featToRemove)))); 
 					}
 				}
 			});

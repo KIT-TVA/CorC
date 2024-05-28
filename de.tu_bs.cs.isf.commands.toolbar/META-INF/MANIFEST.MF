@@ -20,4 +20,7 @@ Import-Package: de.tu_bs.cs.isf.corc.predicateWizard,
  org.eclipse.jdt.internal.core,
  org.emftext.language.java.containers,
  org.emftext.language.java.resource.java.util
-Export-Package: de.tu_bs.cs.isf.commands.toolbar.handler.family
+Export-Package: de.tu_bs.cs.isf.commands.toolbar.handler.family,
+ de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs
+Bundle-ClassPath: lib/gson-2.11.0.jar,
+ .

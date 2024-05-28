@@ -1,39 +1,45 @@
 package de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs;
 
-import de.ovgu.featureide.fm.core.base.IFeature;
+import java.util.UUID;
 
 public class ProofNode {
 	
-	private final IFeature feature;
+	private final String feature;
 	private final String method;
+	private final UUID uuid;
 	
 	
-	public ProofNode(IFeature feature, String method) {
+	public ProofNode(String feature, String method, UUID uuid) {
 		this.feature = feature;
 		this.method = method;
+		this.uuid = uuid;
 	}
 	
 	public String getMethod() {
 		return this.method;
 	}
 	
-	public ProofNode getWithGeneralMethod() {
-		return new ProofNode(feature, "GENERAL");
+	public UUID getId() {
+		return this.uuid;
 	}
-	public IFeature getFeature() {
+	
+	public ProofNode getWithGeneralMethod() {
+		return new ProofNode(feature, "GENERAL", uuid);
+	}
+	public String getFeature() {
 		return this.feature;
 	}
 	
 	@Override
 	public String toString() {
-		return this.feature.getName();
+		return this.feature;
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof ProofNode node) {
 			//Console.println(String.format("%s and %s => %s", feature.getName(), node.getFeature().getName(), feature.getName().equals(node.getFeature().getName())));
-			return feature.getName().equals(node.getFeature().getName()) && this.method.equals(node.getMethod());
+			return feature.equals(node.getFeature()) && this.method.equals(node.getMethod());
 		}
 		return super.equals(obj);
 	}

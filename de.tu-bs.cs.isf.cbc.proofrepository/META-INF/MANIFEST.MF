@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Tool
-Bundle-SymbolicName: de.tu-bs.cs.isf.cbc.tool;singleton:=true
+Bundle-Name: ProofRepository
+Bundle-SymbolicName: de.tu-bs.cs.isf.cbc.proofrepository;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-16,
  JavaSE-1.8
@@ -36,10 +36,6 @@ Import-Package: de.ovgu.featureide.fm.core.base,
  de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs,
  de.tu_bs.cs.isf.lattice,
  org.eclipse.emf.common.ui
-Export-Package: de.tu_bs.cs.isf.cbc.tool.diagram,
- de.tu_bs.cs.isf.cbc.tool.features,
- de.tu_bs.cs.isf.cbc.tool.helper,
- de.tu_bs.cs.isf.cbc.tool.patterns,
- de.tu_bs.cs.isf.cbc.tool.propertiesview
 Bundle-ClassPath: lib/com.microsoft.z3.jar,
  .
+Export-Package: de.tu_bs.cs.isf.cbc.tool

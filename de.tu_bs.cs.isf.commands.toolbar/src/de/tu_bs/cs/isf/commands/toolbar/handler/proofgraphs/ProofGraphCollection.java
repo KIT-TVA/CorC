@@ -1,22 +1,51 @@
 package de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import de.ovgu.featureide.fm.core.base.IFeatureModel;
+
 public class ProofGraphCollection {
 
 	private final Map<String, ProofGraph> graphs;
+	private final transient IFeatureModel featureModel;
 	
-	public ProofGraphCollection() {
+	public ProofGraphCollection(IFeatureModel featureModel) {
 		this.graphs = new HashMap<String, ProofGraph>();
+		this.featureModel = featureModel;
+	}
+	
+	public static ProofGraphCollection loadFromJson(String path) throws FileNotFoundException {
+
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
+		Gson gson = new GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().create();
+        ProofGraphCollection proofGraphCollection = gson.fromJson(bufferedReader, ProofGraphCollection.class);
+        //KEEP IN MIND: If there are any problems (clean used o.a. restore feature model)
+        return proofGraphCollection;
 	}
 	
 	public ProofGraph getGraphForMethod(String method) {
-		this.graphs.computeIfAbsent(method, __ -> new ProofGraph());
+		this.graphs.computeIfAbsent(method, __ -> new ProofGraph(this.featureModel));
 		return this.graphs.get(method);
+	}
+	
+	public ProofNode getProofNode(String method, String feature) {
+		for (ProofNode node : this.graphs.get(method).getAdjacencyList().keySet()) {
+			if (node.getFeature().equals(feature)) {
+				return node;
+			}
+		}
+		
+		return null;
 	}
 	
 	public Set<String> getMethods() {

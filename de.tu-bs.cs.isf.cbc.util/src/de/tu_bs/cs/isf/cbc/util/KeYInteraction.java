@@ -2,14 +2,15 @@ package de.tu_bs.cs.isf.cbc.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -20,22 +21,24 @@ import org.key_project.util.collection.ImmutableSet;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.tool.FileSystemProofRepository;
+import de.tu_bs.cs.isf.cbc.tool.IProofRepository;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
+import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraphCollection;
+import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofNode;
 import de.uka.ilkd.key.control.KeYEnvironment;
 import de.uka.ilkd.key.control.ProofControl;
 import de.uka.ilkd.key.gui.MainWindow;
+import de.uka.ilkd.key.java.ConvertException;
+import de.uka.ilkd.key.java.PosConvertException;
 import de.uka.ilkd.key.java.abstraction.KeYJavaType;
 import de.uka.ilkd.key.logic.op.IObserverFunction;
 import de.uka.ilkd.key.macros.CompleteAbstractProofMacro;
 import de.uka.ilkd.key.macros.ContinueAbstractProofMacro;
-import de.uka.ilkd.key.proof.Node;
 import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.Statistics;
 import de.uka.ilkd.key.proof.init.ProofInputException;
 import de.uka.ilkd.key.proof.io.ProblemLoaderException;
-import de.uka.ilkd.key.proof.io.ProofSaver;
-import de.uka.ilkd.key.java.ConvertException;
-import de.uka.ilkd.key.java.PosConvertException;
 import de.uka.ilkd.key.settings.ChoiceSettings;
 import de.uka.ilkd.key.settings.ProofSettings;
 import de.uka.ilkd.key.speclang.Contract;
@@ -154,13 +157,36 @@ public class KeYInteraction {
 				Console.println("time: " + proof.getAutoModeTime() + "        nodes:" + proof.countNodes());
 				//System.out.println("-----------------------");*/
 				//DEBUG END
+				
+				
+				//PROOF-GRAPH TODO: Think of smarter way -> not first save then read then save
 				String locationWithoutFileEnding = location.toString().substring(0,
 						location.toString().indexOf("."));
 				var keyFile = new File(locationWithoutFileEnding + ".proof");
 
-		/* TODO: KeyNewVersion */
-				//ProofSaver.saveToFile(keyFile, proof);
+				/* TODO: KeyNewVersion */
 				proof.saveToFile(location);
+				
+
+				//TODO: Nice way to get the project
+				IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+				IProject project = null;
+				for (IProject p : projects) {
+					if (locationWithoutFileEnding.contains(p.getName())) {
+						project = p;
+					}
+				}
+				
+				if (project != null) {
+					ProofGraphCollection collection = ProofGraphCollection.loadFromJson(project.getRawLocation() + "/graph.json");
+					Console.println(collection.toMermaid());
+					//TODO: Fragen ob ich das durchreichen darf
+					ProofNode node = collection.getProofNode("push", "Base");
+					String proofText = Files.readString(java.nio.file.Path.of(location.getPath()));
+					IProofRepository proofRepo = new FileSystemProofRepository();
+					proofRepo.savePartialProofForId(node.getId(), proofText);
+				}
+				
 				try {
 					// TODO: inlining may be important too
 					StatDataCollector collector = new StatDataCollector();

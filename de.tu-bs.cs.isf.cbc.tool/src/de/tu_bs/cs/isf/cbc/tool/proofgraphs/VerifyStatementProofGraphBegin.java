@@ -1,5 +1,6 @@
 package de.tu_bs.cs.isf.cbc.tool.proofgraphs;
 
+import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
@@ -33,6 +34,7 @@ import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
+import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraphCollection;
 
 public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustomFeature {
 
@@ -80,7 +82,7 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 				FileHandler.instance.deleteFolder(uri, "tests");
 				
 				IProject project = FileUtil.getProjectFromFileInProject(uri);
-				
+
 				String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 				String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 				String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);

@@ -4,6 +4,8 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -12,6 +14,8 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -20,6 +24,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
 import de.ovgu.featureide.fm.core.base.IFeature;
 import de.ovgu.featureide.fm.core.base.IFeatureModel;
@@ -35,7 +43,7 @@ import de.tu_bs.cs.isf.cbc.util.Console;
 
 public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 
-	private static final int MAX_DEPTH = 50; 
+	private static final int MAX_DEPTH = 500; 
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -64,7 +72,7 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 			Console.println(feature);
 		}
 		
-		ProofGraphCollection graphCollection = new ProofGraphCollection();
+		ProofGraphCollection graphCollection = new ProofGraphCollection(featureModel);
 		for (IFeature feature : featureModel.getFeatures()) {
 
 			
@@ -86,21 +94,21 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 						ProofGraph graph = graphCollection.getGraphForMethod(methodName);
 
 						//graph.getNode(feature, methodName).addImplementedMethod(methodName);
-						ProofNode nodeA = new ProofNode(feature, methodName);
+						ProofNode nodeA = new ProofNode(feature.getName(), methodName, graph.getIdForFeature(feature.getName()));
 						graph.createNode(feature, methodName);
-						graph.addImplementedMethod(feature, methodName);
+						graph.addImplementedMethod(feature.getName(), methodName);
 						for (EObject cont : cbcRes.getContents()) {
 							if (cont instanceof CbCFormula cbcForm) {
 								
 								if (runDFS(cbcForm.getStatement(), 0)) {
 									int index = Math.max(featureModel.getFeatureOrderList().indexOf(feature.getName()) - 1, 0);
 									IFeature featureB = featureModel.getFeature(featureModel.getFeatureOrderList().get(index));
-									graph.createEdge(nodeA, new ProofNode(featureB, methodName));
+									graph.createEdge(nodeA, new ProofNode(featureB.getName(), methodName, graph.getIdForFeature(featureB.getName())));
 									/*If there are optional features in feature order also add edges to higher features in order*/
 									while(!featureB.getStructure().isMandatory() && index >= 0) {
 										index = Math.max(0, index-1);
 										featureB = featureModel.getFeature(featureModel.getFeatureOrderList().get(index));
-										graph.createEdge(nodeA, new ProofNode(featureB, methodName));
+										graph.createEdge(nodeA, new ProofNode(featureB.getName(), methodName, graph.getIdForFeature(featureB.getName())));
 									}
 								}
 							}
@@ -122,6 +130,20 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 		StringSelection stringSelection = new StringSelection(mermaid);
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		clipboard.setContents(stringSelection, null);
+
+		// save graph
+		try {
+			Gson gson = new GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().create();
+			String jsonString = gson.toJson(graphCollection);
+			File graphFile = new File(project.getRawLocation() + "/graph.json");
+
+			PrintWriter out = new PrintWriter(graphFile);
+			out.println(jsonString);
+			out.close();
+			project.refreshLocal(IResource.DEPTH_ONE, null);
+		} catch (JsonIOException | IOException | CoreException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private boolean runDFS(AbstractStatement statement, int depth) {
