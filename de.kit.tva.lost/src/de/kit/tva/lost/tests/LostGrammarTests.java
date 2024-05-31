@@ -28,7 +28,8 @@ public class LostGrammarTests {
 
     @Test
     public void compositionStatement() {
-	String input = "F(pre: x = 0,post: x = 2)\n" + "\tC(intm: x = 1)\n" + "\t\tx += 1;\n" + "\t\tx += 1;\n";
+	String input = "F(pre: x = 0,post: x = 2 & f(x, y))\n" + "\tC(intm: x = 1)\n" + "\t\tx += 1;\n"
+		+ "\t\tx += 1;\n";
 	genTree(input);
     }
 

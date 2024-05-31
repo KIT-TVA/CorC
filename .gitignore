@@ -67,6 +67,13 @@ de.tu_bs.cs.isf.cbc.cbcclass.model/src-gen/de/tu_bs/cs/isf/cbc/cbcclass/model/cb
 de.tu_bs.cs.isf.cbc.cbcclass.model/src-gen/de/tu_bs/cs/isf/cbc/cbcclass/model/cbcclass/util/
 de.tu_bs.cs.isf.cbc.statistics/src-gen/
 
+# Update site
+de.kit.tva.corc.update
+
+# Antlr
+**/target/
+
+
 tmp/
 *.tmp
 *.bak

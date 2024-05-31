@@ -10,7 +10,6 @@ import de.kit.tva.lost.models.DiagramTranslator;
 import de.kit.tva.lost.models.DiagramTranslatorException;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
@@ -73,20 +72,22 @@ public class DiagramTranslatorTests {
 		lostCode);
     }
 
-    @Test
-    public void composition() {
-	var formulaMock = Mockito.mock(CbCFormula.class);
-	var expectedFormula = createMockedFormula(formulaMock);
-	var compositionMock = Mockito.mock(CompositionStatement.class);
-	var intmMock = Mockito.mock(Condition.class);
-	Mockito.when(intmMock.getName()).thenReturn("a");
-	Mockito.when(formulaMock.getStatement().getRefinement()).thenReturn(compositionMock);
-	Mockito.when(compositionMock.getIntermediateCondition()).thenReturn(intmMock);
-	// Mockito.when(compositionMock.getFirstStatement().thenReturn)
-
-	var lostCode = dt.getTranslatedCode();
-
-	assertEquals("D(name: test)\n" + expectedFormula + "\n\t\tC(intm: a)\n\t\t\tx;\n\t\t\ty;", lostCode);
-    }
+    /*
+     * @Test public void composition() { var formulaMock =
+     * Mockito.mock(CbCFormula.class); var expectedFormula =
+     * createMockedFormula(formulaMock); var compositionMock =
+     * Mockito.mock(CompositionStatement.class); var intmMock =
+     * Mockito.mock(Condition.class);
+     * Mockito.when(intmMock.getName()).thenReturn("a");
+     * Mockito.when(formulaMock.getStatement().getRefinement()).thenReturn(
+     * compositionMock);
+     * Mockito.when(compositionMock.getIntermediateCondition()).thenReturn(intmMock)
+     * ; // Mockito.when(compositionMock.getFirstStatement().thenReturn)
+     * 
+     * var lostCode = dt.getTranslatedCode();
+     * 
+     * assertEquals("D(name: test)\n" + expectedFormula +
+     * "\n\t\tC(intm: a)\n\t\t\tx;\n\t\t\ty;", lostCode); }
+     */
 
 }

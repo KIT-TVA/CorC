@@ -4,13 +4,19 @@ import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 
 import de.kit.tva.lost.interfaces.AbstractView;
-import de.kit.tva.lost.models.TranslatorErrorListenerModel.CodeColor;
+import de.kit.tva.lost.interfaces.CodeColor;
+import de.kit.tva.lost.interfaces.LostStyle;
+import styles.DefaultStyle;
 
 public class CodeView extends AbstractView {
+    private SyntaxHighlighter syntaxHighlighter;
+    private String previousCode;
     private StyledText codeField;
 
     public CodeView(StyledText codeField) {
 	this.codeField = codeField;
+	this.syntaxHighlighter = new SyntaxHighlighter(this.getCodeField(), new DefaultStyle());
+	this.previousCode = "";
     }
 
     public void updateCode(String code) {
@@ -34,11 +40,15 @@ public class CodeView extends AbstractView {
 	return this.codeField.getText();
     }
 
+    public void changeStyle(LostStyle style) {
+	this.syntaxHighlighter.changeStyle(style);
+    }
+
     public void updateCodeColor(CodeColor codeColor) {
-	if (codeColor.relStartIndex == -1) {
+	if (codeColor.info.relStartIndex == -1) {
 	    this.codeField.setForeground(codeColor.colorToSet);
 	} else {
-	    setPartialCodeColor(codeColor);
+	    setPartialCodeColor(codeColor, false);
 	}
     }
 
@@ -46,28 +56,40 @@ public class CodeView extends AbstractView {
 	this.codeField.setEnabled(!basicViewEnabled);
     }
 
-    private void setPartialCodeColor(CodeColor codeColor) {
+    private void setPartialCodeColor(CodeColor codeColor, boolean isAbsolute) {
 	StyleRange sr = new StyleRange();
-	if (!calcAbsIndicies(codeColor))
-	    return;
-	sr.start = codeColor.relStartIndex;
-	sr.length = codeColor.relEndIndex - codeColor.relStartIndex;
+	if (!isAbsolute) {
+	    if (!calcAbsIndicies(codeColor))
+		return;
+	}
+	sr.start = codeColor.info.relStartIndex;
+	sr.length = codeColor.info.relEndIndex - codeColor.info.relStartIndex;
 	sr.foreground = codeColor.colorToSet;
 	if (sr.start + sr.length > codeField.getText().length()) {
 	    sr.start--;
 	}
-	this.codeField.setStyleRange(sr);
+	if (sr.start >= 0 && sr.length > 0) {
+	    this.codeField.setStyleRange(sr);
+	}
     }
 
     private boolean calcAbsIndicies(CodeColor codeColor) {
 	var lines = this.codeField.getText().split("\\n");
-	if (codeColor.line >= lines.length)
+	if (codeColor.info.line >= lines.length)
 	    return false;
-	for (int i = 0; i < codeColor.line; ++i) {
-	    codeColor.relStartIndex += lines[i].length();
-	    codeColor.relEndIndex += lines[i].length();
+	for (int i = 0; i < codeColor.info.line; ++i) {
+	    codeColor.info.relStartIndex += lines[i].length();
+	    codeColor.info.relEndIndex += lines[i].length();
 	}
 	return true;
+    }
+
+    public void highlight() {
+	if (!syntaxHighlighter.applyHighlights())
+	    return;
+	for (var highlight : syntaxHighlighter.getHighlights()) {
+	    setPartialCodeColor(highlight, true);
+	}
     }
 
 }

@@ -1,10 +1,7 @@
 package de.kit.tva.lost.models;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import de.kit.tva.lost.models.LostParser.CompositionContext;
@@ -35,7 +32,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
-import de.tu_bs.cs.isf.cbc.util.GenerateModelFromCode;
 import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
 
 /**
@@ -46,45 +42,41 @@ public class LostTranslator {
     private JavaVariables vars;
     private GlobalConditions conds;
     private Renaming renaming;
-    private CbCFormula formula = CbcmodelFactory.eINSTANCE.createCbCFormula();
+    private CbCFormula formula;
+    private ParseTreeGenerator parseTreeGenerator;
     private ProgramContext tree;
-    private GenerateModelFromCode gmfc = new GenerateModelFromCode();
+
+    public LostTranslator() {
+	this.formula = CbcmodelFactory.eINSTANCE.createCbCFormula();
+	this.parseTreeGenerator = new ParseTreeGenerator();
+    }
 
     public boolean translate(String lostCode) {
-	if (!genParseTree(lostCode)) {
+	if (!this.parseTreeGenerator.generateParseTree(lostCode)) {
 	    return false;
 	}
+	this.tree = this.parseTreeGenerator.get();
 	formula.setName(tree.root().diagram().name().ID().getText());
 	for (int i = 0; i < tree.root().diagram().getChildCount(); ++i) {
 	    addInitializers(tree.root().diagram().initializer(i));
 	}
 	return true;
     }
-    
+
     public CbCFormula getFormula() {
 	return this.formula;
     }
-    
+
     public GlobalConditions getGlobalConditions() {
 	return this.conds;
     }
-    
+
     public Renaming getRenaming() {
 	return this.renaming;
     }
-    
+
     public JavaVariables getVariables() {
 	return this.vars;
-    }
-    
-    private boolean genParseTree(String lostCode) {
-	LostLexer lexer = new LostLexer(CharStreams.fromString(lostCode));
-	CommonTokenStream tokens = new CommonTokenStream(lexer);
-	LostParser parser = new LostParser(tokens);
-	parser.removeErrorListeners();
-	parser.addErrorListener(TranslatorErrorListenerModel.getInstance());
-	this.tree = parser.program();
-	return !TranslatorErrorListenerModel.getInstance().errorOccurred();
     }
 
     private void addInitializers(InitializerContext partTree) {
@@ -107,8 +99,8 @@ public class LostTranslator {
 	for (int i = 0; i < varsTree.getRuleContexts(VariableContext.class).size(); i++) {
 	    var variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 	    var treeVariable = varsTree.variable(i);
-            variable.setKind(VariableKind.getByName(treeVariable.KIND().getText()));
-            variable.setName(treeVariable.TYPE().getText() + " " + treeVariable.ID());
+	    variable.setKind(VariableKind.getByName(treeVariable.KIND().getText()));
+	    variable.setName(treeVariable.TYPE().getText() + " " + treeVariable.ID());
 	    vars.getVariables().add(variable);
 	}
     }
@@ -171,84 +163,115 @@ public class LostTranslator {
 
     private void walkRefinement(AbstractStatement parent, ParseTree subtree) {
 	if (subtree instanceof CompositionContext) {
-	    var csCtx = ((CompositionContext) subtree);
-	    CompositionStatement cs = CbcmodelFactory.eINSTANCE.createCompositionStatement();
-	    cs.setFirstStatement(dummyStatement(1));
-	    cs.setSecondStatement(dummyStatement(2));
-	    var intm = CbcmodelFactory.eINSTANCE.createCondition();
-	    cs.setIntermediateCondition(intm);
-	    cs.getIntermediateCondition().setName(csCtx.intm().condition().getText());
-	    walkRefinement(cs.getFirstStatement(), csCtx.refinement(0).refinementRule().getChild(0));
-	    walkRefinement(cs.getSecondStatement(), csCtx.refinement(1).refinementRule().getChild(0));
-	    setRefinement(parent, cs);
+	    addComposition(parent, (CompositionContext) subtree);
 	} else if (subtree instanceof StatementContext) {
-	    var sCtx = ((StatementContext) subtree);
-	    AbstractStatement statement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
-	    addEmptyPrePost(statement);
-	    statement.setName(sCtx.getText());
-	    setRefinement(parent, statement);
+	    addStatement(parent, (StatementContext) subtree);
 	} else if (subtree instanceof SelectionContext) {
-	    var selCtx = ((SelectionContext) subtree);
-	    SelectionStatement selection = CbcmodelFactory.eINSTANCE.createSelectionStatement();
-	    addEmptyPrePost(selection);
-	    List<ParseTree> guards = selCtx.guards().children.stream().filter(c -> c instanceof ConditionContext)
-		    .toList();
-	    for (int i = 0; i < guards.size(); ++i) {
-		var g = CbcmodelFactory.eINSTANCE.createCondition();
-		g.setName(selCtx.guards().condition(i).getText());
-		selection.getGuards().add(g);
-		selection.getCommands().add(dummyStatement(i));
-		walkRefinement(selection.getCommands().get(i), selCtx.refinement(i).refinementRule().getChild(0));
-	    }
-	    setRefinement(parent, selection);
+	    addSelection(parent, (SelectionContext) subtree);
 	} else if (subtree instanceof RepetitionContext) {
-	    var repCtx = ((RepetitionContext) subtree);
-	    var repetition = CbcmodelFactory.eINSTANCE.createSmallRepetitionStatement();
-	    addEmptyPrePost(repetition);
-	    var invariant = CbcmodelFactory.eINSTANCE.createCondition();
-	    var guard = CbcmodelFactory.eINSTANCE.createCondition();
-	    var variant = CbcmodelFactory.eINSTANCE.createVariant();
-	    invariant.setName(repCtx.inv().condition().getText());
-	    guard.setName(repCtx.guard().condition().getText());
-	    variant.setName(repCtx.var().ID().getText());
-	    repetition.setInvariant(invariant);
-	    repetition.setGuard(guard);
-	    repetition.setVariant(variant);
-	    repetition.setLoopStatement(dummyStatement(1));
-	    walkRefinement(repetition.getLoopStatement(), repCtx.refinement().refinementRule().getChild(0));
-	    setRefinement(parent, repetition);
+	    addRepetition(parent, (RepetitionContext) subtree);
 	} else if (subtree instanceof ReturnSContext) {
-	    var retCtx = ((ReturnSContext) subtree);
-	    var returnS = CbcmodelFactory.eINSTANCE.createReturnStatement();
-	    addEmptyPrePost(returnS);
-	    returnS.setName(retCtx.statement().getText());
-	    setRefinement(parent, returnS);
+	    addReturnStatement(parent, (ReturnSContext) subtree);
 	} else if (subtree instanceof OriginalSContext) {
-	    var origCtx = ((OriginalSContext) subtree);
-	    var originalS = CbcmodelFactory.eINSTANCE.createOriginalStatement();
-	    addEmptyPrePost(originalS);
-	    originalS.setName(origCtx.statement().getText());
-	    setRefinement(parent, originalS);
+	    addOriginalStatement(parent, (OriginalSContext) subtree);
 	} else if (subtree instanceof SkipSContext) {
-	    var skipCtx = ((SkipSContext) subtree);
-	    var skipS = CbcmodelFactory.eINSTANCE.createSkipStatement();
-	    addEmptyPrePost(skipS);
-	    setRefinement(parent, skipS);
+	    addSkip(parent, (SkipSContext) subtree);
 	} else if (subtree instanceof MethodCallSContext) {
-	    var methodCCtx = ((MethodCallSContext) subtree);
-	    var methodS = CbcmodelFactory.eINSTANCE.createMethodStatement();
-	    addEmptyPrePost(methodS);
-	    methodS.setName(methodCCtx.statement().getText());
-	    setRefinement(parent, methodS);
+	    addMethodStatement(parent, (MethodCallSContext) subtree);
 	} else if (subtree instanceof MlexprContext) {
-	    var mlexprCtx = ((MlexprContext) subtree);
-	    var mlexprS = CbcmodelFactory.eINSTANCE.createAbstractStatement();
-	    addEmptyPrePost(mlexprS);
-	    for (int i = 0; i < mlexprCtx.getRuleContexts(StatementContext.class).size(); i++) {
-		mlexprS.setName(mlexprCtx.statement(i).getText() + "\n");
-	    }
-	    setRefinement(parent, mlexprS);
+	    addMlStatement(parent, (MlexprContext) subtree);
 	}
+    }
+
+    private void addComposition(AbstractStatement parent, CompositionContext csCtx) {
+	CompositionStatement cs = CbcmodelFactory.eINSTANCE.createCompositionStatement();
+	cs.setFirstStatement(dummyStatement(1));
+	cs.setSecondStatement(dummyStatement(2));
+	var intm = CbcmodelFactory.eINSTANCE.createCondition();
+	cs.setIntermediateCondition(intm);
+	cs.getIntermediateCondition().setName(csCtx.intm().condition().getText());
+	walkRefinement(cs.getFirstStatement(), csCtx.refinement(0).refinementRule().getChild(0));
+	walkRefinement(cs.getSecondStatement(), csCtx.refinement(1).refinementRule().getChild(0));
+	setRefinement(parent, cs);
+    }
+
+    private void addStatement(AbstractStatement parent, StatementContext sCtx) {
+	AbstractStatement statement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
+	addEmptyPrePost(statement);
+	statement.setName(sCtx.getText());
+	setRefinement(parent, statement);
+    }
+
+    private void addSelection(AbstractStatement parent, SelectionContext selCtx) {
+	SelectionStatement selection = CbcmodelFactory.eINSTANCE.createSelectionStatement();
+	addEmptyPrePost(selection);
+	List<ParseTree> guards = selCtx.guards().children.stream().filter(c -> c instanceof ConditionContext).toList();
+	for (int i = 0; i < guards.size(); ++i) {
+	    var g = CbcmodelFactory.eINSTANCE.createCondition();
+	    g.setName(selCtx.guards().condition(i).getText());
+	    selection.getGuards().add(g);
+	    selection.getCommands().add(dummyStatement(i));
+	    walkRefinement(selection.getCommands().get(i), selCtx.refinement(i).refinementRule().getChild(0));
+	}
+	setRefinement(parent, selection);
+
+    }
+
+    private void addRepetition(AbstractStatement parent, RepetitionContext repCtx) {
+	var repetition = CbcmodelFactory.eINSTANCE.createSmallRepetitionStatement();
+	addEmptyPrePost(repetition);
+	var invariant = CbcmodelFactory.eINSTANCE.createCondition();
+	var guard = CbcmodelFactory.eINSTANCE.createCondition();
+	var variant = CbcmodelFactory.eINSTANCE.createVariant();
+	invariant.setName(repCtx.inv().condition().getText());
+	guard.setName(repCtx.guard().condition().getText());
+	variant.setName(repCtx.var().condition().getText());
+	repetition.setInvariant(invariant);
+	repetition.setGuard(guard);
+	repetition.setVariant(variant);
+	repetition.setLoopStatement(dummyStatement(1));
+	walkRefinement(repetition.getLoopStatement(), repCtx.refinement().refinementRule().getChild(0));
+	setRefinement(parent, repetition);
+
+    }
+
+    private void addOriginalStatement(AbstractStatement parent, OriginalSContext origCtx) {
+	var originalS = CbcmodelFactory.eINSTANCE.createOriginalStatement();
+	addEmptyPrePost(originalS);
+	originalS.setName(origCtx.statement().getText());
+	setRefinement(parent, originalS);
+
+    }
+
+    private void addMethodStatement(AbstractStatement parent, MethodCallSContext methodCCtx) {
+	var methodS = CbcmodelFactory.eINSTANCE.createMethodStatement();
+	addEmptyPrePost(methodS);
+	methodS.setName(methodCCtx.statement().getText());
+	setRefinement(parent, methodS);
+
+    }
+
+    private void addSkip(AbstractStatement parent, SkipSContext sCtx) {
+	var skipS = CbcmodelFactory.eINSTANCE.createSkipStatement();
+	addEmptyPrePost(skipS);
+	setRefinement(parent, skipS);
+    }
+
+    private void addReturnStatement(AbstractStatement parent, ReturnSContext retCtx) {
+	var returnS = CbcmodelFactory.eINSTANCE.createReturnStatement();
+	addEmptyPrePost(returnS);
+	returnS.setName(retCtx.statement().getText());
+	setRefinement(parent, returnS);
+
+    }
+
+    private void addMlStatement(AbstractStatement parent, MlexprContext mlexprCtx) {
+	var mlexprS = CbcmodelFactory.eINSTANCE.createAbstractStatement();
+	addEmptyPrePost(mlexprS);
+	for (int i = 0; i < mlexprCtx.getRuleContexts(StatementContext.class).size(); i++) {
+	    mlexprS.setName(mlexprCtx.statement(i).getText() + "\n");
+	}
+	setRefinement(parent, mlexprS);
     }
 
     private void setRefinement(AbstractStatement parent, AbstractStatement refinement) {

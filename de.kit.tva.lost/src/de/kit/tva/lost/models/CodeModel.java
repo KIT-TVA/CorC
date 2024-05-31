@@ -1,9 +1,9 @@
 package de.kit.tva.lost.models;
 
-import de.kit.tva.lost.interfaces.AbstractModel;
+import de.kit.tva.lost.interfaces.CodeModelNotifier;
 import de.kit.tva.lost.interfaces.CodeView;
 
-public class CodeModel extends AbstractModel {
+public class CodeModel extends CodeModelNotifier {
     private String viewCode;
     private String code;
     private boolean outOfContext;
@@ -45,7 +45,7 @@ public class CodeModel extends AbstractModel {
 
     public void setCode(String newCode) {
 	code = newCode;
-	notifyListeners();
+	notifyCodeChanged();
     }
 
     public String getViewCode() {
@@ -120,6 +120,9 @@ public class CodeModel extends AbstractModel {
 	var newLine = createNewLine(curOffset);
 	if (outOfContext)
 	    this.setCode(code.trim() + '\n');
+	if (this.code.trim().isEmpty()) {
+	    return;
+	}
 	this.setCode(code + '\n' + newLine);
 	this.setCurOffset(this.code.length());
     }

@@ -12,21 +12,21 @@ program : root EOF;
 
 root : diagram;
 
-diagram : 'D(' name ')' NL initializer+;
+diagram : 'D' '(' name ')' NL initializer+;
 
-initializer: NL* formula NL* | NL* vars NL* | NL* globalConditions NL* | NL* renaming NL*;
+initializer: NL* '\t' formula NL* | NL* '\t' vars NL* | NL* '\t' globalConditions NL* | NL* '\t' renaming NL*;
 
-vars : '\t' 'Vars' NL variable+;
+vars : 'Vars' NL variable+;
 
-variable : '\t'+ KIND TYPE ID ';' NL?;
+variable : '\t'+ KIND TYPE ID NL?;
 
-globalConditions : '\t' 'GlobalConditions' NL ('\t'+ condition NL)+;
+globalConditions : 'GlobalConditions' NL ('\t'+ condition NL)+;
 
-renaming : '\t' 'Renaming' NL renamer+;
+renaming : 'Renaming' NL renamer+;
 
 renamer : '\t'+ ID OP condition NL?; 
 
-formula : '\t' 'F' '(' pre ',' post ')' NL refinement;
+formula : 'F' '(' pre ',' post ')' NL refinement;
 
 pre : 'pre:' condition;
 
@@ -34,33 +34,37 @@ post : 'post:' condition;
 
 intm : 'intm:' condition;
 
-condition : '(' condition ')' | '(' condition ')' OP condition | quantor | ID | ID condition | OP condition; 
+condition : '(' condition ')' | '(' condition ')' OP condition | quantor | identifier | identifier condition | OP condition | condition ',' condition; 
 
-quantor : ID '(' ID ID ';' condition ')';
+quantor : '\\' ID TYPE ID ';' condition;
+
+keyword : '\\' ID '(' identifier ')';
+
+identifier : ID | keyword | (ID | keyword) '[' condition ']';
 
 refinement : '\t'+ refinementRule; 
 
 refinementRule : statement | composition | selection | repetition | returnS | originalS | skipS | methodCallS | block | mlexpr;
 
-statement : (ID | javaReturn | '(' statement ')' | ID'()' | ID statement | ID OP assigner) ';' NL?;
+statement : (identifier | javaReturn | '(' statement ')' | identifier'()' | identifier statement | identifier OP assigner) ';' NL?;
 
 javaReturn : ID assigner;
 
-assigner : (ID | '(' assigner ')' | ID'()' | ID assigner | ID OP assigner);
+assigner : (identifier | '(' assigner ')' | identifier'()' | identifier assigner | identifier OP assigner);
 
-composition : 'C(' intm ')' NL refinement refinement;
+composition : 'C' '(' intm ')' NL refinement refinement;
 
-selection : 'S(' guards ')' NL refinement+;
+selection : 'S' '(' guards ')' NL refinement+;
 
 guards : 'guard:' condition (',' 'guard:' condition)*;
 
-repetition : 'L(' inv ',' guard ',' var ')' NL refinement;
+repetition : 'L' '(' inv ',' guard ',' var ')' NL refinement;
 
 inv : 'inv:' condition;
 
 guard : 'guard:' condition;
 
-var : 'var:' ID;
+var : 'var:' condition;
 
 returnS : 'R:' statement;
 
@@ -70,11 +74,11 @@ skipS : 'skip' NL?;
 
 methodCallS : 'M:' statement;
 
-block : 'B(' name ',' pre ',' post ')' NL mlexpr ;
+block : 'B' '(' name ',' pre ',' post ')' NL mlexpr ;
 
 name : 'name:' ID;
 
-mlexpr : '{' NL? statement* '}' NL?;
+mlexpr : '{' NL? ('\t'+ statement)* '\t'+ '}' NL?;
 
 // Lexer rules
 
@@ -84,9 +88,9 @@ NL: '\n';
 
 KIND : 'LOCAL' | 'RETURN' | 'PARAM' | 'PUBLIC';
 
-TYPE : 'boolean' | 'char' | 'short' | 'int' | 'long' | 'String';
+TYPE : ('boolean' | 'char' | 'short' | 'int' | 'long' | 'String') [\[\]]*;
 
-OP : [=+\-*/%<>.]+;
+OP : [=+\-*/%<>&|!.]+;
 
-ID : [a-zA-Z0-9\[\]]+;
+ID : [a-zA-Z0-9]+;
 

@@ -87,7 +87,7 @@ public class DiagramTranslator {
 
     private void appendConditions(List<Condition> conds) {
 	for (var cond : conds) {
-	    appendLine(cond.getName());
+	    appendLine(cond.getName().trim());
 	}
 	indentLevel--;
     }
@@ -106,12 +106,14 @@ public class DiagramTranslator {
 	indentLevel--;
     }
 
+    // TODO: Fields and params are handled by the cbc class. They are not stored in
+    // the method diag.
     private void appendFields(JavaVariables vars) {
 	if (vars.getFields() == null) {
 	    return;
 	}
 	for (var field : vars.getFields()) {
-	    appendLine("GLOBAL " + field.getName());
+	    appendLine("GLOBAL " + field.getName().trim());
 	}
     }
 
@@ -161,53 +163,105 @@ public class DiagramTranslator {
 	if (formula == null) {
 	    throw new DiagramTranslatorException("Formula is null.");
 	}
-	String fStr = "F(pre: " + formula.getStatement().getPreCondition().getName() + ", post: "
-		+ formula.getStatement().getPostCondition().getName() + ")";
+	String fStr = "F(pre: " + cleanString(formula.getStatement().getPreCondition().getName()) + ", post: "
+		+ cleanString(formula.getStatement().getPostCondition().getName()) + ")";
 	appendInitializer(fStr);
 	appendRefinement(formula.getStatement().getRefinement());
     }
 
+    private String cleanString(String input) {
+	return input.replaceAll("[\n\r]+", " ").trim();
+    }
+
     private void appendRefinement(AbstractStatement refinement) {
 	if (refinement instanceof CompositionStatement) {
-	    var composition = (CompositionStatement) refinement;
-	    appendLine("C(intm: " + composition.getIntermediateCondition().getName() + ")");
-	    this.indentLevel++;
-	    appendRefinement(composition.getFirstStatement().getRefinement());
-	    this.indentLevel++;
-	    appendRefinement(composition.getSecondStatement().getRefinement());
+	    appendComposition((CompositionStatement) refinement);
 	} else if (refinement instanceof SelectionStatement) {
-	    var selection = (SelectionStatement) refinement;
-	    String selLine = "S(";
-	    for (int i = 0; i < selection.getGuards().size(); ++i) {
-		selLine += "guard: " + selection.getGuards().get(i).getName() + ", ";
-	    }
-	    selLine = selLine.substring(0, selLine.length() - 2) + ")";
-	    appendLine(selLine);
-	    this.indentLevel++;
-	    for (int i = 0; i < selection.getCommands().size(); ++i) {
-		appendRefinement(selection.getCommands().get(i).getRefinement());
-		this.indentLevel++;
-	    }
+	    appendSelection((SelectionStatement) refinement);
 	} else if (refinement instanceof SmallRepetitionStatement) {
-	    var repetition = (SmallRepetitionStatement) refinement;
-	    appendLine("L(inv: " + repetition.getInvariant().getName() + ", guard: " + repetition.getGuard().getName()
-		    + ", var: " + repetition.getVariant().getName() + ")");
-	    this.indentLevel++;
-	    appendRefinement(repetition.getLoopStatement().getRefinement());
+	    appendRepetition((SmallRepetitionStatement) refinement);
 	} else if (refinement instanceof SkipStatement) {
-	    appendLine(";");
+	    appendSkipStatement((SkipStatement) refinement);
 	} else if (refinement instanceof OriginalStatement) {
-	    var originalS = (OriginalStatement) refinement;
-	    appendLine("O: " + originalS.getName().trim());
+	    appendOriginalStatement((OriginalStatement) refinement);
 	} else if (refinement instanceof MethodStatement) {
-	    var methodS = (MethodStatement) refinement;
-	    appendLine("M: " + methodS.getName().trim());
+	    appendMethodStatement((MethodStatement) refinement);
 	} else if (refinement instanceof ReturnStatement) {
-	    var returnS = (ReturnStatement) refinement;
-	    appendLine("R: " + returnS.getName().trim());
+	    appendReturnStatement((ReturnStatement) refinement);
 	} else {
-	    appendLine(refinement.getName().trim());
+	    appendStatement(refinement);
 	}
 	this.indentLevel--;
+    }
+
+    private void appendComposition(CompositionStatement composition) {
+	appendLine("C(intm: " + cleanString(composition.getIntermediateCondition().getName()) + ")");
+	this.indentLevel++;
+	appendRefinement(composition.getFirstStatement().getRefinement());
+	this.indentLevel++;
+	appendRefinement(composition.getSecondStatement().getRefinement());
+    }
+
+    private void appendSelection(SelectionStatement selection) {
+	String selLine = "S(";
+	for (int i = 0; i < selection.getGuards().size(); ++i) {
+	    selLine += "guard: " + cleanString(selection.getGuards().get(i).getName()) + ", ";
+	}
+	selLine = selLine.substring(0, selLine.length() - 2) + ")";
+	appendLine(selLine);
+	this.indentLevel++;
+	for (int i = 0; i < selection.getCommands().size(); ++i) {
+	    appendRefinement(selection.getCommands().get(i).getRefinement());
+	    this.indentLevel++;
+	}
+    }
+
+    private void appendRepetition(SmallRepetitionStatement repetition) {
+	appendLine("L(inv: " + cleanString(repetition.getInvariant().getName()) + ", guard: "
+		+ cleanString(repetition.getGuard().getName()) + ", var: "
+		+ cleanString(repetition.getVariant().getName()) + ")");
+	this.indentLevel++;
+	appendRefinement(repetition.getLoopStatement().getRefinement());
+    }
+
+    private void appendOriginalStatement(OriginalStatement statement) {
+	var originalS = (OriginalStatement) statement;
+	appendLine("O: " + cleanString(originalS.getName()));
+
+    }
+
+    private void appendSkipStatement(SkipStatement statement) {
+	appendLine(";");
+
+    }
+
+    private void appendMethodStatement(MethodStatement statement) {
+	var methodS = (MethodStatement) statement;
+	appendLine("M: " + cleanString(methodS.getName()));
+
+    }
+
+    private void appendReturnStatement(ReturnStatement statement) {
+	var returnS = (ReturnStatement) statement;
+	appendLine("R: " + cleanString(returnS.getName()));
+    }
+
+    private void appendStatement(AbstractStatement statement) {
+	if (statement.getName().chars().filter(s -> s == ';').count() > 1)
+	    appendMlExpr(statement);
+	else {
+	    appendLine(cleanString(statement.getName()));
+	}
+    }
+
+    private void appendMlExpr(AbstractStatement statement) {
+	var statements = cleanString(statement.getName()).split(";");
+	appendLine("{");
+	indentLevel++;
+	for (var s : statements) {
+	    appendLine(cleanString(s) + ";");
+	}
+	indentLevel--;
+	appendLine("}");
     }
 }

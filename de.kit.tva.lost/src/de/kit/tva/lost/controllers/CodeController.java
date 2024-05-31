@@ -6,6 +6,7 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
+import de.kit.tva.lost.interfaces.CodeListener;
 import de.kit.tva.lost.interfaces.Controller;
 import de.kit.tva.lost.models.CodeModel;
 import de.kit.tva.lost.views.CodeView;
@@ -24,10 +25,18 @@ public class CodeController implements Controller {
 
     @Override
     public void createModelObservers() {
-	this.model.addListener(() -> {
-	    view.updateCode(model.getCode());
-	    view.setCaretOffset(model.getCurOffset());
-	    view.disableCodeIfNecessary(model.basicViewEnabled());
+	this.model.addListener(new CodeListener() {
+	    @Override
+	    public void update() {
+		view.setCaretOffset(model.getCurOffset());
+		view.disableCodeIfNecessary(model.basicViewEnabled());
+	    }
+
+	    @Override
+	    public void updateCode() {
+		view.updateCode(model.getCode());
+		view.highlight();
+	    }
 	});
     }
 
@@ -64,6 +73,8 @@ public class CodeController implements Controller {
 	});
 
 	view.getCodeField().addCaretListener(e -> view.setCaretOffset(e.caretOffset));
+
+	// view.getCodeField().addModifyListener(e -> view.update());
     }
 
     @Override

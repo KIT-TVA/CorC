@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
-import org.eclipse.swt.graphics.Color;
 
+import de.kit.tva.lost.interfaces.CodeColor;
 import de.kit.tva.lost.interfaces.Listener;
 import de.kit.tva.lost.interfaces.Model;
+import de.kit.tva.lost.interfaces.OperatorInfo;
 import de.tu_bs.cs.isf.cbc.util.Colors;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
@@ -18,11 +19,6 @@ public class TranslatorErrorListenerModel extends BaseErrorListener implements M
 	    instance = new TranslatorErrorListenerModel();
 	}
 	return instance;
-    }
-
-    public class CodeColor {
-	public Color colorToSet;
-	public int line, relStartIndex, relEndIndex;
     }
 
     public boolean errorOccurred() {
@@ -39,9 +35,8 @@ public class TranslatorErrorListenerModel extends BaseErrorListener implements M
 	errorMsg = new ErrorMessage();
 	codeColor = new CodeColor();
 	codeColor.colorToSet = Colors.RED;
-	codeColor.line = line - 1;
-	codeColor.relStartIndex = charPositionInLine;
-	codeColor.relEndIndex = charPositionInLine + 1;
+	OperatorInfo info = new OperatorInfo(line - 1, charPositionInLine, charPositionInLine + 1);
+	codeColor.info = info;
 	errorMsg.line = line;
 	errorMsg.charPosition = charPositionInLine;
 	errorMsg.offender = offendingSymbol;

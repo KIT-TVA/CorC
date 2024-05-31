@@ -105,13 +105,14 @@ public class LostUiView extends Composite implements View, Listener {
 	formToolkit.adapt(btnLoad, true, true);
 	btnLoad.setText("LOST ⇇ CbC");
 
-	codeField = new StyledText(this, SWT.BORDER);
+	codeField = new StyledText(this, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 	codeField.setFont(
 		localResourceManager.create(FontDescriptor.createFrom("Cascadia Code SemiBold", 10, SWT.NORMAL)));
 	codeField.setBottomMargin(5);
 	codeField.setLeftMargin(5);
 	codeField.setRightMargin(5);
 	codeField.setTabStops(new int[] { 16 });
+	codeField.setAlwaysShowScrollBars(true);
 	GridData gdCodeField = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1);
 	gdCodeField.heightHint = 216;
 	codeField.setLayoutData(gdCodeField);

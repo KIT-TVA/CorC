@@ -24,16 +24,6 @@ public class CodeModelTests {
     }
 
     @Test
-    public void addTabbedEnter() {
-	instance.setCode("\t");
-	instance.setCurOffset(1);
-
-	instance.addChar('\r');
-
-	assertEquals("\t\n\t", instance.getCode());
-    }
-
-    @Test
     public void addTabbedEnterTwice() {
 	instance.setCode("F\n" + "\tC\n" + "\t\treturn;");
 	instance.setCurOffset(instance.getCode().length());

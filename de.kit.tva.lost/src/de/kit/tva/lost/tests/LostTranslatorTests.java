@@ -11,8 +11,37 @@ public class LostTranslatorTests {
     private String PREFIX = "D(name:test)\n\t";
 
     @Test
+    public void corcKeyword() {
+	String input = "F(pre: (\\exists int k; (k <= 0 & \\old(x).length -> a)), post: y)\n" + "\t\tx;";
+
+	assertTrue(translator.translate(PREFIX + input));
+    }
+
+    @Test
+    public void complexCondition() {
+	String input = "F(pre: x, post: y)\n" + "\t\tL(inv:x, guard: data.length, var: i)\n" + "\t\t\tx;";
+
+	assertTrue(translator.translate(PREFIX + input));
+    }
+
+    @Test
+    public void complexCondition2() {
+	String input = "F(pre: true, post: (\\exists int z;(a)) & (\\forall int k; (b -> (\\exists int z; (d = \\old(data)[lol])))) & data[data] = newTop)\n"
+		+ "\t\t\tx;";
+
+	assertTrue(translator.translate(PREFIX + input));
+    }
+
+    @Test
+    public void multiLineExpression() {
+	String input = "F(pre: x, post: y)\n" + "\t\t{\n\t\ta;\n\t\tb;\n\t\t}";
+
+	assertTrue(translator.translate(PREFIX + input));
+    }
+
+    @Test
     public void composition() {
-	String input = "F(pre: x = 0,post: x = 2)\n" + "\tC(intm: x = 1)\n" + "\t\tx += 1;\n" + "\t\tx += 1;\n";
+	String input = "F(pre: x = 0,post: x & y(a, b) )\n" + "\tC(intm: x = 1)\n" + "\t\tx += 1;\n" + "\t\tx += 1;\n";
 
 	assertTrue(translator.translate(PREFIX + input));
     }
@@ -45,7 +74,7 @@ public class LostTranslatorTests {
 
     @Test
     public void returnStatement() {
-	String input = new String("F(pre: x,post: y)\n" + "\tR: x;\n");
+	String input = new String("F(pre: (\\forall int i; (a + i = 0)),post: y)\n" + "\tR: x;\n");
 
 	assertTrue(translator.translate(PREFIX + input));
     }
@@ -76,7 +105,8 @@ public class LostTranslatorTests {
 
     @Test
     public void variables() {
-	String input = new String("Vars\n" + "\tLOCAL int a;\n" + "\tRETURN String b;\n" + "F(pre: x,post: y)\n" + "\tM: x();\n");
+	String input = new String(
+		"Vars\n" + "\tLOCAL int a\n" + "\tRETURN String b\n" + "\tF(pre: x,post: y)\n" + "\t\tM: x();\n");
 
 	assertTrue(translator.translate(PREFIX + input));
 
@@ -85,7 +115,7 @@ public class LostTranslatorTests {
     @Test
     public void globalConditions() {
 	String input = new String("GlobalConditions\n" + "\t(s - 2(x+1))\n" + "\tx > 1000000000000\n"
-		+ "F(pre: x,post: y)\n" + "\tM: x();\n");
+		+ "\tF(pre: x,post: y)\n" + "\t\tM: x();\n");
 
 	assertTrue(translator.translate(PREFIX + input));
 
@@ -94,7 +124,7 @@ public class LostTranslatorTests {
     @Test
     public void renaming() {
 	String input = new String(
-		"Renaming\n" + "\tpostCon -> (wurstBraten(x+1))\n" + "F(pre: x,post: postCon)\n" + "\tM: x();\n");
+		"Renaming\n" + "\tpostCon -> (wurstBraten(x+1))\n" + "\tF(pre: x,post: postCon)\n" + "\t\tM: x();\n");
 
 	assertTrue(translator.translate(PREFIX + input));
 
