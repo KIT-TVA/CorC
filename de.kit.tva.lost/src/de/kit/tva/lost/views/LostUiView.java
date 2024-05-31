@@ -97,13 +97,13 @@ public class LostUiView extends Composite implements View, Listener {
 	btnTranslate.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 	btnTranslate.setFont(localResourceManager.create(FontDescriptor.createFrom("Segoe UI", 8, SWT.NORMAL)));
 	formToolkit.adapt(btnTranslate, true, true);
-	btnTranslate.setText("LOST ⇉ CbC");
+	btnTranslate.setText("Translate");
 
 	btnLoad = new Button(grpHeader, SWT.TOGGLE);
 	btnLoad.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 	btnLoad.setFont(localResourceManager.create(FontDescriptor.createFrom("Segoe UI", 8, SWT.NORMAL)));
 	formToolkit.adapt(btnLoad, true, true);
-	btnLoad.setText("LOST ⇇ CbC");
+	btnLoad.setText("Load");
 
 	codeField = new StyledText(this, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 	codeField.setFont(
@@ -118,15 +118,6 @@ public class LostUiView extends Composite implements View, Listener {
 	codeField.setLayoutData(gdCodeField);
 	formToolkit.adapt(codeField);
 	formToolkit.paintBordersFor(codeField);
-	Color uiBackground = new Color(238, 232, 213);
-	Color codeBackground = new Color(253, 246, 227);
-	Color codeForeground = new Color(0, 0, 0);
-	setBackgroundRecursive(this, uiBackground);
-	setBackgroundRecursive(grpHeader, uiBackground);
-	setBackgroundRecursive(grpSyntax, uiBackground);
-	this.codeField.setBackground(codeBackground);
-//	this.codeField.setForeground(new Color(125, 132, 134));
-	this.codeField.setForeground(codeForeground);
 	initMVCs();
     }
 
