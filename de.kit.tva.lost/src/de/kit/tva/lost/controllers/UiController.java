@@ -4,6 +4,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 
 import de.kit.tva.lost.interfaces.Controller;
+import de.kit.tva.lost.interfaces.ViewType;
 import de.kit.tva.lost.models.CodeModel;
 import de.kit.tva.lost.models.UiModel;
 import de.kit.tva.lost.views.CodeView;
@@ -50,8 +51,9 @@ public class UiController implements Controller {
 
 	    @Override
 	    public void widgetSelected(SelectionEvent e) {
-		codeModel.switchView();
-		codeView.updateCode(codeModel.getViewCode());
+		if (!view.getBasicViewButton().getSelection())
+		    return;
+		codeModel.switchView(ViewType.BASIC);
 	    }
 
 	    @Override
@@ -60,16 +62,21 @@ public class UiController implements Controller {
 
 	});
 
-	/*
-	 * view.getExtendedViewButton().addSelectionListener(new SelectionListener() {
-	 * 
-	 * @Override public void widgetSelected(SelectionEvent e) {
-	 * codeModel.switchView(); codeView.updateCode(codeModel.getViewCode()); }
-	 * 
-	 * @Override public void widgetDefaultSelected(SelectionEvent e) { }
-	 * 
-	 * });
-	 */
+	view.getExtendedViewButton().addSelectionListener(new SelectionListener() {
+
+	    @Override
+	    public void widgetSelected(SelectionEvent e) {
+		if (!view.getExtendedViewButton().getSelection())
+		    return;
+		codeModel.switchView(ViewType.EXTENDED);
+	    }
+
+	    @Override
+	    public void widgetDefaultSelected(SelectionEvent e) {
+	    }
+
+	});
+
     }
 
     @Override

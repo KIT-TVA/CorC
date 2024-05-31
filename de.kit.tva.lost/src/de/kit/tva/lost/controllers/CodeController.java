@@ -29,13 +29,21 @@ public class CodeController implements Controller {
 	    @Override
 	    public void update() {
 		view.setCaretOffset(model.getCurOffset());
-		view.disableCodeIfNecessary(model.basicViewEnabled());
 	    }
 
 	    @Override
 	    public void updateCode() {
 		view.updateCode(model.getCode());
 		view.highlight();
+	    }
+
+	    @Override
+	    public void updateView() {
+		view.disableCodeIfNecessary(model.basicViewEnabled());
+		view.updateCode(model.getViewCode());
+		if (!model.basicViewEnabled()) {
+		    view.highlight();
+		}
 	    }
 	});
     }

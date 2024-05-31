@@ -2,6 +2,7 @@ package de.kit.tva.lost.models;
 
 import de.kit.tva.lost.interfaces.CodeModelNotifier;
 import de.kit.tva.lost.interfaces.CodeView;
+import de.kit.tva.lost.interfaces.ViewType;
 
 public class CodeModel extends CodeModelNotifier {
     private String viewCode;
@@ -45,7 +46,7 @@ public class CodeModel extends CodeModelNotifier {
 
     public void setCode(String newCode) {
 	code = newCode;
-	notifyCodeChanged();
+	notifyCodeChangedListeners();
     }
 
     public String getViewCode() {
@@ -160,8 +161,12 @@ public class CodeModel extends CodeModelNotifier {
 	return newLine.toString();
     }
 
-    public void switchView() {
-	this.basicView = !this.basicView;
+    public void switchView(ViewType viewType) {
+	if (viewType == ViewType.BASIC) {
+	    this.basicView = true;
+	} else {
+	    this.basicView = false;
+	}
 	applyView();
     }
 
@@ -173,6 +178,6 @@ public class CodeModel extends CodeModelNotifier {
 	    codeView = new ExtendedCodeView();
 	}
 	this.setViewCode(codeView.transform(this.code));
-	notifyListeners();
+	notifyViewChangedListeners();
     }
 }

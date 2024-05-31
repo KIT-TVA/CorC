@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="test">
+    <statement name="statement">
+      <refinement name="x;">
+        <postCondition name="y"/>
+        <preCondition name="x"/>
+      </refinement>
+      <postCondition name="y"/>
+      <preCondition name="x"/>
+    </statement>
+    <preCondition name="x"/>
+    <postCondition name="y"/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
   <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
     <conditions name="data!=null"/>
     <conditions name="data.length>=0"/>
@@ -11,87 +23,16 @@
     <variables name="int i"/>
     <variables name="int[] tmp"/>
   </de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
-  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="test">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="test" comment="">
     <statement name="statement">
-      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement">
-        <firstStatement name="statement1">
-          <refinement name="tmp=newint[data.length+1];">
-            <postCondition name="tmp.length=data.length+1"/>
-            <preCondition name="true"/>
-          </refinement>
-          <postCondition name="tmp.length=data.length+1"/>
-          <preCondition name="true"/>
-        </firstStatement>
-        <secondStatement name="statement2">
-          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement">
-            <firstStatement name="statement1">
-              <refinement name="tmp[tmp.length-1]=newTop;&#xA;">
-                <postCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop"/>
-                <preCondition name="tmp.length=data.length+1"/>
-              </refinement>
-              <postCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop"/>
-              <preCondition name="tmp.length=data.length+1"/>
-            </firstStatement>
-            <secondStatement name="statement2">
-              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement">
-                <firstStatement name="statement1">
-                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement">
-                    <firstStatement name="statement1">
-                      <refinement name="i=0;&#xA;">
-                        <postCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallintj;(0&lt;=j&amp;j&lt;i->data[j]=tmp[j]))&amp;i=0"/>
-                        <preCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop"/>
-                      </refinement>
-                      <postCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallintj;(0&lt;=j&amp;j&lt;i->data[j]=tmp[j]))&amp;i=0"/>
-                      <preCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop"/>
-                    </firstStatement>
-                    <secondStatement name="statement2">
-                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SmallRepetitionStatement">
-                        <postCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallinti;(0&lt;=i&amp;i&lt;data.length->data[i]=tmp[i]))"/>
-                        <preCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallintj;(0&lt;=j&amp;j&lt;i->data[j]=tmp[j]))&amp;i=0"/>
-                        <loopStatement name="statement1">
-                          <refinement name="i++;&#xA;&#xA;">
-                            <postCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallintj;(0&lt;=j&amp;j&lt;i->data[j]=tmp[j]))"/>
-                            <preCondition name="(tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallintj;(0&lt;=j&amp;j&lt;i->data[j]=tmp[j]))) &amp; (i&lt;data.length)"/>
-                          </refinement>
-                          <postCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallintj;(0&lt;=j&amp;j&lt;i->data[j]=tmp[j]))"/>
-                          <preCondition name="(tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallintj;(0&lt;=j&amp;j&lt;i->data[j]=tmp[j]))) &amp; (i&lt;data.length)"/>
-                        </loopStatement>
-                        <variant name="data.length-i"/>
-                        <invariant name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallintj;(0&lt;=j&amp;j&lt;i->data[j]=tmp[j]))"/>
-                        <guard name="i&lt;data.length"/>
-                      </refinement>
-                      <postCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallinti;(0&lt;=i&amp;i&lt;data.length->data[i]=tmp[i]))"/>
-                      <preCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallintj;(0&lt;=j&amp;j&lt;i->data[j]=tmp[j]))&amp;i=0"/>
-                    </secondStatement>
-                    <intermediateCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallintj;(0&lt;=j&amp;j&lt;i->data[j]=tmp[j]))&amp;i=0"/>
-                  </refinement>
-                  <postCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallinti;(0&lt;=i&amp;i&lt;data.length->data[i]=tmp[i]))"/>
-                  <preCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop"/>
-                </firstStatement>
-                <secondStatement name="statement2">
-                  <refinement name="data=tmp;">
-                    <postCondition name="(\existsintz;(0&lt;=z&amp;z&lt;data.length&amp;data[z]=newTop))&amp;(\forallintk;(0&lt;=k&amp;k&lt;\old(data).length->(\existsintz;(0&lt;=z&amp;z&lt;data.length&amp;data[z]=\old(data)[k]))))&amp;data[data.length-1]=newTop"/>
-                    <preCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallinti;(0&lt;=i&amp;i&lt;data.length->data[i]=tmp[i]))"/>
-                  </refinement>
-                  <postCondition name="(\existsintz;(0&lt;=z&amp;z&lt;data.length&amp;data[z]=newTop))&amp;(\forallintk;(0&lt;=k&amp;k&lt;\old(data).length->(\existsintz;(0&lt;=z&amp;z&lt;data.length&amp;data[z]=\old(data)[k]))))&amp;data[data.length-1]=newTop"/>
-                  <preCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallinti;(0&lt;=i&amp;i&lt;data.length->data[i]=tmp[i]))"/>
-                </secondStatement>
-                <intermediateCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop&amp;(\forallinti;(0&lt;=i&amp;i&lt;data.length->data[i]=tmp[i]))"/>
-              </refinement>
-              <postCondition name="(\existsintz;(0&lt;=z&amp;z&lt;data.length&amp;data[z]=newTop))&amp;(\forallintk;(0&lt;=k&amp;k&lt;\old(data).length->(\existsintz;(0&lt;=z&amp;z&lt;data.length&amp;data[z]=\old(data)[k]))))&amp;data[data.length-1]=newTop"/>
-              <preCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop"/>
-            </secondStatement>
-            <intermediateCondition name="tmp.length=data.length+1&amp;tmp[tmp.length-1]=newTop"/>
-          </refinement>
-          <postCondition name="(\existsintz;(0&lt;=z&amp;z&lt;data.length&amp;data[z]=newTop))&amp;(\forallintk;(0&lt;=k&amp;k&lt;\old(data).length->(\existsintz;(0&lt;=z&amp;z&lt;data.length&amp;data[z]=\old(data)[k]))))&amp;data[data.length-1]=newTop"/>
-          <preCondition name="tmp.length=data.length+1"/>
-        </secondStatement>
-        <intermediateCondition name="tmp.length=data.length+1"/>
+      <refinement name="x;">
+        <postCondition name="y"/>
+        <preCondition name="x"/>
       </refinement>
-      <postCondition name="(\existsintz;(0&lt;=z&amp;z&lt;data.length&amp;data[z]=newTop))&amp;(\forallintk;(0&lt;=k&amp;k&lt;\old(data).length->(\existsintz;(0&lt;=z&amp;z&lt;data.length&amp;data[z]=\old(data)[k]))))&amp;data[data.length-1]=newTop"/>
-      <preCondition name="true"/>
+      <postCondition name="y"/>
+      <preCondition name="x"/>
     </statement>
-    <preCondition name="true"/>
-    <postCondition name="(\existsintz;(0&lt;=z&amp;z&lt;data.length&amp;data[z]=newTop))&amp;(\forallintk;(0&lt;=k&amp;k&lt;\old(data).length->(\existsintz;(0&lt;=z&amp;z&lt;data.length&amp;data[z]=\old(data)[k]))))&amp;data[data.length-1]=newTop"/>
+    <preCondition name="x"/>
+    <postCondition name="y"/>
   </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
 </xmi:XMI>
