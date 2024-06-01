@@ -10,13 +10,11 @@ import styles.DefaultStyle;
 
 public class CodeView extends AbstractView {
     private SyntaxHighlighter syntaxHighlighter;
-    private String previousCode;
     private StyledText codeField;
 
     public CodeView(StyledText codeField) {
 	this.codeField = codeField;
 	this.syntaxHighlighter = new SyntaxHighlighter(this.getCodeField(), new DefaultStyle());
-	this.previousCode = "";
     }
 
     public void updateCode(String code) {
@@ -65,12 +63,20 @@ public class CodeView extends AbstractView {
 	sr.start = codeColor.info.relStartIndex;
 	sr.length = codeColor.info.relEndIndex - codeColor.info.relStartIndex;
 	sr.foreground = codeColor.colorToSet;
-	if (sr.start + sr.length > codeField.getText().length()) {
+	if (!styleInRange(sr)) {
 	    sr.start--;
 	}
-	if (sr.start >= 0 && sr.length > 0) {
+	if (styleBoundsValid(sr)) {
 	    this.codeField.setStyleRange(sr);
 	}
+    }
+
+    private boolean styleInRange(StyleRange sr) {
+	return sr.start + sr.length > codeField.getText().length();
+    }
+
+    private boolean styleBoundsValid(StyleRange sr) {
+	return sr.start >= 0 && sr.length > 0;
     }
 
     private boolean calcAbsIndicies(CodeColor codeColor) {

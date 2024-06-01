@@ -30,11 +30,14 @@ public class LostUiView extends Composite implements View, Listener {
     private LocalResourceManager localResourceManager;
     private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 
+    private final int UI_WIDTH = 4;
+
     private Composite grpHeader;
     private Composite grpSyntax;
     private StyledText codeField;
     private Button btnHelp;
     private Button btnTranslate;
+    private Button btnTest;
     private Button btnLoad;
     private Button btnBasic;
     private Button btnExtended;
@@ -50,7 +53,7 @@ public class LostUiView extends Composite implements View, Listener {
     public LostUiView(Composite parent, int style) {
 	super(parent, style);
 	createResourceManager();
-	GridLayout gridLayout = new GridLayout(3, false);
+	GridLayout gridLayout = new GridLayout(UI_WIDTH, false);
 	gridLayout.marginHeight = 0;
 	setLayout(gridLayout);
 
@@ -61,7 +64,7 @@ public class LostUiView extends Composite implements View, Listener {
 	grpHeader.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 	formToolkit.adapt(grpHeader);
 	formToolkit.paintBordersFor(grpHeader);
-	GridLayout glGrpHeader = new GridLayout(3, false);
+	GridLayout glGrpHeader = new GridLayout(UI_WIDTH, false);
 	glGrpHeader.marginTop = 5;
 	glGrpHeader.marginHeight = 0;
 	grpHeader.setLayout(glGrpHeader);
@@ -70,6 +73,12 @@ public class LostUiView extends Composite implements View, Listener {
 	grpSyntax.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
 	formToolkit.adapt(grpSyntax);
 	formToolkit.paintBordersFor(grpSyntax);
+
+	btnTest = new Button(this, SWT.TOGGLE);
+	btnTest.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+	btnTest.setFont(localResourceManager.create(FontDescriptor.createFrom("Segoe UI", 8, SWT.NORMAL)));
+	formToolkit.adapt(btnTest, true, true);
+	btnTest.setText("Test");
 
 	btnHelp = new Button(this, SWT.FLAT);
 	btnHelp.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -113,7 +122,7 @@ public class LostUiView extends Composite implements View, Listener {
 	codeField.setRightMargin(5);
 	codeField.setTabStops(new int[] { 16 });
 	codeField.setAlwaysShowScrollBars(true);
-	GridData gdCodeField = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1);
+	GridData gdCodeField = new GridData(SWT.FILL, SWT.FILL, true, true, UI_WIDTH, 1);
 	gdCodeField.heightHint = 216;
 	codeField.setLayoutData(gdCodeField);
 	formToolkit.adapt(codeField);
@@ -169,6 +178,10 @@ public class LostUiView extends Composite implements View, Listener {
 
     public Button getLoadButton() {
 	return this.btnLoad;
+    }
+
+    public Button getTestButton() {
+	return this.btnTest;
     }
 
     private void createResourceManager() {

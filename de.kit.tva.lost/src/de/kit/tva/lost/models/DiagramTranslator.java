@@ -17,7 +17,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
-import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 
 /**
  * Translates a given Diagram into equivalent LOST-Code.
@@ -65,10 +64,6 @@ public class DiagramTranslator {
 	extractRenaming(renaming);
 	extractVars(vars);
 	extractFormula(formula);
-    }
-
-    private void extractInitializers(DiagramPartsExtractor dp) throws DiagramTranslatorException {
-	extractInitializers(dp.getRenaming(), dp.getConds(), dp.getVars(), dp.getFormula());
     }
 
     private void appendLine(String line) {

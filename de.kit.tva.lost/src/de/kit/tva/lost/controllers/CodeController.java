@@ -50,9 +50,17 @@ public class CodeController implements Controller {
 
     @Override
     public void addViewListeners() {
-	// TODO: add code listener -> User modifiys code in editor
-	// TODO: Caret listener doesn't work correctly when clicking with mouse in
-	// middle of text and tryign to remove/add a char.
+	handleKeyPress();
+	handleMouseClick();
+	handleCaret();
+    }
+
+    @Override
+    public void initModel() {
+	model.setCode("");
+    }
+
+    private void handleKeyPress() {
 	view.getCodeField().addKeyListener(new KeyListener() {
 	    @Override
 	    public void keyPressed(KeyEvent e) {
@@ -65,6 +73,9 @@ public class CodeController implements Controller {
 	    }
 	});
 
+    }
+
+    private void handleMouseClick() {
 	view.getCodeField().addMouseListener(new MouseListener() {
 	    @Override
 	    public void mouseDoubleClick(MouseEvent e) {
@@ -80,13 +91,9 @@ public class CodeController implements Controller {
 	    }
 	});
 
-	view.getCodeField().addCaretListener(e -> view.setCaretOffset(e.caretOffset));
-
-	// view.getCodeField().addModifyListener(e -> view.update());
     }
 
-    @Override
-    public void initModel() {
-	model.setCode("");
+    private void handleCaret() {
+	view.getCodeField().addCaretListener(e -> view.setCaretOffset(e.caretOffset));
     }
 }

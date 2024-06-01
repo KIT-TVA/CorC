@@ -34,6 +34,17 @@ public class UiController implements Controller {
     @Override
     public void addViewListeners() {
 	codeView.addListener(view);
+	handleHelpButton();
+	handleBasicViewButton();
+	handleExtendedViewButton();
+    }
+
+    @Override
+    public void initModel() {
+
+    }
+
+    private void handleHelpButton() {
 	view.getHelpButton().addSelectionListener(new SelectionListener() {
 	    @Override
 	    public void widgetSelected(SelectionEvent e) {
@@ -47,6 +58,9 @@ public class UiController implements Controller {
 
 	});
 
+    }
+
+    private void handleBasicViewButton() {
 	view.getBasicViewButton().addSelectionListener(new SelectionListener() {
 
 	    @Override
@@ -62,6 +76,9 @@ public class UiController implements Controller {
 
 	});
 
+    }
+
+    private void handleExtendedViewButton() {
 	view.getExtendedViewButton().addSelectionListener(new SelectionListener() {
 
 	    @Override
@@ -76,11 +93,6 @@ public class UiController implements Controller {
 	    }
 
 	});
-
-    }
-
-    @Override
-    public void initModel() {
 
     }
 }

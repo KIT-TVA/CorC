@@ -13,6 +13,7 @@ import de.kit.tva.lost.models.CodeModel;
 import de.kit.tva.lost.models.DiagramResourceModelException;
 import de.kit.tva.lost.models.DiagramTranslator;
 import de.kit.tva.lost.models.DiagramTranslatorException;
+import de.kit.tva.lost.models.LostTester;
 import de.kit.tva.lost.models.TranslatorErrorListenerModel;
 import de.kit.tva.lost.models.TranslatorModel;
 import de.kit.tva.lost.views.CodeView;
@@ -46,6 +47,16 @@ public class TranslatorController implements Controller {
 
     @Override
     public void addViewListeners() {
+	handleTranslateButton();
+	handleLoadButton();
+	handleTestButton();
+    }
+
+    @Override
+    public void initModel() {
+    }
+
+    private void handleTranslateButton() {
 	uiView.getTranslateButton().addSelectionListener(new SelectionListener() {
 	    @Override
 	    public void widgetSelected(SelectionEvent e) {
@@ -65,8 +76,10 @@ public class TranslatorController implements Controller {
 
 	});
 
-	uiView.getLoadButton().addSelectionListener(new SelectionListener() {
+    }
 
+    private void handleLoadButton() {
+	uiView.getLoadButton().addSelectionListener(new SelectionListener() {
 	    @Override
 	    public void widgetSelected(SelectionEvent e) {
 		var currentDiagName = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
@@ -87,10 +100,22 @@ public class TranslatorController implements Controller {
 	    }
 
 	});
+
     }
 
-    @Override
-    public void initModel() {
+    private void handleTestButton() {
+	uiView.getTestButton().addSelectionListener(new SelectionListener() {
+	    @Override
+	    public void widgetSelected(SelectionEvent e) {
+		new LostTester().testAll();
+		;
+	    }
+
+	    @Override
+	    public void widgetDefaultSelected(SelectionEvent e) {
+		// not relevant
+	    }
+	});
     }
 
 }

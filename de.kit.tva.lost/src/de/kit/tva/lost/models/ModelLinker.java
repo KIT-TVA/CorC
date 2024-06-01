@@ -5,18 +5,12 @@ import java.util.Map;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import de.kit.tva.lost.models.LostParser.FormulaContext;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 
 public class ModelLinker {
-    private CbCFormula formula;
-    private FormulaContext formulaCtx;
     private Map<ParserRuleContext, AbstractStatement> links;
 
-    public ModelLinker(CbCFormula formula, FormulaContext formulaCtx) {
-	this.formula = formula;
-	this.formulaCtx = formulaCtx;
+    public ModelLinker() {
 	this.links = new HashMap<ParserRuleContext, AbstractStatement>();
     }
 

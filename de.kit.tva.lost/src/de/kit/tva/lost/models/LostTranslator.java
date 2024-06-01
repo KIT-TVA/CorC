@@ -44,11 +44,13 @@ public class LostTranslator {
     private Renaming renaming;
     private CbCFormula formula;
     private ParseTreeGenerator parseTreeGenerator;
+    private ModelLinker modelLinker;
     private ProgramContext tree;
 
     public LostTranslator() {
 	this.formula = CbcmodelFactory.eINSTANCE.createCbCFormula();
 	this.parseTreeGenerator = new ParseTreeGenerator();
+	this.modelLinker = new ModelLinker();
     }
 
     public boolean translate(String lostCode) {
@@ -125,22 +127,35 @@ public class LostTranslator {
     }
 
     private void addRefinements(FormulaContext formulaTree) {
-	var statement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
-	var preCon = CbcmodelFactory.eINSTANCE.createCondition();
-	var postCon = CbcmodelFactory.eINSTANCE.createCondition();
-	var preCon2 = CbcmodelFactory.eINSTANCE.createCondition();
-	var postCon2 = CbcmodelFactory.eINSTANCE.createCondition();
-	statement.setName("statement");
-	statement.setPreCondition(preCon);
-	statement.setPostCondition(postCon);
-	formula.setPreCondition(preCon2);
-	formula.setPostCondition(postCon2);
+	var statement = getStatementDummy();
+	initFormula();
 	statement.getPreCondition().setName(formulaTree.pre().condition().getText());
 	statement.getPostCondition().setName(formulaTree.post().condition().getText());
 	formula.getPreCondition().setName(formulaTree.pre().condition().getText());
 	formula.getPostCondition().setName(formulaTree.post().condition().getText());
 	formula.setStatement(statement);
 	walkRefinement(formula.getStatement(), formulaTree.refinement().refinementRule().getChild(0));
+	propagateConditionsThroughRefinements();
+    }
+
+    private AbstractStatement getStatementDummy() {
+	var statement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
+	var preCon = CbcmodelFactory.eINSTANCE.createCondition();
+	var postCon = CbcmodelFactory.eINSTANCE.createCondition();
+	statement.setName("statement");
+	statement.setPreCondition(preCon);
+	statement.setPostCondition(postCon);
+	return statement;
+    }
+
+    private void initFormula() {
+	var preCon2 = CbcmodelFactory.eINSTANCE.createCondition();
+	var postCon2 = CbcmodelFactory.eINSTANCE.createCondition();
+	formula.setPreCondition(preCon2);
+	formula.setPostCondition(postCon2);
+    }
+
+    private void propagateConditionsThroughRefinements() {
 	UpdateConditionsOfChildren.updateConditionsofChildren(formula.getStatement().getPreCondition(), true);
 	UpdateConditionsOfChildren.updateConditionsofChildren(formula.getStatement().getPostCondition(), true);
     }
@@ -199,6 +214,7 @@ public class LostTranslator {
 	AbstractStatement statement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 	addEmptyPrePost(statement);
 	statement.setName(sCtx.getText());
+	modelLinker.link(statement, sCtx);
 	setRefinement(parent, statement);
     }
 
@@ -239,6 +255,7 @@ public class LostTranslator {
 	var originalS = CbcmodelFactory.eINSTANCE.createOriginalStatement();
 	addEmptyPrePost(originalS);
 	originalS.setName(origCtx.statement().getText());
+	modelLinker.link(originalS, origCtx);
 	setRefinement(parent, originalS);
 
     }
@@ -247,6 +264,7 @@ public class LostTranslator {
 	var methodS = CbcmodelFactory.eINSTANCE.createMethodStatement();
 	addEmptyPrePost(methodS);
 	methodS.setName(methodCCtx.statement().getText());
+	modelLinker.link(methodS, methodCCtx);
 	setRefinement(parent, methodS);
 
     }
@@ -254,6 +272,7 @@ public class LostTranslator {
     private void addSkip(AbstractStatement parent, SkipSContext sCtx) {
 	var skipS = CbcmodelFactory.eINSTANCE.createSkipStatement();
 	addEmptyPrePost(skipS);
+	modelLinker.link(skipS, sCtx);
 	setRefinement(parent, skipS);
     }
 
@@ -261,6 +280,7 @@ public class LostTranslator {
 	var returnS = CbcmodelFactory.eINSTANCE.createReturnStatement();
 	addEmptyPrePost(returnS);
 	returnS.setName(retCtx.statement().getText());
+	modelLinker.link(returnS, retCtx);
 	setRefinement(parent, returnS);
 
     }
@@ -271,26 +291,43 @@ public class LostTranslator {
 	for (int i = 0; i < mlexprCtx.getRuleContexts(StatementContext.class).size(); i++) {
 	    mlexprS.setName(mlexprCtx.statement(i).getText() + "\n");
 	}
+	modelLinker.link(mlexprS, mlexprCtx);
 	setRefinement(parent, mlexprS);
     }
 
     private void setRefinement(AbstractStatement parent, AbstractStatement refinement) {
 	if (parent instanceof CompositionStatement) {
-	    if (((CompositionStatement) parent).getFirstStatement().getRefinement() == null) {
-		((CompositionStatement) parent).getFirstStatement().setRefinement(refinement);
-	    } else {
-		((CompositionStatement) parent).getSecondStatement().setRefinement(refinement);
-	    }
+	    handleComposition((CompositionStatement) parent, refinement);
 	} else if (parent instanceof SmallRepetitionStatement) {
-	    ((SmallRepetitionStatement) parent).getLoopStatement().setRefinement(refinement);
+	    handleRepetition((SmallRepetitionStatement) parent, refinement);
 	} else if (parent instanceof SelectionStatement) {
-	    for (var command : ((SelectionStatement) parent).getCommands()) {
-		if (command.getRefinement() == null) {
-		    command.setRefinement(refinement);
-		}
-	    }
+	    handleSelection((SelectionStatement) parent, refinement);
 	} else if (parent instanceof AbstractStatement) {
-	    parent.setRefinement(refinement);
+	    handleStatement(parent, refinement);
 	}
+    }
+
+    private void handleComposition(CompositionStatement parent, AbstractStatement refinement) {
+	if (parent.getFirstStatement().getRefinement() == null) {
+	    parent.getFirstStatement().setRefinement(refinement);
+	} else {
+	    parent.getSecondStatement().setRefinement(refinement);
+	}
+    }
+
+    private void handleRepetition(SmallRepetitionStatement parent, AbstractStatement refinement) {
+	parent.getLoopStatement().setRefinement(refinement);
+    }
+
+    private void handleSelection(SelectionStatement parent, AbstractStatement refinement) {
+	for (var command : parent.getCommands()) {
+	    if (command.getRefinement() == null) {
+		command.setRefinement(refinement);
+	    }
+	}
+    }
+
+    private void handleStatement(AbstractStatement parent, AbstractStatement refinement) {
+	parent.setRefinement(refinement);
     }
 }
