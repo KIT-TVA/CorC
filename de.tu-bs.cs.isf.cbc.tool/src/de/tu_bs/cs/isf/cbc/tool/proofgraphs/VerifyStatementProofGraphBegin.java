@@ -1,6 +1,7 @@
 package de.tu_bs.cs.isf.cbc.tool.proofgraphs;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
@@ -26,15 +27,20 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
+import de.tu_bs.cs.isf.cbc.tool.FileSystemProofRepository;
+import de.tu_bs.cs.isf.cbc.tool.IProofRepository;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
+import de.tu_bs.cs.isf.cbc.util.Colors;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.IFileUtil;
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraphCollection;
+import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofNode;
 
 public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustomFeature {
 
@@ -98,10 +104,28 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 				genCode.generate(project.getLocation(), 
 						callingFeature, callingClass, callingMethod, 
 						featureConfig);
+
+				IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
 				
-				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uri.toPlatformString(true)), featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_BEGIN);
+				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, fileHandler, featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_BEGIN);
 				boolean proven = prove.proveStatementWithKey(null, null, null, false, false, callingMethod, "", callingClass, true);
 				statement.setProven(proven);
+				
+				//Somehow find Statement.key or always Statement1? TODO: Think about it
+				String location = fileHandler.getLocationString(getDiagram().eResource().getURI().toPlatformString(true)) + "/Statement1.key";
+
+				//Save to Proof repository
+				try {
+					ProofGraphCollection collection = ProofGraphCollection.loadFromJson(project.getRawLocation() + "/graph.json");
+					ProofNode node = collection.getProofNode(callingMethod, callingFeature);
+					String proofText;
+					proofText = Files.readString(java.nio.file.Path.of(location));
+					IProofRepository proofRepo = new FileSystemProofRepository();
+					proofRepo.savePartialProofForId(node.getId(), proofText);
+					Console.print("Saved proof to Proof Repository as " + node.getId(), Colors.GREEN);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		

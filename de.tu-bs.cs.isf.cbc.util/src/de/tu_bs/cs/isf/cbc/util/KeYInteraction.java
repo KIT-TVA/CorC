@@ -159,7 +159,6 @@ public class KeYInteraction {
 				//DEBUG END
 				
 				
-				//PROOF-GRAPH TODO: Think of smarter way -> not first save then read then save
 				String locationWithoutFileEnding = location.toString().substring(0,
 						location.toString().indexOf("."));
 				var keyFile = new File(locationWithoutFileEnding + ".proof");
@@ -167,25 +166,6 @@ public class KeYInteraction {
 				/* TODO: KeyNewVersion */
 				proof.saveToFile(location);
 				
-
-				//TODO: Nice way to get the project
-				IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-				IProject project = null;
-				for (IProject p : projects) {
-					if (locationWithoutFileEnding.contains(p.getName())) {
-						project = p;
-					}
-				}
-				
-				if (project != null) {
-					ProofGraphCollection collection = ProofGraphCollection.loadFromJson(project.getRawLocation() + "/graph.json");
-					Console.println(collection.toMermaid());
-					//TODO: Fragen ob ich das durchreichen darf
-					ProofNode node = collection.getProofNode("push", "Base");
-					String proofText = Files.readString(java.nio.file.Path.of(location.getPath()));
-					IProofRepository proofRepo = new FileSystemProofRepository();
-					proofRepo.savePartialProofForId(node.getId(), proofText);
-				}
 				
 				try {
 					// TODO: inlining may be important too
