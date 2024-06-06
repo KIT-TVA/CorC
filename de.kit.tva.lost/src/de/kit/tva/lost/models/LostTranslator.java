@@ -1,13 +1,21 @@
 package de.kit.tva.lost.models;
 
+import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import de.kit.tva.lost.models.LostParser.CompositionContext;
 import de.kit.tva.lost.models.LostParser.ConditionContext;
 import de.kit.tva.lost.models.LostParser.FormulaContext;
 import de.kit.tva.lost.models.LostParser.GlobalConditionsContext;
+import de.kit.tva.lost.models.LostParser.GuardContext;
 import de.kit.tva.lost.models.LostParser.InitializerContext;
 import de.kit.tva.lost.models.LostParser.MethodCallSContext;
 import de.kit.tva.lost.models.LostParser.MlexprContext;
@@ -32,6 +40,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.util.GenerateDiagramFromModel;
 import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
 
 /**
@@ -39,6 +48,7 @@ import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
  * {@link de.tu-bs.cs.isf.cbc.cbcclass.ModelClass}.
  */
 public class LostTranslator {
+    private Diagram diagram;
     private JavaVariables vars;
     private GlobalConditions conds;
     private Renaming renaming;
@@ -53,7 +63,8 @@ public class LostTranslator {
 	this.modelLinker = new ModelLinker();
     }
 
-    public boolean translate(String lostCode) {
+    public boolean translate(String lostCode, boolean genDiagram)
+	    throws IOException, CoreException, DiagramResourceModelException {
 	if (!this.parseTreeGenerator.generateParseTree(lostCode)) {
 	    return false;
 	}
@@ -62,7 +73,25 @@ public class LostTranslator {
 	for (int i = 0; i < tree.root().diagram().getChildCount(); ++i) {
 	    addInitializers(tree.root().diagram().initializer(i));
 	}
+	if (!genDiagram)
+	    return true;
+	GenerateDiagramFromModel generator = new GenerateDiagramFromModel();
+	var diagramRes = DiagramResourceModel.getInstance().get(this.getFormula().getName());
+	addInitializersTo(this.getFormula().getName(), diagramRes);
+	this.diagram = generator.execute(diagramRes);
 	return true;
+    }
+
+    public boolean translate(String lostCode) throws DiagramResourceModelException, IOException, CoreException {
+	return translate(lostCode, true);
+    }
+
+    public Diagram getDiagram() {
+	return this.diagram;
+    }
+
+    public ModelLinker getModelLinker() {
+	return this.modelLinker;
     }
 
     public CbCFormula getFormula() {
@@ -79,6 +108,31 @@ public class LostTranslator {
 
     public JavaVariables getVariables() {
 	return this.vars;
+    }
+
+    private void addInitializersTo(String diagName, final Resource diagramRes) throws IOException, CoreException {
+	clearPrevious(diagramRes);
+	if (this.getGlobalConditions() != null)
+	    diagramRes.getContents().add(this.getGlobalConditions());
+	if (this.getRenaming() != null)
+	    diagramRes.getContents().add(this.getRenaming());
+	if (this.getVariables() != null)
+	    diagramRes.getContents().add(this.getVariables());
+	this.getFormula().setName(diagName);
+	diagramRes.getContents().add(this.getFormula());
+	diagramRes.save(Collections.EMPTY_MAP);
+	ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+    }
+
+    private void clearPrevious(Resource diagRes) {
+	for (int i = 0; i < diagRes.getContents().size(); i++) {
+	    if (diagRes.getContents().get(i) instanceof CbCFormula
+		    || diagRes.getContents().get(i) instanceof JavaVariables
+		    || diagRes.getContents().get(i) instanceof GlobalConditions
+		    || diagRes.getContents().get(i) instanceof Renaming) {
+		diagRes.getContents().remove(i);
+	    }
+	}
     }
 
     private void addInitializers(InitializerContext partTree) {
@@ -101,6 +155,11 @@ public class LostTranslator {
 	for (int i = 0; i < varsTree.getRuleContexts(VariableContext.class).size(); i++) {
 	    var variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 	    var treeVariable = varsTree.variable(i);
+	    if (!treeVariable.KIND().getText().equals("LOCAL")) {
+		// TODO: Since params and fields are not handled in diagram but in their class,
+		// in the future we should handle these here too.
+		continue;
+	    }
 	    variable.setKind(VariableKind.getByName(treeVariable.KIND().getText()));
 	    variable.setName(treeVariable.TYPE().getText() + " " + treeVariable.ID());
 	    vars.getVariables().add(variable);
@@ -221,10 +280,10 @@ public class LostTranslator {
     private void addSelection(AbstractStatement parent, SelectionContext selCtx) {
 	SelectionStatement selection = CbcmodelFactory.eINSTANCE.createSelectionStatement();
 	addEmptyPrePost(selection);
-	List<ParseTree> guards = selCtx.guards().children.stream().filter(c -> c instanceof ConditionContext).toList();
+	List<ParseTree> guards = selCtx.guards().children.stream().filter(c -> c instanceof GuardContext).toList();
 	for (int i = 0; i < guards.size(); ++i) {
 	    var g = CbcmodelFactory.eINSTANCE.createCondition();
-	    g.setName(selCtx.guards().condition(i).getText());
+	    g.setName(selCtx.guards().guard(i).condition().getText());
 	    selection.getGuards().add(g);
 	    selection.getCommands().add(dummyStatement(i));
 	    walkRefinement(selection.getCommands().get(i), selCtx.refinement(i).refinementRule().getChild(0));
@@ -330,4 +389,5 @@ public class LostTranslator {
     private void handleStatement(AbstractStatement parent, AbstractStatement refinement) {
 	parent.setRefinement(refinement);
     }
+
 }

@@ -95,8 +95,8 @@ public class DiagramTranslator {
     }
 
     private void appendVars(JavaVariables vars) {
-	appendFields(vars);
-	appendParams(vars);
+	// appendFields(vars); // See TODO below.
+	// appendParams(vars); // See TODO below.
 	appendLocals(vars);
 	indentLevel--;
     }
@@ -108,7 +108,7 @@ public class DiagramTranslator {
 	    return;
 	}
 	for (var field : vars.getFields()) {
-	    appendLine("GLOBAL " + field.getName().trim());
+	    appendLine("PUBLIC " + field.getName().trim());
 	}
     }
 
@@ -122,9 +122,11 @@ public class DiagramTranslator {
     }
 
     private void appendLocals(JavaVariables vars) {
-	if (vars.getVariables() == null) {
+	if (vars.getVariables() == null || vars.getVariables().isEmpty()) {
+	    indentLevel++;
 	    return;
 	}
+	appendInitializer("Vars");
 	for (var v : vars.getVariables()) {
 	    appendLine("LOCAL " + v.getName());
 	}
@@ -150,7 +152,6 @@ public class DiagramTranslator {
 	if (vars == null) {
 	    return;
 	}
-	appendInitializer("Vars");
 	appendVars(vars);
     }
 
@@ -209,6 +210,7 @@ public class DiagramTranslator {
 	    appendRefinement(selection.getCommands().get(i).getRefinement());
 	    this.indentLevel++;
 	}
+	this.indentLevel--;
     }
 
     private void appendRepetition(SmallRepetitionStatement repetition) {

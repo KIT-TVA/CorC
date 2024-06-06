@@ -13,7 +13,6 @@ import de.kit.tva.lost.models.CodeModel;
 import de.kit.tva.lost.models.DiagramResourceModelException;
 import de.kit.tva.lost.models.DiagramTranslator;
 import de.kit.tva.lost.models.DiagramTranslatorException;
-import de.kit.tva.lost.models.LostTester;
 import de.kit.tva.lost.models.TranslatorErrorListenerModel;
 import de.kit.tva.lost.models.TranslatorModel;
 import de.kit.tva.lost.views.CodeView;
@@ -49,7 +48,6 @@ public class TranslatorController implements Controller {
     public void addViewListeners() {
 	handleTranslateButton();
 	handleLoadButton();
-	handleTestButton();
     }
 
     @Override
@@ -101,21 +99,6 @@ public class TranslatorController implements Controller {
 
 	});
 
-    }
-
-    private void handleTestButton() {
-	uiView.getTestButton().addSelectionListener(new SelectionListener() {
-	    @Override
-	    public void widgetSelected(SelectionEvent e) {
-		new LostTester().testAll();
-		;
-	    }
-
-	    @Override
-	    public void widgetDefaultSelected(SelectionEvent e) {
-		// not relevant
-	    }
-	});
     }
 
 }

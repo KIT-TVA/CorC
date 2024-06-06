@@ -17,12 +17,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import de.kit.tva.lost.controllers.CodeController;
+import de.kit.tva.lost.controllers.TestController;
 import de.kit.tva.lost.controllers.TranslatorController;
 import de.kit.tva.lost.controllers.UiController;
 import de.kit.tva.lost.interfaces.Listener;
 import de.kit.tva.lost.interfaces.View;
 import de.kit.tva.lost.models.CodeModel;
 import de.kit.tva.lost.models.DiagramTranslator;
+import de.kit.tva.lost.models.LostTester;
 import de.kit.tva.lost.models.TranslatorModel;
 import de.kit.tva.lost.models.UiModel;
 
@@ -142,6 +144,7 @@ public class LostUiView extends Composite implements View, Listener {
 	new UiController(this, codeView, uiModel, codeModel);
 	new CodeController(codeView, codeModel);
 	new TranslatorController(this, codeView, codeModel, translatorModel, diagramTranslatorModel);
+	new TestController(this, new LostTesterView(this.getCodeField()), codeModel, new LostTester());
     }
 
     public LostUiView getUI() {

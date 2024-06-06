@@ -13,7 +13,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.graphiti,
  org.eclipse.core.resources,
  de.tu-bs.cs.isf.cbc.util;bundle-version="1.0.0",
- de.tu-bs.cs.isf.cbc.model;bundle-version="1.0.0"
+ de.tu-bs.cs.isf.cbc.model;bundle-version="1.0.0",
+ de.tu-bs.cs.isf.cbc.tool,
+ org.eclipse.graphiti.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-17,
  JavaSE-16
 Import-Package: org.antlr.v4.runtime;version="4.7.2",

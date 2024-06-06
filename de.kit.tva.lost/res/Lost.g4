@@ -36,7 +36,7 @@ intm : 'intm:' condition;
 
 condition : '(' condition ')' | '(' condition ')' OP condition | quantor | identifier | identifier condition | OP condition | condition ',' condition; 
 
-quantor : '\\' ID TYPE ID ';' condition;
+quantor : QT ID ';' condition;
 
 keyword : '\\' ID '(' identifier ')';
 
@@ -46,9 +46,9 @@ refinement : '\t'+ refinementRule;
 
 refinementRule : statement | composition | selection | repetition | returnS | originalS | skipS | methodCallS | block | mlexpr;
 
-statement : (identifier | javaReturn | '(' statement ')' | identifier'()' | identifier statement | identifier OP assigner) ';' NL?;
+statement : (identifier | javaReturn | identifier'()' | identifier '(' condition ')' | identifier statement | identifier OP assigner) ';' NL?;
 
-javaReturn : ID assigner;
+javaReturn : 'return' assigner;
 
 assigner : (identifier | '(' assigner ')' | identifier'()' | identifier assigner | identifier OP assigner);
 
@@ -56,7 +56,7 @@ composition : 'C' '(' intm ')' NL refinement refinement;
 
 selection : 'S' '(' guards ')' NL refinement+;
 
-guards : 'guard:' condition (',' 'guard:' condition)*;
+guards : guard (',' guard)*;
 
 repetition : 'L' '(' inv ',' guard ',' var ')' NL refinement;
 
@@ -82,7 +82,9 @@ mlexpr : '{' NL? ('\t'+ statement)* '\t'+ '}' NL?;
 
 // Lexer rules
 
-WS : [ \r]+ -> skip;
+WS : [ \r]+ -> channel(HIDDEN); //skip
+
+//PRINTED_WS : [ ]+;
 
 NL: '\n';
 
@@ -90,7 +92,9 @@ KIND : 'LOCAL' | 'RETURN' | 'PARAM' | 'PUBLIC';
 
 TYPE : ('boolean' | 'char' | 'short' | 'int' | 'long' | 'String') [\[\]]*;
 
-OP : [=+\-*/%<>&|!.]+;
+OP : [=+\-*/%<>&|!. ]+;
+
+QT : '\\forall int ' | '\\exists int ';
 
 ID : [a-zA-Z0-9]+;
 

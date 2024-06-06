@@ -1,11 +1,11 @@
 package de.kit.tva.lost.interfaces;
 
 public class CodeModelNotifier extends AbstractModel {
-    public void notifyCodeChangedListeners() {
+    public void codeChanged() {
 	this.listeners.forEach(l -> ((CodeListener) l).updateCode());
     }
 
-    public void notifyViewChangedListeners() {
+    public void viewChanged() {
 	this.listeners.forEach(l -> ((CodeListener) l).updateView());
     }
 }

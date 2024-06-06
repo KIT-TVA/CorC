@@ -81,8 +81,8 @@ public class SyntaxHighlighter {
 	if (rule.stop == null) {
 	    return;
 	}
-	codeColor.info = new OperatorInfo(rule.getStart().getLine(), rule.getStart().getStartIndex(),
-		rule.getStart().getStopIndex() + 1);
+	codeColor.info = new OperatorInfo(rule.getStart().getLine(), rule.getStart().getStartIndex() + 1,
+		rule.getStart().getStopIndex() + 2);
 	if (isHighlightable((ParserRuleContext) rule)) {
 	    this.allStyles.add(codeColor);
 	}

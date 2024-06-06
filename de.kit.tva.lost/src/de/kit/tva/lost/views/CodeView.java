@@ -67,7 +67,10 @@ public class CodeView extends AbstractView {
 	    sr.start--;
 	}
 	if (styleBoundsValid(sr)) {
-	    this.codeField.setStyleRange(sr);
+	    try {
+		this.codeField.setStyleRange(sr);
+	    } catch (IllegalArgumentException e) {
+	    }
 	}
     }
 

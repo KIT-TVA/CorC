@@ -46,7 +46,7 @@ public class CodeModel extends CodeModelNotifier {
 
     public void setCode(String newCode) {
 	code = newCode;
-	notifyCodeChangedListeners();
+	codeChanged();
     }
 
     public String getViewCode() {
@@ -178,6 +178,6 @@ public class CodeModel extends CodeModelNotifier {
 	    codeView = new ExtendedCodeView();
 	}
 	this.setViewCode(codeView.transform(this.code));
-	notifyViewChangedListeners();
+	viewChanged();
     }
 }

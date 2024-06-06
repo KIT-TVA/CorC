@@ -1,6 +1,8 @@
 package de.kit.tva.lost.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -12,6 +14,14 @@ public class ModelLinker {
 
     public ModelLinker() {
 	this.links = new HashMap<ParserRuleContext, AbstractStatement>();
+    }
+
+    public List<ParserRuleContext> getAllContexts() {
+	var contexts = new ArrayList<ParserRuleContext>();
+	for (var key : links.keySet()) {
+	    contexts.add(key);
+	}
+	return contexts;
     }
 
     public ParserRuleContext getContextFor(AbstractStatement statement) {

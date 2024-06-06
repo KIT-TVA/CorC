@@ -7,9 +7,9 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import de.kit.tva.lost.interfaces.AbstractCodeView;
 import de.kit.tva.lost.interfaces.CodeView;
 import de.kit.tva.lost.models.LostParser.CompositionContext;
-import de.kit.tva.lost.models.LostParser.ConditionContext;
 import de.kit.tva.lost.models.LostParser.DiagramContext;
 import de.kit.tva.lost.models.LostParser.FormulaContext;
+import de.kit.tva.lost.models.LostParser.GuardContext;
 import de.kit.tva.lost.models.LostParser.InitializerContext;
 import de.kit.tva.lost.models.LostParser.MethodCallSContext;
 import de.kit.tva.lost.models.LostParser.MlexprContext;
@@ -36,7 +36,7 @@ public class BasicCodeView extends AbstractCodeView implements CodeView {
     }
 
     private void addDiagram(DiagramContext diagramCtx) {
-	appendLine("D(name: " + diagramCtx.name().ID().getText() + ")");
+	appendLine("Diagram(name: " + diagramCtx.name().ID().getText() + ")");
 	this.indentLevel++;
 	for (int i = 0; i < diagramCtx.getChildCount(); ++i) {
 	    addInitializers(diagramCtx.initializer(i));
@@ -53,7 +53,7 @@ public class BasicCodeView extends AbstractCodeView implements CodeView {
     }
 
     private void addRefinements(FormulaContext formulaTree) {
-	appendLine("F");
+	appendLine("Formula");
 	this.indentLevel++;
 	walkRefinement(formulaTree.refinement().refinementRule().getChild(0));
     }
@@ -94,7 +94,7 @@ public class BasicCodeView extends AbstractCodeView implements CodeView {
     }
 
     private void addComposition(CompositionContext csCtx) {
-	appendLine("C");
+	appendLine("Composition");
 	this.indentLevel++;
 	walkRefinement(csCtx.refinement(0).refinementRule().getChild(0));
 	this.indentLevel++;
@@ -103,13 +103,19 @@ public class BasicCodeView extends AbstractCodeView implements CodeView {
     }
 
     private void addStatement(StatementContext sCtx) {
-	appendLine(sCtx.getText().trim());
+	if (sCtx.javaReturn() != null) {
+	    // This is a special case since spaces are ignored by default. Hence we need to
+	    // insert it manually.
+	    appendLine("return " + sCtx.javaReturn().assigner().getText() + ";");
+	} else {
+	    appendLine(sCtx.getText().trim());
+	}
     }
 
     private void addSelection(SelectionContext selCtx) {
-	appendLine("S");
+	appendLine("Selection");
 	indentLevel++;
-	List<ParseTree> guards = selCtx.guards().children.stream().filter(c -> c instanceof ConditionContext).toList();
+	List<ParseTree> guards = selCtx.guards().children.stream().filter(c -> c instanceof GuardContext).toList();
 	for (int i = 0; i < guards.size(); ++i) {
 	    walkRefinement(selCtx.refinement(i).refinementRule().getChild(0));
 	    indentLevel++;
@@ -117,21 +123,21 @@ public class BasicCodeView extends AbstractCodeView implements CodeView {
     }
 
     private void addRepetition(RepetitionContext repCtx) {
-	appendLine("L");
+	appendLine("Loop");
 	indentLevel++;
 	walkRefinement(repCtx.refinement().refinementRule().getChild(0));
     }
 
     private void addReturnStatement(ReturnSContext retCtx) {
-	appendLine(retCtx.statement().getText().trim());
+	appendLine("R: " + retCtx.statement().getText().trim());
     }
 
     private void addMethodCallStatement(MethodCallSContext methodCCtx) {
-	appendLine(methodCCtx.statement().getText().trim());
+	appendLine("M: " + methodCCtx.statement().getText().trim());
     }
 
     private void addOriginalCallStatement(OriginalSContext origCtx) {
-	appendLine(origCtx.statement().getText().trim());
+	appendLine("O: " + origCtx.statement().getText().trim());
     }
 
     private void addSkipStatement(SkipSContext skipCtx) {
