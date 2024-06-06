@@ -18,10 +18,11 @@ import de.uka.ilkd.key.smt.SMTSolver;
 import de.uka.ilkd.key.smt.SMTSolverResult;
 import de.uka.ilkd.key.smt.SMTSolverResult.ThreeValuedTruth;
 import de.uka.ilkd.key.smt.SolverLauncher;
+/*
 import de.uka.ilkd.key.smt.solvertypes.SolverType;
 import de.uka.ilkd.key.smt.solvertypes.SolverTypeImplementation;
 import de.uka.ilkd.key.smt.solvertypes.SolverTypes;
-import de.uka.ilkd.key.settings.DefaultSMTSettings;
+import de.uka.ilkd.key.settings.DefaultSMTSettings;*/
 import de.uka.ilkd.key.settings.ProofIndependentSMTSettings;
 import de.uka.ilkd.key.settings.ProofIndependentSettings;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
@@ -165,7 +166,8 @@ public class CounterExampleGenerator{
 	}
 	
 	private static String prettify(Term t)  {
-		/* TODO: KeyNewVersion
+		/* TODO: KeyNewVersion */
+		/*
 		LogicPrinter logicPrinter = LogicPrinter.purePrinter(new NotationInfo(), serv);
 		try {
 			logicPrinter.printTerm(t);

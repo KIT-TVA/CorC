@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="sort" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.3/@link //@children.0/@children.4/@link //@children.0/@children.6/@link //@children.0/@children.7/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.3/@link //@children.1/@children.4/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.3/@link //@children.2/@children.4/@link //@children.3/@link //@children.3/@children.1/@link //@children.3/@children.2/@link //@children.3/@children.0/@link //@children.3/@children.3/@link //@children.3/@children.5/@link //@children.3/@children.6/@link //@children.3/@children.7/@link //@children.3/@children.8/@link //@children.3/@children.9/@link //@children.4/@link //@children.4/@children.1/@link //@children.4/@children.0/@link //@children.4/@children.3/@link //@children.4/@children.2/@link //@children.4/@children.5/@link //@children.4/@children.6/@link //@children.4/@children.7/@link //@children.4/@children.8/@link //@children.4/@children.9/@link //@children.5/@link //@children.5/@children.1/@link //@children.5/@children.2/@link //@children.5/@children.0/@link //@children.5/@children.3/@link //@children.5/@children.5/@link //@children.5/@children.6/@link //@children.5/@children.7/@link //@children.5/@children.8/@link //@children.5/@children.9/@link //@children.6/@link //@children.6/@children.1/@link //@children.6/@children.2/@link //@children.6/@children.0/@link //@children.6/@children.3/@link //@children.6/@children.5/@link //@children.6/@children.6/@link //@children.6/@children.7/@link //@children.6/@children.8/@link //@children.6/@children.9/@link //@children.7/@link //@children.7/@children.1/@link //@children.7/@children.0/@link //@children.7/@children.3/@link //@children.7/@children.2/@link //@children.7/@children.5/@link //@children.7/@children.6/@link //@children.7/@children.7/@link //@children.7/@children.8/@link //@children.7/@children.9/@link //@children.8/@link //@children.8/@children.1/@link //@children.8/@children.2/@link //@children.8/@children.0/@link //@children.8/@children.3/@link //@children.8/@children.5/@link //@children.8/@children.6/@link //@children.8/@children.7/@link //@children.8/@children.8/@link //@children.8/@children.9/@link //@children.9/@link //@children.9/@children.0/@link //@children.9/@children.1/@link //@children.9/@children.2/@link //@children.9/@children.3/@link //@children.9/@children.4/@link //@children.9/@children.5/@link //@children.10/@link //@children.10/@children.0/@link //@children.10/@children.1/@link //@children.10/@children.2/@link //@children.10/@children.3/@link //@children.10/@children.4/@link //@children.10/@children.5/@link //@children.11/@link //@children.11/@children.0/@link //@children.11/@children.1/@link //@children.11/@children.2/@link //@children.11/@children.3/@link //@children.11/@children.4/@link //@children.11/@children.5/@link //@children.12/@link //@children.12/@children.0/@link //@children.12/@children.1/@link //@children.12/@children.2/@link //@children.12/@children.3/@link //@children.12/@children.4/@link //@children.12/@children.5/@link //@children.13/@link //@children.13/@children.1/@link //@children.13/@children.16/@link //@children.13/@children.17/@link //@children.13/@children.18/@link //@children.13/@children.19/@link //@children.13/@children.20/@link //@children.13/@children.24/@link //@children.13/@children.25/@link //@children.13/@children.26/@link //@children.13/@children.27/@link //@children.13/@children.28/@link //@children.13/@children.29/@link //@children.13/@children.33/@link //@children.14/@link //@children.14/@children.0/@link //@children.14/@children.1/@link //@children.14/@children.2/@link //@children.14/@children.3/@link //@children.14/@children.4/@link //@children.14/@children.5/@link //@children.15/@link //@children.15/@children.0/@link //@children.15/@children.1/@link //@children.15/@children.2/@link //@children.15/@children.3/@link //@children.15/@children.4/@link //@children.15/@children.5/@link" version="0.18.0">
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="sort" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.3/@link //@children.0/@children.4/@link //@children.0/@children.6/@link //@children.0/@children.7/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.3/@link //@children.1/@children.4/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.3/@link //@children.2/@children.4/@link //@children.3/@link //@children.3/@children.1/@link //@children.3/@children.2/@link //@children.3/@children.0/@link //@children.3/@children.3/@link //@children.3/@children.5/@link //@children.3/@children.6/@link //@children.3/@children.7/@link //@children.3/@children.8/@link //@children.3/@children.9/@link //@children.4/@link //@children.4/@children.1/@link //@children.4/@children.0/@link //@children.4/@children.3/@link //@children.4/@children.2/@link //@children.4/@children.5/@link //@children.4/@children.6/@link //@children.4/@children.7/@link //@children.4/@children.8/@link //@children.4/@children.9/@link //@children.5/@link //@children.5/@children.1/@link //@children.5/@children.2/@link //@children.5/@children.0/@link //@children.5/@children.3/@link //@children.5/@children.5/@link //@children.5/@children.6/@link //@children.5/@children.7/@link //@children.5/@children.8/@link //@children.5/@children.9/@link //@children.6/@link //@children.6/@children.1/@link //@children.6/@children.2/@link //@children.6/@children.0/@link //@children.6/@children.3/@link //@children.6/@children.5/@link //@children.6/@children.6/@link //@children.6/@children.7/@link //@children.6/@children.8/@link //@children.6/@children.9/@link //@children.7/@link //@children.7/@children.1/@link //@children.7/@children.0/@link //@children.7/@children.3/@link //@children.7/@children.2/@link //@children.7/@children.5/@link //@children.7/@children.6/@link //@children.7/@children.7/@link //@children.7/@children.8/@link //@children.7/@children.9/@link //@children.8/@link //@children.8/@children.1/@link //@children.8/@children.2/@link //@children.8/@children.0/@link //@children.8/@children.3/@link //@children.8/@children.5/@link //@children.8/@children.6/@link //@children.8/@children.7/@link //@children.8/@children.8/@link //@children.8/@children.9/@link //@children.9/@link //@children.9/@children.0/@link //@children.9/@children.1/@link //@children.9/@children.2/@link //@children.9/@children.3/@link //@children.9/@children.4/@link //@children.9/@children.5/@link //@children.10/@link //@children.10/@children.0/@link //@children.10/@children.1/@link //@children.10/@children.2/@link //@children.10/@children.3/@link //@children.10/@children.4/@link //@children.10/@children.5/@link //@children.11/@link //@children.11/@children.0/@link //@children.11/@children.1/@link //@children.11/@children.2/@link //@children.11/@children.3/@link //@children.11/@children.4/@link //@children.11/@children.5/@link //@children.12/@link //@children.12/@children.0/@link //@children.12/@children.1/@link //@children.12/@children.2/@link //@children.12/@children.3/@link //@children.12/@children.4/@link //@children.12/@children.5/@link //@children.13/@link //@children.13/@children.1/@link //@children.13/@children.16/@link //@children.13/@children.17/@link //@children.13/@children.18/@link //@children.13/@children.19/@link //@children.13/@children.20/@link //@children.13/@children.24/@link //@children.13/@children.25/@link //@children.13/@children.26/@link //@children.13/@children.27/@link //@children.13/@children.28/@link //@children.13/@children.29/@link //@children.13/@children.33/@link //@children.14/@link //@children.14/@children.0/@link //@children.14/@children.1/@link //@children.14/@children.2/@link //@children.14/@children.3/@link //@children.14/@children.4/@link //@children.14/@children.5/@link //@children.15/@link //@children.15/@children.0/@link //@children.15/@children.1/@link //@children.15/@children.2/@link //@children.15/@children.3/@link //@children.15/@children.4/@link //@children.15/@children.5/@link" version="0.19.0">
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <link>
     <businessObjects href="sort.cbcmodel#/0"/>
@@ -72,7 +72,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.9"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="133" height="94" x="266" y="106" horizontalAlignment="ALIGNMENT_CENTER" value="{((\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] >= data[k+1])))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="133" height="94" x="266" y="106" horizontalAlignment="ALIGNMENT_CENTER" value="{containsOldElements(data, \old(data))&#xD;&#xA;&amp; sorted(data)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -80,7 +80,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="133" height="46" x="266" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(data[j+1], data[j], i, j, tmp);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="133" height="46" x="266" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(data[*], i, j, tmp);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionModifiables"/>
       </graphicsAlgorithm>
       <link>
@@ -435,7 +435,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" x="250" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{((\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k]))))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &#xD;&#xA;&amp; k &lt; data.length-1 &#xD;&#xA;-> data[k] >= data[k+1])))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" x="250" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{containsOldElements(data, \old(data))&#xD;&#xA;&amp; sorted(data)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -443,7 +443,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="45" x="250" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(data[j+1], data[j], i, j, tmp);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="45" x="250" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(data[*], i, j, tmp);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionModifiables"/>
       </graphicsAlgorithm>
       <link>
@@ -1467,7 +1467,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="45" x="166" y="215" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(data[j+1], data[j], i, j, tmp);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="45" x="166" y="215" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(i, j, data[j+1], data[j], tmp);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="otherConditionModifiables"/>
       </graphicsAlgorithm>
       <link>
@@ -1685,7 +1685,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="36" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(data[j+1], data[j], i, j, tmp);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="36" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(i, j, data[j+1], data[j], tmp);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionModifiables"/>
       </graphicsAlgorithm>
       <link>
@@ -2353,7 +2353,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.11"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="62" y="206" horizontalAlignment="ALIGNMENT_CENTER" value="{(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] >= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] >= data[h]))) &amp; (j>=i)) &amp; (data[j] &lt; data[j+1])}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="62" y="206" horizontalAlignment="ALIGNMENT_CENTER" value="{(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; length(data) ->&#xD;&#xA;data[k] >= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; length(data) -> data[j+1] >= data[h]))) &amp; (j>=i)) &amp; (data[j] &lt; data[j+1])}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
       </graphicsAlgorithm>
@@ -2379,7 +2379,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="300" height="31" y="405" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(data[j+1], data[j], i, j, tmp);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="300" height="31" y="405" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(i, j, data[j+1], data[j], tmp);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionModifiables"/>
       </graphicsAlgorithm>
       <link>
@@ -2424,7 +2424,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.10"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="62" x="150" y="206" horizontalAlignment="ALIGNMENT_CENTER" value="{(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] >= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] >= data[h]))) &amp; (j>=i)) &amp; (data[j] >= data[j+1])}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="62" x="150" y="206" horizontalAlignment="ALIGNMENT_CENTER" value="{(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; length(data) ->&#xD;&#xA;data[k] >= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; length(data) -> data[j+1] >= data[h]))) &amp; (j>=i)) &amp; (data[j] >= data[j+1])}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
         <properties key="org.eclipse.graphiti.pattern.id.index" value="1"/>
       </graphicsAlgorithm>
@@ -2450,7 +2450,7 @@
       </link>
     </children>
     <children>
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="300" height="31" y="405" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(data[j+1], data[j], i, j, tmp);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="300" height="31" y="405" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(i, j, data[j+1], data[j], tmp);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionModifiables"/>
       </graphicsAlgorithm>
       <link>
@@ -2544,7 +2544,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="72" y="76" horizontalAlignment="ALIGNMENT_CENTER" value="{(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] >= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] >= data[h]))) &amp; (j>=i)) &amp; (data[j] &lt; data[j+1])}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="72" y="76" horizontalAlignment="ALIGNMENT_CENTER" value="{(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; length(data) ->&#xD;&#xA;data[k] >= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; length(data) -> data[j+1] >= data[h]))) &amp; (j>=i)) &amp; (data[j] &lt; data[j+1])}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -2568,7 +2568,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="36" x="232" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(data[j+1], data[j], i, j, tmp);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="36" x="232" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(i, j, data[j+1], data[j], tmp);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionModifiables"/>
       </graphicsAlgorithm>
       <link>
@@ -2686,7 +2686,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="175" height="92" y="106" horizontalAlignment="ALIGNMENT_CENTER" value="{(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; data.length ->&#xD;&#xA;data[k] >= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; data.length -> data[j+1] >= data[h]))) &amp; (j>=i)) &amp; (data[j] >= data[j+1])}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="175" height="92" y="106" horizontalAlignment="ALIGNMENT_CENTER" value="{(((\forall int k; (0 &lt;= k &amp; k &lt; i ->&#xD;&#xA;(\forall int m; (k &lt; m &amp; m &lt; length(data) ->&#xD;&#xA;data[k] >= data[m]))))&#xD;&#xA;&amp; (\forall int h; (j &lt; h &amp; h &lt; length(data) -> data[j+1] >= data[h]))) &amp; (j>=i)) &amp; (data[j] >= data[j+1])}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -2710,7 +2710,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="175" height="46" x="175" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(data[j+1], data[j], i, j, tmp);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="175" height="46" x="175" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(i, j, data[j+1], data[j], tmp);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionModifiables"/>
       </graphicsAlgorithm>
       <link>
@@ -2913,5 +2913,6 @@
   <colors green="127"/>
   <colors red="255"/>
   <colors/>
+  <colors red="252" green="207" blue="153"/>
   <fonts name="Arial" size="9" bold="true"/>
 </pi:Diagram>
