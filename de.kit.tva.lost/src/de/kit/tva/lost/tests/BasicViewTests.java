@@ -11,6 +11,18 @@ public class BasicViewTests {
     private String PREFIX = "D(name:test)\n\t";
 
     @Test
+    public void compositionSelection() {
+	String input = "F(pre: a, post: b)\n"
+		+ "\t\tC(intm:x)\n\t\t\tS(guard: a, guard: b)\n\t\t\t\ta;\n\t\t\t\tb;\n\t\t\tc;\n";
+
+	var basicCode = bcv.transform(PREFIX + input);
+
+	assertEquals(
+		"Diagram(name: test)\n\tFormula\n\t\tComposition\n\t\t\tSelection\n\t\t\t\ta;\n\t\t\t\tb;\n\t\t\tc;\n",
+		basicCode);
+    }
+
+    @Test
     public void corcKeyword() {
 	String input = "F(pre: (\\exists int k; (k <= 0 & \\old(x).length -> a)), post: y)\n" + "\t\tx;";
 

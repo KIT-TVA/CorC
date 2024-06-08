@@ -15,6 +15,13 @@ public class LostTranslatorTests {
     private String PREFIX = "D(name:test)\n\t";
 
     @Test
+    public void arrayStatement() throws DiagramResourceModelException, IOException, CoreException {
+	String input = "F(pre: x, post: y)\n" + "\t\t{\n\t\ttmp = new int[data.length];\n\t\t}";
+
+	assertTrue(translator.translate(PREFIX + input, false));
+    }
+
+    @Test
     public void corcKeyword() throws DiagramResourceModelException, IOException, CoreException {
 	String input = "F(pre: (\\exists int k; (k <= 0 & \\old(x).length -> a)), post: y)\n" + "\t\tx;";
 

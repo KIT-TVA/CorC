@@ -87,11 +87,15 @@ public class TranslatorErrorListenerModel extends BaseErrorListener implements M
 
     private void printMsg(ErrorMessage msg) {
 	var date = new Date(System.currentTimeMillis());
-	Console.println(" [" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "]");
-	Console.println(" > " + "Error during translation:", Colors.RED);
-	Console.println("\t" + msg.text);
-	Console.println("\tLine: " + msg.line + " at index " + msg.charPosition);
-	Console.println("\tSymbol: " + msg.offender);
-	Console.println("\n");
+	try {
+	    Console.println(" [" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "]");
+	    Console.println(" > " + "Error during translation:", Colors.RED);
+	    Console.println("\t" + msg.text);
+	    Console.println("\tLine: " + msg.line + " at index " + msg.charPosition);
+	    Console.println("\tSymbol: " + msg.offender);
+	    Console.println("\n");
+	} catch (NullPointerException e) {
+	    return;
+	}
     }
 }

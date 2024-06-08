@@ -18,7 +18,7 @@ initializer: NL* '\t' formula NL* | NL* '\t' vars NL* | NL* '\t' globalCondition
 
 vars : 'Vars' NL variable+;
 
-variable : '\t'+ KIND TYPE ID NL?;
+variable : '\t'+ KIND TYPE BRACKETS? ID NL?;
 
 globalConditions : 'GlobalConditions' NL ('\t'+ condition NL)+;
 
@@ -40,17 +40,17 @@ quantor : QT ID ';' condition;
 
 keyword : '\\' ID '(' identifier ')';
 
-identifier : ID | keyword | (ID | keyword) '[' condition ']';
+identifier : ID | keyword | (TYPE | ID | keyword) '[' condition ']';
 
 refinement : '\t'+ refinementRule; 
 
 refinementRule : statement | composition | selection | repetition | returnS | originalS | skipS | methodCallS | block | mlexpr;
 
-statement : (identifier | javaReturn | identifier'()' | identifier '(' condition ')' | identifier statement | identifier OP assigner) ';' NL?;
+statement : (identifier | javaReturn | identifier'()' | identifier '(' condition ')' | identifier statement | identifier OP assigner | identifier OP)? ';' NL?;
 
 javaReturn : 'return' assigner;
 
-assigner : (identifier | '(' assigner ')' | identifier'()' | identifier assigner | identifier OP assigner);
+assigner : (identifier | '(' assigner ')' | identifier'()' | identifier assigner | NEW identifier | identifier OP assigner);
 
 composition : 'C' '(' intm ')' NL refinement refinement;
 
@@ -82,15 +82,17 @@ mlexpr : '{' NL? ('\t'+ statement)* '\t'+ '}' NL?;
 
 // Lexer rules
 
-WS : [ \r]+ -> channel(HIDDEN); //skip
-
-//PRINTED_WS : [ ]+;
+WS : [ \r]+ -> skip;
 
 NL: '\n';
 
 KIND : 'LOCAL' | 'RETURN' | 'PARAM' | 'PUBLIC';
 
-TYPE : ('boolean' | 'char' | 'short' | 'int' | 'long' | 'String') [\[\]]*;
+TYPE : 'boolean' | 'char' | 'short' | 'int' | 'long' | 'String';
+
+BRACKETS : [\[\]]+;
+
+NEW : 'new ';
 
 OP : [=+\-*/%<>&|!. ]+;
 

@@ -120,6 +120,7 @@ public class BasicCodeView extends AbstractCodeView implements CodeView {
 	    walkRefinement(selCtx.refinement(i).refinementRule().getChild(0));
 	    indentLevel++;
 	}
+	indentLevel--;
     }
 
     private void addRepetition(RepetitionContext repCtx) {
