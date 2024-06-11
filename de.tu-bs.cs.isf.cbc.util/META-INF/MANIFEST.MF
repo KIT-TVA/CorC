@@ -34,6 +34,5 @@ Import-Package: de.tu_bs.cs.isf.cbc.tool,
 Bundle-ClassPath: lib/antlr-3.4.jar,
  lib/de.ovgu.featureide.lib.fm-v3.6.2.jar,
  lib/org.sat4j.core.jar,
- lib/key-abstract-contracts-2.7.jar,
  lib/key-2.13.0-exe.jar,
  .
