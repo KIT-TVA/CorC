@@ -164,6 +164,7 @@ public class FileUtil implements IFileUtil{
 		for (IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 			if (p.getFile(new Path(uriPath)).exists()) {
 				thisProject = p;
+				break;
 			}
 		}
 		return thisProject;

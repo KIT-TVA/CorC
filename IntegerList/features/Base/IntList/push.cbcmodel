@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
-  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="push" comment="" className="IntList" methodName="push">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="push" proven="true" comment="" className="IntList" methodName="push">
     <statement name="statement" id="43a79344-df6d-4960-9252-057d82f2680a">
-      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="0190d707-73f9-4ee3-ba20-9b4522f1a434">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="0190d707-73f9-4ee3-ba20-9b4522f1a434">
         <firstStatement name="statement1" id="9a48b75e-48f1-4d13-aa40-6964b9d85589">
-          <refinement name="tmp = new int[data.length+1];" id="0826c050-e371-4c81-8fb8-1f1c5831d972">
-            <postCondition name="(tmp.length = data.length + 1) &amp; np1(hallo)">
+          <refinement name="tmp = new int[data.length+1];" proven="true" id="0826c050-e371-4c81-8fb8-1f1c5831d972">
+            <postCondition name="(tmp.length = data.length + 1)">
               <modifiables>tmp</modifiables>
             </postCondition>
             <preCondition name="true"/>
           </refinement>
-          <postCondition name="(tmp.length = data.length + 1) &amp; np1(hallo)">
+          <postCondition name="(tmp.length = data.length + 1)">
             <modifiables>tmp</modifiables>
           </postCondition>
           <preCondition name="true"/>
         </firstStatement>
         <secondStatement name="statement2" id="ad420d14-8764-4f66-9230-50008815b16c">
-          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="2b4f6afc-849f-4297-a2e3-b7e1fd11e64f">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="2b4f6afc-849f-4297-a2e3-b7e1fd11e64f">
             <firstStatement name="statement1" id="16fecf46-2d4e-41e8-8944-c224d3303225">
-              <refinement name="tmp[tmp.length-1] = newTop;" id="33a60aab-967a-44b1-885d-56ec414d16e3">
+              <refinement name="tmp[tmp.length-1] = newTop;" proven="true" id="33a60aab-967a-44b1-885d-56ec414d16e3">
                 <postCondition name="tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop">
                   <modifiables>tmp</modifiables>
                   <modifiables>tmp[tmp.length-1]</modifiables>
                 </postCondition>
-                <preCondition name="(tmp.length = data.length + 1) &amp; np1(hallo)">
+                <preCondition name="(tmp.length = data.length + 1)">
                   <modifiables>tmp</modifiables>
                 </preCondition>
               </refinement>
@@ -31,14 +31,14 @@
                 <modifiables>tmp</modifiables>
                 <modifiables>tmp[tmp.length-1]</modifiables>
               </postCondition>
-              <preCondition name="(tmp.length = data.length + 1) &amp; np1(hallo)">
+              <preCondition name="(tmp.length = data.length + 1)">
                 <modifiables>tmp</modifiables>
               </preCondition>
             </firstStatement>
             <secondStatement name="statement2" id="ef260f1b-a368-4923-90e9-04850ecd1c68">
-              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="b91cb8ec-a591-496e-8c3c-170bedd212c2">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="b91cb8ec-a591-496e-8c3c-170bedd212c2">
                 <firstStatement name="statement1" id="aba79a90-61b6-4610-9b5d-042b4cd1f4a1">
-                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="40af7936-82ca-4b46-a507-9c9cb9e9d8f1">
+                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="40af7936-82ca-4b46-a507-9c9cb9e9d8f1">
                     <firstStatement name="statement1" id="4a395a1e-8b9e-44bf-af00-c21a9126331d">
                       <refinement name="i = 0;" proven="true" id="c768c94b-77ca-4751-96c8-4c8fe45da753">
                         <postCondition name="tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop&#xD;&#xA;&amp; (\forall int j; (0 &lt;= j &amp; j &lt; i -> data[j] = tmp[j])) &amp; i = 0">
@@ -62,11 +62,10 @@
                       </preCondition>
                     </firstStatement>
                     <secondStatement name="statement2" id="846e9a4f-805d-4eb1-b5c5-39b923d823e4">
-                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SmallRepetitionStatement" name="repetitionStatement" id="5d75796e-4840-4e31-b966-1613d7561f2d">
+                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="5d75796e-4840-4e31-b966-1613d7561f2d" variantProven="true" preProven="true" postProven="true">
                         <postCondition name="tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop&#xD;&#xA;&amp; (\forall int i; (0 &lt;= i &amp; i &lt; data.length -> data[i] = tmp[i]))">
                           <modifiables>i</modifiables>
                           <modifiables>tmp</modifiables>
-                          <modifiables>tmp[i]</modifiables>
                           <modifiables>tmp[tmp.length-1]</modifiables>
                         </postCondition>
                         <preCondition name="tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop&#xD;&#xA;&amp; (\forall int j; (0 &lt;= j &amp; j &lt; i -> data[j] = tmp[j])) &amp; i = 0">
@@ -105,6 +104,7 @@
                         <guard name="i &lt; data.length"/>
                       </refinement>
                       <postCondition name="tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop&#xD;&#xA;&amp; (\forall int i; (0 &lt;= i &amp; i &lt; data.length -> data[i] = tmp[i]))">
+                        <modifiables>data[*]</modifiables>
                         <modifiables>i</modifiables>
                         <modifiables>tmp</modifiables>
                         <modifiables>tmp[i]</modifiables>
@@ -123,6 +123,7 @@
                     </intermediateCondition>
                   </refinement>
                   <postCondition name="tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop&#xD;&#xA;&amp; (\forall int i; (0 &lt;= i &amp; i &lt; data.length -> data[i] = tmp[i]))">
+                    <modifiables>data[*]</modifiables>
                     <modifiables>i</modifiables>
                     <modifiables>tmp</modifiables>
                     <modifiables>tmp[i]</modifiables>
@@ -135,7 +136,7 @@
                 </firstStatement>
                 <secondStatement name="statement2" id="b3644205-eafd-4591-8699-316468d6c99d">
                   <refinement name="data = tmp;" proven="true" id="0380f313-c880-4e78-893d-5ffc4abdf40f">
-                    <postCondition name="(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop">
+                    <postCondition name="containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data))">
                       <modifiables>data[*]</modifiables>
                       <modifiables>i</modifiables>
                       <modifiables>tmp</modifiables>
@@ -143,13 +144,14 @@
                       <modifiables>tmp[tmp.length-1]</modifiables>
                     </postCondition>
                     <preCondition name="tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop&#xD;&#xA;&amp; (\forall int i; (0 &lt;= i &amp; i &lt; data.length -> data[i] = tmp[i]))">
+                      <modifiables>data[*]</modifiables>
                       <modifiables>i</modifiables>
                       <modifiables>tmp</modifiables>
                       <modifiables>tmp[i]</modifiables>
                       <modifiables>tmp[tmp.length-1]</modifiables>
                     </preCondition>
                   </refinement>
-                  <postCondition name="(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop">
+                  <postCondition name="containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data))">
                     <modifiables>data[*]</modifiables>
                     <modifiables>i</modifiables>
                     <modifiables>tmp</modifiables>
@@ -157,6 +159,7 @@
                     <modifiables>tmp[tmp.length-1]</modifiables>
                   </postCondition>
                   <preCondition name="tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop&#xD;&#xA;&amp; (\forall int i; (0 &lt;= i &amp; i &lt; data.length -> data[i] = tmp[i]))">
+                    <modifiables>data[*]</modifiables>
                     <modifiables>i</modifiables>
                     <modifiables>tmp</modifiables>
                     <modifiables>tmp[i]</modifiables>
@@ -164,13 +167,14 @@
                   </preCondition>
                 </secondStatement>
                 <intermediateCondition name="tmp.length = data.length + 1&#xD;&#xA;&amp; tmp[tmp.length-1] = newTop&#xD;&#xA;&amp; (\forall int i; (0 &lt;= i &amp; i &lt; data.length -> data[i] = tmp[i]))">
+                  <modifiables>data[*]</modifiables>
                   <modifiables>i</modifiables>
                   <modifiables>tmp</modifiables>
                   <modifiables>tmp[i]</modifiables>
                   <modifiables>tmp[tmp.length-1]</modifiables>
                 </intermediateCondition>
               </refinement>
-              <postCondition name="(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop">
+              <postCondition name="containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data))">
                 <modifiables>data[*]</modifiables>
                 <modifiables>i</modifiables>
                 <modifiables>tmp</modifiables>
@@ -187,22 +191,22 @@
               <modifiables>tmp[tmp.length-1]</modifiables>
             </intermediateCondition>
           </refinement>
-          <postCondition name="(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop">
+          <postCondition name="containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data))">
             <modifiables>data[*]</modifiables>
             <modifiables>i</modifiables>
             <modifiables>tmp</modifiables>
             <modifiables>tmp[i]</modifiables>
             <modifiables>tmp[tmp.length-1]</modifiables>
           </postCondition>
-          <preCondition name="(tmp.length = data.length + 1) &amp; np1(hallo)">
+          <preCondition name="(tmp.length = data.length + 1)">
             <modifiables>tmp</modifiables>
           </preCondition>
         </secondStatement>
-        <intermediateCondition name="(tmp.length = data.length + 1) &amp; np1(hallo)">
+        <intermediateCondition name="(tmp.length = data.length + 1)">
           <modifiables>tmp</modifiables>
         </intermediateCondition>
       </refinement>
-      <postCondition name="(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop">
+      <postCondition name="containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data))">
         <modifiables>data[*]</modifiables>
         <modifiables>i</modifiables>
         <modifiables>tmp</modifiables>
@@ -218,7 +222,6 @@
   <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
     <variables name="int i"/>
     <variables name="int[] tmp"/>
-    <variables name="String hallo"/>
   </de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
   <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
     <conditions name="data != null"/>
