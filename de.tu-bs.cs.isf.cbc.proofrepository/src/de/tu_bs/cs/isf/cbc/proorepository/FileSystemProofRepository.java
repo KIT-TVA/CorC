@@ -1,4 +1,4 @@
-package de.tu_bs.cs.isf.cbc.tool;
+package de.tu_bs.cs.isf.cbc.proorepository;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

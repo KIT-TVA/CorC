@@ -46,6 +46,11 @@ public class ProofGraph {
 		return idMap.get(feature);
 	}
 	
+	//TODO: Save method to proofgraph?
+	public Set<ProofNode> getNodesForFeature(String featureName, String method) {
+		return this.adjacencyList.get(new ProofNode(featureName, method, getIdForFeature(featureName)));
+	}
+	
 	public void createEdge(ProofNode nodeA, ProofNode nodeB) {
 		this.adjacencyList.computeIfAbsent(nodeA, __ -> new HashSet<ProofNode>());
 		this.adjacencyList.get(nodeA).add(nodeB);

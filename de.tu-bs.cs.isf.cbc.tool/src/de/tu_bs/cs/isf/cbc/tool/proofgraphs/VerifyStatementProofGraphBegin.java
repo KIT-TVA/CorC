@@ -2,8 +2,8 @@ package de.tu_bs.cs.isf.cbc.tool.proofgraphs;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -12,24 +12,16 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
-import de.ovgu.featureide.fm.core.analysis.cnf.CNF;
-import de.ovgu.featureide.fm.core.analysis.cnf.LiteralSet;
-import de.ovgu.featureide.fm.core.analysis.cnf.LiteralSet.Order;
-import de.ovgu.featureide.fm.core.analysis.cnf.Variables;
-import de.ovgu.featureide.fm.core.analysis.cnf.formula.FeatureModelFormula;
-import de.ovgu.featureide.fm.core.analysis.cnf.solver.AdvancedSatSolver;
-import de.ovgu.featureide.fm.core.base.IFeatureModel;
-import de.ovgu.featureide.fm.core.configuration.Configuration;
-import de.ovgu.featureide.fm.core.configuration.SelectableFeature;
-import de.ovgu.featureide.fm.core.configuration.Selection;
-import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
-import de.tu_bs.cs.isf.cbc.tool.FileSystemProofRepository;
-import de.tu_bs.cs.isf.cbc.tool.IProofRepository;
+import de.tu_bs.cs.isf.cbc.proorepository.FileSystemProofRepository;
+import de.tu_bs.cs.isf.cbc.proorepository.IProofRepository;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
+import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.Colors;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -39,6 +31,7 @@ import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.IFileUtil;
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
+import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraphCollection;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofNode;
 
@@ -95,7 +88,8 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 				
 				GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 				
-				String[] featureConfig = this.findValidProduct(callingFeature, project);
+				String[] features = {callingFeature};
+				String[] featureConfig = VerifyFeatures.findValidProduct(features, project);
 				
 				Console.println(Arrays.toString(featureConfig));
 				
@@ -105,12 +99,21 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 						callingFeature, callingClass, callingMethod, 
 						featureConfig);
 
+
+				VerifyStatement verifyStatement = new VerifyStatement(getFeatureProvider());
 				IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
-				
+				String[][] variantWrapper = {featureConfig};
+				String variant = verifyStatement.generateVariantsStringFromFeatureConfigs(variantWrapper, callingFeature, callingClass)[0];
+				List<CbCFormula> refinements = verifyStatement.generateCbCFormulasForRefinements(variant, callingMethod);
+				List<JavaVariables> refinementVars = verifyStatement.generateJavaVariablesForRefinements(variant, callingMethod);
 				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, fileHandler, featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_BEGIN);
-				boolean proven = prove.proveStatementWithKey(null, null, null, false, false, callingMethod, "", callingClass, true);
+				boolean proven = prove.proveStatementWithKey(null, refinements, refinementVars, false, false, callingMethod, "", callingClass, true);
 				statement.setProven(proven);
-				
+				long endTime = System.nanoTime();
+				long duration = (endTime - startTime) / 1_000_000;
+				startTime = System.nanoTime();
+				Console.println("\nVerification done."); 
+				Console.println("Time needed: " + duration + "ms");
 				//Somehow find Statement.key or always Statement1? TODO: Think about it
 				String location = fileHandler.getLocationString(getDiagram().eResource().getURI().toPlatformString(true)) + "/Statement1.key";
 
@@ -122,7 +125,7 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 					proofText = Files.readString(java.nio.file.Path.of(location));
 					IProofRepository proofRepo = new FileSystemProofRepository();
 					proofRepo.savePartialProofForId(node.getId(), proofText);
-					Console.print("Saved proof to Proof Repository as " + node.getId(), Colors.GREEN);
+					Console.print("Saved proof to Proof Repository as " + node.getId() + ".proof", Colors.GREEN);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -131,43 +134,10 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 		
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1_000_000;
-		Console.println("\nVerification done."); 
+		Console.println("\nFile operations done."); 
 		Console.println("Time needed: " + duration + "ms");
 	}
 	
 	
-	private String[] findValidProduct(String callingFeature, IProject project) {
-			IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
-			Configuration configuration = new Configuration(new FeatureModelFormula(featureModel));
-			configuration.setManual(callingFeature, Selection.SELECTED);
-			CNF cnf = configuration.getFeatureModelFormula().getCNF();
-			AdvancedSatSolver solver = new AdvancedSatSolver(cnf);
-			Variables vars = cnf.getVariables();
-			for (SelectableFeature current : configuration.getFeatures()) {
-				if (current.getSelection() != Selection.UNDEFINED) {
-					solver.assignmentPush(
-						vars.getVariable(
-								current.getFeature().getName(), 
-								current.getSelection() == Selection.SELECTED));
-				}
-			}
 
-			int[] solution = solver.findSolution();
-			if (solution == null) return null;
-			final LiteralSet result = new LiteralSet(solution, Order.INDEX, false);
-			Configuration config = new Configuration(configuration, configuration.getFeatureModelFormula());
-			for (int literal : result.getLiterals()) {
-				SelectableFeature feature = config.getSelectableFeature(vars.getName(literal));
-				if (feature.getSelection() == Selection.UNDEFINED) {
-					config.setManual(feature, literal > 0 ? Selection.SELECTED : Selection.UNSELECTED);
-				}
-			}
-			
-			String[] featureConfig = new String[config.getSelectedFeatures().size()];
-			for (int i = 0; i < featureConfig.length; i++) {
-				featureConfig[i] = config.getSelectedFeatures().get(i).getName();
-			}
-			
-			return featureConfig;
-	}
 }

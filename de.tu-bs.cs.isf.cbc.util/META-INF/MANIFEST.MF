@@ -26,7 +26,7 @@ Export-Package: de.tu_bs.cs.isf.cbc.util,
  de.tu_bs.cs.isf.cbc.util.consts,
  de.tu_bs.cs.isf.cbc.util.diagnostics,
  de.tu_bs.cs.isf.cbc.util.statistics
-Import-Package: de.tu_bs.cs.isf.cbc.tool,
+Import-Package: de.tu_bs.cs.isf.cbc.proorepository,
  de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs,
  de.tu_bs.cs.isf.corc.predicateWizard,
  org.eclipse.emf.ecore.xmi.impl;version="2.35.0",

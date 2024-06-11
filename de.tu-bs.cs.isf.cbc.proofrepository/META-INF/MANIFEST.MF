@@ -38,4 +38,4 @@ Import-Package: de.ovgu.featureide.fm.core.base,
  org.eclipse.emf.common.ui
 Bundle-ClassPath: lib/com.microsoft.z3.jar,
  .
-Export-Package: de.tu_bs.cs.isf.cbc.tool
+Export-Package: de.tu_bs.cs.isf.cbc.proorepository

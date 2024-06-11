@@ -21,8 +21,8 @@ import org.key_project.util.collection.ImmutableSet;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.tool.FileSystemProofRepository;
-import de.tu_bs.cs.isf.cbc.tool.IProofRepository;
+import de.tu_bs.cs.isf.cbc.proorepository.FileSystemProofRepository;
+import de.tu_bs.cs.isf.cbc.proorepository.IProofRepository;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraphCollection;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofNode;
