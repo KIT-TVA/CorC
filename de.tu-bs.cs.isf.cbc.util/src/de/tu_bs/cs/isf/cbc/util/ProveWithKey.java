@@ -226,7 +226,7 @@ public class ProveWithKey {
 		: null;
 
 	String location = fileHandler.getLocationString(uri)
-		+ (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) ? "" : configName);
+		+ (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) ? "" : configName).replaceAll("\\\\", "/");
 	File keyFile = fileHandler.writeFile(proofType, problem, helper, location, override, statement, subProofName,
 		configNum != 0, configName, originalPrePost);
 	return keyFile;
@@ -845,6 +845,16 @@ public class ProveWithKey {
 	    guardString += ")";
 	} else {
 	    guardString = "true";
+	}
+	/*
+	 * String cleanedPre = ""; for (int i = 1; i < refinements.size(); i++) {
+	 * cleanedPre = applyCompositionTechnique("requires", preCondition.getName(),
+	 * Parser.getConditionFromCondition(refinements.get(i).getStatement().
+	 * getPreCondition().getName()) .replace("\n", "").replace("\r", ""),
+	 * refinements.get(i - 1).getCompositionTechnique(), true); }
+	 */
+	if (preCondition.getName().contains("\\original_post")) {
+	    var isdfj = 2;
 	}
 	File location = createProveCImpliesCWithKey(refinements, preCondition.getName(), guardString, true);
 	Console.println("  Verify Pre -> GvGvG...");
