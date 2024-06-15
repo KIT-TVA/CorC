@@ -1,14 +1,12 @@
 package de.kit.tva.lost.models;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import de.kit.tva.lost.models.LostParser.CompositionContext;
@@ -30,6 +28,11 @@ import de.kit.tva.lost.models.LostParser.SkipSContext;
 import de.kit.tva.lost.models.LostParser.StatementContext;
 import de.kit.tva.lost.models.LostParser.VariableContext;
 import de.kit.tva.lost.models.LostParser.VarsContext;
+import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
+import de.tu_bs.cs.isf.cbc.cbcclass.Field;
+import de.tu_bs.cs.isf.cbc.cbcclass.Method;
+import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
+import de.tu_bs.cs.isf.cbc.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
@@ -40,7 +43,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
-import de.tu_bs.cs.isf.cbc.util.GenerateDiagramFromModel;
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
+import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
 
 /**
@@ -56,18 +60,25 @@ public class LostTranslator {
     private ParseTreeGenerator parseTreeGenerator;
     private ModelLinker modelLinker;
     private ProgramContext tree;
+    private DiagramCreator diagramCreator;
+    private List<Field> newFields;
+    private List<Parameter> newParams;
 
     public LostTranslator() {
 	this.formula = CbcmodelFactory.eINSTANCE.createCbCFormula();
 	this.parseTreeGenerator = new ParseTreeGenerator();
 	this.modelLinker = new ModelLinker();
+	this.diagramCreator = new DiagramCreator();
+	this.newFields = new ArrayList<Field>();
+	this.newParams = new ArrayList<Parameter>();
     }
 
     public boolean translate(String lostCode, boolean genDiagram)
-	    throws IOException, CoreException, DiagramResourceModelException {
+	    throws IOException, CoreException, DiagramResourceModelException, SettingsException {
 	if (!this.parseTreeGenerator.generateParseTree(lostCode)) {
 	    return false;
 	}
+	reset();
 	this.tree = this.parseTreeGenerator.get();
 	formula.setName(tree.root().diagram().name().ID().getText());
 	for (int i = 0; i < tree.root().diagram().getChildCount(); ++i) {
@@ -75,14 +86,17 @@ public class LostTranslator {
 	}
 	if (!genDiagram)
 	    return true;
-	GenerateDiagramFromModel generator = new GenerateDiagramFromModel();
-	var diagramRes = DiagramResourceModel.getInstance().get(this.getFormula().getName());
-	addInitializersTo(this.getFormula().getName(), diagramRes);
-	this.diagram = generator.execute(diagramRes);
+	var diagramRes = DiagramResourceModel.getInstance().get(this.formula.getName());
+	if (!FeatureUtil.getInstance().getCallingClass(diagramRes.getURI()).isEmpty()) {
+	    createClass(diagramRes.getURI());
+	}
+	this.diagramCreator.create(diagramRes, this.formula, this.conds, this.renaming, this.vars);
+	this.diagram = this.diagramCreator.getDiagram();
 	return true;
     }
 
-    public boolean translate(String lostCode) throws DiagramResourceModelException, IOException, CoreException {
+    public boolean translate(String lostCode)
+	    throws DiagramResourceModelException, IOException, CoreException, SettingsException {
 	return translate(lostCode, true);
     }
 
@@ -110,29 +124,34 @@ public class LostTranslator {
 	return this.vars;
     }
 
-    private void addInitializersTo(String diagName, final Resource diagramRes) throws IOException, CoreException {
-	clearPrevious(diagramRes);
-	if (this.getGlobalConditions() != null)
-	    diagramRes.getContents().add(this.getGlobalConditions());
-	if (this.getRenaming() != null)
-	    diagramRes.getContents().add(this.getRenaming());
-	if (this.getVariables() != null)
-	    diagramRes.getContents().add(this.getVariables());
-	this.getFormula().setName(diagName);
-	diagramRes.getContents().add(this.getFormula());
-	diagramRes.save(Collections.EMPTY_MAP);
-	ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+    private void reset() {
+	this.modelLinker.reset();
+	this.newFields.clear();
+	this.newParams.clear();
     }
 
-    private void clearPrevious(Resource diagRes) {
-	for (int i = 0; i < diagRes.getContents().size(); i++) {
-	    if (diagRes.getContents().get(i) instanceof CbCFormula
-		    || diagRes.getContents().get(i) instanceof JavaVariables
-		    || diagRes.getContents().get(i) instanceof GlobalConditions
-		    || diagRes.getContents().get(i) instanceof Renaming) {
-		diagRes.getContents().remove(i);
-	    }
-	}
+    private void createClass(URI diagramUri) throws IOException, SettingsException {
+	var diagPath = diagramUri.trimFileExtension();
+	var name = diagPath.segment(diagPath.segmentCount() - 1);
+	ClassCreator classCreator = new ClassCreator(diagramUri);
+	classCreator.setFields(newFields);
+	classCreator.setParams(classCreator.getMethod(name), newParams);
+	this.vars.getFields().addAll(classCreator.getFields());
+	var method = classCreator.getMethod(name);
+	method.setCbcStartTriple(this.formula);
+	var params = copyParams(method);
+	this.vars.getParams().addAll(params);
+	this.formula.setMethodObj(classCreator.getMethod(name));
+	this.formula.setClassName(classCreator.get().getName());
+    }
+
+    private List<Parameter> copyParams(Method m) {
+	/*
+	 * var copyParams = new ArrayList<Parameter>(); for (var param :
+	 * m.getParameters()) { copyParams.add(EcoreUtil.copy(param)); } return
+	 * copyParams;
+	 */
+	return m.getParameters();
     }
 
     private void addInitializers(InitializerContext partTree) {
@@ -153,16 +172,29 @@ public class LostTranslator {
     private void addVariables(VarsContext varsTree) {
 	vars = CbcmodelFactory.eINSTANCE.createJavaVariables();
 	for (int i = 0; i < varsTree.getRuleContexts(VariableContext.class).size(); i++) {
-	    var variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
 	    var treeVariable = varsTree.variable(i);
-	    if (!treeVariable.KIND().getText().equals("LOCAL")) {
-		// TODO: Since params and fields are not handled in diagram but in their class,
-		// in the future we should handle these here too.
-		continue;
+	    String arrayBrackets = treeVariable.BRACKETS() != null ? treeVariable.BRACKETS().getText() : "";
+	    if (treeVariable.KIND().getText().equals("PARAM")) {
+		// Since params and fields are not handled in diagram but in their class,
+		// they need to be added to the class.
+		var param = CbcclassFactory.eINSTANCE.createParameter();
+		param.setType(treeVariable.TYPE().getText() + arrayBrackets);
+		param.setName(treeVariable.ID().getText());
+		newParams.add(param);
+	    } else if (treeVariable.KIND().getText().equals("PUBLIC")) {
+		var field = CbcclassFactory.eINSTANCE.createField();
+		field.setIsFinal(false);
+		field.setIsStatic(false);
+		field.setVisibility(Visibility.PUBLIC);
+		field.setType(treeVariable.TYPE().getText() + arrayBrackets);
+		field.setName(treeVariable.ID().getText());
+		newFields.add(field);
+	    } else {
+		var variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
+		variable.setKind(VariableKind.getByName(treeVariable.KIND().getText()));
+		variable.setName(treeVariable.TYPE().getText() + arrayBrackets + " " + treeVariable.ID().getText());
+		vars.getVariables().add(variable);
 	    }
-	    variable.setKind(VariableKind.getByName(treeVariable.KIND().getText()));
-	    variable.setName(treeVariable.TYPE().getText() + " " + treeVariable.ID());
-	    vars.getVariables().add(variable);
 	}
     }
 

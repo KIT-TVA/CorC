@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.eclipse.core.runtime.CoreException;
 
 import de.kit.tva.lost.interfaces.AbstractModel;
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
 /**
  * Translates given LOST-Code into an equivalent CorC Diagram. If the diagram
@@ -17,7 +18,8 @@ public class TranslatorModel extends AbstractModel {
 	lostTranslator = new LostTranslator();
     }
 
-    public boolean translate(String lostCode) throws DiagramResourceModelException, IOException, CoreException {
+    public boolean translate(String lostCode)
+	    throws DiagramResourceModelException, IOException, CoreException, SettingsException {
 	if (!lostTranslator.translate(lostCode)) {
 	    return false;
 	}

@@ -688,7 +688,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 
 	while (cur != null) {
 	    if (cur instanceof CompositionStatement) {
-		containers.push(((CompositionStatement) cur).getName());
+		containers.push("composition");
 	    } else if (cur instanceof MethodStatement) {
 		containers.push(((MethodStatement) cur).getName());
 	    } else if (cur instanceof ReturnStatement) {
@@ -698,7 +698,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	    } else if (cur instanceof SkipStatement) {
 		containers.push(((SkipStatement) cur).getName());
 	    } else if (cur instanceof SmallRepetitionStatement) {
-		containers.push(((SmallRepetitionStatement) cur).getName());
+		containers.push("repetition");
 	    } else if (cur instanceof StrengthWeakStatement) {
 		containers.push(((StrengthWeakStatement) cur).getName());
 	    } else if (cur instanceof OriginalStatement) {

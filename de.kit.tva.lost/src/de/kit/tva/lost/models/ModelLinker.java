@@ -13,6 +13,10 @@ public class ModelLinker {
     private Map<ParserRuleContext, AbstractStatement> links;
 
     public ModelLinker() {
+	reset();
+    }
+
+    public void reset() {
 	this.links = new HashMap<ParserRuleContext, AbstractStatement>();
     }
 

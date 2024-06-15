@@ -40,6 +40,10 @@ public class DiagramResourceModel {
     }
 
     public Resource get(String name) throws DiagramResourceModelException, IOException {
+	this.conds = null;
+	this.renaming = null;
+	this.vars = null;
+	this.formula = null;
 	ResourceSet resourceSet = new ResourceSetImpl();
 	IFolder currentFolder = getCurrentFolder();
 	var diagramResFile = currentFolder.getFile(name + ".cbcmodel");

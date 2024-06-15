@@ -46,7 +46,7 @@ public class BasicViewTests {
 
 	var basicCode = bcv.transform(PREFIX + input);
 
-	assertEquals("Diagram(name: test)\n\tFormula\n\t\tmultiple_statements\n", basicCode);
+	assertEquals("Diagram(name: test)\n\tFormula\n\t\t{\n\t\t\ta;\n\t\t\tb;\n\t\t}\n", basicCode);
     }
 
     @Test

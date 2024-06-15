@@ -3,6 +3,9 @@ package de.kit.tva.lost.models;
 import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.emf.ecore.resource.Resource;
+
+import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
@@ -22,17 +25,21 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
  * Translates a given Diagram into equivalent LOST-Code.
  */
 public class DiagramTranslator {
-    String lostCode;
+    private Resource diagramResource;
+    private ModelClass modelClass;
+    private String lostCode;
 
     private int indentLevel;
 
     public DiagramTranslator() {
 	this.lostCode = new String();
 	this.indentLevel = 0;
+	this.modelClass = null;
+	this.diagramResource = null;
     }
 
     public boolean load(String name) throws DiagramTranslatorException, DiagramResourceModelException, IOException {
-	DiagramResourceModel.getInstance().get(name);
+	diagramResource = DiagramResourceModel.getInstance().get(name);
 	return load(DiagramResourceModel.getInstance().getRenaming(), DiagramResourceModel.getInstance().getConds(),
 		DiagramResourceModel.getInstance().getVars(), DiagramResourceModel.getInstance().getFormula());
     }
@@ -42,6 +49,14 @@ public class DiagramTranslator {
 	this.lostCode = "";
 	this.indentLevel = 0;
 	appendRoot("D(name: " + formula.getName() + ")");
+	// if
+	// (!FeatureUtil.getInstance().getCallingClass(formula.eResource().getURI()).isEmpty())
+	// {
+	if (formula.eResource() != null && diagramResource != null) {
+	    var cl = new ClassLoader(diagramResource.getURI());
+	    this.modelClass = cl.get();
+	}
+	// }
 	extractInitializers(renaming, conds, vars, formula);
 	return true;
     }
@@ -62,7 +77,7 @@ public class DiagramTranslator {
 	    throws DiagramTranslatorException {
 	extractConds(conds);
 	extractRenaming(renaming);
-	extractVars(vars);
+	extractVars(formula, vars);
 	extractFormula(formula);
     }
 
@@ -94,39 +109,36 @@ public class DiagramTranslator {
 	indentLevel--;
     }
 
-    private void appendVars(JavaVariables vars) {
-	// appendFields(vars); // See TODO below.
-	// appendParams(vars); // See TODO below.
+    private void appendVars(CbCFormula formula, JavaVariables vars) {
+	appendInitializer("Vars");
+	appendFields();
+	appendParams(formula);
 	appendLocals(vars);
 	indentLevel--;
     }
 
-    // TODO: Fields and params are handled by the cbc class. They are not stored in
-    // the method diag.
-    private void appendFields(JavaVariables vars) {
-	if (vars.getFields() == null) {
+    private void appendFields() {
+	if (this.modelClass == null) {
 	    return;
 	}
-	for (var field : vars.getFields()) {
-	    appendLine("PUBLIC " + field.getName().trim());
+	for (var field : modelClass.getFields()) {
+	    appendLine("PUBLIC " + field.getType() + " " + field.getName().trim());
 	}
     }
 
-    private void appendParams(JavaVariables vars) {
-	if (vars.getParams() == null) {
+    private void appendParams(CbCFormula formula) {
+	if (this.modelClass == null) {
 	    return;
 	}
-	for (var param : vars.getParams()) {
-	    appendLine("PARAM " + param.getName());
+	for (var param : formula.getMethodObj().getParameters()) {
+	    appendLine("PARAM " + param.getType() + " " + param.getName());
 	}
     }
 
     private void appendLocals(JavaVariables vars) {
-	if (vars.getVariables() == null || vars.getVariables().isEmpty()) {
-	    indentLevel++;
+	if (vars.getVariables() == null) {
 	    return;
 	}
-	appendInitializer("Vars");
 	for (var v : vars.getVariables()) {
 	    appendLine("LOCAL " + v.getName());
 	}
@@ -148,11 +160,11 @@ public class DiagramTranslator {
 	appendRenamers(renaming.getRename());
     }
 
-    private void extractVars(JavaVariables vars) {
+    private void extractVars(CbCFormula formula, JavaVariables vars) {
 	if (vars == null) {
 	    return;
 	}
-	appendVars(vars);
+	appendVars(formula, vars);
     }
 
     private void extractFormula(CbCFormula formula) throws DiagramTranslatorException {

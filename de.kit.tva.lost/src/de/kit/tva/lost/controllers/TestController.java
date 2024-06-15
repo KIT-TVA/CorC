@@ -13,21 +13,18 @@ import de.kit.tva.lost.interfaces.ViewType;
 import de.kit.tva.lost.models.CodeModel;
 import de.kit.tva.lost.models.DiagramResourceModelException;
 import de.kit.tva.lost.models.LostTester;
-import de.kit.tva.lost.views.LostTesterView;
 import de.kit.tva.lost.views.LostUiView;
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
 public class TestController implements Controller {
     private LostUiView uiView;
-    private LostTesterView lostTesterView;
     private LostTester lostTester;
     private CodeModel codeModel;
 
-    public TestController(LostUiView uiView, LostTesterView lostTesterView, CodeModel codeModel,
-	    LostTester lostTester) {
+    public TestController(LostUiView uiView, CodeModel codeModel, LostTester lostTester) {
 	this.uiView = uiView;
 	this.lostTester = lostTester;
 	this.codeModel = codeModel;
-	this.lostTesterView = lostTesterView;
 	createModelObservers();
 	addViewListeners();
 	initModel();
@@ -38,9 +35,12 @@ public class TestController implements Controller {
 	lostTester.addListener(new TestListener() {
 	    @Override
 	    public void testsDone() {
+		uiView.getExtendedViewButton().setSelection(false);
 		uiView.getBasicViewButton().setSelection(true);
 		codeModel.switchView(ViewType.BASIC);
-		lostTesterView.showResults(lostTester.getTestees());
+		var viewCode = lostTester.getResults(codeModel.getViewCode());
+		codeModel.setViewCode(viewCode);
+		codeModel.viewChanged();
 	    }
 
 	    @Override
@@ -70,7 +70,7 @@ public class TestController implements Controller {
 	    public void widgetSelected(SelectionEvent e) {
 		try {
 		    lostTester.test(codeModel.getCode());
-		} catch (DiagramResourceModelException | IOException | CoreException e1) {
+		} catch (DiagramResourceModelException | IOException | CoreException | SettingsException e1) {
 		    e1.printStackTrace();
 		}
 	    }

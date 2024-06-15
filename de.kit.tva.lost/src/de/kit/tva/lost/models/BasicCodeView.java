@@ -88,7 +88,7 @@ public class BasicCodeView extends AbstractCodeView implements CodeView {
 	} else if (subtree instanceof MethodCallSContext) {
 	    addMethodCallStatement((MethodCallSContext) subtree);
 	} else if (subtree instanceof MlexprContext) {
-	    addMlExpr();
+	    addMlExpr((MlexprContext) subtree);
 	}
 	this.indentLevel--;
     }
@@ -145,7 +145,13 @@ public class BasicCodeView extends AbstractCodeView implements CodeView {
 	appendLine("skip");
     }
 
-    private void addMlExpr() {
-	appendLine("multiple_statements");
+    private void addMlExpr(MlexprContext mlexprCtx) {
+	appendLine("{");
+	indentLevel++;
+	for (var statementCtx : mlexprCtx.statement()) {
+	    addStatement(statementCtx);
+	}
+	indentLevel--;
+	appendLine("}");
     }
 }

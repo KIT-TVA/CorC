@@ -9,6 +9,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.ui.PlatformUI;
 
 import de.kit.tva.lost.interfaces.Controller;
+import de.kit.tva.lost.interfaces.ViewType;
 import de.kit.tva.lost.models.CodeModel;
 import de.kit.tva.lost.models.DiagramResourceModelException;
 import de.kit.tva.lost.models.DiagramTranslator;
@@ -17,6 +18,7 @@ import de.kit.tva.lost.models.TranslatorErrorListenerModel;
 import de.kit.tva.lost.models.TranslatorModel;
 import de.kit.tva.lost.views.CodeView;
 import de.kit.tva.lost.views.LostUiView;
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
 public class TranslatorController implements Controller {
     TranslatorModel translatorModel;
@@ -62,7 +64,7 @@ public class TranslatorController implements Controller {
 		    if (!translatorModel.translate(codeView.getCodeFieldText())) {
 			return;
 		    }
-		} catch (DiagramResourceModelException | IOException | CoreException e1) {
+		} catch (DiagramResourceModelException | IOException | CoreException | SettingsException e1) {
 		    e1.printStackTrace();
 		}
 	    }
@@ -80,6 +82,7 @@ public class TranslatorController implements Controller {
 	uiView.getLoadButton().addSelectionListener(new SelectionListener() {
 	    @Override
 	    public void widgetSelected(SelectionEvent e) {
+		codeModel.switchView(ViewType.EXTENDED);
 		var currentDiagName = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 			.getActiveEditor().getEditorInput().getAdapter(IResource.class).getName().split("\\.")[0];
 		try {
