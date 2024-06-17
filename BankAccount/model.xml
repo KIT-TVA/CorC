@@ -3,6 +3,7 @@
 	<properties>
 		<graphics key="autolayoutconstraints" value="false"/>
 		<graphics key="legendautolayout" value="true"/>
+		<graphics key="showconstraints" value="true"/>
 		<graphics key="showshortnames" value="false"/>
 		<graphics key="layout" value="horizontal"/>
 		<graphics key="showcollapsedconstraints" value="true"/>
@@ -11,7 +12,10 @@
 	</properties>
 	<struct>
 		<and mandatory="true" name="BankAccount">
-			<feature name="DailyLimit"/>
+			<or name="Limit">
+				<feature name="HourlyLimit"/>
+				<feature name="DailyLimit"/>
+			</or>
 			<feature name="Interest"/>
 			<feature name="Transaction"/>
 		</and>

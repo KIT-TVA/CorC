@@ -355,13 +355,15 @@ public class KeYFileContent {
 	    }
 	}
 
-//		for (String var : oldReplacements.keySet()) {
-//			builder.append(removeStaticNonNull(var) + oldReplacements.get(var).index + OLD_VARS_SUFFIX + ";\n");
-//		}
-
-	for (String var : varsForOldReplacement.keySet()) {
-	    builder.append(removeStaticNonNull(var) + varsForOldReplacement.get(var) + OLD_VARS_SUFFIX + ";\n");
+	for (String var : oldReplacements.keySet()) {
+	    builder.append(removeStaticNonNull(var) + ";\n");
 	}
+
+	/*
+	 * for (String var : varsForOldReplacement.keySet()) {
+	 * builder.append(removeStaticNonNull(var) + varsForOldReplacement.get(var) +
+	 * OLD_VARS_SUFFIX + ";\n"); }
+	 */
 
 	// TODO: This code is originally from handleOld from pp branch but adjusted to
 	// fit new structure. This might not work as intented.
@@ -407,7 +409,8 @@ public class KeYFileContent {
 
     private String replaceOldKeyword(String condition, Map<String, OldReplacement> replacements) {
 	for (String key : replacements.keySet()) {
-	    String varNameOnly = key.substring(key.lastIndexOf(".") + 1);
+	    var name = key.split("\\s")[1];
+	    String varNameOnly = name.substring(name.lastIndexOf(".") + 1);
 	    varNameOnly = varNameOnly.replaceAll("\\[.*\\]", "");
 	    if (varNameOnly.contains("("))
 		varNameOnly = varNameOnly.substring(0, varNameOnly.indexOf("("));
@@ -565,8 +568,9 @@ public class KeYFileContent {
     private List<String> getOldAssignments(Map<String, OldReplacement> oldReplacements) {
 	List<String> assignments = new ArrayList<>();
 	for (String var : oldReplacements.keySet()) {
-	    if (!getPreConditionsString(oldReplacements).contains(var)) {
-		assignments.add(var + " := " + oldReplacements.get(var).getVar());
+	    String name = var.split("\\s")[1];
+	    if (!getPreConditionsString(oldReplacements).contains(name)) {
+		assignments.add(name + " := " + oldReplacements.get(var).getVar());
 
 	    }
 	}
@@ -794,10 +798,12 @@ public class KeYFileContent {
 		 */
 		// EDIT: counterForVarNaming didn't exist until VarCorC OO, Hashmap needs more
 		// detailed key, as only varname_oldVal may not be unique
+		String type = var.split("\\s")[0];
 		String varNameWithOldSuffix = var.substring(var.lastIndexOf(" ") + 1) + counterForVarNaming
 			+ OLD_VARS_SUFFIX;
 		// Add new modified replacements to map.
-		newReplacements.put(varNameWithOldSuffix, new OldReplacement(varUsedInOldContext, counterForVarNaming));
+		newReplacements.put(type + " " + varNameWithOldSuffix,
+			new OldReplacement(varUsedInOldContext, counterForVarNaming));
 		varsForOldReplacement.put(var, counterForVarNaming);
 	    }
 	}

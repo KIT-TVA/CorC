@@ -149,23 +149,8 @@ public class KeYInteraction {
 
 	    // Show proof result
 	    try {
-		// DEBUG START
-		/*
-		 * Consumer<RuleApp> rule = x -> System.out.println(x.rule().displayName());
-		 * proof.root().name(); Node n = proof.root();
-		 * while(n.childrenIterator().hasNext()) { n = n.childrenIterator().next();
-		 * //System.out.println(n.serialNr() + n.name()); //TODO debug }
-		 * //System.out.println("-----------------------");
-		 * //System.out.println("	Proof Type: " + proofType);
-		 * //System.out.println("	Proof nodes: " + proof.countNodes());
-		 * Console.println("time: " + proof.getAutoModeTime() + "        nodes:" +
-		 * proof.countNodes()); //System.out.println("-----------------------");
-		 */
-		// DEBUG END
 		String locationWithoutFileEnding = location.toString().substring(0, location.toString().indexOf("."));
 		var keyFile = new File(locationWithoutFileEnding + ".proof");
-
-		/* TODO: KeyNewVersion */
 		ProofSaver.saveToFile(keyFile, proof);
 		// proof.saveToFile(location);
 

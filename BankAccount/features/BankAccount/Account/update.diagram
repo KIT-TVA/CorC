@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="update" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.3/@link //@children.0/@children.4/@link //@children.0/@children.6/@link //@children.0/@children.7/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.3/@link //@children.1/@children.4/@link //@children.1/@children.5/@link //@children.1/@children.6/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.3/@link //@children.3/@children.1/@link //@children.3/@children.2/@link //@children.3/@children.0/@link //@children.3/@children.3/@link //@children.3/@children.5/@link //@children.3/@children.6/@link //@children.3/@children.7/@link //@children.3/@children.8/@link //@children.3/@children.9/@link //@children.4/@link //@children.4/@children.1/@link //@children.4/@children.2/@link //@children.4/@children.0/@link //@children.4/@children.3/@link //@children.4/@children.5/@link //@children.4/@children.6/@link //@children.4/@children.7/@link //@children.4/@children.8/@link //@children.4/@children.9/@link //@children.5/@link //@children.5/@children.1/@link //@children.5/@children.16/@link //@children.5/@children.17/@link //@children.5/@children.18/@link //@children.5/@children.19/@link //@children.5/@children.20/@link //@children.5/@children.24/@link //@children.5/@children.25/@link //@children.5/@children.26/@link //@children.5/@children.27/@link //@children.5/@children.28/@link //@children.5/@children.29/@link //@children.5/@children.33/@link //@children.6/@link //@children.6/@children.0/@link //@children.6/@children.1/@link //@children.6/@children.2/@link //@children.6/@children.3/@link //@children.6/@children.4/@link //@children.6/@children.5/@link //@children.7/@link //@children.7/@children.0/@link //@children.7/@children.1/@link //@children.7/@children.2/@link //@children.7/@children.3/@link //@children.7/@children.4/@link //@children.7/@children.5/@link //@children.8/@link //@children.8/@children.0/@link //@children.8/@children.1/@link //@children.8/@children.2/@link //@children.8/@children.3/@link //@children.8/@children.4/@link //@children.8/@children.5/@link //@children.9/@link //@children.9/@children.0/@link //@children.9/@children.1/@link //@children.9/@children.2/@link //@children.9/@children.3/@link //@children.9/@children.4/@link //@children.9/@children.5/@link" version="0.18.0">
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="update" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.3/@link //@children.0/@children.4/@link //@children.0/@children.6/@link //@children.0/@children.7/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.3/@link //@children.1/@children.4/@link //@children.1/@children.5/@link //@children.1/@children.6/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.3/@link //@children.3/@children.1/@link //@children.3/@children.2/@link //@children.3/@children.0/@link //@children.3/@children.3/@link //@children.3/@children.5/@link //@children.3/@children.6/@link //@children.3/@children.7/@link //@children.3/@children.8/@link //@children.3/@children.9/@link //@children.4/@link //@children.4/@children.1/@link //@children.4/@children.2/@link //@children.4/@children.0/@link //@children.4/@children.3/@link //@children.4/@children.5/@link //@children.4/@children.6/@link //@children.4/@children.7/@link //@children.4/@children.8/@link //@children.4/@children.9/@link //@children.5/@link //@children.5/@children.1/@link //@children.5/@children.16/@link //@children.5/@children.17/@link //@children.5/@children.18/@link //@children.5/@children.19/@link //@children.5/@children.20/@link //@children.5/@children.24/@link //@children.5/@children.25/@link //@children.5/@children.26/@link //@children.5/@children.27/@link //@children.5/@children.28/@link //@children.5/@children.29/@link //@children.5/@children.33/@link //@children.6/@link //@children.6/@children.0/@link //@children.6/@children.1/@link //@children.6/@children.2/@link //@children.6/@children.3/@link //@children.6/@children.4/@link //@children.6/@children.5/@link //@children.7/@link //@children.7/@children.0/@link //@children.7/@children.1/@link //@children.7/@children.2/@link //@children.7/@children.3/@link //@children.7/@children.4/@link //@children.7/@children.5/@link //@children.8/@link //@children.8/@children.0/@link //@children.8/@children.1/@link //@children.8/@children.2/@link //@children.8/@children.3/@link //@children.8/@children.4/@link //@children.8/@children.5/@link //@children.9/@link //@children.9/@children.0/@link //@children.9/@children.1/@link //@children.9/@children.2/@link //@children.9/@children.3/@link //@children.9/@children.4/@link //@children.9/@children.5/@link" version="0.19.0">
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <link>
     <businessObjects href="update.cbcmodel#/0"/>
@@ -72,7 +72,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.6"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="133" height="94" x="266" y="106" horizontalAlignment="ALIGNMENT_CENTER" value="{(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="133" height="94" x="266" y="106" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, balance, \old(balance), x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -435,7 +435,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" x="250" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" x="250" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, balance, \old(balance), x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -653,7 +653,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" x="250" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" x="250" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, balance, \old(balance), x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1287,7 +1287,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="36" x="232" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(newBalance, ret);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="36" x="232" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(balance, newBalance, ret);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionModifiables"/>
       </graphicsAlgorithm>
       <link>
@@ -1422,7 +1422,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="72" x="232" y="76" horizontalAlignment="ALIGNMENT_CENTER" value="{(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="72" x="232" y="76" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, balance, \old(balance), x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -1719,5 +1719,6 @@
   <colors green="127"/>
   <colors red="255"/>
   <colors/>
+  <colors red="252" green="207" blue="153"/>
   <fonts name="Arial" size="9" bold="true"/>
 </pi:Diagram>

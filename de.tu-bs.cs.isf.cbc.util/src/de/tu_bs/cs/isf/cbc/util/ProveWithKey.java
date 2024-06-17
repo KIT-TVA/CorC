@@ -393,6 +393,7 @@ public class ProveWithKey {
     public void replaceOriginalInStatement(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements,
 	    List<JavaVariables> refinementsVars, String callingMethod, KeYFileContent content, String varM,
 	    String callingClass, String callingFeature) {
+	var jsl = content.getStatement();
 	if (refinements != null && refinements.size() > 0 && content.getStatement().contains("(")) {
 	    generateComposedClass(refinementsOriginal, refinements, refinementsVars, callingMethod, varM, callingClass,
 		    callingFeature);
@@ -803,6 +804,11 @@ public class ProveWithKey {
 	if (!proofType.equals(KeYInteraction.ABSTRACT_PROOF_COMPLETE)) {
 	    content.readGlobalConditions(conds);
 
+	    if (refinements != null
+		    || formula.getCompositionTechnique().equals(CompositionTechnique.EXPLICIT_CONTRACTING)) {
+		preCondition = composeContractForCbCDiagram(formula.getCompositionTechnique(), refinements,
+			preCondition, Parser.KEYWORD_JML_PRE, returnVariable);
+	    }
 	    // content.readInvariants(readInvariantsFromClass(uri.split("/")[4]));
 	    content.setPreFromCondition(preCondition + applyLiskovInheritance(preCondition,
 		    Parser.getConditionFromCondition(formula.getStatement().getPreCondition().getName()), "pre"));
@@ -845,16 +851,6 @@ public class ProveWithKey {
 	    guardString += ")";
 	} else {
 	    guardString = "true";
-	}
-	/*
-	 * String cleanedPre = ""; for (int i = 1; i < refinements.size(); i++) {
-	 * cleanedPre = applyCompositionTechnique("requires", preCondition.getName(),
-	 * Parser.getConditionFromCondition(refinements.get(i).getStatement().
-	 * getPreCondition().getName()) .replace("\n", "").replace("\r", ""),
-	 * refinements.get(i - 1).getCompositionTechnique(), true); }
-	 */
-	if (preCondition.getName().contains("\\original_post")) {
-	    var isdfj = 2;
 	}
 	File location = createProveCImpliesCWithKey(refinements, preCondition.getName(), guardString, true);
 	Console.println("  Verify Pre -> GvGvG...");

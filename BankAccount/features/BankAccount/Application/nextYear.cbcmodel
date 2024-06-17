@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="nextYear" proven="true" comment="" className="Application" methodName="nextYear">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="nextYear" proven="true" comment="" className="Application" methodName="nextYear">
     <statement name="statement" id="8ef40c06-2038-4732-8791-c796c0fca5d6">
-      <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true" id="f5b017e5-b4ca-4f93-952b-0c6335dea265">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SkipStatement" name=";" proven="true" id="f5b017e5-b4ca-4f93-952b-0c6335dea265">
         <postCondition name="true"/>
         <preCondition name="true"/>
       </refinement>
@@ -12,6 +12,6 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Application.cbcclass#//@methods.1"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
 </xmi:XMI>

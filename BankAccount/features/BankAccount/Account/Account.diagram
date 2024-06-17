@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbcclass" name="Account" snapToGrid="true" pictogramLinks="//@children.0/@link //@children.0/@children.1/@link //@children.0/@children.0/@link //@children.0/@children.8/@link //@children.0/@children.9/@link //@children.0/@children.10/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.1/@link //@children.1/@children.3/@link //@children.1/@children.12/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.1/@link //@children.2/@children.3/@link //@children.2/@children.12/@link" version="0.18.0">
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbcclass" name="Account" snapToGrid="true" pictogramLinks="//@children.0/@link //@children.0/@children.1/@link //@children.0/@children.0/@link //@children.0/@children.8/@link //@children.0/@children.9/@link //@children.0/@children.10/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.1/@link //@children.1/@children.3/@link //@children.1/@children.12/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.1/@link //@children.2/@children.3/@link //@children.2/@children.12/@link" version="0.19.0">
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
@@ -188,7 +188,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) + x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, balance, \old(balance), x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -322,7 +322,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{(\result = FALSE -> balance = \old(balance)) &amp; (\result = TRUE -> balance = \old(balance) - x)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="150" height="110" x="300" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="{balanceChangedResult(\result, balance, \old(balance), -x)}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>

@@ -5,10 +5,20 @@ public class Transaction {
 
 
 
+
+	/*@
+	@ public normal_behavior
+	@ requires true;
+	@ ensures true;
+	@ assignable \nothing;
+	@*/
+	int /*@helper pure @*/ length(int[] arr) {return arr.length;}
+
+
 	/*@
 	@ normal_behavior
 	@ requires source != destination;
-	@ ensures \result == true ==> (\old(destination.balance) + amount == destination.balance)  && \result == true ==> (\old(source.balance) - amount == source.balance)  && \result == false ==> (\old(destination.balance) == destination.balance)   && \result == false ==> (\old(source.balance) == source.balance);
+	@ ensures \result == true ==> (\old(source.balance) - amount == source.balance) && \result == false ==> (\old(source.balance) == source.balance) && \result == true ==> (\old(destination.balance) + amount == destination.balance) && \result == false ==> (destination.balance == \old(destination.balance));
 	@ assignable \nothing;
 	@*/
 	public boolean transfer(int amount) {

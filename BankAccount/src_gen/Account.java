@@ -2,17 +2,29 @@ public class Account {
 
     public int OVERDRAFT_LIMIT;
     public int balance;
+    public int withdrawDaily;
     public int DAILY_LIMIT;
-    public int withdraw;
+    public int HOURLY_LIMIT;
+    public int withdrawHourly;
     public int interest;
 
     /*@ invariant balance >= OVERDRAFT_LIMIT; @*/
 
 
+
+	/*@
+	@ public normal_behavior
+	@ requires true;
+	@ ensures true;
+	@ assignable \nothing;
+	@*/
+	int /*@helper pure @*/ length(int[] arr) {return arr.length;}
+
+
 	/*@
 	@ normal_behavior
 	@ requires true;
-	@ ensures (\result == false ==> balance == \old(balance)) && (\result == true ==> balance == \old(balance) - x);
+	@ ensures (\result == false ==> balance == \old(balance)) && (\result == true ==> balance == \old(balance) + -x);
 	@ assignable balance;
 	@*/
 	public boolean original_undoUpdate(int x) {
@@ -32,19 +44,22 @@ public class Account {
 	/*@
 	@ normal_behavior
 	@ requires true;
-	@ ensures (\result == false ==> (withdraw == \old(withdraw) &&  balance == \old(balance))) && (\result == true ==> (withdraw >= \old(withdraw)) &&  balance == \old(balance) - x);
-	@ assignable withdraw;
+	@ ensures (\result == false ==> balance == \old(balance)) && (\result == true ==> balance == \old(balance) + -x)  && (\result == false ==> withdrawDaily == \old(withdrawDaily)) &&  (\result == true ==> withdrawDaily >= \old(withdrawDaily)) && (\result == false ==> withdrawHourly == \old(withdrawHourly)) &&  (\result == true ==> withdrawHourly >= \old(withdrawHourly));
+	@ assignable withdrawDaily,withdrawHourly;
 	@*/
 	public boolean undoUpdate(int x) {
-		int newWithdraw;
+		int newWithdrawDaily;
+		int newWithdrawHourly;
 		boolean ret;
-		newWithdraw = withdraw;
+		newWithdrawDaily = withdrawDaily;
+		newWithdrawHourly = withdrawHourly;
 		if (x < 0) {
-			newWithdraw -= x;
-			if (newWithdraw < DAILY_LIMIT) {
+			newWithdrawDaily -= x;
+			newWithdrawHourly -= x;
+			if (!newWithdrawDaily >= DAILY_LIMIT && newWithdrawHourly >= HOURLY_LIMIT) {
 				ret = false;
 				return ret;
-			} else if (newWithdraw >= DAILY_LIMIT) {
+			} else if (newWithdrawDaily >= DAILY_LIMIT && newWithdrawHourly >= HOURLY_LIMIT) {
 				;
 			}
 		} else if (x >= 0) {
@@ -55,7 +70,8 @@ public class Account {
 			ret = false;
 			return ret;
 		} else if (ret == true) {
-			withdraw = newWithdraw;
+			withdrawDaily = newWithdrawDaily;
+			withdrawHourly = newWithdrawHourly;
 			ret = true;
 			return ret;
 		}
@@ -85,19 +101,22 @@ public class Account {
 	/*@
     @ public normal_behavior
     @ requires true;
-    @ ensures (\result == false ==> (withdraw == \old(withdraw) &&  balance == \old(balance))) && (\result == true ==> (withdraw <= \old(withdraw)) &&  balance == \old(balance) + x) && balance >= OVERDRAFT_LIMIT;
-    @ assignable withdraw;
+    @ ensures (\result == false ==> balance == \old(balance)) && (\result == true ==> balance == \old(balance) + x)  && (\result == false ==> (withdrawDaily == \old(withdrawDaily))) && (\result == true ==> (withdrawDaily <= \old(withdrawDaily))) && balance >= OVERDRAFT_LIMIT;
+    @ assignable withdrawDaily,withdrawHourly;
     @*/
 	public boolean update(int x) {
-		int newWithdraw;
+		int newWithdrawDaily;
+		int newWithdrawHourly;
 		boolean ret;
-		newWithdraw = withdraw;
+		newWithdrawDaily = withdrawDaily;
+		newWithdrawHourly = withdrawHourly;
 		if (x < 0) {
-			newWithdraw += x;
-			if (newWithdraw < DAILY_LIMIT) {
+			newWithdrawDaily += x;
+			newWithdrawHourly += x;
+			if (!newWithdrawDaily >= DAILY_LIMIT && newWithdrawHourly >= HOURLY_LIMIT) {
 				ret = false;
 				return ret;
-			} else if (newWithdraw >= DAILY_LIMIT) {
+			} else if (newWithdrawDaily >= DAILY_LIMIT && newWithdrawHourly >= HOURLY_LIMIT) {
 				;
 			}
 		} else if (x >= 0) {
@@ -108,14 +127,15 @@ public class Account {
 			ret = false;
 			return ret;
 		} else if (ret == true) {
-			withdraw = newWithdraw;
+			withdrawDaily = newWithdrawDaily;
+			withdrawHourly = newWithdrawHourly;
 			ret = true;
 			return ret;
 		}
 
 	}
 
-// Code from C:/Users/mko/Documents/ISF/0_feat-CorC2.0modifiable/runtime-EclipseApplication/BankAccount/src/Account_helper.java
+// Code from C:/Important/Work/CorC/BankAccount/src/Account_helper.java
 	final static int INTEREST_RATE = 2;
 	
 	/*@
@@ -124,10 +144,23 @@ public class Account {
 	@ ensures (balance >= 0 ==> \result >= 0) && (balance <= 0 ==> \result <= 0);
 	@ assignable \nothing;
 	@*/
-	public /*@helper pure@*/ int interestCalculate() {
+	public /*@helper pure@*/ int interestCalculateDaily() {
 		int result;
 		result = balance * INTEREST_RATE / 36500;
 		return result; 
 	}
-// End of code from C:/Users/mko/Documents/ISF/0_feat-CorC2.0modifiable/runtime-EclipseApplication/BankAccount/src/Account_helper.java
+	
+	/*@
+	@ normal_behavior
+	@ requires true;
+	@ ensures (balance >= 0 ==> \result >= 0) && (balance <= 0 ==> \result <= 0);
+	@ assignable \nothing;
+	@*/
+	public /*@helper pure@*/ int interestCalculateHourly() {
+		int result;
+		result = balance * INTEREST_RATE / 36500;
+		result = result / 24;
+		return result; 
+	}
+// End of code from C:/Important/Work/CorC/BankAccount/src/Account_helper.java
 }
