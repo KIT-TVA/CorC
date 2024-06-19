@@ -7,23 +7,23 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 
 import de.kit.tva.lost.interfaces.Controller;
-import de.kit.tva.lost.interfaces.TestListener;
 import de.kit.tva.lost.interfaces.Result;
+import de.kit.tva.lost.interfaces.VerifyListener;
 import de.kit.tva.lost.interfaces.ViewType;
 import de.kit.tva.lost.models.CodeModel;
 import de.kit.tva.lost.models.DiagramResourceModelException;
-import de.kit.tva.lost.models.LostTester;
+import de.kit.tva.lost.models.LostVerifier;
 import de.kit.tva.lost.views.LostUiView;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
-public class TestController implements Controller {
+public class VerifyController implements Controller {
     private LostUiView uiView;
-    private LostTester lostTester;
+    private LostVerifier lostVerifier;
     private CodeModel codeModel;
 
-    public TestController(LostUiView uiView, CodeModel codeModel, LostTester lostTester) {
+    public VerifyController(LostUiView uiView, CodeModel codeModel, LostVerifier lostVerifier) {
 	this.uiView = uiView;
-	this.lostTester = lostTester;
+	this.lostVerifier = lostVerifier;
 	this.codeModel = codeModel;
 	createModelObservers();
 	addViewListeners();
@@ -32,20 +32,20 @@ public class TestController implements Controller {
 
     @Override
     public void createModelObservers() {
-	lostTester.addListener(new TestListener() {
+	lostVerifier.addListener(new VerifyListener() {
 	    @Override
-	    public void testsDone() {
+	    public void verificationDone() {
 		uiView.getExtendedViewButton().setSelection(false);
 		uiView.getBasicViewButton().setSelection(true);
 		codeModel.switchView(ViewType.BASIC);
-		var viewCode = lostTester.getResults(codeModel.getViewCode());
+		var viewCode = lostVerifier.getResults(codeModel.getViewCode());
 		codeModel.setViewCode(viewCode);
 		codeModel.viewChanged();
 	    }
 
 	    @Override
-	    public void testDone(Result testee) {
-		// lostTesterView.showResult(time, lostTester)
+	    public void verificationDone(Result testee) {
+		// lostVerifierView.showResult(time, lostVerifier)
 	    }
 
 	    @Override
@@ -57,19 +57,19 @@ public class TestController implements Controller {
 
     @Override
     public void addViewListeners() {
-	handleTestButton();
+	handleVerifyButton();
     }
 
     @Override
     public void initModel() {
     }
 
-    private void handleTestButton() {
-	uiView.getTestButton().addSelectionListener(new SelectionListener() {
+    private void handleVerifyButton() {
+	uiView.getVerifyButton().addSelectionListener(new SelectionListener() {
 	    @Override
 	    public void widgetSelected(SelectionEvent e) {
 		try {
-		    lostTester.test(codeModel.getCode());
+		    lostVerifier.verify(codeModel.getCode());
 		} catch (DiagramResourceModelException | IOException | CoreException | SettingsException e1) {
 		    e1.printStackTrace();
 		}
@@ -81,5 +81,4 @@ public class TestController implements Controller {
 	    }
 	});
     }
-
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import de.kit.tva.lost.interfaces.CodeColor;
 import de.kit.tva.lost.interfaces.LostStyle;
@@ -68,11 +70,23 @@ public class SyntaxHighlighter {
     }
 
     private boolean applyStyles() {
+	setBackgroundRecursive(this.codeField.getParent(), style.getBackgroundColor());
 	this.codeField.setBackground(style.getBackgroundColor());
 	this.codeField.setForeground(style.getCodeColor());
 	this.allStyles.clear();
 	applyStylesToRules(this.tree.root());
 	return true;
+    }
+
+    private void setBackgroundRecursive(Composite composite, Color color) {
+	composite.setBackground(color);
+	for (int i = 0; i < composite.getChildren().length; i++) {
+	    setColorOfChild(composite.getChildren()[i], color);
+	}
+    }
+
+    private void setColorOfChild(Control control, Color color) {
+	control.setBackground(color);
     }
 
     private void applyStylesToRules(ParserRuleContext rule) {

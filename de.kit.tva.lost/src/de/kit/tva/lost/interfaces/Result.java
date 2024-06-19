@@ -2,14 +2,14 @@ package de.kit.tva.lost.interfaces;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-public class Testee {
+public class Result {
     private ParserRuleContext target;
-    private boolean testSuccessful;
+    private boolean successful;
     private long time;
 
-    public Testee(ParserRuleContext statementCtx) {
+    public Result(ParserRuleContext statementCtx) {
 	this.target = statementCtx;
-	this.testSuccessful = false;
+	this.successful = false;
 	this.time = -1;
     }
 
@@ -19,14 +19,14 @@ public class Testee {
 
     public void done(long time, boolean testSuccessful) {
 	this.time = time;
-	this.testSuccessful = testSuccessful;
+	this.successful = testSuccessful;
     }
 
     public long getTime() {
 	return this.time;
     }
 
-    public boolean getTestSuccessful() {
-	return this.testSuccessful;
+    public boolean wasSuccessful() {
+	return this.successful;
     }
 }

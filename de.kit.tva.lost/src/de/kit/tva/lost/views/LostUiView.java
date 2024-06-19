@@ -20,11 +20,13 @@ import de.kit.tva.lost.controllers.CodeController;
 import de.kit.tva.lost.controllers.TestController;
 import de.kit.tva.lost.controllers.TranslatorController;
 import de.kit.tva.lost.controllers.UiController;
+import de.kit.tva.lost.controllers.VerifyController;
 import de.kit.tva.lost.interfaces.Listener;
 import de.kit.tva.lost.interfaces.View;
 import de.kit.tva.lost.models.CodeModel;
 import de.kit.tva.lost.models.DiagramTranslator;
 import de.kit.tva.lost.models.LostTester;
+import de.kit.tva.lost.models.LostVerifier;
 import de.kit.tva.lost.models.TranslatorModel;
 import de.kit.tva.lost.models.UiModel;
 
@@ -32,7 +34,7 @@ public class LostUiView extends Composite implements View, Listener {
     private LocalResourceManager localResourceManager;
     private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 
-    private final int UI_WIDTH = 4;
+    private final int UI_WIDTH = 5;
 
     private Composite grpHeader;
     private Composite grpSyntax;
@@ -40,6 +42,7 @@ public class LostUiView extends Composite implements View, Listener {
     private Button btnHelp;
     private Button btnTranslate;
     private Button btnTest;
+    private Button btnVerify;
     private Button btnLoad;
     private Button btnBasic;
     private Button btnExtended;
@@ -82,6 +85,12 @@ public class LostUiView extends Composite implements View, Listener {
 	formToolkit.adapt(btnTest, true, true);
 	btnTest.setText("Test");
 
+	btnVerify = new Button(this, SWT.TOGGLE);
+	btnVerify.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+	btnVerify.setFont(localResourceManager.create(FontDescriptor.createFrom("Segoe UI", 8, SWT.NORMAL)));
+	formToolkit.adapt(btnVerify, true, true);
+	btnVerify.setText("Verify");
+
 	btnHelp = new Button(this, SWT.FLAT);
 	btnHelp.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 	formToolkit.adapt(btnHelp, true, true);
@@ -97,12 +106,14 @@ public class LostUiView extends Composite implements View, Listener {
 	btnBasic.setBounds(0, 0, 48, 16);
 	formToolkit.adapt(btnBasic, true, true);
 	btnBasic.setText("Basic");
+	btnBasic.setAlignment(SWT.LEFT);
 
 	btnExtended = new Button(grpSyntax, SWT.RADIO);
 	btnExtended.setSelection(true);
-	btnExtended.setBounds(53, 0, 70, 16);
+	btnExtended.setBounds(53, 0, 40, 16);
+	btnExtended.setAlignment(SWT.LEFT);
 	formToolkit.adapt(btnExtended, true, true);
-	btnExtended.setText("Extended");
+	btnExtended.setText("Full");
 
 	btnTranslate = new Button(grpHeader, SWT.TOGGLE);
 	btnTranslate.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -145,6 +156,7 @@ public class LostUiView extends Composite implements View, Listener {
 	new CodeController(codeView, codeModel);
 	new TranslatorController(this, codeView, codeModel, translatorModel, diagramTranslatorModel);
 	new TestController(this, codeModel, new LostTester());
+	new VerifyController(this, codeModel, new LostVerifier());
     }
 
     public LostUiView getUI() {
@@ -185,6 +197,10 @@ public class LostUiView extends Composite implements View, Listener {
 
     public Button getTestButton() {
 	return this.btnTest;
+    }
+
+    public Button getVerifyButton() {
+	return this.btnVerify;
     }
 
     private void createResourceManager() {

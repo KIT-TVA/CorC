@@ -5,7 +5,7 @@ public class TestModelNotifier extends AbstractModel {
 	this.listeners.forEach(l -> ((TestListener) l).testsDone());
     }
 
-    public void testFinished(Testee testee) {
+    public void testFinished(Result testee) {
 	this.listeners.forEach(l -> ((TestListener) l).testDone(testee));
     }
 }

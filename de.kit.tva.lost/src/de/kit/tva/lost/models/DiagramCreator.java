@@ -51,7 +51,11 @@ public class DiagramCreator {
 	    diagramRes.getContents().add(this.vars);
 	diagramRes.getContents().add(this.formula);
 	diagramRes.save(Collections.EMPTY_MAP);
-	this.formula.getMethodObj().eResource().save(Collections.EMPTY_MAP);
+	if (this.formula.getMethodObj() != null) {
+	    this.formula.getMethodObj().eResource().save(Collections.EMPTY_MAP);
+	} else {
+	    this.formula.eResource().save(Collections.EMPTY_MAP);
+	}
     }
 
     private void clearPrevious(Resource diagRes) {

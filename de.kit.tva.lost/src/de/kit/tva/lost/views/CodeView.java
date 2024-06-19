@@ -87,9 +87,11 @@ public class CodeView extends AbstractView {
 	if (codeColor.info.line >= lines.length)
 	    return false;
 	for (int i = 0; i < codeColor.info.line; ++i) {
-	    codeColor.info.relStartIndex += lines[i].length();
-	    codeColor.info.relEndIndex += lines[i].length();
+	    codeColor.info.relStartIndex += lines[i].length() + 1;
+	    codeColor.info.relEndIndex += lines[i].length() + 1;
 	}
+	codeColor.info.relStartIndex--; // We highlight the character right before the error occurs.
+	codeColor.info.relEndIndex--;
 	return true;
     }
 

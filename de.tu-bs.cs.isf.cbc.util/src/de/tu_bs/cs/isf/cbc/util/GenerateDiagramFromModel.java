@@ -92,7 +92,7 @@ public class GenerateDiagramFromModel {
 	// addElement(featureProvider, javaClass, diagram, 600, 20);
 
 	try {
-	    UpdateDiagram.run(diagram);
+	    UpdateDiagram.getInstance().run(diagram);
 
 	    diagramResource.save(Collections.EMPTY_MAP);
 	    diagramResource.setTrackingModification(true);
