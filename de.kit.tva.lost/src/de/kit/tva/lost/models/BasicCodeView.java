@@ -36,7 +36,12 @@ public class BasicCodeView extends AbstractCodeView implements CodeView {
     }
 
     private void addDiagram(DiagramContext diagramCtx) {
-	appendLine("Diagram(name: " + diagramCtx.name().ID().getText() + ")");
+	if (diagramCtx.diagramParam().signature() != null) {
+	    var sig = SignatureConstructor.getInstance().run(diagramCtx.diagramParam().signature());
+	    appendLine("Diagram(sig: " + sig + ")");
+	} else {
+	    appendLine("Diagram(name: " + diagramCtx.diagramParam().name().ID().getText() + ")");
+	}
 	this.indentLevel++;
 	for (int i = 0; i < diagramCtx.getChildCount(); ++i) {
 	    addInitializers(diagramCtx.initializer(i));

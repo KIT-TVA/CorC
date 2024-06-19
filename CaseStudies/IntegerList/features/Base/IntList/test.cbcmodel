@@ -1,38 +1,25 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
-  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="test">
-    <statement name="statement">
-      <refinement name="x;">
-        <postCondition name="y"/>
-        <preCondition name="x"/>
-      </refinement>
-      <postCondition name="y"/>
-      <preCondition name="x"/>
-    </statement>
-    <preCondition name="x"/>
-    <postCondition name="y"/>
-  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
   <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
     <conditions name="data!=null"/>
     <conditions name="data.length>=0"/>
-    <conditions name="i>=0"/>
     <conditions name="\old(data)=data"/>
-    <conditions name="tmp!=null"/>
   </de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
   <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
-    <variables name="int i"/>
-    <variables name="int[] tmp"/>
+    <fields href="IntList.cbcclass#//@fields.0"/>
+    <fields href="IntList.cbcclass#//@fields.1"/>
   </de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
-  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="test" comment="">
-    <statement name="statement">
-      <refinement name="x;">
-        <postCondition name="y"/>
-        <preCondition name="x"/>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="test" comment="" className="IntList">
+    <statement name="statement" id="43509c4b-213e-4c22-9700-eac9c50eae83">
+      <refinement name="x+=1;" proven="true" id="a1cc3d8d-255c-46b9-862d-94a6cefce284">
+        <postCondition name="x=1"/>
+        <preCondition name="x=0"/>
       </refinement>
-      <postCondition name="y"/>
-      <preCondition name="x"/>
+      <postCondition name="x=1"/>
+      <preCondition name="x=0"/>
     </statement>
-    <preCondition name="x"/>
-    <postCondition name="y"/>
+    <preCondition name="x=0"/>
+    <postCondition name="x=1"/>
+    <methodObj href="file:/C:/Important/Work/Projektarbeit/CorC/CaseStudies/IntegerList/features/Base/IntList/IntList.cbcclass#//@methods.1"/>
   </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
 </xmi:XMI>

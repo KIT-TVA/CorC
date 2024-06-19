@@ -12,6 +12,20 @@ import de.kit.tva.lost.models.LostParser;
  */
 public interface LostListener extends ParseTreeListener {
     /**
+     * Enter a parse tree produced by {@link LostParser#signature}.
+     * 
+     * @param ctx the parse tree
+     */
+    void enterSignature(@NotNull LostParser.SignatureContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link LostParser#signature}.
+     * 
+     * @param ctx the parse tree
+     */
+    void exitSignature(@NotNull LostParser.SignatureContext ctx);
+
+    /**
      * Enter a parse tree produced by {@link LostParser#guard}.
      * 
      * @param ctx the parse tree
@@ -24,6 +38,20 @@ public interface LostListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     void exitGuard(@NotNull LostParser.GuardContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link LostParser#methodParameter}.
+     * 
+     * @param ctx the parse tree
+     */
+    void enterMethodParameter(@NotNull LostParser.MethodParameterContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link LostParser#methodParameter}.
+     * 
+     * @param ctx the parse tree
+     */
+    void exitMethodParameter(@NotNull LostParser.MethodParameterContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LostParser#program}.
@@ -192,6 +220,20 @@ public interface LostListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     void exitVars(@NotNull LostParser.VarsContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link LostParser#diagramParam}.
+     * 
+     * @param ctx the parse tree
+     */
+    void enterDiagramParam(@NotNull LostParser.DiagramParamContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link LostParser#diagramParam}.
+     * 
+     * @param ctx the parse tree
+     */
+    void exitDiagramParam(@NotNull LostParser.DiagramParamContext ctx);
 
     /**
      * Enter a parse tree produced by {@link LostParser#keyword}.

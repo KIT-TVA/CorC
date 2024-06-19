@@ -28,6 +28,7 @@ import de.kit.tva.lost.models.LostParser.ProgramContext;
 import de.kit.tva.lost.models.LostParser.RefinementRuleContext;
 import de.kit.tva.lost.models.LostParser.RenamingContext;
 import de.kit.tva.lost.models.LostParser.ReturnSContext;
+import de.kit.tva.lost.models.LostParser.SignatureContext;
 import de.kit.tva.lost.models.LostParser.SkipSContext;
 import de.kit.tva.lost.models.LostParser.StatementContext;
 import de.kit.tva.lost.models.LostParser.VarContext;
@@ -113,7 +114,7 @@ public class SyntaxHighlighter {
 	    return this.style.getInitializerColor();
 	} else if (rule instanceof PreContext | rule instanceof PostContext | rule instanceof IntmContext
 		| rule instanceof InvContext | rule instanceof GuardContext | rule instanceof VarContext
-		| rule instanceof NameContext) {
+		| rule instanceof NameContext | rule instanceof SignatureContext) {
 	    return this.style.getIndicatorColor();
 	} else if (rule instanceof RefinementRuleContext) {
 	    return this.style.getRefinementColor();
@@ -130,7 +131,7 @@ public class SyntaxHighlighter {
 		| rule instanceof GlobalConditionsContext | rule instanceof RenamingContext | rule instanceof PreContext
 		| rule instanceof PostContext | rule instanceof IntmContext | rule instanceof InvContext
 		| rule instanceof GuardContext | rule instanceof VarContext | rule instanceof NameContext
-		| rule instanceof RefinementRuleContext;
+		| rule instanceof RefinementRuleContext | rule instanceof SignatureContext;
     }
 
     private boolean isStatement(ParserRuleContext rule) {

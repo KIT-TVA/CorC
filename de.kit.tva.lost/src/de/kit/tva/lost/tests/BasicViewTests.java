@@ -8,7 +8,7 @@ import de.kit.tva.lost.models.BasicCodeView;
 
 public class BasicViewTests {
     private BasicCodeView bcv = new BasicCodeView();
-    private String PREFIX = "D(name:test)\n\t";
+    private String PREFIX = "D(name: test)\n\t";
 
     @Test
     public void compositionSelection() {

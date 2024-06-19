@@ -16,6 +16,20 @@ public class LostTranslatorTests {
     private String PREFIX = "D(name:test)\n\t";
 
     @Test
+    public void signature() throws IOException, CoreException, DiagramResourceModelException, SettingsException {
+	String input = "D(sig: public void test())\n\tF(pre: a, post: b)\n\t\tx;";
+
+	assertTrue(translator.translate(input, false));
+    }
+
+    @Test
+    public void complexSignature() throws IOException, CoreException, DiagramResourceModelException, SettingsException {
+	String input = "D(sig: protected String[] test(int param, long[] param2))\n\tF(pre: a, post: b)\n\t\tx;";
+
+	assertTrue(translator.translate(input, false));
+    }
+
+    @Test
     public void arrayStatement() throws DiagramResourceModelException, IOException, CoreException, SettingsException {
 	String input = "F(pre: x, post: y)\n" + "\t\t{\n\t\ttmp = new int[data.length];\n\t\t}";
 

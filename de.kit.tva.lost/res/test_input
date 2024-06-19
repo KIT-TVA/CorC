@@ -1,3 +1,3 @@
-D(name:test)
+D(sig: public String test())
 	F(pre: x, post: y)
-		tmp[i] = new int[data.length];
+		x;

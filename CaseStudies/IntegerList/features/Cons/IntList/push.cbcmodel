@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="push" proven="true" comment="" compositionTechnique="EXPLICIT_CONTRACTING" className="IntList" methodName="push">
-    <statement name="statement" id="425e666a-052b-45f1-ba95-22d367e8e10e">
-      <refinement xsi:type="cbcmodel:OriginalStatement" name="original(newTop);" proven="true" id="758d9603-96e3-43aa-bd96-d80da26b400b">
-        <postCondition name="original &amp; &#xD;&#xA;data[data.length - 1] = newTop">
-          <modifiables>data[*]</modifiables>
-        </postCondition>
-        <preCondition name="true"/>
-      </refinement>
-      <postCondition name="original &amp; &#xD;&#xA;data[data.length - 1] = newTop"/>
-      <preCondition name="true"/>
-    </statement>
-    <preCondition name="pre"/>
-    <postCondition name="post"/>
-    <methodObj href="IntList.cbcclass#//@methods.0"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
-  <cbcmodel:GlobalConditions>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
     <conditions name="data != null"/>
     <conditions name="data.length >= 0"/>
     <conditions name="\old(data) = data"/>
-  </cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
+    <fields href="file:/C:/Important/Work/Projektarbeit/CorC/CaseStudies/IntegerList/features/Cons/IntList/IntList.cbcclass#//@fields.0"/>
+    <params type="int" name="newTop"/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="push" comment="" className="IntList" tested="true">
+    <statement name="statement" id="fc4a22fe-a739-41ed-9107-389d0f157847">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:OriginalStatement" name="original(newTop);" id="7ac164cf-57b2-4430-ace5-64873ec28a85" tested="true">
+        <postCondition name="original &amp;  data[data.length - 1] = newTop"/>
+        <preCondition name="true"/>
+      </refinement>
+      <postCondition name="original &amp;  data[data.length - 1] = newTop"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="true"/>
+    <postCondition name="original &amp;  data[data.length - 1] = newTop"/>
+    <methodObj href="file:/C:/Important/Work/Projektarbeit/CorC/CaseStudies/IntegerList/features/Cons/IntList/IntList.cbcclass#//@methods.0"/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
 </xmi:XMI>

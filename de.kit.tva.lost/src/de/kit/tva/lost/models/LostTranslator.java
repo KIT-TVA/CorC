@@ -11,6 +11,8 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import de.kit.tva.lost.models.LostParser.CompositionContext;
 import de.kit.tva.lost.models.LostParser.ConditionContext;
+import de.kit.tva.lost.models.LostParser.DiagramContext;
+import de.kit.tva.lost.models.LostParser.DiagramParamContext;
 import de.kit.tva.lost.models.LostParser.FormulaContext;
 import de.kit.tva.lost.models.LostParser.GlobalConditionsContext;
 import de.kit.tva.lost.models.LostParser.GuardContext;
@@ -80,7 +82,7 @@ public class LostTranslator {
 	}
 	reset();
 	this.tree = this.parseTreeGenerator.get();
-	formula.setName(tree.root().diagram().name().ID().getText());
+	formula.setName(extractName(tree.root().diagram().diagramParam()));
 	for (int i = 0; i < tree.root().diagram().getChildCount(); ++i) {
 	    addInitializers(tree.root().diagram().initializer(i));
 	}
@@ -88,7 +90,7 @@ public class LostTranslator {
 	    return true;
 	var diagramRes = DiagramResourceModel.getInstance().get(this.formula.getName());
 	if (!FeatureUtil.getInstance().getCallingClass(diagramRes.getURI()).isEmpty()) {
-	    createClass(diagramRes.getURI());
+	    createClass(diagramRes.getURI(), tree.root().diagram());
 	}
 	this.diagramCreator.create(diagramRes, this.formula, this.conds, this.renaming, this.vars);
 	this.diagram = this.diagramCreator.getDiagram();
@@ -130,7 +132,14 @@ public class LostTranslator {
 	this.newParams.clear();
     }
 
-    private void createClass(URI diagramUri) throws IOException, SettingsException {
+    private String extractName(DiagramParamContext paramCtx) {
+	if (paramCtx.name() != null) {
+	    return paramCtx.name().ID().getText();
+	}
+	return paramCtx.signature().ID().getText();
+    }
+
+    private void createClass(URI diagramUri, DiagramContext diagramCtx) throws IOException, SettingsException {
 	var diagPath = diagramUri.trimFileExtension();
 	var name = diagPath.segment(diagPath.segmentCount() - 1);
 	ClassCreator classCreator = new ClassCreator(diagramUri);
@@ -139,6 +148,9 @@ public class LostTranslator {
 	this.vars.getFields().addAll(classCreator.getFields());
 	var method = classCreator.getMethod(name);
 	method.setCbcStartTriple(this.formula);
+	if (diagramCtx.diagramParam().signature() != null) {
+	    method.setSignature(SignatureConstructor.getInstance().run(diagramCtx.diagramParam().signature()));
+	}
 	var params = copyParams(method);
 	this.vars.getParams().addAll(params);
 	this.formula.setMethodObj(classCreator.getMethod(name));

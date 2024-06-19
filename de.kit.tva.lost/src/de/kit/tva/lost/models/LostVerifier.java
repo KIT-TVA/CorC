@@ -33,7 +33,7 @@ public class LostVerifier extends VerifyModelNotifier {
 	    throws DiagramResourceModelException, IOException, CoreException, SettingsException {
 	this.verifiees.clear();
 	lostTranslator.translate(lostCode);
-	generateTestees();
+	generateVerifiees();
 	verifyAll();
 	UpdateDiagram.getInstance().updateDiagram(lostTranslator.getDiagram());
     }
@@ -67,12 +67,12 @@ public class LostVerifier extends VerifyModelNotifier {
 	VerifyStatement vs = new VerifyStatement(featureProvider);
 	vs.verifyStatement(lostTranslator.getDiagram(), statement);
 	long endTime = (System.nanoTime() - startTime) / 1000000;
-	verifiee.done(endTime, statement.isTested());
+	verifiee.done(endTime, statement.isProven());
 	statement.eResource().save(Collections.EMPTY_MAP);
 	this.verificationFinished(verifiee);
     }
 
-    private void generateTestees() {
+    private void generateVerifiees() {
 	for (var statementCtx : lostTranslator.getModelLinker().getAllContexts()) {
 	    this.verifiees.add(new Result(statementCtx));
 	}

@@ -49,6 +49,7 @@ public class ClassCreator {
 	}
 	var newMethod = CbcclassFactory.eINSTANCE.createMethod();
 	newMethod.setName(name);
+	// newMethod.setSignature();
 	newMethod.setParentClass(modelClass);
 	modelClass.getMethods().add(newMethod);
 	modelClass.eResource().save(Collections.EMPTY_MAP);

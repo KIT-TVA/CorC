@@ -12,7 +12,9 @@ program : root EOF;
 
 root : diagram;
 
-diagram : 'D' '(' name ')' NL initializer+;
+diagram : 'D' '(' diagramParam ')' NL initializer+;
+
+diagramParam : (name | signature);
 
 initializer: NL* '\t' formula NL* | NL* '\t' vars NL* | NL* '\t' globalConditions NL* | NL* '\t' renaming NL*;
 
@@ -50,7 +52,7 @@ statement : (identifier | javaReturn | identifier'()' | identifier '(' condition
 
 javaReturn : 'return' assigner;
 
-assigner : (identifier | '(' assigner ')' | identifier'()' | identifier assigner | NEW identifier | identifier OP assigner);
+assigner : (identifier | '(' assigner ')' | identifier EMPTY_BRACKETS | identifier assigner | NEW identifier | identifier OP assigner);
 
 composition : 'C' '(' intm ')' NL refinement refinement;
 
@@ -78,6 +80,10 @@ block : 'B' '(' name ',' pre ',' post ')' NL mlexpr ;
 
 name : 'name:' ID;
 
+signature : 'sig:' VISIBILITY ('void' | TYPE BRACKETS?) ID (EMPTY_BRACKETS | '(' methodParameter (',' methodParameter)* ')');
+
+methodParameter : TYPE BRACKETS? ID;
+
 mlexpr : '{' NL? ('\t'+ statement)* '\t'+ '}' NL?;
 
 // Lexer rules
@@ -88,9 +94,13 @@ NL: '\n';
 
 KIND : 'LOCAL' | 'RETURN' | 'PARAM' | 'PUBLIC';
 
+VISIBILITY : 'public' | 'private' | 'protected';
+
 TYPE : 'boolean' | 'char' | 'short' | 'int' | 'long' | 'String';
 
 BRACKETS : [\[\]]+;
+
+EMPTY_BRACKETS : '()';
 
 NEW : 'new ';
 

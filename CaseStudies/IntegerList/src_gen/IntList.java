@@ -1,6 +1,7 @@
 public class IntList {
 
     public int[] data;
+    public int x;
 
     /*@ invariant data != null; @*/
     /*@ invariant this != null; @*/
@@ -8,9 +9,20 @@ public class IntList {
 
 	/*@
 	@ normal_behavior
+	@ requires x == 0;
+	@ ensures x == 1;
+	@ assignable \nothing;
+	@*/
+	public void test() {
+		x+=1;
+
+	}
+
+	/*@
+	@ normal_behavior
 	@ requires true;
-	@ ensures (\exists int z;(0 <= z && z < data.length&& data[z] == newTop))&& (\forall int k; (0 <= k && k < \old(data).length==> (\exists int z; (0 <= z && z < data.length&& data[z] == \old(data)[k])))) && data[data.length - 1] == newTop;
-	@ assignable data[*];
+	@ ensures (\exists int z;(0 <= z && z < data.length && data[z] == newTop)) && (\forall int k;(0 <= k && k < \old(data).length ==> (\exists int z;(0 <= z && z < data.length && data[z] == \old(data)[k])))) && data[data.length - 1] == newTop;
+	@ assignable \nothing;
 	@*/
 	public void original_original_push(int newTop) {
 		int i;
@@ -19,7 +31,6 @@ public class IntList {
 		tmp[tmp.length-1] = newTop;
 		i = 0;
 		while (i < data.length) {
-			tmp[i] = data[i];
 			i++;
 		}
 		data = tmp;
@@ -27,11 +38,11 @@ public class IntList {
 	}
 
 	/*@
-    @ public normal_behavior
-    @ requires true;
-    @ ensures (\exists int z;(0 <= z && z < data.length&& data[z] == newTop))&& (\forall int k; (0 <= k && k < \old(data).length==> (\exists int z; (0 <= z && z < data.length&& data[z] == \old(data)[k])))) && data[data.length - 1] == newTop && data[data.length - 1] == newTop && data != null && this != null;
-    @ assignable \nothing;
-    @*/
+	@ normal_behavior
+	@ requires true;
+	@ ensures (\exists int z;(0 <= z && z < data.length && data[z] == newTop)) && (\forall int k;(0 <= k && k < \old(data).length ==> (\exists int z;(0 <= z && z < data.length && data[z] == \old(data)[k])))) && data[data.length - 1] == newTop &&  data[data.length - 1] == newTop;
+	@ assignable \nothing;
+	@*/
 	public void original_push(int newTop) {
 		original_original_push(newTop);
 
@@ -50,11 +61,11 @@ public class IntList {
 	}
 
 	/*@
-    @ public normal_behavior
-    @ requires data == \old(data);
-    @ ensures ((\forall int k; (0 <= k && k < \old(data).length==> (\exists int z; (0 <= z && z < data.length&& data[z] == \old(data)[k]))))&& (\forall int k; (0 <= k && k < data.length-1 ==> data[k] <= data[k+1]))) && data != null && this != null;
-    @ assignable data[*];
-    @*/
+	@ normal_behavior
+	@ requires data == \old(data);
+	@ ensures ((\forall int k; (0 <= k && k < \old(data).length==> (\exists int z; (0 <= z && z < data.length&& data[z] == \old(data)[k]))))&& (\forall int k; (0 <= k && k < data.length-1 ==> data[k] <= data[k+1])));
+	@ assignable data[*];
+	@*/
 	public void sort() {
 		int tmp;
 		int j;

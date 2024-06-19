@@ -48,15 +48,15 @@ public class DiagramTranslator {
 	    throws DiagramTranslatorException {
 	this.lostCode = "";
 	this.indentLevel = 0;
-	appendRoot("D(name: " + formula.getName() + ")");
-	// if
-	// (!FeatureUtil.getInstance().getCallingClass(formula.eResource().getURI()).isEmpty())
-	// {
 	if (formula.eResource() != null && diagramResource != null) {
 	    var cl = new ClassLoader(diagramResource.getURI());
 	    this.modelClass = cl.get();
 	}
-	// }
+	if (this.modelClass != null) {
+	    appendRoot("D(sig: " + formula.getMethodObj().getSignature() + ")");
+	} else {
+	    appendRoot("D(name: " + formula.getName() + ")");
+	}
 	extractInitializers(renaming, conds, vars, formula);
 	return true;
     }

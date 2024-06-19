@@ -23,6 +23,28 @@ public class LostBaseListener implements LostListener {
      * </p>
      */
     @Override
+    public void enterSignature(@NotNull LostParser.SignatureContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * The default implementation does nothing.
+     * </p>
+     */
+    @Override
+    public void exitSignature(@NotNull LostParser.SignatureContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * The default implementation does nothing.
+     * </p>
+     */
+    @Override
     public void enterGuard(@NotNull LostParser.GuardContext ctx) {
     }
 
@@ -35,6 +57,28 @@ public class LostBaseListener implements LostListener {
      */
     @Override
     public void exitGuard(@NotNull LostParser.GuardContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * The default implementation does nothing.
+     * </p>
+     */
+    @Override
+    public void enterMethodParameter(@NotNull LostParser.MethodParameterContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * The default implementation does nothing.
+     * </p>
+     */
+    @Override
+    public void exitMethodParameter(@NotNull LostParser.MethodParameterContext ctx) {
     }
 
     /**
@@ -299,6 +343,28 @@ public class LostBaseListener implements LostListener {
      */
     @Override
     public void exitVars(@NotNull LostParser.VarsContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * The default implementation does nothing.
+     * </p>
+     */
+    @Override
+    public void enterDiagramParam(@NotNull LostParser.DiagramParamContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * The default implementation does nothing.
+     * </p>
+     */
+    @Override
+    public void exitDiagramParam(@NotNull LostParser.DiagramParamContext ctx) {
     }
 
     /**
