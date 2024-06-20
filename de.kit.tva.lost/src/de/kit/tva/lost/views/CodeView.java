@@ -51,7 +51,7 @@ public class CodeView extends AbstractView {
     }
 
     public void disableCodeIfNecessary(boolean basicViewEnabled) {
-	this.codeField.setEnabled(!basicViewEnabled);
+	this.codeField.setEditable(!basicViewEnabled);
     }
 
     private void setPartialCodeColor(CodeColor codeColor, boolean isAbsolute) {

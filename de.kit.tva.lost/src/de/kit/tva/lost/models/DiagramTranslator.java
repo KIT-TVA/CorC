@@ -104,7 +104,7 @@ public class DiagramTranslator {
 
     private void appendRenamers(List<Rename> renamers) {
 	for (var renamer : renamers) {
-	    appendLine(renamer.getNewName() + " -> " + renamer.getFunction());
+	    appendLine(renamer.getType() + " " + renamer.getNewName() + " -> " + renamer.getFunction());
 	}
 	indentLevel--;
     }

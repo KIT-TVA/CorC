@@ -60,6 +60,9 @@ public class TranslatorController implements Controller {
 	uiView.getTranslateButton().addSelectionListener(new SelectionListener() {
 	    @Override
 	    public void widgetSelected(SelectionEvent e) {
+		codeModel.switchView(ViewType.EXTENDED);
+		uiView.getBasicViewButton().setSelection(false);
+		uiView.getExtendedViewButton().setSelection(true);
 		try {
 		    if (!translatorModel.translate(codeView.getCodeFieldText())) {
 			return;
@@ -83,6 +86,8 @@ public class TranslatorController implements Controller {
 	    @Override
 	    public void widgetSelected(SelectionEvent e) {
 		codeModel.switchView(ViewType.EXTENDED);
+		uiView.getBasicViewButton().setSelection(false);
+		uiView.getExtendedViewButton().setSelection(true);
 		var currentDiagName = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 			.getActiveEditor().getEditorInput().getAdapter(IResource.class).getName().split("\\.")[0];
 		try {

@@ -155,8 +155,8 @@ public class LostTranslatorTests {
 
     @Test
     public void renaming() throws DiagramResourceModelException, IOException, CoreException, SettingsException {
-	String input = new String(
-		"Renaming\n" + "\tpostCon -> (wurstBraten(x+1))\n" + "\tF(pre: x,post: postCon)\n" + "\t\tM: x();\n");
+	String input = new String("Renaming\n" + "\tint postCon -> (wurstBraten(x+1))\n" + "\tF(pre: x,post: postCon)\n"
+		+ "\t\tM: x();\n");
 
 	assertTrue(translator.translate(PREFIX + input, false));
 

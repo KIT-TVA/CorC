@@ -26,7 +26,7 @@ globalConditions : 'GlobalConditions' NL ('\t'+ condition NL)+;
 
 renaming : 'Renaming' NL renamer+;
 
-renamer : '\t'+ ID OP condition NL?; 
+renamer : '\t'+ (TYPE | 'bool') ID OP condition NL?; 
 
 formula : 'F' '(' pre ',' post ')' NL refinement;
 

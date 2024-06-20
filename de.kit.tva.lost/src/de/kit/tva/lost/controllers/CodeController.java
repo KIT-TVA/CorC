@@ -40,7 +40,11 @@ public class CodeController implements Controller {
 	    @Override
 	    public void updateView() {
 		view.disableCodeIfNecessary(model.basicViewEnabled());
-		view.updateCode(model.getViewCode());
+		if (model.basicViewEnabled()) {
+		    view.updateCode(model.getViewCode());
+		} else {
+		    view.updateCode(model.getCode());
+		}
 		if (!model.basicViewEnabled()) {
 		    view.highlight();
 		}

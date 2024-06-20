@@ -11,6 +11,11 @@ public class CodeModel extends CodeModelNotifier {
     private int curOffset = 0;
     private boolean basicView = false;
 
+    public CodeModel() {
+	viewCode = "";
+	code = "";
+    }
+
     public String getCode() {
 	return code;
     }
@@ -54,7 +59,12 @@ public class CodeModel extends CodeModelNotifier {
     }
 
     public void setViewCode(String newViewCode) {
+	if (getNonTaggedViewCode(this.viewCode).equals(newViewCode))
+	    return;
 	this.viewCode = newViewCode;
+	if (isTagged(newViewCode) && isTagged(this.viewCode)) {
+	    this.viewCode = mergeTags(this.viewCode);
+	}
     }
 
     public void addChar(char character) {
@@ -68,6 +78,25 @@ public class CodeModel extends CodeModelNotifier {
 	    handleNormalKey(character);
 	}
 
+    }
+
+    private boolean isTagged(String viewCode) {
+	return viewCode.contains(" <-");
+    }
+
+    private String getNonTaggedViewCode(String viewCode) {
+	while (viewCode != null && isTagged(viewCode)) {
+	    int nextMatch = viewCode.indexOf(" <-");
+	    var helper = viewCode.substring(nextMatch, viewCode.length());
+	    int nextNewLine = helper.indexOf('\n') + nextMatch;
+	    viewCode = viewCode.substring(0, nextMatch) + viewCode.substring(nextNewLine, viewCode.length());
+	}
+	return viewCode;
+    }
+
+    private String mergeTags(String viewCode) {
+	// TODO
+	return viewCode;
     }
 
     private void handleEnter() {
@@ -174,10 +203,11 @@ public class CodeModel extends CodeModelNotifier {
 	CodeView codeView;
 	if (basicView) {
 	    codeView = new BasicCodeView();
+	    this.setViewCode(codeView.transform(this.code));
 	} else {
 	    codeView = new ExtendedCodeView();
+	    this.setCode(codeView.transform(this.code));
 	}
-	this.setViewCode(codeView.transform(this.code));
 	viewChanged();
     }
 }

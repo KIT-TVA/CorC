@@ -223,6 +223,11 @@ public class LostTranslator {
 	renaming = CbcmodelFactory.eINSTANCE.createRenaming();
 	for (int i = 0; i < renamingTree.getRuleContexts(RenamerContext.class).size(); i++) {
 	    var renamer = CbcmodelFactory.eINSTANCE.createRename();
+	    if (renamingTree.renamer(i).TYPE() == null) {
+		renamer.setType("bool");
+	    } else {
+		renamer.setType(renamingTree.renamer(i).TYPE().getText());
+	    }
 	    renamer.setFunction(renamingTree.renamer(i).ID().getText());
 	    renamer.setNewName(renamingTree.renamer(i).condition().getText());
 	    renaming.getRename().add(renamer);
