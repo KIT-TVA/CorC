@@ -98,6 +98,12 @@ public class ProofGraphCollection {
 
 				});
 
+				graph.getVarMethodCalls().forEach((key, entry) -> {
+					for (String s : entry) {
+					String name =  s + "((" + s + "))";
+					builder.append(key.toString() + "::" + method + "--" + " VMC " + "-->" + name);
+					}
+				});
 			}
 		});
 		

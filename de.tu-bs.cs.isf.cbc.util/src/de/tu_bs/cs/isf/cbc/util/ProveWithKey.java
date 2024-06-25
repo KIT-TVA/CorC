@@ -393,7 +393,6 @@ public class ProveWithKey {
     public void replaceOriginalInStatement(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements,
 	    List<JavaVariables> refinementsVars, String callingMethod, KeYFileContent content, String varM,
 	    String callingClass, String callingFeature) {
-		Console.println(content.getStatement());
 	if (refinements != null && refinements.size() > 0 && content.getStatement().contains("(")) {
 	    generateComposedClass(refinementsOriginal, refinements, refinementsVars, callingMethod, varM, callingClass,
 		    callingFeature);

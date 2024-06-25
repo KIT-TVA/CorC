@@ -330,7 +330,7 @@ public class VerifyFeatures {
 		return;
 	}
 	
-	public static String[] findValidProduct(String[] callingFeatures, IProject project) {
+	public static String[] findValidProduct(List<String> callingFeatures, IProject project) {
 			IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
 			Configuration configuration = new Configuration(new FeatureModelFormula(featureModel));
 			for (String feature : callingFeatures) {

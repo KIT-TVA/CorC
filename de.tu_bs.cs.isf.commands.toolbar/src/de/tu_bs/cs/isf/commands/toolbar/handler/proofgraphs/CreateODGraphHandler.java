@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -39,11 +41,14 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
+import de.tu_bs.cs.isf.cbc.util.Colors;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
 public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 
 	private static final int MAX_DEPTH = 500; 
+
+	private final Set<String> varMethodCalls = new HashSet<String>();
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -75,15 +80,13 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 		ProofGraphCollection graphCollection = new ProofGraphCollection(featureModel);
 		for (IFeature feature : featureModel.getFeatures()) {
 
-			
+			Console.println("Now generating feature: " + feature, Colors.GREEN);
 			String featurePath = project.getLocation() + "/features/" + feature.getName();
 			File featureDir = new File(featurePath);
 			
 			if (featureDir.exists()) {
 				for (File featureClass : featureDir.listFiles()) {
-					Console.println(featureClass.getName());
 					for (File featureFile : featureClass.listFiles()) {
-					Console.println(featureFile.getName());
 					//Find cbcmodel
 					if (featureFile.getName().endsWith(".cbcmodel")) {
 						String methodName = featureFile.getName().split("\\.")[0];
@@ -99,8 +102,15 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 						graph.addImplementedMethod(feature.getName(), methodName);
 						for (EObject cont : cbcRes.getContents()) {
 							if (cont instanceof CbCFormula cbcForm) {
-								
-								if (runDFS(cbcForm.getStatement(), 0)) {
+								findVarMethodCalls(cbcForm.getStatement(), 0);
+								if (!this.varMethodCalls.isEmpty()) {
+									Console.println("Found (Variational) Method Calls:");
+									graph.setVarMethodCalls(nodeA, varMethodCalls);
+									this.varMethodCalls.forEach(m -> {
+										Console.println("\t-" + m);
+									});
+								}
+								if (hasOriginalCall(cbcForm.getStatement(), 0)) {
 									int index = Math.max(featureModel.getFeatureOrderList().indexOf(feature.getName()) - 1, 0);
 									IFeature featureB = featureModel.getFeature(featureModel.getFeatureOrderList().get(index));
 									graph.createEdge(nodeA, new ProofNode(featureB.getName(), methodName, graph.getIdForFeature(featureB.getName())));
@@ -120,6 +130,7 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 			} else {
 				Console.println("Feature Dir does not exist for " + feature.getName());
 			}
+			this.varMethodCalls.clear();
 		}
 
 		graphCollection.clean();
@@ -146,7 +157,37 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 		}
 	}
 	
-	private boolean runDFS(AbstractStatement statement, int depth) {
+	private void findVarMethodCalls(AbstractStatement statement, int depth) {
+		if (depth > MAX_DEPTH || statement == null) {
+			return;
+		}
+		if (statement instanceof MethodStatement methodStatement){
+			findVarMethodCalls(methodStatement.getRefinement(), ++depth);
+			this.varMethodCalls.add(methodStatement.getName().split("\\(")[0]);
+		}
+
+		
+		if (statement instanceof CompositionStatement compStatement) {
+
+			findVarMethodCalls(compStatement.getFirstStatement().getRefinement(), ++depth);
+			findVarMethodCalls(compStatement.getSecondStatement().getRefinement(), ++depth);
+
+		} else if (statement instanceof SmallRepetitionStatement repStatement) {
+			findVarMethodCalls(repStatement.getLoopStatement().getRefinement(), ++depth);
+		} else if (statement instanceof SelectionStatement selecStatement) {
+			for (AbstractStatement stmnt : selecStatement.getCommands()) {
+				findVarMethodCalls(stmnt.getRefinement(), ++depth);
+			}
+		} else if (statement instanceof OriginalStatement origiStatement) {
+				findVarMethodCalls(origiStatement.getRefinement(), ++depth);
+			} else {
+			findVarMethodCalls(statement.getRefinement(), ++depth);
+			}
+
+		
+	}
+	
+	private boolean hasOriginalCall(AbstractStatement statement, int depth) {
 			if (depth > MAX_DEPTH || statement == null) 
 				return false;
 			
@@ -155,21 +196,21 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 			}
 
 			if (statement instanceof CompositionStatement compStatement) {
-				return runDFS(compStatement.getFirstStatement().getRefinement(), ++depth)
-				 || runDFS(compStatement.getSecondStatement().getRefinement(), ++depth);
+				return hasOriginalCall(compStatement.getFirstStatement().getRefinement(), ++depth)
+				 || hasOriginalCall(compStatement.getSecondStatement().getRefinement(), ++depth);
 			} else if (statement instanceof SmallRepetitionStatement repStatement) {
-				return runDFS(repStatement.getLoopStatement().getRefinement(), ++depth);
+				return hasOriginalCall(repStatement.getLoopStatement().getRefinement(), ++depth);
 			} else if (statement instanceof SelectionStatement selecStatement) {
 				for (AbstractStatement stmnt : selecStatement.getCommands()) {
-					if(runDFS(stmnt.getRefinement(), ++depth)) { 
+					if(hasOriginalCall(stmnt.getRefinement(), ++depth)) { 
 						return true;
 					}
 				}
 				return false;
 			} else if (statement instanceof MethodStatement methodStatement){
-				return runDFS(methodStatement.getRefinement(), ++depth);
+				return hasOriginalCall(methodStatement.getRefinement(), ++depth);
 			} else {
-				return runDFS(statement.getRefinement(), ++depth);
+				return hasOriginalCall(statement.getRefinement(), ++depth);
 			}
 		}
 }

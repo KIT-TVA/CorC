@@ -26,15 +26,25 @@ public class ProofGraph {
 	
 	// See if important (multiple edges get removed because set)
 	private final Map<ProofNode, Set<ProofNode>> adjacencyList;
+	private final Map<ProofNode, Set<String>> varMethodCalls;
 	private final Map<String, Set<String>> featureMap;
 	private final Map<String, UUID> idMap;
 	private final transient IFeatureModel featureModel;
 	
 	public ProofGraph(IFeatureModel featureModel) {
 		this.adjacencyList = new HashMap<ProofNode, Set<ProofNode>>();
+		this.varMethodCalls = new HashMap<ProofNode, Set<String>>();
 		this.featureMap = new HashMap<String, Set<String>>();
 		this.idMap = new HashMap<String, UUID>();
 		this.featureModel = featureModel;
+	}
+	
+	public void setVarMethodCalls(ProofNode node, Set<String> methods) {
+		this.varMethodCalls.put(node, Set.copyOf(methods));
+	}
+	
+	public Map<ProofNode, Set<String>> getVarMethodCalls() {
+		return Map.copyOf(this.varMethodCalls);
 	}
 	
 	public void createNode(IFeature feature, String method) {

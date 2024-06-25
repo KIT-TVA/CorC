@@ -1,6 +1,9 @@
 package de.tu_bs.cs.isf.cbc.tool.proofgraphs;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -104,9 +107,18 @@ public class VerifyStatementProofGraphComplete extends MyAbstractAsynchronousCus
 					} else {
 						Console.println("No variation points - proof can just go on");
 					}
+
+					Set<String> varMethodCalls = graph.getVarMethodCalls().get(new ProofNode(callingFeature, callingMethod, graph.getIdForFeature(callingFeature)));
+					List<List<String>> featureForceProof = new ArrayList<>();
+					if (varMethodCalls != null && !varMethodCalls.isEmpty()) {
+						for (String method : varMethodCalls) {
+							featureForceProof.addAll(generateAllPaths(collection.getGraphForMethod(method)));
+						}
+					}
 					
 					VerifyStatement verifyStatement = new VerifyStatement(getFeatureProvider());
 					//TODO: Maybe smarter way? reuse featureconfigs?
+					Set<List<String>> toProve = new HashSet<>();
 					for (ProofNode node : edgesToProve) {
 						
 						//more than one edge after prove
@@ -114,10 +126,27 @@ public class VerifyStatementProofGraphComplete extends MyAbstractAsynchronousCus
 							//create new partial proof and safe
 						}
 						
-						GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
-						String[] features = {callingFeature, node.getFeature()};
+						List<String> features = List.of(callingFeature, node.getFeature());
 						String[] featureConfig = VerifyFeatures.findValidProduct(features, project);
+						toProve.add(new ArrayList<>(Arrays.asList(featureConfig)));
+					}
+					
+					for (List<String> path : featureForceProof) {
 						
+						String[] featureConfig = VerifyFeatures.findValidProduct(path, project);
+						toProve.add(new ArrayList<>(Arrays.asList(featureConfig)));
+					}
+					
+					Console.println("Minimal amount of produts for valid proof: ");
+					toProve.forEach(l -> {
+						Console.println("\t -" + Arrays.toString(l.toArray()));
+					});
+					
+					Set<String[]> toProveConverted = convertArrays(toProve);
+					
+					boolean proven = true;
+					for (String[] featureConfig : toProveConverted) {
+						GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 						genCode.setProofTypeInfo(0, KeYInteraction.ABSTRACT_PROOF_COMPLETE);
 						genCode.generate(project.getLocation(), 
 								callingFeature, 
@@ -131,9 +160,12 @@ public class VerifyStatementProofGraphComplete extends MyAbstractAsynchronousCus
 						List<CbCFormula> refinements = verifyStatement.generateCbCFormulasForRefinements(variant, callingMethod);
 						List<JavaVariables> refinementVars = verifyStatement.generateJavaVariablesForRefinements(variant, callingMethod);
 						ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, fileHandler, featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_COMPLETE);
-						boolean proven = prove.proveStatementWithKey(null, refinements, refinementVars, false, false, callingMethod, "", callingClass, true);
-						statement.setProven(proven);
+						if(!prove.proveStatementWithKey(null, refinements, refinementVars, false, false, callingMethod, "", callingClass, true)) {
+							proven = false;
+						}
 					}
+					statement.setProven(proven);
+
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -147,7 +179,7 @@ public class VerifyStatementProofGraphComplete extends MyAbstractAsynchronousCus
 		Console.println("Time needed: " + duration + "ms");
 	}
 	
-	public void loadProofFileFromRepo(UUID uuid) {
+	private void loadProofFileFromRepo(UUID uuid) {
 		URI uri = this.getDiagram().eResource().getURI();
 		IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
 		String location = fileHandler.getLocationString(getDiagram().eResource().getURI().toPlatformString(true)) + "/Statement1.key";
@@ -157,4 +189,45 @@ public class VerifyStatementProofGraphComplete extends MyAbstractAsynchronousCus
 		Files.writeStringIntoFile(location, proofFile);
 	}
 
+	private List<List<String>> generateAllPaths(ProofGraph graph) {
+		List<List<String>> paths = new ArrayList<List<String>>();
+		
+		Set<ProofNode> pathStarts = graph.getAdjacencyList().keySet();
+		
+		graph.getAdjacencyList().forEach((__, entry) -> {
+			pathStarts.removeAll(entry);
+		});
+		
+		for (ProofNode node : pathStarts) {
+			dfs(graph, node, paths, new ArrayList<String>());
+		}
+		
+		return paths;
+	}
+	
+	private void dfs(ProofGraph graph, ProofNode node, List<List<String>> paths, List<String> localPathList) {
+		localPathList.add(node.getFeature());
+		if (graph.getAdjacencyList().get(node).isEmpty()) {
+			paths.add(localPathList);
+			return;
+		}
+
+		for (ProofNode cn : graph.getAdjacencyList().get(node)) {
+			dfs(graph, cn, paths, localPathList);
+		}
+	}
+	
+	private Set<String[]> convertArrays(Set<List<String>> old) {
+		Set<String[]> newSet = new HashSet<String[]>();
+		
+		for(List<String> oldList : old) {
+			String[] array = new String[oldList.size()];
+			for (int i = 0; i < oldList.size(); i++)
+				array[i] = oldList.get(i);
+			newSet.add(array);
+		}
+		
+		return newSet;
+	}
+	
 }

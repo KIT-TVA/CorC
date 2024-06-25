@@ -1,0 +1,119 @@
+{
+  "graphs": {
+    "sort": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Decreasing",
+            "method": "sort",
+            "uuid": "0370ee91-c2b1-4f12-bd5a-7121248920a4",
+            "varMethodCalls": []
+          },
+          []
+        ],
+        [
+          {
+            "feature": "Increasing",
+            "method": "sort",
+            "uuid": "7728f73a-0e62-458d-8c4c-0cb56a891397",
+            "varMethodCalls": []
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Increasing": [
+          "sort"
+        ],
+        "Decreasing": [
+          "sort"
+        ]
+      },
+      "idMap": {
+        "Increasing": "7728f73a-0e62-458d-8c4c-0cb56a891397",
+        "Decreasing": "0370ee91-c2b1-4f12-bd5a-7121248920a4"
+      }
+    },
+    "push": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Sorted",
+            "method": "push",
+            "uuid": "ce9d28b8-263f-410e-a4bd-f0c062a3a0b6",
+            "varMethodCalls": []
+          },
+          [
+            {
+              "feature": "Limited",
+              "method": "push",
+              "uuid": "f3f616cc-7eb5-4455-824a-fc499dd3b6ab",
+              "varMethodCalls": []
+            },
+            {
+              "feature": "Base",
+              "method": "push",
+              "uuid": "2c28f013-fc69-440a-ad95-eb4c6b6b0dce",
+              "varMethodCalls": []
+            }
+          ]
+        ],
+        [
+          {
+            "feature": "Limited",
+            "method": "push",
+            "uuid": "f3f616cc-7eb5-4455-824a-fc499dd3b6ab",
+            "varMethodCalls": []
+          },
+          [
+            {
+              "feature": "Base",
+              "method": "push",
+              "uuid": "2c28f013-fc69-440a-ad95-eb4c6b6b0dce",
+              "varMethodCalls": []
+            }
+          ]
+        ],
+        [
+          {
+            "feature": "Base",
+            "method": "push",
+            "uuid": "2c28f013-fc69-440a-ad95-eb4c6b6b0dce",
+            "varMethodCalls": []
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": [
+        [
+          {
+            "feature": "Sorted",
+            "method": "push",
+            "uuid": "ce9d28b8-263f-410e-a4bd-f0c062a3a0b6",
+            "varMethodCalls": []
+          },
+          [
+            "sort"
+          ]
+        ]
+      ],
+      "featureMap": {
+        "Limited": [
+          "push"
+        ],
+        "Sorted": [
+          "push"
+        ],
+        "Base": [
+          "push"
+        ]
+      },
+      "idMap": {
+        "Limited": "f3f616cc-7eb5-4455-824a-fc499dd3b6ab",
+        "Sorted": "ce9d28b8-263f-410e-a4bd-f0c062a3a0b6",
+        "Base": "2c28f013-fc69-440a-ad95-eb4c6b6b0dce"
+      }
+    }
+  }
+}

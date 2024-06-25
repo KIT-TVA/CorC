@@ -48,10 +48,13 @@ import de.uka.ilkd.key.util.KeYTypeUtil;
 import de.uka.ilkd.key.util.MiscTools;
 
 public class KeYInteraction {
-
+		
     public final static String ABSTRACT_PROOF_FULL = "abstract_full_proof";
     public final static String ABSTRACT_PROOF_BEGIN = "abstract_proof_begin";
     public final static String ABSTRACT_PROOF_COMPLETE = "abstract_proof_complete";
+    
+    
+    private static String lastErrorMessage = "";
 
 
     public static Proof startKeyProof(String proofType, File location, IProgressMonitor monitor, boolean inlining,

@@ -88,7 +88,7 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 				
 				GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 				
-				String[] features = {callingFeature};
+				List<String> features = List.of(callingFeature);
 				String[] featureConfig = VerifyFeatures.findValidProduct(features, project);
 				
 				Console.println(Arrays.toString(featureConfig));
