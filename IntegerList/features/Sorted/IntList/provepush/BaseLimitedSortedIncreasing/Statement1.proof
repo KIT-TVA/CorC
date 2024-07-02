@@ -147,7 +147,7 @@ Heap heapAtPre;
 (keyLog "0" (keyUser "Markus" ) (keyVersion "1fb0c10630b493ce138850ae0f9803d3f2fffc51"))
 (keyLog "1" (keyUser "Markus" ) (keyVersion "1fb0c10630b493ce138850ae0f9803d3f2fffc51"))
 
-(autoModeTime "546")
+(autoModeTime "505")
 
 (branch "dummy ID"
  (builtin "One Step Simplification" (formula "1"))

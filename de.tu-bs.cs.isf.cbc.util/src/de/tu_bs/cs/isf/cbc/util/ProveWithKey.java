@@ -414,7 +414,7 @@ public class ProveWithKey {
 		}
 	    }
 	}
-		Console.println(content.getStatement());
+		Console.println(callingClass + " " + varM + " "+ content.getStatement());
     }
 
     List<String> composeModifiables(List<CbCFormula> refinements, List<JavaVariables> refinementsVars,

@@ -1,32 +1,13 @@
 package de.tu_bs.cs.isf.cbc.tool.proofgraphs;
 
-import java.util.List;
-
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
-import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyOriginalCallStatement;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
-import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
-import de.tu_bs.cs.isf.cbc.util.Console;
-import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
-import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
-import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
-import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 
 public class VerifyOriginalCallStatementProofGraphBegin extends MyAbstractAsynchronousCustomFeature {
 
@@ -67,6 +48,7 @@ public class VerifyOriginalCallStatementProofGraphBegin extends MyAbstractAsynch
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
+		//TODO: Hier die t-resolved proofs generieren?
 		VerifyStatementProofGraphBegin feature = new VerifyStatementProofGraphBegin(super.getFeatureProvider());
 		feature.execute(context, monitor);
 	}

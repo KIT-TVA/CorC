@@ -92,6 +92,8 @@ import de.tu_bs.cs.isf.cbc.tool.patterns.StrengthWeakStatementPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.VariablePattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.VariablesPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.VariantPattern;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyMethodCallStatementProofGraphBegin;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyMethodCallStatementProofGraphComplete;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyOriginalCallStatementProofGraphBegin;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyOriginalCallStatementProofGraphComplete;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyStatementProofGraphBegin;
@@ -162,6 +164,8 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 	    		new VerifyStatementProofGraphComplete(this),
 	    		new VerifyOriginalCallStatementProofGraphBegin(this),
 	    		new VerifyOriginalCallStatementProofGraphComplete(this),
+	    		new VerifyMethodCallStatementProofGraphBegin(this),
+	    		new VerifyMethodCallStatementProofGraphComplete(this),
 	    		//Partial Proofs
 				new VerifyStatementPartialProofBegin(this),
 				new VerifyStatementPartialProofComplete(this),

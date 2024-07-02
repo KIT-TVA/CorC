@@ -4,7 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -226,7 +228,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 				}
 			    }
 			    if (!oldVersionOfMethod.equals(""))
-				methods.add(oldVersionOfMethod);
+			    	methods.add(oldVersionOfMethod);
 			    methods.add(newVersionOfMethod);
 			}
 		    }
