@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="push" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.3/@link //@children.0/@children.4/@link //@children.0/@children.6/@link //@children.0/@children.7/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.3/@link //@children.2/@children.4/@link //@children.2/@children.5/@link //@children.2/@children.6/@link //@children.3/@link //@children.3/@children.1/@link //@children.3/@children.2/@link //@children.3/@children.0/@link //@children.3/@children.3/@link //@children.3/@children.5/@link //@children.3/@children.6/@link //@children.3/@children.7/@link //@children.3/@children.8/@link //@children.3/@children.9/@link //@children.4/@link //@children.4/@children.0/@link //@children.4/@children.1/@link //@children.4/@children.2/@link //@children.4/@children.3/@link //@children.4/@children.4/@link //@children.4/@children.5/@link //@children.5/@link //@children.5/@children.0/@link //@children.5/@children.1/@link //@children.5/@children.2/@link //@children.5/@children.3/@link //@children.5/@children.4/@link //@children.5/@children.5/@link" version="0.19.0">
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbc" name="push" snapToGrid="true" pictogramLinks="//@children.0/@link //@link //@children.0/@children.0/@link //@children.0/@children.1/@link //@children.0/@children.2/@link //@children.0/@children.3/@link //@children.0/@children.4/@link //@children.0/@children.6/@link //@children.0/@children.7/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.2/@link //@children.2/@children.0/@link //@children.2/@children.2/@link //@children.2/@children.3/@link //@children.2/@children.4/@link //@children.2/@children.5/@link //@children.2/@children.6/@link //@children.3/@link //@children.3/@children.1/@link //@children.3/@children.2/@link //@children.3/@children.0/@link //@children.3/@children.3/@link //@children.3/@children.5/@link //@children.3/@children.6/@link //@children.3/@children.7/@link //@children.3/@children.8/@link //@children.3/@children.9/@link //@children.4/@link //@children.4/@children.0/@link //@children.4/@children.1/@link //@children.4/@children.2/@link //@children.4/@children.3/@link //@children.4/@children.4/@link //@children.4/@children.5/@link //@children.5/@link //@children.5/@children.0/@link //@children.5/@children.1/@link //@children.5/@children.2/@link //@children.5/@children.3/@link //@children.5/@children.4/@link //@children.5/@children.5/@link" version="0.18.0">
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <link>
     <businessObjects href="push.cbcmodel#/0"/>
   </link>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="400" height="200" x="20" y="20" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="400" height="200" x="20" y="20" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -93,7 +93,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="380" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="380" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -338,7 +338,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="500" height="350" x="60" y="300" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="500" height="350" x="60" y="300" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -451,7 +451,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="480" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="480" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>
@@ -704,7 +704,7 @@
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
-    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="350" height="150" x="160" y="700" cornerHeight="20" cornerWidth="20">
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="350" height="150" x="160" y="700" cornerHeight="20" cornerWidth="20">
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -779,7 +779,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="36" x="232" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable();">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="36" x="232" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(\nothing);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionModifiables"/>
       </graphicsAlgorithm>
       <link>
@@ -787,7 +787,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="330" y="10" id="de.tu_bs.cs.isf.cbc.tool.proven" stretchH="false" stretchV="false" proportional="false">
+      <graphicsAlgorithm xsi:type="al:Image" lineWidth="1" transparency="0.0" width="10" height="10" x="330" y="10" id="de.tu_bs.cs.isf.cbc.tool.unproven" stretchH="false" stretchV="false" proportional="false">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="imageproven"/>
       </graphicsAlgorithm>
       <link>

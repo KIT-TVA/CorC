@@ -81,6 +81,7 @@ public class ProveWithKey {
     private static List<Predicate> predicates = null;
     private static String predicatesForKeY = "";
     private static int configNum;
+    private static boolean noResolve = false;
 
     public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler,
 	    String[] config, int configNum, String proofType) {
@@ -89,6 +90,12 @@ public class ProveWithKey {
 
     public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler,
 	    String srcFolder, String[] config, int configNum, String proofType) {
+    if (proofType.equals(KeYInteraction.ABSTRACT_T_RESOLVED_PROOF))  {
+    		this.proofType = KeYInteraction.ABSTRACT_PROOF_BEGIN;
+    		this.noResolve = true;
+    } else {
+    	this.proofType = proofType;
+    }
 	if (srcFolder == null)
 	    srcFolder = ProveWithKey.SRC_FOLDER;
 	this.statement = statement;
@@ -118,7 +125,6 @@ public class ProveWithKey {
 	}
 	this.configName = "";
 	this.configNum = configNum;
-	this.proofType = proofType;
 	if (config != null) {
 	    this.configName += "/";
 	    for (String s : config)
@@ -718,7 +724,7 @@ public class ProveWithKey {
     public static boolean proveWithKey(File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
 	    AbstractStatement statement, String problem, String uri) throws Exception {
 	Proof proof = null;
-	proof = KeYInteraction.startKeyProof(proofType, location, monitor, inlining, formula, statement, problem, uri,
+	proof = KeYInteraction.startKeyProof(noResolve ? KeYInteraction.ABSTRACT_T_RESOLVED_PROOF : proofType, location, monitor, inlining, formula, statement, problem, uri,
 		predicatesForKeY);
 	if (proof != null) {
 	    boolean closed = proof.openGoals().isEmpty();

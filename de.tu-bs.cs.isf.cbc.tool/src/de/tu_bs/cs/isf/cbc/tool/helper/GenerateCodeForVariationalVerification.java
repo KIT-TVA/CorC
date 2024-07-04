@@ -4,9 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -58,6 +56,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
     private String[] config;
     private String proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
     private int variant = 0;
+    private String nonResolvedFeature;
 
     public String predicatesPath = "";
 
@@ -73,6 +72,13 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
     public void setProofTypeInfo(int variant, String proofType) {
 	this.proofType = proofType;
 	this.variant = variant;
+    }
+    
+    public boolean generateWithRestriction(IPath location, String callingFeature, String callingClass, String callingMethod,
+	    String[] config, String nonResolvedFeature) {
+    	
+    	this.nonResolvedFeature = nonResolvedFeature;
+    	return generate(location, callingFeature, callingClass, callingMethod, config); 
     }
 
     public boolean generate(IPath location, String callingFeature, String callingClass, String callingMethod,
@@ -217,6 +223,9 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 						"original_original_" + dia.getName() + "(");
 					oldVersionOfMethod = oldVersionOfMethod.replace(" " + dia.getName() + "(",
 						" original_" + dia.getName() + "(");
+					if (feature.equals(this.nonResolvedFeature)) {
+						oldVersionOfMethod = oldVersionOfMethod.replace("ensures ", "ensures noResolve() &&");
+					}
 					newVersionOfMethod = newVersionOfMethod.replace("original(",
 						"original_" + dia.getName() + "(");
 					if (diagramFeature.equals(callingFeature) && diagramClass.equals(callingClass)
@@ -261,7 +270,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 		helperCode = helperCode + "// End of code from " + helperLocation + "\n";
 	    }
 	    writeFile(location,
-		    codeFields + "\n" + codeInvariants + "\n" + getLengthFunction() + methodCode + helperCode);
+		    codeFields + "\n" + codeInvariants + "\n" + getLengthFunction() + "\n" + getTResolvedProofFunction() + methodCode + helperCode);
 	}
     }
 
@@ -269,6 +278,13 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 	return "\n\n" + "\t/*@\n" + "\t@ public normal_behavior\n" + "\t@ requires true;\n" + "\t@ ensures true;\n"
 		+ "\t@ assignable \\nothing;\n" + "\t@*/\n"
 		+ "\tint /*@ pure @*/ length(int[] arr) {return arr.length;}\n\n";
+
+    }
+    
+    private String getTResolvedProofFunction() {
+    	return "\n\n" + "\t/*@\n" + "\t@ public normal_behavior\n" + "\t@ requires true;\n" + "\t@ ensures true;\n"
+		+ "\t@ assignable \\nothing;\n" + "\t@*/\n"
+		+ "\tboolean /*@ pure @*/ noResolve() {return true;}\n\n";
 
     }
 
@@ -384,8 +400,9 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 			    depth++;
 			    for (int j = 0; j < lines.size(); j++) {
 				String originalMethod = methodName;
-				for (int k = 0; k < depth; k++)
+				for (int k = 0; k < depth; k++) {
 				    originalMethod = "original_" + originalMethod;
+				}
 				if (lines.get(j).contains(" " + originalMethod) && lines.get(j).contains("{")) {
 				    if (temp.contains("\\original_pre")) {
 					String newCondition = lines.get(j - 4).replace("\t", "")

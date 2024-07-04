@@ -52,6 +52,7 @@ public class KeYInteraction {
     public final static String ABSTRACT_PROOF_FULL = "abstract_full_proof";
     public final static String ABSTRACT_PROOF_BEGIN = "abstract_proof_begin";
     public final static String ABSTRACT_PROOF_COMPLETE = "abstract_proof_complete";
+    public final static String ABSTRACT_T_RESOLVED_PROOF = "abstract_t_resolved_proof";
     
     
     private static String lastErrorMessage = "";
@@ -102,9 +103,15 @@ public class KeYInteraction {
 		sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES,
 			forbiddenRules + ",definition_axiom,ifthenelse_split"); // default
 	    } else {
-		sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, "");
-		sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, "");
+	    	if (proofType.equals(ABSTRACT_T_RESOLVED_PROOF)) {
+				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, "noResolve");
+				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, "noResolve");
+	    	} else {
+				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, "");
+				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, "");
+	    	}
 	    }
+	    //}
 	    // sp.setProperty(StrategyProperties.QUERY_OPTIONS_KEY,
 	    // StrategyProperties.QUERY_ON);
 	    // sp.setProperty(StrategyProperties.QUERYAXIOM_OPTIONS_KEY,
@@ -148,6 +155,11 @@ public class KeYInteraction {
 		proofControl.runMacro(proof.root(), new ContinueAbstractProofMacro(), null);
 		proofControl.waitWhileAutoMode();
 		break;
+	    case ABSTRACT_T_RESOLVED_PROOF:
+	    Console.println("  Start t-resolved proof: " + location.getName());
+		proofControl.runMacro(proof.root(), new ContinueAbstractProofMacro(), null);
+		proofControl.waitWhileAutoMode();
+	    break;
 	    case ABSTRACT_PROOF_COMPLETE:
 		Console.println("  Finish partial proof: " + location.getName());
 		proofControl.runMacro(proof.root(), new CompleteAbstractProofMacro(), null);
