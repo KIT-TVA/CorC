@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swt.graphics.Color;
 
+import de.kit.tva.lost.interfaces.CodeColor;
 import de.kit.tva.lost.interfaces.Result;
 import de.kit.tva.lost.interfaces.TestModelNotifier;
 import de.kit.tva.lost.models.LostParser.StatementContext;
@@ -15,19 +17,27 @@ import de.tu_bs.cs.isf.cbc.util.UpdateDiagram;
 
 public class LostTester extends TestModelNotifier {
     private final static String TEST_MARKER = " <- T: ";
+    private final static Color TEST_SUCCESS = new Color(252, 207, 153);
+    private final static Color TEST_FAIL = new Color(188, 71, 73);
 
     private ArrayList<Result> testees;
     private LostTranslator lostTranslator;
     private LostCodeHandler lostCodeHandler;
+    private ArrayList<CodeColor> highlights;
 
     public LostTester() {
 	this.testees = new ArrayList<Result>();
 	this.lostTranslator = new LostTranslator();
 	this.lostCodeHandler = new LostCodeHandler();
+	this.highlights = new ArrayList<CodeColor>();
     }
 
     public ArrayList<Result> getTestees() {
 	return this.testees;
+    }
+
+    public ArrayList<CodeColor> getHighlights() {
+	return this.highlights;
     }
 
     public void test(String lostCode)
@@ -40,9 +50,16 @@ public class LostTester extends TestModelNotifier {
     }
 
     public String getResults(String viewCode) {
+	if (viewCode.contains(TEST_MARKER))
+	    return viewCode;
+	highlights.clear();
 	for (var testee : testees) {
 	    var statement = testee.get() instanceof StatementContext ? testee.get().getText().trim()
 		    : testee.get().getChild(1).getText().trim();
+	    CodeColor highlight = new CodeColor();
+	    lostCodeHandler.createInfoForStatement(highlight, viewCode, statement, TEST_MARKER);
+	    highlight.colorToSet = testee.wasSuccessful() ? TEST_SUCCESS : TEST_FAIL;
+	    highlights.add(highlight);
 	    var codeSplit = lostCodeHandler.getCodeUntilStatement(viewCode, statement, TEST_MARKER);
 	    viewCode = codeSplit[0] + TEST_MARKER + testee.wasSuccessful() + ", " + testee.getTime() + "ms"
 		    + codeSplit[1];

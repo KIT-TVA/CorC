@@ -7,22 +7,25 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 
 import de.kit.tva.lost.interfaces.Controller;
-import de.kit.tva.lost.interfaces.TestListener;
 import de.kit.tva.lost.interfaces.Result;
+import de.kit.tva.lost.interfaces.TestListener;
 import de.kit.tva.lost.interfaces.ViewType;
 import de.kit.tva.lost.models.CodeModel;
 import de.kit.tva.lost.models.DiagramResourceModelException;
 import de.kit.tva.lost.models.LostTester;
+import de.kit.tva.lost.views.CodeView;
 import de.kit.tva.lost.views.LostUiView;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
 public class TestController implements Controller {
     private LostUiView uiView;
+    private CodeView codeView;
     private LostTester lostTester;
     private CodeModel codeModel;
 
-    public TestController(LostUiView uiView, CodeModel codeModel, LostTester lostTester) {
+    public TestController(LostUiView uiView, CodeView codeView, CodeModel codeModel, LostTester lostTester) {
 	this.uiView = uiView;
+	this.codeView = codeView;
 	this.lostTester = lostTester;
 	this.codeModel = codeModel;
 	createModelObservers();
@@ -41,6 +44,7 @@ public class TestController implements Controller {
 		var viewCode = lostTester.getResults(codeModel.getViewCode());
 		codeModel.setViewCode(viewCode);
 		codeModel.viewChanged();
+		codeView.updateCodeColors(lostTester.getHighlights(), true);
 	    }
 
 	    @Override

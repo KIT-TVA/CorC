@@ -42,7 +42,7 @@ public class TranslatorController implements Controller {
     @Override
     public void createModelObservers() {
 	TranslatorErrorListenerModel.getInstance().addListener(() -> {
-	    codeView.updateCodeColor(TranslatorErrorListenerModel.getInstance().getCodeColor());
+	    codeView.updateCodeColor(TranslatorErrorListenerModel.getInstance().getCodeColor(), false);
 	});
     }
 

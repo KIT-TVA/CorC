@@ -13,16 +13,19 @@ import de.kit.tva.lost.interfaces.ViewType;
 import de.kit.tva.lost.models.CodeModel;
 import de.kit.tva.lost.models.DiagramResourceModelException;
 import de.kit.tva.lost.models.LostVerifier;
+import de.kit.tva.lost.views.CodeView;
 import de.kit.tva.lost.views.LostUiView;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
 public class VerifyController implements Controller {
     private LostUiView uiView;
+    private CodeView codeView;
     private LostVerifier lostVerifier;
     private CodeModel codeModel;
 
-    public VerifyController(LostUiView uiView, CodeModel codeModel, LostVerifier lostVerifier) {
+    public VerifyController(LostUiView uiView, CodeView codeView, CodeModel codeModel, LostVerifier lostVerifier) {
 	this.uiView = uiView;
+	this.codeView = codeView;
 	this.lostVerifier = lostVerifier;
 	this.codeModel = codeModel;
 	createModelObservers();
@@ -41,6 +44,7 @@ public class VerifyController implements Controller {
 		var viewCode = lostVerifier.getResults(codeModel.getViewCode());
 		codeModel.setViewCode(viewCode);
 		codeModel.viewChanged();
+		codeView.updateCodeColors(lostVerifier.getHighlights(), true);
 	    }
 
 	    @Override

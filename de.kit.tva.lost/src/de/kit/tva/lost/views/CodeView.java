@@ -1,5 +1,7 @@
 package de.kit.tva.lost.views;
 
+import java.util.List;
+
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 
@@ -42,11 +44,17 @@ public class CodeView extends AbstractView {
 	this.syntaxHighlighter.changeStyle(style);
     }
 
-    public void updateCodeColor(CodeColor codeColor) {
+    public void updateCodeColors(List<CodeColor> codeColors, boolean isAbsolute) {
+	for (var codeColor : codeColors) {
+	    updateCodeColor(codeColor, isAbsolute);
+	}
+    }
+
+    public void updateCodeColor(CodeColor codeColor, boolean isAbsolute) {
 	if (codeColor.info.relStartIndex == -1) {
 	    this.codeField.setForeground(codeColor.colorToSet);
 	} else {
-	    setPartialCodeColor(codeColor, false);
+	    setPartialCodeColor(codeColor, isAbsolute);
 	}
     }
 
@@ -70,6 +78,7 @@ public class CodeView extends AbstractView {
 	    try {
 		this.codeField.setStyleRange(sr);
 	    } catch (IllegalArgumentException e) {
+		int skdjf = 2;
 	    }
 	}
     }

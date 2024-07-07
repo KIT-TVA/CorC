@@ -155,8 +155,8 @@ public class LostUiView extends Composite implements View, Listener {
 	new UiController(this, codeView, uiModel, codeModel);
 	new CodeController(codeView, codeModel);
 	new TranslatorController(this, codeView, codeModel, translatorModel, diagramTranslatorModel);
-	new TestController(this, codeModel, new LostTester());
-	new VerifyController(this, codeModel, new LostVerifier());
+	new TestController(this, codeView, codeModel, new LostTester());
+	new VerifyController(this, codeView, codeModel, new LostVerifier());
     }
 
     public LostUiView getUI() {

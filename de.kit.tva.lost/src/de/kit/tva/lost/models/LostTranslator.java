@@ -396,9 +396,11 @@ public class LostTranslator {
     private void addMlStatement(AbstractStatement parent, MlexprContext mlexprCtx) {
 	var mlexprS = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 	addEmptyPrePost(mlexprS);
+	String mlStatement = "";
 	for (int i = 0; i < mlexprCtx.getRuleContexts(StatementContext.class).size(); i++) {
-	    mlexprS.setName(mlexprCtx.statement(i).getText() + "\n");
+	    mlStatement += mlexprCtx.statement(i).getText();
 	}
+	mlexprS.setName(mlStatement);
 	modelLinker.link(mlexprS, mlexprCtx);
 	setRefinement(parent, mlexprS);
     }
