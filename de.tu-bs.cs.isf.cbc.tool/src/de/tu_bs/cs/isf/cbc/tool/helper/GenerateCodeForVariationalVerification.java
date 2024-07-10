@@ -223,9 +223,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 						"original_original_" + dia.getName() + "(");
 					oldVersionOfMethod = oldVersionOfMethod.replace(" " + dia.getName() + "(",
 						" original_" + dia.getName() + "(");
-					if (feature.equals(this.nonResolvedFeature)) {
-						oldVersionOfMethod = oldVersionOfMethod.replace("ensures ", "ensures noResolve() &&");
-					}
+
 					newVersionOfMethod = newVersionOfMethod.replace("original(",
 						"original_" + dia.getName() + "(");
 					if (diagramFeature.equals(callingFeature) && diagramClass.equals(callingClass)
@@ -234,6 +232,10 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 					}
 				    }
 				    addedToList = true;
+				}
+				
+				if (feature.equals(nonResolvedFeature)) {
+					newVersionOfMethod = newVersionOfMethod.replace("\\original_post", "noResolve()");
 				}
 			    }
 			    if (!oldVersionOfMethod.equals(""))
@@ -282,9 +284,9 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
     }
     
     private String getTResolvedProofFunction() {
-    	return "\n\n" + "\t/*@\n" + "\t@ public normal_behavior\n" + "\t@ requires true;\n" + "\t@ ensures true;\n"
+    	return "\n\n" + "\t/*@\n" + "\t@ public normal_behavior\n" + "\t@ requires true;\n" + "\t@ ensures false;\n"
 		+ "\t@ assignable \\nothing;\n" + "\t@*/\n"
-		+ "\tboolean /*@ pure @*/ noResolve() {return true;}\n\n";
+		+ "\tboolean /*@ pure @*/ noResolve() {return false;}\n\n";
 
     }
 
@@ -371,10 +373,10 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 					temp = temp.replace("\\original_pre",
 						newCondition.substring(0, newCondition.length() - 1));
 				    } else if (temp.contains("\\original_post")) {
-					String newCondition = lines.get(j - 3).replace("\t", "")
-						.replace("@ ensures ", "").trim().replace("\n", "");
-					temp = temp.replace("\\original_post",
-						newCondition.substring(0, newCondition.length() - 1));
+						String newCondition = lines.get(j - 3).replace("\t", "")
+							.replace("@ ensures ", "").trim().replace("\n", "");
+						temp = temp.replace("\\original_post",
+							newCondition.substring(0, newCondition.length() - 1));
 				    } else {
 					String newCondition = lines.get(j - 4).replace("\t", "")
 						.replace("@ requires ", "").trim().replace("\n", "");
@@ -410,10 +412,10 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 					temp = temp.replace("\\original_pre",
 						newCondition.substring(0, newCondition.length() - 1));
 				    } else if (temp.contains("\\original_post")) {
-					String newCondition = lines.get(j - 3).replace("\t", "")
-						.replace("@ ensures ", "").trim().replace("\n", "");
-					temp = temp.replace("\\original_post",
-						newCondition.substring(0, newCondition.length() - 1));
+						String newCondition = lines.get(j - 3).replace("\t", "")
+							.replace("@ ensures ", "").trim().replace("\n", "");
+						temp = temp.replace("\\original_post",
+								newCondition.substring(0, newCondition.length() - 1));
 				    } else {
 					String newCondition = lines.get(j - 4).replace("\t", "")
 						.replace("@ requires ", "").trim().replace("\n", "");

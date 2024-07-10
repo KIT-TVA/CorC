@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -18,6 +19,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
+import de.tu_bs.cs.isf.cbc.proorepository.FileSystemProofRepository;
+import de.tu_bs.cs.isf.cbc.proorepository.IProofRepository;
+import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
@@ -90,6 +94,9 @@ long startTime = System.nanoTime();
 				String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 				String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 				String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
+				IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
+				String location = fileHandler.getLocationString(getDiagram().eResource().getURI().toPlatformString(true));
+				IProofRepository proofRepo = new FileSystemProofRepository(location + "/proofRepository/");
 
 				try {
 					ProofGraphCollection collection = ProofGraphCollection.loadFromJson(project.getRawLocation() + "/graph.json");
@@ -97,27 +104,21 @@ long startTime = System.nanoTime();
 					
 					ProofGraph graph = collection.getGraphForMethod(callingMethod);
 					//Load proof from repository
-					verifyGraphStatement.loadProofFileFromRepo(graph.getIdForFeature(callingFeature));
-					Set<ProofNode> edgesToProve = graph.getNodesForFeature(callingFeature, callingMethod);
-					if (!edgesToProve.isEmpty()) {
-						Console.println("Starting proof on proof graph:");
-						for(ProofNode node : edgesToProve) {
-							Console.println("\t" + callingFeature +  " --> " + node.getFeature());
-						}
-					} else {
-						Console.println("No variation points - proof can just go on");
-					}
+
+
+					List<List<String>> paths = new ArrayList<>();
+					List<List<String>> forks = new ArrayList<>();
+					List<String> localPathList = new ArrayList<>();
+					ProofNode node = new ProofNode(callingFeature,callingMethod, graph.getIdForFeature(callingFeature));
+					localPathList.add(node.getFeature());
+					verifyGraphStatement.findPaths(graph, node, paths, localPathList);
+					localPathList.clear();
+					localPathList.add(node.getFeature());
+					verifyGraphStatement.findForks(graph, node, forks, localPathList);
 
 					Set<List<String>> toProve = new HashSet<>();
-					for (ProofNode node : edgesToProve) {
-						
-						//more than one edge after prove
-						if (graph.getAdjacencyList().get(node).size() > 1) {
-							//create new partial proof and save
-						}
-						
-						List<String> features = List.of(callingFeature, node.getFeature());
-						String[] featureConfig = VerifyFeatures.findValidProduct(features, project);
+					for (List<String> path : paths) {
+						String[] featureConfig = VerifyFeatures.findValidProduct(path, project);
 						toProve.add(new ArrayList<>(Arrays.asList(featureConfig)));
 					}
 					
@@ -130,6 +131,29 @@ long startTime = System.nanoTime();
 					
 					boolean proven = true;
 					for (String[] featureConfig : toProveConverted) {
+						//TODO: Determine fork if present and add to array
+						List<String> forkToUse = new ArrayList<>();
+						int bestForkLength = 0;
+						for (List<String> fork : forks) {
+							boolean legalFork = true;
+							for (String feat : fork) {
+								if (!Arrays.stream(featureConfig).toList().contains(feat)) {
+									legalFork = false;
+								}
+							}
+							
+							if (legalFork && bestForkLength < fork.size()) {
+								bestForkLength = fork.size();
+								forkToUse = fork;
+							}
+						}
+						
+						List<UUID> uuids = forkToUse.stream().map(f -> graph.getIdForFeature(f)).toList();
+						
+						FileNameManager manager = new FileNameManager();
+						String name = manager.getFileName(null, location, statement, "") + ".proof";
+						proofRepo.getPartialProofForId(forkToUse, uuids, location, name);
+
 						GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 						genCode.setProofTypeInfo(0, KeYInteraction.ABSTRACT_PROOF_COMPLETE);
 						genCode.generate(project.getLocation(), 
@@ -138,7 +162,6 @@ long startTime = System.nanoTime();
 								callingMethod, 
 								featureConfig);
 
-						IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
 						String[][] variantWrapper = {featureConfig};
 						String variant = verifyStatement.generateVariantsStringFromFeatureConfigs(variantWrapper, callingFeature, callingClass)[0];
 						List<CbCFormula> refinements = verifyStatement.generateCbCFormulasForRefinements(variant, callingMethod);

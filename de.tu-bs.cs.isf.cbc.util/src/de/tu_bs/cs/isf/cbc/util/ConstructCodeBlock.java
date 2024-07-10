@@ -298,7 +298,7 @@ public class ConstructCodeBlock {
 	code.append("\n\t}");// }
 
 	returnVariable = null;
-
+	
 	return code.toString();
     }
 

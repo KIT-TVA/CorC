@@ -91,10 +91,11 @@ public class ProveWithKey {
     public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler,
 	    String srcFolder, String[] config, int configNum, String proofType) {
     if (proofType.equals(KeYInteraction.ABSTRACT_T_RESOLVED_PROOF))  {
-    		this.proofType = KeYInteraction.ABSTRACT_PROOF_BEGIN;
+    		this.proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
     		this.noResolve = true;
     } else {
     	this.proofType = proofType;
+    	this.noResolve = false;
     }
 	if (srcFolder == null)
 	    srcFolder = ProveWithKey.SRC_FOLDER;
@@ -573,6 +574,9 @@ public class ProveWithKey {
 	    String callingFeature) {
 	boolean originalNecessary = refinementsOriginal != null && refinementsOriginal.size() > 0;
 	int round = 0;
+	if (noResolve) {
+		return;
+	}
 	String className = varM.equals("") ? callingClass : varM.split("\\.")[0];
 	String methodName = varM.equals("") ? ("original_" + callingMethod) : varM.split("\\.")[1].toLowerCase();
 	while (originalNecessary || round == 0) {

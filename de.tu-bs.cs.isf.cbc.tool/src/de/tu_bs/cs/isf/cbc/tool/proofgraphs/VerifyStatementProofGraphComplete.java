@@ -91,9 +91,9 @@ public class VerifyStatementProofGraphComplete extends MyAbstractAsynchronousCus
 		IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
 		String location = fileHandler.getLocationString(getDiagram().eResource().getURI().toPlatformString(true)) + "/Statement1.key";
 		
-		IProofRepository proofRepository = new FileSystemProofRepository();
-		String proofFile = proofRepository.getPartialProofForId(uuid);
-		Files.writeStringIntoFile(location, proofFile);
+		//IProofRepository proofRepository = new FileSystemProofRepository();
+		//String proofFile = proofRepository.getPartialProofForId(uuid);
+		//Files.writeStringIntoFile(location, proofFile);
 	}
 
 	public List<List<String>> generateAllPaths(ProofGraph graph) {
@@ -139,5 +139,22 @@ public class VerifyStatementProofGraphComplete extends MyAbstractAsynchronousCus
 		
 		return newSet;
 	}
+
 	
+	public void findForks(ProofGraph graph, ProofNode node, List<List<String>> paths, List<String> localPathList) {
+		for (ProofNode cn : graph.getAdjacencyList().get(node)) {
+			localPathList.add(cn.getFeature());
+			findForks(graph, cn, paths, localPathList);
+			localPathList.remove(cn.getFeature());
+		}
+
+		if (graph.getAdjacencyList().get(node).size() >= 1) { //TODO: Change to 2 
+			paths.add(List.copyOf(localPathList));
+		}
+		
+		if (graph.getAdjacencyList().get(node).isEmpty()) {
+			return;
+		}
+
+	}
 }

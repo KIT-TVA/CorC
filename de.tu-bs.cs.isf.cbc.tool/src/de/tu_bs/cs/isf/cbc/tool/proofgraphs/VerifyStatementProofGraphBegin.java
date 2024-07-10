@@ -119,6 +119,7 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 				String location = fileHandler.getLocationString(getDiagram().eResource().getURI().toPlatformString(true)) + "/Statement2.key";
 
 				//Save to Proof repository
+				/*
 				try {
 					ProofGraphCollection collection = ProofGraphCollection.loadFromJson(project.getRawLocation() + "/graph.json");
 					ProofNode node = collection.getProofNode(callingMethod, callingFeature);
@@ -130,6 +131,7 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				*/
 			}
 		}
 		

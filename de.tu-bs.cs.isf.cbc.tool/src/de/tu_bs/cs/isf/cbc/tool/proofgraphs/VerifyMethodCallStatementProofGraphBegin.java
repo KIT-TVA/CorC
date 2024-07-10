@@ -124,18 +124,7 @@ public class VerifyMethodCallStatementProofGraphBegin extends MyAbstractAsynchro
 				//Somehow find Statement.key or always Statement1? TODO: Think about it
 				String location = fileHandler.getLocationString(getDiagram().eResource().getURI().toPlatformString(true)) + "/Statement2.key";
 
-				//Save to Proof repository
-				try {
-					ProofGraphCollection collection = ProofGraphCollection.loadFromJson(project.getRawLocation() + "/graph.json");
-					ProofNode node = collection.getProofNode(callingMethod, callingFeature);
-					String proofText;
-					proofText = Files.readString(java.nio.file.Path.of(location));
-					IProofRepository proofRepo = new FileSystemProofRepository();
-					proofRepo.savePartialProofForId(node.getId(), proofText);
-					Console.print("Saved proof to Proof Repository as " + node.getId() + ".proof", Colors.GREEN);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+
 			}
 		}
 		

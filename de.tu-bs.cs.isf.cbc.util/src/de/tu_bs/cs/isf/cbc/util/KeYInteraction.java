@@ -35,6 +35,7 @@ import de.uka.ilkd.key.java.abstraction.KeYJavaType;
 import de.uka.ilkd.key.logic.op.IObserverFunction;
 import de.uka.ilkd.key.macros.CompleteAbstractProofMacro;
 import de.uka.ilkd.key.macros.ContinueAbstractProofMacro;
+import de.uka.ilkd.key.macros.NoResolveProofMacro;
 import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.Statistics;
 import de.uka.ilkd.key.proof.init.ProofInputException;
@@ -96,16 +97,21 @@ public class KeYInteraction {
 	    sp.setProperty(StrategyProperties.NON_LIN_ARITH_OPTIONS_KEY, StrategyProperties.NON_LIN_ARITH_DEF_OPS);
 	    sp.setProperty(StrategyProperties.STOPMODE_OPTIONS_KEY, StrategyProperties.STOPMODE_NONCLOSE);
 
-	    sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FIRST_ORDER_GOALS_FORBIDDEN, "true");
+	    //?
+	    sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FIRST_ORDER_GOALS_FORBIDDEN, "false");
 	    if (proofType.equals(ABSTRACT_PROOF_BEGIN)) {
+	    sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FIRST_ORDER_GOALS_FORBIDDEN, "true");
 		sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS,
 			forbiddenRules + ",expand_def,cut,cut_direct"); // default
 		sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES,
-			forbiddenRules + ",definition_axiom,ifthenelse_split"); // default
+			forbiddenRules + ",definition_axiom,ifthenelse_split"); // default*/
+				/*sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, "");
+				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, "");*/
 	    } else {
 	    	if (proofType.equals(ABSTRACT_T_RESOLVED_PROOF)) {
-				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, "noResolve");
-				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, "noResolve");
+	    		Console.println("Setting Rules");
+				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, "expand_def,cut,cut_direct");//
+				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, "definition_axiom,ifthenelse_split");//
 	    	} else {
 				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, "");
 				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, "");
@@ -157,7 +163,7 @@ public class KeYInteraction {
 		break;
 	    case ABSTRACT_T_RESOLVED_PROOF:
 	    Console.println("  Start t-resolved proof: " + location.getName());
-		proofControl.runMacro(proof.root(), new ContinueAbstractProofMacro(), null);
+		proofControl.runMacro(proof.root(), new NoResolveProofMacro(), null);
 		proofControl.waitWhileAutoMode();
 	    break;
 	    case ABSTRACT_PROOF_COMPLETE:

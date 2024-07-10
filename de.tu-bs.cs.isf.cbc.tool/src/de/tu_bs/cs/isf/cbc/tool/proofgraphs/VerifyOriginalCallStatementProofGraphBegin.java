@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -16,6 +17,9 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
+import de.tu_bs.cs.isf.cbc.proorepository.FileSystemProofRepository;
+import de.tu_bs.cs.isf.cbc.proorepository.IProofRepository;
+import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
@@ -26,7 +30,6 @@ import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.IFileUtil;
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
-import de.tu_bs.cs.isf.cbc.util.Parser;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraph;
@@ -76,6 +79,7 @@ public class VerifyOriginalCallStatementProofGraphBegin extends MyAbstractAsynch
 		PictogramElement[] pes = context.getPictogramElements();
 
 		VerifyStatement verifyStatement = new VerifyStatement(getFeatureProvider());
+		VerifyStatementProofGraphComplete verifyProofGraph = new VerifyStatementProofGraphComplete(getFeatureProvider());
 		
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
@@ -98,13 +102,15 @@ public class VerifyOriginalCallStatementProofGraphBegin extends MyAbstractAsynch
 				List<String> localPathList = new ArrayList<>();
 				localPathList.add(callingFeature);
 
-				this.findForks(graph, node, pathsToFork, localPathList);
+				verifyProofGraph.findForks(graph, node, pathsToFork, localPathList);
 
 				GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
+				IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
 				
 				Console.println(Arrays.toString(pathsToFork.toArray()));
 				
 				for (List<String> path : pathsToFork) {
+
 					Console.println("Creating " + path.get(path.size() - 1) + "-resolved proof");
 					String[] featureConfig = VerifyFeatures.findValidProduct(path, project);
 					
@@ -116,12 +122,11 @@ public class VerifyOriginalCallStatementProofGraphBegin extends MyAbstractAsynch
 							callingFeature, callingClass, callingMethod, 
 							featureConfig, path.get(path.size() - 1));
 					
-					IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
 					String[][] variantWrapper = {featureConfig};
 					String variant = verifyStatement.generateVariantsStringFromFeatureConfigs(variantWrapper, callingFeature, callingClass)[0];
 					List<CbCFormula> refinements = verifyStatement.generateCbCFormulasForRefinements(variant, callingMethod);
 					List<JavaVariables> refinementVars = verifyStatement.generateJavaVariablesForRefinements(variant, callingMethod);
-					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, fileHandler, featureConfig, 0, KeYInteraction.ABSTRACT_T_RESOLVED_PROOF);
+					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, fileHandler, featureConfig, 0, path.size() == 1 ? KeYInteraction.ABSTRACT_PROOF_BEGIN : KeYInteraction.ABSTRACT_T_RESOLVED_PROOF);
 					boolean proven = prove.proveStatementWithKey(null, refinements, refinementVars, false, false, callingMethod, "", callingClass, true);
 
 					statement.setProven(proven);
@@ -130,27 +135,33 @@ public class VerifyOriginalCallStatementProofGraphBegin extends MyAbstractAsynch
 					startTime = System.nanoTime();
 					Console.println("\nVerification done."); 
 					Console.println("Time needed: " + duration + "ms");
+
+					String location = fileHandler.getLocationString(getDiagram().eResource().getURI().toPlatformString(true));
+					IProofRepository proofRepo = new FileSystemProofRepository(location + "/proofRepository/");
+					FileNameManager manager = new FileNameManager();
+					String name = manager.getFileName(null, location, statement, "") + ".proof";
+					List<UUID> uuids = path.stream().map(f -> graph.getIdForFeature(f)).toList();
+					
+					String folderName = "";
+					
+					if (path.size() != 1) {
+						folderName += "/";
+						for (String feat : featureConfig) {
+							folderName += feat;
+						}
+						folderName += "/";
+					}
+					
+					proofRepo.savePartialProofForId(path, uuids, location + folderName + name);
+					break;
 				}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
-		
+	
 			}
 		}
 	}
 
-	public void findForks(ProofGraph graph, ProofNode node, List<List<String>> paths, List<String> localPathList) {
-		for (ProofNode cn : graph.getAdjacencyList().get(node)) {
-			localPathList.add(cn.getFeature());
-			findForks(graph, cn, paths, localPathList);
-			localPathList.remove(cn.getFeature());
-		}
 
-		if (graph.getAdjacencyList().get(node).size() >= 1) { //TODO: Change to 2 
-			paths.add(List.copyOf(localPathList));
-			return;
-		}
-
-
-	}
 }
