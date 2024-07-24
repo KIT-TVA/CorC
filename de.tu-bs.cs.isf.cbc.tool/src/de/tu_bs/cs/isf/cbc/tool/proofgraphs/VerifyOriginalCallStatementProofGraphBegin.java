@@ -23,6 +23,7 @@ import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPP;
 import de.tu_bs.cs.isf.cbc.util.Colors;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
@@ -107,6 +108,9 @@ public class VerifyOriginalCallStatementProofGraphBegin extends MyAbstractAsynch
 				GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 				IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
 				
+				if (pathsToFork.isEmpty()) {
+					pathsToFork.add(List.of(callingFeature));
+				}
 				Console.println(Arrays.toString(pathsToFork.toArray()));
 				
 				for (List<String> path : pathsToFork) {
@@ -133,6 +137,7 @@ public class VerifyOriginalCallStatementProofGraphBegin extends MyAbstractAsynch
 					long endTime = System.nanoTime();
 					long duration = (endTime - startTime) / 1_000_000;
 					startTime = System.nanoTime();
+					RunEvaluationForStatementPP.WHOLE_RUNTIME_START.add(duration + ""); //PG DEBUG
 					Console.println("\nVerification done."); 
 					Console.println("Time needed: " + duration + "ms");
 
@@ -153,7 +158,6 @@ public class VerifyOriginalCallStatementProofGraphBegin extends MyAbstractAsynch
 					}
 					
 					proofRepo.savePartialProofForId(path, uuids, location + folderName + name);
-					break;
 				}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();

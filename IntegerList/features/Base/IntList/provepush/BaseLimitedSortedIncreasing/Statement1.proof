@@ -50,7 +50,7 @@
         "MaximumNumberOfAutomaticApplications" : 2147483647,
         "Timeout" : -1,
         "options" : { 
-            "ABSTRACT_PROOF_FIRST_ORDER_GOALS_FORBIDDEN" : "true",
+            "ABSTRACT_PROOF_FIRST_ORDER_GOALS_FORBIDDEN" : "false",
             "ABSTRACT_PROOF_FORBIDDEN_RULES" : "",
             "ABSTRACT_PROOF_FORBIDDEN_RULE_SETS" : "",
             "AUTO_INDUCTION_OPTIONS_KEY" : "AUTO_INDUCTION_OFF",
@@ -86,8 +86,10 @@ int[] tmp;
 int newTop;
 int i_old;
 int newTop_old;
-int[] data2_oldVal;
-int LIMIT1_oldVal;
+int[] data1_oldVal;
+int newTop_oldVal;
+int[] data_oldVal;
+int[] data_oldVal;
 IntList self;
 Heap heapAtPre;
 }
@@ -99,7 +101,7 @@ Heap heapAtPre;
                               IntList::$data)),
          Z(0(#)))
    & geq(i, Z(0(#)))
-   &   data2_oldVal
+   &   data1_oldVal
      = int[]::select(heap, self, IntList::$data)
    & !tmp = null
    &   boolean::select(heap,
@@ -140,12 +142,16 @@ Heap heapAtPre;
    & !self = null
    & java.lang.Object::<inv>(heap, self)
    & wellFormed(heap)
--> {heapAtPre:=heap
-    || i_old:=i
-    || newTop_old:=newTop
-    || LIMIT1_oldVal:=int::select(heap,
+-> {newTop_oldVal:=newTop
+    || data_oldVal:=int[]::select(heap,
                                   self,
-                                  IntList::$LIMIT)}
+                                  IntList::$data)
+    || data_oldVal:=int[]::select(heap,
+                                  self,
+                                  IntList::$data)
+    || heapAtPre:=heap
+    || i_old:=i
+    || newTop_old:=newTop}
      \<{
        tmp = new int[self.data.length + 1];
      }\> (    length(tmp)
@@ -158,9 +164,10 @@ Heap heapAtPre;
 }
 
 \proof {
-(keyLog "0" (keyUser "Markus" ) (keyVersion "1fb0c10630b493ce138850ae0f9803d3f2fffc51"))
+(keyLog "0" (keyUser "Markus" ) (keyVersion "255661ae2f2ff3b2df9506575116825ddb2e1159"))
+(keyLog "1" (keyUser "Markus" ) (keyVersion "255661ae2f2ff3b2df9506575116825ddb2e1159"))
 
-(autoModeTime "165")
+(autoModeTime "232")
 
 (branch "dummy ID"
  (builtin "One Step Simplification" (formula "1"))
@@ -181,8 +188,8 @@ Heap heapAtPre;
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "1"))
-(rule "notLeft" (formula "2"))
 (rule "andLeft" (formula "1"))
+(rule "notLeft" (formula "3"))
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "1"))
 (rule "notLeft" (formula "1"))
@@ -194,8 +201,8 @@ Heap heapAtPre;
 (rule "polySimp_addComm1" (formula "14") (term "0,0,0,0,1"))
 (rule "applyEq" (formula "6") (term "1,0") (ifseqformula "3"))
 (rule "applyEq" (formula "5") (term "0,0") (ifseqformula "3"))
-(rule "applyEq" (formula "1") (term "0,0") (ifseqformula "3"))
 (rule "applyEq" (formula "12") (term "0") (ifseqformula "3"))
+(rule "applyEq" (formula "1") (term "0,0") (ifseqformula "3"))
 (rule "polySimp_sepPosMonomial" (formula "14") (term "0,0,0,1"))
 (rule "polySimp_mulComm0" (formula "14") (term "1,0,0,0,1"))
 (rule "polySimp_rightDist" (formula "14") (term "1,0,0,0,1"))
@@ -246,10 +253,10 @@ Heap heapAtPre;
           (builtin "One Step Simplification" (formula "1"))
           (builtin "One Step Simplification" (formula "15"))
          (rule "true_left" (formula "1"))
+         (rule "arrayLengthNotNegative" (formula "1") (term "0"))
          (rule "arrayLengthIsAnInt" (formula "1") (term "0"))
           (builtin "One Step Simplification" (formula "1"))
          (rule "true_left" (formula "1"))
-         (rule "arrayLengthNotNegative" (formula "1") (term "0"))
          (rule "onlyCreatedObjectsAreReferenced" (formula "3") (term "0") (ifseqformula "10"))
          (rule "applyEq" (formula "3") (term "1,0,1") (ifseqformula "4"))
          (rule "replace_known_left" (formula "3") (term "1") (ifseqformula "7"))
@@ -367,9 +374,12 @@ Heap heapAtPre;
    )
 )
 (branch "Null Reference (self = null)"
-    (builtin "One Step Simplification" (formula "15"))
     (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "14")))
-   (rule "closeFalse" (formula "1"))
+    (builtin "One Step Simplification" (formula "15") (ifInst ""  (formula "1")))
+   (rule "arrayLengthNotNegative" (formula "2") (term "0"))
+   (rule "arrayLengthIsAnInt" (formula "2") (term "0"))
+    (builtin "One Step Simplification" (formula "2") (ifInst ""  (formula "16")) (ifInst ""  (formula "1")))
+   (rule "closeTrue" (formula "15"))
 )
 )
 }

@@ -11,17 +11,14 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.xtext.util.Files;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
-import de.tu_bs.cs.isf.cbc.proorepository.FileSystemProofRepository;
-import de.tu_bs.cs.isf.cbc.proorepository.IProofRepository;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
-import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyStatementPartialProofComplete;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPP;
+import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.IFileUtil;
 import de.tu_bs.cs.isf.cbc.util.Parser;
@@ -64,6 +61,7 @@ public class VerifyStatementProofGraphComplete extends MyAbstractAsynchronousCus
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
+		long startTime = System.nanoTime();
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
@@ -77,9 +75,13 @@ public class VerifyStatementProofGraphComplete extends MyAbstractAsynchronousCus
 					VerifyOriginalCallStatementProofGraphComplete verify = new VerifyOriginalCallStatementProofGraphComplete(getFeatureProvider());
 					verify.execute(context);
 				} else {
-					// TODO: Dont generate products here just execute
-					VerifyStatement verify = new VerifyStatement(getFeatureProvider());
-					verify.execute(context);
+
+					long endTime = System.nanoTime();
+					long duration = (endTime - startTime) / 1_000_000;
+					RunEvaluationForStatementPP.WHOLE_RUNTIME_COMPLETE.add(duration + ""); //PG DEBUG
+					Console.println("\nVerification done."); 
+					Console.println("Time needed: " + duration + "ms");
+					return;
 				}
 			}
 		}
@@ -148,7 +150,7 @@ public class VerifyStatementProofGraphComplete extends MyAbstractAsynchronousCus
 			localPathList.remove(cn.getFeature());
 		}
 
-		if (graph.getAdjacencyList().get(node).size() >= 1) { //TODO: Change to 2 
+		if (graph.getAdjacencyList().get(node).size() >= 2) { 
 			paths.add(List.copyOf(localPathList));
 		}
 		

@@ -1,9 +1,9 @@
 package de.tu_bs.cs.isf.cbc.tool.proofgraphs;
 
-import java.io.IOException;
-import java.nio.file.Files;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -20,9 +20,11 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.proorepository.FileSystemProofRepository;
 import de.tu_bs.cs.isf.cbc.proorepository.IProofRepository;
+import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPP;
 import de.tu_bs.cs.isf.cbc.util.Colors;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
@@ -34,8 +36,8 @@ import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.Parser;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
+import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraph;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraphCollection;
-import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofNode;
 
 public class VerifyMethodCallStatementProofGraphBegin extends MyAbstractAsynchronousCustomFeature{
 
@@ -86,6 +88,12 @@ public class VerifyMethodCallStatementProofGraphBegin extends MyAbstractAsynchro
 				String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 				String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 				String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
+				ProofGraphCollection collection;
+				try {
+					collection = ProofGraphCollection.loadFromJson(project.getRawLocation() + "/graph.json");
+				
+				Console.println(String.format("Successfully loaded proof graph for %s:%s", callingFeature, callingMethod), Colors.GREEN);
+				ProofGraph graph = collection.getGraphForMethod(callingMethod);
 				
 				GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 				
@@ -119,12 +127,32 @@ public class VerifyMethodCallStatementProofGraphBegin extends MyAbstractAsynchro
 				long endTime = System.nanoTime();
 				long duration = (endTime - startTime) / 1_000_000;
 				startTime = System.nanoTime();
+				RunEvaluationForStatementPP.WHOLE_RUNTIME_START.add(duration + ""); //PG DEBUG
 				Console.println("\nVerification done."); 
 				Console.println("Time needed: " + duration + "ms");
-				//Somehow find Statement.key or always Statement1? TODO: Think about it
-				String location = fileHandler.getLocationString(getDiagram().eResource().getURI().toPlatformString(true)) + "/Statement2.key";
 
+				String location = fileHandler.getLocationString(getDiagram().eResource().getURI().toPlatformString(true));
+				IProofRepository proofRepo = new FileSystemProofRepository(location + "/proofRepository/");
+				FileNameManager manager = new FileNameManager();
+				String name = manager.getFileName(null, location, statement, "") + ".proof";
+				List<UUID> uuids = features.stream().map(f -> graph.getIdForFeature(f)).toList();
+				
+				String folderName = "";
+				
+				if (features.size() != 1) {
+					folderName += "/";
+					for (String feat : featureConfig) {
+						folderName += feat;
+					}
+					folderName += "/";
+				}
+				
+				proofRepo.savePartialProofForId(features, uuids, location + folderName + name);
 
+			} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+		}
 			}
 		}
 		

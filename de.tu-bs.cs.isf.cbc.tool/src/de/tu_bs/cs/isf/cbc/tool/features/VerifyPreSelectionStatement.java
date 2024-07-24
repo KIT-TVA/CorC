@@ -98,7 +98,6 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
-				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), null, 0, proofType);
 				if (isVariational) {
 					Console.println("Starting variational verification...\n");
 					String callingClass = uri.segment(uri.segmentCount()-2) + "";
@@ -115,7 +114,7 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 						for (int i = 0; i < variants.length; i++) {
 							genCode.setProofTypeInfo(i, proofType);
 							if(!genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i])) continue;
-							prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), featureConfigs[i], i, KeYInteraction.ABSTRACT_PROOF_FULL);
+							ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), featureConfigs[i], i, KeYInteraction.ABSTRACT_PROOF_FULL);
 							List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i], callingMethod);
 							String configName = "";
 							for (String s : featureConfigs[i]) configName += s;
@@ -124,6 +123,7 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 						}
 					}
 				} else {
+					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), null, 0, proofType);
 					Console.println("Starting verification...\n");
 					String callingClass = uri.segment(uri.segmentCount() - 2) + "";
 					proven = prove.provePreSelWithKey(null, statement.getGuards(), parent.getPreCondition());

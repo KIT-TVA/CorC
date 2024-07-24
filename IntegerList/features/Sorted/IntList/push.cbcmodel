@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
-  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="push" comment="" compositionTechnique="EXPLICIT_CONTRACTING" className="IntList" methodName="push">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="push" proven="true" comment="" compositionTechnique="EXPLICIT_CONTRACTING" className="IntList" methodName="push">
     <statement name="statement" id="0359c701-72f3-446e-96ad-33bdbf3a29df">
-      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="e3ae0d60-1fe8-4c91-be6e-70a65151eccf">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="e3ae0d60-1fe8-4c91-be6e-70a65151eccf">
         <firstStatement name="statement1" id="a65834d7-01ea-4cea-ba55-44fe43384b63">
-          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:OriginalStatement" name="original(newTop);" id="3c119bcc-f168-4523-801f-5bcb9956bb6a">
-            <postCondition name="\original_post">
-              <modifiables>\nothing</modifiables>
-            </postCondition>
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:OriginalStatement" name="original(newTop);" proven="true" id="3c119bcc-f168-4523-801f-5bcb9956bb6a">
+            <postCondition name="\original_post"/>
             <preCondition name="\original_pre &amp; sorted(data)"/>
           </refinement>
           <postCondition name="\original_post"/>
@@ -15,19 +13,19 @@
         </firstStatement>
         <secondStatement name="statement2" id="4d8695c1-655f-4f66-b6f8-9b5e11a7bce1">
           <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:MethodStatement" name="sort();" proven="true" id="f07928fb-1968-4d13-b165-1c828f63a8c3">
-            <postCondition name="\original_post &amp; sorted(data)">
+            <postCondition name="\original_post &amp; ((\forall int k; (0 &lt;= k &amp; k &lt; data.length-1 -> (data[k] >= data[k+1]))) | (\forall int k; (0 &lt;= k &amp; k &lt; data.length-1 -> (data[k] &lt;= data[k+1]))))">
               <modifiables>data[*]</modifiables>
             </postCondition>
             <preCondition name="\original_post"/>
           </refinement>
-          <postCondition name="\original_post &amp; sorted(data)">
+          <postCondition name="\original_post &amp; ((\forall int k; (0 &lt;= k &amp; k &lt; data.length-1 -> (data[k] >= data[k+1]))) | (\forall int k; (0 &lt;= k &amp; k &lt; data.length-1 -> (data[k] &lt;= data[k+1]))))">
             <modifiables>data[*]</modifiables>
           </postCondition>
           <preCondition name="\original_post"/>
         </secondStatement>
         <intermediateCondition name="\original_post"/>
       </refinement>
-      <postCondition name="\original_post &amp; sorted(data)">
+      <postCondition name="\original_post &amp; ((\forall int k; (0 &lt;= k &amp; k &lt; data.length-1 -> (data[k] >= data[k+1]))) | (\forall int k; (0 &lt;= k &amp; k &lt; data.length-1 -> (data[k] &lt;= data[k+1]))))">
         <modifiables>data[*]</modifiables>
       </postCondition>
       <preCondition name="\original_pre &amp; sorted(data)"/>

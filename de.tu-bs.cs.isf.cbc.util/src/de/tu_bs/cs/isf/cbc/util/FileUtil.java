@@ -225,7 +225,9 @@ public class FileUtil implements IFileUtil {
 	    keyHelperFile = new File(location + "/helper.key");
 	    String[] split = location.split("/");
 	    String proveFolder = split[split.length - 1];
-	    var newLoc = location.trim().replace("/" + proveFolder, "");
+	    //var newLoc = location.trim().replace("/" + proveFolder, ""); //REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+	    java.nio.file.Path path = Paths.get(location);
+	    String newLoc = path.getParent().toString();
 	    File keyFileBegin = new File(newLoc + "/" + keyFileName + ".proof");
 	    List<String> begin = readFileInList(keyFileBegin.toPath().toString());
 	    problem = "";

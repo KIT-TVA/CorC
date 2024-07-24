@@ -35,11 +35,10 @@ public final class FileSystemProofRepository implements IProofRepository {
 			}
 			currentFolder = currentFile;
 		}
-		Console.println(currentFolder.getPath());
+		Console.println("Loading: " + currentFolder.getPath());
 
 		try {
 			Files.copy(new File(currentFolder.getPath() + "/" + proofFileName), new File(location + proofFileName));
-			Console.println("Done");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

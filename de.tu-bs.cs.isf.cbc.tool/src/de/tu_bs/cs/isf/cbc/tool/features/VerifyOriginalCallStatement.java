@@ -17,6 +17,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPP;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
@@ -87,11 +88,16 @@ public class VerifyOriginalCallStatement extends MyAbstractAsynchronousCustomFea
 			}
 		}
 		// reset proof type since partial proofs also call this method.
-		proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1000000;
 		Console.println("\nVerification done."); 
+		if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN)) {
+			RunEvaluationForStatementPP.WHOLE_RUNTIME_START.add(duration + ""); //PG DEBUG
+		} else {
+			RunEvaluationForStatementPP.WHOLE_RUNTIME_COMPLETE.add(duration + ""); //PG DEBUG
+		}
 		Console.println("Time needed: " + duration + "ms");
+		proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
 		monitor.done();
 	}
 

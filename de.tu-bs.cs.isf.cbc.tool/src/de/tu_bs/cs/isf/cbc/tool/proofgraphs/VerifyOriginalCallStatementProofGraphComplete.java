@@ -25,6 +25,7 @@ import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPP;
 import de.tu_bs.cs.isf.cbc.util.Colors;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
@@ -131,7 +132,6 @@ long startTime = System.nanoTime();
 					
 					boolean proven = true;
 					for (String[] featureConfig : toProveConverted) {
-						//TODO: Determine fork if present and add to array
 						List<String> forkToUse = new ArrayList<>();
 						int bestForkLength = 0;
 						for (List<String> fork : forks) {
@@ -182,6 +182,7 @@ long startTime = System.nanoTime();
 		
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1_000_000;
+		RunEvaluationForStatementPP.WHOLE_RUNTIME_COMPLETE.add(duration + ""); //PG DEBUG
 		Console.println("\nVerification done."); 
 		Console.println("Time needed: " + duration + "ms");
 	}

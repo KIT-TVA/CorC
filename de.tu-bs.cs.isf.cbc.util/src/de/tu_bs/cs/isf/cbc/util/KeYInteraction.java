@@ -23,6 +23,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.proorepository.FileSystemProofRepository;
 import de.tu_bs.cs.isf.cbc.proorepository.IProofRepository;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPP;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraphCollection;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofNode;
@@ -105,8 +106,6 @@ public class KeYInteraction {
 			forbiddenRules + ",expand_def,cut,cut_direct"); // default
 		sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES,
 			forbiddenRules + ",definition_axiom,ifthenelse_split"); // default*/
-				/*sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, "");
-				sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, "");*/
 	    } else {
 	    	if (proofType.equals(ABSTRACT_T_RESOLVED_PROOF)) {
 	    		Console.println("Setting Rules");
@@ -136,25 +135,7 @@ public class KeYInteraction {
 	    switch (proofType) {
 	    case ABSTRACT_PROOF_FULL:
 		Console.println("  Start proof: " + location.getName());
-		if (monitor != null) {
-		    env.getUi().getProofControl().startAutoMode(proof);
-		    while (env.getUi().getProofControl().isInAutoMode()) {
-			if (monitor.isCanceled()) {
-			    env.getUi().getProofControl().stopAndWaitAutoMode();
-			    Console.println("  Proof is canceled.");
-			}
-		    }
-		} else {
-		    env.getUi().getProofControl().startAndWaitForAutoMode(proof);
-		}
-		try {
-		    // TODO: inlining may be important too
-		    StatDataCollector collector = new StatDataCollector();
-		    collector.collectCorcStatistics(proof, formula, statement, problem, uri);
-		} catch (RuntimeException e) {
-		    Console.println(
-			    "Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer.");
-		}
+		proofControl.startAndWaitForAutoMode(proof);
 		break;
 	    case ABSTRACT_PROOF_BEGIN:
 		Console.println("  Start partial proof: " + location.getName());
@@ -174,19 +155,18 @@ public class KeYInteraction {
 
 	    // Show proof result
 	    try {
-		// DEBUG START
-		/*
-		 * Consumer<RuleApp> rule = x -> System.out.println(x.rule().displayName());
-		 * proof.root().name(); Node n = proof.root();
+/*
+ * 		// DEBUG START
+		  Consumer<RuleApp> rule = x -> System.out.println(x.rule().displayName());
+		  proof.root().name(); Node n = proof.root();
 		 * while(n.childrenIterator().hasNext()) { n = n.childrenIterator().next();
 		 * //System.out.println(n.serialNr() + n.name()); //TODO debug }
-		 * //System.out.println("-----------------------");
-		 * //System.out.println("	Proof Type: " + proofType);
-		 * //System.out.println("	Proof nodes: " + proof.countNodes());
-		 * Console.println("time: " + proof.getAutoModeTime() + "        nodes:" +
 		 * proof.countNodes()); //System.out.println("-----------------------");
-		 */
 		// DEBUG END
+ */
+		Console.println("time: " + proof.getAutoModeTime() + "        nodes:" + proof.countNodes()); 
+		RunEvaluationForStatementPP.currentProofTimes += proof.getAutoModeTime();
+		RunEvaluationForStatementPP.currentProofNodes += proof.countNodes();
 		String locationWithoutFileEnding = location.toString().substring(0, location.toString().indexOf("."));
 		var keyFile = new File(locationWithoutFileEnding + ".proof");
 
