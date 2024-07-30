@@ -1002,6 +1002,7 @@ public class ProveWithKey {
 
     private static void readPredicates(String[] config, CbCFormula formula, String filePath) {
 	predicates = new ArrayList<Predicate>();
+	if (config == null) config = new String[0];
 	String projectName = getProjectName(formula, filePath);
 	filePath = filePath.substring(0, filePath.indexOf(projectName)) + projectName + "/predicates.def";
 	List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
