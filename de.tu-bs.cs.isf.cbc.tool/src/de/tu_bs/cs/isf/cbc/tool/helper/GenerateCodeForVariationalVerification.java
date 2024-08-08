@@ -245,7 +245,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 	    String helperClassName = helperLocation.split("/")[helperLocation.split("/").length - 1].replace(".java",
 		    "");
 	    fileHandler = new FileUtil(uri.toPlatformString(true));
-	    File file = fileHandler.getClassFile(helperClassName);
+ 	    File file = fileHandler.getSrcFile(helperClassName);
 	    if (file != null) {
 		helperCode = "\n// Code from " + helperLocation + "\n";
 		List<String> lines = fileHandler.readFileInList(file.getAbsolutePath());
