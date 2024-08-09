@@ -1,0 +1,328 @@
+{
+  "graphs": {
+    "transfer": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Transaction",
+            "method": "transfer",
+            "uuid": "2d3a0981-4986-43c2-aa6f-ee9ea36df199"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": [
+        [
+          {
+            "feature": "Transaction",
+            "method": "transfer",
+            "uuid": "2d3a0981-4986-43c2-aa6f-ee9ea36df199"
+          },
+          [
+            "ret \u003d source.undoUpdate",
+            "ret \u003d source.update",
+            "ret \u003d destination.update"
+          ]
+        ]
+      ],
+      "featureMap": {
+        "Transaction": [
+          "transfer"
+        ]
+      },
+      "idMap": {
+        "Transaction": "2d3a0981-4986-43c2-aa6f-ee9ea36df199"
+      }
+    },
+    "nextHour": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Interest",
+            "method": "nextHour",
+            "uuid": "22e728b9-d709-4943-bf4b-9e342e473f72"
+          },
+          [
+            {
+              "feature": "BankAccount",
+              "method": "nextHour",
+              "uuid": "c3681db8-0ac8-4c4b-abe4-ef1da734de48"
+            },
+            {
+              "feature": "HourlyLimit",
+              "method": "nextHour",
+              "uuid": "7f2b3153-8ef1-47f9-83b4-5c0b07553e33"
+            }
+          ]
+        ],
+        [
+          {
+            "feature": "BankAccount",
+            "method": "nextHour",
+            "uuid": "c3681db8-0ac8-4c4b-abe4-ef1da734de48"
+          },
+          []
+        ],
+        [
+          {
+            "feature": "HourlyLimit",
+            "method": "nextHour",
+            "uuid": "7f2b3153-8ef1-47f9-83b4-5c0b07553e33"
+          },
+          [
+            {
+              "feature": "BankAccount",
+              "method": "nextHour",
+              "uuid": "c3681db8-0ac8-4c4b-abe4-ef1da734de48"
+            }
+          ]
+        ]
+      ],
+      "varMethodCalls": [
+        [
+          {
+            "feature": "Interest",
+            "method": "nextHour",
+            "uuid": "22e728b9-d709-4943-bf4b-9e342e473f72"
+          },
+          [
+            "a.interest +\u003d a.interestCalculateDaily",
+            "a.interest +\u003d a.interestCalculateHourly"
+          ]
+        ]
+      ],
+      "featureMap": {
+        "Interest": [
+          "nextHour"
+        ],
+        "DailyLimit": [],
+        "HourlyLimit": [
+          "nextHour"
+        ],
+        "BankAccount": [
+          "nextHour"
+        ],
+        "Limit": []
+      },
+      "idMap": {
+        "Interest": "22e728b9-d709-4943-bf4b-9e342e473f72",
+        "DailyLimit": "8f5f6b80-1923-4890-92c1-c40e04a4f757",
+        "HourlyLimit": "7f2b3153-8ef1-47f9-83b4-5c0b07553e33",
+        "BankAccount": "c3681db8-0ac8-4c4b-abe4-ef1da734de48",
+        "Limit": "a5280d79-cf37-4dd0-a972-95802665303a"
+      }
+    },
+    "nextYear": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Interest",
+            "method": "nextYear",
+            "uuid": "d21e4091-47b1-4519-b8cf-4cf21abb8f0f"
+          },
+          [
+            {
+              "feature": "BankAccount",
+              "method": "nextYear",
+              "uuid": "5f01f70f-80bf-4a3f-8188-7c0e569f7edb"
+            }
+          ]
+        ],
+        [
+          {
+            "feature": "BankAccount",
+            "method": "nextYear",
+            "uuid": "5f01f70f-80bf-4a3f-8188-7c0e569f7edb"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": [
+        [
+          {
+            "feature": "Interest",
+            "method": "nextYear",
+            "uuid": "d21e4091-47b1-4519-b8cf-4cf21abb8f0f"
+          },
+          [
+            "a.interest +\u003d a.interestCalculateDaily",
+            "a.interest +\u003d a.interestCalculateHourly"
+          ]
+        ]
+      ],
+      "featureMap": {
+        "Interest": [
+          "nextYear"
+        ],
+        "DailyLimit": [],
+        "HourlyLimit": [],
+        "BankAccount": [
+          "nextYear"
+        ],
+        "Limit": []
+      },
+      "idMap": {
+        "Interest": "d21e4091-47b1-4519-b8cf-4cf21abb8f0f",
+        "DailyLimit": "cac5e7ab-9da6-4130-b53d-2c888fe5d258",
+        "HourlyLimit": "22d8dc98-d574-47ed-8355-954cad82849a",
+        "BankAccount": "5f01f70f-80bf-4a3f-8188-7c0e569f7edb",
+        "Limit": "9cb8304f-ccea-4362-b293-130bf3350f62"
+      }
+    },
+    "update": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Limit",
+            "method": "update",
+            "uuid": "e6e23f2b-f3d9-403b-a066-78b9a205ed78"
+          },
+          [
+            {
+              "feature": "BankAccount",
+              "method": "update",
+              "uuid": "78990091-b95d-44fa-98b3-4a74ac64ef4f"
+            }
+          ]
+        ],
+        [
+          {
+            "feature": "BankAccount",
+            "method": "update",
+            "uuid": "78990091-b95d-44fa-98b3-4a74ac64ef4f"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "BankAccount": [
+          "update"
+        ],
+        "Limit": [
+          "update"
+        ]
+      },
+      "idMap": {
+        "BankAccount": "78990091-b95d-44fa-98b3-4a74ac64ef4f",
+        "Limit": "e6e23f2b-f3d9-403b-a066-78b9a205ed78"
+      }
+    },
+    "undoUpdate": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "BankAccount",
+            "method": "undoUpdate",
+            "uuid": "61f2d6e2-720e-4ce0-b0c6-02f539bce4f5"
+          },
+          []
+        ],
+        [
+          {
+            "feature": "Limit",
+            "method": "undoUpdate",
+            "uuid": "90aa7cd1-7adc-40fc-a0a9-57edb504c9c6"
+          },
+          [
+            {
+              "feature": "BankAccount",
+              "method": "undoUpdate",
+              "uuid": "61f2d6e2-720e-4ce0-b0c6-02f539bce4f5"
+            }
+          ]
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "BankAccount": [
+          "undoUpdate"
+        ],
+        "Limit": [
+          "undoUpdate"
+        ]
+      },
+      "idMap": {
+        "BankAccount": "61f2d6e2-720e-4ce0-b0c6-02f539bce4f5",
+        "Limit": "90aa7cd1-7adc-40fc-a0a9-57edb504c9c6"
+      }
+    },
+    "nextDay": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "BankAccount",
+            "method": "nextDay",
+            "uuid": "6d29e00d-a4e9-45be-abd7-281e46886dfc"
+          },
+          []
+        ],
+        [
+          {
+            "feature": "DailyLimit",
+            "method": "nextDay",
+            "uuid": "32c78659-1d49-43e0-bb24-4f6c517d8b23"
+          },
+          [
+            {
+              "feature": "BankAccount",
+              "method": "nextDay",
+              "uuid": "6d29e00d-a4e9-45be-abd7-281e46886dfc"
+            }
+          ]
+        ],
+        [
+          {
+            "feature": "Interest",
+            "method": "nextDay",
+            "uuid": "0885737a-d8fd-416f-a483-66f1d07625e2"
+          },
+          [
+            {
+              "feature": "BankAccount",
+              "method": "nextDay",
+              "uuid": "6d29e00d-a4e9-45be-abd7-281e46886dfc"
+            },
+            {
+              "feature": "DailyLimit",
+              "method": "nextDay",
+              "uuid": "32c78659-1d49-43e0-bb24-4f6c517d8b23"
+            }
+          ]
+        ]
+      ],
+      "varMethodCalls": [
+        [
+          {
+            "feature": "Interest",
+            "method": "nextDay",
+            "uuid": "0885737a-d8fd-416f-a483-66f1d07625e2"
+          },
+          [
+            "a.interest +\u003d a.interestCalculateDaily"
+          ]
+        ]
+      ],
+      "featureMap": {
+        "Interest": [
+          "nextDay"
+        ],
+        "DailyLimit": [
+          "nextDay"
+        ],
+        "HourlyLimit": [],
+        "BankAccount": [
+          "nextDay"
+        ],
+        "Limit": []
+      },
+      "idMap": {
+        "Interest": "0885737a-d8fd-416f-a483-66f1d07625e2",
+        "DailyLimit": "32c78659-1d49-43e0-bb24-4f6c517d8b23",
+        "HourlyLimit": "6cbbd712-dc17-498d-9512-dcedbb1f0b06",
+        "BankAccount": "6d29e00d-a4e9-45be-abd7-281e46886dfc",
+        "Limit": "5a38ba23-6a7a-4ddc-8560-af8158b552dc"
+      }
+    }
+  }
+}

@@ -143,10 +143,15 @@ public class VerifyMethodCallStatementProofGraphComplete extends MyAbstractAsync
 					toProve.forEach(l -> {
 						Console.println("\t -" + Arrays.toString(l.toArray()));
 					});
-					
+					if (toProve.isEmpty()) {
+						Console.println("Not a variational method call");
+						toProve.add(List.of(VerifyFeatures.findValidProduct(List.of(callingFeature), project)));
+					}
 					Set<String[]> toProveConverted = verifyGraphStatement.convertArrays(toProve);
 					
 					boolean proven = true;
+					
+
 					for (String[] featureConfig : toProveConverted) {
 
 						FileNameManager manager = new FileNameManager();

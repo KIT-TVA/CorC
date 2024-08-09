@@ -9,6 +9,27 @@ public class Account {
     /*@ invariant balance >= OVERDRAFT_LIMIT; @*/
 
 
+
+	/*@
+	@ public normal_behavior
+	@ requires true;
+	@ ensures true;
+	@ assignable \nothing;
+	@*/
+	int /*@ pure @*/ length(int[] arr) {return arr.length;}
+
+
+
+
+	/*@
+	@ public normal_behavior
+	@ requires true;
+	@ ensures false;
+	@ assignable \nothing;
+	@*/
+	boolean /*@ pure @*/ noResolve() {return false;}
+
+
 	/*@
 	@ normal_behavior
 	@ requires true;
@@ -83,11 +104,11 @@ public class Account {
 	}
 
 	/*@
-    @ public normal_behavior
-    @ requires true;
-    @ ensures (\result == false ==> (withdraw == \old(withdraw) &&  balance == \old(balance))) && (\result == true ==> (withdraw <= \old(withdraw)) &&  balance == \old(balance) + x) && balance >= OVERDRAFT_LIMIT;
-    @ assignable withdraw;
-    @*/
+	@ normal_behavior
+	@ requires true;
+	@ ensures (\result == false ==> (withdraw == \old(withdraw) &&  balance == \old(balance))) && (\result == true ==> (withdraw <= \old(withdraw)) &&  balance == \old(balance) + x);
+	@ assignable withdraw;
+	@*/
 	public boolean update(int x) {
 		int newWithdraw;
 		boolean ret;
@@ -115,7 +136,7 @@ public class Account {
 
 	}
 
-// Code from C:/Users/mko/Documents/ISF/0_feat-CorC2.0modifiable/runtime-EclipseApplication/BankAccount/src/Account_helper.java
+// Code from C:/Users/Markus/Documents/Studium/6Semester/BA/workspaceFork/BankAccount/src/Account_helper.java
 	final static int INTEREST_RATE = 2;
 	
 	/*@
@@ -129,5 +150,5 @@ public class Account {
 		result = balance * INTEREST_RATE / 36500;
 		return result; 
 	}
-// End of code from C:/Users/mko/Documents/ISF/0_feat-CorC2.0modifiable/runtime-EclipseApplication/BankAccount/src/Account_helper.java
+// End of code from C:/Users/Markus/Documents/Studium/6Semester/BA/workspaceFork/BankAccount/src/Account_helper.java
 }

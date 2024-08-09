@@ -52,7 +52,7 @@ public class VerifyOriginalCallStatementProofGraphComplete extends MyAbstractAsy
 
 	@Override
 	public String getName() {
-		return "Verify an original-call statement as proof graph (complete)";
+		return "Verify an original-call statement using vdg-verification (complete)";
 	}
 
 	@Override

@@ -106,7 +106,7 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 						List<CbCFormula> refinements = verifyStatement.generateCbCFormulasForRefinements(variant, callingMethod);
 						List<JavaVariables> refinementVars = verifyStatement.generateJavaVariablesForRefinements(variant, callingMethod);
 						ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, fileHandler, featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_FULL);
-						if(!prove.proveStatementWithKey(null, refinements, refinementVars, false, false, callingMethod, "", callingClass, true)) {
+						if(!prove.proveStatementWithKey(null, refinements, refinementVars, bo instanceof ReturnStatement, false, callingMethod, "", callingClass, true)) {
 							proven = false;
 						}
 					}

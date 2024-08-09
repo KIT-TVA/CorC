@@ -392,5 +392,6 @@
   <colors green="127"/>
   <colors red="255"/>
   <colors/>
+  <colors red="252" green="207" blue="153"/>
   <fonts name="Arial" size="9" bold="true"/>
 </pi:Diagram>

@@ -2,7 +2,6 @@ package de.tu_bs.cs.isf.cbc.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -21,12 +19,7 @@ import org.key_project.util.collection.ImmutableSet;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.proorepository.FileSystemProofRepository;
-import de.tu_bs.cs.isf.cbc.proorepository.IProofRepository;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPP;
-import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
-import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraphCollection;
-import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofNode;
 import de.uka.ilkd.key.control.KeYEnvironment;
 import de.uka.ilkd.key.control.ProofControl;
 import de.uka.ilkd.key.gui.MainWindow;
@@ -136,6 +129,7 @@ public class KeYInteraction {
 	    case ABSTRACT_PROOF_FULL:
 		Console.println("  Start proof: " + location.getName());
 		proofControl.startAndWaitForAutoMode(proof);
+		Console.println("  Finish partial proof: " + location.getName());
 		break;
 	    case ABSTRACT_PROOF_BEGIN:
 		Console.println("  Start partial proof: " + location.getName());

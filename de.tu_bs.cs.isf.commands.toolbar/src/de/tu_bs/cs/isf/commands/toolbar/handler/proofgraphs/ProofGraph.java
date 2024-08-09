@@ -24,7 +24,6 @@ import de.tu_bs.cs.isf.cbc.util.Console;
 
 public class ProofGraph {
 	
-	// See if important (multiple edges get removed because set)
 	private final Map<ProofNode, Set<ProofNode>> adjacencyList;
 	private final Map<ProofNode, Set<String>> varMethodCalls;
 	private final Map<String, Set<String>> featureMap;
@@ -56,7 +55,6 @@ public class ProofGraph {
 		return idMap.get(feature);
 	}
 	
-	//TODO: Save method to proofgraph?
 	public Set<ProofNode> getNodesForFeature(String featureName, String method) {
 		return this.adjacencyList.get(new ProofNode(featureName, method, getIdForFeature(featureName)));
 	}
@@ -174,29 +172,6 @@ public class ProofGraph {
 		});
 	}
 
-	public String toMermaidWithMethods() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("graph\n");
-		/*
-		List<Set<String>> methods = this.adjacencyList.keySet().stream().map(ProofNode::getImplementedMethods).toList();
-		Set<String> reducedMethods = new HashSet<String>();
-		for (Set<String> method : methods) {
-			reducedMethods.addAll(method);
-		}
-		
-		reducedMethods.forEach(method -> builder.append(method + "(("+ method + "))\n"));
-		
-		this.adjacencyList.forEach((key, entry) -> {
-			builder.append(key.toString() + "\n");
-
-			key.getImplementedMethods().forEach(method -> {
-				builder.append(key.toString() + "-->" + method + "(("+ method + "))\n");
-			});
-			entry.forEach(val -> builder.append(key.toString() + "-->" + val.toString() + "\n"));
-		});*/
-		return builder.toString();
-	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof ProofGraph graph) {

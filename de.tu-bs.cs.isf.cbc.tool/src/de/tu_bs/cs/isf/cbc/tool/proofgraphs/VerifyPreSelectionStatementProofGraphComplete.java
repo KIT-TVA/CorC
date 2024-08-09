@@ -8,6 +8,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPP;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
 /**
@@ -59,13 +60,13 @@ public class VerifyPreSelectionStatementProofGraphComplete extends MyAbstractAsy
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
 			if (bo instanceof SelectionStatement) {
-
+					long endTime = System.nanoTime();
+					long duration = (endTime - startTime) / 1_000_000;
+					RunEvaluationForStatementPP.WHOLE_RUNTIME_COMPLETE.add(duration + ""); //PG DEBUG
+					Console.println("\nVerification done."); 
+					Console.println("Time needed: " + duration + "ms");
+					return;
 			}
 		}
-		long endTime = System.nanoTime();
-		long duration = (endTime - startTime) / 1000000;
-		Console.println("\nVerification done."); 
-		Console.println("Time needed: " + duration + "ms");
-		monitor.done();	
 	}
 }

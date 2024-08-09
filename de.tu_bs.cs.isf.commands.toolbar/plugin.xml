@@ -247,7 +247,7 @@
   </visibleWhen>
   </command>
  <command commandId="de.tu_bs.cs.isf.commands.toolbar.generategraph"
-     label = "Generate OD Graph">
+     label = "Generate VDGs for SPL">
       <visibleWhen>
            <with
                  variable="activeMenuSelection">

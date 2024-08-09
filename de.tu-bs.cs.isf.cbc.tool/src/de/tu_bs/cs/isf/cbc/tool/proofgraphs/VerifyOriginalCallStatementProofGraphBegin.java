@@ -50,7 +50,7 @@ public class VerifyOriginalCallStatementProofGraphBegin extends MyAbstractAsynch
 
 	@Override
 	public String getName() {
-		return "Verify an original-call statement as proof graph (begin)";
+		return "Verify an original-call statement using vdg-verification (begin)";
 	}
 
 	@Override

@@ -78,11 +78,28 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 		}
 		
 		ProofGraphCollection graphCollection = new ProofGraphCollection(featureModel);
+
+		Set<String> methods = new HashSet<String>();
+		for (IFeature feature : featureModel.getFeatures()) {
+			String featurePath = project.getLocation() + "/features/" + feature.getName();
+			File featureDir = new File(featurePath);
+			if (featureDir.exists()) {
+				for (File featureClass : featureDir.listFiles()) {
+					for (File featureFile : featureClass.listFiles()) {
+						if (featureFile.getName().endsWith(".cbcmodel")) {
+							methods.add(featureFile.getName().split("\\.")[0]);
+						}
+					}
+				}
+			}
+		}
+		
 		for (IFeature feature : featureModel.getFeatures()) {
 
 			Console.println("Now generating feature: " + feature, Colors.GREEN);
 			String featurePath = project.getLocation() + "/features/" + feature.getName();
 			File featureDir = new File(featurePath);
+			
 			
 			if (featureDir.exists()) {
 				for (File featureClass : featureDir.listFiles()) {
@@ -104,12 +121,25 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 							if (cont instanceof CbCFormula cbcForm) {
 								findVarMethodCalls(cbcForm.getStatement(), 0);
 								if (!this.varMethodCalls.isEmpty()) {
-									Console.println("Found (Variational) Method Calls:");
-									graph.setVarMethodCalls(nodeA, varMethodCalls);
-									this.varMethodCalls.forEach(m -> {
-										Console.println("\t-" + m);
-									});
-								}
+									Set<String> varM = new HashSet<String>();
+									for (String m : varMethodCalls) {
+										for (String m2 : methods) {
+											Console.println("If " + m + " contains " + m2);
+											if (m.contains(m2)) {
+												varM.add(m2);
+											}
+										}
+									}
+									
+									if (!varM.isEmpty()) {
+										Console.println("Found (Variational) Method Calls:");
+										graph.setVarMethodCalls(nodeA, varM);
+										varM.forEach(m -> {
+											Console.println("\t-" + m);
+										});
+
+									}
+																	}
 								if (hasOriginalCall(cbcForm.getStatement(), 0)) {
 									int index = Math.max(featureModel.getFeatureOrderList().indexOf(feature.getName()) - 1, 0);
 									IFeature featureB = featureModel.getFeature(featureModel.getFeatureOrderList().get(index));

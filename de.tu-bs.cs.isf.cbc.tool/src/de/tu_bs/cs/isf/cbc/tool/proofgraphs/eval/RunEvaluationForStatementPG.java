@@ -14,12 +14,15 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyMethodCallStatement;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyMethodCallStatementProofGraphBegin;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyMethodCallStatementProofGraphComplete;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyOriginalCallStatementProofGraphBegin;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyOriginalCallStatementProofGraphComplete;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyPreSelectionStatementProofGraphBegin;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyPreSelectionStatementProofGraphComplete;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyStatementProofGraphBegin;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyStatementProofGraphComplete;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -58,10 +61,17 @@ public class RunEvaluationForStatementPG extends MyAbstractAsynchronousCustomFea
 				VerifyOriginalCallStatementProofGraphBegin pgOriginalBegin = new VerifyOriginalCallStatementProofGraphBegin(getFeatureProvider());
 				VerifyStatementProofGraphBegin pgBegin = new VerifyStatementProofGraphBegin(getFeatureProvider());
 				VerifyMethodCallStatementProofGraphBegin pgMethodBegin = new VerifyMethodCallStatementProofGraphBegin(getFeatureProvider());
+				VerifyPreSelectionStatementProofGraphBegin pgSelection = new VerifyPreSelectionStatementProofGraphBegin(getFeatureProvider());
 				MyJobChangeListener listener = new MyJobChangeListener(20, bo, context);
+
+				if (bo instanceof SelectionStatement) {
+					Console.println("==========ProofStart==========");
+					manager.addJobChangeListener(listener);
+					pgSelection.execute(context);
+				} else {
 				String preFormula = Parser.getConditionFromCondition(((AbstractStatement) bo).getPreCondition().getName());
 				String postFormula = Parser.getConditionFromCondition(((AbstractStatement) bo).getPostCondition().getName());
-				if (bo instanceof VerifyMethodCallStatement) {
+					if (bo instanceof VerifyMethodCallStatement) {
 					Console.println("==========ProofStart==========");
 					manager.addJobChangeListener(listener);
 					pgMethodBegin.execute(context);
@@ -77,7 +87,9 @@ public class RunEvaluationForStatementPG extends MyAbstractAsynchronousCustomFea
 					pgBegin.execute(context);
 
 				}
-		}
+
+				}
+						}
 		
 	}
 
@@ -115,6 +127,8 @@ private class MyJobChangeListener implements IJobChangeListener  {
 		VerifyOriginalCallStatementProofGraphComplete pgOriginalComplete = new VerifyOriginalCallStatementProofGraphComplete(getFeatureProvider());
 		VerifyMethodCallStatementProofGraphBegin pgMethodBegin = new VerifyMethodCallStatementProofGraphBegin(getFeatureProvider());
 		VerifyMethodCallStatementProofGraphComplete pgMethodComplete = new VerifyMethodCallStatementProofGraphComplete(getFeatureProvider());
+		VerifyPreSelectionStatementProofGraphBegin pgSelectionBegin = new VerifyPreSelectionStatementProofGraphBegin(getFeatureProvider());
+		VerifyPreSelectionStatementProofGraphComplete pgSelectionComplete = new VerifyPreSelectionStatementProofGraphComplete(getFeatureProvider());
 
 		if (
 					 event.getJob().getName().equals(pgBegin.getName())
@@ -123,6 +137,8 @@ private class MyJobChangeListener implements IJobChangeListener  {
 				|| event.getJob().getName().equals(pgOriginalComplete.getName())
 				|| event.getJob().getName().equals(pgMethodBegin.getName())
 				|| event.getJob().getName().equals(pgMethodComplete.getName())
+				|| event.getJob().getName().equals(pgSelectionBegin.getName())
+				|| event.getJob().getName().equals(pgSelectionComplete.getName())
 				) {
 		if (RunEvaluationForStatementPP.current < rounds) {
 
@@ -138,9 +154,19 @@ private class MyJobChangeListener implements IJobChangeListener  {
 				RunEvaluationForStatementPP.currentProofTimes = 0;
 				RunEvaluationForStatementPP.currentProofNodes = 0;
 			}
-			String preFormula = Parser.getConditionFromCondition(((AbstractStatement) bo).getPreCondition().getName());
+				if (bo instanceof SelectionStatement) {
+					if (proofStart) {
+						Console.println("==========ProofStart==========");
+						pgSelectionBegin.execute(context);
+					} else {
+						Console.println("==========ProofCompletion==========");
+						pgSelectionComplete.execute(context);
+					}	
+				} else {
+					String preFormula = Parser.getConditionFromCondition(((AbstractStatement) bo).getPreCondition().getName());
 			String postFormula = Parser.getConditionFromCondition(((AbstractStatement) bo).getPostCondition().getName());
-			if (bo instanceof MethodStatement) {
+
+			 if (bo instanceof MethodStatement) {
 					if (proofStart) {
 						Console.println("==========ProofStart==========");
 						pgMethodBegin.execute(context);
@@ -165,7 +191,9 @@ private class MyJobChangeListener implements IJobChangeListener  {
 						Console.println("==========ProofCompletion==========");
 						pgComplete.execute(context);
 					}
+				}			
 				}
+
 			proofStart = !proofStart;
 
 		} else {

@@ -1,6 +1,5 @@
 package de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -14,14 +13,12 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
+import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyMethodCallStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyOriginalCallStatement;
+import de.tu_bs.cs.isf.cbc.tool.features.VerifyPreSelectionStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
-import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyOriginalCallStatementPartialProofBegin;
-import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyOriginalCallStatementPartialProofComplete;
-import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyStatementPartialProofBegin;
-import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyStatementPartialProofComplete;
 import de.tu_bs.cs.isf.cbc.util.Console;
 
 public class RunEvaluationForStatementPBV extends MyAbstractAsynchronousCustomFeature {
@@ -57,7 +54,13 @@ public class RunEvaluationForStatementPBV extends MyAbstractAsynchronousCustomFe
 				VerifyStatement verifyStatement = new VerifyStatement(getFeatureProvider());
 				VerifyOriginalCallStatement verifyOriginalCall = new VerifyOriginalCallStatement(getFeatureProvider());
 				VerifyMethodCallStatement verifyMethodCall = new VerifyMethodCallStatement(getFeatureProvider());
+				VerifyPreSelectionStatement pgSelection = new VerifyPreSelectionStatement(getFeatureProvider());
 				MyJobChangeListener listener = new MyJobChangeListener(10, bo, context);
+				if (bo instanceof SelectionStatement) {
+					Console.println("==========ProofStart==========");
+					manager.addJobChangeListener(listener);
+					pgSelection.execute(context);
+				} else 
 				if (bo instanceof MethodStatement) {
 					Console.println("==========ProofStart==========");
 					manager.addJobChangeListener(listener);
@@ -110,10 +113,12 @@ private class MyJobChangeListener implements IJobChangeListener  {
 		VerifyStatement verifyStatement = new VerifyStatement(getFeatureProvider());
 		VerifyOriginalCallStatement verifyOriginalCall = new VerifyOriginalCallStatement(getFeatureProvider());
 		VerifyMethodCallStatement verifyMethodCall = new VerifyMethodCallStatement(getFeatureProvider());
+		VerifyPreSelectionStatement pgSelection = new VerifyPreSelectionStatement(getFeatureProvider());
 		if (
 					 event.getJob().getName().equals(verifyStatement.getName())
 					 || event.getJob().getName().equals(verifyOriginalCall.getName())
 					 || event.getJob().getName().equals(verifyMethodCall.getName())
+					 || event.getJob().getName().equals(pgSelection.getName())
 				) {
 		if (RunEvaluationForStatementPP.current < rounds) {
 
@@ -122,7 +127,10 @@ private class MyJobChangeListener implements IJobChangeListener  {
 				RunEvaluationForStatementPP.NODES_COMPLETE.add(RunEvaluationForStatementPP.currentProofNodes + "");
 				RunEvaluationForStatementPP.currentProofTimes = 0;
 				RunEvaluationForStatementPP.currentProofNodes = 0;
-				if (bo instanceof MethodStatement) {
+				if (bo instanceof SelectionStatement) {
+						Console.println("==========ProofCompletion==========");
+						pgSelection.execute(context);				
+				} else if (bo instanceof MethodStatement) {
 						Console.println("==========ProofCompletion==========");
 						verifyMethodCall.execute(context);
 

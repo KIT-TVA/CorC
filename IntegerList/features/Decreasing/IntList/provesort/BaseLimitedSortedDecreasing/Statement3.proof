@@ -50,7 +50,7 @@
         "MaximumNumberOfAutomaticApplications" : 2147483647,
         "Timeout" : -1,
         "options" : { 
-            "ABSTRACT_PROOF_FIRST_ORDER_GOALS_FORBIDDEN" : "true",
+            "ABSTRACT_PROOF_FIRST_ORDER_GOALS_FORBIDDEN" : "false",
             "ABSTRACT_PROOF_FORBIDDEN_RULES" : "",
             "ABSTRACT_PROOF_FORBIDDEN_RULE_SETS" : "",
             "AUTO_INDUCTION_OPTIONS_KEY" : "AUTO_INDUCTION_OFF",
@@ -78,7 +78,7 @@
      }
  } 
 
-\javaSource "C:/Important/Work/CorC/IntegerList";
+\javaSource "C:/Users/Markus/Documents/Studium/6Semester/BA/workspaceFork/IntegerList";
 \include "helper.key";
 \programVariables {
 int tmp;
@@ -214,9 +214,9 @@ Heap heapAtPre;
 }
 
 \proof {
-(keyLog "0" (keyUser "Fynn" ) (keyVersion "1fb0c10630b493ce138850ae0f9803d3f2fffc51"))
+(keyLog "0" (keyUser "Markus" ) (keyVersion "255661ae2f2ff3b2df9506575116825ddb2e1159"))
 
-(autoModeTime "1734")
+(autoModeTime "893")
 
 (branch "dummy ID"
  (builtin "One Step Simplification" (formula "1"))

@@ -101,11 +101,11 @@ public class VerifyStatementProofGraphComplete extends MyAbstractAsynchronousCus
 	public List<List<String>> generateAllPaths(ProofGraph graph) {
 		List<List<String>> paths = new ArrayList<List<String>>();
 		
-		Set<ProofNode> pathStarts = graph.getAdjacencyList().keySet();
+		Set<ProofNode> pathStarts = new HashSet<>(graph.getAdjacencyList().keySet());
 		
-		graph.getAdjacencyList().forEach((__, entry) -> {
+		for (Set<ProofNode> entry : graph.getAdjacencyList().values()) {
 			pathStarts.removeAll(entry);
-		});
+		}
 		
 		for (ProofNode node : pathStarts) {
 			List<String> localPathList = new ArrayList<String>();

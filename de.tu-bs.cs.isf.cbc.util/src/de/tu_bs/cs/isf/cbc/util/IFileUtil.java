@@ -8,6 +8,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 public interface IFileUtil {
 
 	public File getClassFile(String className);
+	
+	public File getSrcFile(String className);
 
 	public List<String> readFileInList(String path);
 

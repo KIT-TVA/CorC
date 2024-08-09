@@ -17,6 +17,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
 import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPP;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
@@ -76,50 +77,45 @@ public class VerifyPreSelectionStatementProofGraphBegin extends MyAbstractAsynch
 				SelectionStatement statement = (SelectionStatement) bo;
 				AbstractStatement parent = statement.getParent();
 				
-				if (statement.getPreCondition().toString().contains("original")) {
-					VerifyOriginalCallStatementProofGraphBegin original = new VerifyOriginalCallStatementProofGraphBegin(getFeatureProvider());
-					original.execute(context);
-				} else {
-					boolean proven = false;
-					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
-					URI uri = getDiagram().eResource().getURI();
-					IProject project = FileUtil.getProjectFromFileInProject(uri);
+				boolean proven = false;
+				String uriString = getDiagram().eResource().getURI().toPlatformString(true);
+				URI uri = getDiagram().eResource().getURI();
+				IProject project = FileUtil.getProjectFromFileInProject(uri);
 
-					Console.println("Starting variational verification...\n");
-					String callingClass = uri.segment(uri.segmentCount()-2) + "";
-					String callingFeature = uri.segment(uri.segmentCount()-3) + "";
-					String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
+				Console.println("Starting variational verification...\n");
+				String callingClass = uri.segment(uri.segmentCount()-2) + "";
+				String callingFeature = uri.segment(uri.segmentCount()-3) + "";
+				String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
 
-					String[] featureConfig = VerifyFeatures.findValidProduct(List.of(callingFeature), project);
-					String[][] variantWrapper = {featureConfig};
+				String[] featureConfig = VerifyFeatures.findValidProduct(List.of(callingFeature), project);
+				String[][] variantWrapper = {featureConfig};
 
-					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
-					VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
-					
-					String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(variantWrapper, callingFeature, callingClass);
-					for (int i = 0; i < variants.length; i++) {
-						ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_BEGIN);
-						genCode.setProofTypeInfo(i, KeYInteraction.ABSTRACT_PROOF_BEGIN);
-						if(!genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, variantWrapper[i])) continue;
-						prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), variantWrapper[i], i, KeYInteraction.ABSTRACT_PROOF_BEGIN);
-						List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i], callingMethod);
-						String configName = "";
-						for (String s : variantWrapper[i]) configName += s;
-						prove.setConfigName(configName);
-						proven = prove.provePreSelWithKey(refinements, statement.getGuards(), parent.getPreCondition());
-					}
-
-					if (proven) {
-						statement.setPreProve(true);
-					} else {
-						statement.setPreProve(false);
-					}
-					updatePictogramElement(((Shape)pes[0]).getContainer());				
+				GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
+				VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
+				
+				String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(variantWrapper, callingFeature, callingClass);
+				for (int i = 0; i < variants.length; i++) {
+					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_FULL);
+					genCode.setProofTypeInfo(i, KeYInteraction.ABSTRACT_PROOF_BEGIN);
+					if(!genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, variantWrapper[i])) continue;
+					List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i], callingMethod);
+					String configName = "";
+					for (String s : variantWrapper[i]) configName += s;
+					prove.setConfigName(configName);
+					proven = prove.provePreSelWithKey(refinements, statement.getGuards(), parent.getPreCondition());
 				}
+
+				if (proven) {
+					statement.setPreProve(true);
+				} else {
+					statement.setPreProve(false);
+				}
+				updatePictogramElement(((Shape)pes[0]).getContainer());				
 			}
 		}
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1000000;
+		RunEvaluationForStatementPP.WHOLE_RUNTIME_START.add(duration + ""); //PG DEBUG
 		Console.println("\nVerification done."); 
 		Console.println("Time needed: " + duration + "ms");
 		monitor.done();	
