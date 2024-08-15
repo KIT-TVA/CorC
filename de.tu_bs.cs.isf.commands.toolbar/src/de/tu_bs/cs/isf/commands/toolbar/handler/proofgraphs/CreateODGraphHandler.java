@@ -69,6 +69,7 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 	}
 	
 	private void createGraphForProject(IProject project) {
+		long start = System.currentTimeMillis();
 		Path featureModelPath = Paths.get(project.getLocation() + "/model.xml");
 		IFeatureModel featureModel = FeatureModelManager.load(featureModelPath);
 		
@@ -185,6 +186,9 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 		} catch (JsonIOException | IOException | CoreException e) {
 			e.printStackTrace();
 		}
+		
+		long end = System.currentTimeMillis();
+		Console.println("Graph Creation Time: " + (end - start));
 	}
 	
 	private void findVarMethodCalls(AbstractStatement statement, int depth) {

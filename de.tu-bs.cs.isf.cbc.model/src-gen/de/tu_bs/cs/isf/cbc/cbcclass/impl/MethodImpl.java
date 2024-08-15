@@ -523,15 +523,29 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__VISIBILITY, oldVisibility, visibility));
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getSignature() {
-		String staticString = isStatic ? "static " : "";		String params = "";		if (getParameters().size() > 0) {			for (Parameter param : parameters) {				if (!param.getName().equals("ret")) {					params += param.getType() + " " + param.getName() + ", ";				}			}			params = params.substring(0, params.length() - 2);		}		return visibility.toString().toLowerCase() + " " + staticString + returnType + " " + name + "(" + params + ")";
-	}
+
+/**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated NOT
+       */
+       @Override
+       public String getSignature() {
+             String staticString = isStatic ? "static " : "";
+             String params = "";
+             if (getParameters().size() > 0) {
+                    for (Parameter param : parameters) {
+                          if (!param.getName().equals("ret")) {
+                                 params += param.getType() + " " + param.getName() + ", ";
+                          }
+                    }
+                    if (params.length() != 0)
+                          params = params.substring(0, params.length() - 2);
+             }
+             return visibility.toString().toLowerCase() + " " + staticString + returnType + " " + name + "(" + params + ")";
+       }
+
+
 
 	/**
 	 * <!-- begin-user-doc -->

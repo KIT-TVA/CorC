@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="isBlocked" proven="true" comment="" className="Elevator" methodName="isBlocked">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="isBlocked" proven="true" comment="" className="Elevator" methodName="isBlocked">
     <statement name="statement" id="498854dc-b7eb-495e-9060-2cf50664a22c">
-      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.blocked;" proven="true" comment="returnStatement" id="7d398ede-9ddd-46a7-9140-f8da0f2c733f">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:ReturnStatement" name="this.blocked;" proven="true" comment="returnStatement" id="7d398ede-9ddd-46a7-9140-f8da0f2c733f">
         <postCondition name="((this.blocked = TRUE -> \result = TRUE)&#xD;&#xA;&amp; (this.blocked = FALSE -> \result = FALSE))">
           <modifiables>ret</modifiables>
         </postCondition>
@@ -16,6 +16,6 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.4"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
 </xmi:XMI>

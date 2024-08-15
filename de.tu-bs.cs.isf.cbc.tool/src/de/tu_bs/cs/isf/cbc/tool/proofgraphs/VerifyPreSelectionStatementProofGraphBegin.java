@@ -105,11 +105,7 @@ public class VerifyPreSelectionStatementProofGraphBegin extends MyAbstractAsynch
 					proven = prove.provePreSelWithKey(refinements, statement.getGuards(), parent.getPreCondition());
 				}
 
-				if (proven) {
-					statement.setPreProve(true);
-				} else {
-					statement.setPreProve(false);
-				}
+				statement.setPreProve(proven);
 				updatePictogramElement(((Shape)pes[0]).getContainer());				
 			}
 		}

@@ -22,7 +22,6 @@ import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyMethodCallStatementProofGraphC
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyOriginalCallStatementProofGraphBegin;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyOriginalCallStatementProofGraphComplete;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyPreSelectionStatementProofGraphBegin;
-import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyPreSelectionStatementProofGraphComplete;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyStatementProofGraphBegin;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyStatementProofGraphComplete;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -128,7 +127,6 @@ private class MyJobChangeListener implements IJobChangeListener  {
 		VerifyMethodCallStatementProofGraphBegin pgMethodBegin = new VerifyMethodCallStatementProofGraphBegin(getFeatureProvider());
 		VerifyMethodCallStatementProofGraphComplete pgMethodComplete = new VerifyMethodCallStatementProofGraphComplete(getFeatureProvider());
 		VerifyPreSelectionStatementProofGraphBegin pgSelectionBegin = new VerifyPreSelectionStatementProofGraphBegin(getFeatureProvider());
-		VerifyPreSelectionStatementProofGraphComplete pgSelectionComplete = new VerifyPreSelectionStatementProofGraphComplete(getFeatureProvider());
 
 		if (
 					 event.getJob().getName().equals(pgBegin.getName())
@@ -138,7 +136,6 @@ private class MyJobChangeListener implements IJobChangeListener  {
 				|| event.getJob().getName().equals(pgMethodBegin.getName())
 				|| event.getJob().getName().equals(pgMethodComplete.getName())
 				|| event.getJob().getName().equals(pgSelectionBegin.getName())
-				|| event.getJob().getName().equals(pgSelectionComplete.getName())
 				) {
 		if (RunEvaluationForStatementPP.current < rounds) {
 
@@ -160,7 +157,6 @@ private class MyJobChangeListener implements IJobChangeListener  {
 						pgSelectionBegin.execute(context);
 					} else {
 						Console.println("==========ProofCompletion==========");
-						pgSelectionComplete.execute(context);
 					}	
 				} else {
 					String preFormula = Parser.getConditionFromCondition(((AbstractStatement) bo).getPreCondition().getName());
