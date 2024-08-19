@@ -1,7 +1,6 @@
 public class IntList {
 
     public int[] data;
-    public int LIMIT;
 
     /*@ invariant data != null; @*/
     /*@ invariant this != null; @*/
@@ -34,7 +33,7 @@ public class IntList {
 	@ ensures (\exists int v; (0 <= v && v < data.length && data[v] == newTop))&& ((\forall int k; (0 <= k && k < \old(data).length ==> (\exists int z; (0 <= z && z < data.length && data[z] == \old(data)[k])))));
 	@ assignable data[*];
 	@*/
-	public void original_original_push(int newTop) {
+	public void original_push(int newTop) {
 		int i;
 		int[] tmp;
 		tmp = new int[data.length+1];
@@ -50,23 +49,8 @@ public class IntList {
 
 	/*@
 	@ normal_behavior
-	@ requires true;
-	@ ensures (\old(data).length < LIMIT) ==> (\exists int v; (0 <= v && v < data.length && data[v] == newTop))&& ((\forall int k; (0 <= k && k < \old(data).length ==> (\exists int z; (0 <= z && z < data.length && data[z] == \old(data)[k])))));
-	@ assignable \nothing;
-	@*/
-	public void original_push(int newTop) {
-		if (data.length < LIMIT) {
-			original_original_push(newTop);
-		} else if (data.length >= LIMIT) {
-			;
-		}
-
-	}
-
-	/*@
-	@ normal_behavior
 	@ requires true && ((\forall int k; (0 <= k && k < data.length-1 ==> (data[k] >= data[k+1]))) || (\forall int k; (0 <= k && k < data.length-1 ==> (data[k] <= data[k+1]))));
-	@ ensures (\old(data).length < LIMIT) ==> (\exists int v; (0 <= v && v < data.length && data[v] == newTop))&& ((\forall int k; (0 <= k && k < \old(data).length ==> (\exists int z; (0 <= z && z < data.length && data[z] == \old(data)[k]))))) && ((\forall int k; (0 <= k && k < data.length-1 ==> (data[k] >= data[k+1]))) || (\forall int k; (0 <= k && k < data.length-1 ==> (data[k] <= data[k+1]))));
+	@ ensures (\exists int v; (0 <= v && v < data.length && data[v] == newTop))&& ((\forall int k; (0 <= k && k < \old(data).length ==> (\exists int z; (0 <= z && z < data.length && data[z] == \old(data)[k]))))) && ((\forall int k; (0 <= k && k < data.length-1 ==> (data[k] >= data[k+1]))) || (\forall int k; (0 <= k && k < data.length-1 ==> (data[k] <= data[k+1]))));
 	@ assignable data[*];
 	@*/
 	public void push(int newTop) {
