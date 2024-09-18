@@ -1,4 +1,4 @@
-package de.tu_bs.cs.isf.cbc.tool.features;
+package de.tu_bs.cs.isf.cbc.util;
 
 import java.util.Collection;
 import java.util.Collections;
