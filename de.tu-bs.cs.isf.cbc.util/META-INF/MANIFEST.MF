@@ -26,8 +26,7 @@ Export-Package: de.tu_bs.cs.isf.cbc.util,
  de.tu_bs.cs.isf.cbc.util.consts,
  de.tu_bs.cs.isf.cbc.util.diagnostics,
  de.tu_bs.cs.isf.cbc.util.statistics
-Import-Package: de.tu_bs.cs.isf.corc.predicateWizard,
- org.eclipse.emf.ecore.xmi.impl;version="2.35.0",
+Import-Package: org.eclipse.emf.ecore.xmi.impl;version="2.35.0",
  org.emftext.language.java.resource.java.util
 Bundle-ClassPath: lib/antlr-3.4.jar,
  lib/de.ovgu.featureide.lib.fm-v3.6.2.jar,

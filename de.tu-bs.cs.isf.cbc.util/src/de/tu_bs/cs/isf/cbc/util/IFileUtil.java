@@ -11,8 +11,6 @@ public interface IFileUtil {
 	
 	public File getClassFile(String className);
 
-    public File getClassFile(String className);
-
     public List<String> readFileInList(String path);
 
     public File writeFile(String proofType, String problem, String helper, String location, boolean override,

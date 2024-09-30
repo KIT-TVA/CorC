@@ -9,9 +9,9 @@ public class Predicate {
 	public String name;
 	public List<PredicateDefinition> definitions;
 	public List<String> varsTerms;
-	
+
 	public String additionalRules;
-	
+
 	public Predicate(String signature) {
 		this.signature = signature;
 		this.varsTerms = new ArrayList<>();
@@ -19,24 +19,25 @@ public class Predicate {
 		this.name = signature.substring(0, signature.indexOf("("));
 		resolveVars();
 	}
-	
+
 	public void resolveVars() {
 		varsTerms.clear();
-		String[] signatureSplit = this.signature.substring(this.signature.indexOf("(") + 1, this.signature.indexOf(")")).split(",");
+		String[] signatureSplit = this.signature.substring(this.signature.indexOf("(") + 1, this.signature.indexOf(")"))
+				.split(",");
 		for (int i = 0; i < signatureSplit.length; i++) {
 			if (!signatureSplit[i].trim().equals("")) {
 				varsTerms.add(signatureSplit[i].trim());
 			}
 		}
 	}
-	
+
 	public String removeNamesFromSignature(String sig) {
 		String output = sig.substring(0, sig.indexOf("(") + 1);
 		sig = sig.substring(sig.indexOf("(") + 1, sig.length() - 2);
 		for (String s : sig.split(",")) {
 			output += s.trim().split(" ")[0] + ", ";
 		}
-		return output.substring(0,output.length() - 2) + ")";
+		return output.substring(0, output.length() - 2) + ")";
 	}
 
 	public String getSignature(boolean withVarNames) {
@@ -48,9 +49,9 @@ public class Predicate {
 				output += var.split(" ")[0] + ", ";
 			}
 		}
-		return output.substring(0, output.length()-2) + ")";
+		return output.substring(0, output.length() - 2) + ")";
 	}
-	
+
 	public String getFindTerm() {
 		String output = this.name + "(";
 		for (String var : varsTerms) {
@@ -58,7 +59,7 @@ public class Predicate {
 				output += var.split(" ")[1] + ", ";
 			}
 		}
-		return output.substring(0, output.length()-2) + ")";
+		return output.substring(0, output.length() - 2) + ")";
 	}
 
 	public String print() {
@@ -83,7 +84,7 @@ public class Predicate {
 			for (String s : def.varsBound) {
 				output += "\t\t\\schemaVar \\variable " + s + ";\n";
 			}
-		}		
+		}
 		output += "\t\t\\find (" + getFindTerm() + ")\n";
 		String freeIn = "\t\t\\varcond (";
 		for (PredicateDefinition def : definitions) {
@@ -94,7 +95,8 @@ public class Predicate {
 					}
 				}
 			}
-			if (freeIn.endsWith(", ")) freeIn = freeIn.substring(0, freeIn.length() - 2);
+			if (freeIn.endsWith(", "))
+				freeIn = freeIn.substring(0, freeIn.length() - 2);
 			freeIn += ")\n";
 		}
 		output += freeIn.contains("notFreeIn") ? freeIn : "";

@@ -37,7 +37,7 @@ import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
  */
 public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustomFeature {
 	private String proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
-	
+
 	public void setProofType(String proofType) {
 		this.proofType = proofType;
 	}
@@ -45,8 +45,7 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 	/**
 	 * Constructor of the class
 	 * 
-	 * @param fp
-	 *            The FeatureProvider
+	 * @param fp The FeatureProvider
 	 */
 	public VerifyVariantWithoutInnerLoops(IFeatureProvider fp) {
 		super(fp);
@@ -113,27 +112,34 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
-				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), null, 0, proofType);
+				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), null,
+						0, proofType);
 				if (isVariational) {
-					Console.println("--------------- Triggered variational verification ---------------");
+					Console.println("Starting variational verification...\n");
 					String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 					String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 					String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
-					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
-					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
+					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount() - 1),
+							true, callingClass, false, null);
+					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(
+							super.getFeatureProvider());
 					for (int i = 0; i < featureConfigs.length; i++) {
-						prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), featureConfigs[i], i, proofType);
-						genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
+						prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString),
+								featureConfigs[i], i, proofType);
+						genCode.generate(
+								FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(),
+								callingFeature, callingClass, callingMethod, featureConfigs[i]);
 						String configName = "";
-						for (String s : featureConfigs[i]) configName += s;
+						for (String s : featureConfigs[i])
+							configName += s;
 						prove.setConfigName(configName);
 						proven = prove.proveVariantWithKey(code, invariant, guard, variant);
 					}
 				} else {
-					Console.println("--------------- Triggered verification ---------------");
+					Console.println("Starting verification...\n");
 					proven = prove.proveVariantWithKey(code, invariant, guard, variant);
-					}		
-				Console.println("--------------- Verification completed --------------- ");
+				}
+				Console.println("\nVerification done.");
 
 				if (proven) {
 					if (statement instanceof SmallRepetitionStatement) {
@@ -146,7 +152,7 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 						repStatement.setVariantProven(false);
 					}
 				}
-				updatePictogramElement(((Shape)pes[0]).getContainer());
+				updatePictogramElement(((Shape) pes[0]).getContainer());
 			}
 		}
 		// reset proof type since partial proofs also call this method.
