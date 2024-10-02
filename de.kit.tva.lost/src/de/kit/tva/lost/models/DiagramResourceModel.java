@@ -46,6 +46,9 @@ public class DiagramResourceModel {
 	this.formula = null;
 	ResourceSet resourceSet = new ResourceSetImpl();
 	IFolder currentFolder = getCurrentFolder();
+	if (currentFolder == null) {
+	    throw new DiagramResourceModelException("Canno't find the current folder.");
+	}
 	var diagramResFile = currentFolder.getFile(name + ".cbcmodel");
 	if (diagramResFile.exists()) {
 	    return loadDiagramResource(diagramResFile);
@@ -107,8 +110,11 @@ public class DiagramResourceModel {
     }
 
     private IFolder getCurrentFolder() throws DiagramResourceModelException {
-	var res = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()
-		.getEditorInput().getAdapter(IResource.class);
+	var activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+	if (activeEditor == null) {
+	    return null;
+	}
+	var res = activeEditor.getEditorInput().getAdapter(IResource.class);
 	if (res instanceof File) {
 	    res = (IFolder) res.getParent();
 	}

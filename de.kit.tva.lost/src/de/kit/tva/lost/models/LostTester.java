@@ -43,6 +43,7 @@ public class LostTester extends TestModelNotifier {
     public void test(String lostCode)
 	    throws DiagramResourceModelException, IOException, CoreException, SettingsException {
 	this.testees.clear();
+	this.highlights.clear();
 	lostTranslator.translate(lostCode);
 	generateTestees();
 	testAll();
@@ -52,14 +53,13 @@ public class LostTester extends TestModelNotifier {
     public String getResults(String viewCode) {
 	if (viewCode.contains(TEST_MARKER))
 	    return viewCode;
-	highlights.clear();
 	for (var testee : testees) {
 	    var statement = testee.get() instanceof StatementContext ? testee.get().getText().trim()
 		    : testee.get().getChild(1).getText().trim();
 	    CodeColor highlight = new CodeColor();
 	    lostCodeHandler.createInfoForStatement(highlight, viewCode, statement, TEST_MARKER);
 	    highlight.colorToSet = testee.wasSuccessful() ? TEST_SUCCESS : TEST_FAIL;
-	    highlights.add(highlight);
+	    // highlights.add(highlight); TODO: fix bugs when in use with verify highlights
 	    var codeSplit = lostCodeHandler.getCodeUntilStatement(viewCode, statement, TEST_MARKER);
 	    viewCode = codeSplit[0] + TEST_MARKER + testee.wasSuccessful() + ", " + testee.getTime() + "ms"
 		    + codeSplit[1];

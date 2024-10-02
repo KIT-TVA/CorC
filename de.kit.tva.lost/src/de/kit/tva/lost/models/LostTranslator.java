@@ -89,7 +89,7 @@ public class LostTranslator {
 	if (!genDiagram)
 	    return true;
 	var diagramRes = DiagramResourceModel.getInstance().get(this.formula.getName());
-	if (!FeatureUtil.getInstance().getCallingClass(diagramRes.getURI()).isEmpty()) {
+	if (diagramRes != null && !FeatureUtil.getInstance().getCallingClass(diagramRes.getURI()).isEmpty()) {
 	    createClass(diagramRes.getURI(), tree.root().diagram());
 	}
 	this.diagramCreator.create(diagramRes, this.formula, this.conds, this.renaming, this.vars);

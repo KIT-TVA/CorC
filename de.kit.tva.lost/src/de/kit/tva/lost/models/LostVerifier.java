@@ -38,6 +38,7 @@ public class LostVerifier extends VerifyModelNotifier {
     public void verify(String lostCode)
 	    throws DiagramResourceModelException, IOException, CoreException, SettingsException {
 	this.verifiees.clear();
+	this.highlights.clear();
 	lostTranslator.translate(lostCode);
 	generateVerifiees();
 	verifyAll();
@@ -49,7 +50,6 @@ public class LostVerifier extends VerifyModelNotifier {
     }
 
     public String getResults(String viewCode) {
-	String tmpCode = viewCode;
 	for (var verifiee : verifiees) {
 	    var statement = verifiee.get() instanceof StatementContext ? verifiee.get().getText().trim()
 		    : verifiee.get().getChild(1).getText().trim();
@@ -57,13 +57,24 @@ public class LostVerifier extends VerifyModelNotifier {
 	    if (codeSplit == null)
 		continue;
 	    CodeColor highlight = new CodeColor();
-	    tmpCode = lostCodeHandler.createInfoForStatement(highlight, tmpCode, statement, VERIFY_MARKER);
+	    lostCodeHandler.createInfoForStatement(highlight, viewCode, statement, VERIFY_MARKER);
 	    highlight.colorToSet = verifiee.wasSuccessful() ? VERIFY_SUCCESS : VERIFY_FAIL;
-	    highlights.add(highlight);
+	    // highlights.add(highlight); TODO: Fix bugs when in use with testing highlights
 	    viewCode = codeSplit[0] + VERIFY_MARKER + verifiee.wasSuccessful() + ", " + verifiee.getTime() + "ms"
 		    + codeSplit[1];
+	    updateHighlights(codeSplit[0].length(),
+		    (VERIFY_MARKER + verifiee.wasSuccessful() + ", " + verifiee.getTime() + "ms").length());
 	}
 	return viewCode;
+    }
+
+    private void updateHighlights(int index, int size) {
+	for (var highlight : highlights) {
+	    if (highlight.info.relStartIndex > index) {
+		highlight.info.relStartIndex += size;
+		highlight.info.relEndIndex += size;
+	    }
+	}
     }
 
     private boolean verifyAll() throws IOException {
