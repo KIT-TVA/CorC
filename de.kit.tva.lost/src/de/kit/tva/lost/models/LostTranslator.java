@@ -46,6 +46,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
+import de.tu_bs.cs.isf.cbc.tool.helper.UpdateModifiableOfConditions;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
 
@@ -65,6 +66,7 @@ public class LostTranslator {
     private DiagramCreator diagramCreator;
     private List<Field> newFields;
     private List<Parameter> newParams;
+    private String methodModifiables;
 
     public LostTranslator() {
 	this.formula = CbcmodelFactory.eINSTANCE.createCbCFormula();
@@ -186,14 +188,15 @@ public class LostTranslator {
 	for (int i = 0; i < varsTree.getRuleContexts(VariableContext.class).size(); i++) {
 	    var treeVariable = varsTree.variable(i);
 	    String arrayBrackets = treeVariable.BRACKETS() != null ? treeVariable.BRACKETS().getText() : "";
-	    if (treeVariable.KIND().getText().equals("PARAM")) {
+	    var kind = treeVariable.KIND().getText();
+	    if (kind.equals("PARAM")) {
 		// Since params and fields are not handled in diagram but in their class,
 		// they need to be added to the class.
 		var param = CbcclassFactory.eINSTANCE.createParameter();
 		param.setType(treeVariable.TYPE().getText() + arrayBrackets);
 		param.setName(treeVariable.ID().getText());
 		newParams.add(param);
-	    } else if (treeVariable.KIND().getText().equals("PUBLIC")) {
+	    } else if (kind.equals("PUBLIC")) {
 		var field = CbcclassFactory.eINSTANCE.createField();
 		field.setIsFinal(false);
 		field.setIsStatic(false);
@@ -237,6 +240,7 @@ public class LostTranslator {
     private void addRefinements(FormulaContext formulaTree) {
 	var statement = getStatementDummy();
 	initFormula();
+	setModifiables(statement, formulaTree);
 	statement.getPreCondition().setName(formulaTree.pre().condition().getText());
 	statement.getPostCondition().setName(formulaTree.post().condition().getText());
 	formula.getPreCondition().setName(formulaTree.pre().condition().getText());
@@ -244,6 +248,23 @@ public class LostTranslator {
 	formula.setStatement(statement);
 	walkRefinement(formula.getStatement(), formulaTree.refinement().refinementRule().getChild(0));
 	propagateConditionsThroughRefinements();
+    }
+
+    private void setModifiables(final AbstractStatement statement, final FormulaContext formulaTree) {
+	if (formulaTree.mod() == null) {
+	    this.methodModifiables = "";
+	    statement.getPreCondition().getModifiables().clear();
+	    statement.getPostCondition().getModifiables().clear();
+	    return;
+	}
+	this.methodModifiables = formulaTree.mod().condition().getText();
+	var mods = formulaTree.mod().condition().getText().split("\\,");
+	for (var m : mods) {
+	    m = m.trim();
+	    statement.getPreCondition().getModifiables().add(m);
+	    statement.getPostCondition().getModifiables().add(m);
+	}
+
     }
 
     private AbstractStatement getStatementDummy() {
@@ -261,11 +282,6 @@ public class LostTranslator {
 	var postCon2 = CbcmodelFactory.eINSTANCE.createCondition();
 	formula.setPreCondition(preCon2);
 	formula.setPostCondition(postCon2);
-    }
-
-    private void propagateConditionsThroughRefinements() {
-	UpdateConditionsOfChildren.updateConditionsofChildren(formula.getStatement().getPreCondition(), true);
-	UpdateConditionsOfChildren.updateConditionsofChildren(formula.getStatement().getPostCondition(), true);
     }
 
     private void addEmptyPrePost(final AbstractStatement s) {
@@ -324,6 +340,7 @@ public class LostTranslator {
 	statement.setName(sCtx.getText());
 	modelLinker.link(statement, sCtx);
 	setRefinement(parent, statement);
+	UpdateModifiableOfConditions.updateAssignmentStatement(this.newFields, statement, this.methodModifiables);
     }
 
     private void addSelection(AbstractStatement parent, SelectionContext selCtx) {
@@ -365,7 +382,7 @@ public class LostTranslator {
 	originalS.setName(origCtx.statement().getText());
 	modelLinker.link(originalS, origCtx);
 	setRefinement(parent, originalS);
-
+	UpdateModifiableOfConditions.updateAssignmentStatement(this.newFields, originalS, this.methodModifiables);
     }
 
     private void addMethodStatement(AbstractStatement parent, MethodCallSContext methodCCtx) {
@@ -374,7 +391,7 @@ public class LostTranslator {
 	methodS.setName(methodCCtx.statement().getText());
 	modelLinker.link(methodS, methodCCtx);
 	setRefinement(parent, methodS);
-
+	UpdateModifiableOfConditions.updateAssignmentStatement(this.newFields, methodS, this.methodModifiables);
     }
 
     private void addSkip(AbstractStatement parent, SkipSContext sCtx) {
@@ -390,7 +407,7 @@ public class LostTranslator {
 	returnS.setName(retCtx.statement().getText());
 	modelLinker.link(returnS, retCtx);
 	setRefinement(parent, returnS);
-
+	UpdateModifiableOfConditions.updateAssignmentStatement(this.newFields, returnS, this.methodModifiables);
     }
 
     private void addMlStatement(AbstractStatement parent, MlexprContext mlexprCtx) {
@@ -403,6 +420,7 @@ public class LostTranslator {
 	mlexprS.setName(mlStatement);
 	modelLinker.link(mlexprS, mlexprCtx);
 	setRefinement(parent, mlexprS);
+	UpdateModifiableOfConditions.updateAssignmentStatement(this.newFields, mlexprS, this.methodModifiables);
     }
 
     private void setRefinement(AbstractStatement parent, AbstractStatement refinement) {
@@ -439,6 +457,11 @@ public class LostTranslator {
 
     private void handleStatement(AbstractStatement parent, AbstractStatement refinement) {
 	parent.setRefinement(refinement);
+    }
+
+    private void propagateConditionsThroughRefinements() {
+	UpdateConditionsOfChildren.updateConditionsofChildren(formula.getStatement().getPreCondition(), true);
+	UpdateConditionsOfChildren.updateConditionsofChildren(formula.getStatement().getPostCondition(), true);
     }
 
 }

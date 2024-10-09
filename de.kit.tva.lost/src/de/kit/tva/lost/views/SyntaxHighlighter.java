@@ -20,6 +20,7 @@ import de.kit.tva.lost.models.LostParser.IntmContext;
 import de.kit.tva.lost.models.LostParser.InvContext;
 import de.kit.tva.lost.models.LostParser.MethodCallSContext;
 import de.kit.tva.lost.models.LostParser.MlexprContext;
+import de.kit.tva.lost.models.LostParser.ModContext;
 import de.kit.tva.lost.models.LostParser.NameContext;
 import de.kit.tva.lost.models.LostParser.OriginalSContext;
 import de.kit.tva.lost.models.LostParser.PostContext;
@@ -112,9 +113,9 @@ public class SyntaxHighlighter {
 	if (rule instanceof DiagramContext | rule instanceof FormulaContext | rule instanceof VarsContext
 		| rule instanceof GlobalConditionsContext | rule instanceof RenamingContext) {
 	    return this.style.getInitializerColor();
-	} else if (rule instanceof PreContext | rule instanceof PostContext | rule instanceof IntmContext
-		| rule instanceof InvContext | rule instanceof GuardContext | rule instanceof VarContext
-		| rule instanceof NameContext | rule instanceof SignatureContext) {
+	} else if (rule instanceof PreContext | rule instanceof PostContext | rule instanceof ModContext
+		| rule instanceof IntmContext | rule instanceof InvContext | rule instanceof GuardContext
+		| rule instanceof VarContext | rule instanceof NameContext | rule instanceof SignatureContext) {
 	    return this.style.getIndicatorColor();
 	} else if (rule instanceof RefinementRuleContext) {
 	    return this.style.getRefinementColor();
@@ -129,9 +130,10 @@ public class SyntaxHighlighter {
 	}
 	return rule instanceof DiagramContext | rule instanceof FormulaContext | rule instanceof VarsContext
 		| rule instanceof GlobalConditionsContext | rule instanceof RenamingContext | rule instanceof PreContext
-		| rule instanceof PostContext | rule instanceof IntmContext | rule instanceof InvContext
-		| rule instanceof GuardContext | rule instanceof VarContext | rule instanceof NameContext
-		| rule instanceof RefinementRuleContext | rule instanceof SignatureContext;
+		| rule instanceof PostContext | rule instanceof ModContext | rule instanceof IntmContext
+		| rule instanceof InvContext | rule instanceof GuardContext | rule instanceof VarContext
+		| rule instanceof NameContext | rule instanceof RefinementRuleContext
+		| rule instanceof SignatureContext;
     }
 
     private boolean isStatement(ParserRuleContext rule) {

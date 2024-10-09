@@ -170,4 +170,12 @@ public class LostTranslatorTests {
 	assertTrue(translator.translate(PREFIX + input, false));
 
     }
+
+    @Test
+    public void array() throws DiagramResourceModelException, IOException, CoreException, SettingsException {
+	String input = new String("Vars\n" + "\tPUBLIC int[] A\n" + "\tF(pre: x, post: postCon)\n" + "\t\tA[i] = 0;\n");
+
+	assertTrue(translator.translate(PREFIX + input, false));
+
+    }
 }

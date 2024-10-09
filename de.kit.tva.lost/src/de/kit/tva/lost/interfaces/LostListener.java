@@ -12,6 +12,20 @@ import de.kit.tva.lost.models.LostParser;
  */
 public interface LostListener extends ParseTreeListener {
     /**
+     * Enter a parse tree produced by {@link LostParser#mod}.
+     * 
+     * @param ctx the parse tree
+     */
+    void enterMod(@NotNull LostParser.ModContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link LostParser#mod}.
+     * 
+     * @param ctx the parse tree
+     */
+    void exitMod(@NotNull LostParser.ModContext ctx);
+
+    /**
      * Enter a parse tree produced by {@link LostParser#signature}.
      * 
      * @param ctx the parse tree

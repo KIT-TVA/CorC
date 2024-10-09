@@ -28,11 +28,13 @@ renaming : 'Renaming' NL renamer+;
 
 renamer : '\t'+ (TYPE | 'bool') ID OP condition NL?; 
 
-formula : 'F' '(' pre ',' post ')' NL refinement;
+formula : 'F' '(' pre ',' post (',' mod)? ')' NL refinement;
 
 pre : 'pre:' condition;
 
 post : 'post:' condition;
+
+mod : 'mod:' condition;
 
 intm : 'intm:' condition;
 
@@ -42,7 +44,7 @@ quantor : QT ID ';' condition;
 
 keyword : '\\' ID '(' identifier ')';
 
-identifier : ID | keyword | (TYPE | ID | keyword) '[' condition ']';
+identifier : ID | keyword | (TYPE | ID | keyword) ('[' condition ']' | '[*]');
 
 refinement : '\t'+ refinementRule; 
 

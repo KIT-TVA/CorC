@@ -23,6 +23,28 @@ public class LostBaseListener implements LostListener {
      * </p>
      */
     @Override
+    public void enterMod(@NotNull LostParser.ModContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * The default implementation does nothing.
+     * </p>
+     */
+    @Override
+    public void exitMod(@NotNull LostParser.ModContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * The default implementation does nothing.
+     * </p>
+     */
+    @Override
     public void enterSignature(@NotNull LostParser.SignatureContext ctx) {
     }
 

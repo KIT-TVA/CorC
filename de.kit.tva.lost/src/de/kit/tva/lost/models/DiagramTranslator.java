@@ -171,10 +171,25 @@ public class DiagramTranslator {
 	if (formula == null) {
 	    throw new DiagramTranslatorException("Formula is null.");
 	}
-	String fStr = "F(pre: " + cleanString(formula.getStatement().getPreCondition().getName()) + ", post: "
-		+ cleanString(formula.getStatement().getPostCondition().getName()) + ")";
+	String fStr = constructFormula(formula);
 	appendInitializer(fStr);
 	appendRefinement(formula.getStatement().getRefinement());
+    }
+
+    private String constructFormula(CbCFormula formula) {
+	String formulaStr = "";
+	formulaStr = "F(pre: " + cleanString(formula.getStatement().getPreCondition().getName()) + ", post: "
+		+ cleanString(formula.getStatement().getPostCondition().getName());
+	if (formula.getStatement().getPostCondition().getModifiables() != null
+		&& !formula.getStatement().getPostCondition().getModifiables().isEmpty()) {
+	    formulaStr += ", mod: ";
+	    for (var m : formula.getStatement().getPostCondition().getModifiables()) {
+		formulaStr += m + ", ";
+	    }
+	    formulaStr = formulaStr.substring(0, formulaStr.length() - 2);
+	}
+	formulaStr += ')';
+	return formulaStr;
     }
 
     private String cleanString(String input) {
