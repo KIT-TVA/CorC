@@ -1,10 +1,12 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.lost;
 
 import java.io.IOException;
 
 import org.eclipse.core.runtime.CoreException;
 
 import de.kit.tva.lost.interfaces.AbstractModel;
+import de.kit.tva.lost.models.diagrams.DiagramResourceModelException;
+import de.tu_bs.cs.isf.cbc.exceptions.NotImplementedException;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
 /**
@@ -18,8 +20,8 @@ public class TranslatorModel extends AbstractModel {
 	lostTranslator = new LostTranslator();
     }
 
-    public boolean translate(String lostCode)
-	    throws DiagramResourceModelException, IOException, CoreException, SettingsException {
+    public boolean translate(String lostCode) throws DiagramResourceModelException, IOException, CoreException,
+	    SettingsException, NotImplementedException {
 	if (!lostTranslator.translate(lostCode)) {
 	    return false;
 	}

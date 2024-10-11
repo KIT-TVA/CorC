@@ -5,8 +5,8 @@ import org.eclipse.swt.events.SelectionListener;
 
 import de.kit.tva.lost.interfaces.Controller;
 import de.kit.tva.lost.interfaces.ViewType;
-import de.kit.tva.lost.models.CodeModel;
 import de.kit.tva.lost.models.UiModel;
+import de.kit.tva.lost.models.codeviews.CodeModel;
 import de.kit.tva.lost.views.CodeView;
 import de.kit.tva.lost.views.LostUiView;
 

@@ -6,8 +6,8 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import de.kit.tva.lost.models.DiagramTranslator;
-import de.kit.tva.lost.models.DiagramTranslatorException;
+import de.kit.tva.lost.models.diagrams.DiagramTranslator;
+import de.kit.tva.lost.models.diagrams.DiagramTranslatorException;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;

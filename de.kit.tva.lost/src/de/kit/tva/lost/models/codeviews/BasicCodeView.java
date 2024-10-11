@@ -1,4 +1,4 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.codeviews;
 
 import java.util.List;
 
@@ -6,20 +6,21 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import de.kit.tva.lost.interfaces.AbstractCodeView;
 import de.kit.tva.lost.interfaces.CodeView;
-import de.kit.tva.lost.models.LostParser.CompositionContext;
-import de.kit.tva.lost.models.LostParser.DiagramContext;
-import de.kit.tva.lost.models.LostParser.FormulaContext;
-import de.kit.tva.lost.models.LostParser.GuardContext;
-import de.kit.tva.lost.models.LostParser.InitializerContext;
-import de.kit.tva.lost.models.LostParser.MethodCallSContext;
-import de.kit.tva.lost.models.LostParser.MlexprContext;
-import de.kit.tva.lost.models.LostParser.OriginalSContext;
-import de.kit.tva.lost.models.LostParser.ProgramContext;
-import de.kit.tva.lost.models.LostParser.RepetitionContext;
-import de.kit.tva.lost.models.LostParser.ReturnSContext;
-import de.kit.tva.lost.models.LostParser.SelectionContext;
-import de.kit.tva.lost.models.LostParser.SkipSContext;
-import de.kit.tva.lost.models.LostParser.StatementContext;
+import de.kit.tva.lost.models.parser.LostParser.CompositionContext;
+import de.kit.tva.lost.models.parser.LostParser.DiagramContext;
+import de.kit.tva.lost.models.parser.LostParser.FormulaContext;
+import de.kit.tva.lost.models.parser.LostParser.GuardContext;
+import de.kit.tva.lost.models.parser.LostParser.InitializerContext;
+import de.kit.tva.lost.models.parser.LostParser.MethodCallSContext;
+import de.kit.tva.lost.models.parser.LostParser.MlexprContext;
+import de.kit.tva.lost.models.parser.LostParser.OriginalSContext;
+import de.kit.tva.lost.models.parser.LostParser.ProgramContext;
+import de.kit.tva.lost.models.parser.LostParser.RepetitionContext;
+import de.kit.tva.lost.models.parser.LostParser.ReturnSContext;
+import de.kit.tva.lost.models.parser.LostParser.SelectionContext;
+import de.kit.tva.lost.models.parser.LostParser.SkipSContext;
+import de.kit.tva.lost.models.parser.LostParser.StatementContext;
+import de.kit.tva.lost.models.util.SignatureConstructor;
 
 public class BasicCodeView extends AbstractCodeView implements CodeView {
     private String basicCode;

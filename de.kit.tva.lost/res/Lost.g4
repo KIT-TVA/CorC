@@ -28,7 +28,7 @@ renaming : 'Renaming' NL renamer+;
 
 renamer : '\t'+ (TYPE | 'bool') ID OP condition NL?; 
 
-formula : 'F' '(' pre ',' post (',' mod)? ')' NL refinement;
+formula : 'F' '(' (mod ',')? pre ',' post ')' NL refinement;
 
 pre : 'pre:' condition;
 
@@ -56,13 +56,13 @@ javaReturn : 'return' assigner;
 
 assigner : (identifier | '(' assigner ')' | identifier EMPTY_BRACKETS | identifier assigner | NEW identifier | identifier OP assigner);
 
-composition : 'C' '(' intm ')' NL refinement refinement;
+composition : 'C' '(' (mod ',')? intm ')' NL refinement refinement;
 
-selection : 'S' '(' guards ')' NL refinement+;
+selection : 'S' '(' (mod ',')? guards ')' NL refinement+;
 
 guards : guard (',' guard)*;
 
-repetition : 'L' '(' inv ',' guard ',' var ')' NL refinement;
+repetition : 'L' '(' (mod ',')? inv ',' guard ',' var ')' NL refinement;
 
 inv : 'inv:' condition;
 
@@ -78,7 +78,7 @@ skipS : 'skip' NL?;
 
 methodCallS : 'M:' statement;
 
-block : 'B' '(' name ',' pre ',' post ')' NL mlexpr ;
+block : 'B' '(' (mod ',')? name ',' pre ',' post ')' NL mlexpr ;
 
 name : 'name:' ID;
 

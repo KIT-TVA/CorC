@@ -6,7 +6,7 @@ import org.eclipse.swt.SWT;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.kit.tva.lost.models.CodeModel;
+import de.kit.tva.lost.models.codeviews.CodeModel;
 
 public class CodeModelTests {
     private CodeModel instance = new CodeModel();

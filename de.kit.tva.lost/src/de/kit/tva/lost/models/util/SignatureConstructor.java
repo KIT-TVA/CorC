@@ -1,6 +1,6 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.util;
 
-import de.kit.tva.lost.models.LostParser.SignatureContext;
+import de.kit.tva.lost.models.parser.LostParser.SignatureContext;
 
 public class SignatureConstructor {
     private static SignatureConstructor instance;

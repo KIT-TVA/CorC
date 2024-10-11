@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import de.kit.tva.lost.models.LostParser;
+import de.kit.tva.lost.models.parser.LostParser;
 
 /**
  * This class provides an empty implementation of {@link LostListener}, which

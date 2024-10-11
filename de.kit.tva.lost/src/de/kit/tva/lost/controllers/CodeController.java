@@ -8,7 +8,7 @@ import org.eclipse.swt.events.MouseListener;
 
 import de.kit.tva.lost.interfaces.CodeListener;
 import de.kit.tva.lost.interfaces.Controller;
-import de.kit.tva.lost.models.CodeModel;
+import de.kit.tva.lost.models.codeviews.CodeModel;
 import de.kit.tva.lost.views.CodeView;
 
 public class CodeController implements Controller {

@@ -1,4 +1,4 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.lost;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,7 +10,9 @@ import org.eclipse.swt.graphics.Color;
 import de.kit.tva.lost.interfaces.CodeColor;
 import de.kit.tva.lost.interfaces.Result;
 import de.kit.tva.lost.interfaces.TestModelNotifier;
-import de.kit.tva.lost.models.LostParser.StatementContext;
+import de.kit.tva.lost.models.diagrams.DiagramResourceModelException;
+import de.kit.tva.lost.models.parser.LostParser.StatementContext;
+import de.tu_bs.cs.isf.cbc.exceptions.NotImplementedException;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
 import de.tu_bs.cs.isf.cbc.util.UpdateDiagram;
@@ -40,8 +42,8 @@ public class LostTester extends TestModelNotifier {
 	return this.highlights;
     }
 
-    public void test(String lostCode)
-	    throws DiagramResourceModelException, IOException, CoreException, SettingsException {
+    public void test(String lostCode) throws DiagramResourceModelException, IOException, CoreException,
+	    SettingsException, NotImplementedException {
 	this.testees.clear();
 	this.highlights.clear();
 	lostTranslator.translate(lostCode);

@@ -1,4 +1,4 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.parser;
 
 import org.antlr.v4.runtime.CharStream;
 // Generated from Lost.g4 by ANTLR 4.4

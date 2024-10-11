@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import de.kit.tva.lost.models.BasicCodeView;
+import de.kit.tva.lost.models.codeviews.BasicCodeView;
 
 public class BasicViewTests {
     private BasicCodeView bcv = new BasicCodeView();

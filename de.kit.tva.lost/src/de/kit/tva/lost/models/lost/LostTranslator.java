@@ -1,4 +1,4 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.lost;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,27 +9,38 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
-import de.kit.tva.lost.models.LostParser.CompositionContext;
-import de.kit.tva.lost.models.LostParser.ConditionContext;
-import de.kit.tva.lost.models.LostParser.DiagramContext;
-import de.kit.tva.lost.models.LostParser.DiagramParamContext;
-import de.kit.tva.lost.models.LostParser.FormulaContext;
-import de.kit.tva.lost.models.LostParser.GlobalConditionsContext;
-import de.kit.tva.lost.models.LostParser.GuardContext;
-import de.kit.tva.lost.models.LostParser.InitializerContext;
-import de.kit.tva.lost.models.LostParser.MethodCallSContext;
-import de.kit.tva.lost.models.LostParser.MlexprContext;
-import de.kit.tva.lost.models.LostParser.OriginalSContext;
-import de.kit.tva.lost.models.LostParser.ProgramContext;
-import de.kit.tva.lost.models.LostParser.RenamerContext;
-import de.kit.tva.lost.models.LostParser.RenamingContext;
-import de.kit.tva.lost.models.LostParser.RepetitionContext;
-import de.kit.tva.lost.models.LostParser.ReturnSContext;
-import de.kit.tva.lost.models.LostParser.SelectionContext;
-import de.kit.tva.lost.models.LostParser.SkipSContext;
-import de.kit.tva.lost.models.LostParser.StatementContext;
-import de.kit.tva.lost.models.LostParser.VariableContext;
-import de.kit.tva.lost.models.LostParser.VarsContext;
+import de.kit.tva.lost.interfaces.ModifiablesConverter;
+import de.kit.tva.lost.models.classes.ClassCreator;
+import de.kit.tva.lost.models.diagrams.DiagramCreator;
+import de.kit.tva.lost.models.diagrams.DiagramResourceModel;
+import de.kit.tva.lost.models.diagrams.DiagramResourceModelException;
+import de.kit.tva.lost.models.modifiablesconverters.CompositionModifiablesConverter;
+import de.kit.tva.lost.models.modifiablesconverters.FormulaModifiablesConverter;
+import de.kit.tva.lost.models.modifiablesconverters.RepetitionModifiablesConverter;
+import de.kit.tva.lost.models.modifiablesconverters.SelectionModifiablesConverter;
+import de.kit.tva.lost.models.parser.LostParser.CompositionContext;
+import de.kit.tva.lost.models.parser.LostParser.ConditionContext;
+import de.kit.tva.lost.models.parser.LostParser.DiagramContext;
+import de.kit.tva.lost.models.parser.LostParser.DiagramParamContext;
+import de.kit.tva.lost.models.parser.LostParser.FormulaContext;
+import de.kit.tva.lost.models.parser.LostParser.GlobalConditionsContext;
+import de.kit.tva.lost.models.parser.LostParser.GuardContext;
+import de.kit.tva.lost.models.parser.LostParser.InitializerContext;
+import de.kit.tva.lost.models.parser.LostParser.MethodCallSContext;
+import de.kit.tva.lost.models.parser.LostParser.MlexprContext;
+import de.kit.tva.lost.models.parser.LostParser.OriginalSContext;
+import de.kit.tva.lost.models.parser.LostParser.ProgramContext;
+import de.kit.tva.lost.models.parser.LostParser.RenamerContext;
+import de.kit.tva.lost.models.parser.LostParser.RenamingContext;
+import de.kit.tva.lost.models.parser.LostParser.RepetitionContext;
+import de.kit.tva.lost.models.parser.LostParser.ReturnSContext;
+import de.kit.tva.lost.models.parser.LostParser.SelectionContext;
+import de.kit.tva.lost.models.parser.LostParser.SkipSContext;
+import de.kit.tva.lost.models.parser.LostParser.StatementContext;
+import de.kit.tva.lost.models.parser.LostParser.VariableContext;
+import de.kit.tva.lost.models.parser.LostParser.VarsContext;
+import de.kit.tva.lost.models.util.ModelLinker;
+import de.kit.tva.lost.models.util.SignatureConstructor;
 import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.Method;
@@ -45,6 +56,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.exceptions.NotImplementedException;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.tool.helper.UpdateModifiableOfConditions;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
@@ -77,8 +89,8 @@ public class LostTranslator {
 	this.newParams = new ArrayList<Parameter>();
     }
 
-    public boolean translate(String lostCode, boolean genDiagram)
-	    throws IOException, CoreException, DiagramResourceModelException, SettingsException {
+    public boolean translate(String lostCode, boolean genDiagram) throws IOException, CoreException,
+	    DiagramResourceModelException, SettingsException, NotImplementedException {
 	if (!this.parseTreeGenerator.generateParseTree(lostCode)) {
 	    return false;
 	}
@@ -99,8 +111,8 @@ public class LostTranslator {
 	return true;
     }
 
-    public boolean translate(String lostCode)
-	    throws DiagramResourceModelException, IOException, CoreException, SettingsException {
+    public boolean translate(String lostCode) throws DiagramResourceModelException, IOException, CoreException,
+	    SettingsException, NotImplementedException {
 	return translate(lostCode, true);
     }
 
@@ -168,7 +180,7 @@ public class LostTranslator {
 	return m.getParameters();
     }
 
-    private void addInitializers(InitializerContext partTree) {
+    private void addInitializers(InitializerContext partTree) throws NotImplementedException {
 	if (partTree == null) {
 	    return;
 	}
@@ -237,7 +249,7 @@ public class LostTranslator {
 	}
     }
 
-    private void addRefinements(FormulaContext formulaTree) {
+    private void addRefinements(FormulaContext formulaTree) throws NotImplementedException {
 	var statement = getStatementDummy();
 	initFormula();
 	setModifiables(statement, formulaTree);
@@ -250,21 +262,24 @@ public class LostTranslator {
 	propagateConditionsThroughRefinements();
     }
 
-    private void setModifiables(final AbstractStatement statement, final FormulaContext formulaTree) {
-	if (formulaTree.mod() == null) {
-	    this.methodModifiables = "";
-	    statement.getPreCondition().getModifiables().clear();
-	    statement.getPostCondition().getModifiables().clear();
-	    return;
+    private void setModifiables(final AbstractStatement statement, final ParseTree ruleCtx)
+	    throws NotImplementedException {
+	ModifiablesConverter modConverter = null;
+	if (ruleCtx instanceof FormulaContext) {
+	    modConverter = new FormulaModifiablesConverter();
+	} else if (ruleCtx instanceof CompositionContext) {
+	    modConverter = new CompositionModifiablesConverter();
+	} else if (ruleCtx instanceof SelectionContext) {
+	    modConverter = new SelectionModifiablesConverter();
+	} else if (ruleCtx instanceof RepetitionContext) {
+	    modConverter = new RepetitionModifiablesConverter();
+	} else {
+	    throw new NotImplementedException("Modifiables is not supported for '" + ruleCtx.getClass() + "'.");
 	}
-	this.methodModifiables = formulaTree.mod().condition().getText();
-	var mods = formulaTree.mod().condition().getText().split("\\,");
-	for (var m : mods) {
-	    m = m.trim();
-	    statement.getPreCondition().getModifiables().add(m);
-	    statement.getPostCondition().getModifiables().add(m);
+	modConverter.setModifiables(statement, ruleCtx);
+	if (modConverter instanceof FormulaModifiablesConverter) {
+	    this.methodModifiables = modConverter.getMethodModifiables();
 	}
-
     }
 
     private AbstractStatement getStatementDummy() {
@@ -300,7 +315,7 @@ public class LostTranslator {
 	return statement;
     }
 
-    private void walkRefinement(AbstractStatement parent, ParseTree subtree) {
+    private void walkRefinement(AbstractStatement parent, ParseTree subtree) throws NotImplementedException {
 	if (subtree instanceof CompositionContext) {
 	    addComposition(parent, (CompositionContext) subtree);
 	} else if (subtree instanceof StatementContext) {
@@ -322,7 +337,7 @@ public class LostTranslator {
 	}
     }
 
-    private void addComposition(AbstractStatement parent, CompositionContext csCtx) {
+    private void addComposition(AbstractStatement parent, CompositionContext csCtx) throws NotImplementedException {
 	CompositionStatement cs = CbcmodelFactory.eINSTANCE.createCompositionStatement();
 	cs.setFirstStatement(dummyStatement(1));
 	cs.setSecondStatement(dummyStatement(2));
@@ -332,6 +347,7 @@ public class LostTranslator {
 	walkRefinement(cs.getFirstStatement(), csCtx.refinement(0).refinementRule().getChild(0));
 	walkRefinement(cs.getSecondStatement(), csCtx.refinement(1).refinementRule().getChild(0));
 	setRefinement(parent, cs);
+	setModifiables(cs, csCtx);
     }
 
     private void addStatement(AbstractStatement parent, StatementContext sCtx) {
@@ -343,7 +359,7 @@ public class LostTranslator {
 	UpdateModifiableOfConditions.updateAssignmentStatement(this.newFields, statement, this.methodModifiables);
     }
 
-    private void addSelection(AbstractStatement parent, SelectionContext selCtx) {
+    private void addSelection(AbstractStatement parent, SelectionContext selCtx) throws NotImplementedException {
 	SelectionStatement selection = CbcmodelFactory.eINSTANCE.createSelectionStatement();
 	addEmptyPrePost(selection);
 	List<ParseTree> guards = selCtx.guards().children.stream().filter(c -> c instanceof GuardContext).toList();
@@ -355,10 +371,10 @@ public class LostTranslator {
 	    walkRefinement(selection.getCommands().get(i), selCtx.refinement(i).refinementRule().getChild(0));
 	}
 	setRefinement(parent, selection);
-
+	setModifiables(selection, selCtx);
     }
 
-    private void addRepetition(AbstractStatement parent, RepetitionContext repCtx) {
+    private void addRepetition(AbstractStatement parent, RepetitionContext repCtx) throws NotImplementedException {
 	var repetition = CbcmodelFactory.eINSTANCE.createSmallRepetitionStatement();
 	addEmptyPrePost(repetition);
 	var invariant = CbcmodelFactory.eINSTANCE.createCondition();
@@ -373,7 +389,7 @@ public class LostTranslator {
 	repetition.setLoopStatement(dummyStatement(1));
 	walkRefinement(repetition.getLoopStatement(), repCtx.refinement().refinementRule().getChild(0));
 	setRefinement(parent, repetition);
-
+	setModifiables(repetition, repCtx);
     }
 
     private void addOriginalStatement(AbstractStatement parent, OriginalSContext origCtx) {

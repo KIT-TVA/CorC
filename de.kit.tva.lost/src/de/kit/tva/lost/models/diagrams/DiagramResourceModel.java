@@ -1,4 +1,4 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.diagrams;
 
 import java.io.IOException;
 import java.util.Collections;

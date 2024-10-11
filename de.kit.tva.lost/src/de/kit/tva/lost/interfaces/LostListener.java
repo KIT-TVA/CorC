@@ -4,7 +4,7 @@ package de.kit.tva.lost.interfaces;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
-import de.kit.tva.lost.models.LostParser;
+import de.kit.tva.lost.models.parser.LostParser;
 
 /**
  * This interface defines a complete listener for a parse tree produced by

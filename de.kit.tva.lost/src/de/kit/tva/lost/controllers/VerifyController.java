@@ -1,8 +1,5 @@
 package de.kit.tva.lost.controllers;
 
-import java.io.IOException;
-
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 
@@ -10,12 +7,10 @@ import de.kit.tva.lost.interfaces.Controller;
 import de.kit.tva.lost.interfaces.Result;
 import de.kit.tva.lost.interfaces.VerifyListener;
 import de.kit.tva.lost.interfaces.ViewType;
-import de.kit.tva.lost.models.CodeModel;
-import de.kit.tva.lost.models.DiagramResourceModelException;
-import de.kit.tva.lost.models.LostVerifier;
+import de.kit.tva.lost.models.codeviews.CodeModel;
+import de.kit.tva.lost.models.lost.LostVerifier;
 import de.kit.tva.lost.views.CodeView;
 import de.kit.tva.lost.views.LostUiView;
-import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
 public class VerifyController implements Controller {
     private LostUiView uiView;
@@ -74,7 +69,7 @@ public class VerifyController implements Controller {
 	    public void widgetSelected(SelectionEvent e) {
 		try {
 		    lostVerifier.verify(codeModel.getCode());
-		} catch (DiagramResourceModelException | IOException | CoreException | SettingsException e1) {
+		} catch (Exception e1) {
 		    e1.printStackTrace();
 		}
 	    }

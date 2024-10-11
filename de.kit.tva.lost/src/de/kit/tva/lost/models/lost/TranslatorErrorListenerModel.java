@@ -1,4 +1,4 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.lost;
 
 import java.util.ArrayList;
 import java.util.Date;

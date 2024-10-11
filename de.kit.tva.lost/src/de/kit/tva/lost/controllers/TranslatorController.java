@@ -3,22 +3,20 @@ package de.kit.tva.lost.controllers;
 import java.io.IOException;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.ui.PlatformUI;
 
 import de.kit.tva.lost.interfaces.Controller;
 import de.kit.tva.lost.interfaces.ViewType;
-import de.kit.tva.lost.models.CodeModel;
-import de.kit.tva.lost.models.DiagramResourceModelException;
-import de.kit.tva.lost.models.DiagramTranslator;
-import de.kit.tva.lost.models.DiagramTranslatorException;
-import de.kit.tva.lost.models.TranslatorErrorListenerModel;
-import de.kit.tva.lost.models.TranslatorModel;
+import de.kit.tva.lost.models.codeviews.CodeModel;
+import de.kit.tva.lost.models.diagrams.DiagramResourceModelException;
+import de.kit.tva.lost.models.diagrams.DiagramTranslator;
+import de.kit.tva.lost.models.diagrams.DiagramTranslatorException;
+import de.kit.tva.lost.models.lost.TranslatorErrorListenerModel;
+import de.kit.tva.lost.models.lost.TranslatorModel;
 import de.kit.tva.lost.views.CodeView;
 import de.kit.tva.lost.views.LostUiView;
-import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
 public class TranslatorController implements Controller {
     TranslatorModel translatorModel;
@@ -67,7 +65,7 @@ public class TranslatorController implements Controller {
 		    if (!translatorModel.translate(codeView.getCodeFieldText())) {
 			return;
 		    }
-		} catch (DiagramResourceModelException | IOException | CoreException | SettingsException e1) {
+		} catch (Exception e1) {
 		    e1.printStackTrace();
 		}
 	    }

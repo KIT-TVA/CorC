@@ -1,4 +1,4 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.classes;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;

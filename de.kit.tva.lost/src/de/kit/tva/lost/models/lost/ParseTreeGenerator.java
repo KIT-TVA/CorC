@@ -1,9 +1,11 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.lost;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-import de.kit.tva.lost.models.LostParser.ProgramContext;
+import de.kit.tva.lost.models.parser.LostLexer;
+import de.kit.tva.lost.models.parser.LostParser;
+import de.kit.tva.lost.models.parser.LostParser.ProgramContext;
 
 public class ParseTreeGenerator {
     private ProgramContext tree;

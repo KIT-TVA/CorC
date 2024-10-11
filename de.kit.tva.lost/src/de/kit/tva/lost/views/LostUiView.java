@@ -23,12 +23,12 @@ import de.kit.tva.lost.controllers.UiController;
 import de.kit.tva.lost.controllers.VerifyController;
 import de.kit.tva.lost.interfaces.Listener;
 import de.kit.tva.lost.interfaces.View;
-import de.kit.tva.lost.models.CodeModel;
-import de.kit.tva.lost.models.DiagramTranslator;
-import de.kit.tva.lost.models.LostTester;
-import de.kit.tva.lost.models.LostVerifier;
-import de.kit.tva.lost.models.TranslatorModel;
 import de.kit.tva.lost.models.UiModel;
+import de.kit.tva.lost.models.codeviews.CodeModel;
+import de.kit.tva.lost.models.diagrams.DiagramTranslator;
+import de.kit.tva.lost.models.lost.LostTester;
+import de.kit.tva.lost.models.lost.LostVerifier;
+import de.kit.tva.lost.models.lost.TranslatorModel;
 
 public class LostUiView extends Composite implements View, Listener {
     private LocalResourceManager localResourceManager;

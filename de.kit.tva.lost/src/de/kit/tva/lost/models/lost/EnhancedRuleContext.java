@@ -1,4 +1,4 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.lost;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.eclipse.swt.graphics.Color;

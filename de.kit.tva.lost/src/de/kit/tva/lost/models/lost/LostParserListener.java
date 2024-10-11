@@ -1,10 +1,10 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.lost;
 
 import de.kit.tva.lost.interfaces.LostBaseListener;
-import de.kit.tva.lost.models.LostParser.FormulaContext;
-import de.kit.tva.lost.models.LostParser.GlobalConditionsContext;
-import de.kit.tva.lost.models.LostParser.RenamingContext;
-import de.kit.tva.lost.models.LostParser.VarsContext;
+import de.kit.tva.lost.models.parser.LostParser.FormulaContext;
+import de.kit.tva.lost.models.parser.LostParser.GlobalConditionsContext;
+import de.kit.tva.lost.models.parser.LostParser.RenamingContext;
+import de.kit.tva.lost.models.parser.LostParser.VarsContext;
 
 public class LostParserListener extends LostBaseListener {
 	private static String TRANSLATOR_EXC = "TranslatorException: ";

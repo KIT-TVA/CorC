@@ -1,4 +1,4 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.codeviews;
 
 import de.kit.tva.lost.interfaces.CodeModelNotifier;
 import de.kit.tva.lost.interfaces.CodeView;

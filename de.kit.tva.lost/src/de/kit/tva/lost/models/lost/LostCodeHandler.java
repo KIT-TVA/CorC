@@ -1,4 +1,4 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.lost;
 
 import de.kit.tva.lost.interfaces.CodeColor;
 import de.kit.tva.lost.interfaces.OperatorInfo;

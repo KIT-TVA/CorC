@@ -1,10 +1,15 @@
-package de.kit.tva.lost.models;
+package de.kit.tva.lost.models.diagrams;
 
 import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
+import de.kit.tva.lost.models.classes.ClassLoader;
+import de.kit.tva.lost.models.modifiablesconverters.CompositionModifiablesConverter;
+import de.kit.tva.lost.models.modifiablesconverters.FormulaModifiablesConverter;
+import de.kit.tva.lost.models.modifiablesconverters.RepetitionModifiablesConverter;
+import de.kit.tva.lost.models.modifiablesconverters.SelectionModifiablesConverter;
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
@@ -177,17 +182,13 @@ public class DiagramTranslator {
     }
 
     private String constructFormula(CbCFormula formula) {
-	String formulaStr = "";
-	formulaStr = "F(pre: " + cleanString(formula.getStatement().getPreCondition().getName()) + ", post: "
-		+ cleanString(formula.getStatement().getPostCondition().getName());
-	if (formula.getStatement().getPostCondition().getModifiables() != null
-		&& !formula.getStatement().getPostCondition().getModifiables().isEmpty()) {
-	    formulaStr += ", mod: ";
-	    for (var m : formula.getStatement().getPostCondition().getModifiables()) {
-		formulaStr += m + ", ";
-	    }
-	    formulaStr = formulaStr.substring(0, formulaStr.length() - 2);
+	String formulaStr = "F(";
+	var modifiables = new FormulaModifiablesConverter().getModifiables(formula.getStatement());
+	if (!modifiables.isEmpty()) {
+	    formulaStr += "mod: " + modifiables + ", ";
 	}
+	formulaStr += "pre: " + cleanString(formula.getStatement().getPreCondition().getName()) + ", post: "
+		+ cleanString(formula.getStatement().getPostCondition().getName());
 	formulaStr += ')';
 	return formulaStr;
     }
@@ -218,7 +219,12 @@ public class DiagramTranslator {
     }
 
     private void appendComposition(CompositionStatement composition) {
-	appendLine("C(intm: " + cleanString(composition.getIntermediateCondition().getName()) + ")");
+	String compStr = "C(";
+	String modifiables = new CompositionModifiablesConverter().getModifiables(composition);
+	if (!modifiables.isEmpty()) {
+	    compStr += "mod: " + modifiables + ", ";
+	}
+	appendLine(compStr + "intm: " + cleanString(composition.getIntermediateCondition().getName()) + ")");
 	this.indentLevel++;
 	appendRefinement(composition.getFirstStatement().getRefinement());
 	this.indentLevel++;
@@ -227,6 +233,10 @@ public class DiagramTranslator {
 
     private void appendSelection(SelectionStatement selection) {
 	String selLine = "S(";
+	String modifiables = new SelectionModifiablesConverter().getModifiables(selection);
+	if (!modifiables.isEmpty()) {
+	    selLine += "mod: " + modifiables + ", ";
+	}
 	for (int i = 0; i < selection.getGuards().size(); ++i) {
 	    selLine += "guard: " + cleanString(selection.getGuards().get(i).getName()) + ", ";
 	}
@@ -241,7 +251,12 @@ public class DiagramTranslator {
     }
 
     private void appendRepetition(SmallRepetitionStatement repetition) {
-	appendLine("L(inv: " + cleanString(repetition.getInvariant().getName()) + ", guard: "
+	String repStr = "L(";
+	String modifiables = new RepetitionModifiablesConverter().getModifiables(repetition);
+	if (!modifiables.isEmpty()) {
+	    repStr += "mod: " + modifiables + ", ";
+	}
+	appendLine(repStr + "inv: " + cleanString(repetition.getInvariant().getName()) + ", guard: "
 		+ cleanString(repetition.getGuard().getName()) + ", var: "
 		+ cleanString(repetition.getVariant().getName()) + ")");
 	this.indentLevel++;
