@@ -358,8 +358,10 @@ public class ProveWithKey {
 					modifiables = applyCompositionTechniqueOnModifiables(modifiableList, modifiableOriginal, compTechnique);
 					includeFormulaModifiable = true;
 				} else {
+					if (i < refinementsVars.size()) {
 					String modifiableOriginal = Parser.getModifieableVarsFromConditionExceptLocals(refinements.get(i).getStatement().getPostCondition(), null, refinementsVars.get(i), null);
 					modifiables = applyCompositionTechniqueOnModifiables(modifiables, modifiableOriginal, compTechnique);
+					}
 				}
 				if (compTechnique == CompositionTechnique.CONTRACT_OVERRIDING || (compTechnique == CompositionTechnique.EXPLICIT_CONTRACTING && !modifiables.contains(REGEX_ORIGINAL))) {
 					return modifiables;

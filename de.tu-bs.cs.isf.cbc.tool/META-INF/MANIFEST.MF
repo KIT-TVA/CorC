@@ -15,7 +15,9 @@ Require-Bundle: org.eclipse.graphiti,
  de.ovgu.featureide.fm.core,
  org.eclipse.mylyn.commons.ui,
  org.testng;bundle-version="7.4.0",
- de.tu-bs.cs.isf.cbc.util;bundle-version="1.0.0"
+ de.tu-bs.cs.isf.cbc.util;bundle-version="1.0.0",
+ de.tu_bs.cs.isf.cbc.parser,
+ de.tu_bs.cs.isf.lattice
 Import-Package: de.ovgu.featureide.fm.core.base,
  de.ovgu.featureide.fm.core.io.manager,
  de.tu_bs.cs.isf.cbc.cbcclass,
