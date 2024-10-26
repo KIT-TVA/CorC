@@ -28,7 +28,7 @@ renaming : 'Renaming' NL renamer+;
 
 renamer : '\t'+ (TYPE | 'bool') ID OP condition NL?; 
 
-formula : 'F' '(' (mod ',')? pre ',' post ')' NL refinement;
+formula : 'F' '(' (mod INDICATOR_DELIM)? pre INDICATOR_DELIM post ')' NL refinement;
 
 pre : 'pre:' condition;
 
@@ -56,13 +56,13 @@ javaReturn : 'return' assigner;
 
 assigner : (identifier | '(' assigner ')' | identifier EMPTY_BRACKETS | identifier assigner | NEW identifier | identifier OP assigner);
 
-composition : 'C' '(' (mod ',')? intm ')' NL refinement refinement;
+composition : 'C' '(' (mod INDICATOR_DELIM)? intm ')' NL refinement refinement;
 
-selection : 'S' '(' (mod ',')? guards ')' NL refinement+;
+selection : 'S' '(' (mod INDICATOR_DELIM)? guards ')' NL refinement+;
 
-guards : guard (',' guard)*;
+guards : guard (INDICATOR_DELIM guard)*;
 
-repetition : 'L' '(' (mod ',')? inv ',' guard ',' var ')' NL refinement;
+repetition : 'L' '(' (mod INDICATOR_DELIM)? inv INDICATOR_DELIM guard INDICATOR_DELIM var ')' NL refinement;
 
 inv : 'inv:' condition;
 
@@ -78,7 +78,7 @@ skipS : 'skip' NL?;
 
 methodCallS : 'M:' statement;
 
-block : 'B' '(' (mod ',')? name ',' pre ',' post ')' NL mlexpr ;
+block : 'B' '(' (mod INDICATOR_DELIM)? name INDICATOR_DELIM pre INDICATOR_DELIM post ')' NL mlexpr ;
 
 name : 'name:' ID;
 
@@ -93,6 +93,8 @@ mlexpr : '{' NL? ('\t'+ statement)* '\t'+ '}' NL?;
 WS : [ \r]+ -> skip;
 
 NL: '\n';
+
+INDICATOR_DELIM : ';';
 
 KIND : 'LOCAL' | 'RETURN' | 'PARAM' | 'PUBLIC';
 

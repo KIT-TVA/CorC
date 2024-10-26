@@ -43,7 +43,7 @@ public class DiagramTranslatorTests {
 	Mockito.when(postConMock.getName()).thenReturn("x");
 	Mockito.when(formulaMock.getStatement().getPreCondition()).thenReturn(preConMock);
 	Mockito.when(formulaMock.getStatement().getPostCondition()).thenReturn(postConMock);
-	return "\tF(pre: x, post: x)\n\t\tz;";
+	return "\tF(pre: x; post: x)\n\t\tz;";
     }
 
     @Test

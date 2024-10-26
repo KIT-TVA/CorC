@@ -10,6 +10,7 @@ import de.kit.tva.lost.models.modifiablesconverters.CompositionModifiablesConver
 import de.kit.tva.lost.models.modifiablesconverters.FormulaModifiablesConverter;
 import de.kit.tva.lost.models.modifiablesconverters.RepetitionModifiablesConverter;
 import de.kit.tva.lost.models.modifiablesconverters.SelectionModifiablesConverter;
+import de.kit.tva.lost.models.parser.LostParser;
 import de.tu_bs.cs.isf.cbc.cbcclass.ModelClass;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
@@ -33,6 +34,7 @@ public class DiagramTranslator {
     private Resource diagramResource;
     private ModelClass modelClass;
     private String lostCode;
+    private static String indicatorDelim;
 
     private int indentLevel;
 
@@ -41,6 +43,8 @@ public class DiagramTranslator {
 	this.indentLevel = 0;
 	this.modelClass = null;
 	this.diagramResource = null;
+	this.indicatorDelim = LostParser.tokenNames[LostParser.INDICATOR_DELIM];
+	this.indicatorDelim = this.indicatorDelim.substring(1, this.indicatorDelim.length() - 1); // remove '
     }
 
     public boolean load(String name) throws DiagramTranslatorException, DiagramResourceModelException, IOException {
@@ -185,10 +189,10 @@ public class DiagramTranslator {
 	String formulaStr = "F(";
 	var modifiables = new FormulaModifiablesConverter().getModifiables(formula.getStatement());
 	if (!modifiables.isEmpty()) {
-	    formulaStr += "mod: " + modifiables + ", ";
+	    formulaStr += "mod: " + modifiables + this.indicatorDelim + " ";
 	}
-	formulaStr += "pre: " + cleanString(formula.getStatement().getPreCondition().getName()) + ", post: "
-		+ cleanString(formula.getStatement().getPostCondition().getName());
+	formulaStr += "pre: " + cleanString(formula.getStatement().getPreCondition().getName()) + this.indicatorDelim
+		+ " post: " + cleanString(formula.getStatement().getPostCondition().getName());
 	formulaStr += ')';
 	return formulaStr;
     }
@@ -222,7 +226,7 @@ public class DiagramTranslator {
 	String compStr = "C(";
 	String modifiables = new CompositionModifiablesConverter().getModifiables(composition);
 	if (!modifiables.isEmpty()) {
-	    compStr += "mod: " + modifiables + ", ";
+	    compStr += "mod: " + modifiables + this.indicatorDelim + " ";
 	}
 	appendLine(compStr + "intm: " + cleanString(composition.getIntermediateCondition().getName()) + ")");
 	this.indentLevel++;
@@ -235,10 +239,10 @@ public class DiagramTranslator {
 	String selLine = "S(";
 	String modifiables = new SelectionModifiablesConverter().getModifiables(selection);
 	if (!modifiables.isEmpty()) {
-	    selLine += "mod: " + modifiables + ", ";
+	    selLine += "mod: " + modifiables + this.indicatorDelim + " ";
 	}
 	for (int i = 0; i < selection.getGuards().size(); ++i) {
-	    selLine += "guard: " + cleanString(selection.getGuards().get(i).getName()) + ", ";
+	    selLine += "guard: " + cleanString(selection.getGuards().get(i).getName()) + this.indicatorDelim + " ";
 	}
 	selLine = selLine.substring(0, selLine.length() - 2) + ")";
 	appendLine(selLine);
@@ -254,10 +258,10 @@ public class DiagramTranslator {
 	String repStr = "L(";
 	String modifiables = new RepetitionModifiablesConverter().getModifiables(repetition);
 	if (!modifiables.isEmpty()) {
-	    repStr += "mod: " + modifiables + ", ";
+	    repStr += "mod: " + modifiables + this.indicatorDelim + " ";
 	}
-	appendLine(repStr + "inv: " + cleanString(repetition.getInvariant().getName()) + ", guard: "
-		+ cleanString(repetition.getGuard().getName()) + ", var: "
+	appendLine(repStr + "inv: " + cleanString(repetition.getInvariant().getName()) + this.indicatorDelim
+		+ " guard: " + cleanString(repetition.getGuard().getName()) + this.indicatorDelim + " var: "
 		+ cleanString(repetition.getVariant().getName()) + ")");
 	this.indentLevel++;
 	appendRefinement(repetition.getLoopStatement().getRefinement());
