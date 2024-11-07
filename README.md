@@ -14,7 +14,7 @@ Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archi
 - Get the latest release of [Z3](https://github.com/Z3Prover/z3/releases) and add the `*/z3-[cur-version]-[x64/x32]-win/bin` folder to the environment variable [PATH](https://www.wikihow.com/Change-the-PATH-Environment-Variable-on-Windows)
 
 ## EMT Plugins
-- **Graphiti** Install Graphiti using the update site https://download.eclipse.org/graphiti/updates/0.18.0/
+- **Graphiti** Install Graphiti using the update site https://download.eclipse.org/graphiti/updates/release/0.19.2
 
 - **KeY** Install KeY using the update site https://formal.iti.kit.edu/key/download/releases/2.6/eclipse/ (disable `Group items` to show available plugins, install all)
 
