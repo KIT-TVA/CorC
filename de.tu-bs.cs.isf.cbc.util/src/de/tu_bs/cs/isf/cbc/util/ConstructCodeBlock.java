@@ -315,7 +315,7 @@ public class ConstructCodeBlock {
 	}
     }
 
-    private static void readPredicates(FileUtil fileHandler, String[] config, CbCFormula formula) {
+    public static void readPredicates(FileUtil fileHandler, String[] config, CbCFormula formula) {
 	predicates = new ArrayList<Predicate>();
 	String filePath = formula.eResource().getURI().toString();
 	String projectName = getProjectName(formula, fileHandler, filePath);
@@ -342,7 +342,7 @@ public class ConstructCodeBlock {
 	}
     }
 
-    private static boolean evaluateFormula(String ex) {
+    public static boolean evaluateFormula(String ex) {
 	ex = ex.trim();
 	if (ex.equals("true"))
 	    return true;

@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
@@ -14,7 +15,6 @@ import de.ovgu.featureide.fm.core.analysis.cnf.CNF;
 import de.ovgu.featureide.fm.core.analysis.cnf.IVariables;
 import de.ovgu.featureide.fm.core.analysis.cnf.LiteralSet;
 import de.ovgu.featureide.fm.core.analysis.cnf.LiteralSet.Order;
-import de.ovgu.featureide.fm.core.analysis.cnf.Variables;
 import de.ovgu.featureide.fm.core.analysis.cnf.formula.FeatureModelFormula;
 import de.ovgu.featureide.fm.core.analysis.cnf.generator.configuration.AllConfigurationGenerator;
 import de.ovgu.featureide.fm.core.analysis.cnf.generator.configuration.IConfigurationGenerator;
@@ -29,6 +29,7 @@ import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
 import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager; //Notices changes of model.xml
 import de.ovgu.featureide.fm.core.io.manager.FileHandler;
 import de.ovgu.featureide.fm.core.job.LongRunningWrapper;
+import de.tu_bs.cs.isf.cbc.util.presenceconditionparser.PresenceConditionParser.SelectionInfo;
 
 public class VerifyFeatures {
 	static {
@@ -366,6 +367,41 @@ public class VerifyFeatures {
 			}
 			
 			return featureConfig;
+	}
+	
+	public static String[] getSolutionForConditions(Set<SelectionInfo> selections, IProject project) {
+		IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
+		Configuration partialConfig = new Configuration(new FeatureModelFormula(featureModel));
+		CNF cnf = partialConfig.getFeatureModelFormula().getCNF();
+		AdvancedSatSolver solver = new AdvancedSatSolver(cnf);
+		selections.forEach(info -> partialConfig.setManual(info.getName(), info.getSelection()));
+		IVariables vars = cnf.getVariables();
+		selections.forEach(info -> partialConfig.setManual(info.getName(), info.getSelection()));
+		for (SelectableFeature feature : partialConfig.getFeatures()) {
+			if (feature.getSelection() != Selection.UNDEFINED) {
+				solver.assignmentPush(
+					vars.getVariable(
+						feature.getFeature().getName(), 
+						feature.getSelection() == Selection.SELECTED));
+			}
+		}
+									
+		int[] solution = solver.findSolution();
+		final LiteralSet result = new LiteralSet(solution, Order.INDEX, false);
+		Configuration config = new Configuration(partialConfig, partialConfig.getFeatureModelFormula());
+		for (int literal : result.getLiterals()) {
+			SelectableFeature feature = config.getSelectableFeature(vars.getName(literal));
+			if (feature.getSelection() == Selection.UNDEFINED) {
+				config.setManual(feature, literal > 0 ? Selection.SELECTED : Selection.UNSELECTED);
+			}
+		}
+
+		String[] featureConfig = new String[config.getSelectedFeatures().size()];
+		for (int i = 0; i < featureConfig.length; i++) {
+			featureConfig[i] = config.getSelectedFeatures().get(i).getName();
+		}
+		
+		return featureConfig;
 	}
 
 	private static void createEmptyConfiguration(final Path path) throws IOException {

@@ -1,6 +1,9 @@
 package de.tu_bs.cs.isf.cbc.tool.proofgraphs;
 
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -9,6 +12,8 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
+import de.ovgu.featureide.fm.core.base.IFeatureModel;
+import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
@@ -26,10 +31,16 @@ import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.IFileUtil;
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.Parser;
+import de.tu_bs.cs.isf.cbc.util.Predicate;
+import de.tu_bs.cs.isf.cbc.util.PredicateDefinition;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
+import de.tu_bs.cs.isf.cbc.util.presenceconditionparser.PresenceConditionParser;
+import de.tu_bs.cs.isf.cbc.util.presenceconditionparser.PresenceConditionParser.SelectionInfo;
 
 public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustomFeature {
+	
+	private static final String PREDICATES_DEF = "/predicates.def";
 
 	public VerifyStatementProofGraphBegin(IFeatureProvider fp) {
 		super(fp);
@@ -85,13 +96,30 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 					URI uri = this.getDiagram().eResource().getURI();
 					FileHandler.instance.deleteFolder(uri, "tests");
 					IProject project = FileUtil.getProjectFromFileInProject(uri);
-
 					String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 					String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 					String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 					IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
 					
 					String[] featureConfig = VerifyFeatures.findValidProduct(List.of(callingFeature), project);
+					
+					for (Predicate pred : readPredicates()) {
+						for (PredicateDefinition def: pred.definitions) {
+							if (!def.presenceCondition.equals("true")) {
+								Console.println("Found presence condition for variable predicate:" + def.presenceCondition);
+								IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
+								
+								PresenceConditionParser parser = new PresenceConditionParser(def.presenceCondition, featureModel.getFeatureOrderList());
+								List<Set<SelectionInfo>> conditions = parser.parseCondition();
+								
+								for (Set<SelectionInfo> allSelections : conditions) {
+									String[] predicateConfig = VerifyFeatures.getSolutionForConditions(allSelections, project);
+									Console.println("Caused by this predicate condition the following configurations need to be proven:");
+									Console.println("\t-" + Arrays.toString(predicateConfig));
+								}
+							}
+						}
+					}
 					
 					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
 						genCode.setProofTypeInfo(0, KeYInteraction.ABSTRACT_PROOF_COMPLETE);
@@ -122,5 +150,19 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 				Console.println("Time needed: " + duration + "ms");
 			}
 		}
+	
+	private List<Predicate> readPredicates() {
+		URI uri = this.getDiagram().eResource().getURI();
+		IProject project = FileUtil.getProjectFromFileInProject(uri);
+		FileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
+		String filePath = project.getRawLocation() + PREDICATES_DEF;
+
+		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
+		
+		Console.println("Found predicates:");
+		readPredicates.forEach(def -> Console.println(def.name));
+		
+		return readPredicates;
+	}
 }
 	
