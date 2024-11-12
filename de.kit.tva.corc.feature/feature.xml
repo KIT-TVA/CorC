@@ -158,10 +158,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.xtext.runtime"
-         version="0.0.0"/>
-
-   <includes
          id="org.emftext.commons.jdt"
          version="0.0.0"
          search-location="self"/>

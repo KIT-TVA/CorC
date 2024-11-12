@@ -1,7 +1,7 @@
 public class IntList {
 
     public int[] data;
-    public int x;
+    public int LIMIT;
 
     /*@ invariant data != null; @*/
     /*@ invariant this != null; @*/
@@ -9,20 +9,9 @@ public class IntList {
 
 	/*@
 	@ normal_behavior
-	@ requires x == 0;
-	@ ensures x == 1;
-	@ assignable \nothing;
-	@*/
-	public void test() {
-		x+=1;
-
-	}
-
-	/*@
-	@ normal_behavior
 	@ requires true;
-	@ ensures (\exists int z;(0 <= z && z < data.length && data[z] == newTop)) && (\forall int k;(0 <= k && k < \old(data).length ==> (\exists int z;(0 <= z && z < data.length && data[z] == \old(data)[k])))) && data[data.length - 1] == newTop;
-	@ assignable \nothing;
+	@ ensures containsNewTop(data, newTop)&& containsOldElements(data, \old(data));
+	@ assignable data[*];
 	@*/
 	public void original_original_push(int newTop) {
 		int i;
@@ -31,6 +20,7 @@ public class IntList {
 		tmp[tmp.length-1] = newTop;
 		i = 0;
 		while (i < data.length) {
+			tmp[i] = data[i];
 			i++;
 		}
 		data = tmp;
@@ -40,19 +30,23 @@ public class IntList {
 	/*@
 	@ normal_behavior
 	@ requires true;
-	@ ensures (\exists int z;(0 <= z && z < data.length && data[z] == newTop)) && (\forall int k;(0 <= k && k < \old(data).length ==> (\exists int z;(0 <= z && z < data.length && data[z] == \old(data)[k])))) && data[data.length - 1] == newTop &&  data[data.length - 1] == newTop;
+	@ ensures (\old(data).length < LIMIT) ==> \original_post;
 	@ assignable \nothing;
 	@*/
 	public void original_push(int newTop) {
-		original_original_push(newTop);
+		if (data.length < LIMIT) {
+			original_original_push(newTop);
+		} else if (data.length >= LIMIT) {
+			;
+		}
 
 	}
 
 	/*@
 	@ normal_behavior
-	@ requires (\forall int k; (0 <= k && k < data.length-1 ==> data[k] >= data[k+1]));
-	@ ensures (\forall int k; (0 <= k && k < \old(data).length ==> (\exists int z; (0 <= z && z < data.length && data[z] == \old(data)[k]))))&& ((\forall int k; (0 <= k && k < data.length-1 ==> (data[k] >= data[k+1]))) || (\forall int k; (0 <= k && k < data.length-1 ==> (data[k] <= data[k+1]))));
-	@ assignable \nothing;
+	@ requires \original_pre && sorted(data);
+	@ ensures \original_post && sorted(data);
+	@ assignable data[*];
 	@*/
 	public void push(int newTop) {
 		original_push(newTop);
@@ -63,7 +57,7 @@ public class IntList {
 	/*@
 	@ normal_behavior
 	@ requires data == \old(data);
-	@ ensures ((\forall int k; (0 <= k && k < \old(data).length==> (\exists int z; (0 <= z && z < data.length&& data[z] == \old(data)[k]))))&& (\forall int k; (0 <= k && k < data.length-1 ==> data[k] <= data[k+1])));
+	@ ensures containsOldElements(data, \old(data))&& sorted(data);
 	@ assignable data[*];
 	@*/
 	public void sort() {
