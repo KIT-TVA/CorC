@@ -85,11 +85,16 @@ public class ProveWithKey {
 
 	public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler,
 			String[] config, int configNum, String proofType) {
+		this(statement, diagram, monitor, fileHandler, ProveWithKey.SRC_FOLDER, Arrays.asList(config), configNum, proofType);
+	}
+
+	public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler,
+			List<String> config, int configNum, String proofType) {
 		this(statement, diagram, monitor, fileHandler, ProveWithKey.SRC_FOLDER, config, configNum, proofType);
 	}
 
 	public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler,
-			String srcFolder, String[] config, int configNum, String proofType) {
+			String srcFolder, List<String> config, int configNum, String proofType) {
 		if (proofType.equals(KeYInteraction.ABSTRACT_T_RESOLVED_PROOF)) {
 			this.proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
 			this.noResolve = true;
@@ -120,9 +125,7 @@ public class ProveWithKey {
 		this.isVariationalProject = false;
 		this.configList = new ArrayList<String>();
 		if (config != null) {
-			for (int i = 0; i < config.length; i++) {
-				this.configList.add(config[i]);
-			}
+			this.configList = config;
 		}
 		this.configName = "";
 		this.configNum = configNum;
@@ -1010,9 +1013,9 @@ public class ProveWithKey {
 		}
 	}
 
-	private static void readPredicates(String[] config, CbCFormula formula, String filePath) {
+	private static void readPredicates(List<String> config, CbCFormula formula, String filePath) {
 		predicates = new ArrayList<Predicate>();
-		if (config == null) config = new String[0];
+		if (config == null) config = new ArrayList<String>();
 		String projectName = getProjectName(formula, filePath);
 		filePath = filePath.substring(0, filePath.indexOf(projectName)) + projectName + "/predicates.def";
 		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);

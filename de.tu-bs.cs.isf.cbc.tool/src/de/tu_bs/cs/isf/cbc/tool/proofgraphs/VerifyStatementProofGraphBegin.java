@@ -1,19 +1,15 @@
 package de.tu_bs.cs.isf.cbc.tool.proofgraphs;
 
-import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 
-import de.ovgu.featureide.fm.core.base.IFeatureModel;
-import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
@@ -21,27 +17,16 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPP;
+import de.tu_bs.cs.isf.cbc.tool.proofs.IKeYProof;
+import de.tu_bs.cs.isf.cbc.tool.proofs.KeYProofProver;
+import de.tu_bs.cs.isf.cbc.tool.proofs.strategies.ProofGraphStatementBeginStrategy;
 import de.tu_bs.cs.isf.cbc.util.Console;
-import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileHandler;
-import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import de.tu_bs.cs.isf.cbc.util.IFileUtil;
-import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.Parser;
-import de.tu_bs.cs.isf.cbc.util.Predicate;
-import de.tu_bs.cs.isf.cbc.util.PredicateDefinition;
-import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
-import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
-import de.tu_bs.cs.isf.cbc.util.presenceconditionparser.PresenceConditionParser;
-import de.tu_bs.cs.isf.cbc.util.presenceconditionparser.PresenceConditionParser.SelectionInfo;
 
 public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustomFeature {
 	
-	private static final String PREDICATES_DEF = "/predicates.def";
-
 	public VerifyStatementProofGraphBegin(IFeatureProvider fp) {
 		super(fp);
 	}
@@ -59,7 +44,6 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 	@Override
 	public boolean canExecute(ICustomContext context) {
 		boolean ret = false;
-		//TODO: Only show when SPL (check for variational)
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
@@ -83,62 +67,27 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
 			if (bo instanceof AbstractStatement statement) {
 
-				boolean proven = true;
-				VerifyStatement verifyStatement = new VerifyStatement(getFeatureProvider());
+				URI uri = this.getDiagram().eResource().getURI();
 				String preFormula = Parser.getConditionFromCondition(statement.getPreCondition().getName());
 				String postFormula = Parser.getConditionFromCondition(statement.getPostCondition().getName());
-				
+
 				if (preFormula.contains("original") || postFormula.contains("original")) {
 					VerifyOriginalCallStatementProofGraphBegin verify = new VerifyOriginalCallStatementProofGraphBegin(getFeatureProvider());
 					verify.execute(context);
 				} else {
 					Console.println("No Variation within statement. Instantly starting verification!");
-					URI uri = this.getDiagram().eResource().getURI();
 					FileHandler.instance.deleteFolder(uri, "tests");
-					IProject project = FileUtil.getProjectFromFileInProject(uri);
-					String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
-					String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
-					String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
-					IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
 					
-					String[] featureConfig = VerifyFeatures.findValidProduct(List.of(callingFeature), project);
+					IKeYProof keyProof = new IKeYProof();
+					keyProof.setDiagram(getDiagram());
+					keyProof.setFeatureProvider(getFeatureProvider());
+					keyProof.setProgressMonitor(monitor);
+					keyProof.setStatement(statement);
+					keyProof.setJavaVariables(generateJavaVariables());
+					keyProof.setCbCFormulas(generateCbCFormulas());
 					
-					for (Predicate pred : readPredicates()) {
-						for (PredicateDefinition def: pred.definitions) {
-							if (!def.presenceCondition.equals("true")) {
-								Console.println("Found presence condition for variable predicate:" + def.presenceCondition);
-								IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
-								
-								PresenceConditionParser parser = new PresenceConditionParser(def.presenceCondition, featureModel.getFeatureOrderList());
-								List<Set<SelectionInfo>> conditions = parser.parseCondition();
-								
-								for (Set<SelectionInfo> allSelections : conditions) {
-									String[] predicateConfig = VerifyFeatures.getSolutionForConditions(allSelections, project);
-									Console.println("Caused by this predicate condition the following configurations need to be proven:");
-									Console.println("\t-" + Arrays.toString(predicateConfig));
-								}
-							}
-						}
-					}
-					
-					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
-						genCode.setProofTypeInfo(0, KeYInteraction.ABSTRACT_PROOF_COMPLETE);
-						genCode.generate(project.getLocation(), 
-								callingFeature, 
-								callingClass, 
-								callingMethod, 
-								featureConfig);
-
-						String[][] variantWrapper = {featureConfig};
-						String variant = verifyStatement.generateVariantsStringFromFeatureConfigs(variantWrapper, callingFeature, callingClass)[0];
-						List<CbCFormula> refinements = verifyStatement.generateCbCFormulasForRefinements(variant, callingMethod);
-						List<JavaVariables> refinementVars = verifyStatement.generateJavaVariablesForRefinements(variant, callingMethod);
-						ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, fileHandler, featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_FULL);
-						if(!prove.proveStatementWithKey(null, refinements, refinementVars, bo instanceof ReturnStatement, false, callingMethod, "", callingClass, true)) {
-							proven = false;
-						}
-					}
-					statement.setProven(proven);
+					KeYProofProver prover = new KeYProofProver(keyProof, new ProofGraphStatementBeginStrategy());
+					statement.setProven(prover.prove());
 				}
 
 				long endTime = System.nanoTime();
@@ -150,19 +99,34 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 				Console.println("Time needed: " + duration + "ms");
 			}
 		}
-	
-	private List<Predicate> readPredicates() {
-		URI uri = this.getDiagram().eResource().getURI();
-		IProject project = FileUtil.getProjectFromFileInProject(uri);
-		FileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
-		String filePath = project.getRawLocation() + PREDICATES_DEF;
+	}
 
-		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
-		
-		Console.println("Found predicates:");
-		readPredicates.forEach(def -> Console.println(def.name));
-		
-		return readPredicates;
+	public List<JavaVariables> generateJavaVariables() {
+		List<JavaVariables> variables = new ArrayList<JavaVariables>();
+
+		for (Shape shape : this.getDiagram().getChildren()) {
+			Object obj = getBusinessObjectForPictogramElement(shape);
+			if (obj instanceof JavaVariables) {
+				variables.add((JavaVariables) obj);
+				break;
+			}
+		}
+
+		return variables;
+	}
+
+	public List<CbCFormula> generateCbCFormulas() {
+		List<CbCFormula> cbcFormulas = new ArrayList<CbCFormula>();
+
+		for (Shape shape : this.getDiagram().getChildren()) {
+			Object obj = getBusinessObjectForPictogramElement(shape);
+			if (obj instanceof CbCFormula) {
+				cbcFormulas.add((CbCFormula) obj);
+				break;
+			}
+		}
+
+		return cbcFormulas;
 	}
 }
 	

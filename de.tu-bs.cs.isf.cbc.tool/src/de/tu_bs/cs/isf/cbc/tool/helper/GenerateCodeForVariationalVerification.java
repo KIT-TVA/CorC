@@ -80,6 +80,13 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
     	this.nonResolvedFeature = nonResolvedFeature;
     	return generate(location, callingFeature, callingClass, callingMethod, config); 
     }
+    
+    public boolean generate(IPath location, String callingFeature, String callingClas, String callingMethod, List<String> config) 
+    {
+    	String[] arrayConfig = new String[config.size()];
+    	config.toArray(arrayConfig);
+    	return this.generate(location, callingFeature, callingClas, callingMethod, arrayConfig);
+    }
 
     public boolean generate(IPath location, String callingFeature, String callingClass, String callingMethod,
 	    String[] config) {

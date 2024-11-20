@@ -1,6 +1,7 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -148,7 +149,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
 			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
-			ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(platformUri), null, 0, proofType);
+			ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(platformUri), new ArrayList<>(), 0, proofType);
 			proven = prove.proveStatementWithKey(returnStatement, false, callingClass, true);
 		} else {
 			Console.println("Statement is not in correct format.");
@@ -228,6 +229,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		return formulas;
 	}
 	
+	//this method feels 90% useless explain pls
 	public List<JavaVariables> generateJavaVariablesForRefinements(String refs, String methodName) {
 		List<JavaVariables> variables = new ArrayList<JavaVariables>();
 		if (refs == null) return variables;

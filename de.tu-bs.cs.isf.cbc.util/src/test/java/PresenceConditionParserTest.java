@@ -2,6 +2,7 @@ package test.java;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.sql.Array;
 import java.util.List;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import de.tu_bs.cs.isf.cbc.util.presenceconditionparser.PresenceConditionNode;
 import de.tu_bs.cs.isf.cbc.util.presenceconditionparser.PresenceConditionParser;
 import de.tu_bs.cs.isf.cbc.util.presenceconditionparser.PresenceConditionParser.SelectionInfo;
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class PresenceConditionParserTest {
 	
@@ -99,6 +101,28 @@ public class PresenceConditionParserTest {
 			System.out.print("]");
 		});
 
+	}
+	
+	@Test
+	public void testVariants() {
+		String[][] list = {{"Feature1", "Feature2"}, {"Feature3", "Feature4"}};
+		System.out.println(Arrays.toString(generateVariantsStringFromFeatureConfigs(list, "Calling", "Class"))); 
+	}
+	
+	private String[] generateVariantsStringFromFeatureConfigs(String[][] featureConfigs, String callingFeature,	String className) {
+		String[] variants = new String[featureConfigs.length];
+		for (int i = 0; i < featureConfigs.length; i++) {
+			for (int j = featureConfigs[i].length - 1; j >= 0; j--) {
+				if (!featureConfigs[i][j].equals(callingFeature)) {
+					if (variants[i] == null) {
+						variants[i] = className + "." + featureConfigs[i][j].toLowerCase();
+					} else {
+						variants[i] += "," + className + "." + featureConfigs[i][j].toLowerCase();
+					}
+				}
+			}
+		}
+		return variants;
 	}
 
 }

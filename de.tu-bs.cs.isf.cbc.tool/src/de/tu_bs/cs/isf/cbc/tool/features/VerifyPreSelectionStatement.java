@@ -1,5 +1,6 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -118,7 +119,7 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 						}
 					}
 				} else {
-					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), null, 0, proofType);
+					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), new ArrayList<>(), 0, proofType);
 					Console.println("Starting verification...\n");
 					String callingClass = uri.segment(uri.segmentCount() - 2) + "";
 					proven = prove.provePreSelWithKey(null, statement.getGuards(), parent.getPreCondition());
