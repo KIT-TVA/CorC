@@ -27,6 +27,7 @@ import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
 import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager; //Notices changes of model.xml
 import de.ovgu.featureide.fm.core.io.manager.FileHandler;
 import de.ovgu.featureide.fm.core.job.LongRunningWrapper;
+import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
 
 public class VerifyFeatures {
 	static {

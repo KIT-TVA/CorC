@@ -65,6 +65,9 @@ public class UpdateMethodCallsToProve {
 	IEditorInput input = activeEditor.getEditorInput();
 	IResource diagramResource = input.getAdapter(IResource.class);
 	IResource projectResource = diagramResource.getParent().getParent().getParent().getParent();
+	if (projectResource.getName().equals("features")) {
+	    projectResource = projectResource.getParent();
+	}
 	IPath projectPath = projectResource.getLocation();
 	IPath modelPath = projectPath.append("model.xml");
 	IFile modelFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(modelPath);
@@ -120,17 +123,13 @@ public class UpdateMethodCallsToProve {
 	List<URI> validDiagramsAffectedURIs = new ArrayList<URI>();
 	for (int i = 0; i < validDiagramURIs.size(); i++) {
 	    // Get DiagramResource
-	    ResourceSet resourceSet;
-	    Resource diagram_Resource;
-	    Resource cbc_Resource;
+	    ResourceSet resourceSet = new ResourceSetImpl();
+	    Resource diagram_Resource = resourceSet.getResource(validDiagramURIs.get(i), true);
+	    Resource cbc_Resource = resourceSet
+		    .getResource(validDiagramURIs.get(i).trimFileExtension().appendFileExtension("cbcmodel"), true);
 	    // Get Diagram
 	    Diagram diagram = null;
 	    try {
-		resourceSet = new ResourceSetImpl();
-		diagram_Resource = resourceSet.getResource(validDiagramURIs.get(i), true);
-		cbc_Resource = resourceSet
-			.getResource(validDiagramURIs.get(i).trimFileExtension().appendFileExtension("cbcmodel"), true);
-		// Get Diagram
 		if (diagram_Resource != null) {
 		    // does resource contain a diagram as root object?
 		    final EList<EObject> contents = diagram_Resource.getContents();

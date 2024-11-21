@@ -23,7 +23,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
@@ -31,7 +30,9 @@ import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
+import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.Parser;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
@@ -199,8 +200,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			}
 			return proven;
 		} else {
-			Console.println("Original-call statement: " + statement.getName().replaceAll("\n", "").replaceAll("\r", "")
-					+ " already true");
+			Console.println("  Original-call statement: "
+					+ statement.getName().replaceAll("\n", "").replaceAll("\r", "") + " already true");
 			return true;
 		}
 	}
@@ -260,7 +261,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			}
 			return proven;
 		} else {
-			Console.println("Method-call statement: " + statement.getName().replaceAll("\n", "").replaceAll("\r", "")
+			Console.println("  Method-call statement: " + statement.getName().replaceAll("\n", "").replaceAll("\r", "")
 					+ " already true");
 			return true;
 		}
@@ -332,7 +333,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			}
 			return proven;
 		} else {
-			Console.println("Abstract statement: " + statement.getName().replaceAll("\n", "").replaceAll("\r", "")
+			Console.println("  Abstract statement: " + statement.getName().replaceAll("\n", "").replaceAll("\r", "")
 					+ " already true");
 			return true;
 		}
@@ -378,7 +379,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			}
 			return (proven && provePre && true);
 		} else {
-			Console.println("Selection statement already true");
+			Console.println("  Selection statement already true");
 			return true;
 		}
 	}
@@ -453,7 +454,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			repStatement.setPreProven(true);
 			repStatement.setPostProven(true);
 			repStatement.setVariantProven(true);
-			Console.println("SRepetition statement already true");
+			Console.println("  SRepetition statement already true");
 			return true;
 		}
 	}

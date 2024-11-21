@@ -67,6 +67,9 @@ public class FileUtil implements IFileUtil {
 			if (fileResource != null) {
 				IProject project = fileResource.getProject();
 				IFolder classFolder = project.getFolder("src_gen");
+				if (classFolder == null) {
+					classFolder = project.getFolder("src");
+				}
 				return traverseFolders(classFolder, className);
 
 			}
@@ -201,9 +204,9 @@ public class FileUtil implements IFileUtil {
 			AbstractStatement statement, String subProofName, boolean proofExists, String configName,
 			List<String> originalPrePost) {
 		FileNameManager manager = new FileNameManager();
-
-		String keyFileName = "";
-		File keyFile = null;
+		String keyFileName = manager.getFileName(problem, location, statement, subProofName);
+		
+		File keyFile = new File(location + keyFileName + ".key");
 		File keyHelperFile = null;
 		switch (proofType) {
 		case KeYInteraction.ABSTRACT_PROOF_FULL:

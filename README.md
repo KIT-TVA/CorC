@@ -14,7 +14,7 @@ Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archi
 - Get the latest release of [Z3](https://github.com/Z3Prover/z3/releases) and add the `*/z3-[cur-version]-[x64/x32]-win/bin` folder to the environment variable [PATH](https://www.wikihow.com/Change-the-PATH-Environment-Variable-on-Windows)
 
 ## EMT Plugins
-- **Graphiti** Install Graphiti using the update site https://download.eclipse.org/graphiti/updates/0.18.0/
+- **Graphiti** Install Graphiti using the update site https://download.eclipse.org/graphiti/updates/release/0.19.2
 
 - **KeY** Install KeY using the update site https://formal.iti.kit.edu/key/download/releases/2.6/eclipse/ (disable `Group items` to show available plugins, install all)
 
@@ -31,8 +31,7 @@ Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archi
     ```sh
     git clone https://github.com/KIT-TVA/CorC.git
     ```
-2. Install **JaMoPP** using the two plugins inside package `*.tool.update` (disable `Group items` to show available plugins).
-3. Open the following packages in Eclipse Modelling Tools:
+2. Open the following packages in Eclipse Modelling Tools:
     - `de.tu-bs.cs.isf.cbc.exceptions`
     - `de.tu-bs.cs.isf.cbc.model`
     - `de.tu-bs.cs.isf.cbc.mutation`
@@ -46,18 +45,19 @@ Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archi
     - `de.tu_bs.cs.isf.commands.toolbar`
     - `de.tu_bs.cs.isf.lattice`
 
-4.  Open:
+3.  Open:
     - `*.cbc.model -> model -> genmodel.genmodel`
     - `*.cbc.statistics -> model -> cbcstatistics.genmodel` 
     
     Right click and `Generate Model/Edit/Editor Code` for all files listed.
+    If EMT still displays errors, clean and rebuild all projects as described in the [common issues](#common-issues) section.
 
-5. Select any package and run project as `Eclipse Application`.
+4. Select any package and run project as `Eclipse Application`.
 
 # Examples & Case Study Introduction
 We provide different examples and case studies to explore CorC!
 ## Examples
-Create CorC-examples via `File -> New -> Other... -> CorC -> CorC Examples` Select examples you want to create.
+Create CorC-examples via `File -> New -> Other... -> CorC -> CorC Examples`.
 ## Case studies
 The repository you checked out contains various software product line case studies. They can be loaded via `File -> Open project from file system`. 
 ### BankAccount
@@ -86,7 +86,7 @@ The IntegerList implements a list of integers with add and sort operations.
 
 **Problem:** Multiple resolving errors after generating model files.
 
-**Solution:** Uninstall JaMoPP Plugins via `Window -> Preferences -> Install/Update -> Uninstall or update`. Afterwards reinstall as described above.
+**Solution:** Clean and rebuild all projects via `Project -> Clean...`.
 
 ---
 
