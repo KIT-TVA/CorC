@@ -8,7 +8,6 @@ Require-Bundle: org.eclipse.ui,
  de.tu-bs.cs.isf.cbc.util;bundle-version="1.0.0",
  org.eclipse.core.resources,
  de.tu-bs.cs.isf.cbc.model,
- org.emftext.language.java,
  org.eclipse.emf.ecore.xmi,
  de.ovgu.featureide.fm.core
 Bundle-RequiredExecutionEnvironment: JavaSE-16
@@ -17,9 +16,7 @@ Import-Package: de.tu_bs.cs.isf.corc.predicateWizard,
  org.eclipse.core.runtime;version="3.7.0",
  org.eclipse.graphiti.mm.pictograms;version="0.18.0",
  org.eclipse.jdt.core,
- org.eclipse.jdt.internal.core,
- org.emftext.language.java.containers,
- org.emftext.language.java.resource.java.util
+ org.eclipse.jdt.internal.core
 Export-Package: de.tu_bs.cs.isf.commands.toolbar.handler.family
 Bundle-ClassPath: lib/javaparser-core-3.25.9-SNAPSHOT.jar,
  lib/javaparser-symbol-solver-core-3.25.9-SNAPSHOT.jar,
