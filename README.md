@@ -54,7 +54,7 @@ We provide different examples and case studies to explore CorC!
 ## Examples
 Create CorC-examples via `File -> New -> Other... -> CorC -> CorC Examples`.
 ## Case studies
-The repository you checked out contains various software product line case studies. They can be loaded via `File -> Open project from file system`. 
+The repository you checked out contains various software product line case studies in the folder `CaseStudies`. They can be loaded via `File -> Open project from file system`. 
 ### BankAccount
 The BankAccount implements basic functions of a bank account such as withdrawals, limits, money transfers and checking the account balance.
 - **BankAccount** Object-oriented implementation with class structure and CbC-Classes.
