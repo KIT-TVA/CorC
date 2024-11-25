@@ -314,9 +314,7 @@ public class KeYInteraction {
 						String locationWithoutFileEnding = location.toString().substring(0,
 								location.toString().indexOf("."));
 						keyFile = new File(locationWithoutFileEnding + ".proof");
-						/* TODO: KeyNewVersion */
 						ProofSaver.saveToFile(keyFile, proof);
-						// proof.saveToFile(keyFile);
 						IWorkspace workspace = ResourcesPlugin.getWorkspace();
 						IPath iLocation = Path.fromOSString(keyFile.getAbsolutePath());
 						IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
