@@ -15,8 +15,6 @@ Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archi
 ## EMT Plugins
 - **Graphiti** Install Graphiti using the update site https://download.eclipse.org/graphiti/updates/release/0.18.0
 
-- **KeY** Install KeY using the update site https://formal.iti.kit.edu/key/download/releases/2.6/eclipse/ (disable `Group items` to show available plugins, install all)
-
 - **FeatureIDE** Available in [Eclipse Marketplace](https://marketplace.eclipse.org/content/featureide)
 
 - **Mylyn** Available in [Eclipse Marketplace](https://marketplace.eclipse.org/content/mylyn) (Mylyn 3.23)
