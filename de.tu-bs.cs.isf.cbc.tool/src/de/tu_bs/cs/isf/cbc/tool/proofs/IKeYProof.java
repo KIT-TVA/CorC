@@ -19,6 +19,7 @@ public class IKeYProof {
 	private String callingMethod;
 	private String callingClass;
 	private Diagram diagram;
+	private boolean isReturnStatement;
 	private List<JavaVariables> javaVariables;
 	private List<CbCFormula> cbcFormulas;
 	private AbstractStatement statement;
@@ -26,6 +27,14 @@ public class IKeYProof {
 	private IProgressMonitor progressMonitor;
 	
 	
+	public boolean isReturnStatement() {
+		return isReturnStatement;
+	}
+
+	public void setReturnStatement(boolean isReturnStatement) {
+		this.isReturnStatement = isReturnStatement;
+	}
+
 	public String getCallingFeature() {
 		return callingFeature;
 	}

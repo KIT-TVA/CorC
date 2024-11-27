@@ -72,8 +72,9 @@ public final class ProofGraphOriginalStatementCompleteStrategy extends KeYProofS
 					Set<String> union = new HashSet<String>();
 					union.addAll(predicateConfig);
 					union.addAll(originalImpliedConfig);
-					//TODO: Test if legal config (ask how to do SAT Solver?)
-					toProve.add(new ArrayList<>(union));
+					if (VerifyFeatures.isValidConfiguration(union, project)) {
+						toProve.add(new ArrayList<>(union));
+					}
 				});
 				
 				Console.println("\t -");

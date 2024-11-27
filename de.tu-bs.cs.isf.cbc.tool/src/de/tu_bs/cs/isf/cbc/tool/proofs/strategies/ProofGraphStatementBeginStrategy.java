@@ -8,7 +8,6 @@ import java.util.Set;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
 
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
 import de.tu_bs.cs.isf.cbc.tool.proofs.IKeYProof;
 import de.tu_bs.cs.isf.cbc.tool.proofs.KeYProofStrategy;
 import de.tu_bs.cs.isf.cbc.tool.proofs.ProofGraphStrategy;
@@ -62,7 +61,7 @@ public final class ProofGraphStatementBeginStrategy extends KeYProofStrategy imp
 		return prove.proveStatementWithKey(null, 
 				proof.getCbcFormulas(),
 				proof.getJavaVariables(),
-				false, 
+				proof.isReturnStatement(),
 				false, 
 				proof.getCallingMethod(), 
 				"", 
@@ -75,5 +74,4 @@ public final class ProofGraphStatementBeginStrategy extends KeYProofStrategy imp
 	public String getProofType() {
 		return KeYInteraction.ABSTRACT_PROOF_FULL;
 	}
-
 }

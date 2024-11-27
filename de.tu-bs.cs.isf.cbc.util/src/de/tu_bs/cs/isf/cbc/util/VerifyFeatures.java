@@ -19,6 +19,7 @@ import de.ovgu.featureide.fm.core.analysis.cnf.formula.FeatureModelFormula;
 import de.ovgu.featureide.fm.core.analysis.cnf.generator.configuration.AllConfigurationGenerator;
 import de.ovgu.featureide.fm.core.analysis.cnf.generator.configuration.IConfigurationGenerator;
 import de.ovgu.featureide.fm.core.analysis.cnf.solver.AdvancedSatSolver;
+import de.ovgu.featureide.fm.core.analysis.cnf.solver.ISimpleSatSolver.SatResult;
 import de.ovgu.featureide.fm.core.base.IFeature;
 import de.ovgu.featureide.fm.core.base.IFeatureModel;
 import de.ovgu.featureide.fm.core.configuration.Configuration;
@@ -329,6 +330,24 @@ public class VerifyFeatures {
 		}
 		configurations = temporary;
 		return;
+	}
+	
+	public static boolean isValidConfiguration(Set<String> featureConfig, IProject project) {
+		IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
+		Configuration configuration = new Configuration(new FeatureModelFormula(featureModel));
+		for(String feature : featureConfig) {
+			configuration.setManual(feature, Selection.SELECTED);
+		}
+		
+		CNF cnf = configuration.getFeatureModelFormula().getCNF();
+		AdvancedSatSolver solver = new AdvancedSatSolver(cnf);
+		IVariables vars = cnf.getVariables();
+		
+		for (SelectableFeature current : configuration.getFeatures()) {
+			solver.assignmentPush(vars.getVariable(current.getFeature().getName(), current.getSelection() == Selection.SELECTED));
+		}
+		
+		return solver.hasSolution() == SatResult.TRUE;
 	}
 	
 	public static String[] findValidProduct(List<String> callingFeatures, IProject project) {

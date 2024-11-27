@@ -1,5 +1,8 @@
 package de.tu_bs.cs.isf.cbc.tool.proofs;
 
+import java.util.List;
+import java.util.Set;
+
 public final class KeYProofProver {
 
 	private final IKeYProof keyProof;
@@ -11,11 +14,17 @@ public final class KeYProofProver {
 	}
 
 	public boolean prove() {
-		return this.proofStrategy.generateFeatureConfigurations(keyProof)
+		final Set<List<String>> featureConfigurations = this.proofStrategy.generateFeatureConfigurations(keyProof);
+		if (featureConfigurations.isEmpty()) {
+			return this.proofStrategy.proveWithoutVariation(keyProof);
+		} else {
+			return this.proofStrategy.generateFeatureConfigurations(keyProof)
 				.stream().map(featureConfig -> {
 					this.proofStrategy.generateCode(keyProof, featureConfig);
 					return this.proofStrategy.prove(keyProof, featureConfig);
 				}).allMatch(val -> val == true);
+
+		}
 	}
 
 }

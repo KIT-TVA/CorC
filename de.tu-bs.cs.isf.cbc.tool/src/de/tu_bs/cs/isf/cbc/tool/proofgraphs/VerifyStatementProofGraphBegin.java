@@ -10,6 +10,7 @@ import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
+import de.ovgu.featureide.fm.core.io.velvet.VelvetParser.instanceImports_return;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
@@ -65,6 +66,7 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 		
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
+			boolean isReturnStatement = bo instanceof ReturnStatement;
 			if (bo instanceof AbstractStatement statement) {
 
 				URI uri = this.getDiagram().eResource().getURI();
@@ -85,6 +87,7 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 					keyProof.setStatement(statement);
 					keyProof.setJavaVariables(generateJavaVariables());
 					keyProof.setCbCFormulas(generateCbCFormulas());
+					keyProof.setReturnStatement(isReturnStatement);
 					
 					KeYProofProver prover = new KeYProofProver(keyProof, new ProofGraphStatementBeginStrategy());
 					statement.setProven(prover.prove());
@@ -93,7 +96,6 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 				long endTime = System.nanoTime();
 				long duration = (endTime - startTime) / 1_000_000;
 				startTime = System.nanoTime();
-				RunEvaluationForStatementPP.WHOLE_RUNTIME_START.add(duration + ""); //PG DEBUG
 
 				Console.println("\nVerification done."); 
 				Console.println("Time needed: " + duration + "ms");
