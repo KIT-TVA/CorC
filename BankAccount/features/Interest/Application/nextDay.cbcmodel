@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="nextDay" proven="true" comment="" className="Application" methodName="nextDay">
+    <statement name="statement" id="2dbe2e0e-7c2f-4be4-a96a-39f88679a526">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="e6ea8d8a-a5fe-4aa2-9c4a-72b9386c43b0">
+        <firstStatement name="statement1" id="3d6d770b-bab7-4566-bbf7-b6025eab2e26">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:OriginalStatement" name="original();" proven="true" id="44749190-dbf7-431f-8b7c-6c485395e8a7">
+            <postCondition name="true"/>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="true"/>
+          <preCondition name="true"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="92609f96-7413-4bac-a134-e748e1d8727d">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:MethodStatement" name="a.interest += a.interestCalculate();" proven="true" id="a5c1716b-c694-48c7-ad00-5a264b9bb3b2">
+            <postCondition name="(a.balance >= 0 -> a.interest >= \old(this.a.interest)) &amp; (a.balance &lt;= 0 -> a.interest &lt;= \old(this.a.interest))">
+              <modifiables>a.interest</modifiables>
+            </postCondition>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="(a.balance >= 0 -> a.interest >= \old(this.a.interest)) &amp; (a.balance &lt;= 0 -> a.interest &lt;= \old(this.a.interest))">
+            <modifiables>a.interest</modifiables>
+          </postCondition>
+          <preCondition name="true"/>
+        </secondStatement>
+        <intermediateCondition name="true"/>
+      </refinement>
+      <postCondition name="(a.balance >= 0 -> a.interest >= \old(this.a.interest)) &amp; (a.balance &lt;= 0 -> a.interest &lt;= \old(this.a.interest))">
+        <modifiables>a.interest</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Application.cbcclass#//@methods.0"/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
+</xmi:XMI>

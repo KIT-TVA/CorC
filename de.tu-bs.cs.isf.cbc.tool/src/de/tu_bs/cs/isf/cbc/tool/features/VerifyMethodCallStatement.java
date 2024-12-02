@@ -19,23 +19,22 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
+import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPP;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import de.tu_bs.cs.isf.cbc.util.GenerateCodeForVariationalVerification;
-import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
+import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.Parser;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
-import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 
 public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeature {
 	private String proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
-
+	
 	public void setProofType(String proofType) {
 		this.proofType = proofType;
 	}
@@ -85,7 +84,7 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
 			if (bo instanceof AbstractStatement) {
 				AbstractStatement statement = (AbstractStatement) bo;
-
+				
 				boolean proven = false;
 				URI uri = getDiagram().eResource().getURI();
 				IProject project = FileUtil.getProjectFromFileInProject(uri);
@@ -111,18 +110,17 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1000000;
 		if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN)) {
-			RunEvaluationForStatementPP.WHOLE_RUNTIME_START.add(duration + ""); // PG DEBUG
+			RunEvaluationForStatementPP.WHOLE_RUNTIME_START.add(duration + ""); //PG DEBUG
 		} else {
-			RunEvaluationForStatementPP.WHOLE_RUNTIME_COMPLETE.add(duration + ""); // PG DEBUG
+			RunEvaluationForStatementPP.WHOLE_RUNTIME_COMPLETE.add(duration + ""); //PG DEBUG
 		}
-		Console.println("\nVerification done.");
+		Console.println("\nVerification done."); 
 		Console.println("Time needed: " + duration + "ms");
 		proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
 		monitor.done();
 	}
 
-	private boolean executeNormalVerification(AbstractStatement statement, Diagram diagram, boolean returnStatement,
-			IProgressMonitor monitor) {
+	private boolean executeNormalVerification(AbstractStatement statement, Diagram diagram, boolean returnStatement, IProgressMonitor monitor) {
 		StatDataCollector.checkForId(statement);
 		boolean proven = false;
 		Console.println("Starting verification...\n");
@@ -130,8 +128,7 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
 			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
-			ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(platformUri),
-					new ArrayList<>(), 0, proofType);
+			ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(platformUri), new ArrayList<>(), 0, proofType);
 			proven = prove.proveStatementWithKey(returnStatement, false, callingClass, true);
 		} else {
 			Console.println("Statement is not in correct format.");
@@ -139,12 +136,11 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 		return proven;
 	}
 
-	private boolean executeVariationalVerification(IProject project, AbstractStatement statement, Diagram diagram,
-			boolean returnStatement, IProgressMonitor monitor) {
+	private boolean executeVariationalVerification(IProject project, AbstractStatement statement, Diagram diagram, boolean returnStatement, IProgressMonitor monitor) {
 		StatDataCollector.checkForId(statement);
 		boolean proven = false;
 		DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
-		JavaVariables vars = extractor.getVars();
+    	JavaVariables vars = extractor.getVars();
 		URI uri = diagram.eResource().getURI();
 		VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
 		String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
@@ -154,36 +150,24 @@ public class VerifyMethodCallStatement extends MyAbstractAsynchronousCustomFeatu
 		String varMParts[] = varM.split("\\.");
 		String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, varM, false, callingClass, false, null);
 		String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, varM, false, callingClass, true, null);
-		String[][] originalFeatureConfigsRelevant = VerifyFeatures.verifyConfig(uri, varM, false, callingClass, true,
-				uri.segment(uri.trimFileExtension().segmentCount() - 1));
-
+		String[][] originalFeatureConfigsRelevant = VerifyFeatures.verifyConfig(uri, varM, false, callingClass, true, uri.segment(uri.trimFileExtension().segmentCount() - 1));
+		
 		Console.println("Starting variational verification...\n");
 
-		GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(
-				super.getFeatureProvider());
-
+		GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
+		
 		if (featureConfigs != null) {
-			String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant,
-					callingFeature, varM.contains(".") ? varMParts[0] : callingClass);
-			String[] variantsOriginal = verifyStmt.generateVariantsStringFromFeatureConfigs(
-					originalFeatureConfigsRelevant, callingFeature, callingClass);
+			String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, varM.contains(".") ? varMParts[0] : callingClass);
+			String[] variantsOriginal = verifyStmt.generateVariantsStringFromFeatureConfigs(originalFeatureConfigsRelevant, callingFeature, callingClass);
 			if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 				for (int i = 0; i < variants.length; i++) {
 					genCode.setProofTypeInfo(i, proofType);
-					if (!genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod,
-							featureConfigs[i]))
-						continue;
-					ProveWithKey prove = new ProveWithKey(statement, diagram, monitor,
-							new FileUtil(uri.toPlatformString(true)), featureConfigs[i], i, proofType);
-					List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i],
-							varMParts[1].toLowerCase());
-					List<CbCFormula> refinementsOriginal = verifyStmt
-							.generateCbCFormulasForRefinements(variantsOriginal[i], callingMethod);
-					List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[i],
-							varMParts[1].toLowerCase());
-					proven = prove.proveStatementWithKey(refinementsOriginal.isEmpty() ? null : refinementsOriginal,
-							refinements, refinementsVars, returnStatement, false, callingMethod, varM, callingClass,
-							true);
+					if(!genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i])) continue;
+					ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri.toPlatformString(true)), featureConfigs[i], i, proofType);
+					List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i], varMParts[1].toLowerCase());
+					List<CbCFormula> refinementsOriginal = verifyStmt.generateCbCFormulasForRefinements(variantsOriginal[i], callingMethod);
+					List<JavaVariables> refinementsVars = verifyStmt.generateJavaVariablesForRefinements(variants[i], varMParts[1].toLowerCase());
+					proven = prove.proveStatementWithKey(refinementsOriginal.isEmpty() ? null : refinementsOriginal, refinements, refinementsVars, returnStatement, false, callingMethod, varM, callingClass, true);
 				}
 			} else {
 				Console.println("  Statement is not in correct format.");

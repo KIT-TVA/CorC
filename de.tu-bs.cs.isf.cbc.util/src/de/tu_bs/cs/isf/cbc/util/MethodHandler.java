@@ -1,10 +1,11 @@
 package de.tu_bs.cs.isf.cbc.util;
 
-import de.tu_bs.cs.isf.cbc.exceptions.ExceptionMessages;
-import de.tu_bs.cs.isf.cbc.exceptions.MethodHandlerException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+import de.tu_bs.cs.isf.cbc.exceptions.ExceptionMessages;
+import de.tu_bs.cs.isf.cbc.exceptions.MethodHandlerException;
 
 public class MethodHandler {
 	private String contract;

@@ -3,8 +3,6 @@ package de.tu_bs.cs.isf.commands.toolbar.handler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-
 import newDiagramWizard.SelectMethodWizard;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -33,13 +31,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.handlers.HandlerUtil;
-
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.comments.Comment;
-import com.github.javaparser.ast.stmt.Statement;
+import org.emftext.language.java.classifiers.impl.ClassImpl;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.members.ClassMethod;
+import org.emftext.language.java.members.Member;
+import org.emftext.language.java.members.impl.FieldImpl;
+import org.emftext.language.java.resource.java.util.JavaResourceUtil;
+import org.emftext.language.java.statements.Statement;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassFactory;
 import de.tu_bs.cs.isf.cbc.cbcclass.CbcclassPackage;
@@ -52,10 +50,8 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
-import de.tu_bs.cs.isf.cbc.util.ClassOrInterfaceCollector;
 import de.tu_bs.cs.isf.cbc.util.GenerateDiagramFromModel;
 import de.tu_bs.cs.isf.cbc.util.GenerateModelFromCode;
-import de.tu_bs.cs.isf.cbc.util.StatementsCollector;
 
 
 public class GenerateDiagramFromClassHandler extends AbstractHandler {
@@ -124,17 +120,15 @@ public class GenerateDiagramFromClassHandler extends AbstractHandler {
 
 		gmfc.readJMLAnnotations(javaFileContent, jmlMethodConditions);
 
-		CompilationUnit compilationUnit = StaticJavaParser.parse(javaFileContent);
-		
-		if (compilationUnit.getChildNodes().isEmpty()) {
+		EObject abstractSyntaxTreeRoot = JavaResourceUtil.getResourceContent(javaFileContent);
+		CompilationUnit compilationUnit = (CompilationUnit) abstractSyntaxTreeRoot;
+
+		if (compilationUnit.getClassifiers().isEmpty()
+				|| compilationUnit.getClassifiers().get(0).getMembers().isEmpty()) {
 			return;
 		}
-		
-		ClassOrInterfaceCollector collector = new ClassOrInterfaceCollector();
-		collector.visit(compilationUnit, null);
-		
-		if (collector.getClassOrInterfaceDeclaration().getNameAsString() != null && !collector.getClassOrInterfaceDeclaration().getNameAsString().isEmpty()) {
-			gmfc.setPackageName(collector.getClassOrInterfaceDeclaration().getNameAsString().substring(0, collector.getClassOrInterfaceDeclaration().getNameAsString().length()-1));
+		if (compilationUnit.getNamespacesAsString() != null && !compilationUnit.getNamespacesAsString().isEmpty()) {
+			gmfc.setPackageName(compilationUnit.getNamespacesAsString().substring(0, compilationUnit.getNamespacesAsString().length()-1));
 		}
 		gmfc.setupProjectStructure(iFile);
 		
@@ -142,107 +136,96 @@ public class GenerateDiagramFromClassHandler extends AbstractHandler {
 		modelClass.setJavaClassURI(URI.createFileURI(iFile.getProjectRelativePath().toPortableString()).toFileString());
 		modelClass.setPackage(gmfc.getPackageName());
 		
-		if (!collector.getClassOrInterfaceDeclaration().isInterface()) {
-			for (FieldDeclaration fieldDeclaration : collector.getFields()) {
-				gmfc.addFieldToList(fieldDeclaration);
-			}
-			
-			for (MethodDeclaration methodDeclaration : collector.getMethods()) {
-				String methodName = methodDeclaration.getNameAsString();
-				
-				if (methodName.equals(selectedMethod)) {
-				
-					Method method = CbcclassFactory.eINSTANCE.createMethod();
+		if (compilationUnit.getClassifiers().get(0) instanceof ClassImpl) {
+			ClassImpl javaClass = (ClassImpl) compilationUnit.getClassifiers().get(0);
+
+			for (Member member : javaClass.getMembers()) {
+				if (member instanceof FieldImpl) {
+					gmfc.addFieldToList((FieldImpl) member);
+				}
+
+				if (member instanceof ClassMethod) {
+					ClassMethod classMethod = (ClassMethod) member;
+					String methodName = classMethod.getName();
 					
-					Resource cbcmodelResource = gmfc.setupProjectForCbCModel(method, methodName);
-
-					JavaVariables variables = CbcmodelFactory.eINSTANCE.createJavaVariables();
-					gmfc.fillVariableList(variables, methodDeclaration);
-
-					//String signature = buildSignatureString(classMethod, variables);
-					gmfc.settingSignature(methodDeclaration, variables, method);
-
-					//get global conditions from existing diagram
-					GlobalConditions conditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
-					for (EObject obj : cbcmodelResource.getContents()) {
-						if (obj instanceof GlobalConditions) {
-							conditions = (GlobalConditions) obj;
+					if (methodName.equals(selectedMethod)) {
+					
+						Method method = CbcclassFactory.eINSTANCE.createMethod();
+						
+						Resource cbcmodelResource = gmfc.setupProjectForCbCModel(method, methodName);
+	
+						JavaVariables variables = CbcmodelFactory.eINSTANCE.createJavaVariables();
+						gmfc.fillVariableList(variables, classMethod);
+	
+						//String signature = buildSignatureString(classMethod, variables);
+						gmfc.settingSignature(classMethod, variables, method);
+	
+						//get global conditions from existing diagram
+						GlobalConditions conditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
+						for (EObject obj : cbcmodelResource.getContents()) {
+							if (obj instanceof GlobalConditions) {
+								conditions = (GlobalConditions) obj;
+							}
 						}
-					}
-
-					CbCFormula formula = gmfc.createFormula(methodDeclaration.getNameAsString());
-					formula.setClassName(gmfc.getClassName());
-					formula.setMethodName(method.getName());
-					method.setCbcStartTriple(formula);
-					formula.setMethodObj(method);
-					variables.eSet(CbcmodelPackage.eINSTANCE.getJavaVariables_Fields(), gmfc.getFields());
-					
-					//parse JML contract to pre- and postconditions of cbcFormula
-					String defaultAnnotation = "	/*@\r\n" + "	  @ public normal_behavior\r\n"
-							+ "	  @ requires true;\r\n" + "	  @ ensures true;\r\n" + "	  @ assignable \nothing;\r\n"
-							+ "	  @*/";
-					String jmlAnnotation;
-					Optional<Comment> comment = methodDeclaration.getComment();
-					if (!comment.isPresent()) {
-						jmlAnnotation = defaultAnnotation;
-					} else {
-						jmlAnnotation = comment.get().toString();
-						if (!jmlAnnotation.contains("/*@")) {
+	
+						CbCFormula formula = gmfc.createFormula(classMethod.getName());
+						formula.setClassName(gmfc.getClassName());
+						formula.setMethodName(method.getName());
+						method.setCbcStartTriple(formula);
+						formula.setMethodObj(method);
+						variables.eSet(CbcmodelPackage.eINSTANCE.getJavaVariables_Fields(), gmfc.getFields());
+						
+						//parse JML contract to pre- and postconditions of cbcFormula
+						String defaultAnnotation = "	/*@\r\n" + "	  @ public normal_behavior\r\n"
+								+ "	  @ requires true;\r\n" + "	  @ ensures true;\r\n" + "	  @ assignable \nothing;\r\n"
+								+ "	  @*/";
+						String jmlAnnotation = classMethod.getAnnotationsAndModifiers().get(0).getLayoutInformations()
+								.get(0).getHiddenTokenText();
+						if (!jmlAnnotation.contains("/*@"))
 							jmlAnnotation = defaultAnnotation;
+						int index = 0;
+	
+						do {
+							String currentJmlPart = "";
+							index = jmlAnnotation.indexOf("also");
+							if (index != -1) {
+								currentJmlPart = jmlAnnotation.substring(0, index);
+							} else {
+								currentJmlPart = jmlAnnotation;
+							}
+							jmlAnnotation = jmlAnnotation.substring(index + 4);
+	
+							gmfc.addConditionsToFormula(formula, currentJmlPart, variables, method, conditions);
+	
+						} while (index != -1);
+						
+						cbcmodelResource.getContents().clear();
+						cbcmodelResource.getContents().add(formula);
+						cbcmodelResource.getContents().add(variables);
+						cbcmodelResource.getContents().add(conditions);
+//						modelClass.getMethods().add(method);
+						gmfc.getMethods().add(method);
+						for (Method m : modelClass.getMethods()) {
+							gmfc.getMethods().add(m);
 						}
-					}
-					if (!jmlAnnotation.contains("/*@"))
-						jmlAnnotation = defaultAnnotation;
-					int index = 0;
-
-					do {
-						String currentJmlPart = "";
-						index = jmlAnnotation.indexOf("also");
-						if (index != -1) {
-							currentJmlPart = jmlAnnotation.substring(0, index);
-						} else {
-							currentJmlPart = jmlAnnotation;
+	
+						EList<Statement> listOfStatements = new BasicEList<Statement>();
+						for (int j = 0; j < classMethod.getStatements().size(); j++) {
+							listOfStatements.add(null);
 						}
-						jmlAnnotation = jmlAnnotation.substring(index + 4);
-
-						gmfc.addConditionsToFormula(formula, currentJmlPart, variables, conditions);
-
-					} while (index != -1);
-					
-					cbcmodelResource.getContents().clear();
-					cbcmodelResource.getContents().add(formula);
-					cbcmodelResource.getContents().add(variables);
-					cbcmodelResource.getContents().add(conditions);
-//					modelClass.getMethods().add(method);
-					gmfc.getMethods().add(method);
-					for (Method m : modelClass.getMethods()) {
-						gmfc.getMethods().add(m);
-					}
-
-					EList<Statement> listOfStatements = new BasicEList<Statement>();
-					EList<Statement> listOfAssertStatements = new BasicEList<Statement>();
-					StatementsCollector statementsCollector = new StatementsCollector();
-					statementsCollector.visit(methodDeclaration, null);
-					for (int j = 0; j < statementsCollector.getStatements().size(); j++) {
-						listOfStatements.add(null);
-					}
-					for (int u = 0; u < statementsCollector.getAssertStatements().size(); u++) {
-						listOfAssertStatements.add(null);
-					}
-					Collections.copy(listOfStatements, statementsCollector.getStatements());
-					Collections.copy(listOfAssertStatements, statementsCollector.getAssertStatements());
-					gmfc.handleListOfStatements(cbcmodelResource, listOfStatements, listOfAssertStatements, formula.getStatement());//throws error					
-					for (int i = 0; i < variables.getVariables().size(); i++) {
-						JavaVariable var = variables.getVariables().get(i);
-						if (var.getKind().equals(VariableKind.PARAM) || var.getKind().equals(VariableKind.RETURN)) {
-							variables.getVariables().remove(var);
-							i--;
+						Collections.copy(listOfStatements, classMethod.getStatements());
+						gmfc.handleListOfStatements(cbcmodelResource, listOfStatements, formula.getStatement());//throws error					
+						for (int i = 0; i < variables.getVariables().size(); i++) {
+							JavaVariable var = variables.getVariables().get(i);
+							if (var.getKind().equals(VariableKind.PARAM) || var.getKind().equals(VariableKind.RETURN)) {
+								variables.getVariables().remove(var);
+								i--;
+							}
 						}
+						gmfc.getCbcmodelResources().add(cbcmodelResource);
 					}
-					gmfc.getCbcmodelResources().add(cbcmodelResource);
 				}
 			}
-			
 			modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Methods(), gmfc.getMethods());
 			modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Fields(), gmfc.getFields());
 			modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_ClassInvariants(), gmfc.getInvariants());
@@ -264,18 +247,24 @@ public class GenerateDiagramFromClassHandler extends AbstractHandler {
 		String javaFileContent = gmfc.readFileToString(iFile.getLocation().toPortableString());
 		List<String> methodNames = new ArrayList<String>();
 		
-		CompilationUnit compilationUnit = StaticJavaParser.parse(javaFileContent);
-		if (compilationUnit.getChildNodes().isEmpty()) {
+		EObject abstractSyntaxTreeRoot = JavaResourceUtil.getResourceContent(javaFileContent);
+		CompilationUnit compilationUnit = (CompilationUnit) abstractSyntaxTreeRoot;
+		
+		if (compilationUnit.getClassifiers().isEmpty()
+				|| compilationUnit.getClassifiers().get(0).getMembers().isEmpty()) {
 			return null;
 		}
 		
-		ClassOrInterfaceCollector collector = new ClassOrInterfaceCollector();
-		collector.visit(compilationUnit, null);
-		
-		for (MethodDeclaration methodDec : collector.getMethods()) {
-			methodNames.add(methodDec.getNameAsString());
+		if (compilationUnit.getClassifiers().get(0) instanceof ClassImpl) {
+			ClassImpl javaClass = (ClassImpl) compilationUnit.getClassifiers().get(0);
+			
+			for (Member member : javaClass.getMembers()) {
+				if (member instanceof ClassMethod) {
+					ClassMethod classMethod = (ClassMethod) member;
+					methodNames.add(classMethod.getName());
+				}
+			}
 		}
-		
 		return methodNames;
 	}
 

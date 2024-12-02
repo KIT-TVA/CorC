@@ -24,23 +24,11 @@ public class GenerateDiagramsFromClassHandler extends AbstractHandler {
 				throw new ExecutionException("Select only one file.");
 			}
 			
-			IFile file = null;
-			
-			//for OO Projects
-			if (strucSelection.getFirstElement() instanceof org.eclipse.jdt.internal.core.CompilationUnit) {
-				org.eclipse.jdt.internal.core.CompilationUnit cu = ((org.eclipse.jdt.internal.core.CompilationUnit) strucSelection.getFirstElement());
-				file = ResourcesPlugin.getWorkspace().getRoot().getFile(cu.getPath());
-			//for SPL Projects
-			} else if (strucSelection.getFirstElement() instanceof IResource) {
-				IResource res = ((File) strucSelection.getFirstElement());
-				file = ResourcesPlugin.getWorkspace().getRoot().getFile(res.getFullPath());
-			}
-			
-			//IResource res = ((File) strucSelection.getFirstElement());
-			//IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(res.getFullPath());
+			IResource res = ((File) strucSelection.getFirstElement());
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(res.getFullPath());
 
 			final String PARM_MSG = "de.tu_bs.cs.isf.commands.toolbar.msg";
-			//String msg = event.getParameter(PARM_MSG);
+			String msg = event.getParameter(PARM_MSG);
 			
 			GenerateModelFromCode gmfc = new GenerateModelFromCode();
 			gmfc.execute(file);

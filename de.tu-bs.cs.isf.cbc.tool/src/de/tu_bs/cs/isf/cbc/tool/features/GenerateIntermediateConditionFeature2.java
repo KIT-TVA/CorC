@@ -18,7 +18,6 @@ import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
-import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
 
 /**

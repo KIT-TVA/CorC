@@ -18,12 +18,13 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
+import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyVariantWithoutInnerLoops;
+import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
-import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 

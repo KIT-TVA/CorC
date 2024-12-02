@@ -25,11 +25,11 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.VariableKind;
+import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
 import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 
 public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 

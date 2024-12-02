@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="update" proven="true" className="Account" methodName="update">
+    <statement name="statement" id="1077b9d3-fe37-4b61-b2f6-0466cb471084">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="e4b45854-91bf-4029-958d-21379d4c655b">
+        <firstStatement name="statement1" id="a9a4d887-7828-4785-b407-6b550a2e4a31">
+          <refinement name="newBalance = balance + x;" proven="true" id="c22b4b33-3c2e-4493-8068-0e315c97df76">
+            <postCondition name="newBalance = balance + x"/>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="newBalance = balance + x"/>
+          <preCondition name="true"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="d3e64691-563a-4a83-92d0-eff43ae40c7d">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="20f7751e-0132-444d-809f-4394115fddf2">
+            <firstStatement name="statement1" id="be0e49d9-a760-470a-b492-b7b3c57272fc">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="288d6818-e24e-42a0-9bc2-dc222f97fc8b" preProve="true">
+                <guards name="newBalance &lt; this.OVERDRAFT_LIMIT"/>
+                <guards name="newBalance >= this.OVERDRAFT_LIMIT"/>
+                <commands name="statement" id="6d77423e-8a93-4a32-81c0-ce190aafa9f6">
+                  <refinement name="ret = false;" proven="true" id="d84bed98-a69c-44b1-95e5-6331a1f9485a">
+                    <postCondition name="balanceChangedResult(ret, balance, \old(balance), x)"/>
+                    <preCondition name="modifiable(\nothing);(newBalance = balance + x) &amp; (newBalance &lt; this.OVERDRAFT_LIMIT)"/>
+                  </refinement>
+                  <postCondition name="balanceChangedResult(ret, balance, \old(balance), x)"/>
+                  <preCondition name="modifiable(\nothing);(newBalance = balance + x) &amp; (newBalance &lt; this.OVERDRAFT_LIMIT)"/>
+                </commands>
+                <commands name="statement" id="c1be0179-d894-4a07-a91b-13467eb8f0d9">
+                  <refinement name="balance = newBalance;&#xD;&#xA;ret = true;" proven="true" id="16ba1734-da4a-43c2-99d3-58473cf20908">
+                    <postCondition name="balanceChangedResult(ret, balance, \old(balance), x)"/>
+                    <preCondition name="modifiable(\nothing);(newBalance = balance + x) &amp; (newBalance >= this.OVERDRAFT_LIMIT)"/>
+                  </refinement>
+                  <postCondition name="balanceChangedResult(ret, balance, \old(balance), x)"/>
+                  <preCondition name="modifiable(\nothing);(newBalance = balance + x) &amp; (newBalance >= this.OVERDRAFT_LIMIT)"/>
+                </commands>
+              </refinement>
+              <postCondition name="balanceChangedResult(ret, balance, \old(balance), x)"/>
+              <preCondition name="newBalance = balance + x"/>
+            </firstStatement>
+            <secondStatement name="statement2" id="0ba02431-8b7e-4311-a618-ee9d4558a1a0">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="ret;" proven="true" comment="returnStatement" id="a672a437-85a9-4761-8743-a48f20f79b0a">
+                <postCondition name="balanceChangedResult(\result, balance, \old(balance), x)"/>
+                <preCondition name="balanceChangedResult(ret, balance, \old(balance), x)"/>
+              </refinement>
+              <postCondition name="balanceChangedResult(\result, balance, \old(balance), x)"/>
+              <preCondition name="balanceChangedResult(ret, balance, \old(balance), x)"/>
+            </secondStatement>
+            <intermediateCondition name="balanceChangedResult(ret, balance, \old(balance), x)"/>
+          </refinement>
+          <postCondition name="balanceChangedResult(\result, balance, \old(balance), x)"/>
+          <preCondition name="newBalance = balance + x"/>
+        </secondStatement>
+        <intermediateCondition name="newBalance = balance + x"/>
+      </refinement>
+      <postCondition name="balanceChangedResult(\result, balance, \old(balance), x)"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Account.cbcclass#//@methods.0"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int newBalance"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="OVERDRAFT_LIMIT = 0"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

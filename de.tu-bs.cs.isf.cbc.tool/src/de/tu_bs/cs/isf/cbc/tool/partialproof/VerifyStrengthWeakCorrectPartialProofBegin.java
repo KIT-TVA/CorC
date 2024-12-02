@@ -5,9 +5,9 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
+import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStrengthWeakCorrect;
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
-import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 
 public class VerifyStrengthWeakCorrectPartialProofBegin extends MyAbstractAsynchronousCustomFeature {
 

@@ -53,163 +53,157 @@ import de.tu_bs.cs.isf.cbc.tool.diagram.CbCFeatureProvider;
  */
 public class UpdateMethodCallsToProve {
 
-    public static void updateMethodCallsToProve(Condition condition) {
+	public static void updateMethodCallsToProve(Condition condition) {
 
-	// Get Uri of Condition
-	URI uri = condition.eResource().getURI();
+		// Get Uri of Condition
+		URI uri = condition.eResource().getURI();
 
-	// get corresponding FeatureModel
-	IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-	IWorkbenchPage activePage = window.getActivePage();
-	IEditorPart activeEditor = activePage.getActiveEditor();
-	IEditorInput input = activeEditor.getEditorInput();
-	IResource diagramResource = input.getAdapter(IResource.class);
-	IResource projectResource = diagramResource.getParent().getParent().getParent().getParent();
-	if (projectResource.getName().equals("features")) {
-	    projectResource = projectResource.getParent();
-	}
-	IPath projectPath = projectResource.getLocation();
-	IPath modelPath = projectPath.append("model.xml");
-	IFile modelFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(modelPath);
-	if (modelFile == null) {
-	    return;
-	}
-	Path path = Paths.get(modelFile.getLocationURI());
-	IFeatureModel featModel = FeatureModelManager.load(path);
+		// get corresponding FeatureModel
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchPage activePage = window.getActivePage();
+		IEditorPart activeEditor = activePage.getActiveEditor();
+		IEditorInput input = activeEditor.getEditorInput();
+		IResource diagramResource = input.getAdapter(IResource.class);
+		IResource projectResource = diagramResource.getParent().getParent().getParent().getParent();
+		IPath projectPath = projectResource.getLocation();
+		IPath modelPath = projectPath.append("model.xml");
+		IFile modelFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(modelPath);
+		if (modelFile == null) {
+			return;
+		}
+		Path path = Paths.get(modelFile.getLocationURI());
+		IFeatureModel featModel = FeatureModelManager.load(path);
+		
+		// get current Method
+		String method = uri.trimFileExtension().lastSegment().toLowerCase();
 
-	// get current Method
-	String method = uri.trimFileExtension().lastSegment().toLowerCase();
+		// get all features which could be affected
+		List<String> affectedOriginalFeatures = featModel.getFeatureOrderList();
 
-	// get all features which could be affected
-	List<String> affectedOriginalFeatures = featModel.getFeatureOrderList();
-
-	// Get all valid URIs for all features
-	IProject project = projectResource.getProject();
-	List<URI> validDiagramURIs = new ArrayList<URI>();
-	for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
-	    IFolder featureModule = project.getFolder(("features/" + affectedOriginalFeatures.get(i)));
-	    try {
-		for (int x = 0; x < featureModule.members().length; x++) {
-		    IFolder classFolder = featureModule;
-		    if (featureModule.members()[x] instanceof Folder) {
-			classFolder = (Folder) featureModule.members()[x];
-		    }
-		    for (int y = 0; y < classFolder.members().length; y++) {
-			if (classFolder.members()[y].getName().contains(".diagram")) {
-			    boolean isNotCbCClass = true;
-			    for (IResource member : classFolder.members()) {
-				if (member.getName().contains(
-					classFolder.members()[y].getName().replace(".diagram", ".cbcclass"))) {
-				    isNotCbCClass = false;
-				    break;
+		// Get all valid URIs for all features
+		IProject project = projectResource.getProject();
+		List<URI> validDiagramURIs = new ArrayList<URI>();
+		for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
+			IFolder featureModule = project.getFolder(("features/" + affectedOriginalFeatures.get(i)));
+			try {
+				for (int x = 0; x < featureModule.members().length; x++) {
+					IFolder classFolder = featureModule;
+					if (featureModule.members()[x] instanceof Folder) {
+						classFolder = (Folder) featureModule.members()[x];
+					}
+					for (int y = 0; y < classFolder.members().length; y++) {
+						if (classFolder.members()[y].getName().contains(".diagram")) {
+							boolean isNotCbCClass = true;
+							for (IResource member : classFolder.members()) {
+								if (member.getName().contains(classFolder.members()[y].getName().replace(".diagram", ".cbcclass"))) {
+									isNotCbCClass = false;
+									break;
+								}
+							}
+							if (isNotCbCClass) {
+								String[] lastSegments = { affectedOriginalFeatures.get(i), classFolder.getName(), classFolder.members()[y].getName() };
+								validDiagramURIs.add(uri.trimSegments(uri.segmentCount() - 3).appendSegments(lastSegments));
+							}
+						}
+					}
 				}
-			    }
-			    if (isNotCbCClass) {
-				String[] lastSegments = { affectedOriginalFeatures.get(i), classFolder.getName(),
-					classFolder.members()[y].getName() };
-				validDiagramURIs
-					.add(uri.trimSegments(uri.segmentCount() - 3).appendSegments(lastSegments));
-			    }
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
 			}
-		    }
 		}
-	    } catch (CoreException e) {
-		// TODO Auto-generated catch block
-		// e.printStackTrace();
-	    }
-	}
 
-	// Forall valid URIs
-	List<URI> validDiagramsAffectedURIs = new ArrayList<URI>();
-	for (int i = 0; i < validDiagramURIs.size(); i++) {
-	    // Get DiagramResource
-	    ResourceSet resourceSet = new ResourceSetImpl();
-	    Resource diagram_Resource = resourceSet.getResource(validDiagramURIs.get(i), true);
-	    Resource cbc_Resource = resourceSet
-		    .getResource(validDiagramURIs.get(i).trimFileExtension().appendFileExtension("cbcmodel"), true);
-	    // Get Diagram
-	    Diagram diagram = null;
-	    try {
-		if (diagram_Resource != null) {
-		    // does resource contain a diagram as root object?
-		    final EList<EObject> contents = diagram_Resource.getContents();
-		    for (final EObject object : contents) {
-			if (object instanceof Diagram) {
-			    diagram = (Diagram) object;
+		// Forall valid URIs
+		List<URI> validDiagramsAffectedURIs = new ArrayList<URI>();
+		for (int i = 0; i < validDiagramURIs.size(); i++) {
+			// Get DiagramResource
+			ResourceSet resourceSet = new ResourceSetImpl();
+			Resource diagram_Resource = resourceSet.getResource(validDiagramURIs.get(i), true);
+			Resource cbc_Resource = resourceSet
+					.getResource(validDiagramURIs.get(i).trimFileExtension().appendFileExtension("cbcmodel"), true);
+			// Get Diagram
+			Diagram diagram = null;
+			try {
+				if (diagram_Resource != null) {
+					// does resource contain a diagram as root object?
+					final EList<EObject> contents = diagram_Resource.getContents();
+					for (final EObject object : contents) {
+						if (object instanceof Diagram) {
+							diagram = (Diagram) object;
+						}
+					}
+				}
+			} catch (final WrappedException e) {
+				e.printStackTrace();
+				validDiagramURIs.remove(i);
+				break;
 			}
-		    }
-		}
-	    } catch (final WrappedException e) {
-		e.printStackTrace();
-		validDiagramURIs.remove(i);
-		break;
-	    }
 
-	    // Get Diagram Pictograms
-	    List<PictogramElement> pes = new ArrayList<PictogramElement>();
-	    List<Object> bos = new ArrayList<Object>();
-	    CbCDiagramTypeProvider test = new CbCDiagramTypeProvider();
-	    IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram,
-		    "de.tu-bs.cs.isf.cbc.tool.CbCDiagramTypeProvider");
-	    CbCFeatureProvider featureProvider = (CbCFeatureProvider) dtp.getFeatureProvider();
+			// Get Diagram Pictograms
+			List<PictogramElement> pes = new ArrayList<PictogramElement>();
+			List<Object> bos = new ArrayList<Object>();
+			CbCDiagramTypeProvider test = new CbCDiagramTypeProvider();
+			IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram,
+					"de.tu-bs.cs.isf.cbc.tool.CbCDiagramTypeProvider");
+			CbCFeatureProvider featureProvider = (CbCFeatureProvider) dtp.getFeatureProvider();
 
-	    // Only add Pictograms to Pictogram-List
-	    for (int j = 0; j < diagram_Resource.getContents().get(0).eContents().size(); j++) {
-		if (diagram_Resource.getContents().get(0).eContents().get(j).getClass()
-			.equals(ContainerShapeImpl.class)) {
-		    pes.add((PictogramElement) diagram_Resource.getContents().get(0).eContents().get(j));
+			// Only add Pictograms to Pictogram-List
+			for (int j = 0; j < diagram_Resource.getContents().get(0).eContents().size(); j++) {
+				if (diagram_Resource.getContents().get(0).eContents().get(j).getClass()
+						.equals(ContainerShapeImpl.class)) {
+					pes.add((PictogramElement) diagram_Resource.getContents().get(0).eContents().get(j));
+				}
+			}
+			// Manipulate Pictograms
+			boolean hasMethod = false;
+			for (int j = 0; j < pes.size(); j++) {
+				bos.add(test.getFeatureProvider().getBusinessObjectForPictogramElement(pes.get(j)));
+				if (bos.get(j).getClass().equals(MethodStatementImpl.class)) {
+					if (((MethodStatement) bos.get(j)).getName().contains(method + "(")) {
+						hasMethod = true;
+						((MethodStatementImpl) bos.get(j)).setProven(false);
+					}
+				}
+				// In cases where method call occures in pre or postcondition of a CbC-Formula
+				if (bos.get(j).getClass().equals(CbCFormulaImpl.class)) {
+					if (((CbCFormulaImpl) bos.get(j)).getStatement().getPreCondition().getName().contains(method)) {
+						hasMethod = true;
+						((CbCFormulaImpl) bos.get(j)).setProven(false);
+					} else if (((CbCFormulaImpl) bos.get(j)).getStatement().getPostCondition().getName()
+							.contains(method)) {
+						hasMethod = true;
+						((CbCFormulaImpl) bos.get(j)).setProven(false);
+					}
+				}
+				if (hasMethod) {
+					UpdateContext context = new UpdateContext(pes.get(j));
+					featureProvider.updateIfPossible(context);
+				}
+			}
+			// Save URIs which implement a method-call
+			if (hasMethod == true) {
+				validDiagramsAffectedURIs.add(validDiagramURIs.get(i));
+			}
+			// Save Diagram
+			try {
+				diagram_Resource.save(Collections.EMPTY_MAP);
+				diagram_Resource.setTrackingModification(true);
+				cbc_Resource.save(Collections.EMPTY_MAP);
+				cbc_Resource.setTrackingModification(true);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-	    }
-	    // Manipulate Pictograms
-	    boolean hasMethod = false;
-	    for (int j = 0; j < pes.size(); j++) {
-		bos.add(test.getFeatureProvider().getBusinessObjectForPictogramElement(pes.get(j)));
-		if (bos.get(j).getClass().equals(MethodStatementImpl.class)) {
-		    if (((MethodStatement) bos.get(j)).getName().contains(method + "(")) {
-			hasMethod = true;
-			((MethodStatementImpl) bos.get(j)).setProven(false);
-		    }
+
+		// Setup Notification
+		if (!validDiagramsAffectedURIs.isEmpty()) {
+			Display display = PlatformUI.getWorkbench().getDisplay();
+			AbstractNotificationPopup notification = new NotificationPopup(display, validDiagramsAffectedURIs,
+					"method");
+			notification.setFadingEnabled(false);
+			notification.setDelayClose(0L);
+			notification.open();
 		}
-		// In cases where method call occures in pre or postcondition of a CbC-Formula
-		if (bos.get(j).getClass().equals(CbCFormulaImpl.class)) {
-		    if (((CbCFormulaImpl) bos.get(j)).getStatement().getPreCondition().getName().contains(method)) {
-			hasMethod = true;
-			((CbCFormulaImpl) bos.get(j)).setProven(false);
-		    } else if (((CbCFormulaImpl) bos.get(j)).getStatement().getPostCondition().getName()
-			    .contains(method)) {
-			hasMethod = true;
-			((CbCFormulaImpl) bos.get(j)).setProven(false);
-		    }
-		}
-		if (hasMethod) {
-		    UpdateContext context = new UpdateContext(pes.get(j));
-		    featureProvider.updateIfPossible(context);
-		}
-	    }
-	    // Save URIs which implement a method-call
-	    if (hasMethod == true) {
-		validDiagramsAffectedURIs.add(validDiagramURIs.get(i));
-	    }
-	    // Save Diagram
-	    try {
-		diagram_Resource.save(Collections.EMPTY_MAP);
-		diagram_Resource.setTrackingModification(true);
-		cbc_Resource.save(Collections.EMPTY_MAP);
-		cbc_Resource.setTrackingModification(true);
-	    } catch (IOException e) {
-		e.printStackTrace();
-	    }
+
 	}
-
-	// Setup Notification
-	if (!validDiagramsAffectedURIs.isEmpty()) {
-	    Display display = PlatformUI.getWorkbench().getDisplay();
-	    AbstractNotificationPopup notification = new NotificationPopup(display, validDiagramsAffectedURIs,
-		    "method");
-	    notification.setFadingEnabled(false);
-	    notification.setDelayClose(0L);
-	    notification.open();
-	}
-
-    }
 }

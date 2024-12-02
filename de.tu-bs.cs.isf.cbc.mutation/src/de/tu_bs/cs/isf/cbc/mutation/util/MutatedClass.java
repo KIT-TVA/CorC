@@ -104,6 +104,8 @@ public class MutatedClass {
 	
 	private void addParams(DiagramPartsExtractor dpe) {
 		for (Method m : this.mutatedModel.getMethods()) {
+			String curN = m.getName();
+			String targetName = dpe.getFormula().getName();
 			if (m.getName().equals(dpe.getFormula().getName())) {
 				dpe.getVars().getParams().addAll(m.getParameters());
 			}

@@ -1,19 +1,11 @@
 package de.tu_bs.cs.isf.cbc.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.emf.ecore.EObject;
-//import org.emftext.language.java.containers.CompilationUnit;
-//import org.emftext.language.java.members.ClassMethod;
-//import org.emftext.language.java.members.Constructor;
-//import org.emftext.language.java.members.InterfaceMethod;
-//import org.emftext.language.java.resource.java.util.JavaResourceUtil;
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
-import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.members.ClassMethod;
+import org.emftext.language.java.members.Constructor;
+import org.emftext.language.java.members.InterfaceMethod;
+import org.emftext.language.java.resource.java.util.JavaResourceUtil;
 
 
 /**
@@ -37,12 +29,10 @@ public class CompareMethodBodies {
 	 * @param method	the method
 	 * @return			boolean if the method is in the correct format
 	 */
-	/*
 	public static boolean readAndTestMethodBodyWithJaMoPP(String method) {
 		method = "class Read {\n" + method + "\n}";
 		EObject abstractSyntaxTreeRoot = JavaResourceUtil.getResourceContent(method);
 		CompilationUnit compilationUnit = (CompilationUnit) abstractSyntaxTreeRoot;
-		//CompilationUnit compilationUnit = StaticJavaParser.parse(method);
 		if (compilationUnit.getClassifiers().isEmpty()) {
 			return false;
 		}
@@ -64,21 +54,11 @@ public class CompareMethodBodies {
 		}
 		return false;
 	}
-	*/
 	
 	public static boolean readAndTestMethodBodyWithJaMoPP2(String statements) {
 		String method = "class Read {\n public static void read() {\n" + statements + "\n}\n}";
-		/*
-		 * class read {
-		 * 		public static void read() {
-		 * 			statements
-		 * 		}
-		 * }
-		 */
-		/*
 		EObject abstractSyntaxTreeRoot = JavaResourceUtil.getResourceContent(method);
 		CompilationUnit compilationUnit = (CompilationUnit) abstractSyntaxTreeRoot;
-
 		if (compilationUnit != null && compilationUnit.getClassifiers() != null) {
 			if (compilationUnit.getClassifiers().isEmpty()) {
 				return false;
@@ -98,26 +78,5 @@ public class CompareMethodBodies {
 			}
 		}
 		return false;
-		*/
-		//TODO: was zaehlt als statement?
-		CompilationUnit compilationUnit = StaticJavaParser.parse(method);
-		if (compilationUnit == null) {
-			return false;
-		}
-		
-		StatementsCounter statementsCounter = new StatementsCounter();
-		statementsCounter.visit(compilationUnit, null);
-		
-		int counterStatements = 0;
-		for (int i = 0; i < statements.length(); i++) {
-			if (statements.charAt(i) == ';') {
-				counterStatements++;
-			}
-		}
-		if (statementsCounter.getStatementsCounter() == counterStatements) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 }

@@ -8,6 +8,7 @@ Require-Bundle: org.eclipse.ui,
  de.tu-bs.cs.isf.cbc.util;bundle-version="1.0.0",
  org.eclipse.core.resources,
  de.tu-bs.cs.isf.cbc.model,
+ org.emftext.language.java,
  org.eclipse.emf.ecore.xmi,
  de.ovgu.featureide.fm.core
 Bundle-RequiredExecutionEnvironment: JavaSE-16
@@ -22,7 +23,4 @@ Import-Package: de.tu_bs.cs.isf.corc.predicateWizard,
 Export-Package: de.tu_bs.cs.isf.commands.toolbar.handler.family,
  de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs
 Bundle-ClassPath: lib/gson-2.11.0.jar,
- org.eclipse.jdt.internal.core,
- lib/javaparser-core-3.25.9-SNAPSHOT.jar,
- lib/javaparser-symbol-solver-core-3.25.9-SNAPSHOT.jar,
  .

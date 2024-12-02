@@ -44,7 +44,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 import de.tu_bs.cs.isf.cbc.util.CbcModelUtil;
 import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
-import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 
 /**
  * Class that changes the abstract value of algorithms

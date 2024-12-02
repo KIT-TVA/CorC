@@ -22,7 +22,6 @@ import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.Features;
 import de.tu_bs.cs.isf.cbc.util.FileHandler;
-import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.diagnostics.DataCollector;
 import de.tu_bs.cs.isf.cbc.util.diagnostics.DataType;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;

@@ -3,7 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Tool
 Bundle-SymbolicName: de.tu-bs.cs.isf.cbc.tool;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-16,
+ JavaSE-1.8
 Require-Bundle: org.eclipse.graphiti,
  org.eclipse.graphiti.examples.common,
  org.eclipse.graphiti.ui,
@@ -13,14 +14,16 @@ Require-Bundle: org.eclipse.graphiti,
  org.eclipse.graphiti.pattern,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.transaction,
+ org.eclipse.xtext;bundle-version="2.10.0",
+ org.eclipse.xtext.xbase,
  org.eclipse.emf.common,
  org.eclipse.draw2d;bundle-version="3.10.100",
+ org.emftext.language.java,
  de.ovgu.featureide.fm.core,
  org.eclipse.mylyn.commons.ui,
  org.testng;bundle-version="7.4.0",
- de.tu_bs.cs.isf.cbc.parser,
- de.tu_bs.cs.isf.lattice,
- de.tu-bs.cs.isf.cbc.util;bundle-version="1.0.0"
+ de.tu-bs.cs.isf.cbc.util;bundle-version="1.0.0",
+ org.emftext.language.java.resource.java
 Import-Package: de.ovgu.featureide.fm.core.base,
  de.ovgu.featureide.fm.core.io.manager,
  de.tu_bs.cs.isf.cbc.cbcclass,

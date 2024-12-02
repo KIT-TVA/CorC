@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="nextDay" proven="true" comment="" className="Application" methodName="nextDay">
+    <statement name="statement" id="13b3f5a8-3fa5-41af-abff-44e60d5eda39">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="a78f6093-e41f-422f-8c77-893193e7f34a">
+        <firstStatement name="statement1" id="15ce38ac-7fe4-4043-88cb-b29fce2f7e5d">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:OriginalStatement" name="original();" proven="true" id="14b5fb72-b240-487d-baf1-d9b3e7d4400f">
+            <postCondition name="true"/>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="true"/>
+          <preCondition name="true"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="c65146ef-fa58-486e-95ea-9197fa54f452">
+          <refinement name="a.withdraw = 0;" proven="true" id="ad12cd90-d84b-4bd7-81d8-afb119901458">
+            <postCondition name="a.withdraw = 0">
+              <modifiables>a.withdraw</modifiables>
+            </postCondition>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="a.withdraw = 0">
+            <modifiables>a.withdraw</modifiables>
+          </postCondition>
+          <preCondition name="true"/>
+        </secondStatement>
+        <intermediateCondition name="true"/>
+      </refinement>
+      <postCondition name="a.withdraw = 0">
+        <modifiables>a.withdraw</modifiables>
+      </postCondition>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Application.cbcclass#//@methods.0"/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
+</xmi:XMI>
