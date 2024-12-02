@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
@@ -28,37 +29,28 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.emftext.commons.layout.LayoutInformation;
-import org.emftext.language.java.arrays.ArrayDimension;
-import org.emftext.language.java.classifiers.impl.ClassImpl;
-import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.expressions.Expression;
-import org.emftext.language.java.members.ClassMethod;
-import org.emftext.language.java.members.Member;
-import org.emftext.language.java.members.impl.FieldImpl;
-import org.emftext.language.java.parameters.Parameter;
-import org.emftext.language.java.resource.java.util.JavaResourceUtil;
-import org.emftext.language.java.statements.ForLoop;
-import org.emftext.language.java.statements.LocalVariableStatement;
-import org.emftext.language.java.statements.Statement;
-import org.emftext.language.java.statements.WhileLoop;
-import org.emftext.language.java.statements.impl.BlockImpl;
-import org.emftext.language.java.statements.impl.ConditionImpl;
-import org.emftext.language.java.statements.impl.DefaultSwitchCaseImpl;
-import org.emftext.language.java.statements.impl.EmptyStatementImpl;
-import org.emftext.language.java.statements.impl.ExpressionStatementImpl;
-import org.emftext.language.java.statements.impl.NormalSwitchCaseImpl;
-import org.emftext.language.java.statements.impl.ReturnImpl;
-import org.emftext.language.java.statements.impl.SwitchImpl;
-import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.types.impl.VoidImpl;
-import org.emftext.language.java.variables.LocalVariable;
-import org.emftext.language.java.variables.impl.VariableImpl;
+
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.VariableDeclarationExpr;
+import com.github.javaparser.ast.stmt.ExpressionStmt;
+import com.github.javaparser.ast.stmt.ForStmt;
+import com.github.javaparser.ast.stmt.IfStmt;
+import com.github.javaparser.ast.stmt.ReturnStmt;
+import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.stmt.SwitchEntry;
+import com.github.javaparser.ast.stmt.SwitchStmt;
+import com.github.javaparser.ast.stmt.WhileStmt;
 
 public class GenerateModelWithoutContract {
 
@@ -66,140 +58,107 @@ public class GenerateModelWithoutContract {
 	}
 
 	public void execute(IFile iFile) {
-		String file = readFileToString(iFile.getLocation().toPortableString());
+		String javaFileContent = readFileToString(iFile.getLocation().toPortableString());
 
-		String javaFile = file;
-
-		EObject abstractSyntaxTreeRoot = JavaResourceUtil.getResourceContent(javaFile);
-		CompilationUnit compilationUnit = (CompilationUnit) abstractSyntaxTreeRoot;
-
-		if (compilationUnit.getClassifiers().isEmpty()) {
+		CompilationUnit compilationUnit = StaticJavaParser.parse(javaFileContent);
+		if (compilationUnit.getChildNodes().isEmpty()) {
 			return;
 		}
-		if (compilationUnit.getClassifiers().get(0).getMembers().isEmpty()) {
-			return;
-		}
+		
+		ClassOrInterfaceCollector collector = new ClassOrInterfaceCollector();
+		collector.visit(compilationUnit, null);
 
 		List<String> names = new ArrayList<String>();
-		if (compilationUnit.getClassifiers().get(0) instanceof ClassImpl) {
-			ClassImpl javaClass = (ClassImpl) compilationUnit.getClassifiers().get(0);
+		if (!collector.getClassOrInterfaceDeclaration().isInterface()) {
 			JavaVariables globalVariables = CbcmodelFactory.eINSTANCE.createJavaVariables();
 			// new cbcmodel is created for each method in class
-			for (Member member : javaClass.getMembers()) {
-				if (member instanceof FieldImpl) {
-					FieldImpl globalVariable = (FieldImpl) member;
-					String arrayTokens = "";
-					if (globalVariable.getArrayDimensionsBefore().size() > 0) {
-						for (int k = 0; k < globalVariable.getArrayDimensionsBefore().size(); k++) {
-							for (int j = 0; j < globalVariable.getArrayDimensionsBefore().get(k).getLayoutInformations()
-									.size(); j++) {
-								arrayTokens = arrayTokens + globalVariable.getArrayDimensionsBefore().get(k)
-										.getLayoutInformations().get(j).getVisibleTokenText();
-							}
-						}
-					}
-					JavaVariable javaVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
-					String type;
-					if (globalVariable.getTypeReference().getLayoutInformations().size() > 0) {
-						type = globalVariable.getTypeReference().getLayoutInformations().get(0).getVisibleTokenText();
-					} else {
-						type = globalVariable.getTypeReference().getPureClassifierReference().getLayoutInformations()
-								.get(0).getVisibleTokenText();
-					}
-					javaVariable.setName(type + arrayTokens + " " + globalVariable.getName());
-					globalVariables.getVariables().add(javaVariable);
+			for (FieldDeclaration fieldDeclaration : collector.getFields()) {
+				NodeList<VariableDeclarator> vars = fieldDeclaration.getVariables();
+				JavaVariable javaVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
+				javaVariable.setName(vars.get(0).getTypeAsString() + " " + vars.get(0).getNameAsString());
+				globalVariables.getVariables().add(javaVariable);
+			}
+			for (MethodDeclaration methodDeclaration : collector.getMethods()) {
+				JavaVariables variables = CbcmodelFactory.eINSTANCE.createJavaVariables();
+
+				// add parameters to variables
+				for (Parameter p : methodDeclaration.getParameters()) {
+					addToVariables(new VariableDeclarator(p.getType(), p.getName()), variables);
 				}
-				if (member instanceof ClassMethod) {
-					ClassMethod classMethod = (ClassMethod) member;
+				// add global variables to variables
+				for (int j = 0; j < globalVariables.getVariables().size(); j++) {
+					JavaVariable newVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
+					newVariable.setName(globalVariables.getVariables().get(j).getName());
+					variables.getVariables().add(newVariable);
+				}
 
-					JavaVariables variables = CbcmodelFactory.eINSTANCE.createJavaVariables();
+				if (!methodDeclaration.getType().isVoidType()) {
+					JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
+					variable.setName(methodDeclaration.getTypeAsString() + " result");
+					variables.getVariables().add(variable);
+				}
 
-					// add parameters to variables
-					for (Parameter p : classMethod.getParameters()) {
-						addToVariables((VariableImpl) p, variables);
-					}
-					// add global variables to variables
-					for (int j = 0; j < globalVariables.getVariables().size(); j++) {
-						JavaVariable newVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
-						newVariable.setName(globalVariables.getVariables().get(j).getName());
-						variables.getVariables().add(newVariable);
-					}
+				// Initialize the Model
+				CbcmodelPackage.eINSTANCE.eClass();
+				// Register Resource Factory for respective Model
+				Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+				Map<String, Object> m = reg.getExtensionToFactoryMap();
+				m.put("cbcmodel", new XMIResourceFactoryImpl());
 
-					TypeReference type = classMethod.getTypeReference();
-					if (!(type instanceof VoidImpl)) {
-						String arrayDimensions = "";
-						if (classMethod.getArrayDimensionsBefore() != null) {
-							for (ArrayDimension ad : classMethod.getArrayDimensionsBefore()) {
-								for (LayoutInformation li : ad.getLayoutInformations()) {
-									arrayDimensions = arrayDimensions + li.getVisibleTokenText();
-								}
-							}
-						}
-						JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
-						variable.setName(JavaResourceUtil.getText(type) + arrayDimensions + " result");
-						variables.getVariables().add(variable);
-					}
+				String potentialName = methodDeclaration.getNameAsString();
+				String name = collector.getClassOrInterfaceDeclaration().getNameAsString() + "_" + findName(names, potentialName);
+				ResourceSet rs = new ResourceSetImpl();
+				IPath path = iFile.getLocation().removeLastSegments(1);
 
-					// Initialize the Model
-					CbcmodelPackage.eINSTANCE.eClass();
-					// Register Resource Factory for respective Model
-					Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-					Map<String, Object> m = reg.getExtensionToFactoryMap();
-					m.put("cbcmodel", new XMIResourceFactoryImpl());
+			
 
-					String potentialName = classMethod.getName();
-					String name = javaClass.getName() + "_" + findName(names, potentialName);
-					ResourceSet rs = new ResourceSetImpl();
-					IPath path = iFile.getLocation().removeLastSegments(1);
+				// Create Resource and load respective Model Instance
+				Resource r = rs.createResource(URI.createFileURI(path + "\\" + name + ".cbcmodel"));
+				CbCFormula formula = createFormula(methodDeclaration.getNameAsString());
+				GlobalConditions conditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
+				JavaVariables variables2 = CbcmodelFactory.eINSTANCE.createJavaVariables();
+				for (JavaVariable jv : variables.getVariables()) {
+					JavaVariable var = CbcmodelFactory.eINSTANCE.createJavaVariable();
+					var.setName(jv.getName());
+					variables2.getVariables().add(var);
+				}
 
-				
+				r.getContents().add(formula);
+				r.getContents().add(variables2);
+				r.getContents().add(conditions);
 
-					// Create Resource and load respective Model Instance
-					Resource r = rs.createResource(URI.createFileURI(path + "\\" + name + ".cbcmodel"));
-					CbCFormula formula = createFormula(classMethod.getName());
-					GlobalConditions conditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
-					JavaVariables variables2 = CbcmodelFactory.eINSTANCE.createJavaVariables();
-					for (JavaVariable jv : variables.getVariables()) {
-						JavaVariable var = CbcmodelFactory.eINSTANCE.createJavaVariable();
-						var.setName(jv.getName());
-						variables2.getVariables().add(var);
-					}
-
-					r.getContents().add(formula);
-					r.getContents().add(variables2);
-					r.getContents().add(conditions);
-
+				if (methodDeclaration.getBody().isPresent()) {
 					EList<Statement> listOfStatements = new BasicEList<Statement>();
-					for (int j = 0; j < classMethod.getStatements().size(); j++) {
+					for (int j = 0; j < methodDeclaration.getBody().get().getStatements().size(); j++) {
 						listOfStatements.add(null);
 					}
-					Collections.copy(listOfStatements, classMethod.getStatements());
+					Collections.copy(listOfStatements, methodDeclaration.getBody().get().getStatements());
 					handleListOfStatements(r, listOfStatements, formula.getStatement());
+				}
 
-					// add types to old variables in variable table
-					for (JavaVariable variable : variables2.getVariables()) {
-						if (variable.getName().startsWith("old_")) {
-							String oldVariableName = variable.getName().substring(4);
-							for (JavaVariable variable2 : variables2.getVariables()) {
-								int indexName = variable2.getName().indexOf(" " + oldVariableName);
-								if (indexName != -1) {
-									String typeOfVariable = variable2.getName().substring(0, indexName);
-									variable.setName(typeOfVariable + " " + variable.getName());
-									break;
-								}
-
+				// add types to old variables in variable table
+				for (JavaVariable variable : variables2.getVariables()) {
+					if (variable.getName().startsWith("old_")) {
+						String oldVariableName = variable.getName().substring(4);
+						for (JavaVariable variable2 : variables2.getVariables()) {
+							int indexName = variable2.getName().indexOf(" " + oldVariableName);
+							if (indexName != -1) {
+								String typeOfVariable = variable2.getName().substring(0, indexName);
+								variable.setName(typeOfVariable + " " + variable.getName());
+								break;
 							}
+
 						}
 					}
-
-					try {
-						r.save(Collections.EMPTY_MAP);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					GenerateDiagramFromModel gdfm = new GenerateDiagramFromModel();
-					gdfm.execute(r);
 				}
+
+				try {
+					r.save(Collections.EMPTY_MAP);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				GenerateDiagramFromModel gdfm = new GenerateDiagramFromModel();
+				gdfm.execute(r);
 			}
 		}
 	}
@@ -281,43 +240,52 @@ public class GenerateModelWithoutContract {
 	 * @param parent
 	 */
 	private void handleStatement(Resource r, Statement statement, AbstractStatement parent) {
-		if (statement instanceof LocalVariableStatement) {
-			LocalVariableStatement variableStatement = (LocalVariableStatement) statement;
-			LocalVariable variable = variableStatement.getVariable();
-			String text = JavaResourceUtil.getText(variable);
-			if (text.contains("=")) {
-				String firstPart = text.substring(0, text.indexOf("="));
-				int index = firstPart.lastIndexOf(variable.getName());
-				text = text.substring(index);
-				AbstractStatement s = createStatement(text + ";");
+		if (statement.isExpressionStmt()) {
+			if (statement.asExpressionStmt().getExpression().isVariableDeclarationExpr()) {
+				VariableDeclarationExpr variableStmt = statement.asExpressionStmt().getExpression().asVariableDeclarationExpr();
+				NodeList<VariableDeclarator> varDec = variableStmt.getVariables();
+				String text = varDec.get(0).toString();
+				if (text.contains("=")) {
+					String firstPart = text.substring(0, text.indexOf("="));
+					int index = firstPart.lastIndexOf(varDec.get(0).getNameAsString());
+					text = text.substring(index);
+					AbstractStatement s = createStatement(text + ";");
+					parent.setRefinement(s);
+					UpdateConditionsOfChildren.updateRefinedStatement(parent, s);
+				} else {
+					SkipStatement skipStatement = createSkipStatement();
+					parent.setRefinement(skipStatement);
+					UpdateConditionsOfChildren.updateRefinedStatement(parent, skipStatement);
+				}
+				addToVariables(varDec.get(0), (JavaVariables) r.getContents().get(1));
+			} else {
+				ExpressionStmt expressionStmt = statement.asExpressionStmt();
+				AbstractStatement s = createStatement(expressionStmt.getExpression().toString() + ";");
 				parent.setRefinement(s);
 				UpdateConditionsOfChildren.updateRefinedStatement(parent, s);
-			} else {
-				SkipStatement skipStatement = createSkipStatement();
-				parent.setRefinement(skipStatement);
-				UpdateConditionsOfChildren.updateRefinedStatement(parent, skipStatement);
 			}
-			addToVariables((VariableImpl) variable, (JavaVariables) r.getContents().get(1));
-		} else if (statement instanceof WhileLoop) {
-			WhileLoop loop = (WhileLoop) statement;
-			Expression condition = loop.getCondition();
-			String conditionString = JavaResourceUtil.getText(condition);
+		} else if (statement.isWhileStmt()) {
+			WhileStmt whileStmt = statement.asWhileStmt();
+			String conditionString = whileStmt.getCondition().toString();
 			conditionString = conditionString.replace("==", "=");
 			conditionString = conditionString.replace("&&", "&");
 			conditionString = conditionString.replace("||", "|");
 			SmallRepetitionStatement repStatement = createRepetition(conditionString);
 			parent.setRefinement(repStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, repStatement);
-			if (loop.getStatement() instanceof BlockImpl) {
-				BlockImpl block = (BlockImpl) loop.getStatement();
-				handleListOfStatements(r, block.getStatements(), repStatement.getLoopStatement());
+			if (whileStmt.getBody().isBlockStmt()) {
+				EList<Statement> whileBlock = new BasicEList<Statement>();
+				for (Statement stmt : whileStmt.getBody().asBlockStmt().getStatements()) {
+					whileBlock.add(stmt);
+				}
+				handleListOfStatements(r, whileBlock, repStatement.getLoopStatement());
 			}
-		} else if (statement instanceof ConditionImpl) {
-			ConditionImpl conditionImpl = (ConditionImpl) statement;
-			Expression condition1 = conditionImpl.getCondition();
+		} else if (statement.isIfStmt()) {
+			IfStmt ifStat = statement.asIfStmt();
+			Optional<Statement> elseStat = ifStat.getElseStmt();
 			// also nicht mehrere else ifs
-			if (!(conditionImpl.getElseStatement() instanceof ConditionImpl)) {
-				String conditionString = JavaResourceUtil.getText(condition1);
+			if (elseStat.isPresent() && !elseStat.get().isIfStmt()) {
+				String conditionString = ifStat.getCondition().toString();
 				conditionString = conditionString.replace("==", "=");
 				conditionString = conditionString.replace("&&", "&");
 				conditionString = conditionString.replace("||", "|");
@@ -325,39 +293,47 @@ public class GenerateModelWithoutContract {
 						("!" + "(" + conditionString + ")"));
 				parent.setRefinement(selStatement);
 				UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
-				if (conditionImpl.getStatement() instanceof BlockImpl) {
-					BlockImpl block = (BlockImpl) conditionImpl.getStatement();
-					handleListOfStatements(r, block.getStatements(), selStatement.getCommands().get(0));
+				EList<Statement> ifBlock = new BasicEList<Statement>();
+				if (ifStat.getThenStmt().isBlockStmt()) {
+					for (Statement stmt : ifStat.getThenStmt().asBlockStmt().getStatements()) {
+						ifBlock.add(stmt);
+					}
+					handleListOfStatements(r, ifBlock, selStatement.getCommands().get(0));
 				} else {
 					SkipStatement skipStatement = createSkipStatement();
 					parent.setRefinement(skipStatement);
 					UpdateConditionsOfChildren.updateRefinedStatement(parent, skipStatement);
 				}
-				if (conditionImpl.getElseStatement() instanceof BlockImpl) {
-					BlockImpl block = (BlockImpl) conditionImpl.getElseStatement();
-					handleListOfStatements(r, block.getStatements(), selStatement.getCommands().get(1));
+				EList<Statement> elseBlock = new BasicEList<Statement>();
+				if (elseStat.get().isBlockStmt()) {
+					for (Statement stmt : elseStat.get().asBlockStmt().getStatements()) {
+						elseBlock.add(stmt);
+					}
+					handleListOfStatements(r, elseBlock, selStatement.getCommands().get(1));
 				} else {
 					SkipStatement skipStatement = createSkipStatement();
 					selStatement.getCommands().get(1).setRefinement(skipStatement);
 					UpdateConditionsOfChildren.updateRefinedStatement(selStatement.getCommands().get(1), skipStatement);
 				}
 			} else {
-				SelectionStatement selStatement = createMultiSelection(JavaResourceUtil.getText(condition1));
+				SelectionStatement selStatement = createMultiSelection(ifStat.getCondition().toString());
 				parent.setRefinement(selStatement);
 				UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
-				if (conditionImpl.getStatement() instanceof BlockImpl) {
-					BlockImpl block = (BlockImpl) conditionImpl.getStatement();
-					handleListOfStatements(r, block.getStatements(), selStatement.getCommands().get(0));
+				EList<Statement> selBlock = new BasicEList<Statement>();
+				if (ifStat.getThenStmt().isBlockStmt()) {
+					for (Statement stmt : ifStat.getThenStmt().asBlockStmt().getStatements()) {
+						selBlock.add(stmt);
+					}
+					handleListOfStatements(r, selBlock, selStatement.getCommands().get(0));
 				}
 				int i = 1;
-				while (conditionImpl.getElseStatement() instanceof ConditionImpl) {
-					ConditionImpl nextCondition = (ConditionImpl) conditionImpl.getElseStatement();
-					Expression condition = nextCondition.getCondition();
+				while (ifStat.getElseStmt().isPresent() && ifStat.getElseStmt().get().isIfStmt()) {
+					IfStmt nextCondition = elseStat.get().asIfStmt();
 					AbstractStatement nextStatement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 					nextStatement.setName("statement");
 					selStatement.getCommands().add(nextStatement);
 					Condition conditionNext = CbcmodelFactory.eINSTANCE.createCondition();
-					conditionNext.setName(JavaResourceUtil.getText(condition));
+					conditionNext.setName(nextCondition.getCondition().toString());
 					selStatement.getGuards().add(conditionNext);
 					Condition nextPre = CbcmodelFactory.eINSTANCE.createCondition();
 					nextPre.setName("");
@@ -367,15 +343,17 @@ public class GenerateModelWithoutContract {
 					nextStatement.setPostCondition(nextPost);
 					UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
 					UpdateConditionsOfChildren.updateConditionsofChildren(nextPre);
-					if (nextCondition.getStatement() instanceof BlockImpl) {
-						BlockImpl block = (BlockImpl) nextCondition.getStatement();
-						handleListOfStatements(r, block.getStatements(), selStatement.getCommands().get(i));
+					if (ifStat.getThenStmt().isBlockStmt()) {
+						EList<Statement> privBlockStmts = new BasicEList<Statement>();
+						for (Statement stmt : ifStat.getThenStmt().asBlockStmt().getStatements()) {
+							privBlockStmts.add(stmt);
+						}
+						handleListOfStatements(r, privBlockStmts, selStatement.getCommands().get(i));
 					}
 					i++;
-					conditionImpl = nextCondition;
+					ifStat = nextCondition;
 				}
-
-				if (conditionImpl.getElseStatement() instanceof BlockImpl) {
+				if (ifStat.getElseStmt().isPresent() && ifStat.getElseStmt().get().isBlockStmt()) {
 					AbstractStatement nextStatement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 					nextStatement.setName("statement");
 					selStatement.getCommands().add(nextStatement);
@@ -395,31 +373,34 @@ public class GenerateModelWithoutContract {
 					nextStatement.setPostCondition(nextPost);
 					UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
 					UpdateConditionsOfChildren.updateConditionsofChildren(nextPre);
-					BlockImpl block = (BlockImpl) conditionImpl.getElseStatement();
-					handleListOfStatements(r, block.getStatements(), selStatement.getCommands().get(i));
+					EList<Statement> privBlockStmts = new BasicEList<Statement>();
+					for (Statement stmt : ifStat.getThenStmt().asBlockStmt().getStatements()) {
+						privBlockStmts.add(stmt);
+					}
+					handleListOfStatements(r, privBlockStmts, selStatement.getCommands().get(i));
 				}
 			}
 
-		} else if (statement instanceof ReturnImpl) {
-			ReturnImpl returnImpl = (ReturnImpl) statement;
+		} else if (statement.isReturnStmt()) {
+			ReturnStmt returnStmt = statement.asReturnStmt();
 			ReturnStatement retStatement = createReturnStatement(
-					"result = " + JavaResourceUtil.getText(returnImpl.getReturnValue()) + ";");
+					"result = " + returnStmt.getExpression().get().toString() + ";");
 			parent.setRefinement(retStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, retStatement);
-		} else if (statement instanceof ExpressionStatementImpl) {
-			ExpressionStatementImpl exprStatement = (ExpressionStatementImpl) statement;
-			AbstractStatement s = createStatement(JavaResourceUtil.getText(exprStatement.getExpression()) + ";");
+		} else if (statement.isExpressionStmt()) {
+			ExpressionStmt expressionStmt = statement.asExpressionStmt();
+			AbstractStatement s = createStatement(expressionStmt.getExpression().toString() + ";");
 			parent.setRefinement(s);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, s);
-		} else if (statement instanceof ForLoop) {
-			ForLoop loop = (ForLoop) statement;
+		} else if (statement.isForStmt()) {
+			ForStmt forStmt = statement.asForStmt();
 
 			CompositionStatement composition = createComposition();
 			parent.setRefinement(composition);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, composition);
 
 			// Initialization as first part of composition
-			String init = JavaResourceUtil.getText(loop.getInit());
+			String init = forStmt.getInitialization().get(0).toString();
 			AbstractStatement s = createStatement(init + ";");
 			composition.getFirstStatement().setRefinement(s);
 			UpdateConditionsOfChildren.updateRefinedStatement(composition.getFirstStatement(), s);
@@ -428,7 +409,10 @@ public class GenerateModelWithoutContract {
 			CompositionStatement composition2 = createComposition();
 			composition.getSecondStatement().setRefinement(composition2);
 			UpdateConditionsOfChildren.updateRefinedStatement(composition.getSecondStatement(), composition2);
-			String conditionString = JavaResourceUtil.getText(loop.getCondition());
+			String conditionString = "";
+			if (forStmt.getCompare().isPresent()) {
+				conditionString = forStmt.getCompare().toString();
+			}
 			conditionString = conditionString.replace("==", "=");
 			conditionString = conditionString.replace("&&", "&");
 			conditionString = conditionString.replace("||", "|");
@@ -436,43 +420,56 @@ public class GenerateModelWithoutContract {
 			composition2.getFirstStatement().setRefinement(repStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(composition2.getFirstStatement(), repStatement);
 
-			// loop variable update, pr�fen, ob ich mehrere updates haben kann
-			String update = JavaResourceUtil.getText(loop.getUpdates().get(0));
+			// loop variable update, prüfen, ob ich mehrere updates haben kann
+			String update = forStmt.getUpdate().get(0).toString();
 			AbstractStatement updateStatement = createStatement(update + ";");
 			composition2.getSecondStatement().setRefinement(updateStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(composition2.getSecondStatement(), updateStatement);
 
-			if (loop.getStatement() instanceof BlockImpl) {
-				BlockImpl block = (BlockImpl) loop.getStatement();
-				handleListOfStatements(r, block.getStatements(), repStatement.getLoopStatement());
+			EList<Statement> forBlock = new BasicEList<Statement>();
+			if (forStmt.getBody().isBlockStmt()) {
+				for (Statement stmt : forStmt.getBody().asBlockStmt().getStatements()) {
+					forBlock.add(stmt);
+				}
+				handleListOfStatements(r, forBlock, repStatement.getLoopStatement());
 			}
-		} else if (statement instanceof SwitchImpl) {
-			SwitchImpl switchCase = (SwitchImpl) statement;
-			String switchVariable = JavaResourceUtil.getText(switchCase.getVariable());
+		} else if (statement.isSwitchStmt()) {
+			SwitchStmt switchStmt = statement.asSwitchStmt();
+			String switchVariable = switchStmt.getSelector().toString();
 			Expression firstCondition = null;
-			NormalSwitchCaseImpl sc = null;
+			SwitchEntry sc = null;
 
-			if (switchCase.getCases().get(0) instanceof NormalSwitchCaseImpl) {
-				sc = (NormalSwitchCaseImpl) switchCase.getCases().get(0);
-				firstCondition = sc.getCondition();
+			if (switchStmt.getEntry(0).getType().equals(SwitchEntry.Type.STATEMENT_GROUP)) {
+				sc = switchStmt.getEntry(0);
+				Optional<Expression> label = sc.getLabels().getFirst();
+				if (label.isPresent()) {
+					firstCondition = label.get();
+				}
 			}
-
 			SelectionStatement selStatement = createMultiSelection(
-					switchVariable + " = " + JavaResourceUtil.getText(firstCondition));
+					switchVariable + " = " + firstCondition.toString());
 			parent.setRefinement(selStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
-			handleListOfStatements(r, sc.getStatements(), selStatement.getCommands().get(0));
+			EList<Statement> switchStmts = new BasicEList<Statement>();
+			for (Statement stmt : sc.getStatements()) {
+				switchStmts.add(stmt);
+			}
+			handleListOfStatements(r, switchStmts, selStatement.getCommands().get(0));
 
-			for (int i = 1; i < switchCase.getCases().size(); i++) {
-				if (switchCase.getCases().get(i) instanceof NormalSwitchCaseImpl) {
-					NormalSwitchCaseImpl normalCase = (NormalSwitchCaseImpl) switchCase.getCases().get(i);
-					Expression condition = normalCase.getCondition();
-
+			for (int i = 1; i < switchStmt.getEntries().size(); i++) {
+				if (switchStmt.getEntry(i).getType().equals(SwitchEntry.Type.STATEMENT_GROUP) && switchStmt.getEntry(i).getLabels().isNonEmpty()) {
+					SwitchEntry normalCase = switchStmt.getEntry(i);
+					Expression condition = null;
+					Optional<Expression> label = normalCase.getLabels().getFirst();
+					if (label.isPresent()) {
+						condition = label.get();
+					}
+					
 					AbstractStatement nextStatement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 					nextStatement.setName("statement");
 					selStatement.getCommands().add(nextStatement);
 					Condition conditionNext = CbcmodelFactory.eINSTANCE.createCondition();
-					conditionNext.setName(switchVariable + " = " + JavaResourceUtil.getText(condition));
+					conditionNext.setName(switchVariable + " = " + condition.toString());
 					selStatement.getGuards().add(conditionNext);
 					Condition nextPre = CbcmodelFactory.eINSTANCE.createCondition();
 					nextPre.setName("");
@@ -482,10 +479,14 @@ public class GenerateModelWithoutContract {
 					nextStatement.setPostCondition(nextPost);
 					UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
 					UpdateConditionsOfChildren.updateConditionsofChildren(nextPre);
-					handleListOfStatements(r, normalCase.getStatements(), nextStatement);
+					EList<Statement> nonEmptySwitchStmts = new BasicEList<Statement>();
+					for (Statement stmt : normalCase.getStatements()) {
+						nonEmptySwitchStmts.add(stmt);
+					}
+					handleListOfStatements(r, nonEmptySwitchStmts, nextStatement);
 
-				} else if (switchCase.getCases().get(i) instanceof DefaultSwitchCaseImpl) {
-					DefaultSwitchCaseImpl defaultCase = (DefaultSwitchCaseImpl) switchCase.getCases().get(i);
+				} else if (switchStmt.getEntry(i).getType().equals(SwitchEntry.Type.STATEMENT_GROUP)) {
+					SwitchEntry defaultCase = switchStmt.getEntry(i);
 					String defaultCondition = "";
 					for (Condition guard : selStatement.getGuards()) {
 						defaultCondition = defaultCondition + "!(" + guard.getName() + ") & ";
@@ -506,10 +507,14 @@ public class GenerateModelWithoutContract {
 					nextStatement.setPostCondition(nextPost);
 					UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
 					UpdateConditionsOfChildren.updateConditionsofChildren(nextPre);
-					handleListOfStatements(r, defaultCase.getStatements(), nextStatement);
+					EList<Statement> maybeEmtpySwtichStmt = new BasicEList<Statement>();
+					for (Statement stmt : defaultCase.getStatements()) {
+						maybeEmtpySwtichStmt.add(stmt);
+					}
+					handleListOfStatements(r, maybeEmtpySwtichStmt, nextStatement);
 				}
 			}
-		} else if(statement instanceof EmptyStatementImpl) {
+		} else if(statement.isEmptyStmt()) {
 			SkipStatement skipStatement = createSkipStatement();
 			parent.setRefinement(skipStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, skipStatement);
@@ -518,25 +523,9 @@ public class GenerateModelWithoutContract {
 	}
 
 	// adds variable to the list of JavaVariables
-	public void addToVariables(VariableImpl variable, JavaVariables variableList) {
-		String arrayTokens = "";
-		if (variable.getArrayDimensionsBefore().size() > 0) {
-			for (int k = 0; k < variable.getArrayDimensionsBefore().size(); k++) {
-				for (int j = 0; j < variable.getArrayDimensionsBefore().get(k).getLayoutInformations().size(); j++) {
-					arrayTokens = arrayTokens + variable.getArrayDimensionsBefore().get(k).getLayoutInformations()
-							.get(j).getVisibleTokenText();
-				}
-			}
-		}
+	public void addToVariables(VariableDeclarator varDec, JavaVariables variableList) {
 		JavaVariable javaVariable = CbcmodelFactory.eINSTANCE.createJavaVariable();
-		String type;
-		if (variable.getTypeReference().getLayoutInformations().size() > 0) {
-			type = variable.getTypeReference().getLayoutInformations().get(0).getVisibleTokenText();
-		} else {
-			type = variable.getTypeReference().getPureClassifierReference().getLayoutInformations().get(0)
-					.getVisibleTokenText();
-		}
-		javaVariable.setName(type + arrayTokens + " " + variable.getName());
+		javaVariable.setName(varDec.getTypeAsString() + " " + varDec.getNameAsString());
 		variableList.getVariables().add(javaVariable);
 	}
 

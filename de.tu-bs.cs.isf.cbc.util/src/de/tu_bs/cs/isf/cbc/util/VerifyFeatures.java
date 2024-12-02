@@ -51,15 +51,19 @@ public class VerifyFeatures {
 	private static Configuration configuration;
 
 	private static ConfigurationAnalyzer configurationAnalyzer;
-	
-	public static List<String> getAllFeatures(String splitUri) {
-		thisProject = FileUtil.getProjectFromFileInProject(URI.createURI("/" + splitUri + "/model.xml"));
+
+	public static List<String> getAllFeatures(URI projectUri) {
+		// var uri = URI.createURI("/" + splitUri + "/model.xml");
+		thisProject = FileUtil.getProject(projectUri);
+		if (!de.tu_bs.cs.isf.cbc.util.FileHandler.instance.isSPL(projectUri))
+			return new ArrayList<String>();
 		path = Paths.get(thisProject.getLocation() + "/model.xml");
 		IFeatureModel featureModel = FeatureModelManager.load(path);
 		return featureModel.getFeatureOrderList();
-	}	
-	
-	public static String[][] verifyConfig(IProject project, URI uri_new, String method, boolean original, String callingClass, boolean cleanFromIrrelevant, String methodOriginal) {
+	}
+
+	public static String[][] verifyConfig(IProject project, URI uri_new, String method, boolean original,
+			String callingClass, boolean cleanFromIrrelevant, String methodOriginal) {
 		uri = uri_new;
 		if (project == null) {
 			thisProject = FileUtil.getProject(uri);
@@ -90,13 +94,15 @@ public class VerifyFeatures {
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
-		checkConfigs(method, methodOriginal != null ? true : original, callingClass, cleanFromIrrelevant, methodOriginal);
+		checkConfigs(method, methodOriginal != null ? true : original, callingClass, cleanFromIrrelevant,
+				methodOriginal);
 		return configurations;
-		
+
 	}
 
 	// calculates feature-configurations
-	public static String[][] verifyConfig(URI uri_new, String method, boolean original, String callingClass, boolean cleanFromIrrelevant, String methodOriginal) {
+	public static String[][] verifyConfig(URI uri_new, String method, boolean original, String callingClass,
+			boolean cleanFromIrrelevant, String methodOriginal) {
 		return verifyConfig(null, uri_new, method, original, callingClass, cleanFromIrrelevant, methodOriginal);
 	}
 
@@ -104,7 +110,8 @@ public class VerifyFeatures {
 	public static String[] removeIrrelevant(String[] features, String methodName, String className) {
 		File checkFile;
 		for (int i = 0; i < features.length; i++) {
-			checkFile = new File(thisProject + "/features/" + features[i] + "/" + className + "/" + methodName + ".cbcmodel");
+			checkFile = new File(
+					thisProject + "/features/" + features[i] + "/" + className + "/" + methodName + ".cbcmodel");
 			if (!checkFile.exists() && !(features[i]).equalsIgnoreCase(callingFeature)) {
 				String[] temp = new String[features.length];
 				boolean foundToDelete = false;
@@ -113,7 +120,7 @@ public class VerifyFeatures {
 						temp[j] = features[j + (foundToDelete ? 1 : 0)];
 					} else {
 						foundToDelete = true;
-					}					
+					}
 				}
 			}
 		}
@@ -169,9 +176,11 @@ public class VerifyFeatures {
 	}
 
 	// removes irrelevant features and configurations from configurations-array
-	public static void checkConfigs(String method, boolean original, String className, boolean cleanFromIrrelevant, String methodOriginal) {
+	public static void checkConfigs(String method, boolean original, String className, boolean cleanFromIrrelevant,
+			String methodOriginal) {
 		String varMClass = method.split("\\.")[0];
-		method = methodOriginal != null ? methodOriginal.split("\\.")[0] : method.contains(".") ? method.split("\\.")[1] : method;
+		method = methodOriginal != null ? methodOriginal.split("\\.")[0]
+				: method.contains(".") ? method.split("\\.")[1] : method;
 		// bring features to featuremodel-order
 		for (int i = 0; i < configurations.length; i++) {
 			configLn = new String[configurations[i].length];
@@ -194,24 +203,24 @@ public class VerifyFeatures {
 
 		if (cleanFromIrrelevant) {
 			if (original) {
-			// removes all features with order-place behind calling feature
-			for (int i = 0; i < configurations.length; i++) {
-				for (int j = 0; j < configurations[i].length; j++) {
-					if (configurations[i][j].equals(callingFeature)) {
-						for (int k = j + 1; k < configurations[i].length; k++) {
-							configurations[i][k] = "empty";
+				// removes all features with order-place behind calling feature
+				for (int i = 0; i < configurations.length; i++) {
+					for (int j = 0; j < configurations[i].length; j++) {
+						if (configurations[i][j].equals(callingFeature)) {
+							for (int k = j + 1; k < configurations[i].length; k++) {
+								configurations[i][k] = "empty";
+							}
 						}
 					}
 				}
-			}
 			}
 			// remove all features from configurations which are not part of
 			// refinement-chain
 			File checkFile;
 			for (int i = 0; i < configurations.length; i++) {
 				for (int j = 0; j < configurations[i].length; j++) {
-					checkFile = new File(thisProject.getLocation() + "/features/" + configurations[i][j] + "/" + varMClass + "/"
-							+ method.toLowerCase() + ".cbcmodel");
+					checkFile = new File(thisProject.getLocation() + "/features/" + configurations[i][j] + "/"
+							+ varMClass + "/" + method.toLowerCase() + ".cbcmodel");
 					if (!checkFile.exists() && !configurations[i][j].equals(callingFeature)) {
 						checkFile = new File(thisProject.getLocation() + "/features/" + configurations[i][j] + "/"
 								+ className + "/" + method.toLowerCase() + ".cbcmodel");

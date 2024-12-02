@@ -16,14 +16,14 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
-import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPP;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
+import de.tu_bs.cs.isf.cbc.util.GenerateCodeForVariationalVerification;
+import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
+import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 
 /**
  * Class that changes the abstract value of algorithms
@@ -33,16 +33,18 @@ import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
  */
 public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFeature {
 	private String proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
-	
+
 	public void setProofType(String proofType) {
 		this.proofType = proofType;
 	}
+
 	private static List<CbCFormula> refinements;
+
 	/**
 	 * Constructor of the class
 	 * 
 	 * @param fp
-	 *            The FeatureProvider
+	 *           The FeatureProvider
 	 */
 	public VerifyPreSelectionStatement(IFeatureProvider fp) {
 		super(fp);
@@ -96,53 +98,66 @@ public class VerifyPreSelectionStatement extends MyAbstractAsynchronousCustomFea
 				}
 				if (isVariational) {
 					Console.println("Starting variational verification...\n");
-					String callingClass = uri.segment(uri.segmentCount()-2) + "";
-					String callingFeature = uri.segment(uri.segmentCount()-3) + "";
-					String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
-					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
-					String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
+					String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+					String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
+					String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
+					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount() - 1),
+							true, callingClass, false, null);
+					String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri,
+							uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
 
-					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
+					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(
+							super.getFeatureProvider());
 					VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
-					
+
 					if (featureConfigs != null) {
-						String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
+						String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant,
+								callingFeature, callingClass);
 						for (int i = 0; i < variants.length; i++) {
 							genCode.setProofTypeInfo(i, proofType);
-							if(!genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i])) continue;
-							ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), featureConfigs[i], i, KeYInteraction.ABSTRACT_PROOF_FULL);
-							List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i], callingMethod);
+							if (!genCode.generate(
+									FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI())
+											.getLocation(),
+									callingFeature, callingClass, callingMethod, featureConfigs[i]))
+								continue;
+							ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor,
+									new FileUtil(uriString), featureConfigs[i], i, KeYInteraction.ABSTRACT_PROOF_FULL);
+							List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i],
+									callingMethod);
 							String configName = "";
-							for (String s : featureConfigs[i]) configName += s;
+							for (String s : featureConfigs[i])
+								configName += s;
 							prove.setConfigName(configName);
-							proven = prove.provePreSelWithKey(refinements, statement.getGuards(), parent.getPreCondition());
+							proven = prove.provePreSelWithKey(refinements, statement.getGuards(),
+									parent.getPreCondition());
 						}
 					}
 				} else {
-					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), new ArrayList<>(), 0, proofType);
+					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString),
+							new ArrayList<>(), 0, proofType);
 					Console.println("Starting verification...\n");
 					String callingClass = uri.segment(uri.segmentCount() - 2) + "";
 					proven = prove.provePreSelWithKey(null, statement.getGuards(), parent.getPreCondition());
-				}		
+				}
 				if (proven) {
 					statement.setPreProve(true);
 				} else {
 					statement.setPreProve(false);
 				}
-				updatePictogramElement(((Shape)pes[0]).getContainer());
+				updatePictogramElement(((Shape) pes[0]).getContainer());
 			}
 		}
 		// reset proof type since partial proofs also call this method.
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1000000;
 		if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN)) {
-			RunEvaluationForStatementPP.WHOLE_RUNTIME_START.add(duration + ""); //PG DEBUG
+			RunEvaluationForStatementPP.WHOLE_RUNTIME_START.add(duration + ""); // PG DEBUG
 		} else {
-			RunEvaluationForStatementPP.WHOLE_RUNTIME_COMPLETE.add(duration + ""); //PG DEBUG
+			RunEvaluationForStatementPP.WHOLE_RUNTIME_COMPLETE.add(duration + ""); // PG DEBUG
 		}
-		Console.println("\nVerification done."); 
+		Console.println("\nVerification done.");
 		Console.println("Time needed: " + duration + "ms");
-		monitor.done();	
+		monitor.done();
 
 		proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
 	}

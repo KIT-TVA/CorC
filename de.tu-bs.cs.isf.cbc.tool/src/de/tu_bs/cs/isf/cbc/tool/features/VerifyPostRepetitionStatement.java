@@ -19,15 +19,16 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
-import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
+import de.tu_bs.cs.isf.cbc.util.GenerateCodeForVariationalVerification;
+import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
+import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 
 /**
  * Class that changes the abstract value of algorithms
@@ -101,9 +102,9 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), new ArrayList<>(), 0, proofType);
 				if (isVariational) {
 					Console.println("Starting variational verification...\n");
-					String callingClass = uri.segment(uri.segmentCount()-2) + "";
-					String callingFeature = uri.segment(uri.segmentCount()-3) + "";
-					String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
+					String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
+					String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
+					String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
 					String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
 
@@ -125,7 +126,6 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 					}
 				} else {
 					Console.println("Starting verification...\n");
-					String callingClass = uri.segment(uri.segmentCount() - 2) + "";
 					proven = prove.provePostRepetitionWithKey(null, statement.getInvariant(), statement.getGuard(), parent.getPostCondition());
 				}		
 				if (proven) {

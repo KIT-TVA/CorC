@@ -1,0 +1,161 @@
+\profile "Java Profile";
+
+\settings // Proof-Settings-Config-File
+{ 
+    "Choice" : { 
+        "JavaCard" : "JavaCard:off",
+        "Strings" : "Strings:on",
+        "assertions" : "assertions:on",
+        "bigint" : "bigint:on",
+        "floatRules" : "floatRules:strictfpOnly",
+        "initialisation" : "initialisation:disableStaticInitialisation",
+        "intRules" : "intRules:arithmeticSemanticsIgnoringOF",
+        "integerSimplificationRules" : "integerSimplificationRules:full",
+        "javaLoopTreatment" : "javaLoopTreatment:efficient",
+        "mergeGenerateIsWeakeningGoal" : "mergeGenerateIsWeakeningGoal:off",
+        "methodExpansion" : "methodExpansion:modularOnly",
+        "modelFields" : "modelFields:showSatisfiability",
+        "moreSeqRules" : "moreSeqRules:off",
+        "optimisedSelectRules" : "optimisedSelectRules:on",
+        "permissions" : "permissions:off",
+        "programRules" : "programRules:Java",
+        "reach" : "reach:on",
+        "runtimeExceptions" : "runtimeExceptions:ban",
+        "sequences" : "sequences:on",
+        "wdChecks" : "wdChecks:off",
+        "wdOperator" : "wdOperator:L"
+     },
+    "Labels" : { 
+        "UseOriginLabels" : true
+     },
+    "NewSMT" : { 
+        
+     },
+    "SMTSettings" : { 
+        "SelectedTaclets" : [ 
+            
+         ],
+        "UseBuiltUniqueness" : false,
+        "explicitTypeHierarchy" : false,
+        "instantiateHierarchyAssumptions" : true,
+        "integersMaximum" : 2147483645,
+        "integersMinimum" : -2147483645,
+        "invariantForall" : false,
+        "maxGenericSorts" : 2,
+        "useConstantsForBigOrSmallIntegers" : true,
+        "useUninterpretedMultiplication" : true
+     },
+    "Strategy" : { 
+        "ActiveStrategy" : "JavaCardDLStrategy",
+        "MaximumNumberOfAutomaticApplications" : 2147483647,
+        "Timeout" : -1,
+        "options" : { 
+            "ABSTRACT_PROOF_FIRST_ORDER_GOALS_FORBIDDEN" : "true",
+            "ABSTRACT_PROOF_FORBIDDEN_RULES" : "",
+            "ABSTRACT_PROOF_FORBIDDEN_RULE_SETS" : "",
+            "AUTO_INDUCTION_OPTIONS_KEY" : "AUTO_INDUCTION_OFF",
+            "BLOCK_OPTIONS_KEY" : "BLOCK_CONTRACT_INTERNAL",
+            "CLASS_AXIOM_OPTIONS_KEY" : "CLASS_AXIOM_FREE",
+            "DEP_OPTIONS_KEY" : "DEP_ON",
+            "INF_FLOW_CHECK_PROPERTY" : "INF_FLOW_CHECK_FALSE",
+            "LOOP_OPTIONS_KEY" : "LOOP_EXPAND",
+            "METHOD_OPTIONS_KEY" : "METHOD_CONTRACT",
+            "MPS_OPTIONS_KEY" : "MPS_MERGE",
+            "NON_LIN_ARITH_OPTIONS_KEY" : "NON_LIN_ARITH_DEF_OPS",
+            "OSS_OPTIONS_KEY" : "OSS_ON",
+            "QUANTIFIERS_OPTIONS_KEY" : "QUANTIFIERS_NON_SPLITTING_WITH_PROGS",
+            "QUERYAXIOM_OPTIONS_KEY" : "QUERYAXIOM_ON",
+            "QUERY_NEW_OPTIONS_KEY" : "QUERY_RESTRICTED",
+            "SPLITTING_OPTIONS_KEY" : "SPLITTING_DELAYED",
+            "STOPMODE_OPTIONS_KEY" : "STOPMODE_NONCLOSE",
+            "SYMBOLIC_EXECUTION_ALIAS_CHECK_OPTIONS_KEY" : "SYMBOLIC_EXECUTION_ALIAS_CHECK_NEVER",
+            "SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OPTIONS_KEY" : "SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OFF",
+            "USER_TACLETS_OPTIONS_KEY1" : "USER_TACLETS_OFF",
+            "USER_TACLETS_OPTIONS_KEY2" : "USER_TACLETS_OFF",
+            "USER_TACLETS_OPTIONS_KEY3" : "USER_TACLETS_OFF",
+            "VBT_PHASE" : "VBT_SYM_EX"
+         }
+     }
+ } 
+
+\javaSource "C:/Important/Work/CorC/BankAccount";
+\include "helper.key";
+\programVariables {
+int newWithdrawDaily;
+int newWithdrawHourly;
+int x;
+boolean ret;
+int withdrawHourly5_oldVal;
+int balance8_oldVal;
+int withdrawDaily9_oldVal;
+int HOURLY_LIMIT3_oldVal;
+int DAILY_LIMIT2_oldVal;
+int interest4_oldVal;
+int OVERDRAFT_LIMIT7_oldVal;
+Account self;
+Heap heapAtPre;
+}
+\problem {
+       newWithdrawDaily
+     = int::select(heap, self, Account::$withdrawDaily)
+   &   newWithdrawHourly
+     = int::select(heap,
+                   self,
+                   Account::$withdrawHourly)
+   &   boolean::select(heap,
+                       self,
+                       java.lang.Object::<created>)
+     = TRUE
+   & Account::exactInstance(self) = TRUE
+   & !self = null
+   & java.lang.Object::<inv>(heap, self)
+   & wellFormed(heap)
+-> {heapAtPre:=heap
+    || withdrawHourly5_oldVal:=int::select(heap,
+                                           self,
+                                           Account::$withdrawHourly)
+    || withdrawDaily9_oldVal:=int::select(heap,
+                                          self,
+                                          Account::$withdrawDaily)
+    || interest4_oldVal:=int::select(heap,
+                                     self,
+                                     Account::$interest)
+    || HOURLY_LIMIT3_oldVal:=int::select(heap,
+                                         self,
+                                         Account::$HOURLY_LIMIT)
+    || OVERDRAFT_LIMIT7_oldVal:=int::select(heap,
+                                            self,
+                                            Account::$OVERDRAFT_LIMIT)
+    || balance8_oldVal:=int::select(heap,
+                                    self,
+                                    Account::$balance)
+    || DAILY_LIMIT2_oldVal:=int::select(heap,
+                                        self,
+                                        Account::$DAILY_LIMIT)}
+     (lt(x, Z(0(#))) | geq(x, Z(0(#))))
+}
+
+\proof {
+(keyLog "0" (keyUser "Fynn" ) (keyVersion "1fb0c10630b493ce138850ae0f9803d3f2fffc51"))
+
+(autoModeTime "24")
+
+(branch "dummy ID"
+ (builtin "One Step Simplification" (formula "1"))
+(rule "impRight" (formula "1"))
+(rule "orRight" (formula "2"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "notLeft" (formula "2"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "eqSymm" (formula "1"))
+(rule "eqSymm" (formula "2"))
+(rule "inEqSimp_ltRight" (formula "8"))
+(rule "times_zero_1" (formula "1") (term "0,0"))
+(rule "add_zero_left" (formula "1") (term "0"))
+(rule "close" (formula "9") (ifseqformula "1"))
+)
+}
