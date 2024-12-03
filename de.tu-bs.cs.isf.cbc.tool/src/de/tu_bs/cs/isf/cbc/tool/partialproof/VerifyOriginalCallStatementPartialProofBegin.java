@@ -19,6 +19,10 @@ import de.tu_bs.cs.isf.cbc.tool.features.VerifyOriginalCallStatement;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
 import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyStatementProofGraphComplete;
 import de.tu_bs.cs.isf.cbc.util.Colors;
+import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
+import de.tu_bs.cs.isf.cbc.tool.features.VerifyOriginalCallStatement;
+import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
+import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileHandler;
@@ -27,6 +31,10 @@ import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraph;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraphCollection;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofNode;
+import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
+import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
+import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
+import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 
 public class VerifyOriginalCallStatementPartialProofBegin extends MyAbstractAsynchronousCustomFeature {
 

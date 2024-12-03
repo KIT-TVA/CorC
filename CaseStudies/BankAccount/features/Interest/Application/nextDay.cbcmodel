@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="nextDay" proven="true" comment="" compositionTechnique="EXPLICIT_CONTRACTING" className="Application" methodName="nextDay">
+    <statement name="statement" id="3c83232c-029b-4dc5-bdb4-ef2b94d97f59">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="332944a6-b015-4ad8-9f2e-e68c292b1db8">
+        <firstStatement name="statement1" id="3f54eff6-04dc-43e5-9a3a-3f8a18799470">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:OriginalStatement" name="original();" proven="true" id="3c6d7f76-615b-40f5-bc80-035e8044ceca">
+            <postCondition name="\original_post">
+              <modifiables>\nothing</modifiables>
+              <modifiables>a.withdrawDaily</modifiables>
+            </postCondition>
+            <preCondition name="\original_pre"/>
+          </refinement>
+          <postCondition name="\original_post"/>
+          <preCondition name="\original_pre"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="4742a417-af7f-4623-8fa6-79aab31a2963">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:MethodStatement" name="a.interest += a.interestCalculateDaily();" proven="true" id="fb72cd28-3c58-45f5-bce8-7fa0be16d776">
+            <postCondition name="(a.balance >= 0 -> a.interest >= \old(this.a.interest)) &amp; (a.balance &lt;= 0 -> a.interest &lt;= \old(this.a.interest))">
+              <modifiables>a.interest</modifiables>
+            </postCondition>
+            <preCondition name="\original_post"/>
+          </refinement>
+          <postCondition name="(a.balance >= 0 -> a.interest >= \old(this.a.interest)) &amp; (a.balance &lt;= 0 -> a.interest &lt;= \old(this.a.interest))">
+            <modifiables>a.interest</modifiables>
+          </postCondition>
+          <preCondition name="\original_post"/>
+        </secondStatement>
+        <intermediateCondition name="\original_post"/>
+      </refinement>
+      <postCondition name="(a.balance >= 0 -> a.interest >= \old(this.a.interest)) &amp; (a.balance &lt;= 0 -> a.interest &lt;= \old(this.a.interest))">
+        <modifiables>a.interest</modifiables>
+      </postCondition>
+      <preCondition name="\original_pre"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Application.cbcclass#//@methods.0"/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
+</xmi:XMI>

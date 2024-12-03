@@ -12,26 +12,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.emftext.commons.layout.LayoutInformation;
-import org.emftext.language.java.arrays.ArrayDimension;
-import org.emftext.language.java.classifiers.impl.InterfaceImpl;
-import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.members.ClassMethod;
-import org.emftext.language.java.members.Field;
-import org.emftext.language.java.members.InterfaceMethod;
-import org.emftext.language.java.members.Member;
-import org.emftext.language.java.parameters.Parameter;
-import org.emftext.language.java.resource.java.util.JavaResourceUtil;
-import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.types.impl.VoidImpl;
-import org.emftext.language.java.variables.impl.VariableImpl;
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.comments.Comment;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
@@ -43,7 +37,7 @@ import de.tu_bs.cs.isf.cbc.exceptions.NotImplementedException;
 
 public class GenerateClassFromInterfaces {
 	private List<Method> methods = new ArrayList<Method>();
-	private List<String> fields = new ArrayList<String>();
+	private List<FieldDeclaration> fields = new ArrayList<FieldDeclaration>();
 	private String newTraitName;
 	private List<String> composedTraits = new ArrayList<>();
 	private List<Map.Entry<String,String>> removedMethods = new ArrayList<>();
@@ -192,16 +186,19 @@ public class GenerateClassFromInterfaces {
 		abstractMethods = getMethods(true);
 		concreteMethods = getMethods(false);
 		builder.append(buildClassHeader());
-		for (String field : fields) {
-			builder.append(field);
-			builder.append("\n");
+		for (FieldDeclaration field : fields) {
+			for (VariableDeclarator var : field.getVariables()) {
+				builder.append(var.getTypeAsString() + " " + var.getNameAsString());
+				builder.append("\n");
+			}
 		}
 		
 		checkForConsistency(concreteMethods);
 
 		for (Method method : concreteMethods) {
-			builder.append(getJMLSpecification(method.getEmfMethod()));
-			builder.append(JavaResourceUtil.getText(method.getEmfMethod()));
+			builder.append(getJMLSpecification(method.getMethodDeclaration()));
+			//TODO: Was wird hier gemacht?
+			builder.append(method.createSignature());
 			builder.append("\n");
 		}
 		
@@ -213,7 +210,7 @@ public class GenerateClassFromInterfaces {
 				}
 			}
 			if (!isImplemented) {
-				builder.append(getJMLSpecification(method.getEmfMethod()));
+				builder.append(getJMLSpecification(method.getMethodDeclaration()));
 				builder.append(method.createSignature() + ";");
 				builder.append("\n");
 			}
@@ -238,14 +235,21 @@ public class GenerateClassFromInterfaces {
 		return returnString;
 	}
 
-	private String getJMLSpecification(org.emftext.language.java.members.Method emfMethod) {
+	private String getJMLSpecification(MethodDeclaration methodDeclaration) {
 		String defaultAnnotation = "	/*@\r\n" + "	  @ public normal_behavior\r\n"
 				+ "	  @ requires true;\r\n" + "	  @ ensures true;\r\n" + "	  @ assignable \\nothing;\r\n"
 				+ "	  @*/";
-		String jmlAnnotation = emfMethod.getAnnotationsAndModifiers().get(0).getLayoutInformations()
-				.get(0).getHiddenTokenText();
-		if (!jmlAnnotation.contains("/*@"))
+		String jmlAnnotation;
+		Optional<Comment> comment = methodDeclaration.getComment();
+		if (!comment.isPresent()) {
 			jmlAnnotation = defaultAnnotation;
+		} else {
+			jmlAnnotation = comment.get().toString();
+			if (!jmlAnnotation.contains("/*@")) {
+				jmlAnnotation = defaultAnnotation;
+			}
+		}
+		
 		return jmlAnnotation;
 	}
 
@@ -305,43 +309,34 @@ public class GenerateClassFromInterfaces {
 	}
 
 	private void readClass(String javaFileContent) {
-		EObject abstractSyntaxTreeRoot = JavaResourceUtil.getResourceContent(javaFileContent);
-		CompilationUnit compilationUnit = (CompilationUnit) abstractSyntaxTreeRoot;
-
-		if (compilationUnit.getClassifiers().isEmpty()
-				|| compilationUnit.getClassifiers().get(0).getMembers().isEmpty()) {
+		CompilationUnit compilationUnit = StaticJavaParser.parse(javaFileContent);
+		if (compilationUnit.getChildNodes().isEmpty()) {
 			return;
 		}
 		
-		if (compilationUnit.getClassifiers().get(0) instanceof InterfaceImpl) {
-			InterfaceImpl javaInterfaceWithDefault = (InterfaceImpl) compilationUnit.getClassifiers().get(0);
-			generateClassForKey(javaFileContent.replaceFirst("interface", "class"), javaInterfaceWithDefault.getName());
+		ClassOrInterfaceCollector collector = new ClassOrInterfaceCollector();
+		collector.visit(compilationUnit, null);
+		
+		if (collector.getClassOrInterfaceDeclaration().isInterface()) {
+			generateClassForKey(javaFileContent.replaceFirst("interface", "class"), collector.getClassOrInterfaceDeclaration().getNameAsString());
 			
-			for (Member member : javaInterfaceWithDefault.getMembers()) {
-				if (member instanceof Field) {
-					if (!fields.contains(JavaResourceUtil.getText(member))) {
-						fields.add(JavaResourceUtil.getText(member));
-					}
-				} else if (member instanceof ClassMethod) {
-					handleMethod((ClassMethod) member, javaInterfaceWithDefault.getName(), false);
-				} else if (member instanceof InterfaceMethod) {
-					handleMethod((InterfaceMethod) member, javaInterfaceWithDefault.getName(), true);
+			for (FieldDeclaration fieldDeclaration : collector.getFields()) {
+				if(!fields.contains(fieldDeclaration)) {
+					fields.add(fieldDeclaration);
 				}
 			}
-		}
+			
+			for (MethodDeclaration methodDeclaration : collector.getMethods()) {
+				handleMethod(methodDeclaration, collector.getClassOrInterfaceDeclaration().getNameAsString(), methodDeclaration.isAbstract());
+			}
+		}	
 	}
 
-	private void handleMethod(org.emftext.language.java.members.Method emfMethod, String className, boolean isAbstract) {
+	private void handleMethod(MethodDeclaration methodDeclaration, String className, boolean isAbstract) {
 		//parse JML contract to pre- and postconditions of cbcFormula
-		String defaultAnnotation = "	/*@\r\n" + "	  @ public normal_behavior\r\n"
-				+ "	  @ requires true;\r\n" + "	  @ ensures true;\r\n" + "	  @ assignable \\nothing;\r\n"
-				+ "	  @*/";
-		String jmlAnnotation = emfMethod.getAnnotationsAndModifiers().get(0).getLayoutInformations()
-				.get(0).getHiddenTokenText();
-		if (!jmlAnnotation.contains("/*@"))
-			jmlAnnotation = defaultAnnotation;
+		String jmlAnnotation = getJMLSpecification(methodDeclaration);
 		int index = 0;
-
+		
 		List<String> preCondition = new ArrayList<>();
 		List<String> postCondition = new ArrayList<>();
 		do {
@@ -358,38 +353,19 @@ public class GenerateClassFromInterfaces {
 			postCondition.add(getPostCondition(currentJmlPart));
 
 		} while (index != -1);
-		Method method = new Method(emfMethod, emfMethod.getName(), className, isAbstract, preCondition, postCondition,
-				null, getParameters(emfMethod), getReturnType(emfMethod));
+		Method method = new Method(methodDeclaration, methodDeclaration.getNameAsString(), className, isAbstract, preCondition, postCondition,
+				null, getParameters(methodDeclaration), methodDeclaration.getTypeAsString());
 		methods.add(method);
 	}
 
-	private List<String> getParameters(org.emftext.language.java.members.Method classMethod) {
+	private List<String> getParameters(MethodDeclaration methodDeclaration) {
 		List<String> parameters = new ArrayList<String>();
 		// add parameters to variables
-		for (Parameter p : classMethod.getParameters()) {
-			parameters.add(getParameter((VariableImpl) p));
+		for (Parameter p : methodDeclaration.getParameters()) {
+			parameters.add(getParameter(p));
 		}
 		return parameters;
 	}
-	
-	private String getReturnType(org.emftext.language.java.members.Method classMethod) {
-		TypeReference type = classMethod.getTypeReference();
-		String typeString = JavaResourceUtil.getText(type);
-		if (!(type instanceof VoidImpl)) {
-			String arrayDimensions = "";
-			if (classMethod.getArrayDimensionsBefore() != null) {
-				for (ArrayDimension ad : classMethod.getArrayDimensionsBefore()) {
-					for (LayoutInformation li : ad.getLayoutInformations()) {
-						arrayDimensions = arrayDimensions + li.getVisibleTokenText();
-					}
-				}
-			}
-			typeString = JavaResourceUtil.getText(type) + arrayDimensions;
-			return typeString;
-		}
-		return "void";
-	}
-
 
 	/**
 	 * adds the pre and post condition from jmlAnnotation to formula
@@ -629,23 +605,8 @@ public class GenerateClassFromInterfaces {
 	}
 
 	// adds variable to the list of JavaVariables
-	public String getParameter(VariableImpl variable) {
-		String arrayTokens = "";
-		if (variable.getArrayDimensionsBefore().size() > 0) {
-			for (int k = 0; k < variable.getArrayDimensionsBefore().size(); k++) {
-				for (int j = 0; j < variable.getArrayDimensionsBefore().get(k).getLayoutInformations().size(); j++) {
-					arrayTokens = arrayTokens + variable.getArrayDimensionsBefore().get(k).getLayoutInformations()
-							.get(j).getVisibleTokenText();
-				}
-			}
-		}
-		String type;
-		if (variable.getTypeReference().getLayoutInformations().size() > 0) {
-			type = variable.getTypeReference().getLayoutInformations().get(0).getVisibleTokenText();
-		} else {
-			type = variable.getTypeReference().getPureClassifierReference().getLayoutInformations().get(0)
-					.getVisibleTokenText();
-		}
-		return type + arrayTokens + " " + variable.getName();
+	//TODO: kann das so stimmen?
+	public String getParameter(Parameter p) {
+		return p.getTypeAsString() + " " + p.getNameAsString();
 	}
 }

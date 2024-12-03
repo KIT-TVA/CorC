@@ -34,6 +34,7 @@ import de.tu_bs.cs.isf.cbc.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
@@ -102,6 +103,7 @@ public class ProveWithKey {
 			this.proofType = proofType;
 			this.noResolve = false;
 		}
+
 		if (srcFolder == null)
 			srcFolder = ProveWithKey.SRC_FOLDER;
 		this.statement = statement;
@@ -129,6 +131,7 @@ public class ProveWithKey {
 		}
 		this.configName = "";
 		this.configNum = configNum;
+
 		if (config != null) {
 			this.configName += "/";
 			for (String s : config)
@@ -403,6 +406,7 @@ public class ProveWithKey {
 	public void replaceOriginalInStatement(List<CbCFormula> refinementsOriginal, List<CbCFormula> refinements,
 			List<JavaVariables> refinementsVars, String callingMethod, KeYFileContent content, String varM,
 			String callingClass, String callingFeature) {
+		var jsl = content.getStatement();
 		if (refinements != null && refinements.size() > 0 && content.getStatement().contains("(")) {
 			generateComposedClass(refinementsOriginal, refinements, refinementsVars, callingMethod, varM, callingClass,
 					callingFeature);
@@ -576,9 +580,6 @@ public class ProveWithKey {
 			String callingFeature) {
 		boolean originalNecessary = refinementsOriginal != null && refinementsOriginal.size() > 0;
 		int round = 0;
-		if (noResolve) {
-			return;
-		}
 		String className = varM.equals("") ? callingClass : varM.split("\\.")[0];
 		String methodName = varM.equals("") ? ("original_" + callingMethod) : varM.split("\\.")[1].toLowerCase();
 		while (originalNecessary || round == 0) {
@@ -859,16 +860,6 @@ public class ProveWithKey {
 		} else {
 			guardString = "true";
 		}
-		/*
-		 * String cleanedPre = ""; for (int i = 1; i < refinements.size(); i++) {
-		 * cleanedPre = applyCompositionTechnique("requires", preCondition.getName(),
-		 * Parser.getConditionFromCondition(refinements.get(i).getStatement().
-		 * getPreCondition().getName()) .replace("\n", "").replace("\r", ""),
-		 * refinements.get(i - 1).getCompositionTechnique(), true); }
-		 */
-		if (preCondition.getName().contains("\\original_post")) {
-			var isdfj = 2;
-		}
 		File location = createProveCImpliesCWithKey(refinements, preCondition.getName(), guardString, true);
 		Console.println("  Verify Pre -> GvGvG...");
 		return proveWithKey(location, false);
@@ -1024,14 +1015,15 @@ public class ProveWithKey {
 			for (int i = 0; i < p.definitions.size(); i++) {
 				PredicateDefinition pDef = p.definitions.get(i);
 				String expression = " " + pDef.presenceCondition + " ";
-				List<String> allFeatures = VerifyFeatures.getAllFeatures(projectName);
+				List<String> allFeatures = VerifyFeatures.getAllFeatures(formula.eResource().getURI());
 				for (String feature : config) {
 					expression = expression.replaceAll(" " + feature + " ", " true ");
 					allFeatures.remove(feature);
 				}
 				for (String feature : allFeatures)
 					expression = expression.replaceAll(" !" + feature + " ", " true ");
-				if (expression.trim().equals("") || evaluateFormula(expression.replaceAll("!true", "false").trim())) {
+				if (allFeatures.isEmpty() || expression.trim().equals("")
+						|| evaluateFormula(expression.replaceAll("!true", "false").trim())) {
 					currentP.definitions.add(pDef);
 				}
 			}
@@ -1105,7 +1097,9 @@ public class ProveWithKey {
 			predicatesForKeY += predicatesForKeY.length() == 0 ? "original,original_pre,original_post"
 					: ",original,original_pre,original_post";
 		}
-		return defString + "}\n\n" + rulesString + "}";
+		String output = defString + "}\n\n" + rulesString + "}";
+		output = KeYFunctionReplacer.getInstance().replaceIn(output);
+		return output;
 	}
 
 	private List<String> calculateOriginalPredicates(List<CbCFormula> refinements, JavaVariables varsFromJavaClass,
