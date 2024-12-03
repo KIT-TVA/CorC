@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="enterElevator" proven="true" comment="" className="Elevator" methodName="enterElevator">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="enterElevator" proven="true" comment="" className="Elevator" methodName="enterElevator">
     <statement name="statement" id="dd9bbf2f-91a3-4b12-b9b5-87ec65e95def">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="edf7cc2d-47b5-4b9a-97ef-475142faa762">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="edf7cc2d-47b5-4b9a-97ef-475142faa762">
         <firstStatement name="statement1" id="a2de2094-8757-45de-ab31-74e83e29e99c">
           <refinement name="p.enterElevator(this);" proven="true" id="79b99b32-3a11-4726-8a86-bc3a3966a43a">
             <postCondition name="this.persons != null &amp;&#xD;&#xA;this.persons.elements != null &amp; &#xD;&#xA; this.floorButtons != null &amp; &#xD;&#xA;p != null &amp; &#xD;&#xA;p.getDestination()>= 0 &amp; p.getDestination() &lt; this.floorButtons.length&#xD;&#xA;&amp; this.floorButtons[p.getDestination()] = TRUE"/>
@@ -27,10 +27,10 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.2"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
-  <cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
     <conditions name="Person p non-null"/>
     <conditions name="p.&lt;inv>"/>
-  </cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
 </xmi:XMI>

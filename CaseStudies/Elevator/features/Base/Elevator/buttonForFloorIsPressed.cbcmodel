@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="buttonForFloorIsPressed" proven="true" comment="" className="Elevator" methodName="buttonForFloorIsPressed">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="buttonForFloorIsPressed" proven="true" comment="" className="Elevator" methodName="buttonForFloorIsPressed">
     <statement name="statement" id="b8fba41e-6eff-41ad-85a2-3d9ed5c4135d">
-      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.floorButtons[floorID];" proven="true" comment="returnStatement" id="abb8baf7-e873-42cc-94b5-282e4ae34431">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:ReturnStatement" name="this.floorButtons[floorID];" proven="true" comment="returnStatement" id="abb8baf7-e873-42cc-94b5-282e4ae34431">
         <postCondition name="\result = this.floorButtons[floorID]">
           <modifiables>ret</modifiables>
         </postCondition>
@@ -16,6 +16,6 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.8"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
 </xmi:XMI>

@@ -2,11 +2,11 @@
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
   <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="push" proven="true" comment="" compositionTechnique="EXPLICIT_CONTRACTING" className="IntList" methodName="push">
     <statement name="statement" id="425e666a-052b-45f1-ba95-22d367e8e10e">
-      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="8cc3af7b-0f60-4000-9316-17e9000ef075" preProve="true">
         <guards name="data.length &lt; LIMIT"/>
         <guards name="data.length >= LIMIT"/>
-        <commands name="statement">
-          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:OriginalStatement" name="original(newTop);" proven="true">
+        <commands name="statement" id="ba1fdf96-d37c-44ad-847a-414a14a880d2">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:OriginalStatement" name="original(newTop);" proven="true" id="1ec08b0c-02c4-4be1-864c-5389879f0b37">
             <postCondition name="(\old(data).length &lt; LIMIT) -> \original_post">
               <modifiables>data[*]</modifiables>
             </postCondition>
@@ -15,8 +15,8 @@
           <postCondition name="(\old(data).length &lt; LIMIT) -> \original_post"/>
           <preCondition name="(true) &amp; (data.length &lt; LIMIT)"/>
         </commands>
-        <commands name="statement">
-          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SkipStatement" name=";" proven="true">
+        <commands name="statement" id="61d77feb-3181-4cfd-9507-0dbc4e7aa02d">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SkipStatement" name=";" proven="true" id="34d5b960-287a-4385-b79d-aaedabeb666e">
             <postCondition name="(\old(data).length &lt; LIMIT) -> \original_post">
               <modifiables>data[*]</modifiables>
             </postCondition>

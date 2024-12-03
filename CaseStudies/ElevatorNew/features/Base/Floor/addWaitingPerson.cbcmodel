@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="addWaitingPerson" className="Floor" methodName="addWaitingPerson">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="addWaitingPerson" className="Floor" methodName="addWaitingPerson">
     <statement name="statement" id="f02c01c7-dd04-4c1b-a3cd-3ab8ce6649f6">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="d6816a5c-7643-4aa2-b6d6-1bcd2023d7ab">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="d6816a5c-7643-4aa2-b6d6-1bcd2023d7ab">
         <firstStatement name="statement1" id="cd8a8573-fb5e-45c8-9434-5647fc559047">
           <refinement name="this.callElevator();" proven="true" id="322f7f76-5fb6-4c17-90de-353e11d2cd07">
             <postCondition name="this.hasCall() = TRUE"/>
@@ -27,10 +27,10 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Floor.cbcclass#//@methods.0"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
-  <cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
     <conditions name="Person person non-null"/>
     <conditions name="waiting.&lt;inv>"/>
-  </cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
 </xmi:XMI>

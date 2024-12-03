@@ -10,6 +10,8 @@ public interface IFileUtil {
 	public File getSrcFile(String className);
 	
 	public File getClassFile(String className);
+	
+	public File getSrcFile(String className);
 
     public List<String> readFileInList(String path);
 

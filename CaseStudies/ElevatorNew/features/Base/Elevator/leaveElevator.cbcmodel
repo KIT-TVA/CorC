@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="leaveElevator" proven="true" className="Elevator" methodName="leaveElevator">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="leaveElevator" proven="true" className="Elevator" methodName="leaveElevator">
     <statement name="statement" id="32280f6a-3514-4a78-8555-ac3d8402925f">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="9ee3d7b0-6157-4262-aad4-b367dc40bc20">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="9ee3d7b0-6157-4262-aad4-b367dc40bc20">
         <firstStatement name="statement1" id="4092c874-88a5-47fd-b37a-241eddb779eb">
           <refinement name="result = false;&#xD;&#xA;this.old_contains = this.persons.contains(p);" proven="true" id="dd2901a8-d5ec-48c7-a8e1-04ac250f95af">
             <postCondition name="result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)"/>
@@ -12,9 +12,9 @@
           <preCondition name="p != null&amp; this.persons != null&amp; this.persons.elements != null"/>
         </firstStatement>
         <secondStatement name="statement2" id="4be27f23-8dfd-4832-b39e-e9adfce56352">
-          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="1a812df3-958b-4808-b6ec-1c189b23536f">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="1a812df3-958b-4808-b6ec-1c189b23536f">
             <firstStatement name="statement1" id="f261ea21-b105-45c6-ab50-bf3d6e52f8ac">
-              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="ad1c7c73-963b-4725-9780-c121880344cc" preProve="true">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="ad1c7c73-963b-4725-9780-c121880344cc" preProve="true">
                 <guards name="this.old_contains = TRUE"/>
                 <guards name="this.old_contains = FALSE"/>
                 <commands name="statement" id="64e93446-5988-4a6d-9c15-13dabab6e3b7">
@@ -38,7 +38,7 @@
               <preCondition name="result = FALSE&#xD;&#xA;&amp; this.old_contains = this.persons.contains(p)"/>
             </firstStatement>
             <secondStatement name="statement2" id="516f3112-a418-4f1d-8acd-a0cf73a2248d">
-              <refinement xsi:type="cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement" id="0fc1b8be-905c-46ec-b018-c07d41fc64e2">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement" id="0fc1b8be-905c-46ec-b018-c07d41fc64e2">
                 <postCondition name="this.old_contains = TRUE -> (\result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE) &amp; this.old_contains = FALSE -> \result = FALSE"/>
                 <preCondition name="(this.old_contains = TRUE -> (result = TRUE &amp; p.isDestinationReached() = TRUE &amp; this.persons.contains(p) = FALSE))&#xD;&#xA;&amp; this.old_contains = FALSE -> result = FALSE"/>
               </refinement>
@@ -58,12 +58,12 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.12"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
     <variables name="boolean result"/>
-  </cbcmodel:JavaVariables>
-  <cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
     <conditions name="Person p non-null"/>
     <conditions name="this.persons.elements != null"/>
-  </cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
 </xmi:XMI>

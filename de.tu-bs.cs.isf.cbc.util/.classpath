@@ -16,6 +16,9 @@
 	<classpathentry kind="lib" path="lib/mockito-core-4.8.1.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-inline.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-inline-4.8.1.jar"/>
+	<classpathentry kind="lib" path="lib/junit-platform-launcher-1.9.1.jar"/>
+	<classpathentry kind="lib" path="lib/junit-platform-engine-1.9.1.jar"/>
+	<classpathentry kind="lib" path="lib/opentest4j-1.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/org.sat4j.core.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="lib" path="lib/byte-buddy-1.14.13.jar"/>
