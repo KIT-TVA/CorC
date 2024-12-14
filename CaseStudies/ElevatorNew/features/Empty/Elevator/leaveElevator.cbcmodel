@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="leaveElevator" proven="true" compositionTechnique="EXPLICIT_CONTRACTING" className="Elevator" methodName="leaveElevator">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="leaveElevator" proven="true" compositionTechnique="EXPLICIT_CONTRACTING" className="Elevator" methodName="leaveElevator">
     <statement name="statement" id="fd6bc221-4926-4d98-9434-c7fa5222aa02">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="883dc532-0418-4089-800d-e1755adfa370">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="883dc532-0418-4089-800d-e1755adfa370">
         <firstStatement name="statement1" id="3719117f-5414-4d0e-88f9-dbb4ee97a6f6">
           <refinement name="result = false;&#xD;&#xA;this.old_contains = this.persons.contains(p);" proven="true" id="cb00eff4-a278-45f5-8bfa-1a9878a592c7">
             <postCondition name="result = FALSE &amp; this.old_contains = this.persons.contains(p)"/>
@@ -12,9 +12,9 @@
           <preCondition name="p != null &amp; this.persons != null &amp; this.persons.elements != null"/>
         </firstStatement>
         <secondStatement name="statement2" id="3fd84bcd-22a1-40d5-90c6-bb7c9b79d429">
-          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="2d80d435-1398-44f4-9ed8-731458c5af8e">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="2d80d435-1398-44f4-9ed8-731458c5af8e">
             <firstStatement name="statement1" id="423d1b10-901c-4152-a997-a6880e0fece3">
-              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="e19aeb20-0846-4604-92ff-a4caaaef94b2" preProve="true">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="e19aeb20-0846-4604-92ff-a4caaaef94b2" preProve="true">
                 <guards name="this.old_contains = TRUE"/>
                 <guards name="this.old_contains = FALSE"/>
                 <commands name="statement" id="e8e44b9a-16a3-4f67-afca-b0d520e2c622">
@@ -26,7 +26,7 @@
                   <preCondition name="modifiable(\nothing);(result = FALSE &amp; this.old_contains = this.persons.contains(p)) &amp; (this.old_contains = TRUE)"/>
                 </commands>
                 <commands name="statement" id="6ba0d0c8-81fa-4135-bbac-b11bf0e71e49">
-                  <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true" id="eedb8548-42a6-4ee6-a02c-012c15d3be0d">
+                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SkipStatement" name=";" proven="true" id="eedb8548-42a6-4ee6-a02c-012c15d3be0d">
                     <postCondition name="\original_post &amp; this.old_contains = TRUE -> (this.weight = \old(this.weight) - p.getWeight())"/>
                     <preCondition name="modifiable(\nothing);(result = FALSE &amp; this.old_contains = this.persons.contains(p)) &amp; (this.old_contains = FALSE)"/>
                   </refinement>
@@ -38,7 +38,7 @@
               <preCondition name="result = FALSE &amp; this.old_contains = this.persons.contains(p)"/>
             </firstStatement>
             <secondStatement name="statement2" id="11d1d194-fbed-4cff-8864-3f2ef565fe5c">
-              <refinement xsi:type="cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement" id="689a210f-5665-42ed-b529-d33c8c43fd68">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement" id="689a210f-5665-42ed-b529-d33c8c43fd68">
                 <postCondition name="\original_post &amp; this.old_contains = TRUE -> (this.weight = \old(this.weight) - p.getWeight())"/>
                 <preCondition name="\original_post &amp; this.old_contains = TRUE -> (this.weight = \old(this.weight) - p.getWeight())"/>
               </refinement>
@@ -58,13 +58,13 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.0"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
     <variables name="boolean result"/>
-  </cbcmodel:JavaVariables>
-  <cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
     <conditions name="Person p non-null"/>
     <conditions name="this.persons.elements != null"/>
     <conditions name="this.weight >= 0"/>
-  </cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
 </xmi:XMI>

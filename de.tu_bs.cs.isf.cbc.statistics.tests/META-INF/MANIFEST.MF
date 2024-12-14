@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: de.tu_bs.cs.isf.cbc.statistics.tests;singleton:=true
+Automatic-Module-Name: de.tu_bs.cs.isf.cbc.statistics.tests
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: de.tu_bs.cs.isf.cbc.statistics.tests
+Require-Bundle: org.eclipse.core.runtime,
+ de.tu_bs.cs.isf.cbc.statistics;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.junit;visibility:=reexport
+Bundle-ActivationPolicy: lazy

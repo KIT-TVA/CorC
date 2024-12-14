@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="pressInLiftFloorButton" proven="true" className="Elevator" methodName="pressInLiftFloorButton">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="pressInLiftFloorButton" proven="true" className="Elevator" methodName="pressInLiftFloorButton">
     <statement name="statement" id="e5c9c117-90b3-4db0-94d2-8f9aa70e7a3b">
       <refinement name="this.floorButtons[floorID] = true;" proven="true" id="884ad890-3add-4348-9e1b-6d6b3dc31701">
         <postCondition name="(this.floorButtons != null &amp; floorID >= 0 &amp; floorID &lt; this.floorButtons.length&amp; this.floorButtons[floorID] != null) -> this.floorButtons[floorID] = TRUE"/>
@@ -12,6 +12,6 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.8"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
 </xmi:XMI>

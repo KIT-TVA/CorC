@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="enterElevator" proven="true" className="Elevator" methodName="enterElevator">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="enterElevator" proven="true" className="Elevator" methodName="enterElevator">
     <statement name="statement" id="8feeaadf-e2f3-40d5-916d-77f291afc04e">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="1ce0082c-feb5-4959-90c8-d40176ea550f">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="1ce0082c-feb5-4959-90c8-d40176ea550f">
         <firstStatement name="statement1" id="0e605319-9e72-4a96-8b4e-278a177422d6">
           <refinement name="p.enterElevator(this);" proven="true" id="441f4cfe-f90c-4c82-ac16-466f49ee1861">
             <postCondition name="this.persons != null &amp; this.persons.elements != null &amp; this.floorButtons != null &amp; p != null &amp; p.getDestination()>= 0 &amp; p.getDestination() &lt; this.floorButtons.length&#xD;&#xA;&amp; this.floorButtons[p.getDestination()] = TRUE"/>
@@ -27,10 +27,10 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.11"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
-  <cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
     <conditions name="Person p non-null"/>
     <conditions name="p.&lt;inv>"/>
-  </cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
 </xmi:XMI>

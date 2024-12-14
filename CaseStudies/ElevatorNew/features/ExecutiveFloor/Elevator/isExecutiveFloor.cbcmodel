@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="isExecutiveFloor" proven="true" className="Elevator" methodName="isExecutiveFloor">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="isExecutiveFloor" proven="true" className="Elevator" methodName="isExecutiveFloor">
     <statement name="statement" id="d7c463ff-3258-4eda-b31c-d70e29e63a2f">
-      <refinement xsi:type="cbcmodel:ReturnStatement" name="(floorID == this.executiveFloor);" proven="true" comment="returnStatement" id="7b923218-3100-4ddc-ad0b-ae3e33e98999">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:ReturnStatement" name="(floorID == this.executiveFloor);" proven="true" comment="returnStatement" id="7b923218-3100-4ddc-ad0b-ae3e33e98999">
         <postCondition name="retExecutiveFloor(floorID, this.executiveFloor, \result)"/>
         <preCondition name="floorID >= 0 &amp; this.executiveFloor >= 0"/>
       </refinement>
@@ -12,6 +12,6 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.0"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
 </xmi:XMI>

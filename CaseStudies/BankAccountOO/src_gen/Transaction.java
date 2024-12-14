@@ -5,6 +5,27 @@ public class Transaction {
 
 
 
+
+	/*@
+	@ public normal_behavior
+	@ requires true;
+	@ ensures true;
+	@ assignable \nothing;
+	@*/
+	int /*@ pure @*/ length(int[] arr) {return arr.length;}
+
+
+
+
+	/*@
+	@ public normal_behavior
+	@ requires true;
+	@ ensures false;
+	@ assignable \nothing;
+	@*/
+	boolean /*@ pure @*/ noResolve() {return false;}
+
+
 	/*@
 	@ normal_behavior
 	@ requires source != destination;

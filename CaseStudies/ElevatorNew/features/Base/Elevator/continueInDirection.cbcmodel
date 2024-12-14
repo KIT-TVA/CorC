@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="continueInDirection" className="Elevator" methodName="continueInDirection">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="continueInDirection" className="Elevator" methodName="continueInDirection">
     <statement name="statement" id="b9e37f7d-9791-44b4-a190-e3a7960abffa">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="c0dddcc1-6203-4a18-bf22-ddd5eabc6c02">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="c0dddcc1-6203-4a18-bf22-ddd5eabc6c02">
         <firstStatement name="statement1" id="e7c541ba-8b71-407f-bbd9-c9dfa1baab58">
           <refinement name="this.currentHeading = dir;" id="af5bf125-4e95-4940-bde2-46e8ec48ca2b">
             <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir"/>
@@ -12,17 +12,17 @@
           <preCondition name="dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null"/>
         </firstStatement>
         <secondStatement name="statement2" id="88499f37-1125-4fba-8100-bc27abe5fa30">
-          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="a79215bd-dedc-40a1-b686-4cf01f55ce4e">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="a79215bd-dedc-40a1-b686-4cf01f55ce4e">
             <firstStatement name="statement1" id="eac759e0-1b2e-4bb8-8e1e-280c553383e5">
-              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" id="272a4e17-e729-4805-87c5-e50950b82df5">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement" name="selectionStatement" id="272a4e17-e729-4805-87c5-e50950b82df5">
                 <guards name="this.currentHeading == 1"/>
                 <guards name="this.currentHeading != 0"/>
                 <commands name="statement" id="ea6f25be-cb09-4f9d-a2c6-4ffd637f420f">
-                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" id="2f5a94e2-5927-45bc-861d-0be3082b2a1a">
+                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement" name="selectionStatement" id="2f5a94e2-5927-45bc-861d-0be3082b2a1a">
                     <guards name="this.env.isTopFloor(this.currentFloorID) == TRUE"/>
                     <guards name="this.env.isTopFloor(this.currentFloorID) == FALSE"/>
                     <commands name="statement" id="4514ace2-7a56-43cd-9d61-0dcee791a785">
-                      <refinement xsi:type="cbcmodel:MethodStatement" name="this.currentHeading = this.reverse();" id="a94202b3-6aee-4e2f-bdc9-b1c263eb6d77">
+                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:MethodStatement" name="this.currentHeading = this.reverse();" id="a94202b3-6aee-4e2f-bdc9-b1c263eb6d77">
                         <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
                         <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading == 1)) &amp; (this.env.isTopFloor(this.currentFloorID) == TRUE)"/>
                       </refinement>
@@ -30,7 +30,7 @@
                       <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading == 1)) &amp; (this.env.isTopFloor(this.currentFloorID) == TRUE)"/>
                     </commands>
                     <commands name="statement" id="44c26c0c-e7ee-4634-b13e-fa278408857c">
-                      <refinement xsi:type="cbcmodel:SkipStatement" name=";" id="4093228b-509a-4795-a9ce-cea7de004092">
+                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SkipStatement" name=";" id="4093228b-509a-4795-a9ce-cea7de004092">
                         <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
                         <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading == 1)) &amp; (this.env.isTopFloor(this.currentFloorID) == FALSE)"/>
                       </refinement>
@@ -42,11 +42,11 @@
                   <preCondition name="modifiable(this.currentHeading);(dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading == 1)"/>
                 </commands>
                 <commands name="statement" id="3cb854fd-fba0-44bf-9a35-043ee8131299">
-                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" id="ea5b6d11-d13f-4f71-8767-56f410b22587">
+                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement" name="selectionStatement" id="ea5b6d11-d13f-4f71-8767-56f410b22587">
                     <guards name="this.currentFloorID == 0"/>
                     <guards name="this.currentFloorID != 0"/>
                     <commands name="statement" id="e10d57cb-2440-423c-8c9f-e4d0b40dc3da">
-                      <refinement xsi:type="cbcmodel:MethodStatement" name="this.currentHeading = this.reverse();" id="a5ce2c9c-4722-466b-9e3c-171c989afe09">
+                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:MethodStatement" name="this.currentHeading = this.reverse();" id="a5ce2c9c-4722-466b-9e3c-171c989afe09">
                         <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
                         <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading != 0)) &amp; (this.currentFloorID == 0)"/>
                       </refinement>
@@ -54,7 +54,7 @@
                       <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading != 0)) &amp; (this.currentFloorID == 0)"/>
                     </commands>
                     <commands name="statement" id="5691f72c-7951-4574-b40a-9c67e12227f8">
-                      <refinement xsi:type="cbcmodel:SkipStatement" name=";" id="5518809e-7c36-4d03-99a0-c8287ca922d9">
+                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SkipStatement" name=";" id="5518809e-7c36-4d03-99a0-c8287ca922d9">
                         <postCondition name="modifiable(this.currentHeading);&#xD;&#xA;((this.currentHeading = 1 &amp; this.env.isTopFloor(this.currentFloorID) = TRUE) -> this.currentHeading = 0) &amp; ((this.currentHeading = 0 &amp; this.currentFloorID = 0) -> this.currentHeading = 1)"/>
                         <preCondition name="modifiable(this.currentHeading);((dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir) &amp; (this.currentHeading != 0)) &amp; (this.currentFloorID != 0)"/>
                       </refinement>
@@ -70,7 +70,7 @@
               <preCondition name="modifiable(this.currentHeading);&#xD;&#xA;dir >= 0 &amp; dir &lt;= 1 &amp; this.currentHeading >= 0 &amp; this.currentFloorID >= 0&amp; this.env != null &amp; this.env.floors != null &amp; this.currentHeading = dir"/>
             </firstStatement>
             <secondStatement name="statement2" id="7ab3fc1b-a74f-478f-8fef-623d79f11d24">
-              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" id="e9c3a59f-640f-4696-ac73-6c32f573da2a">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement" name="selectionStatement" id="e9c3a59f-640f-4696-ac73-6c32f573da2a">
                 <guards name="this.currentHeading == 1"/>
                 <guards name="this.currentHeading != 1"/>
                 <commands name="statement" id="bd8c379e-81dc-4650-bfea-7473024d4898">
@@ -106,11 +106,11 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.2"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
-  <cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
     <conditions name="this.env.floors.length > 0"/>
     <conditions name="this.env != null"/>
     <conditions name="this.env.floors != null"/>
-  </cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
 </xmi:XMI>

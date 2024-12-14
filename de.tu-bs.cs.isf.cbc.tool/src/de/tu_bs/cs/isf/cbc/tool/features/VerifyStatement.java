@@ -25,6 +25,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.ReturnStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SkipStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
+import de.tu_bs.cs.isf.cbc.util.Colors;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
@@ -33,11 +34,11 @@ import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.GetDiagramUtil;
+import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
-import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 
 /**
  * Class that changes the abstract value of algorithms
@@ -95,7 +96,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 
 	void verifyStatement(ICustomContext context, IProgressMonitor monitor, boolean inlining) {
 		long startTime = System.nanoTime();
-		Console.clear();
+		//Console.clear();
 		monitor.beginTask("Verify statement", IProgressMonitor.UNKNOWN);
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
@@ -126,11 +127,11 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			}
 		}
 		// reset proof type since partial proofs also call this method.
-		proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1000000;
 		Console.println("\nVerification done.");
 		Console.println("Time needed: " + duration + "ms");
+		proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
 		monitor.done();
 	}
 
@@ -143,8 +144,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
 			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
-			ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(platformUri), null, 0,
-					proofType);
+			ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(platformUri), new ArrayList<>(), 0, proofType);
 			proven = prove.proveStatementWithKey(returnStatement, false, callingClass, true);
 		} else {
 			Console.println("Statement is not in correct format.");
@@ -175,21 +175,16 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 		GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(
 				super.getFeatureProvider());
 		if (featureConfigs != null) {
-			String[] variants = generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature,
-					callingClass);
+			String[] variants = generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
+			Console.println(variants[0], Colors.GREEN);
 			if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 				for (int i = 0; i < variants.length; i++) {
 					genCode.setProofTypeInfo(i, proofType);
-					if (!genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod,
-							featureConfigs[i]))
-						continue;
-					ProveWithKey prove = new ProveWithKey(statement, diagram, monitor,
-							new FileUtil(uri.toPlatformString(true)), featureConfigs[i], i, proofType);
-					List<CbCFormula> refinements = generateCbCFormulasForRefinements(variants[i], callingMethod);
-					List<JavaVariables> refinementsVars = generateJavaVariablesForRefinements(variants[i],
-							callingMethod);
-					proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false,
-							callingMethod, "", callingClass, true);
+					if(!genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i])) continue;
+					ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri.toPlatformString(true)), featureConfigs[i], i, proofType);
+					List<CbCFormula> refinements = generateCbCFormulasForRefinements(variants[i], callingMethod); //für proof start eigl egal
+					List<JavaVariables> refinementsVars = generateJavaVariablesForRefinements(variants[i], callingMethod);
+					proven = prove.proveStatementWithKey(null, refinements, refinementsVars, returnStatement, false, callingMethod, "", callingClass, true);
 				}
 			} else {
 				Console.println("  Statement is not in correct format.");

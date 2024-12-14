@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="createPerson" className="Person" methodName="createPerson">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="createPerson" className="Person" methodName="createPerson">
     <statement name="statement" id="3a676ad0-c1cc-4eda-9dda-124bee188258">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="141e62c9-03e2-4cae-ae58-04489616e4cf">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="141e62c9-03e2-4cae-ae58-04489616e4cf">
         <firstStatement name="statement1" id="13532ac0-3f2d-4845-ad8f-9b012e1f58f7">
           <refinement name="tmpFloor = envx.getFloor(originx);" proven="true" id="72fdba64-a964-4cf2-9fce-9fb1e7b3e2fd">
             <postCondition name="modifiable(tmpFloor);&#xD;&#xA;tmpFloor != null&#xD;&#xA;&amp; namex != null&#xD;&#xA;&amp; destinationx >= 0&#xD;&#xA;&amp; envx != null&#xD;&#xA;&amp; weightx >= 0&#xD;&#xA;&amp; originx >= 0&#xD;&#xA;&amp; originx &lt; envx.floors.length&#xD;&#xA;&amp; tmpFloor.&lt;created> = TRUE &#xD;&#xA;&amp; tmpFloor.waiting != null&#xD;&#xA;&amp; tmpFloor.waiting.elements != null"/>
@@ -27,14 +27,14 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Person.cbcclass#//@methods.0"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
     <variables name="Floor tmpFloor"/>
-  </cbcmodel:JavaVariables>
-  <cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
     <conditions name="Environment envx non-null"/>
     <conditions name="String namex non-null"/>
     <conditions name="envx.&lt;inv>"/>
     <conditions name="tmpFloor.&lt;inv>"/>
-  </cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
 </xmi:XMI>
