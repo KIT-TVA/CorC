@@ -409,7 +409,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 						configNum, KeYInteraction.ABSTRACT_PROOF_FULL);
 			} else {
 				prove = new ProveWithKey(statement, diagram, monitor,
-						new FileUtil(diagram.eResource().getURI().toPlatformString(true)), null, 0,
+						new FileUtil(diagram.eResource().getURI().toPlatformString(true)), new ArrayList<>(), 0,
 						KeYInteraction.ABSTRACT_PROOF_FULL);
 			}
 

@@ -1,40 +1,15 @@
 package de.tu_bs.cs.isf.cbc.tool.partialproof;
 
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
-import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyOriginalCallStatement;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
-import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyStatementProofGraphComplete;
-import de.tu_bs.cs.isf.cbc.util.Colors;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyOriginalCallStatement;
-import de.tu_bs.cs.isf.cbc.tool.features.VerifyStatement;
-import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
-import de.tu_bs.cs.isf.cbc.util.Console;
-import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
-import de.tu_bs.cs.isf.cbc.util.FileHandler;
-import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
-import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraph;
-import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraphCollection;
-import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofNode;
 import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
-import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
-import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
-import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 
 public class VerifyOriginalCallStatementPartialProofBegin extends MyAbstractAsynchronousCustomFeature {
 

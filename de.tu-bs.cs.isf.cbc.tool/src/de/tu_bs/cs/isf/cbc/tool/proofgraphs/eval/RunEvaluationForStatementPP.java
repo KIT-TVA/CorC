@@ -14,7 +14,6 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.MethodStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.OriginalStatement;
-import de.tu_bs.cs.isf.cbc.tool.features.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyMethodCallStatementPartialProofBegin;
 import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyMethodCallStatementPartialProofComplete;
 import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyOriginalCallStatementPartialProofBegin;
@@ -22,6 +21,7 @@ import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyOriginalCallStatementPartialP
 import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyStatementPartialProofBegin;
 import de.tu_bs.cs.isf.cbc.tool.partialproof.VerifyStatementPartialProofComplete;
 import de.tu_bs.cs.isf.cbc.util.Console;
+import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 
 public class RunEvaluationForStatementPP extends MyAbstractAsynchronousCustomFeature {
 	

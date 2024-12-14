@@ -34,11 +34,9 @@ Import-Package: de.tu_bs.cs.isf.cbc.proorepository,
  de.tu_bs.cs.isf.corc.predicateWizard,
  org.eclipse.emf.ecore.xmi.impl;version="2.35.0",
  org.emftext.language.java.resource.java.util
-Bundle-ClassPath: lib/antlr-3.4.jar,
- lib/de.ovgu.featureide.lib.fm-v3.6.2.jar,
+Bundle-ClassPath: lib/de.ovgu.featureide.lib.fm-v3.6.2.jar,
  lib/org.sat4j.core.jar,
  lib/javaparser-core-3.25.9-SNAPSHOT.jar,
  lib/javaparser-symbol-solver-core-3.25.9-SNAPSHOT.jar,
- lib/,
  lib/key-2.13.0-exe.jar,
  .
