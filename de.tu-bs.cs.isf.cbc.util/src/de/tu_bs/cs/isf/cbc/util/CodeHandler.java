@@ -500,4 +500,16 @@ public final class CodeHandler {
 	}
 	return output.substring(0, output.length() - 1);
     }
+
+    public static int getLongestLineLen(final String text) {
+	final var lines = text.split("\\n");
+	int max = Integer.MIN_VALUE;
+
+	for (var line : lines) {
+	    if (line.length() > max) {
+		max = line.length();
+	    }
+	}
+	return max;
+    }
 }

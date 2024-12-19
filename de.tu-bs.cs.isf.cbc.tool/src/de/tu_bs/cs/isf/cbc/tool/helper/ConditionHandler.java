@@ -23,6 +23,8 @@ import de.tu_bs.cs.isf.cbc.util.conditionparser.ConditionParser;
 import de.tu_bs.cs.isf.cbc.util.conditionparser.Node;
 
 public final class ConditionHandler {
+    public static Node tree = null;
+
     /**
      * Translates condition from JavaDL into Java and returns the resulting java
      * condition.
@@ -36,7 +38,7 @@ public final class ConditionHandler {
      */
     public static JavaCondition translateConditionToJava(final URI projectPath, String condition, String instanceName,
 	    List<InputData> gVars) throws UnexpectedTokenException {
-	var tree = parseCondition(projectPath, condition, instanceName, gVars);
+	tree = parseCondition(projectPath, condition, instanceName, gVars);
 	JavaCondition javaCondition = new JavaCondition(tree);
 	return javaCondition;
     }

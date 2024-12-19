@@ -87,7 +87,7 @@ public class ConditionParser {
 	
 	private String prepareCondition(String postCondition) {
 		// TODO: Implement support for CorC specific keywords of the form '<keyword>'
-		postCondition = removeCorCKeywords(postCondition);
+		// postCondition = removeCorCKeywords(postCondition);
 		postCondition = postCondition.replaceAll("\\\\result", "result");
 		postCondition = postCondition.replaceAll("\\r", "");
 		postCondition = postCondition.replaceAll("\\n", "");

@@ -69,6 +69,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.ConditionHandler;
 import de.tu_bs.cs.isf.cbc.tool.helper.PreConditionSolver;
 import de.tu_bs.cs.isf.cbc.tool.helper.TestAndAssertionListener;
 import de.tu_bs.cs.isf.cbc.util.ClassHandler;
+import de.tu_bs.cs.isf.cbc.util.ClauseCoverage;
 import de.tu_bs.cs.isf.cbc.util.CodeHandler;
 import de.tu_bs.cs.isf.cbc.util.Colors;
 import de.tu_bs.cs.isf.cbc.util.Console;
@@ -83,6 +84,7 @@ import de.tu_bs.cs.isf.cbc.util.MethodHandler;
 import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.Settings;
 import de.tu_bs.cs.isf.cbc.util.TestCaseData;
+import de.tu_bs.cs.isf.cbc.util.TestCoverageProvider;
 import de.tu_bs.cs.isf.cbc.util.TestUtilSPL;
 import de.tu_bs.cs.isf.cbc.util.Variable;
 import de.tu_bs.cs.isf.cbc.util.conditionparser.ConditionParser;
@@ -237,6 +239,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	    final Features features) throws ReferenceException, TestAndAssertionGeneratorException,
 	    PreConditionSolverException, UnexpectedTokenException, TestStatementException, DiagnosticsException,
 	    SettingsException, MalformedURLException, ClassNotFoundException {
+	TestCoverageProvider tcp = new ClauseCoverage();
 	final JavaVariable returnVar = Variable.getReturnVar(vars);
 	var methodToGenerate = getDiagram();
 	String code2 = genCode(methodToGenerate);
@@ -300,12 +303,12 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	    Console.println("Nothing to test.");
 	    return false;
 	}
-	testFileContent = genTestCases(className, inputs, postCon, globalConditions, formula);
+	testFileContent = genTestCases(className, inputs, postCon, globalConditions, formula, tcp);
 	testFileContent = CodeHandler.addInstanceNameToFields(ClassHandler.getClassByName(classCodes, className),
 		testFileContent);
 	FileHandler.instance.writeToFile(this.projectPath, className + "Test.java", testFileContent);
 	executeTestCases("file://" + FileUtil.getProjectLocation(uri) + "/tests/", className + "Test.java", globalVars,
-		inputs);
+		inputs, tcp);
 	return true;
     }
 
@@ -1454,7 +1457,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
     }
 
     private String genTestCases(final String className, final List<TestCaseData> inputs, final String postCondition,
-	    final GlobalConditions conds, final CbCFormula formula)
+	    final GlobalConditions conds, final CbCFormula formula, TestCoverageProvider tcp)
 	    throws TestStatementException, UnexpectedTokenException, SettingsException {
 	var instanceName = Character.toLowerCase(className.charAt(0)) + className.substring(1, className.length());
 	if (inputs.isEmpty()) {
@@ -1537,6 +1540,10 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	    // add post condition
 	    var translatedPostConditionNew = ConditionHandler.translateConditionToJava(projectPath, postCondition,
 		    instanceName, inputs.get(0).getInputDataTupel().getGlobalVars());
+	    // TODO: Test new clause coverage implementation used here for the first time
+	    tcp.initialize(ConditionHandler.tree);
+	    code.append(tcp.getJavaCode());
+	    // TODO: END
 	    code.append(translatedPostConditionNew.getWithContext(test.getTestNumber(), inputs, instanceName));
 	    code.append("\n\t}\n\n");
 	}
@@ -1582,7 +1589,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
     }
 
     private void executeTestCases(final String classPath, String className, final List<String> globalVars,
-	    final List<TestCaseData> inputs)
+	    final List<TestCaseData> inputs, TestCoverageProvider tcp)
 	    throws DiagnosticsException, MalformedURLException, ClassNotFoundException {
 	final XmlSuite suite;
 	var pathOfPlugins = System.getProperty("osgi.syspath");
@@ -1605,7 +1612,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	suite = createXmlSuite(classPath, className);
 
 	// now start testng using the custom test listener
-	var tla = new TestAndAssertionListener(projectPath, className, globalVars, inputs);
+	var tla = new TestAndAssertionListener(projectPath, className, globalVars, inputs, tcp);
 	List<XmlSuite> suites = new ArrayList<XmlSuite>();
 	suite.setParallel(ParallelMode.NONE);
 	suites.add(suite);

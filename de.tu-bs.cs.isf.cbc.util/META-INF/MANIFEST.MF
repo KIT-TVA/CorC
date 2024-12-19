@@ -20,7 +20,8 @@ Require-Bundle: org.eclipse.core.resources,
  de.tu-bs.cs.isf.cbc.model,
  org.eclipse.graphiti;bundle-version="0.18.0",
  org.eclipse.emf.transaction,
- de.tu_bs.cs.isf.cbc.exceptions
+ de.tu_bs.cs.isf.cbc.exceptions,
+ org.testng
 Export-Package: de.tu_bs.cs.isf.cbc.util,
  de.tu_bs.cs.isf.cbc.util.conditionparser,
  de.tu_bs.cs.isf.cbc.util.consts,
