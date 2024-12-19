@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -34,6 +32,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
+import org.key_project.util.lookup.Inject;
 
 import de.tu_bs.cs.isf.cbc.parser.JavaClasses;
 import de.tu_bs.cs.isf.cbc.parser.data.JavaClass;

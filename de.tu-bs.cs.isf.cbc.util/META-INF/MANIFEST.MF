@@ -25,7 +25,8 @@ Export-Package: de.tu_bs.cs.isf.cbc.util,
  de.tu_bs.cs.isf.cbc.util.conditionparser,
  de.tu_bs.cs.isf.cbc.util.consts,
  de.tu_bs.cs.isf.cbc.util.diagnostics,
- de.tu_bs.cs.isf.cbc.util.statistics
+ de.tu_bs.cs.isf.cbc.util.statistics,
+ org.key_project.util.lookup
 Import-Package: org.eclipse.emf.ecore.xmi.impl;version="2.35.0"
 Bundle-ClassPath: lib/,
  lib/key-2.13.0-exe.jar,
