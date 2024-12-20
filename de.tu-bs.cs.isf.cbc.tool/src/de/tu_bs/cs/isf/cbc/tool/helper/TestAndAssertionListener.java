@@ -458,6 +458,16 @@ public class TestAndAssertionListener implements ITestListener {
      */
     @Override
     public void onTestSuccess(ITestResult result) {
+	// TODO: Test tcp
+	var context = result.getTestContext();
+	try {
+	    tcp.evaluate(context);
+	} catch (IdentifierNotFoundException e) {
+	    e.printStackTrace();
+	    Console.println(e.getMessage());
+	    return;
+	}
+	// TODO: END
 	final var testMethodName = result.getName();
 	float testTime = (System.nanoTime() - testStartTime / 1000000);
 	dataCollector.addData(testMethodName, testTime);
@@ -491,6 +501,17 @@ public class TestAndAssertionListener implements ITestListener {
      */
     @Override
     public void onTestFailure(ITestResult result) {
+	// TODO: Test tcp
+	var context = result.getTestContext();
+	try {
+	    tcp.evaluate(context);
+	} catch (IdentifierNotFoundException e) {
+	    e.printStackTrace();
+	    Console.println(e.getMessage());
+	    return;
+	}
+	// TODO: END
+
 	var className = result.getTestClass().getName();
 	var testMethodName = result.getName();
 	float testTime = (System.nanoTime() - testStartTime / 1000000);
@@ -591,69 +612,7 @@ public class TestAndAssertionListener implements ITestListener {
 	dataCollector.finish();
 
 	// TODO: Test tcp
-	try {
-	    tcp.evaluate(context);
-	    tcp.printSummary();
-	} catch (IdentifierNotFoundException e) {
-	    e.printStackTrace();
-	    Console.println(e.getMessage());
-	    return;
-	}
-	// TODO: END
-
-	int passedTests = context.getPassedTests().size();
-	int failedTests = context.getFailedTests().size();
-	int skippedTests = context.getSkippedTests().size();
-
-	if (failedTests == 0) {
-	    Console.println(" > " + context.getName(), Colors.GREEN);
-	} else {
-	    Console.println(" > " + context.getName(), Colors.RED);
-	}
-
-	StringBuilder bufLog = new StringBuilder("+ Total tests run: ");
-	bufLog.append(passedTests + failedTests).append(", Passes: ").append(passedTests).append(", Failures: ")
-		.append(failedTests).append(", Skips: ").append(skippedTests).append(" +");
-	int len = CodeHandler.getLongestLineLen(bufLog.toString());
-	String line = "+";
-	for (int i = 0; i < len - 2; i++) {
-	    line += "=";
-	}
-	line += "+";
-	Console.println(line);
-	Console.println(bufLog.toString());
-	Console.println(line);
-
-	// print predicate coverage
-	int totalNumBranches = -1;
-	if (this.allBranches == null) {
-	    totalNumBranches = 0;
-	} else {
-	    totalNumBranches = this.allBranches.size();
-	}
-	int executedNumBranches = this.executedBranches.size();
-	double percentage = ((double) executedNumBranches / (double) totalNumBranches) * 100.0;
-
-	if (failedTests == 0) {
-	    Console.println(" > Predicate Coverage (Post Condition)", Colors.GREEN);
-	} else {
-	    Console.println(" > Predicate Coverage (Post Condition)", Colors.RED);
-	}
-	if (totalNumBranches == 0) {
-	    Console.println("\tCoverage: 1/1 = 100%");
-	} else {
-	    Console.println("\tCoverage: " + executedNumBranches + "/" + totalNumBranches + " = " + percentage + "%");
-	    Console.println();
-	    Console.println(" > Branches that were executed at least once are highlighted in green:");
-	    for (var branch : this.allBranches) {
-		if (this.executedBranches.contains(branch)) {
-		    Console.println("\t" + branch, Colors.GREEN);
-		} else {
-		    Console.println("\t" + branch);
-		}
-	    }
-	}
-	Console.println();
+	tcp.printSummary();
     }
 
     @Override

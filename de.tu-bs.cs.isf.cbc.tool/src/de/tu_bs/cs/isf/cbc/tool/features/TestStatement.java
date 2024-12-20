@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IProject;
@@ -258,20 +257,6 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	    }
 	    cur = cur.eContainer();
 	}
-    }
-
-    private List<Variable> getUsedVars(final String str, final JavaVariables vars) throws SettingsException {
-	List<Variable> usedVars = Variable.getAllVars(vars);
-
-	for (int i = 0; i < usedVars.size(); i++) {
-	    Pattern p = Pattern.compile("\\W*" + Pattern.quote(usedVars.get(i).getName()) + "\\W*");
-	    Matcher m = p.matcher(str);
-	    if (!m.find()) {
-		usedVars.remove(usedVars.get(i));
-		i--;
-	    }
-	}
-	return usedVars;
     }
 
     private String insertOldVars(String code, final String postCon, final List<Variable> initializedVars,
@@ -857,7 +842,8 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	resolveOriginals(codeWithStatement, features, originalMethods, abstractMethods, formula, vars, returnVar);
 	// now add pre conditions of selection as assertions
 	// get all vars used in the code
-	final List<Variable> usedVars = getUsedVars(code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), vars);
+	final List<Variable> usedVars = CodeHandler
+		.getUsedVars(code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), vars);
 	// use PreconditionSolver to solve preconditions and determine values for all
 	// variables
 	var allPreConditions = getAllPreConditions(statement, conds);
@@ -886,8 +872,8 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	    restoreVars(features, vars, oldVars);
 	    throw e;
 	}
-	final List<Variable> usedVarsPostCon = getUsedVars(postCon, vars);
-	final List<Variable> usedVarsPreCon = getUsedVars(programPreConsStr, vars);
+	final List<Variable> usedVarsPostCon = CodeHandler.getUsedVars(postCon, vars);
+	final List<Variable> usedVarsPreCon = CodeHandler.getUsedVars(programPreConsStr, vars);
 	usedVarsPostCon.addAll(usedVarsPreCon);
 	for (var v : usedVarsPostCon) {
 	    if (!Variable.containsVar(usedVars, v)) {

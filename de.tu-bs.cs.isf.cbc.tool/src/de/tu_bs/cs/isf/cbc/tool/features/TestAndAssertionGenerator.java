@@ -129,8 +129,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
     @Override
     public void execute(ICustomContext context, IProgressMonitor monitor) {
 	this.returnVariable = null;
-	final URI uri = getDiagram().eResource().getURI();
-	final List<String> globalVars = new ArrayList<String>();
+	URI uri = getDiagram().eResource().getURI();
+	List<String> globalVars = new ArrayList<String>();
 	String signatureString = "";
 
 	DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
@@ -234,23 +234,23 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	Console.println("Time needed: " + (int) elapsedTime + "ms");
     }
 
-    private boolean test(final URI uri, final CbCFormula formula, final JavaVariables vars,
-	    final GlobalConditions globalConditions, final String signatureString, final List<String> globalVars,
-	    final Features features) throws ReferenceException, TestAndAssertionGeneratorException,
-	    PreConditionSolverException, UnexpectedTokenException, TestStatementException, DiagnosticsException,
-	    SettingsException, MalformedURLException, ClassNotFoundException {
+    private boolean test(URI uri, CbCFormula formula, JavaVariables vars, GlobalConditions globalConditions,
+	    String signatureString, List<String> globalVars, Features features)
+	    throws ReferenceException, TestAndAssertionGeneratorException, PreConditionSolverException,
+	    UnexpectedTokenException, TestStatementException, DiagnosticsException, SettingsException,
+	    MalformedURLException, ClassNotFoundException {
 	TestCoverageProvider tcp = new ClauseCoverage();
-	final JavaVariable returnVar = Variable.getReturnVar(vars);
+	JavaVariable returnVar = Variable.getReturnVar(vars);
 	var methodToGenerate = getDiagram();
 	String code2 = genCode(methodToGenerate);
 	var className = code2.split("public\\sclass\\s", 2)[1].split("\\s", 2)[0];
 	className = className.replaceAll("\\{", "");
 	var code = genCode(methodToGenerate, true);
-	final var methodSig = MethodHandler.getSignatureFromCode(code);
+	var methodSig = MethodHandler.getSignatureFromCode(code);
 	code = code.replaceAll("self\\.", "this.");
 	// handle original and abstract method calls
-	final var originalMethods = new ArrayList<MethodHandler>();
-	final var abstractMethods = new ArrayList<MethodHandler>();
+	var originalMethods = new ArrayList<MethodHandler>();
+	var abstractMethods = new ArrayList<MethodHandler>();
 	if (FileHandler.instance.isSPL(uri)) {
 	    if (code.contains("original(")) {
 		TestUtilSPL.getInstance().handleOriginalCode(this.getFeatureProvider(), projectPath, code, features,
@@ -303,7 +303,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	    Console.println("Nothing to test.");
 	    return false;
 	}
-	testFileContent = genTestCases(className, inputs, postCon, globalConditions, formula, tcp);
+	testFileContent = genTestCases(className, inputs, postCon, globalConditions, formula, tcp, vars);
 	testFileContent = CodeHandler.addInstanceNameToFields(ClassHandler.getClassByName(classCodes, className),
 		testFileContent);
 	FileHandler.instance.writeToFile(this.projectPath, className + "Test.java", testFileContent);
@@ -576,7 +576,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
     // | End of copied code from existing methods. |
     // ================================================================================================
 
-    private static String constructCodeBlockOfChildStatement(final AbstractStatement refinement, final String id)
+    private static String constructCodeBlockOfChildStatement(AbstractStatement refinement, String id)
 	    throws TestAndAssertionGeneratorException {
 	if (id == null) {
 	    // Console.clear();
@@ -649,7 +649,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		"The refinement of type '" + refinement.getClass() + "' is not supported by the code generator.");
     }
 
-    private static String constructSelection(final SelectionStatement statement, final String id)
+    private static String constructSelection(SelectionStatement statement, String id)
 	    throws TestAndAssertionGeneratorException {
 	StringBuffer buffer = new StringBuffer();
 
@@ -734,7 +734,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	return buffer.toString();
     }
 
-    private static String constructComposition(final CompositionStatement statement, final String id)
+    private static String constructComposition(CompositionStatement statement, String id)
 	    throws TestAndAssertionGeneratorException {
 	StringBuffer buffer = new StringBuffer();
 	try {
@@ -759,7 +759,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	return buffer.toString();
     }
 
-    private static String constructSmallRepetition(final SmallRepetitionStatement statement, final String id)
+    private static String constructSmallRepetition(SmallRepetitionStatement statement, String id)
 	    throws TestAndAssertionGeneratorException {
 	StringBuffer buffer = new StringBuffer();
 
@@ -817,7 +817,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	return -1;
     }
 
-    static public String genCodeUntilStatement(final CbCFormula formula, final AbstractStatement statement)
+    static public String genCodeUntilStatement(CbCFormula formula, AbstractStatement statement)
 	    throws TestAndAssertionGeneratorException {
 	var code = new StringBuffer();
 	String s;
@@ -872,8 +872,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	this.projectPath = projectPath;
     }
 
-    private String generateConstructor(final String className, final List<String> gVars) {
-	final StringBuffer code = new StringBuffer();
+    private String generateConstructor(String className, List<String> gVars) {
+	StringBuffer code = new StringBuffer();
 	String globalVarName;
 
 	code.append("\n\t" + "public " + className + "(");
@@ -901,7 +901,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	return code.toString().trim();
     }
 
-    private String insertConstructorCode(final String code, final String constructorCode) {
+    private String insertConstructorCode(String code, String constructorCode) {
 	// find first empty line and insert constructor there
 	return code.substring(0, code.indexOf('{') + 1) + "\n" + constructorCode
 		+ code.substring(code.indexOf('{') + 1, code.length());
@@ -954,7 +954,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	String existingCode = "";
 	String constructorCode;
 	StringBuffer code = new StringBuffer();
-	final String className;
+	String className;
 
 	if (returnVar != null) {
 	    returnVariable = returnVar;
@@ -1065,8 +1065,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
      */
     private String genInstanceForClass(Class<?> clazz, HashMap<String, String> generatedClasses)
 	    throws SettingsException, TestAndAssertionGeneratorException {
-	final String fullyQualifiedName = clazz.getSimpleName();
-	final String className = fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".") + 1,
+	String fullyQualifiedName = clazz.getSimpleName();
+	String className = fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".") + 1,
 		fullyQualifiedName.length());
 	String output = "new " + className + "(";
 	if (clazz.getDeclaredFields().length == 0) {
@@ -1119,7 +1119,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	// hardcoded subfolders
 	// because projects could use different subfolder names/structure.
 	className = className.replaceAll("\\[\\.*\\]", "");
-	final String loaderPath = FileUtil.getProjectLocation(this.projectPath) + "/";
+	String loaderPath = FileUtil.getProjectLocation(this.projectPath) + "/";
 	Class<?> clazz;
 	String path = loaderPath + "tests/" + className + ".class";
 	URL[] urls = null;
@@ -1158,9 +1158,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	throw new TestAndAssertionGeneratorException("Couldn't find file '" + path.toString() + "'.");
     }
 
-    private List<String> genDefaultInputForVar(final String v, HashMap<String, String> generatedClasses)
+    private List<String> genDefaultInputForVar(String v, HashMap<String, String> generatedClasses)
 	    throws SettingsException, TestAndAssertionGeneratorException {
-	final String actualType = v.split("\\s")[0];
+	String actualType = v.split("\\s")[0];
 	String type = actualType.toLowerCase();
 	String name = v.split("\\s")[1];
 
@@ -1175,7 +1175,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	}
 
 	if (type.contains("[")) {
-	    final InputData data = new InputData(name, actualType);
+	    InputData data = new InputData(name, actualType);
 	    data.setDefaultValues();
 	    if (data.isPrimitive()) {
 		return Arrays.asList(data.getType() + ";" + data.getName() + ARRAY_TOKEN + data.getArrayValueRep()
@@ -1242,7 +1242,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 
     }
 
-    private List<String> getUsedVars(final String code, final String signature, final JavaVariables vars)
+    private List<String> getUsedVars(String code, String signature, JavaVariables vars)
 	    throws TestAndAssertionGeneratorException {
 	assert (code.contains(signature));
 	var usedVars = new ArrayList<String>();
@@ -1265,11 +1265,11 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	return usedVars;
     }
 
-    private String getRandomInput(final List<String> lst) {
+    private String getRandomInput(List<String> lst) {
 	if (lst == null)
 	    return ""; // happens when a none primitive data type is present
-	final StringBuffer content = new StringBuffer();
-	final Random rng = new Random();
+	StringBuffer content = new StringBuffer();
+	Random rng = new Random();
 	int rngNr;
 	String concatLst;
 
@@ -1286,7 +1286,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	return lst.get(rngNr);
     }
 
-    private int dataContainsVar(final List<InputData> data, final String varName) {
+    private int dataContainsVar(List<InputData> data, String varName) {
 	if (data == null) {
 	    return -1;
 	}
@@ -1315,16 +1315,16 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
      * @throws UnexpectedTokenException
      * @throws SettingsException
      */
-    public List<TestCaseData> genInputs(final String preconditions, final JavaVariables vars, final String code,
-	    final String signature, final JavaVariable returnVariable) throws TestAndAssertionGeneratorException,
-	    PreConditionSolverException, UnexpectedTokenException, SettingsException {
+    public List<TestCaseData> genInputs(String preconditions, JavaVariables vars, String code, String signature,
+	    JavaVariable returnVariable) throws TestAndAssertionGeneratorException, PreConditionSolverException,
+	    UnexpectedTokenException, SettingsException {
 	List<String> globalVarsOfClass = new ArrayList<String>();
 	List<String> usedVars;
 	List<String> params;
-	final List<String> allVars = new ArrayList<String>();
+	List<String> allVars = new ArrayList<String>();
 	int counter;
 	// maps testcaseName
-	final var output = new ArrayList<TestCaseData>();
+	var output = new ArrayList<TestCaseData>();
 
 	// this case happens when the precondition is just 'true' and there are no
 	// invariants
@@ -1437,7 +1437,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
     }
 
     private static String handlePrimitiveArrayUses(String output, String fullVarName, String val, int numTabs) {
-	final Pattern p = Pattern.compile("[^\\s]+" + Pattern.quote(TestAndAssertionGenerator.ARRAY_TOKEN));
+	Pattern p = Pattern.compile("[^\\s]+" + Pattern.quote(TestAndAssertionGenerator.ARRAY_TOKEN));
 	Matcher m = p.matcher(val);
 
 	while (m.find()) {
@@ -1449,15 +1449,15 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		    m.group(0).indexOf(TestAndAssertionGenerator.ARRAY_TOKEN));
 	    String value = val.substring(start + TestAndAssertionGenerator.ARRAY_TOKEN.length(), end);
 	    output = "\n" + CodeHandler.getTabs(numTabs) + type + " " + name + " = " + value + ";" + output;
-	    final var toReplace = val.substring(m.start(), end + TestAndAssertionGenerator.ARRAY_CLOSED_TOKEN.length());
+	    var toReplace = val.substring(m.start(), end + TestAndAssertionGenerator.ARRAY_CLOSED_TOKEN.length());
 	    val = val.replace(toReplace, name);
 	    m = p.matcher(val);
 	}
 	return output + CodeHandler.getTabs(numTabs) + "public " + fullVarName + " = " + val + ";\n";
     }
 
-    private String genTestCases(final String className, final List<TestCaseData> inputs, final String postCondition,
-	    final GlobalConditions conds, final CbCFormula formula, TestCoverageProvider tcp)
+    private String genTestCases(String className, List<TestCaseData> inputs, String postCondition,
+	    GlobalConditions conds, CbCFormula formula, TestCoverageProvider tcp, JavaVariables vars)
 	    throws TestStatementException, UnexpectedTokenException, SettingsException {
 	var instanceName = Character.toLowerCase(className.charAt(0)) + className.substring(1, className.length());
 	if (inputs.isEmpty()) {
@@ -1520,6 +1520,22 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	    var programPreConsStr = formula.getStatement().getPreCondition().getName();
 	    var programPreCons = ConditionHandler.translateConditionToJava(this.projectPath, programPreConsStr,
 		    instanceName, test.getInputDataTupel().getGlobalVars());
+
+	    // initialize used vars of precon
+	    var usedVars = CodeHandler.getUsedVars(programPreConsStr, vars);
+	    for (Variable v : usedVars) {
+		boolean found = false;
+		for (var data : test.getInputDataTupel().getAllVars()) {
+		    if (data.getRep().contains(v.getType() + " " + v.getName())) {
+			found = true;
+			break;
+		    }
+		}
+		if (!found) {
+		    code.append("\t\t" + v.getType() + " " + v.getName() + " = " + v.getValue() + ";\n");
+		}
+	    }
+
 	    try {
 		code.append(CodeHandler.insertPreconditionChecks("\n\n", programPreCons, 2).replaceFirst("\\n", ""));
 	    } catch (TestStatementException e) {
@@ -1531,7 +1547,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		code.append("\t\t" + instanceName + "." + test.getTesteeName()
 			+ test.getInputDataTupel().getParametersNameRep() + ";\n\n");
 	    } else {
-		code.append("\t\t" + test.getReturnType() + " " + test.getReturnVar() + " = " + instanceName + "."
+		code.append("\t\t" + /* test.getReturnType() + " " + */ test.getReturnVar() + " = " + instanceName + "."
 			+ test.getTesteeName() + test.getInputDataTupel().getParametersNameRep() + ";\n");
 		code.append("\t\t" + "context.setAttribute(\"" + test.getTestNumber() + "result\", "
 			+ test.getReturnVar() + ");\n\n");
@@ -1558,9 +1574,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	return code.toString();
     }
 
-    public XmlSuite createXmlSuite(final String classPath, final String className)
+    public XmlSuite createXmlSuite(String classPath, String className)
 	    throws MalformedURLException, ClassNotFoundException {
-	final XmlSuite suite = new XmlSuite();
+	XmlSuite suite = new XmlSuite();
 	URLClassLoader externalClassLoader = null;
 
 	suite.setName("AutoSuite");
@@ -1588,10 +1604,10 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	return suite;
     }
 
-    private void executeTestCases(final String classPath, String className, final List<String> globalVars,
-	    final List<TestCaseData> inputs, TestCoverageProvider tcp)
+    private void executeTestCases(String classPath, String className, List<String> globalVars,
+	    List<TestCaseData> inputs, TestCoverageProvider tcp)
 	    throws DiagnosticsException, MalformedURLException, ClassNotFoundException {
-	final XmlSuite suite;
+	XmlSuite suite;
 	var pathOfPlugins = System.getProperty("osgi.syspath");
 	var file = new File(pathOfPlugins);
 	List<String> testNgFiles = Arrays.asList(file.list()).stream().filter(s -> s.contains("org.testng_")).toList();
@@ -1627,7 +1643,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
     public String genCode(Diagram diagram, boolean onlyMethod)
 	    throws TestAndAssertionGeneratorException, SettingsException {
 	String signatureString;
-	final LinkedList<String> localVariables = new LinkedList<String>();
+	LinkedList<String> localVariables = new LinkedList<String>();
 	JavaVariable returnVariable = null;
 	DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
 	JavaVariables vars = extractor.getVars();
@@ -1666,11 +1682,10 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	// TODO: Fix RETURN Variable appearing in parameters
 	var customReturnName = "";
 	/*
-	 * for (var v : vars.getParams()) { final var name =
-	 * v.getName().replace("non-null", ""); if (!signatureString.contains(name)) {
-	 * // means this is the RETURN var localVariables.add(v.getType() + " " + name);
-	 * if (!name.equals("result")) { localVariables.add(v.getType() + " result");
-	 * customReturnName = name; } } }
+	 * for (var v : vars.getParams()) { var name = v.getName().replace("non-null",
+	 * ""); if (!signatureString.contains(name)) { // means this is the RETURN var
+	 * localVariables.add(v.getType() + " " + name); if (!name.equals("result")) {
+	 * localVariables.add(v.getType() + " result"); customReturnName = name; } } }
 	 */
 
 	for (int i = 0; i < vars.getVariables().size(); i++) {
@@ -1754,7 +1769,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
      * @return The map.
      */
     public HashMap<String, LinkedList<Diagram>> getDiagramsFromNames(HashMap<String, String> diagramNames,
-	    final Collection<Diagram> allDiagrams) {
+	    Collection<Diagram> allDiagrams) {
 	// method is really slow because getDiagrams takes long
 	HashMap<String, LinkedList<Diagram>> output = new HashMap<String, LinkedList<Diagram>>();
 	Collection<Diagram> diagrams;
@@ -1797,13 +1812,13 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	return false;
     }
 
-    public String extractVarType(final String code, final String varName) {
+    public String extractVarType(String code, String varName) {
 	if (!code.contains(varName)) {
 	    return "";
 	}
-	final var firstOccurence = code.substring(0, code.indexOf(" " + varName));
-	final var typeReversed = new StringBuffer(firstOccurence).reverse().toString().trim().split("\\W", 2)[0];
-	final var type = new StringBuffer(typeReversed).reverse().toString();
+	var firstOccurence = code.substring(0, code.indexOf(" " + varName));
+	var typeReversed = new StringBuffer(firstOccurence).reverse().toString().trim().split("\\W", 2)[0];
+	var type = new StringBuffer(typeReversed).reverse().toString();
 	if (isVarType(type)) {
 	    return type;
 	}
@@ -1832,8 +1847,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	String varType;
 	String classCode;
 	String potentialVarType;
-	final Pattern p = Pattern.compile("[^\\w]" + Pattern.quote(varName) + "[^\\w]");
-	final Matcher m = p.matcher(code);
+	Pattern p = Pattern.compile("[^\\w]" + Pattern.quote(varName) + "[^\\w]");
+	Matcher m = p.matcher(code);
 
 	if (varName.equals("this") || varName.equals("result")) {
 	    return className;
@@ -1854,8 +1869,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 */
 	if (foundVarName.equals(varName)) {
 	    potentialVarType = firstOccurence.substring(0, m.start());
-	    final var potentialTypeReversed = new StringBuffer(potentialVarType).reverse().toString().trim()
-		    .split("\\W", 2)[0];
+	    var potentialTypeReversed = new StringBuffer(potentialVarType).reverse().toString().trim().split("\\W",
+		    2)[0];
 	    potentialVarType = new StringBuffer(potentialTypeReversed).reverse().toString();
 	    if (isVarType(potentialVarType)) {
 		varType = potentialVarType;
@@ -1962,8 +1977,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
     }
 
     private boolean codeContainsMethodDefinition(String code, String methodName) {
-	final Pattern p = Pattern.compile(Pattern.quote(methodName + "("));
-	final Matcher m = p.matcher(code);
+	Pattern p = Pattern.compile(Pattern.quote(methodName + "("));
+	Matcher m = p.matcher(code);
 	String helper;
 
 	while (m.find()) {
@@ -1995,9 +2010,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
      * @return The file name of the class with name *className*.
      */
     private String loadFileFromClass(String className, String subFolderName) {
-	final java.nio.file.Path p = Paths
+	java.nio.file.Path p = Paths
 		.get(FileUtil.getProjectLocation(projectPath) + "/" + subFolderName + "/" + className + ".java");
-	final File f;
+	File f;
 
 	try {
 	    f = new File(p.toString());
@@ -2020,21 +2035,21 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
      * @param code
      * @return the map.
      */
-    public HashMap<String, String> getDiagramNamesFromCalledMethods(final String code, final String className) {
-	final HashMap<String, String> output = new HashMap<String, String>();
-	final Pattern methodCallPattern = Pattern.compile("\\w+\\.\\w+\\(");
+    public HashMap<String, String> getDiagramNamesFromCalledMethods(String code, String className) {
+	HashMap<String, String> output = new HashMap<String, String>();
+	Pattern methodCallPattern = Pattern.compile("\\w+\\.\\w+\\(");
 	var methods = ConditionHandler.getAllMethodsOfCode(code);
 
-	for (final var method : methods) {
-	    final var lines = method.split("\n");
-	    for (final var line : lines) {
+	for (var method : methods) {
+	    var lines = method.split("\n");
+	    for (var line : lines) {
 		Matcher matcher = methodCallPattern.matcher(line);
 		while (matcher.find()) {
-		    final var methodCallParts = matcher.group(0).split("\\.", 2);
+		    var methodCallParts = matcher.group(0).split("\\.", 2);
 		    var methodName = methodCallParts[1];
-		    final var varName = methodCallParts[0];
+		    var varName = methodCallParts[0];
 		    methodName = methodName.replaceAll("\\(", "");
-		    final var type = getVariableType(code, varName, className);
+		    var type = getVariableType(code, varName, className);
 		    if (!type.equals(className) || !codeContainsMethodDefinition(code, methodName)) {
 			// make sure the key value pair doesn't exists already
 			if (!output.keySet().contains(methodName) || !output.get(methodName).equals(type)) {
@@ -2147,7 +2162,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	return output;
     }
 
-    private List<String> getDependencies(final String className, List<String> output) {
+    private List<String> getDependencies(String className, List<String> output) {
 	String code = ClassHandler.classExists(this.projectPath, className);
 
 	if (output == null) {
@@ -2224,7 +2239,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	return true;
     }
 
-    public boolean compileFileContents(List<String> fileContents, String methodToGenerate, final List<String> options)
+    public boolean compileFileContents(List<String> fileContents, String methodToGenerate, List<String> options)
 	    throws TestAndAssertionGeneratorException {
 	JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 	DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
@@ -2272,8 +2287,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	return true;
     }
 
-    public boolean compileFileContents2(List<ClassHandler> fileContents, String methodToGenerate,
-	    final List<String> options) throws TestAndAssertionGeneratorException {
+    public boolean compileFileContents2(List<ClassHandler> fileContents, String methodToGenerate, List<String> options)
+	    throws TestAndAssertionGeneratorException {
 	JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 	DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
 	StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
@@ -2368,20 +2383,20 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
      * @throws TestAndAssertionGeneratorException
      * @throws SettingsException
      */
-    public List<ClassHandler> genAllDependenciesOfMethod(String methodCode, final String methodSignature,
-	    String className, String postCondition) throws TestAndAssertionGeneratorException, SettingsException {
+    public List<ClassHandler> genAllDependenciesOfMethod(String methodCode, String methodSignature, String className,
+	    String postCondition) throws TestAndAssertionGeneratorException, SettingsException {
 	var innerMethod = methodCode.substring(methodCode.indexOf('{') + 1, methodCode.lastIndexOf('}'));
 	// add postCondition to the code in case there are method calls in there too
 	innerMethod += "\n" + postCondition;
 	innerMethod = innerMethod.replaceAll("\\\\", "");
 	var allDiagramNames = getCalledMethods(methodCode, innerMethod, className);// getDiagramNamesFromCalledMethods(methodCode,
 										   // className);
-	final var classCodes = new ArrayList<ClassHandler>();
+	var classCodes = new ArrayList<ClassHandler>();
 	ArrayList<MethodHandler> newMethodCodes = new ArrayList<MethodHandler>();
-	final var addedMethods = new HashMap<String, List<MethodHandler>>();
-	final ArrayList<String> addedClassNames = new ArrayList<String>();
+	var addedMethods = new HashMap<String, List<MethodHandler>>();
+	ArrayList<String> addedClassNames = new ArrayList<String>();
 	methodCode = methodCode.trim();
-	final var lst = new ArrayList<String>();
+	var lst = new ArrayList<String>();
 	String keyToRemove = null;
 	String methodSigToAdd = null;
 
@@ -2412,9 +2427,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			if (addedMethods.get(curClassName) == null) {
 			    addedMethods.put(curClassName, new ArrayList<MethodHandler>());
 			}
-			for (final var newM : innerClass.getAllMethods()) {
+			for (var newM : innerClass.getAllMethods()) {
 			    boolean added = false;
-			    for (final var addedM : addedMethods.get(curClassName)) {
+			    for (var addedM : addedMethods.get(curClassName)) {
 				if (addedM.getSignature().equals(newM.getSignature())) {
 				    added = true;
 				    break;
@@ -2508,9 +2523,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
      * @return
      */
     private List<String> getUsedClasses(String code) {
-	final List<String> classes = new ArrayList<String>();
-	final Pattern p = Pattern.compile("\\W*\\w+\\W*");
-	final Matcher m = p.matcher(code);
+	List<String> classes = new ArrayList<String>();
+	Pattern p = Pattern.compile("\\W*\\w+\\W*");
+	Matcher m = p.matcher(code);
 
 	while (m.find()) {
 	    var word = m.group(0).replaceAll("\\W", "");
@@ -2556,7 +2571,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	}
 	methodCodes.get(classIndex).addMethod(methodSig, methodCode);
 	// find out what methods are getting called inside *methodCode*.
-	final var innerMethod = methodCodes.get(classIndex).getMethod(methodSig).getInnerCode();
+	var innerMethod = methodCodes.get(classIndex).getMethod(methodSig).getInnerCode();
 	calledMethods = getCalledMethods(methodCode, innerMethod, className);
 	for (var clazz : calledMethods.keySet()) {
 	    for (var m : calledMethods.get(clazz)) {
@@ -2636,8 +2651,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * // parse signature var patternStr = methodName + "\\("; for (int i = 0; i <
 	 * numParams; i++) { if (i >= 1) { patternStr += "\\,\\s"; } patternStr +=
 	 * "[^\\,]+"; } if (numParams > 1) { patternStr = patternStr.substring(0,
-	 * patternStr.length() - 4); } patternStr += "\\)\\s*\\{"; final Pattern p =
-	 * Pattern.compile(patternStr); final Matcher m = p.matcher(code);
+	 * patternStr.length() - 4); } patternStr += "\\)\\s*\\{"; Pattern p =
+	 * Pattern.compile(patternStr); Matcher m = p.matcher(code);
 	 * 
 	 * while (m.find()) { var sig = code.substring(0, m.start() +
 	 * m.group(0).indexOf('{')); sig = sig.substring(sig.lastIndexOf('\n'),
@@ -2708,11 +2723,11 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	    return "";
 	}
 
-	final var code = ClassHandler.classExists(this.projectPath, className);
+	var code = ClassHandler.classExists(this.projectPath, className);
 	if (code.isEmpty()) {
 	    return "";
 	}
-	final String methodCode;
+	String methodCode;
 	if (isConstructor) {
 	    methodCode = getConstructorCode(signature);
 	} else {
@@ -2787,9 +2802,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
     }
 
     private String getConstructorCode(String signature) throws TestAndAssertionGeneratorException {
-	final Pattern p = Pattern.compile(Pattern.quote(signature));
+	Pattern p = Pattern.compile(Pattern.quote(signature));
 	var code = loadFileFromClass(getMethodName(signature), "src");
-	final Matcher m = p.matcher(code);
+	Matcher m = p.matcher(code);
 
 	while (m.find()) {
 	    var helper = code.substring(m.start(), code.length());
@@ -2807,8 +2822,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 
     private String getConstructorSig(String code, String className, int numParams)
 	    throws TestAndAssertionGeneratorException {
-	final Pattern p = Pattern.compile(className + "\\([^\\)]*\\)\\s*\\{");
-	final Matcher m = p.matcher(code);
+	Pattern p = Pattern.compile(className + "\\([^\\)]*\\)\\s*\\{");
+	Matcher m = p.matcher(code);
 	String cCode;
 	String params;
 
@@ -2842,7 +2857,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
      */
     public HashMap<String, ArrayList<String>> getCalledMethods(String code, String matchee, String className)
 	    throws TestAndAssertionGeneratorException {
-	final HashMap<String, ArrayList<String>> output = new HashMap<String, ArrayList<String>>();
+	HashMap<String, ArrayList<String>> output = new HashMap<String, ArrayList<String>>();
 	int start = matchee.indexOf("(");
 	while (start != -1) {
 	    if (start != 0 && Character.isAlphabetic(matchee.charAt(start - 1))) {
@@ -2858,8 +2873,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			|| Arrays.asList('.', '_' /* , '[', ']' */).contains(matchee.charAt(fullId))))
 		    ;
 		fullId++;
-		final String methodCallStr = matchee.substring(fullId, end + 1);
-		final String fullIdStr = matchee.substring(fullId, start);
+		String methodCallStr = matchee.substring(fullId, end + 1);
+		String fullIdStr = matchee.substring(fullId, start);
 		if (fullIdStr.contains("original")) {
 		    Console.printWarn("TestAndAssertionWarning: Found unhandled 'original' keyword.");
 		    matchee = matchee.replaceFirst("\\(", "");
@@ -2868,11 +2883,11 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		}
 		long numDots = fullIdStr.chars().filter(c -> c == '.').count();
 		if (numDots == 2) {
-		    final var methodCallParts = methodCallStr.split("\\.", 3);
+		    var methodCallParts = methodCallStr.split("\\.", 3);
 		    var methodName = methodCallParts[2].substring(0, methodCallParts[2].indexOf('('));
-		    final var varName = methodCallParts[1];
-		    // final var curClassName = methodCallParts[0];
-		    final var type = getVariableType(code, varName, className);
+		    var varName = methodCallParts[1];
+		    // var curClassName = methodCallParts[0];
+		    var type = getVariableType(code, varName, className);
 		    if (type.isEmpty()) {
 			Console.printWarn("TestAndAssertionWarning: Couldn't get type of variable '" + varName + "'.");
 			FileHandler.instance.log(this.projectPath,
@@ -2885,13 +2900,13 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			output.put(type, new ArrayList<String>());
 		    }
 		    int numParams = getNumParamsFromSig(methodCallStr);
-		    final var methodSig = getMethodSignature(type, methodName, numParams);
+		    var methodSig = getMethodSignature(type, methodName, numParams);
 
 		    if (!output.get(type).contains(methodSig)) {
 			output.get(type).add(methodSig);
 		    }
 		} else if (numDots == 1) {
-		    final var methodCallParts = methodCallStr.split("\\.", 2);
+		    var methodCallParts = methodCallStr.split("\\.", 2);
 		    var methodName = methodCallParts[1].substring(0, methodCallParts[1].indexOf('('));
 		    if (methodName.equals("setAttribute")) {
 			// testng context, skip
@@ -2899,8 +2914,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			start = matchee.indexOf("(");
 			continue;
 		    }
-		    final var varName = methodCallParts[0];
-		    final var type = getVariableType(code, varName, className);
+		    var varName = methodCallParts[0];
+		    var type = getVariableType(code, varName, className);
 		    if (type.isEmpty()) {
 			Console.printWarn("TestAndAssertionWarning: Couldn't get type of variable '" + varName + "'.");
 			FileHandler.instance.log(this.projectPath,
@@ -2913,13 +2928,13 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			output.put(type, new ArrayList<String>());
 		    }
 		    int numParams = getNumParamsFromSig(methodCallStr);
-		    final var methodSig = getMethodSignature(type, methodName, numParams);
+		    var methodSig = getMethodSignature(type, methodName, numParams);
 
 		    if (!output.get(type).contains(methodSig)) {
 			output.get(type).add(methodSig);
 		    }
 		} else if (numDots == 0) {
-		    final var type = className;
+		    var type = className;
 		    var methodName = methodCallStr.split("\\(", 2)[0].trim();
 		    // idea: as it is a constructor, we know it has no diagram and must have been
 		    // been provided by the user in the src.
@@ -2961,7 +2976,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			continue;
 		    }
 		    int numParams = getNumParamsFromSig(methodCallStr);
-		    final var methodSig = getMethodSignature(type, methodName, numParams);
+		    var methodSig = getMethodSignature(type, methodName, numParams);
 		    if (methodSig.isEmpty()) {
 			Console.printWarn(
 				"TestAndAssertionWarning: Couldn't find signature for method '" + methodName + "'.");

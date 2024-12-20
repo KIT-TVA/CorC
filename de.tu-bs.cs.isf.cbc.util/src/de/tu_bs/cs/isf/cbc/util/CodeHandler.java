@@ -7,6 +7,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
+import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.exceptions.TestStatementException;
 
 public final class CodeHandler {
@@ -511,5 +513,19 @@ public final class CodeHandler {
 	    }
 	}
 	return max;
+    }
+
+    public static List<Variable> getUsedVars(final String str, final JavaVariables vars) throws SettingsException {
+	List<Variable> usedVars = Variable.getAllVars(vars);
+
+	for (int i = 0; i < usedVars.size(); i++) {
+	    Pattern p = Pattern.compile("\\W*" + Pattern.quote(usedVars.get(i).getName()) + "\\W*");
+	    Matcher m = p.matcher(str);
+	    if (!m.find()) {
+		usedVars.remove(usedVars.get(i));
+		i--;
+	    }
+	}
+	return usedVars;
     }
 }
