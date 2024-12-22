@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="enterElevator" proven="true" compositionTechnique="EXPLICIT_CONTRACTING" className="Elevator" methodName="enterElevator">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="enterElevator" compositionTechnique="EXPLICIT_CONTRACTING" className="Elevator" methodName="enterElevator">
     <statement name="statement" id="61c05f47-c4cf-40a1-926b-6b75b8754b4c">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="8ef579a2-7422-4c37-9b2d-22b7b0aab52d">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="8ef579a2-7422-4c37-9b2d-22b7b0aab52d">
         <firstStatement name="statement1" id="db0d2477-1baf-4514-b895-e7399346b261">
-          <refinement xsi:type="cbcmodel:OriginalStatement" name="this.original(p);" proven="true" id="c9b23cb6-e78d-4ecf-883e-e49baccf58ad">
-            <postCondition name="this.persons != null &amp;&#xD;&#xA;this.persons.elements != null &amp; &#xD;&#xA; this.floorButtons != null &amp; &#xD;&#xA;p != null &amp; \original_post"/>
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:OriginalStatement" name="this.original(p);" id="c9b23cb6-e78d-4ecf-883e-e49baccf58ad">
+            <postCondition name="this.persons != null &amp;&#xD;&#xA;this.persons.elements != null &amp; &#xD;&#xA; this.floorButtons != null &amp; &#xD;&#xA;p != null &amp; \original_post">
+              <modifiables>\nothing</modifiables>
+            </postCondition>
             <preCondition name="this.persons != null &amp;&#xD;&#xA;this.persons.elements != null &amp; &#xD;&#xA; this.floorButtons != null &amp; &#xD;&#xA;p != null &amp; &#xD;&#xA;p.getDestination() >= 0 &amp; p.getDestination() &lt; this.floorButtons.length&#xD;&#xA; &amp; p.getWeight() >= 0"/>
           </refinement>
           <postCondition name="this.persons != null &amp;&#xD;&#xA;this.persons.elements != null &amp; &#xD;&#xA; this.floorButtons != null &amp; &#xD;&#xA;p != null &amp; \original_post"/>
@@ -27,9 +29,9 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.0"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
-  <cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
     <conditions name="Person p non-null"/>
-  </cbcmodel:GlobalConditions>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:GlobalConditions>
 </xmi:XMI>

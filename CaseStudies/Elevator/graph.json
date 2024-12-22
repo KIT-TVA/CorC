@@ -1,0 +1,804 @@
+{
+  "graphs": {
+    "createFloor": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "createFloor",
+            "uuid": "8823e035-6d25-4424-aef9-9977cf43a1b9"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "createFloor"
+        ]
+      },
+      "idMap": {
+        "Base": "8823e035-6d25-4424-aef9-9977cf43a1b9"
+      }
+    },
+    "getName": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "getName",
+            "uuid": "ef4fbe59-ff66-4852-98fd-57a38e787cb1"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "getName"
+        ]
+      },
+      "idMap": {
+        "Base": "ef4fbe59-ff66-4852-98fd-57a38e787cb1"
+      }
+    },
+    "getDestination": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "getDestination",
+            "uuid": "09ae00c8-80c4-4a18-8dba-c287baea1f48"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "getDestination"
+        ]
+      },
+      "idMap": {
+        "Base": "09ae00c8-80c4-4a18-8dba-c287baea1f48"
+      }
+    },
+    "getWeight": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "getWeight",
+            "uuid": "baf1fdd5-9ef7-4139-a4a5-b5acb196c0ec"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "getWeight"
+        ]
+      },
+      "idMap": {
+        "Base": "baf1fdd5-9ef7-4139-a4a5-b5acb196c0ec"
+      }
+    },
+    "isBlocked": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "isBlocked",
+            "uuid": "ad47a337-7cf8-4a2a-927a-2b77536e2ba6"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "isBlocked"
+        ]
+      },
+      "idMap": {
+        "Base": "ad47a337-7cf8-4a2a-927a-2b77536e2ba6"
+      }
+    },
+    "existInLiftCallsInDirection": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "TwoThirdsFull",
+            "method": "existInLiftCallsInDirection",
+            "uuid": "449b975d-006b-4c28-987b-dabaa4c3caf2"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "TwoThirdsFull": [
+          "existInLiftCallsInDirection"
+        ]
+      },
+      "idMap": {
+        "TwoThirdsFull": "449b975d-006b-4c28-987b-dabaa4c3caf2"
+      }
+    },
+    "processWaitingPersons": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "processWaitingPersons",
+            "uuid": "fdbcfbd0-5a1a-4a4a-ba40-d1243a9e9554"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "processWaitingPersons"
+        ]
+      },
+      "idMap": {
+        "Base": "fdbcfbd0-5a1a-4a4a-ba40-d1243a9e9554"
+      }
+    },
+    "getCurrentFloorID": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "getCurrentFloorID",
+            "uuid": "2f083aab-b3e6-4d16-95be-f91745ea8e7a"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "getCurrentFloorID"
+        ]
+      },
+      "idMap": {
+        "Base": "2f083aab-b3e6-4d16-95be-f91745ea8e7a"
+      }
+    },
+    "enterElevator": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "enterElevator",
+            "uuid": "9cd632ab-8094-49ab-a5c0-00f753f051c8"
+          },
+          []
+        ],
+        [
+          {
+            "feature": "Weight",
+            "method": "enterElevator",
+            "uuid": "54a90297-d117-4d97-8b4a-4c83d4dc9223"
+          },
+          [
+            {
+              "feature": "Base",
+              "method": "enterElevator",
+              "uuid": "9cd632ab-8094-49ab-a5c0-00f753f051c8"
+            }
+          ]
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Weight": [
+          "enterElevator"
+        ],
+        "Base": [
+          "enterElevator"
+        ]
+      },
+      "idMap": {
+        "Weight": "54a90297-d117-4d97-8b4a-4c83d4dc9223",
+        "Base": "9cd632ab-8094-49ab-a5c0-00f753f051c8"
+      }
+    },
+    "getFloorID": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "getFloorID",
+            "uuid": "c3ad10cb-bf20-43ff-88ca-96480807c692"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "getFloorID"
+        ]
+      },
+      "idMap": {
+        "Base": "c3ad10cb-bf20-43ff-88ca-96480807c692"
+      }
+    },
+    "getFloors": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "getFloors",
+            "uuid": "75110f76-b987-4758-a827-6331386a962e"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "getFloors"
+        ]
+      },
+      "idMap": {
+        "Base": "75110f76-b987-4758-a827-6331386a962e"
+      }
+    },
+    "stopRequestedAtCurrentFloor": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "TwoThirdsFull",
+            "method": "stopRequestedAtCurrentFloor",
+            "uuid": "66d5b87c-e88a-40c9-b65c-232fb4122792"
+          },
+          []
+        ],
+        [
+          {
+            "feature": "Base",
+            "method": "stopRequestedAtCurrentFloor",
+            "uuid": "398c6214-4681-4459-a439-8ac830e8676f"
+          },
+          []
+        ],
+        [
+          {
+            "feature": "ExecutiveFloor",
+            "method": "stopRequestedAtCurrentFloor",
+            "uuid": "d19de753-4d5f-450c-8693-6bcd1a8a3fb9"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "TwoThirdsFull": [
+          "stopRequestedAtCurrentFloor"
+        ],
+        "ExecutiveFloor": [
+          "stopRequestedAtCurrentFloor"
+        ],
+        "Base": [
+          "stopRequestedAtCurrentFloor"
+        ]
+      },
+      "idMap": {
+        "TwoThirdsFull": "66d5b87c-e88a-40c9-b65c-232fb4122792",
+        "ExecutiveFloor": "d19de753-4d5f-450c-8693-6bcd1a8a3fb9",
+        "Base": "398c6214-4681-4459-a439-8ac830e8676f"
+      }
+    },
+    "isExecutiveFloorCalling": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "ExecutiveFloor",
+            "method": "isExecutiveFloorCalling",
+            "uuid": "3e596591-c950-4711-b722-fb34ffe1e24d"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "ExecutiveFloor": [
+          "isExecutiveFloorCalling"
+        ]
+      },
+      "idMap": {
+        "ExecutiveFloor": "3e596591-c950-4711-b722-fb34ffe1e24d"
+      }
+    },
+    "hasCall": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "hasCall",
+            "uuid": "a7a3bb6d-d02b-4b86-b3ed-93580c890980"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "hasCall"
+        ]
+      },
+      "idMap": {
+        "Base": "a7a3bb6d-d02b-4b86-b3ed-93580c890980"
+      }
+    },
+    "isExecutiveFloor": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "ExecutiveFloor",
+            "method": "isExecutiveFloor",
+            "uuid": "1c517c62-f0b1-46d0-930e-f70819ca8688"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "ExecutiveFloor": [
+          "isExecutiveFloor"
+        ]
+      },
+      "idMap": {
+        "ExecutiveFloor": "1c517c62-f0b1-46d0-930e-f70819ca8688"
+      }
+    },
+    "callElevator": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "callElevator",
+            "uuid": "3efc26c5-2b5d-4653-bd83-9c9e078de70b"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "callElevator"
+        ]
+      },
+      "idMap": {
+        "Base": "3efc26c5-2b5d-4653-bd83-9c9e078de70b"
+      }
+    },
+    "getOrigin": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "getOrigin",
+            "uuid": "239f981c-6888-4bf7-8b85-8d627aa1b725"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "getOrigin"
+        ]
+      },
+      "idMap": {
+        "Base": "239f981c-6888-4bf7-8b85-8d627aa1b725"
+      }
+    },
+    "addWaitingPerson": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "addWaitingPerson",
+            "uuid": "c43e6ab3-24ae-427b-9382-ee3641ff275d"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "addWaitingPerson"
+        ]
+      },
+      "idMap": {
+        "Base": "c43e6ab3-24ae-427b-9382-ee3641ff275d"
+      }
+    },
+    "getCurrentDirection": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "getCurrentDirection",
+            "uuid": "0c8d3faa-b0e4-49f0-b996-68a3ca52d216"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "getCurrentDirection"
+        ]
+      },
+      "idMap": {
+        "Base": "0c8d3faa-b0e4-49f0-b996-68a3ca52d216"
+      }
+    },
+    "continueInDirection": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "continueInDirection",
+            "uuid": "b87eb2bc-6d8a-44c4-977d-8a9f3a78bd9f"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "continueInDirection"
+        ]
+      },
+      "idMap": {
+        "Base": "b87eb2bc-6d8a-44c4-977d-8a9f3a78bd9f"
+      }
+    },
+    "isEmpty": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "isEmpty",
+            "uuid": "318e3309-c516-4a7f-a8e1-15215b89ae5f"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "isEmpty"
+        ]
+      },
+      "idMap": {
+        "Base": "318e3309-c516-4a7f-a8e1-15215b89ae5f"
+      }
+    },
+    "createPerson": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "createPerson",
+            "uuid": "4f42d536-90a6-470b-9b7f-d66b6d6e9d37"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "createPerson"
+        ]
+      },
+      "idMap": {
+        "Base": "4f42d536-90a6-470b-9b7f-d66b6d6e9d37"
+      }
+    },
+    "isDestinationReached": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "isDestinationReached",
+            "uuid": "cc54fdaa-37b0-4ff4-870a-cb60a77d6799"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "isDestinationReached"
+        ]
+      },
+      "idMap": {
+        "Base": "cc54fdaa-37b0-4ff4-870a-cb60a77d6799"
+      }
+    },
+    "reverse": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "reverse",
+            "uuid": "e1ad3796-26b4-4b46-aaa6-0507ec38c0a4"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "reverse"
+        ]
+      },
+      "idMap": {
+        "Base": "e1ad3796-26b4-4b46-aaa6-0507ec38c0a4"
+      }
+    },
+    "buttonForFloorIsPressed": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "buttonForFloorIsPressed",
+            "uuid": "f9c35529-7c98-4c23-8e2d-96ec0c12ce04"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "buttonForFloorIsPressed"
+        ]
+      },
+      "idMap": {
+        "Base": "f9c35529-7c98-4c23-8e2d-96ec0c12ce04"
+      }
+    },
+    "pressInLiftFloorButton": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Empty",
+            "method": "pressInLiftFloorButton",
+            "uuid": "d7f6682b-8b99-41e2-8d25-e7b6fd7aa00d"
+          },
+          [
+            {
+              "feature": "Base",
+              "method": "pressInLiftFloorButton",
+              "uuid": "b344799c-7c13-4239-a1d2-710a1535b6c7"
+            }
+          ]
+        ],
+        [
+          {
+            "feature": "Base",
+            "method": "pressInLiftFloorButton",
+            "uuid": "b344799c-7c13-4239-a1d2-710a1535b6c7"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Empty": [
+          "pressInLiftFloorButton"
+        ],
+        "Weight": [],
+        "Base": [
+          "pressInLiftFloorButton"
+        ]
+      },
+      "idMap": {
+        "Empty": "d7f6682b-8b99-41e2-8d25-e7b6fd7aa00d",
+        "Weight": "0da781ba-bfd2-41bb-baa1-19ffbb135af4",
+        "Base": "b344799c-7c13-4239-a1d2-710a1535b6c7"
+      }
+    },
+    "leaveElevator": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Empty",
+            "method": "leaveElevator",
+            "uuid": "f42d12cd-8757-4047-9049-6bfd369f1cd7"
+          },
+          []
+        ],
+        [
+          {
+            "feature": "Base",
+            "method": "leaveElevator",
+            "uuid": "2992f90f-95be-4d6b-a2e2-6c4811c939ea"
+          },
+          []
+        ],
+        [
+          {
+            "feature": "Weight",
+            "method": "leaveElevator",
+            "uuid": "bb4e07a0-8783-47a4-804f-966639610c31"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Empty": [
+          "leaveElevator"
+        ],
+        "Weight": [
+          "leaveElevator"
+        ],
+        "Base": [
+          "leaveElevator"
+        ]
+      },
+      "idMap": {
+        "Empty": "f42d12cd-8757-4047-9049-6bfd369f1cd7",
+        "Weight": "bb4e07a0-8783-47a4-804f-966639610c31",
+        "Base": "2992f90f-95be-4d6b-a2e2-6c4811c939ea"
+      }
+    },
+    "createEnvironment": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "createEnvironment",
+            "uuid": "7cca3024-2461-441d-a693-9f4ad2ebf01b"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "createEnvironment"
+        ]
+      },
+      "idMap": {
+        "Base": "7cca3024-2461-441d-a693-9f4ad2ebf01b"
+      }
+    },
+    "resetFloorButton": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "resetFloorButton",
+            "uuid": "320b6aa3-72f3-45e0-8f32-5b109d27d0d3"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "resetFloorButton"
+        ]
+      },
+      "idMap": {
+        "Base": "320b6aa3-72f3-45e0-8f32-5b109d27d0d3"
+      }
+    },
+    "reset": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "reset",
+            "uuid": "b3d4d58b-54ea-431c-821d-77f66f758d34"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "reset"
+        ]
+      },
+      "idMap": {
+        "Base": "b3d4d58b-54ea-431c-821d-77f66f758d34"
+      }
+    },
+    "getFloor": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "getFloor",
+            "uuid": "a5029e40-706d-41e9-a210-856ae3acaf7c"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "getFloor"
+        ]
+      },
+      "idMap": {
+        "Base": "a5029e40-706d-41e9-a210-856ae3acaf7c"
+      }
+    },
+    "areDoorsOpen": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "areDoorsOpen",
+            "uuid": "8890739c-af23-4392-b32f-139a551bd32e"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "areDoorsOpen"
+        ]
+      },
+      "idMap": {
+        "Base": "8890739c-af23-4392-b32f-139a551bd32e"
+      }
+    },
+    "isTopFloor": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "isTopFloor",
+            "uuid": "1283e65c-becb-4ee7-9da6-71df8801dffe"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "isTopFloor"
+        ]
+      },
+      "idMap": {
+        "Base": "1283e65c-becb-4ee7-9da6-71df8801dffe"
+      }
+    },
+    "getEnv": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Base",
+            "method": "getEnv",
+            "uuid": "6a371672-9568-4446-90f8-f862e745b6f6"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Base": [
+          "getEnv"
+        ]
+      },
+      "idMap": {
+        "Base": "6a371672-9568-4446-90f8-f862e745b6f6"
+      }
+    }
+  }
+}
