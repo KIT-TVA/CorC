@@ -8,8 +8,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-16
 Require-Bundle: org.junit,
  org.eclipse.graphiti.ui;bundle-version="0.18.0",
  org.eclipse.ui.views.properties.tabbed,
- org.eclipse.graphiti;bundle-version="0.18.0",
- org.apache.commons.io
+ org.eclipse.graphiti;bundle-version="0.18.0"
 Import-Package: de.tu_bs.cs.isf.cbc.cbcclass,
  de.tu_bs.cs.isf.cbc.cbcmodel,
  de.tu_bs.cs.isf.cbc.exceptions,
@@ -18,7 +17,8 @@ Import-Package: de.tu_bs.cs.isf.cbc.cbcclass,
  org.eclipse.core.runtime;version="3.7.0",
  org.eclipse.graphiti.ui.platform;version="0.18.0",
  org.eclipse.swt.widgets,
- org.eclipse.ui.views.properties.tabbed
+ org.eclipse.ui.views.properties.tabbed,
+ org.apache.commons.io
 Export-Package: de.tu_bs.cs.isf.cbc.mutation.feature
 Bundle-ClassPath: muJava/openjava.jar,
  .
