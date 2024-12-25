@@ -88,6 +88,11 @@
           id="Variables"
           label="Variables">
     </propertyTab>
+    <propertyTab
+         category="Graphiti"
+         id="AIAssistant"
+         label="AIAssistant">
+    </propertyTab>
    </propertyTabs>
 </extension>
 <extension
@@ -153,6 +158,13 @@
               filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.VariableFilter"
               id="Variables"
               tab="Variables">
+        </propertySection>
+        <propertySection
+              afterSection="Testing"
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.AIAssistantSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilter"
+              id="AIAssistant"
+              tab="AIAssistant">
         </propertySection>
     </propertySections>
 </extension>
