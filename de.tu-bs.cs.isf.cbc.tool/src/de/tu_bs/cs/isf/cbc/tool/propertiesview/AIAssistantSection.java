@@ -25,6 +25,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
+import api.GPTAccess;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
@@ -93,29 +94,36 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 		saveButton.setEnabled(false);
 
 		saveButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event e) {
-				TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(bo);
-				domain.getCommandStack().execute(new RecordingCommand(domain) {
-					@Override
-					protected void doExecute() {
-						String text = codeText.getText();
-						text = text.replaceAll("\n", "");
-						text = text.replaceAll("\t", "");
-						if (bo instanceof Condition) {
-							((Condition) bo).setName(text);
-							UpdateConditionsOfChildren.updateConditionsofChildren((Condition) bo);
-							UpdateOriginalCallsToProve.updateOriginalCallsToProve((Condition) bo); //varcorcXFeatureIDE
-							UpdateMethodCallsToProve.updateMethodCallsToProve((Condition) bo);//varcorcXFeatureIDE
-							UpdateContractsToProve.updateContractsToProve((Condition) bo);//varcorcXFeatureIDE
-						} else if (bo instanceof AbstractStatement) {
-							((AbstractStatement) bo).setName(text);
-							((AbstractStatement) bo).setProven(false);
-							;
-						}
-					}
-				});
-			}
+		    @Override
+		    public void handleEvent(Event e) {
+		        // Retrieve the text from codeText and prepare the prompt
+		        String text = codeText.getText();
+		        String prompt = "Could you please give me a very short description of the following condition: " + text;
+
+		        // Initialize the GPTAccess class
+		        GPTAccess gptAccess = new GPTAccess();
+
+		        // Execute the call to getResponse in a transactional domain context
+		        TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(bo);
+		        domain.getCommandStack().execute(new RecordingCommand(domain) {
+		            @Override
+		            protected void doExecute() {
+		                try {
+		                    // Call getResponse and retrieve the output
+		                    String response = gptAccess.getResponse(prompt);
+
+		                    // Optionally, you can log or handle the response as needed
+		                    System.out.println("Response from GPT: " + response);
+
+		                    // Here you can integrate the response into the application if needed
+		                    // For example, displaying it in a UI element or saving it
+		                } catch (Exception ex) {
+		                    // Handle exceptions, such as API call failures
+		                    ex.printStackTrace();
+		                }
+		            }
+		        });
+		    }
 		});
 	}
 	@Override
