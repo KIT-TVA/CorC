@@ -2,6 +2,8 @@ package de.tu_bs.cs.isf.cbc.tool.propertiesview;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -51,9 +53,11 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 	// Defining the UI properties
 	private StyledText codeText;
 	private Label codeLabel;
-
-	private Label actionLabel;
-	private Button saveButton;
+	
+	private StyledText aiText;
+	private Label aiLabel;
+	
+	private Button generateButton;
 
 
 	@Override
@@ -77,29 +81,48 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 		codeLabel.setText("Code: ");
 		codeLabel.setBackground(white);
 
+		// codeText configuration
 		codeText = new StyledText(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
-		GridData outputGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		outputGridData.widthHint = 800;
+		GridData codeTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		codeTextGridData.horizontalSpan = 2; // Span across both columns
+		codeTextGridData.widthHint = 800;
 		codeText.setText("Choose a code block");
-		codeText.setLayoutData(outputGridData);
+		codeText.setLayoutData(codeTextGridData);
 		codeText.setBackground(white);
-
-		actionLabel = new Label(composite, SWT.PUSH);
-		actionLabel.setText("Action: ");
-		actionLabel.setBackground(white);
+		
 		
 		// generateButton
-		saveButton = new Button(composite, SWT.PUSH);
-		saveButton.setText("Save");
-		saveButton.setEnabled(false);
+		generateButton = new Button(composite, SWT.PUSH);
+		generateButton.setText("Generate");
+		generateButton.setEnabled(false);
+		
+		// Make generateButton span across both columns
+		GridData generateButtonGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		generateButtonGridData.horizontalSpan = 2; // Span across both columns
+		generateButton.setLayoutData(generateButtonGridData);
+		
+		aiLabel = new Label(composite, SWT.PUSH);
+		aiLabel.setText("Response: ");
+		aiLabel.setBackground(white);
 
-		saveButton.addListener(SWT.Selection, new Listener() {
+		// aiText configuration
+		aiText = new StyledText(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
+		GridData aiTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		aiTextGridData.horizontalSpan = 2; // Span across both columns
+		aiTextGridData.widthHint = 800;
+		aiText.setText("GPTs response.");
+		aiText.setLayoutData(aiTextGridData);
+		aiText.setBackground(white);
+
+		generateButton.addListener(SWT.Selection, new Listener() {
 		    @Override
 		    public void handleEvent(Event e) {
 		        // Retrieve the text from codeText and prepare the prompt
 		        String text = codeText.getText();
-		        String prompt = "Could you please give me a very short description of the following condition: " + text;
-
+		        String singleLineText = text.replaceAll("\\s+", " ").trim();
+		        singleLineText = singleLineText.replace("\\", "\\\\");
+		        String prompt = "Could you please give me a very short description of the following condition: " + singleLineText;
+		        System.out.println("Send to GPT: Could you please give me a very short description of the following condition: " + singleLineText);
 		        // Initialize the GPTAccess class
 		        GPTAccess gptAccess = new GPTAccess();
 
@@ -112,7 +135,15 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 		                    // Call getResponse and retrieve the output
 		                    String response = gptAccess.getResponse(prompt);
 
-		                    // Optionally, you can log or handle the response as needed
+			                // Regex to find the "content" value
+		                    Pattern pattern = Pattern.compile("\"content\":\\s*\"(.*?)\"");
+		                    Matcher matcher = pattern.matcher(response);
+
+		                 // Extract and print the content
+		                    if (matcher.find()) {
+		                        String content = matcher.group(1); // Group 1 contains the matched content value
+		                        aiText.setText(content);
+		                    }
 		                    System.out.println("Response from GPT: " + response);
 
 		                    // Here you can integrate the response into the application if needed
@@ -140,14 +171,14 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 			}
 			codeText.setText(text);
 			codeText.setEditable(true);
-			saveButton.setEnabled(true);
+			generateButton.setEnabled(true);
 			styleText(codeText, display);
 			parent.pack();
 			tabbedPropertySheetPage.resizeScrolledComposite();
 		} else {
 			codeText.setText("Choose a code block");
 			codeText.setEditable(false);
-			saveButton.setEnabled(false);
+			generateButton.setEnabled(false);
 			parent.pack();
 			tabbedPropertySheetPage.resizeScrolledComposite();
 		}
