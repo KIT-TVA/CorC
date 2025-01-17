@@ -1520,7 +1520,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	    var programPreConsStr = formula.getStatement().getPreCondition().getName();
 	    var programPreCons = ConditionHandler.translateConditionToJava(this.projectPath, programPreConsStr,
 		    instanceName, test.getInputDataTupel().getGlobalVars());
-
+/*
 	    // initialize used vars of precon
 	    var usedVars = CodeHandler.getUsedVars(programPreConsStr, vars);
 	    for (Variable v : usedVars) {
@@ -1540,14 +1540,14 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 		code.append(CodeHandler.insertPreconditionChecks("\n\n", programPreCons, 2).replaceFirst("\\n", ""));
 	    } catch (TestStatementException e) {
 		throw e;
-	    }
+	    }*/
 
 	    // add method call
 	    if (test.getReturnType().equals("void")) {
 		code.append("\t\t" + instanceName + "." + test.getTesteeName()
 			+ test.getInputDataTupel().getParametersNameRep() + ";\n\n");
 	    } else {
-		code.append("\t\t" + /* test.getReturnType() + " " + */ test.getReturnVar() + " = " + instanceName + "."
+		code.append("\t\t" + test.getReturnType() + " " +  test.getReturnVar() + " = " + instanceName + "."
 			+ test.getTesteeName() + test.getInputDataTupel().getParametersNameRep() + ";\n");
 		code.append("\t\t" + "context.setAttribute(\"" + test.getTestNumber() + "result\", "
 			+ test.getReturnVar() + ");\n\n");
@@ -1571,7 +1571,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	 * + inputs.get(i).getName() + "\");\n"); } code.append("\t}\n");
 	 */
 	code.append("}\n");
-	return code.toString();
+	return CodeHandler.indentCode(code.toString(), 0);
     }
 
     public XmlSuite createXmlSuite(String classPath, String className)

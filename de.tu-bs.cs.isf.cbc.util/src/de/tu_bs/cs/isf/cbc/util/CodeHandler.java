@@ -210,9 +210,9 @@ public final class CodeHandler {
 	    preTabsStr += "\t";
 
 	for (var line : lines) {
-	    int closing = line.indexOf('}') != -1 ? numBrackets-- : 0;
 	    cleanedCode = cleanedCode + "\n" + insertLineTabs(line, numBrackets);
-	    int opening = line.indexOf('{') != -1 ? numBrackets++ : 0;
+	    if (line.indexOf('}') != -1) numBrackets--;
+	    if (line.indexOf('{') != -1) numBrackets++;
 	}
 	return preTabsStr + cleanedCode.strip();
     }
