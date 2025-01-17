@@ -94,3 +94,9 @@ The IntegerList implements a list of integers with add and sort operations.
 **Problem:** Errors in certain files about undefined methods and classes.
 
 **Solution:** Changing the compliance: `Project -> Java Compiler -> JDK Complicance -> Use compliance from execution environment 'JavaSE-16'`.
+
+---
+
+**Problem:** Errors involving the message 'Cannot modify resource set without a write transaction'.
+
+**Solution:** Delete the folder `.settings` in `org.eclipse.core.runtime` within the current workspace. If that doesn't resolve the issue, delete all `.settings` folders and the `.project` file in the `CorC` folder.
