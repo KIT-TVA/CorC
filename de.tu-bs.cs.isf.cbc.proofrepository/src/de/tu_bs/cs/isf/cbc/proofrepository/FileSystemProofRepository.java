@@ -1,4 +1,4 @@
-package de.tu_bs.cs.isf.cbc.proorepository;
+package de.tu_bs.cs.isf.cbc.proofrepository;
 
 import java.io.File;
 import java.io.IOException;

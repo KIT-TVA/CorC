@@ -39,6 +39,7 @@ Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archi
     - `de.tu_bs.cs.isf.cbc.statistics.ui`
     - `de.tu_bs.cs.isf.commands.toolbar`
     - `de.tu_bs.cs.isf.lattice`
+    - `de.tu_bs.cs.isf.proofrepository`
 
 3.  Open:
     - `*.cbc.model -> model -> genmodel.genmodel`

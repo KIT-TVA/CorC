@@ -1,4 +1,4 @@
-package de.tu_bs.cs.isf.cbc.proorepository;
+package de.tu_bs.cs.isf.cbc.proofrepository;
 
 import java.util.List;
 import java.util.UUID;

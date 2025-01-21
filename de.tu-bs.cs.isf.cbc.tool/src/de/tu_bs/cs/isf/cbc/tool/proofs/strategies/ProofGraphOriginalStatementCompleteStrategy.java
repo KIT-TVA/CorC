@@ -11,8 +11,8 @@ import java.util.UUID;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
 
-import de.tu_bs.cs.isf.cbc.proorepository.FileSystemProofRepository;
-import de.tu_bs.cs.isf.cbc.proorepository.IProofRepository;
+import de.tu_bs.cs.isf.cbc.proofrepository.FileSystemProofRepository;
+import de.tu_bs.cs.isf.cbc.proofrepository.IProofRepository;
 import de.tu_bs.cs.isf.cbc.statistics.FileNameManager;
 import de.tu_bs.cs.isf.cbc.tool.proofs.IKeYProof;
 import de.tu_bs.cs.isf.cbc.tool.proofs.KeYProofStrategy;
