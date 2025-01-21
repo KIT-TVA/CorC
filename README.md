@@ -101,3 +101,9 @@ The IntegerList implements a list of integers with add and sort operations.
 **Problem:** Errors involving the message 'Cannot modify resource set without a write transaction'.
 
 **Solution:** Delete the folder `.settings` in `org.eclipse.core.runtime` within the current workspace. If that doesn't resolve the issue, delete all `.settings` folders and the `.project` file in the `CorC` folder.
+
+---
+
+**Problem:** Some library file or package that is in the git is not shown locally in eclipse and there are errors missing that file
+
+**Solution:** Press `F5` when hovering over the parent directory of the missing file. The file should appear.
