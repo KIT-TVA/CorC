@@ -264,7 +264,7 @@ public interface Method extends EObject {
 	 * @see #setSignature(String)
 	 * @see de.tu_bs.cs.isf.cbc.cbcclass.CbcclassPackage#getMethod_Signature()
 	 * @model transient="true" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='String staticString = isStatic ? \"static \" : \"\";\t\tString params = \"\";\t\tif (getParameters().size() &gt; 0) {\t\t\tfor (Parameter param : parameters) {\t\t\t\tif (!param.getName().equals(\"ret\")) {\t\t\t\t\tparams += param.getType() + \" \" + param.getName() + \", \";\t\t\t\t}\t\t\t}\t\t\tparams = params.substring(0, params.length() - 2);\t\t}\t\treturn visibility.toString().toLowerCase() + \" \" + staticString + returnType + \" \" + name + \"(\" + params + \")\";'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='String staticString = isStatic ? \"static \" : \"\";\nString params = \"\";\nif (getParameters().size() &gt; 0) {\n    for (Parameter param: parameters) {\n        if (!param.getName().equals(\"ret\")) {\n            params += param.getType() + \" \" + param.getName() + \", \";\n        }\n    }\n    if (!params.isEmpty()) {\n        params = params.substring(0, params.length() - 2);\n    }\n}\nreturn visibility.toString().toLowerCase() + \" \" + staticString + returnType + \" \" + name + \"(\" + params + \")\";'"
 	 * @generated
 	 */
 	String getSignature();

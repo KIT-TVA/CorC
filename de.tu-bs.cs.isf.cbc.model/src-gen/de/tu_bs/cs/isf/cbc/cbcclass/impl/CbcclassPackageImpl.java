@@ -643,7 +643,7 @@ public class CbcclassPackageImpl extends EPackageImpl implements CbcclassPackage
 		  (getMethod_Signature(),
 		   source,
 		   new String[] {
-			   "get", "String staticString = isStatic ? \"static \" : \"\";\t\tString params = \"\";\t\tif (getParameters().size() > 0) {\t\t\tfor (Parameter param : parameters) {\t\t\t\tif (!param.getName().equals(\"ret\")) {\t\t\t\t\tparams += param.getType() + \" \" + param.getName() + \", \";\t\t\t\t}\t\t\t}\t\t\tparams = params.substring(0, params.length() - 2);\t\t}\t\treturn visibility.toString().toLowerCase() + \" \" + staticString + returnType + \" \" + name + \"(\" + params + \")\";"
+			   "get", "String staticString = isStatic ? \"static \" : \"\";\nString params = \"\";\nif (getParameters().size() > 0) {\n    for (Parameter param: parameters) {\n        if (!param.getName().equals(\"ret\")) {\n            params += param.getType() + \" \" + param.getName() + \", \";\n        }\n    }\n    if (!params.isEmpty()) {\n        params = params.substring(0, params.length() - 2);\n    }\n}\nreturn visibility.toString().toLowerCase() + \" \" + staticString + returnType + \" \" + name + \"(\" + params + \")\";"
 		   });
 	}
 

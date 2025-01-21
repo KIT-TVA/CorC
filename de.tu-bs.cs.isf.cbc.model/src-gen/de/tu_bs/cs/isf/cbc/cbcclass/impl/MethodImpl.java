@@ -530,7 +530,19 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 	 */
 	@Override
 	public String getSignature() {
-		String staticString = isStatic ? "static " : "";		String params = "";		if (getParameters().size() > 0) {			for (Parameter param : parameters) {				if (!param.getName().equals("ret")) {					params += param.getType() + " " + param.getName() + ", ";				}			}			params = params.substring(0, params.length() - 2);		}		return visibility.toString().toLowerCase() + " " + staticString + returnType + " " + name + "(" + params + ")";
+		String staticString = isStatic ? "static " : "";
+		String params = "";
+		if (getParameters().size() > 0) {
+		    for (Parameter param: parameters) {
+		        if (!param.getName().equals("ret")) {
+		            params += param.getType() + " " + param.getName() + ", ";
+		        }
+		    }
+		    if (!params.isEmpty()) {
+		        params = params.substring(0, params.length() - 2);
+		    }
+		}
+		return visibility.toString().toLowerCase() + " " + staticString + returnType + " " + name + "(" + params + ")";
 	}
 
 	/**
