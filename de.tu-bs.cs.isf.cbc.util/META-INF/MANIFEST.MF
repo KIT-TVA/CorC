@@ -25,13 +25,18 @@ Export-Package: de.tu_bs.cs.isf.cbc.util,
  de.tu_bs.cs.isf.cbc.util.conditionparser,
  de.tu_bs.cs.isf.cbc.util.consts,
  de.tu_bs.cs.isf.cbc.util.diagnostics,
+ de.tu_bs.cs.isf.cbc.util.presenceconditionparser,
  de.tu_bs.cs.isf.cbc.util.statistics
-Import-Package: org.eclipse.emf.ecore.xmi.impl;version="2.35.0"
-Bundle-ClassPath: lib/,
- lib/key-2.13.0-exe.jar,
- lib/antlr-3.4.jar,
- lib/de.ovgu.featureide.lib.fm-v3.6.2.jar,
+Import-Package: de.tu_bs.cs.isf.cbc.proorepository,
+ de.tu_bs.cs.isf.cbc.tool.proofgraphs,
+ de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval,
+ de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs,
+ de.tu_bs.cs.isf.corc.predicateWizard,
+ org.eclipse.emf.ecore.xmi.impl;version="2.35.0",
+ org.emftext.language.java.resource.java.util
+Bundle-ClassPath: lib/de.ovgu.featureide.lib.fm-v3.6.2.jar,
  lib/org.sat4j.core.jar,
  lib/javaparser-core-3.25.9-SNAPSHOT.jar,
  lib/javaparser-symbol-solver-core-3.25.9-SNAPSHOT.jar,
+ lib/key-2.13.0-exe.jar,
  .

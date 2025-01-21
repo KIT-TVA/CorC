@@ -1,5 +1,6 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -98,7 +99,7 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
-				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), null, 0, proofType);
+				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), new ArrayList<>(), 0, proofType);
 				if (isVariational) {
 					Console.println("Starting variational verification...\n");
 					String callingClass = FeatureUtil.getInstance().getCallingClass(uri);

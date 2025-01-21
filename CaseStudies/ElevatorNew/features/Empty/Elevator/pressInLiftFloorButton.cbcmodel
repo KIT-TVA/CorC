@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="pressInLiftFloorButton" proven="true" compositionTechnique="EXPLICIT_CONTRACTING" className="Elevator" methodName="pressInLiftFloorButton">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="pressInLiftFloorButton" proven="true" compositionTechnique="EXPLICIT_CONTRACTING" className="Elevator" methodName="pressInLiftFloorButton">
     <statement name="statement" id="fa6300e6-df15-4266-9b3f-99debed62c66">
-      <refinement xsi:type="cbcmodel:OriginalStatement" name="original(floorID);" proven="true" id="6f5ff662-1492-4b62-9857-c692dfd47b33">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:OriginalStatement" name="original(floorID);" proven="true" id="6f5ff662-1492-4b62-9857-c692dfd47b33">
         <postCondition name="\original_post"/>
         <preCondition name="\original_pre"/>
       </refinement>
@@ -12,6 +12,6 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.1"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
 </xmi:XMI>

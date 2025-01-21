@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="isExecutiveFloorCalling" className="Elevator" methodName="isExecutiveFloorCalling">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="isExecutiveFloorCalling" className="Elevator" methodName="isExecutiveFloorCalling">
     <statement name="statement" id="d609e0be-3a96-41bb-bfb6-6b4f85ed69bb">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="08f1ccea-d8b8-46ae-98b2-b60de4c7ede3">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="08f1ccea-d8b8-46ae-98b2-b60de4c7ede3">
         <firstStatement name="statement1" id="4ca8f828-a3b5-473c-b71f-de767279a833">
           <refinement name="result = false;" id="cde5d4c1-35ac-4515-80f4-781456edc48b">
             <postCondition name="modifiable(result);&#xD;&#xA;result = false"/>
@@ -12,7 +12,7 @@
           <preCondition name="this.env != null &amp; this.env.floors != null &amp; this.executiveFloor >= 0 &amp; this.env != null &amp; this.env.floors != null"/>
         </firstStatement>
         <secondStatement name="statement2" id="d44072d3-6606-4c96-8f75-234944c63560">
-          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="d8d95a7c-cae1-4240-8104-f991479b4245">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="d8d95a7c-cae1-4240-8104-f991479b4245">
             <firstStatement name="statement1" id="4c0c50fa-58aa-45f6-a743-6c2a552c4116">
               <refinement name="index = 0;" id="bfaed88f-3e44-49e0-a3ba-697ee01458f1">
                 <postCondition name="modifiable(index,result);&#xD;&#xA;index = 0"/>
@@ -22,7 +22,7 @@
               <preCondition name="modifiable(result);&#xD;&#xA;result = false"/>
             </firstStatement>
             <secondStatement name="statement2" id="237cc7ea-e2f8-4cbd-ab41-6fee11f2c62e">
-              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="ca598528-116c-45a8-92a0-1eb5180a414b">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="ca598528-116c-45a8-92a0-1eb5180a414b">
                 <firstStatement name="statement1" id="09ffc6f0-d5c3-4dca-b340-fa0a47cc7963">
                   <refinement name="tmpFloor = null;" id="841dc0ca-184c-428f-9554-026dbed81cd7">
                     <postCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;tmpFloor = null"/>
@@ -32,7 +32,7 @@
                   <preCondition name="modifiable(index,result);&#xD;&#xA;index = 0"/>
                 </firstStatement>
                 <secondStatement name="statement2" id="851bb740-b2d9-45b6-948b-dbd3cd1d58fb">
-                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="ec5be019-9ee9-468f-a0e9-4cd682bef195">
+                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="ec5be019-9ee9-468f-a0e9-4cd682bef195">
                     <firstStatement name="statement1" id="96da60b7-bcec-4b21-8085-7984d74e5f33">
                       <refinement name="index = 0;" id="11b3282c-4748-4ae4-845c-84aeb407dceb">
                         <postCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;index = 0"/>
@@ -42,7 +42,7 @@
                       <preCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;tmpFloor = null"/>
                     </firstStatement>
                     <secondStatement name="statement2" id="b5e2e76d-15c0-4640-a887-f3b43536cc50">
-                      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="8e0c41b1-9121-4f18-992b-0afa4d8a8087">
+                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="8e0c41b1-9121-4f18-992b-0afa4d8a8087">
                         <firstStatement name="statement1" id="64e60e5e-c7d9-4e81-926c-6b038b799df0">
                           <refinement name="result = false;" id="e8af1f08-256f-4821-b152-564f6bf41e76">
                             <postCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;result = false"/>
@@ -52,13 +52,13 @@
                           <preCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;index = 0"/>
                         </firstStatement>
                         <secondStatement name="statement2" id="73df6c17-640f-434d-bb58-d31c0a4c93e5">
-                          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="d963fcf7-8550-4363-b7b2-715d62e96507">
+                          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="d963fcf7-8550-4363-b7b2-715d62e96507">
                             <firstStatement name="statement1" id="e55fcab7-caa4-40c8-8b9b-cb77a2f5a1d1">
-                              <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" id="6427c5a8-933c-4573-87da-a9bb80c90175">
+                              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SmallRepetitionStatement" name="repetitionStatement" id="6427c5a8-933c-4573-87da-a9bb80c90175">
                                 <postCondition name="modifiable(index,result,ret,tmpFloor);&#xD;&#xA;true"/>
                                 <preCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;result = false"/>
                                 <loopStatement name="loop" id="22356633-380e-4459-8b73-8959e0fd17db">
-                                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="fab24ee8-d3e8-4cde-879b-0f8ccc68b9b9">
+                                  <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="fab24ee8-d3e8-4cde-879b-0f8ccc68b9b9">
                                     <firstStatement name="statement1" id="f573b7a5-73e2-4e3a-ba1d-17c412187315">
                                       <refinement name="tmpFloor = this.env.getFloor(index);" id="a7ac22c7-05bb-424c-88a0-d90508c81027">
                                         <postCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;true"/>
@@ -68,24 +68,24 @@
                                       <preCondition name="(index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))) &amp; (index &lt; this.env.getFloors().length)"/>
                                     </firstStatement>
                                     <secondStatement name="statement2" id="f3b02d31-b88c-40cd-8869-d765e8e276ac">
-                                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" id="f83fdd09-ea92-4bd7-bb0a-a81e0a1fd764">
+                                      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement" name="selectionStatement" id="f83fdd09-ea92-4bd7-bb0a-a81e0a1fd764">
                                         <guards name="tmpFloor.getFloorID() == this.executiveFloor&amp;tmpFloor.hasCall() == true"/>
                                         <guards name="!(tmpFloor.getFloorID() == this.executiveFloor&amp;tmpFloor.hasCall() == true)"/>
                                         <commands name="statement" id="ca41dd5c-43b2-494f-a2fd-1ec6063484c8">
                                           <refinement name="result = true;" id="c2e72a9f-c6f0-4163-8de1-8f9f3242dce3">
                                             <postCondition name="index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))"/>
-                                            <preCondition name="modifiable(index,result,tmpFloor);(true) &amp; (tmpFloor.getFloorID() == this.executiveFloor&amp;tmpFloor.hasCall() == true)"/>
+                                            <preCondition name="(true) &amp; (tmpFloor.getFloorID() == this.executiveFloor&amp;tmpFloor.hasCall() == true)"/>
                                           </refinement>
                                           <postCondition name="index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))"/>
-                                          <preCondition name="modifiable(index,result,tmpFloor);(true) &amp; (tmpFloor.getFloorID() == this.executiveFloor&amp;tmpFloor.hasCall() == true)"/>
+                                          <preCondition name="(true) &amp; (tmpFloor.getFloorID() == this.executiveFloor&amp;tmpFloor.hasCall() == true)"/>
                                         </commands>
                                         <commands name="statement" id="dabf98ee-2798-45ca-9c05-bfc3b1288475">
-                                          <refinement xsi:type="cbcmodel:SkipStatement" name=";" id="900c21da-1895-44b5-8cc8-9a36991fdf3b">
+                                          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SkipStatement" name=";" id="900c21da-1895-44b5-8cc8-9a36991fdf3b">
                                             <postCondition name="index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))"/>
-                                            <preCondition name="modifiable(index,result,tmpFloor);(true) &amp; (!(tmpFloor.getFloorID() == this.executiveFloor&amp;tmpFloor.hasCall() == true))"/>
+                                            <preCondition name="(true) &amp; (!(tmpFloor.getFloorID() == this.executiveFloor&amp;tmpFloor.hasCall() == true))"/>
                                           </refinement>
                                           <postCondition name="index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))"/>
-                                          <preCondition name="modifiable(index,result,tmpFloor);(true) &amp; (!(tmpFloor.getFloorID() == this.executiveFloor&amp;tmpFloor.hasCall() == true))"/>
+                                          <preCondition name="(true) &amp; (!(tmpFloor.getFloorID() == this.executiveFloor&amp;tmpFloor.hasCall() == true))"/>
                                         </commands>
                                       </refinement>
                                       <postCondition name="index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))"/>
@@ -104,50 +104,50 @@
                               <preCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;result = false"/>
                             </firstStatement>
                             <secondStatement name="statement2" id="0d6a21e4-94cd-412a-944b-43febdd4701e">
-                              <refinement xsi:type="cbcmodel:ReturnStatement" name="ret=result;" comment="returnStatement" id="8836095d-9563-4d2d-a083-c248894194d6">
-                                <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
+                              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:ReturnStatement" name="ret=result;" comment="returnStatement" id="8836095d-9563-4d2d-a083-c248894194d6">
+                                <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; \result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
                                 <preCondition name="modifiable(index,result,ret,tmpFloor);&#xD;&#xA;true"/>
                               </refinement>
-                              <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
+                              <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; \result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
                               <preCondition name="modifiable(index,result,ret,tmpFloor);&#xD;&#xA;true"/>
                             </secondStatement>
                             <intermediateCondition name="modifiable(index,result,ret,tmpFloor);&#xD;&#xA;true"/>
                           </refinement>
-                          <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
+                          <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; \result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
                           <preCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;result = false"/>
                         </secondStatement>
                         <intermediateCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;result = false"/>
                       </refinement>
-                      <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
+                      <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; \result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
                       <preCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;index = 0"/>
                     </secondStatement>
                     <intermediateCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;index = 0"/>
                   </refinement>
-                  <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
+                  <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; \result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
                   <preCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;tmpFloor = null"/>
                 </secondStatement>
                 <intermediateCondition name="modifiable(index,result,tmpFloor);&#xD;&#xA;tmpFloor = null"/>
               </refinement>
-              <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
+              <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; \result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
               <preCondition name="modifiable(index,result);&#xD;&#xA;index = 0"/>
             </secondStatement>
             <intermediateCondition name="modifiable(index,result);&#xD;&#xA;index = 0"/>
           </refinement>
-          <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
+          <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; \result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
           <preCondition name="modifiable(result);&#xD;&#xA;result = false"/>
         </secondStatement>
         <intermediateCondition name="modifiable(result);&#xD;&#xA;result = false"/>
       </refinement>
-      <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
+      <postCondition name="modifiable(result,ret,tmpFloor);&#xD;&#xA;this.env != null &amp; this.env.floors != null &amp; \result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].getFloorID() = this.executiveFloor &amp; this.env.floors[k].hasCall() = true)))"/>
       <preCondition name="this.env != null &amp; this.env.floors != null &amp; this.executiveFloor >= 0 &amp; this.env != null &amp; this.env.floors != null"/>
     </statement>
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.1"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
     <variables name="boolean result"/>
     <variables name="int index"/>
     <variables name="Floor tmpFloor"/>
-  </cbcmodel:JavaVariables>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables>
 </xmi:XMI>

@@ -1,0 +1,218 @@
+{
+  "graphs": {
+    "transfer": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Transaction",
+            "method": "transfer",
+            "uuid": "e47687f1-6162-4f21-9ffc-4d72f681ac25"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": [
+        [
+          {
+            "feature": "Transaction",
+            "method": "transfer",
+            "uuid": "e47687f1-6162-4f21-9ffc-4d72f681ac25"
+          },
+          [
+            "update",
+            "undoUpdate"
+          ]
+        ]
+      ],
+      "featureMap": {
+        "Transaction": [
+          "transfer"
+        ]
+      },
+      "idMap": {
+        "Transaction": "e47687f1-6162-4f21-9ffc-4d72f681ac25"
+      }
+    },
+    "nextYear": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Interest",
+            "method": "nextYear",
+            "uuid": "64dd7f46-e31d-4c20-8562-1cfcd26cf3a4"
+          },
+          [
+            {
+              "feature": "BankAccount",
+              "method": "nextYear",
+              "uuid": "299eb127-075c-4c78-b6bf-c09f79e9c0b1"
+            }
+          ]
+        ],
+        [
+          {
+            "feature": "BankAccount",
+            "method": "nextYear",
+            "uuid": "299eb127-075c-4c78-b6bf-c09f79e9c0b1"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Interest": [
+          "nextYear"
+        ],
+        "DailyLimit": [],
+        "BankAccount": [
+          "nextYear"
+        ]
+      },
+      "idMap": {
+        "Interest": "64dd7f46-e31d-4c20-8562-1cfcd26cf3a4",
+        "DailyLimit": "541eb303-6cbc-459b-9b48-f7ca72ea0ce6",
+        "BankAccount": "299eb127-075c-4c78-b6bf-c09f79e9c0b1"
+      }
+    },
+    "update": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "DailyLimit",
+            "method": "update",
+            "uuid": "3a401ebf-d767-4324-bbd7-282bd1a2ca78"
+          },
+          [
+            {
+              "feature": "BankAccount",
+              "method": "update",
+              "uuid": "fd39c621-2b7e-458a-a429-165de58e2119"
+            }
+          ]
+        ],
+        [
+          {
+            "feature": "BankAccount",
+            "method": "update",
+            "uuid": "fd39c621-2b7e-458a-a429-165de58e2119"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "DailyLimit": [
+          "update"
+        ],
+        "BankAccount": [
+          "update"
+        ]
+      },
+      "idMap": {
+        "DailyLimit": "3a401ebf-d767-4324-bbd7-282bd1a2ca78",
+        "BankAccount": "fd39c621-2b7e-458a-a429-165de58e2119"
+      }
+    },
+    "undoUpdate": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "BankAccount",
+            "method": "undoUpdate",
+            "uuid": "31f525fa-30e0-41cf-aae7-9e5d5ebdb787"
+          },
+          []
+        ],
+        [
+          {
+            "feature": "DailyLimit",
+            "method": "undoUpdate",
+            "uuid": "1f367196-705a-42e6-9d88-8c7eb187d054"
+          },
+          [
+            {
+              "feature": "BankAccount",
+              "method": "undoUpdate",
+              "uuid": "31f525fa-30e0-41cf-aae7-9e5d5ebdb787"
+            }
+          ]
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "DailyLimit": [
+          "undoUpdate"
+        ],
+        "BankAccount": [
+          "undoUpdate"
+        ]
+      },
+      "idMap": {
+        "DailyLimit": "1f367196-705a-42e6-9d88-8c7eb187d054",
+        "BankAccount": "31f525fa-30e0-41cf-aae7-9e5d5ebdb787"
+      }
+    },
+    "nextDay": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "BankAccount",
+            "method": "nextDay",
+            "uuid": "2e487175-ee2c-458d-8b0b-862f3eeee299"
+          },
+          []
+        ],
+        [
+          {
+            "feature": "DailyLimit",
+            "method": "nextDay",
+            "uuid": "9a07c043-30fc-4105-8a92-844152635f58"
+          },
+          [
+            {
+              "feature": "BankAccount",
+              "method": "nextDay",
+              "uuid": "2e487175-ee2c-458d-8b0b-862f3eeee299"
+            }
+          ]
+        ],
+        [
+          {
+            "feature": "Interest",
+            "method": "nextDay",
+            "uuid": "d28fe944-c4d5-4729-aa48-a1d01c5ebec6"
+          },
+          [
+            {
+              "feature": "BankAccount",
+              "method": "nextDay",
+              "uuid": "2e487175-ee2c-458d-8b0b-862f3eeee299"
+            },
+            {
+              "feature": "DailyLimit",
+              "method": "nextDay",
+              "uuid": "9a07c043-30fc-4105-8a92-844152635f58"
+            }
+          ]
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Interest": [
+          "nextDay"
+        ],
+        "DailyLimit": [
+          "nextDay"
+        ],
+        "BankAccount": [
+          "nextDay"
+        ]
+      },
+      "idMap": {
+        "Interest": "d28fe944-c4d5-4729-aa48-a1d01c5ebec6",
+        "DailyLimit": "9a07c043-30fc-4105-8a92-844152635f58",
+        "BankAccount": "2e487175-ee2c-458d-8b0b-862f3eeee299"
+      }
+    }
+  }
+}

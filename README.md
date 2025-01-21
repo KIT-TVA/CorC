@@ -39,6 +39,7 @@ Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archi
     - `de.tu_bs.cs.isf.cbc.statistics.ui`
     - `de.tu_bs.cs.isf.commands.toolbar`
     - `de.tu_bs.cs.isf.lattice`
+    - `de.tu_bs.cs.isf.proofrepository`
 
 3.  Open:
     - `*.cbc.model -> model -> genmodel.genmodel`
@@ -94,3 +95,9 @@ The IntegerList implements a list of integers with add and sort operations.
 **Problem:** Errors in certain files about undefined methods and classes.
 
 **Solution:** Changing the compliance: `Project -> Java Compiler -> JDK Complicance -> Use compliance from execution environment 'JavaSE-16'`.
+
+---
+
+**Problem:** Errors involving the message 'Cannot modify resource set without a write transaction'.
+
+**Solution:** Delete the folder `.settings` in `org.eclipse.core.runtime` within the current workspace. If that doesn't resolve the issue, delete all `.settings` folders and the `.project` file in the `CorC` folder.

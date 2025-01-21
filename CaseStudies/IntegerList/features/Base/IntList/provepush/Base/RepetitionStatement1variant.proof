@@ -78,7 +78,7 @@
      }
  } 
 
-\javaSource "C:/Important/Work/CorC/IntegerList";
+\javaSource "C:/Users/Markus/Documents/Studium/HIWI/work/CorC/CaseStudies/IntegerList";
 \include "helper.key";
 \programVariables {
 int i;
@@ -164,9 +164,9 @@ Heap heapAtPre;
 }
 
 \proof {
-(keyLog "0" (keyUser "Fynn" ) (keyVersion "1fb0c10630b493ce138850ae0f9803d3f2fffc51"))
+(keyLog "0" (keyUser "Markus" ) (keyVersion "255661ae2f2ff3b2df9506575116825ddb2e1159"))
 
-(autoModeTime "434")
+(autoModeTime "582")
 
 (branch "dummy ID"
  (builtin "One Step Simplification" (formula "1"))

@@ -523,11 +523,6 @@ public class MethodImpl extends MinimalEObjectImpl.Container implements Method {
 			eNotify(new ENotificationImpl(this, Notification.SET, CbcclassPackage.METHOD__VISIBILITY, oldVisibility, visibility));
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public String getSignature() {
 		String staticString = isStatic ? "static " : "";

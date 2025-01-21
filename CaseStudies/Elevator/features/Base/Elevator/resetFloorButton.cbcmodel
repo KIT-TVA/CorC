@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="resetFloorButton" proven="true" comment="" className="Elevator" methodName="resetFloorButton">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="resetFloorButton" proven="true" comment="" className="Elevator" methodName="resetFloorButton">
     <statement name="statement" id="44a759f1-2bce-4836-ae8e-056e55e627ad">
       <refinement name="this.floorButtons[floorID] = false;" proven="true" id="0581ca54-1a3f-43c1-93d8-94f58df72503">
         <postCondition name="this.floorButtons[floorID] = FALSE">
@@ -16,6 +16,6 @@
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Elevator.cbcclass#//@methods.1"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
 </xmi:XMI>
