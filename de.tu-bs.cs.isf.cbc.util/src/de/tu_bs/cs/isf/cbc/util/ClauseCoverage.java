@@ -105,13 +105,13 @@ public class ClauseCoverage implements TestCoverageProvider {
 	if (totalNumBranches == 0) {
 	    Console.println("\tCoverage: 1/1 = 100%");
 	} else {
-	    Console.println("\t> Fully covered branches:");
+	    Console.println("\t> Fully covered clauses:");
 	    for (var clause : this.clauses) {
 		if (clause.isFullyCovered()) {
 		    Console.println("\t\t" + clause.getName(), Colors.GREEN);
 		}
 	    }
-	    Console.println("\t> Partially covered branches:");
+	    Console.println("\t> Partially covered clauses:");
 	    for (var clause : this.clauses) {
 		if (clause.isPartiallyCovered()) {
 		    Console.println("\t\t" + clause.getName(), Colors.GREEN);

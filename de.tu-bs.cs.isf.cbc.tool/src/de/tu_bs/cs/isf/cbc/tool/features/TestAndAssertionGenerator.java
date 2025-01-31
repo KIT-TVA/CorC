@@ -267,7 +267,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	}
 	List<ClassHandler> classCodes;
 	String postCon = ConditionHandler.replaceResultKeyword(formula.getStatement().getPostCondition().getName(),
-		returnVariable);
+		returnVar);
 	if (FileHandler.instance.isSPL(projectPath)) {
 	    boolean isPreCon = false;
 	    postCon = TestUtilSPL.getInstance().handleOriginalCondition(this.getFeatureProvider(), postCon, isPreCon,
@@ -296,7 +296,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	    preCon = TestUtilSPL.getInstance().handleOriginalCondition(this.getFeatureProvider(), preCon, isPreCon,
 		    features);
 	}
-	inputs = genInputs(preCon, vars, code2, signatureString, returnVariable);
+	inputs = genInputs(preCon, vars, code2, signatureString, returnVar);
 	if (inputs.isEmpty()) {
 	    Console.printWarn("TestAndAssertionGeneratorInfo: There are no controllable inputs for method "
 		    + methodToGenerate.getName() + ".");
@@ -1007,7 +1007,8 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 
 	if (returnVariable != null
 		&& !MethodHandler.getBySignature(code.toString(), signatureString).contains(returnVariable.getName())) {
-	    code.append(returnVariable.getName() + ";\n");
+            var defaultValue = InputData.getDefaultValue(returnVariable.getName().split("\\s")[0]);// genDefaultInputForVar(var,
+	    code.append(returnVariable.getName() + " = " + defaultValue + ";\n");
 	    code = insertTabs(code);
 	}
 
@@ -1332,11 +1333,11 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 
 	params = new ArrayList<String>();
 	if (vars.getParams() != null) {
-	    vars.getParams().stream().forEach(p -> {
+	    vars.getParams().stream().filter(v -> !v.getName().equals("ret")).forEach(p -> {
 		params.add(p.getType() + " " + p.getName());
 	    });
 	    params.addAll(vars.getVariables().stream()
-		    .filter(v -> v.getKind().toString().equals("PARAM") && !params.contains(v.getName()))
+		    .filter(v -> v.getKind().toString().equals("PARAM") && !params.contains(v.getName()) && !v.getName().split("\\s")[1].equals("ret"))
 		    .map(v -> v.getName()).toList());
 	}
 
@@ -1644,9 +1645,9 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	    throws TestAndAssertionGeneratorException, SettingsException {
 	String signatureString;
 	LinkedList<String> localVariables = new LinkedList<String>();
-	JavaVariable returnVariable = null;
 	DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
 	JavaVariables vars = extractor.getVars();
+	JavaVariable returnVariable = Variable.getReturnVar(vars);
 	Renaming renaming = extractor.getRenaming();
 	CbCFormula formula = extractor.getFormula();
 	GlobalConditions globalConditions = extractor.getConds();
@@ -1690,7 +1691,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 
 	for (int i = 0; i < vars.getVariables().size(); i++) {
 	    JavaVariable currentVariable = vars.getVariables().get(i);
-	    if (currentVariable.getKind() == VariableKind.RETURN) {
+	    if (returnVariable == null && currentVariable.getKind() == VariableKind.RETURN) {
 		var varName = currentVariable.getName().replace("non-null", "").split("\\s")[1];
 		var varType = currentVariable.getName().split("\\s")[0];
 		localVariables.add(currentVariable.getName().replace("non-null", ""));

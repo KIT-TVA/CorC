@@ -726,6 +726,7 @@ public class ProveWithKey {
 			if (!closed) {
 				Console.println("  Proof could not be closed.");
 				CounterExampleGenerator generator = new CounterExampleGenerator();
+						generator.calculateExample(proof);
 				if (Settings.canRead()) {
 					Settings settings = Settings.get();
 					if (settings.getCounterExamples()) {

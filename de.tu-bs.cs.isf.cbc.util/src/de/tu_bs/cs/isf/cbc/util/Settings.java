@@ -26,11 +26,11 @@ public final class Settings implements Serializable {
     public static void read() throws SettingsException {
         try {
         	File settingsFile = new File(filePath);
+                if (settingsFile.exists() && !settingsFile.canWrite()) {
+                        Console.println("Can't access settings file. Please restart CorC with administrator rights.", Colors.RED);
+                        return;
+                }
         	if (!settingsFile.exists()) {
-				if (settingsFile.canWrite()) {
-					Console.println("Can't access settings file. Please restart CorC with administrator rights.", Colors.RED);
-					return;
-				}
         		instance = new Settings();
         		_save();
         	} else {
@@ -39,7 +39,7 @@ public final class Settings implements Serializable {
 				instance = (Settings)objectIn.readObject();
         	}
         } catch (Exception e) {
-            throw new SettingsException("Cannot read settings from '" + filePath + "'.");
+            throw new SettingsException("Cannot read settings from '" + filePath + "'. Details: '" + e.getMessage() + "'.");
         }
     }
     
