@@ -293,7 +293,7 @@ public class CounterExampleGenerator{
 		return str.strip();
 	}
 	
-	public static void calculateExample(Proof proof) throws SettingsException {
+	public static String calculateExample(Proof proof) throws SettingsException {
 		Console.println("  Start generating a counter example...");
 		serv = proof.getServices();
 		calculateProofPaths(proof.root());
@@ -305,11 +305,13 @@ public class CounterExampleGenerator{
 			SMTSolverResult result = runZ3(problem, proof);
 			if (result.isValid() == ThreeValuedTruth.FALSIFIABLE) {
 				String counterexample = problem.getSolvers().iterator().next().getRawSolverOutput();
+				//return counterexample;
 				SolverOutputCleaner cleaner = new SolverOutputCleaner();
 				cleaner.clean(counterexample);
+				String cleanedCounterExample = cleaner.cleaned(); // Get the cleaned counterexample
 				Console.print(cleaner.cleaned(), Colors.BLUE);
 				Console.println();
-				return;
+				return cleanedCounterExample; // Return the counterexample as a string
 			}
 		}
 		if (list.size() == 0) {
@@ -319,6 +321,7 @@ public class CounterExampleGenerator{
 		} else if (problem.getFinalResult().isValid() == ThreeValuedTruth.UNKNOWN) {
 			Console.println("  A counterexample could not be generated.");
 		}
+		return null; // Return null if no counterexample was generated
 	}
 	
 	private static SMTSolverResult runZ3(SMTProblem problem, Proof proof) {

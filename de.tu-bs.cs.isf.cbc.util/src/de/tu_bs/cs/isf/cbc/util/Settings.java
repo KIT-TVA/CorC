@@ -14,6 +14,7 @@ public final class Settings implements Serializable {
     private static final long serialVersionUID = 1L;
     private boolean counterExamples;
     private boolean testWarnings;
+    private boolean aiTranslatedCounterExamples; // New field
     private static final String filePath = System.getProperty("user.dir") + "/settings.ser";
     
     public static Settings get() throws SettingsException {
@@ -83,5 +84,13 @@ public final class Settings implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+ // New Methods for AI Translated Counterexamples
+    public boolean isAiTranslatedCounterExamplesEnabled() {
+        return instance.aiTranslatedCounterExamples;
+    }
+
+    public void setAiTranslatedCounterExamples(boolean enabled) {
+        instance.aiTranslatedCounterExamples = enabled;
     }
 }

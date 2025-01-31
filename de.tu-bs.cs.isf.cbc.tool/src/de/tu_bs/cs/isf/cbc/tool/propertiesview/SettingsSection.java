@@ -52,7 +52,8 @@ public class SettingsSection extends GFPropertySection implements ITabbedPropert
 	private final int NUM_GROUPS = 2;
 	private final String CEX_BUTTON_NAME = "Generate Counterexamples";
 	private final String TWARN_BUTTON_NAME = "Show Warnings";
-	
+	// Add a new constant for the AI Translated Counterexample button name
+	private final String AI_CEX_BUTTON_NAME = "AI Translated Counterexamples";
 
 	// Defining the UI properties
 
@@ -75,6 +76,7 @@ public class SettingsSection extends GFPropertySection implements ITabbedPropert
 		// Verify Settings
 		Group verifyGroup = createButtonGroup(composite, "Verify Settings");
 		var counterButton = createButton(verifyGroup, CEX_BUTTON_NAME);
+		var aiCounterButton = createButton(verifyGroup, AI_CEX_BUTTON_NAME); // Add AI Translated Counterexamples button
 		
 		// Test Settings
 		Group testGroup = createButtonGroup(composite, "Test Settings");
@@ -119,11 +121,14 @@ public class SettingsSection extends GFPropertySection implements ITabbedPropert
 						e1.printStackTrace();
 						return;
 					}
-					if (button.getText().equals(CEX_BUTTON_NAME)) {
-						b.setCounterExamples(button.getSelection());
-					} else if (button.getText().equals(TWARN_BUTTON_NAME)) {
-						b.setTestWarnings(button.getSelection());
-					}
+					// Update logic to include AI Translated Counterexamples
+	                if (button.getText().equals(CEX_BUTTON_NAME)) {
+	                    b.setCounterExamples(button.getSelection());
+	                } else if (button.getText().equals(TWARN_BUTTON_NAME)) {
+	                    b.setTestWarnings(button.getSelection());
+	                } else if (button.getText().equals(AI_CEX_BUTTON_NAME)) { // New logic
+	                    b.setAiTranslatedCounterExamples(button.getSelection());
+	                }
 					b.save();
 				}
 			});
@@ -138,7 +143,9 @@ public class SettingsSection extends GFPropertySection implements ITabbedPropert
 					button.setSelection(b.getCounterExamples());
 				} else if (button.getText().equals(TWARN_BUTTON_NAME)) {
 					button.setSelection(b.testWarningsEnabled());
-				}
+				} else if (button.getText().equals(AI_CEX_BUTTON_NAME)) { // New logic
+	                button.setSelection(b.isAiTranslatedCounterExamplesEnabled());
+	            }
 			}
 		}
 	}
@@ -158,7 +165,9 @@ public class SettingsSection extends GFPropertySection implements ITabbedPropert
 					button.setSelection(b.getCounterExamples());
 				} else if (button.getText().equals(TWARN_BUTTON_NAME)) {
 					button.setSelection(b.testWarningsEnabled());
-				}
+				} else if (button.getText().equals(AI_CEX_BUTTON_NAME)) { // New logic
+	                button.setSelection(b.isAiTranslatedCounterExamplesEnabled());
+	            }
 			}
 		}
 	}
