@@ -25,6 +25,7 @@ Export-Package: de.tu_bs.cs.isf.cbc.util,
  de.tu_bs.cs.isf.cbc.util.conditionparser,
  de.tu_bs.cs.isf.cbc.util.consts,
  de.tu_bs.cs.isf.cbc.util.diagnostics,
+ de.tu_bs.cs.isf.cbc.util.presenceconditionparser,
  de.tu_bs.cs.isf.cbc.util.statistics
 Import-Package: org.eclipse.emf.ecore.xmi.impl;version="2.35.0"
 Bundle-ClassPath: lib/,

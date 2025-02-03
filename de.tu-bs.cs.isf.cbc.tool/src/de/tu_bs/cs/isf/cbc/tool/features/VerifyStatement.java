@@ -143,7 +143,7 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
 			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
-			ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(platformUri), null, 0,
+			ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(platformUri), new ArrayList<>(), 0,
 					proofType);
 			proven = prove.proveStatementWithKey(returnStatement, false, callingClass, true);
 		} else {

@@ -92,6 +92,20 @@ import de.tu_bs.cs.isf.cbc.tool.patterns.StrengthWeakStatementPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.VariablePattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.VariablesPattern;
 import de.tu_bs.cs.isf.cbc.tool.patterns.VariantPattern;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyMethodCallStatementProofGraphBegin;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyMethodCallStatementProofGraphComplete;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyOriginalCallStatementProofGraphBegin;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyOriginalCallStatementProofGraphComplete;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyPostRepetitionStatementProofGraphBegin;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyPreRepetitionStatementProofGraphBegin;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyPreSelectionStatementProofGraphBegin;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyStatementProofGraphBegin;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyStatementProofGraphComplete;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyVariantWithInnerLoopsProofGraphBegin;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.VerifyVariantWithoutInnerLoopsProofGraphBegin;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPBV;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPG;
+import de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval.RunEvaluationForStatementPP;
 
 public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 
@@ -153,6 +167,23 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 				new TestStatement(this),
 	    		new TestAndAssertionGenerator(this),
 				new VerifyStatement(this),
+				//Eval
+				new RunEvaluationForStatementPP(this),
+				new RunEvaluationForStatementPBV(this),
+				new RunEvaluationForStatementPG(this),
+				//Proof Graphs
+	    		new VerifyStatementProofGraphBegin(this),
+	    		new VerifyStatementProofGraphComplete(this),
+	    		new VerifyOriginalCallStatementProofGraphBegin(this),
+	    		new VerifyOriginalCallStatementProofGraphComplete(this),
+	    		new VerifyMethodCallStatementProofGraphBegin(this),
+	    		new VerifyMethodCallStatementProofGraphComplete(this),
+	    		new VerifyPreSelectionStatementProofGraphBegin(this),
+	    		new VerifyPreRepetitionStatementProofGraphBegin(this),
+	    		new VerifyPostRepetitionStatementProofGraphBegin(this),
+	    		new VerifyVariantWithInnerLoopsProofGraphBegin(this),
+	    		new VerifyVariantWithoutInnerLoopsProofGraphBegin(this),
+	    		//Partial Proofs
 				new VerifyStatementPartialProofBegin(this),
 				new VerifyStatementPartialProofComplete(this),
 				new VerifyOriginalCallStatement(this),

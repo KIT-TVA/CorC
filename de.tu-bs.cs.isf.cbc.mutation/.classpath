@@ -8,5 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="lib" path="muJava/openjava.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.15.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

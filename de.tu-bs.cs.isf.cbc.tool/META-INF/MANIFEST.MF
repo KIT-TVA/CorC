@@ -20,7 +20,9 @@ Require-Bundle: org.eclipse.graphiti,
  org.testng;bundle-version="7.4.0",
  de.tu_bs.cs.isf.cbc.parser,
  de.tu_bs.cs.isf.lattice,
- de.tu-bs.cs.isf.cbc.util;bundle-version="1.0.0"
+ de.tu-bs.cs.isf.cbc.util,
+ de.tu-bs.cs.isf.cbc.proofrepository,
+ de.tu_bs.cs.isf.commands.toolbar
 Import-Package: de.ovgu.featureide.fm.core.base,
  de.ovgu.featureide.fm.core.io.manager,
  de.tu_bs.cs.isf.cbc.cbcclass,
@@ -36,6 +38,8 @@ Export-Package: de.tu_bs.cs.isf.cbc.tool.diagram,
  de.tu_bs.cs.isf.cbc.tool.features,
  de.tu_bs.cs.isf.cbc.tool.helper,
  de.tu_bs.cs.isf.cbc.tool.patterns,
+ de.tu_bs.cs.isf.cbc.tool.proofgraphs,
+ de.tu_bs.cs.isf.cbc.tool.proofgraphs.eval,
  de.tu_bs.cs.isf.cbc.tool.propertiesview
 Bundle-ClassPath: lib/com.microsoft.z3.jar,
  .

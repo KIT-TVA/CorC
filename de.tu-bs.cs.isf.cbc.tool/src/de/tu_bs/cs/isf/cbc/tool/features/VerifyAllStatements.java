@@ -1,5 +1,6 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -296,7 +297,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
 			String uri = diagram.eResource().getURI().toPlatformString(true);
 			if (!isVariational) {
-				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri), null, 0,
+				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri), new ArrayList<>(), 0,
 						KeYInteraction.ABSTRACT_PROOF_FULL);
 				proven = prove.proveStatementWithKey(returnStatement, false,
 						FeatureUtil.getInstance().getCallingClass(URI.createPlatformResourceURI(uri, true)), false);
@@ -409,7 +410,7 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 						configNum, KeYInteraction.ABSTRACT_PROOF_FULL);
 			} else {
 				prove = new ProveWithKey(statement, diagram, monitor,
-						new FileUtil(diagram.eResource().getURI().toPlatformString(true)), null, 0,
+						new FileUtil(diagram.eResource().getURI().toPlatformString(true)), new ArrayList<>(), 0,
 						KeYInteraction.ABSTRACT_PROOF_FULL);
 			}
 
