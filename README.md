@@ -2,8 +2,7 @@
 
 CbC is an approach to create correct programs incrementally. Guided by pre-/postcondition specifications, a program is developed using refinement rules, guaranteeing the implementation is correct. With [CorC](https://github.com/KIT-TVA/CorC/wiki), we implemented a graphical and textual IDE to create programs following the CbC approach. Starting with an abstract specification, CorC supports CbC developers in refining a program by a sequence of refinement steps and in verifying the correctness of these refinement steps using a deductive verifier.
 
-# C-CorC
-CorC for information flow ([C-CorC](https://github.com/KIT-TVA/CorC/wiki/CorC-for-Information-Flow)) is an extension of CorC. 
+Learn more about CorC and the underlying concepts in the [wiki](https://github.com/KIT-TVA/CorC/wiki).
 
 # Getting Started
 ## Java Version
@@ -39,6 +38,7 @@ Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archi
     - `de.tu_bs.cs.isf.cbc.statistics.ui`
     - `de.tu_bs.cs.isf.commands.toolbar`
     - `de.tu_bs.cs.isf.lattice`
+    - `de.tu_bs.cs.isf.proofrepository`
 
 3.  Open:
     - `*.cbc.model -> model -> genmodel.genmodel`
@@ -94,3 +94,15 @@ The IntegerList implements a list of integers with add and sort operations.
 **Problem:** Errors in certain files about undefined methods and classes.
 
 **Solution:** Changing the compliance: `Project -> Java Compiler -> JDK Complicance -> Use compliance from execution environment 'JavaSE-16'`.
+
+---
+
+**Problem:** Errors involving the message 'Cannot modify resource set without a write transaction'.
+
+**Solution:** Delete the folder `.settings` in `org.eclipse.core.runtime` within the current workspace. If that doesn't resolve the issue, delete all `.settings` folders and the `.project` file in the `CorC` folder.
+
+---
+
+**Problem:** Some library file or package that is in the git is not shown locally in eclipse and there are errors missing that file
+
+**Solution:** Press `F5` when hovering over the parent directory of the missing file. The file should appear.
