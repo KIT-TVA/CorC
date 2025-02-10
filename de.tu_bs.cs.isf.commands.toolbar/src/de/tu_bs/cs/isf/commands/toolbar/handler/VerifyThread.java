@@ -21,7 +21,7 @@ public class VerifyThread extends Thread {
 		for (IFile iFile : fileList) {
 			File file = iFile.getLocation().toFile();
 			try {
-				ProveWithKey.proveWithKey(file, null, false, null, null, null, null);
+				ProveWithKey.proveWithKey(file, null, false, null, null, null, null,null);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

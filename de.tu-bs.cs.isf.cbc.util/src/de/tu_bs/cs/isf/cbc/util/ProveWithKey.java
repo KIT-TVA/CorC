@@ -709,7 +709,7 @@ public class ProveWithKey {
 
 	public boolean proveWithKey(File location, boolean inlining) {
 		try {
-			return proveWithKey(location, monitor, inlining, formula, statement, problem, uri);
+			return proveWithKey(location, monitor, inlining, formula, statement, problem, uri, vars);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -717,7 +717,7 @@ public class ProveWithKey {
 	}
 
 	public static boolean proveWithKey(File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
-			AbstractStatement statement, String problem, String uri) throws Exception {
+			AbstractStatement statement, String problem, String uri, JavaVariables vars) throws Exception {
 		Proof proof = null;
 		proof = KeYInteraction.startKeyProof(proofType, location, monitor, inlining, formula, statement, problem, uri,
 				predicatesForKeY);
@@ -747,7 +747,7 @@ public class ProveWithKey {
 	                            
 	                            // Translate the counterexample
 	                            System.out.println("Counterexample Raw: " + rawCounterExample);
-	                            String translatedCounterExample = processor.generateCounterExample(rawCounterExample);
+	                            String translatedCounterExample = processor.generateCounterExample(rawCounterExample, vars);
 	                        } else {
 	                            // Display the raw counterexample if AI translation is disabled
 	                        	System.out.println("Counterexample: " + rawCounterExample);

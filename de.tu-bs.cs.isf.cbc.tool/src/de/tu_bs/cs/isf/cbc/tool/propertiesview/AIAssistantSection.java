@@ -58,6 +58,8 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 	private Label aiLabel;
 	
 	private Button generateButton;
+	
+	private String lastAiResponse = ""; // Store the last AI response
 
 
 	@Override
@@ -113,50 +115,57 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 		aiText.setText("GPTs response.");
 		aiText.setLayoutData(aiTextGridData);
 		aiText.setBackground(white);
-
-		generateButton.addListener(SWT.Selection, new Listener() {
-		    @Override
-		    public void handleEvent(Event e) {
-		        // Retrieve the text from codeText and prepare the prompt
-		        String text = codeText.getText();
-		        String singleLineText = text.replaceAll("\\s+", " ").trim();
-		        singleLineText = singleLineText.replace("\\", "\\\\");
-		        String prompt = "Could you please give me a very short description of the following condition: " + singleLineText;
-		        System.out.println("Send to GPT: Could you please give me a very short description of the following condition: " + singleLineText);
-		        // Initialize the GPTAccess class
-		        GPTAccess gptAccess = new GPTAccess();
-
-		        // Execute the call to getResponse in a transactional domain context
-		        TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(bo);
-		        domain.getCommandStack().execute(new RecordingCommand(domain) {
-		            @Override
-		            protected void doExecute() {
-		                try {
-		                    // Call getResponse and retrieve the output
-		                    String response = gptAccess.getResponse(prompt);
-
-			                // Regex to find the "content" value
-		                    Pattern pattern = Pattern.compile("\"content\":\\s*\"(.*?)\"");
-		                    Matcher matcher = pattern.matcher(response);
-
-		                 // Extract and print the content
-		                    if (matcher.find()) {
-		                        String content = matcher.group(1); // Group 1 contains the matched content value
-		                        aiText.setText(content);
-		                    }
-		                    System.out.println("Response from GPT: " + response);
-
-		                    // Here you can integrate the response into the application if needed
-		                    // For example, displaying it in a UI element or saving it
-		                } catch (Exception ex) {
-		                    // Handle exceptions, such as API call failures
-		                    ex.printStackTrace();
-		                }
-		            }
-		        });
+		aiText.setEditable(true);
+		
+		// Button Click Listener
+		generateButton.addListener(SWT.Selection, event -> sendGPTRequest(codeText.getText(), false));
+		// a listener to detect follow-up questions in aiText
+		aiText.addListener(SWT.KeyDown, event -> {
+		    if (event.keyCode == SWT.CR || event.keyCode == SWT.KEYPAD_CR) { // **Enter key pressed**
+		        sendGPTRequest(aiText.getText(), true); // **Trigger follow-up request**
 		    }
 		});
 	}
+	/**
+     * @param inputText The user's input (either from codeText or aiText)
+     * @param isFollowUp Whether this is a follow-up question
+     */
+    private void sendGPTRequest(String inputText, boolean isFollowUp) {
+        String prompt;
+        
+        if (isFollowUp) { // If this is a follow-up question
+            prompt = "Follow-up question based on the previous AI response: " + lastAiResponse + 
+                     "\nUser question: " + inputText + 
+                     "\nAnswer concisely.";
+        } else { // First-time request
+            prompt = "Could you please give me a very short description of the following condition: " + inputText;
+        }
+
+        GPTAccess gptAccess = new GPTAccess();
+        TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(bo);
+
+        domain.getCommandStack().execute(new RecordingCommand(domain) {
+            @Override
+            protected void doExecute() {
+                try {
+                    String response = gptAccess.getResponse(prompt);
+
+                    // Extract the AI response
+                    Pattern pattern = Pattern.compile("\"content\":\\s*\"(.*?)\"");
+                    Matcher matcher = pattern.matcher(response);
+                    if (matcher.find()) {
+                        lastAiResponse = matcher.group(1).replace("\\n", " "); // Store last AI response
+                        aiText.setText(lastAiResponse);
+                    }
+                    System.out.println("Response from GPT: " + lastAiResponse);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    aiText.setText("Error communicating with GPT.");
+                }
+            }
+        });
+    }
 	@Override
 	public void refresh() {
 		CbCDiagramTypeProvider test = new CbCDiagramTypeProvider();
