@@ -82,6 +82,7 @@ public class CounterExampleProcessor {
             String content = matcher.group(1); // Group 1 contains the matched content value
             content = content.replace("\\n", " "); // Replace all whitespace sequences with a single space
             System.out.println("\u001B[34mResponse from GPT: " + content + "\u001B[0m"); //Output in Blue font
+            response = "\u001B[34mResponse from GPT: " + content + "\u001B[0m";
         }
         return response;
     }
@@ -99,13 +100,7 @@ public class CounterExampleProcessor {
                                        .replaceAll("\\]", "")
                                        .replaceAll("\\[", "");
 
-        // Summarize and clean up specific constructs
-       /*counterExample = counterExample.replaceAll("Bool .*?= \\(.*?\\)", "Logical relationships are present.")
-                                       .replaceAll("seq(GetOutside|Empty) = binary \\d+", "Sequence-related variables are zero.")
-                                       .replaceAll("null = binary 000", "") // Remove redundant variables
-                                       .replaceAll("Bool elementOf = false", "Some variables are not part of the set.");
-
-        */// Replace excessive spaces and trim the result
+        // Replace excessive spaces and trim the result
         return counterExample.replaceAll("\\s+", " ").trim();
     }
 

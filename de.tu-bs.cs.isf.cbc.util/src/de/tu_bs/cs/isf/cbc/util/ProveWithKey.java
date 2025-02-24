@@ -723,31 +723,24 @@ public class ProveWithKey {
 				predicatesForKeY);
 		if (proof != null) {
 			boolean closed = proof.openGoals().isEmpty();
-			System.out.println("0");
 			if (!closed) {
 				System.out.println("  Proof could not be closed.");
-				System.out.println("1");
 				CounterExampleGenerator generator = new CounterExampleGenerator();
 				if (Settings.canRead()) {
 					Settings settings = Settings.get();
 					if (settings.getCounterExamples()) {
 						// Generate the counterexample and retrieve it as a string
-						System.out.println("2");
 	                    String rawCounterExample = generator.calculateExample(proof);
 	                    if (rawCounterExample != null) {
 	                        // Check if AI Translated Counterexamples are enabled
-	                    	System.out.println("3");
 	                        if (settings.isAiTranslatedCounterExamplesEnabled()) {
-	                        	System.out.println("4");
 	                        	// Make rawCounterExample possible to process
 	                        	String singleLineCounterExample = rawCounterExample.replaceAll("\\s+", " ").trim();
 	            		        singleLineCounterExample = singleLineCounterExample.replace("\\", "\\\\");
 	                            // Process the counterexample with the CounterExampleProcessor
 	                            CounterExampleProcessor processor = new CounterExampleProcessor();
-	                            
-	                            // Translate the counterexample
-	                            System.out.println("Counterexample Raw: " + rawCounterExample);
 	                            String translatedCounterExample = processor.generateCounterExample(rawCounterExample, vars);
+	                            Console.println(translatedCounterExample);
 	                        } else {
 	                            // Display the raw counterexample if AI translation is disabled
 	                        	System.out.println("Counterexample: " + rawCounterExample);

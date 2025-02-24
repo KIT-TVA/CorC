@@ -58,8 +58,10 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 	private Label aiLabel;
 	
 	private Button generateButton;
+	private Button responseButton;
 	
 	private String lastAiResponse = ""; // Store the last AI response
+	private String lastCodeText = ""; // Tracks last code input
 
 
 	@Override
@@ -112,19 +114,41 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 		GridData aiTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		aiTextGridData.horizontalSpan = 2; // Span across both columns
 		aiTextGridData.widthHint = 800;
+		aiTextGridData.heightHint = 100;
 		aiText.setText("GPTs response.");
 		aiText.setLayoutData(aiTextGridData);
 		aiText.setBackground(white);
 		aiText.setEditable(true);
 		
+		// New Response Button (Follow-up)
+        responseButton = new Button(composite, SWT.PUSH);
+        responseButton.setText("Answer"); // Button name
+        responseButton.setEnabled(true);
+        GridData responseButtonGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+        responseButtonGridData.horizontalSpan = 2;
+        responseButton.setLayoutData(responseButtonGridData);
+		
 		// Button Click Listener
 		generateButton.addListener(SWT.Selection, event -> sendGPTRequest(codeText.getText(), false));
-		// a listener to detect follow-up questions in aiText
-		aiText.addListener(SWT.KeyDown, event -> {
-		    if (event.keyCode == SWT.CR || event.keyCode == SWT.KEYPAD_CR) { // **Enter key pressed**
-		        sendGPTRequest(aiText.getText(), true); // **Trigger follow-up request**
-		    }
-		});
+		
+		// Generate Button Action (Only processes new code)
+        generateButton.addListener(SWT.Selection, event -> {
+            String currentCodeText = codeText.getText().trim();
+            if (!currentCodeText.equals(lastCodeText)) { // Prevent duplicate processing
+                lastCodeText = currentCodeText;
+                sendGPTRequest(currentCodeText, false);
+            }
+        });
+		
+		// Response Button Action (New)
+        responseButton.addListener(SWT.Selection, event -> sendGPTRequest(aiText.getText(), true));
+        
+        // AI Text Enter Key Listener for Follow-ups
+        aiText.addListener(SWT.KeyDown, event -> {
+            if (event.keyCode == SWT.CR || event.keyCode == SWT.KEYPAD_CR) { 
+                sendGPTRequest(aiText.getText(), true); // Follow-up request
+            }
+        });
 	}
 	/**
      * @param inputText The user's input (either from codeText or aiText)
@@ -138,7 +162,7 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
                      "\nUser question: " + inputText + 
                      "\nAnswer concisely.";
         } else { // First-time request
-            prompt = "Could you please give me a very short description of the following condition: " + inputText;
+            prompt = "In one sentence explain the following formal specification:" + inputText;
         }
 
         GPTAccess gptAccess = new GPTAccess();
@@ -148,7 +172,19 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
             @Override
             protected void doExecute() {
                 try {
-                    String response = gptAccess.getResponse(prompt);
+                	String safePrompt = prompt
+                	        .replace("\\", "\\\\")  // Escape backslashes
+                	        .replace("\"", "\\\"")  // Escape double quotes
+                	        .replace("\n", "\\n")   // Escape new lines properly
+                	        .replace("\r", "")      // Remove carriage returns (if any)
+                	        .replace("\t", " ")     // Replace tabs with a space
+                	        .replace("≤", "<=")     // Normalize mathematical symbols
+                	        .replace("≥", ">=")     // Normalize mathematical symbols
+                	        .replace("→", "->")     // Normalize logical arrows
+                	        .replace("∀", "\\forall") // Preserve universal quantifier
+                	        .replace("∃", "\\exists"); // Preserve existential quantifier
+
+                    String response = gptAccess.getResponse(safePrompt);
 
                     // Extract the AI response
                     Pattern pattern = Pattern.compile("\"content\":\\s*\"(.*?)\"");
