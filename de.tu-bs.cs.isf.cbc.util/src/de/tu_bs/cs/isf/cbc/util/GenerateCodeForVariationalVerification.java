@@ -64,7 +64,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 	}
 	
 	 public boolean generateWithRestriction(IPath location, String callingFeature, String callingClass, String callingMethod,
-	    String[] config, String nonResolvedFeature) {
+	    List<String> config, String nonResolvedFeature) {
     	
     	this.nonResolvedFeature = nonResolvedFeature;
     	return generate(location, callingFeature, callingClass, callingMethod, config); 

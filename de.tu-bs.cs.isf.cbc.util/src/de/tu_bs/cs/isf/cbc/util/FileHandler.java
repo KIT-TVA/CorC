@@ -302,14 +302,19 @@ public class FileHandler {
 	public boolean isSPL(final URI uri) {
 		final var project = FileUtil.getProject(uri);
 		try {
-			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
-				if (uri.path().contains(MetaNames.FOLDER_NAME)) {
-					return false;
-				}
-				return true;
-			} else {
+			if (project == null) {
 				return false;
 			}
+			
+			if (project.getNature("de.ovgu.featureide.core.featureProjectNature") == null) {
+				return false;
+			}
+			
+			if (uri.path().contains(MetaNames.FOLDER_NAME)) {
+				return false;
+			}
+			
+			return true;
 		} catch (CoreException | NullPointerException e) {
 			e.printStackTrace();
 			return false;

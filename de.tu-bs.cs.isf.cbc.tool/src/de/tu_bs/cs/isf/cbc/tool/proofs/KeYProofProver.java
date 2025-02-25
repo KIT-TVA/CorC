@@ -1,7 +1,6 @@
 package de.tu_bs.cs.isf.cbc.tool.proofs;
 
-import java.util.List;
-import java.util.Set;
+import de.tu_bs.cs.isf.cbc.util.FileHandler;
 
 public final class KeYProofProver {
 
@@ -14,8 +13,7 @@ public final class KeYProofProver {
 	}
 
 	public boolean prove() {
-		final Set<List<String>> featureConfigurations = this.proofStrategy.generateFeatureConfigurations(keyProof);
-		if (featureConfigurations.isEmpty()) {
+		if (!FileHandler.instance.isSPL(this.keyProof.getDiagram().eResource().getURI())) {
 			return this.proofStrategy.proveWithoutVariation(keyProof);
 		} else {
 			return this.proofStrategy.generateFeatureConfigurations(keyProof)
@@ -26,5 +24,4 @@ public final class KeYProofProver {
 
 		}
 	}
-
 }
