@@ -14,6 +14,9 @@ public abstract class ModifiablesConverter {
 
     public String getModifiables(AbstractStatement statement) {
 	String modifiables = "";
+	if (statement.getPostCondition() == null) {
+	    return modifiables;
+	}
 	if (statement.getPostCondition().getModifiables() == null) {
 	    return modifiables;
 	}
