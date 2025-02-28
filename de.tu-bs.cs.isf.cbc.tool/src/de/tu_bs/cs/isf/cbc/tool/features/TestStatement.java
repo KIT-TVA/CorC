@@ -61,6 +61,7 @@ import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.InputData;
 import de.tu_bs.cs.isf.cbc.util.JavaCondition;
 import de.tu_bs.cs.isf.cbc.util.MethodHandler;
+import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.TestUtilSPL;
 import de.tu_bs.cs.isf.cbc.util.Token;
 import de.tu_bs.cs.isf.cbc.util.TokenType;
@@ -116,69 +117,6 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	    }
 	}
 	return ret;
-    }
-
-    public boolean testStatement(Diagram diagram, AbstractStatement statement) {
-	final URI uri;
-	boolean returnStatement;
-
-	returnStatement = statement instanceof ReturnStatement;
-	DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
-	JavaVariables vars = extractor.getVars();
-	GlobalConditions conds = extractor.getConds();
-	CbCFormula formula = extractor.getFormula();
-	uri = diagram.eResource().getURI();
-	this.projectPath = uri;
-	DataCollector dataCollector;
-	try {
-	    dataCollector = new DataCollector(projectPath, DataType.PATH, diagram.getName());
-	} catch (DiagnosticsException e) {
-	    e.printStackTrace();
-	    return false;
-	}
-	FileHandler.instance.clearLog(this.projectPath);
-	Features features = null;
-	if (FileHandler.instance.isSPL(uri)) {
-	    try {
-		features = new Features(uri);
-	    } catch (FeatureCallerException e) {
-		e.printStackTrace();
-		return false;
-	    }
-	} else {
-	    features = null;
-	}
-	if (features != null) {
-	    Console.println("[SPL detected]", Colors.BLUE);
-	    for (int i = 0; i < features.getSize(); i++) {
-		features.getNextConfig();
-		Console.println(" > Configuration: [" + features.getConfigRep() + "]", Colors.BLUE);
-		float pathTime;
-		try {
-		    pathTime = testPath(statement, vars, conds, formula, returnStatement, features);
-		} catch (SettingsException e) {
-		    e.printStackTrace();
-		    return false;
-		}
-		if (pathTime == -1) {
-		    continue;
-		}
-		dataCollector.addData(features.getCurConfigName(), getStatementPath(statement), pathTime);
-		// save configuration in a separate file
-		FileHandler.instance.saveConfig(uri, formula, features, false);
-	    }
-	} else {
-	    float pathTime;
-	    try {
-		pathTime = testPath(statement, vars, conds, formula, returnStatement, features);
-	    } catch (SettingsException e) {
-		e.printStackTrace();
-		return false;
-	    }
-	    dataCollector.addData(getStatementPath(statement), pathTime);
-	}
-	dataCollector.finish();
-	return true;
     }
 
     @Override
@@ -567,12 +505,31 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	var pluginFile = new File(pathOfPlugins);
 	var highestVersion = findLatestTestNGversion(pluginFile);
 
+	// add existing src code to dependencies
+	addExistingDependencies(dependencies, generator);
+
 	// compile dependencies
 	var options = Arrays.asList("-cp", pathOfPlugins + "/" + highestVersion);
 	if (dependencies.size() > 0 && !generator.compileFileContents(dependencies, methodName, options)) {
 	    return false;
 	}
 	return true;
+    }
+
+    private void addExistingDependencies(final List<String> dependencies, TestAndAssertionGenerator generator) {
+	for (var fileName : generator.getSrcFiles()) {
+	    boolean contained = false;
+	    for (int i = 0; i < dependencies.size(); ++i) {
+		if (ClassHandler.getClassNameFromCode(dependencies.get(i)).equals(fileName)) {
+		    contained = true;
+		    break;
+		}
+	    }
+	    if (contained)
+		continue;
+	    var code = ClassHandler.classExists(projectPath, fileName);
+	    dependencies.add(code);
+	}
     }
 
     private String findLatestTestNGversion(File pluginFile) throws TestStatementException {
@@ -688,7 +645,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 
 	while (cur != null) {
 	    if (cur instanceof CompositionStatement) {
-		containers.push("composition");
+		containers.push(((CompositionStatement) cur).getName());
 	    } else if (cur instanceof MethodStatement) {
 		containers.push(((MethodStatement) cur).getName());
 	    } else if (cur instanceof ReturnStatement) {
@@ -698,7 +655,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	    } else if (cur instanceof SkipStatement) {
 		containers.push(((SkipStatement) cur).getName());
 	    } else if (cur instanceof SmallRepetitionStatement) {
-		containers.push("repetition");
+		containers.push(((SmallRepetitionStatement) cur).getName());
 	    } else if (cur instanceof StrengthWeakStatement) {
 		containers.push(((StrengthWeakStatement) cur).getName());
 	    } else if (cur instanceof OriginalStatement) {
@@ -836,6 +793,37 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	}
     }
 
+    private void resolveOriginals(String code, final Features features, List<MethodHandler> originalMethods,
+	    List<MethodHandler> abstractMethods, final CbCFormula formula, final JavaVariables vars,
+	    final JavaVariable returnVar)
+	    throws TestAndAssertionGeneratorException, SettingsException, ReferenceException {
+	if (FileHandler.instance.isSPL(projectPath)) {
+	    if (code.contains("original")) {
+		TestUtilSPL.getInstance().handleOriginalCode(fp, projectPath, code, features, originalMethods,
+			formula.getMethodObj().getSignature(), vars, returnVar);
+		code = code.replaceAll("original\\(", originalMethods.get(0).getMethodName() + "(");
+	    }
+	    TestUtilSPL.getInstance().handleAbstractMethodCalls(fp, projectPath, code, features, abstractMethods);
+	    for (var originalMethod : originalMethods) {
+		TestUtilSPL.getInstance().handleAbstractMethodCalls(fp, projectPath, originalMethod.getInnerCode(),
+			features, abstractMethods);
+	    }
+	}
+    }
+
+    private void resolveDepOriginals(List<ClassHandler> dependencies, final Features features, final CbCFormula formula,
+	    final JavaVariables vars, final JavaVariable returnVar)
+	    throws TestAndAssertionGeneratorException, SettingsException, ReferenceException {
+	var originalMethods = new ArrayList<MethodHandler>();
+	var abstractMethods = new ArrayList<MethodHandler>();
+	for (var clazz : dependencies) {
+	    for (var method : clazz.getAllMethods()) {
+		// TODO
+	    }
+	    originalMethods.clear();
+	}
+    }
+
     public boolean testStatement(final AbstractStatement statement, final JavaVariables vars,
 	    final GlobalConditions conds, final CbCFormula formula, boolean isReturnStatement, final Features features)
 	    throws TestAndAssertionGeneratorException, TestStatementException, ReferenceException,
@@ -866,22 +854,8 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	}
 	final var originalMethods = new ArrayList<MethodHandler>();
 	final var abstractMethods = new ArrayList<MethodHandler>();
-	if (FileHandler.instance.isSPL(projectPath)) {
-	    if (code.contains("original") || statementName.contains("original")) {
-		var testsdfjj = formula;
-		TestUtilSPL.getInstance().handleOriginalCode(fp, projectPath,
-			code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, originalMethods,
-			formula.getMethodObj().getSignature(), vars);
-		code = code.replaceAll("original\\(", originalMethods.get(0).getMethodName() + "(");
-	    }
-	    // TODO: ignore methods that are not abstract
-	    TestUtilSPL.getInstance().handleAbstractMethodCalls(fp, projectPath,
-		    code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), features, abstractMethods);
-	    for (var originalMethod : originalMethods) {
-		TestUtilSPL.getInstance().handleAbstractMethodCalls(fp, projectPath, originalMethod.getInnerCode(),
-			features, abstractMethods);
-	    }
-	}
+	var codeWithStatement = code.replaceAll(Pattern.quote(STATEMENT_PH), statementName);
+	resolveOriginals(codeWithStatement, features, originalMethods, abstractMethods, formula, vars, returnVar);
 	// now add pre conditions of selection as assertions
 	// get all vars used in the code
 	final List<Variable> usedVars = getUsedVars(code.replaceAll(Pattern.quote(STATEMENT_PH), statementName), vars);
@@ -935,6 +909,8 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 	// codeWoHelper = codeWoHelper.substring(0, codeWoHelper.length() - 1) +
 	var dependencies = generator.genAllDependenciesOfMethod(codeWoHelper, null, className,
 		statement.getPostCondition().getName());
+	// replace original calls in dependencies
+	resolveDepOriginals(dependencies, features, formula, vars, returnVar);
 	// insert an executed tag so that we can determine if the statement was executed
 	code = insertExecutedTag(code);
 	// code = insertAssertions(code, preJavaCondition);

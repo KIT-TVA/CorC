@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="isExecutiveFloorCalling" className="Elevator" methodName="isExecutiveFloorCalling">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+        <firstStatement name="statement1">
+          <refinement name="result = false;">
+            <postCondition name="intermediateCond"/>
+            <preCondition name=" this.env != null &amp; this.env.floors != null &amp; this.executiveFloor >= 0 &amp; this.env != null &amp; this.env.floors != null"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name=" this.env != null &amp; this.env.floors != null &amp; this.executiveFloor >= 0 &amp; this.env != null &amp; this.env.floors != null"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+            <firstStatement name="statement1">
+              <refinement name="index = 0;">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                <firstStatement name="statement1">
+                  <refinement name="tmpFloor = null;">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="intermediateCond"/>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="intermediateCond"/>
+                </firstStatement>
+                <secondStatement name="statement2">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                    <firstStatement name="statement1">
+                      <refinement name="index = 0;">
+                        <postCondition name="intermediateCond"/>
+                        <preCondition name="intermediateCond"/>
+                      </refinement>
+                      <postCondition name="intermediateCond"/>
+                      <preCondition name="intermediateCond"/>
+                    </firstStatement>
+                    <secondStatement name="statement2">
+                      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                        <firstStatement name="statement1">
+                          <refinement name="result = false;">
+                            <postCondition name="intermediateCond"/>
+                            <preCondition name="intermediateCond"/>
+                          </refinement>
+                          <postCondition name="intermediateCond"/>
+                          <preCondition name="intermediateCond"/>
+                        </firstStatement>
+                        <secondStatement name="statement2">
+                          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                            <firstStatement name="statement1">
+                              <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement">
+                                <postCondition name="intermediateCond"/>
+                                <preCondition name="intermediateCond"/>
+                                <loopStatement name="loop">
+                                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                                    <firstStatement name="statement1">
+                                      <refinement name="tmpFloor = this.env.getFloor(index);">
+                                        <postCondition name="intermediateCond"/>
+                                        <preCondition name="(index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))) &amp; (index &lt; this.env.getFloors().length)"/>
+                                      </refinement>
+                                      <postCondition name="intermediateCond"/>
+                                      <preCondition name="(index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))) &amp; (index &lt; this.env.getFloors().length)"/>
+                                    </firstStatement>
+                                    <secondStatement name="statement2">
+                                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
+                                        <guards name="tmpFloor.getFloorID() == this.executiveFloor&amp;&amp;tmpFloor.hasCall() == true"/>
+                                        <guards name="!(tmpFloor.getFloorID() == this.executiveFloor&amp;&amp;tmpFloor.hasCall() == true)"/>
+                                        <commands name="statement1">
+                                          <refinement name="result = true;">
+                                            <postCondition name="index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))"/>
+                                            <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (tmpFloor.getFloorID() == this.executiveFloor&amp;&amp;tmpFloor.hasCall() == true)"/>
+                                          </refinement>
+                                          <postCondition name="index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))"/>
+                                          <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (tmpFloor.getFloorID() == this.executiveFloor&amp;&amp;tmpFloor.hasCall() == true)"/>
+                                        </commands>
+                                        <commands name="statement">
+                                          <refinement xsi:type="cbcmodel:SkipStatement" name=";">
+                                            <postCondition name="index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))"/>
+                                            <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (!(tmpFloor.getFloorID() == this.executiveFloor&amp;&amp;tmpFloor.hasCall() == true))"/>
+                                          </refinement>
+                                          <postCondition name="index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))"/>
+                                          <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (!(tmpFloor.getFloorID() == this.executiveFloor&amp;&amp;tmpFloor.hasCall() == true))"/>
+                                        </commands>
+                                      </refinement>
+                                      <postCondition name="index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))"/>
+                                      <preCondition name="intermediateCond"/>
+                                    </secondStatement>
+                                    <intermediateCondition name="intermediateCond"/>
+                                  </refinement>
+                                  <postCondition name="index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))"/>
+                                  <preCondition name="(index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))) &amp; (index &lt; this.env.getFloors().length)"/>
+                                </loopStatement>
+                                <variant name="nvariant index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k"/>
+                                <invariant name="index >= 0 &amp; this.env.floors != null &amp; tmpFloor != null&amp; tmpFloor != null&amp; (\exists int k;(((k>=0 &amp; k&lt;index &#x9;&#x9;&amp; this.env.getFloor(k).thisFloorID = this.executiveFloor &#x9;&#x9;&amp; this.env.getFloor(k).elevatorCall = true) -> result = true)))"/>
+                                <guard name="index &lt; this.env.getFloors().length"/>
+                              </refinement>
+                              <postCondition name="intermediateCond"/>
+                              <preCondition name="intermediateCond"/>
+                            </firstStatement>
+                            <secondStatement name="statement2">
+                              <refinement xsi:type="cbcmodel:ReturnStatement" name="result = result;">
+                                <postCondition name=" this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].thisFloorID = this.executiveFloor &amp; this.env.floors[k].elevatorCall = true)))"/>
+                                <preCondition name="intermediateCond"/>
+                              </refinement>
+                              <postCondition name=" this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].thisFloorID = this.executiveFloor &amp; this.env.floors[k].elevatorCall = true)))"/>
+                              <preCondition name="intermediateCond"/>
+                            </secondStatement>
+                            <intermediateCondition name="intermediateCond"/>
+                          </refinement>
+                          <postCondition name=" this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].thisFloorID = this.executiveFloor &amp; this.env.floors[k].elevatorCall = true)))"/>
+                          <preCondition name="intermediateCond"/>
+                        </secondStatement>
+                        <intermediateCondition name="intermediateCond"/>
+                      </refinement>
+                      <postCondition name=" this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].thisFloorID = this.executiveFloor &amp; this.env.floors[k].elevatorCall = true)))"/>
+                      <preCondition name="intermediateCond"/>
+                    </secondStatement>
+                    <intermediateCondition name="intermediateCond"/>
+                  </refinement>
+                  <postCondition name=" this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].thisFloorID = this.executiveFloor &amp; this.env.floors[k].elevatorCall = true)))"/>
+                  <preCondition name="intermediateCond"/>
+                </secondStatement>
+                <intermediateCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name=" this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].thisFloorID = this.executiveFloor &amp; this.env.floors[k].elevatorCall = true)))"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name=" this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].thisFloorID = this.executiveFloor &amp; this.env.floors[k].elevatorCall = true)))"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name=" this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].thisFloorID = this.executiveFloor &amp; this.env.floors[k].elevatorCall = true)))"/>
+      <preCondition name=" this.env != null &amp; this.env.floors != null &amp; this.executiveFloor >= 0 &amp; this.env != null &amp; this.env.floors != null"/>
+    </statement>
+    <preCondition name=" this.env != null &amp; this.env.floors != null &amp; this.executiveFloor >= 0 &amp; this.env != null &amp; this.env.floors != null"/>
+    <postCondition name=" this.env != null &amp; this.env.floors != null &amp; result = true -> (\exists int k;((k>=0 &amp; k&lt;this.env.floors.length &amp; this.env.floors[k].thisFloorID = this.executiveFloor &amp; this.env.floors[k].elevatorCall = true)))"/>
+    <methodObj href="Elevator.cbcclass#//@methods.12"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="boolean result" kind="RETURN"/>
+    <variables name="boolean result"/>
+    <variables name="int index"/>
+    <variables name="Floor tmpFloor"/>
+    <fields href="Elevator.cbcclass#//@fields.0"/>
+    <fields href="Elevator.cbcclass#//@fields.1"/>
+    <fields href="Elevator.cbcclass#//@fields.2"/>
+    <fields href="Elevator.cbcclass#//@fields.3"/>
+    <fields href="Elevator.cbcclass#//@fields.4"/>
+    <fields href="Elevator.cbcclass#//@fields.5"/>
+    <fields href="Elevator.cbcclass#//@fields.6"/>
+    <fields href="Elevator.cbcclass#//@fields.7"/>
+    <fields href="Elevator.cbcclass#//@fields.8"/>
+    <fields href="Elevator.cbcclass#//@fields.9"/>
+    <fields href="Elevator.cbcclass#//@fields.10"/>
+    <fields href="Elevator.cbcclass#//@fields.11"/>
+    <fields href="Elevator.cbcclass#//@fields.12"/>
+    <fields href="Elevator.cbcclass#//@fields.13"/>
+    <fields href="Elevator.cbcclass#//@fields.14"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>

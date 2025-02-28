@@ -311,6 +311,6 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 			localVariables.add(returnVariable.getName().replace("non-null", ""));
 		}
 		globalConditions = null;
-		return ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString);
+		return ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString, new String[0]);
 	}
 }

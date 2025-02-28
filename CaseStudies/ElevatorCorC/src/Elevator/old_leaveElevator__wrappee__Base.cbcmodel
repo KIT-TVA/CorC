@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="old_leaveElevator__wrappee__Base" className="Elevator" methodName="old_leaveElevator__wrappee__Base">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+        <firstStatement name="statement1">
+          <refinement name="result = false;">
+            <postCondition name="intermediateCond"/>
+            <preCondition name=" p != null &amp; this.persons != null &amp; this.persons.elements != null&amp; this.floorButtons != null&amp; p.getWeight() >= 0 &amp; p != null &amp; this.floorButtons != null &amp; this.persons != null &amp; p != null&amp; this.persons != null&amp; this.persons.elements != null &amp; p != null &amp; p.destinationReached = false"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name=" p != null &amp; this.persons != null &amp; this.persons.elements != null&amp; this.floorButtons != null&amp; p.getWeight() >= 0 &amp; p != null &amp; this.floorButtons != null &amp; this.persons != null &amp; p != null&amp; this.persons != null&amp; this.persons.elements != null &amp; p != null &amp; p.destinationReached = false"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+            <firstStatement name="statement1">
+              <refinement name="result = false;">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                <firstStatement name="statement1">
+                  <refinement name="this.old_contains = this.persons.contains(p);">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="intermediateCond"/>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="intermediateCond"/>
+                </firstStatement>
+                <secondStatement name="statement2">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                    <firstStatement name="statement1">
+                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
+                        <guards name="this.old_contains == true"/>
+                        <guards name="this.old_contains == false"/>
+                        <commands name="statement1">
+                          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                            <firstStatement name="statement1">
+                              <refinement name="this.persons.remove(p);">
+                                <postCondition name="intermediateCond"/>
+                                <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (this.old_contains == true)"/>
+                              </refinement>
+                              <postCondition name="intermediateCond"/>
+                              <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (this.old_contains == true)"/>
+                            </firstStatement>
+                            <secondStatement name="statement2">
+                              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+                                <firstStatement name="statement1">
+                                  <refinement name="p.leaveElevator();">
+                                    <postCondition name="intermediateCond"/>
+                                    <preCondition name="intermediateCond"/>
+                                  </refinement>
+                                  <postCondition name="intermediateCond"/>
+                                  <preCondition name="intermediateCond"/>
+                                </firstStatement>
+                                <secondStatement name="statement2">
+                                  <refinement name="result = true;">
+                                    <postCondition name="intermediateCond"/>
+                                    <preCondition name="intermediateCond"/>
+                                  </refinement>
+                                  <postCondition name="intermediateCond"/>
+                                  <preCondition name="intermediateCond"/>
+                                </secondStatement>
+                                <intermediateCondition name="intermediateCond"/>
+                              </refinement>
+                              <postCondition name="intermediateCond"/>
+                              <preCondition name="intermediateCond"/>
+                            </secondStatement>
+                            <intermediateCondition name="intermediateCond"/>
+                          </refinement>
+                          <postCondition name="intermediateCond"/>
+                          <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (this.old_contains == true)"/>
+                        </commands>
+                        <commands name="statement">
+                          <refinement name="result = false;">
+                            <postCondition name="intermediateCond"/>
+                            <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (this.old_contains == false)"/>
+                          </refinement>
+                          <postCondition name="intermediateCond"/>
+                          <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (this.old_contains == false)"/>
+                        </commands>
+                      </refinement>
+                      <postCondition name="intermediateCond"/>
+                      <preCondition name="intermediateCond"/>
+                    </firstStatement>
+                    <secondStatement name="statement2">
+                      <refinement xsi:type="cbcmodel:ReturnStatement" name="result = result;">
+                        <postCondition name=" (this.old_contains = true ->&#x9;(result = true &amp; p.isDestinationReached() = true&#x9;&amp; this.persons.contains(p) = false&#x9;&amp; this.weight = this.old_weight - p.getWeight()))&amp; this.old_contains = false -> result = false&amp; (this.old_contains = true &amp; this.persons.isEmpty() = true) -> (\forall int k;(((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = false))) &amp; (this.old_contains = true -> (result = true &amp; p.isDestinationReached() = true &amp; this.persons.contains(p) = false))&amp; this.old_contains = false -> result = false"/>
+                        <preCondition name="intermediateCond"/>
+                      </refinement>
+                      <postCondition name=" (this.old_contains = true ->&#x9;(result = true &amp; p.isDestinationReached() = true&#x9;&amp; this.persons.contains(p) = false&#x9;&amp; this.weight = this.old_weight - p.getWeight()))&amp; this.old_contains = false -> result = false&amp; (this.old_contains = true &amp; this.persons.isEmpty() = true) -> (\forall int k;(((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = false))) &amp; (this.old_contains = true -> (result = true &amp; p.isDestinationReached() = true &amp; this.persons.contains(p) = false))&amp; this.old_contains = false -> result = false"/>
+                      <preCondition name="intermediateCond"/>
+                    </secondStatement>
+                    <intermediateCondition name="intermediateCond"/>
+                  </refinement>
+                  <postCondition name=" (this.old_contains = true ->&#x9;(result = true &amp; p.isDestinationReached() = true&#x9;&amp; this.persons.contains(p) = false&#x9;&amp; this.weight = this.old_weight - p.getWeight()))&amp; this.old_contains = false -> result = false&amp; (this.old_contains = true &amp; this.persons.isEmpty() = true) -> (\forall int k;(((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = false))) &amp; (this.old_contains = true -> (result = true &amp; p.isDestinationReached() = true &amp; this.persons.contains(p) = false))&amp; this.old_contains = false -> result = false"/>
+                  <preCondition name="intermediateCond"/>
+                </secondStatement>
+                <intermediateCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name=" (this.old_contains = true ->&#x9;(result = true &amp; p.isDestinationReached() = true&#x9;&amp; this.persons.contains(p) = false&#x9;&amp; this.weight = this.old_weight - p.getWeight()))&amp; this.old_contains = false -> result = false&amp; (this.old_contains = true &amp; this.persons.isEmpty() = true) -> (\forall int k;(((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = false))) &amp; (this.old_contains = true -> (result = true &amp; p.isDestinationReached() = true &amp; this.persons.contains(p) = false))&amp; this.old_contains = false -> result = false"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name=" (this.old_contains = true ->&#x9;(result = true &amp; p.isDestinationReached() = true&#x9;&amp; this.persons.contains(p) = false&#x9;&amp; this.weight = this.old_weight - p.getWeight()))&amp; this.old_contains = false -> result = false&amp; (this.old_contains = true &amp; this.persons.isEmpty() = true) -> (\forall int k;(((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = false))) &amp; (this.old_contains = true -> (result = true &amp; p.isDestinationReached() = true &amp; this.persons.contains(p) = false))&amp; this.old_contains = false -> result = false"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name=" (this.old_contains = true ->&#x9;(result = true &amp; p.isDestinationReached() = true&#x9;&amp; this.persons.contains(p) = false&#x9;&amp; this.weight = this.old_weight - p.getWeight()))&amp; this.old_contains = false -> result = false&amp; (this.old_contains = true &amp; this.persons.isEmpty() = true) -> (\forall int k;(((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = false))) &amp; (this.old_contains = true -> (result = true &amp; p.isDestinationReached() = true &amp; this.persons.contains(p) = false))&amp; this.old_contains = false -> result = false"/>
+      <preCondition name=" p != null &amp; this.persons != null &amp; this.persons.elements != null&amp; this.floorButtons != null&amp; p.getWeight() >= 0 &amp; p != null &amp; this.floorButtons != null &amp; this.persons != null &amp; p != null&amp; this.persons != null&amp; this.persons.elements != null &amp; p != null &amp; p.destinationReached = false"/>
+    </statement>
+    <preCondition name=" p != null &amp; this.persons != null &amp; this.persons.elements != null&amp; this.floorButtons != null&amp; p.getWeight() >= 0 &amp; p != null &amp; this.floorButtons != null &amp; this.persons != null &amp; p != null&amp; this.persons != null&amp; this.persons.elements != null &amp; p != null &amp; p.destinationReached = false"/>
+    <postCondition name=" (this.old_contains = true ->&#x9;(result = true &amp; p.isDestinationReached() = true&#x9;&amp; this.persons.contains(p) = false&#x9;&amp; this.weight = this.old_weight - p.getWeight()))&amp; this.old_contains = false -> result = false&amp; (this.old_contains = true &amp; this.persons.isEmpty() = true) -> (\forall int k;(((k>=0 &amp; k&lt;this.floorButtons.length) -> this.floorButtons[k] = false))) &amp; (this.old_contains = true -> (result = true &amp; p.isDestinationReached() = true &amp; this.persons.contains(p) = false))&amp; this.old_contains = false -> result = false"/>
+    <methodObj href="Elevator.cbcclass#//@methods.13"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="Person p" kind="PARAM"/>
+    <variables name="boolean result" kind="RETURN"/>
+    <variables name="boolean result"/>
+    <fields href="Elevator.cbcclass#//@fields.0"/>
+    <fields href="Elevator.cbcclass#//@fields.1"/>
+    <fields href="Elevator.cbcclass#//@fields.2"/>
+    <fields href="Elevator.cbcclass#//@fields.3"/>
+    <fields href="Elevator.cbcclass#//@fields.4"/>
+    <fields href="Elevator.cbcclass#//@fields.5"/>
+    <fields href="Elevator.cbcclass#//@fields.6"/>
+    <fields href="Elevator.cbcclass#//@fields.7"/>
+    <fields href="Elevator.cbcclass#//@fields.8"/>
+    <fields href="Elevator.cbcclass#//@fields.9"/>
+    <fields href="Elevator.cbcclass#//@fields.10"/>
+    <fields href="Elevator.cbcclass#//@fields.11"/>
+    <fields href="Elevator.cbcclass#//@fields.12"/>
+    <fields href="Elevator.cbcclass#//@fields.13"/>
+    <fields href="Elevator.cbcclass#//@fields.14"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>

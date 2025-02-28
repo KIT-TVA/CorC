@@ -75,8 +75,11 @@ public class CorCWizard extends Wizard implements INewWizard {
 					String srcFolderPath = srcFolder.getLocation().toString();
 					File sourceHelper = new File (pluginPath + "/Helper.java");
 			   		File destinationHelper = new File(srcFolderPath + "/Helper.java");	
+			   		File predHelper = new File(pluginPath + "/predicates.def");
+			   		File predDestHelper = new File(project.getLocation() + "/predicates.def");
 			   		try {
 						Files.copy(sourceHelper, destinationHelper);
+						Files.copy(predHelper, predDestHelper);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -110,8 +113,7 @@ public class CorCWizard extends Wizard implements INewWizard {
 			}
        		//refreshes the folder so you don't have to press f5 after the examples where added
 			if (srcFolder.exists() && diagramFolder.exists()) {
-				srcFolder.refreshLocal(1, null);
-				diagramFolder.refreshLocal(1, null);
+				project.refreshLocal(2, null);
 			}
 			return true; //everything worked
 	    } catch (CoreException e) {

@@ -45,79 +45,6 @@ public class Parser {
     }
 
     public static List<String> findAllVariables(AbstractStatement abstractStatement, JavaVariables vars,
-	    String methodModifiables) throws ParserException {
-	String input = abstractStatement.getName().trim();
-	List<String> variableList = new LinkedList<String>();
-	if (input.charAt(input.length() - 1) != ';') {
-	    throw new ParserException("Statement must end with ';'. " + input);
-	}
-	String[] statements = input.split(";");
-
-	for (String nextStatement : statements) {
-	    String variable = "";
-	    if (nextStatement.matches("(\\+\\+)(\\w+)")) {
-		variable = nextStatement.split("\\+\\+")[0];
-	    } else if (nextStatement.matches("(\\-\\-)(\\w+)")) {
-		variable = nextStatement.split("\\-\\-")[0];
-	    } else if (nextStatement.matches("(\\w+)(\\-\\-)")) {
-		variable = nextStatement.split("\\-\\-")[0];
-	    } else if (nextStatement.matches("(\\w+)(\\+\\+)")) {
-		variable = nextStatement.split("\\+\\+")[0];
-	    }
-
-	    if (!variable.isEmpty()) {
-		variableList.add(variable);
-		variable = "";
-	    }
-
-	    if (nextStatement.contains("=")) {
-		String[] nextStatementTokens;
-		if (nextStatement.contains("*="))
-		    nextStatementTokens = nextStatement.split("[*]=");
-		else if (nextStatement.contains("-="))
-		    nextStatementTokens = nextStatement.split("[-]=");
-		else if (nextStatement.contains("+="))
-		    nextStatementTokens = nextStatement.split("[+]=");
-		else if (nextStatement.contains("/="))
-		    nextStatementTokens = nextStatement.split("[/]=");
-		else
-		    nextStatementTokens = nextStatement.split("=");
-		variable = parseVariable(nextStatementTokens[0].trim());
-		variableList.add(variable);
-	    }
-	    if (!nextStatement.contains(".") || !nextStatement.contains("(")) {
-		continue;
-	    }
-	    Pattern methodCallPattern = Pattern.compile("\\w+\\.\\w+\\(");
-	    Matcher matcher = methodCallPattern.matcher(nextStatement);
-	    while (matcher.find()) {
-		String[] nextStatementTokens = matcher.group(0).split("\\.", 2);
-		String variableName = nextStatementTokens[0];
-		String methodName = nextStatementTokens[1].replaceAll("\\(", "");
-		String variableType = getTypeOfVariable(variableName, vars);
-		if (methodModifiables == null || methodModifiables.isEmpty()) {
-		    continue;
-		}
-		for (String var : methodModifiables.split(",")) {
-		    if (nextStatement.trim().startsWith("this.")) {
-			if (!var.equals("\\nothing"))
-			    variableList.add("this." + variableName + "." + var);
-			else
-			    variableList.add("this." + variableName);
-		    } else {
-			if (!var.equals("\\nothing"))
-			    variableList.add(variableName + "." + var);
-			else
-			    variableList.add(variableName);
-		    }
-		}
-	    }
-	}
-	return variableList;
-
-    }
-
-    public static List<String> findAllVariables(AbstractStatement abstractStatement, JavaVariables vars,
 	    IFileUtil fileHandler) throws ParserException {
 	String input = abstractStatement.getName().trim();
 	List<String> variableList = new LinkedList<String>();
@@ -416,6 +343,7 @@ public class Parser {
 		return splittedCondition[1].trim();
 	    }
 	}
+	condition = KeYFunctionReplacer.getInstance().restoreIn(condition);
 	return condition;
     }
 
@@ -487,6 +415,7 @@ public class Parser {
 	condition = condition.replaceAll("(\\w*)::exactInstance\\((\\w*)\\)\\s*=\\s*TRUE", "$2 instanceof $1");
 	condition = condition.replaceAll(".<created>\\s*=\\s*TRUE", " != null");
 	condition = condition.replaceAll(".<created>\\s*=\\s*FALSE", " == null");
+	condition = KeYFunctionReplacer.getInstance().restoreIn(condition);
 	return condition;
     }
 

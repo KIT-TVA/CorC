@@ -26,8 +26,10 @@ Import-Package: com.google.common.io;version="2.2.0",
  org.osgi.framework;version="1.8.0"
 Export-Package: de.tu_bs.cs.isf.corc.exampleWizard,
  de.tu_bs.cs.isf.corc.newFileWizard,
+ de.tu_bs.cs.isf.corc.predicateWizard,
  newDiagramWizard
 Require-Bundle: org.eclipse.emf.common;bundle-version="2.12.0",
  org.eclipse.jface,
  org.eclipse.ui,
- org.eclipse.swt
+ org.eclipse.swt,
+ de.tu-bs.cs.isf.cbc.util

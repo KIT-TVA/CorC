@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="stopRequestedAtCurrentFloor__wrappee__ExecutiveFloor" proven="true" className="Elevator" methodName="stopRequestedAtCurrentFloor__wrappee__ExecutiveFloor">
+    <statement name="statement" proven="true">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+        <firstStatement name="statement1">
+          <refinement name="result = false;" proven="true">
+            <postCondition name="modifiable(result);&#xD;&#xA;result = FALSE"/>
+            <preCondition name=" this.currentFloorID >= 0"/>
+          </refinement>
+          <postCondition name="modifiable(result);&#xD;&#xA;result = FALSE"/>
+          <preCondition name=" this.currentFloorID >= 0"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true">
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" preProve="true">
+                <guards name="this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE"/>
+                <guards name="this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE"/>
+                <commands name="statement">
+                  <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true">
+                    <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+                    <preCondition name="modifiable(result);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE)"/>
+                  </refinement>
+                  <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+                  <preCondition name="modifiable(result);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE)"/>
+                </commands>
+                <commands name="statement">
+                  <refinement name="result = true;" proven="true">
+                    <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+                    <preCondition name="modifiable(result);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE)"/>
+                  </refinement>
+                  <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+                  <preCondition name="modifiable(result);(result = FALSE) &amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE)"/>
+                </commands>
+              </refinement>
+              <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+              <preCondition name="modifiable(result);&#xD;&#xA;result = FALSE"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="result;" proven="true" comment="returnStatement">
+                <postCondition name="modifiable(result); &#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> \result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> \result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+                <preCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+              </refinement>
+              <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> \result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> \result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+              <preCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+            </secondStatement>
+            <intermediateCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+          </refinement>
+          <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> \result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> \result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+          <preCondition name="modifiable(result);&#xD;&#xA;result = FALSE"/>
+        </secondStatement>
+        <intermediateCondition name="modifiable(result);&#xD;&#xA;result = FALSE"/>
+      </refinement>
+      <postCondition name="modifiable(result);&#xD;&#xA;(this.isExecutiveFloorCalling() = TRUE &amp; this.isExecutiveFloor(this.currentFloorID) = FALSE) -> \result = FALSE&#xA;&amp; (this.isExecutiveFloorCalling() = FALSE | this.isExecutiveFloor(this.currentFloorID) = TRUE) -> \result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+      <preCondition name=" this.currentFloorID >= 0"/>
+    </statement>
+    <preCondition name=" this.currentFloorID >= 0"/>
+    <postCondition name=" (this.isExecutiveFloorCalling() = true &amp; this.isExecutiveFloor(this.currentFloorID) = false) -> result = false&#xA;&amp; (this.isExecutiveFloorCalling() = false | this.isExecutiveFloor(this.currentFloorID) = true) -> result = this.stopRequestedAtCurrentFloor__wrappee__Base()"/>
+    <methodObj href="Elevator.cbcclass#//@methods.21"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="boolean result" kind="RETURN"/>
+    <variables name="boolean result"/>
+    <fields href="Elevator.cbcclass#//@fields.0"/>
+    <fields href="Elevator.cbcclass#//@fields.1"/>
+    <fields href="Elevator.cbcclass#//@fields.2"/>
+    <fields href="Elevator.cbcclass#//@fields.3"/>
+    <fields href="Elevator.cbcclass#//@fields.4"/>
+    <fields href="Elevator.cbcclass#//@fields.5"/>
+    <fields href="Elevator.cbcclass#//@fields.6"/>
+    <fields href="Elevator.cbcclass#//@fields.7"/>
+    <fields href="Elevator.cbcclass#//@fields.8"/>
+    <fields href="Elevator.cbcclass#//@fields.9"/>
+    <fields href="Elevator.cbcclass#//@fields.10"/>
+    <fields href="Elevator.cbcclass#//@fields.11"/>
+    <fields href="Elevator.cbcclass#//@fields.12"/>
+    <fields href="Elevator.cbcclass#//@fields.13"/>
+    <fields href="Elevator.cbcclass#//@fields.14"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Elevator" javaClassURI="src\Elevator.java">
+  <fields visibility="PRIVATE" type="boolean[]" name="floorButtons"/>
+  <fields visibility="PRIVATE" type="boolean" name="verbose"/>
+  <fields visibility="PRIVATE" type="int" name="currentHeading"/>
+  <fields visibility="PRIVATE" type="int" name="currentFloorID"/>
+  <fields visibility="PRIVATE" type="int" name="doors"/>
+  <fields visibility="PRIVATE" type="Environment" name="env"/>
+  <fields visibility="PRIVATE" type="ArrayList" name="persons"/>
+  <fields visibility="PRIVATE" type="int" name="weight"/>
+  <fields visibility="PRIVATE" type="boolean" name="blocked"/>
+  <fields visibility="PRIVATE" type="int" name="executiveFloor"/>
+  <fields visibility="PRIVATE" type="boolean" name="old_contains"/>
+  <fields visibility="PRIVATE" type="int" name="old_weight"/>
+  <fields visibility="PRIVATE" type="int" name="old_currentFloorID"/>
+  <fields visibility="PRIVATE" type="int" name="old_collectionSize"/>
+  <fields visibility="PRIVATE" type="int" name="maximumWeight"/>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\areDoorsOpen.cbcmodel" name="areDoorsOpen" returnType="boolean">
+    <cbcStartTriple href="areDoorsOpen.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\buttonForFloorIsPressed.cbcmodel" name="buttonForFloorIsPressed" returnType="boolean">
+    <cbcStartTriple href="buttonForFloorIsPressed.cbcmodel#/0"/>
+    <parameters type="int" name="floorID"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\continueInDirection__wrappee__Base.cbcmodel" name="continueInDirection__wrappee__Base" returnType="void">
+    <cbcStartTriple href="continueInDirection__wrappee__Base.cbcmodel#/0"/>
+    <parameters type="int" name="dir"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\enterElevator__wrappee__Base.cbcmodel" name="enterElevator__wrappee__Base" returnType="void">
+    <cbcStartTriple href="enterElevator__wrappee__Base.cbcmodel#/0"/>
+    <parameters type="Person" name="p"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\enterElevator.cbcmodel" name="enterElevator" returnType="void">
+    <cbcStartTriple href="enterElevator.cbcmodel#/0"/>
+    <parameters type="Person" name="p"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\existInLiftCallsInDirection.cbcmodel" name="existInLiftCallsInDirection" returnType="boolean">
+    <cbcStartTriple href="existInLiftCallsInDirection.cbcmodel#/0"/>
+    <parameters type="int" name="d"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\getCurrentDirection.cbcmodel" name="getCurrentDirection" returnType="int">
+    <cbcStartTriple href="getCurrentDirection.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\getCurrentFloorID.cbcmodel" name="getCurrentFloorID" returnType="int">
+    <cbcStartTriple href="getCurrentFloorID.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\getEnv.cbcmodel" name="getEnv" returnType="Environment">
+    <cbcStartTriple href="getEnv.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\isBlocked.cbcmodel" name="isBlocked" returnType="boolean">
+    <cbcStartTriple href="isBlocked.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\isEmpty.cbcmodel" name="isEmpty" returnType="boolean">
+    <cbcStartTriple href="isEmpty.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\isExecutiveFloor.cbcmodel" name="isExecutiveFloor" returnType="boolean">
+    <cbcStartTriple href="isExecutiveFloor.cbcmodel#/0"/>
+    <parameters type="int" name="floorID"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\isExecutiveFloorCalling.cbcmodel" name="isExecutiveFloorCalling" returnType="boolean">
+    <cbcStartTriple href="isExecutiveFloorCalling.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\old_leaveElevator__wrappee__Base.cbcmodel" name="old_leaveElevator__wrappee__Base" returnType="boolean">
+    <cbcStartTriple href="old_leaveElevator__wrappee__Base.cbcmodel#/0"/>
+    <parameters type="Person" name="p"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\leaveElevator__wrappee__Weight.cbcmodel" name="leaveElevator__wrappee__Weight" returnType="boolean">
+    <cbcStartTriple href="leaveElevator__wrappee__Weight.cbcmodel#/0"/>
+    <parameters type="Person" name="p"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\pressInLiftFloorButton.cbcmodel" name="pressInLiftFloorButton" returnType="void">
+    <cbcStartTriple href="pressInLiftFloorButton.cbcmodel#/0"/>
+    <parameters type="int" name="floorID"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\pressInLiftFloorButton__wrappee__Base.cbcmodel" name="pressInLiftFloorButton__wrappee__Base" returnType="void">
+    <cbcStartTriple href="pressInLiftFloorButton__wrappee__Base.cbcmodel#/0"/>
+    <parameters type="int" name="floorID"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\resetFloorButton.cbcmodel" name="resetFloorButton" returnType="void">
+    <cbcStartTriple href="resetFloorButton.cbcmodel#/0"/>
+    <parameters type="int" name="floorID"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\reverse.cbcmodel" name="reverse" returnType="int">
+    <cbcStartTriple href="reverse.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\stopRequestedAtCurrentFloor.cbcmodel" name="stopRequestedAtCurrentFloor" returnType="boolean">
+    <cbcStartTriple href="stopRequestedAtCurrentFloor.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\stopRequestedAtCurrentFloor__wrappee__Base.cbcmodel" name="stopRequestedAtCurrentFloor__wrappee__Base" returnType="boolean">
+    <cbcStartTriple href="stopRequestedAtCurrentFloor__wrappee__Base.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\stopRequestedAtCurrentFloor__wrappee__ExecutiveFloor.cbcmodel" name="stopRequestedAtCurrentFloor__wrappee__ExecutiveFloor" returnType="boolean">
+    <cbcStartTriple href="stopRequestedAtCurrentFloor__wrappee__ExecutiveFloor.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\leaveElevator.cbcmodel" name="leaveElevator" returnType="boolean">
+    <cbcStartTriple href="leaveElevator.cbcmodel#/0"/>
+    <parameters type="Person" name="p"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Elevator\leaveElevator__wrappee__Base.cbcmodel" name="leaveElevator__wrappee__Base" returnType="boolean">
+    <cbcStartTriple href="leaveElevator__wrappee__Base.cbcmodel#/0"/>
+    <parameters type="Person" name="p"/>
+  </methods>
+</cbcclass:ModelClass>

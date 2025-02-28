@@ -1,0 +1,110 @@
+{
+  "graphs": {
+    "sort": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Decreasing",
+            "method": "sort",
+            "uuid": "d964d140-b199-43a3-b2ff-850cb3308bd0"
+          },
+          []
+        ],
+        [
+          {
+            "feature": "Increasing",
+            "method": "sort",
+            "uuid": "3c98c3dd-2846-41c5-a92d-d1287184418e"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": {},
+      "featureMap": {
+        "Increasing": [
+          "sort"
+        ],
+        "Decreasing": [
+          "sort"
+        ]
+      },
+      "idMap": {
+        "Increasing": "3c98c3dd-2846-41c5-a92d-d1287184418e",
+        "Decreasing": "d964d140-b199-43a3-b2ff-850cb3308bd0"
+      }
+    },
+    "push": {
+      "adjacencyList": [
+        [
+          {
+            "feature": "Sorted",
+            "method": "push",
+            "uuid": "62cfa42e-1ec1-4d40-bc52-1b2add9fea3e"
+          },
+          [
+            {
+              "feature": "Limited",
+              "method": "push",
+              "uuid": "3e226bfc-c96d-4f7f-98fe-7f15474e0050"
+            },
+            {
+              "feature": "Base",
+              "method": "push",
+              "uuid": "ce04a8ef-389e-4d56-8d05-7da61a8454fa"
+            }
+          ]
+        ],
+        [
+          {
+            "feature": "Limited",
+            "method": "push",
+            "uuid": "3e226bfc-c96d-4f7f-98fe-7f15474e0050"
+          },
+          [
+            {
+              "feature": "Base",
+              "method": "push",
+              "uuid": "ce04a8ef-389e-4d56-8d05-7da61a8454fa"
+            }
+          ]
+        ],
+        [
+          {
+            "feature": "Base",
+            "method": "push",
+            "uuid": "ce04a8ef-389e-4d56-8d05-7da61a8454fa"
+          },
+          []
+        ]
+      ],
+      "varMethodCalls": [
+        [
+          {
+            "feature": "Sorted",
+            "method": "push",
+            "uuid": "62cfa42e-1ec1-4d40-bc52-1b2add9fea3e"
+          },
+          [
+            "sort"
+          ]
+        ]
+      ],
+      "featureMap": {
+        "Limited": [
+          "push"
+        ],
+        "Sorted": [
+          "push"
+        ],
+        "Base": [
+          "push"
+        ]
+      },
+      "idMap": {
+        "Limited": "3e226bfc-c96d-4f7f-98fe-7f15474e0050",
+        "Sorted": "62cfa42e-1ec1-4d40-bc52-1b2add9fea3e",
+        "Base": "ce04a8ef-389e-4d56-8d05-7da61a8454fa"
+      }
+    }
+  }
+}

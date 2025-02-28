@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="createEnvironment" proven="true" className="Environment" methodName="createEnvironment">
+    <statement name="statement" id="6d658d6c-f067-46af-a22d-10f6bb71753c">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="382f52a6-8903-40ef-8fd0-3e930ab4ac44">
+        <firstStatement name="statement1" id="fb9da9ec-8c13-4496-a462-2b10523e5f94">
+          <refinement name="index = 0;&#xD;&#xA;this.floors = new Floor[numFloors];" proven="true" id="a55d1ef8-4983-412d-8e70-6959b8a210ea">
+            <postCondition name="modifiable(index,this.floors);&#xD;&#xA;index = 0 &#xD;&#xA;&amp; this.floors.&lt;created> = TRUE &#xD;&#xA;&amp; this.floors.length = numFloors"/>
+            <preCondition name="numFloors >= 0"/>
+          </refinement>
+          <postCondition name="modifiable(index,this.floors);&#xD;&#xA;index = 0 &#xD;&#xA;&amp; this.floors.&lt;created> = TRUE &#xD;&#xA;&amp; this.floors.length = numFloors"/>
+          <preCondition name="numFloors >= 0"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="27f5e4c9-90c6-46af-ab51-f0dda0b412fa">
+          <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="32cde757-b34a-43a6-894c-a39ec6bdab7f" variantProven="true" preProven="true" postProven="true">
+            <postCondition name="modifiable(index,this.floors[index]);&#xD;&#xA;this.floors.length = numFloors&amp; (\forall int k;((k>0 &amp; k&lt;this.floors.length -> (this.floors[k].thisFloorID = k &amp; this.floors[k].env = this))))"/>
+            <preCondition name="modifiable(index,this.floors);&#xD;&#xA;index = 0 &#xD;&#xA;&amp; this.floors.&lt;created> = TRUE &#xD;&#xA;&amp; this.floors.length = numFloors"/>
+            <loopStatement name="loop" id="3e4ccb97-ca23-46e6-880f-d3fb19b1cc3e">
+              <refinement name="this.floors[index] = new Floor(this, index); index = index + 1;" proven="true" id="119fd7ae-f87f-44e6-86d8-25f6bc15d751">
+                <postCondition name="index >= 0 &amp; this.floors.length = numFloors &amp;(\forall int k;(((k>0 &amp; k&lt;index &amp; k&lt;this.floors.length) -> (this.floors[k].thisFloorID = k &amp; this.floors[k].env = this ))))"/>
+                <preCondition name="(index >= 0 &amp; this.floors.length = numFloors &amp;(\forall int k;(((k>0 &amp; k&lt;index &amp; k&lt;this.floors.length) -> (this.floors[k].thisFloorID = k &amp; this.floors[k].env = this ))))) &amp; (index &lt; this.floors.length)"/>
+              </refinement>
+              <postCondition name="index >= 0 &amp; this.floors.length = numFloors &amp;(\forall int k;(((k>0 &amp; k&lt;index &amp; k&lt;this.floors.length) -> (this.floors[k].thisFloorID = k &amp; this.floors[k].env = this ))))"/>
+              <preCondition name="(index >= 0 &amp; this.floors.length = numFloors &amp;(\forall int k;(((k>0 &amp; k&lt;index &amp; k&lt;this.floors.length) -> (this.floors[k].thisFloorID = k &amp; this.floors[k].env = this ))))) &amp; (index &lt; this.floors.length)"/>
+            </loopStatement>
+            <variant name="(this.floors.length - index)"/>
+            <invariant name="index >= 0 &amp; this.floors.length = numFloors &amp;(\forall int k;(((k>0 &amp; k&lt;index &amp; k&lt;this.floors.length) -> (this.floors[k].thisFloorID = k &amp; this.floors[k].env = this ))))"/>
+            <guard name="index &lt; this.floors.length"/>
+          </refinement>
+          <postCondition name="modifiable(index,this.floors[index]);&#xD;&#xA;this.floors.length = numFloors&amp; (\forall int k;((k>0 &amp; k&lt;this.floors.length -> (this.floors[k].thisFloorID = k &amp; this.floors[k].env = this))))"/>
+          <preCondition name="modifiable(index,this.floors);&#xD;&#xA;index = 0 &#xD;&#xA;&amp; this.floors.&lt;created> = TRUE &#xD;&#xA;&amp; this.floors.length = numFloors"/>
+        </secondStatement>
+        <intermediateCondition name="modifiable(index,this.floors);&#xD;&#xA;index = 0 &#xD;&#xA;&amp; this.floors.&lt;created> = TRUE &#xD;&#xA;&amp; this.floors.length = numFloors"/>
+      </refinement>
+      <postCondition name="modifiable(index,this.floors[index]);&#xD;&#xA;this.floors.length = numFloors&amp; (\forall int k;((k>0 &amp; k&lt;this.floors.length -> (this.floors[k].thisFloorID = k &amp; this.floors[k].env = this))))"/>
+      <preCondition name="numFloors >= 0"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Environment.cbcclass#//@methods.0"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int index"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="numFloors >= 0"/>
+    <conditions name="index >= 0"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

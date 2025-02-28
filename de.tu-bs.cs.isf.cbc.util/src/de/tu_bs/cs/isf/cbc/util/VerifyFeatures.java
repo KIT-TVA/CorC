@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
@@ -13,10 +14,12 @@ import org.eclipse.emf.common.util.URI;
 import de.ovgu.featureide.fm.core.analysis.cnf.CNF;
 import de.ovgu.featureide.fm.core.analysis.cnf.IVariables;
 import de.ovgu.featureide.fm.core.analysis.cnf.LiteralSet;
+import de.ovgu.featureide.fm.core.analysis.cnf.LiteralSet.Order;
 import de.ovgu.featureide.fm.core.analysis.cnf.formula.FeatureModelFormula;
 import de.ovgu.featureide.fm.core.analysis.cnf.generator.configuration.AllConfigurationGenerator;
 import de.ovgu.featureide.fm.core.analysis.cnf.generator.configuration.IConfigurationGenerator;
 import de.ovgu.featureide.fm.core.analysis.cnf.solver.AdvancedSatSolver;
+import de.ovgu.featureide.fm.core.analysis.cnf.solver.ISimpleSatSolver.SatResult;
 import de.ovgu.featureide.fm.core.base.IFeature;
 import de.ovgu.featureide.fm.core.base.IFeatureModel;
 import de.ovgu.featureide.fm.core.configuration.Configuration;
@@ -27,7 +30,7 @@ import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
 import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager; //Notices changes of model.xml
 import de.ovgu.featureide.fm.core.io.manager.FileHandler;
 import de.ovgu.featureide.fm.core.job.LongRunningWrapper;
-import de.tu_bs.cs.isf.cbc.exceptions.FeatureCallerException;
+import de.tu_bs.cs.isf.cbc.util.presenceconditionparser.PresenceConditionParser.SelectionInfo;
 
 public class VerifyFeatures {
 	static {
@@ -48,8 +51,19 @@ public class VerifyFeatures {
 	private static Configuration configuration;
 
 	private static ConfigurationAnalyzer configurationAnalyzer;
-	
-	public static String[][] verifyConfig(IProject project, URI uri_new, String method, boolean original, String callingClass, boolean cleanFromIrrelevant, String methodOriginal) {
+
+	public static List<String> getAllFeatures(URI projectUri) {
+		// var uri = URI.createURI("/" + splitUri + "/model.xml");
+		thisProject = FileUtil.getProject(projectUri);
+		if (!de.tu_bs.cs.isf.cbc.util.FileHandler.instance.isSPL(projectUri))
+			return new ArrayList<String>();
+		path = Paths.get(thisProject.getLocation() + "/model.xml");
+		IFeatureModel featureModel = FeatureModelManager.load(path);
+		return featureModel.getFeatureOrderList();
+	}
+
+	public static String[][] verifyConfig(IProject project, URI uri_new, String method, boolean original,
+			String callingClass, boolean cleanFromIrrelevant, String methodOriginal) {
 		uri = uri_new;
 		if (project == null) {
 			thisProject = FileUtil.getProject(uri);
@@ -80,13 +94,15 @@ public class VerifyFeatures {
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
-		checkConfigs(method, methodOriginal != null ? true : original, callingClass, cleanFromIrrelevant, methodOriginal);
+		checkConfigs(method, methodOriginal != null ? true : original, callingClass, cleanFromIrrelevant,
+				methodOriginal);
 		return configurations;
-		
+
 	}
 
 	// calculates feature-configurations
-	public static String[][] verifyConfig(URI uri_new, String method, boolean original, String callingClass, boolean cleanFromIrrelevant, String methodOriginal) {
+	public static String[][] verifyConfig(URI uri_new, String method, boolean original, String callingClass,
+			boolean cleanFromIrrelevant, String methodOriginal) {
 		return verifyConfig(null, uri_new, method, original, callingClass, cleanFromIrrelevant, methodOriginal);
 	}
 
@@ -94,7 +110,8 @@ public class VerifyFeatures {
 	public static String[] removeIrrelevant(String[] features, String methodName, String className) {
 		File checkFile;
 		for (int i = 0; i < features.length; i++) {
-			checkFile = new File(thisProject + "/features/" + features[i] + "/" + className + "/" + methodName + ".cbcmodel");
+			checkFile = new File(
+					thisProject + "/features/" + features[i] + "/" + className + "/" + methodName + ".cbcmodel");
 			if (!checkFile.exists() && !(features[i]).equalsIgnoreCase(callingFeature)) {
 				String[] temp = new String[features.length];
 				boolean foundToDelete = false;
@@ -103,7 +120,7 @@ public class VerifyFeatures {
 						temp[j] = features[j + (foundToDelete ? 1 : 0)];
 					} else {
 						foundToDelete = true;
-					}					
+					}
 				}
 			}
 		}
@@ -159,9 +176,11 @@ public class VerifyFeatures {
 	}
 
 	// removes irrelevant features and configurations from configurations-array
-	public static void checkConfigs(String method, boolean original, String className, boolean cleanFromIrrelevant, String methodOriginal) {
+	public static void checkConfigs(String method, boolean original, String className, boolean cleanFromIrrelevant,
+			String methodOriginal) {
 		String varMClass = method.split("\\.")[0];
-		method = methodOriginal != null ? methodOriginal.split("\\.")[0] : method.contains(".") ? method.split("\\.")[1] : method;
+		method = methodOriginal != null ? methodOriginal.split("\\.")[0]
+				: method.contains(".") ? method.split("\\.")[1] : method;
 		// bring features to featuremodel-order
 		for (int i = 0; i < configurations.length; i++) {
 			configLn = new String[configurations[i].length];
@@ -184,24 +203,24 @@ public class VerifyFeatures {
 
 		if (cleanFromIrrelevant) {
 			if (original) {
-			// removes all features with order-place behind calling feature
-			for (int i = 0; i < configurations.length; i++) {
-				for (int j = 0; j < configurations[i].length; j++) {
-					if (configurations[i][j].equals(callingFeature)) {
-						for (int k = j + 1; k < configurations[i].length; k++) {
-							configurations[i][k] = "empty";
+				// removes all features with order-place behind calling feature
+				for (int i = 0; i < configurations.length; i++) {
+					for (int j = 0; j < configurations[i].length; j++) {
+						if (configurations[i][j].equals(callingFeature)) {
+							for (int k = j + 1; k < configurations[i].length; k++) {
+								configurations[i][k] = "empty";
+							}
 						}
 					}
 				}
-			}
 			}
 			// remove all features from configurations which are not part of
 			// refinement-chain
 			File checkFile;
 			for (int i = 0; i < configurations.length; i++) {
 				for (int j = 0; j < configurations[i].length; j++) {
-					checkFile = new File(thisProject.getLocation() + "/features/" + configurations[i][j] + "/" + varMClass + "/"
-							+ method.toLowerCase() + ".cbcmodel");
+					checkFile = new File(thisProject.getLocation() + "/features/" + configurations[i][j] + "/"
+							+ varMClass + "/" + method.toLowerCase() + ".cbcmodel");
 					if (!checkFile.exists() && !configurations[i][j].equals(callingFeature)) {
 						checkFile = new File(thisProject.getLocation() + "/features/" + configurations[i][j] + "/"
 								+ className + "/" + method.toLowerCase() + ".cbcmodel");
@@ -320,6 +339,97 @@ public class VerifyFeatures {
 		}
 		configurations = temporary;
 		return;
+	}
+	
+	public static boolean isValidConfiguration(Set<String> featureConfig, IProject project) {
+		IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
+		Configuration configuration = new Configuration(new FeatureModelFormula(featureModel));
+		for(String feature : featureConfig) {
+			configuration.setManual(feature, Selection.SELECTED);
+		}
+		
+		CNF cnf = configuration.getFeatureModelFormula().getCNF();
+		AdvancedSatSolver solver = new AdvancedSatSolver(cnf);
+		IVariables vars = cnf.getVariables();
+		
+		for (SelectableFeature current : configuration.getFeatures()) {
+			solver.assignmentPush(vars.getVariable(current.getFeature().getName(), current.getSelection() == Selection.SELECTED));
+		}
+		
+		return solver.hasSolution() == SatResult.TRUE;
+	}
+	
+	public static String[] findValidProduct(List<String> callingFeatures, IProject project) {
+			IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
+			Configuration configuration = new Configuration(new FeatureModelFormula(featureModel));
+			for (String feature : callingFeatures) {
+				configuration.setManual(feature, Selection.SELECTED);
+			}
+
+			CNF cnf = configuration.getFeatureModelFormula().getCNF();
+			AdvancedSatSolver solver = new AdvancedSatSolver(cnf);
+			IVariables vars = cnf.getVariables();
+			for (SelectableFeature current : configuration.getFeatures()) {
+				if (current.getSelection() != Selection.UNDEFINED) {
+					solver.assignmentPush(
+						vars.getVariable(
+								current.getFeature().getName(), 
+								current.getSelection() == Selection.SELECTED));
+				}
+			}
+
+			int[] solution = solver.findSolution();
+			if (solution == null) return null;
+			final LiteralSet result = new LiteralSet(solution, Order.INDEX, false);
+			Configuration config = new Configuration(configuration, configuration.getFeatureModelFormula());
+			for (int literal : result.getLiterals()) {
+				SelectableFeature feature = config.getSelectableFeature(vars.getName(literal));
+				if (feature.getSelection() == Selection.UNDEFINED) {
+					config.setManual(feature, literal > 0 ? Selection.SELECTED : Selection.UNSELECTED);
+				}
+			}
+			
+			String[] featureConfig = new String[config.getSelectedFeatures().size()];
+			for (int i = 0; i < featureConfig.length; i++) {
+				featureConfig[i] = config.getSelectedFeatures().get(i).getName();
+			}
+			
+			return featureConfig;
+	}
+	
+	public static String[] getSolutionForConditions(Set<SelectionInfo> selections, IProject project) {
+		IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
+		Configuration partialConfig = new Configuration(new FeatureModelFormula(featureModel));
+		CNF cnf = partialConfig.getFeatureModelFormula().getCNF();
+		AdvancedSatSolver solver = new AdvancedSatSolver(cnf);
+		selections.forEach(info -> partialConfig.setManual(info.getName(), info.getSelection()));
+		IVariables vars = cnf.getVariables();
+		selections.forEach(info -> partialConfig.setManual(info.getName(), info.getSelection()));
+		for (SelectableFeature feature : partialConfig.getFeatures()) {
+			if (feature.getSelection() != Selection.UNDEFINED) {
+				solver.assignmentPush(
+					vars.getVariable(
+						feature.getFeature().getName(), 
+						feature.getSelection() == Selection.SELECTED));
+			}
+		}
+									
+		int[] solution = solver.findSolution();
+		final LiteralSet result = new LiteralSet(solution, Order.INDEX, false);
+		Configuration config = new Configuration(partialConfig, partialConfig.getFeatureModelFormula());
+		for (int literal : result.getLiterals()) {
+			SelectableFeature feature = config.getSelectableFeature(vars.getName(literal));
+			if (feature.getSelection() == Selection.UNDEFINED) {
+				config.setManual(feature, literal > 0 ? Selection.SELECTED : Selection.UNSELECTED);
+			}
+		}
+
+		String[] featureConfig = new String[config.getSelectedFeatures().size()];
+		for (int i = 0; i < featureConfig.length; i++) {
+			featureConfig[i] = config.getSelectedFeatures().get(i).getName();
+		}
+		
+		return featureConfig;
 	}
 
 	private static void createEmptyConfiguration(final Path path) throws IOException {

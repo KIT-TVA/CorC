@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import org.antlr.runtime.RecognitionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -21,15 +21,20 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 import de.uka.ilkd.key.control.KeYEnvironment;
+import de.uka.ilkd.key.control.ProofControl;
 import de.uka.ilkd.key.gui.MainWindow;
+import de.uka.ilkd.key.java.ConvertException;
+import de.uka.ilkd.key.java.PosConvertException;
 import de.uka.ilkd.key.java.abstraction.KeYJavaType;
 import de.uka.ilkd.key.logic.op.IObserverFunction;
+import de.uka.ilkd.key.macros.CompleteAbstractProofMacro;
+import de.uka.ilkd.key.macros.ContinueAbstractProofMacro;
+import de.uka.ilkd.key.macros.NoResolveProofMacro;
 import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.Statistics;
 import de.uka.ilkd.key.proof.init.ProofInputException;
 import de.uka.ilkd.key.proof.io.ProblemLoaderException;
-import de.uka.ilkd.key.java.ConvertException;
-import de.uka.ilkd.key.java.PosConvertException;
+import de.uka.ilkd.key.proof.io.ProofSaver;
 import de.uka.ilkd.key.settings.ChoiceSettings;
 import de.uka.ilkd.key.settings.ProofSettings;
 import de.uka.ilkd.key.speclang.Contract;
@@ -38,17 +43,25 @@ import de.uka.ilkd.key.util.KeYTypeUtil;
 import de.uka.ilkd.key.util.MiscTools;
 
 public class KeYInteraction {
-	private static String lastErrorMessage = "";
+		
+    public final static String ABSTRACT_PROOF_FULL = "abstract_full_proof";
+    public final static String ABSTRACT_PROOF_BEGIN = "abstract_proof_begin";
+    public final static String ABSTRACT_PROOF_COMPLETE = "abstract_proof_complete";
+    public final static String ABSTRACT_T_RESOLVED_PROOF = "abstract_t_resolved_proof";
+    
+    
+    private static String lastErrorMessage = "";
+	public static int num = 0;
 
-	public static Proof startKeyProof(File location, IProgressMonitor monitor, boolean inlining, CbCFormula formula,
-			AbstractStatement statement, String problem, String uri) {
+	public static Proof startKeyProof(String proofType, File location, IProgressMonitor monitor, boolean inlining,
+			CbCFormula formula, AbstractStatement statement, String problem, String uri, String forbiddenRules) {
 		Proof proof = null;
 		List<File> classPaths = null; // Optionally: Additional specifications
-										// for API classes
+		// for API classes
 		File bootClassPath = null; // Optionally: Different default
-									// specifications for Java API
+		// specifications for Java API
 		List<File> includes = null; // Optionally: Additional includes to
-									// consider
+		// consider
 		try {
 			// Ensure that Taclets are parsed
 			if (!ProofSettings.isChoiceSettingInitialised()) {
@@ -57,7 +70,7 @@ public class KeYInteraction {
 			}
 			// Set Taclet options
 			ChoiceSettings choiceSettings = ProofSettings.DEFAULT_SETTINGS.getChoiceSettings();
-			HashMap<String, String> oldSettings = choiceSettings.getDefaultChoices();
+			Map<String, String> oldSettings = choiceSettings.getDefaultChoices();
 			HashMap<String, String> newSettings = new HashMap<String, String>(oldSettings);
 			newSettings.putAll(MiscTools.getDefaultTacletOptions());
 			newSettings.put("runtimeExceptions", "runtimeExceptions:ban");
@@ -65,6 +78,7 @@ public class KeYInteraction {
 			// Load source code
 			KeYEnvironment<?> env = KeYEnvironment.load(location, classPaths, bootClassPath, includes);
 			proof = env.getLoadedProof();
+
 			// Set proof strategy options
 			StrategyProperties sp = proof.getSettings().getStrategySettings().getActiveStrategyProperties();
 			if (inlining)
@@ -76,39 +90,83 @@ public class KeYInteraction {
 			sp.setProperty(StrategyProperties.QUERY_OPTIONS_KEY, StrategyProperties.QUERY_RESTRICTED);//
 			sp.setProperty(StrategyProperties.NON_LIN_ARITH_OPTIONS_KEY, StrategyProperties.NON_LIN_ARITH_DEF_OPS);
 			sp.setProperty(StrategyProperties.STOPMODE_OPTIONS_KEY, StrategyProperties.STOPMODE_NONCLOSE);
+
+			sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FIRST_ORDER_GOALS_FORBIDDEN, "true");
+            if (proofType.equals(ABSTRACT_PROOF_BEGIN)) {
+            sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FIRST_ORDER_GOALS_FORBIDDEN, "true");
+            sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS,
+                forbiddenRules + ",expand_def,cut,cut_direct"); // default
+            sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES,
+                forbiddenRules + ",definition_axiom,ifthenelse_split"); // default*/
+            } else {
+                if (proofType.equals(ABSTRACT_T_RESOLVED_PROOF)) {
+                    Console.println("Setting Rules");
+                    sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, "expand_def,cut,cut_direct");//
+                    sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, "definition_axiom,ifthenelse_split");//
+                } else {
+                    sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULE_SETS, "");
+                    sp.setProperty(StrategyProperties.ABSTRACT_PROOF_FORBIDDEN_RULES, "");
+                }
+            }
+			// sp.setProperty(StrategyProperties.QUERY_OPTIONS_KEY,
+			// StrategyProperties.QUERY_ON);
+			// sp.setProperty(StrategyProperties.QUERYAXIOM_OPTIONS_KEY,
+			// StrategyProperties.QUERYAXIOM_OFF);
 			proof.getSettings().getStrategySettings().setActiveStrategyProperties(sp);
+
 			// Make sure that the new options are used
 			int maxSteps = Integer.MAX_VALUE;
 			ProofSettings.DEFAULT_SETTINGS.getStrategySettings().setMaxSteps(maxSteps);
 			ProofSettings.DEFAULT_SETTINGS.getStrategySettings().setActiveStrategyProperties(sp);
 			proof.getSettings().getStrategySettings().setMaxSteps(maxSteps);
 			proof.setActiveStrategy(proof.getServices().getProfile().getDefaultStrategyFactory().create(proof, sp));
-			// Start auto mode
-			Console.println("  Start proof: " + location.getName());
-			if (monitor != null) {
-				env.getUi().getProofControl().startAutoMode(proof);
-				while (env.getUi().getProofControl().isInAutoMode()) {
-					if (monitor.isCanceled()) {
-						env.getUi().getProofControl().stopAutoMode();
-						Console.println("  Proof is canceled.");
+			// Handle type of proof
+			ProofControl proofControl = env.getProofControl();
+			switch (proofType) {
+			case ABSTRACT_PROOF_FULL:
+				Console.println("  Start proof: " + location.getName());
+				if (monitor != null) {
+					env.getUi().getProofControl().startAutoMode(proof);
+					while (env.getUi().getProofControl().isInAutoMode()) {
+						if (monitor.isCanceled()) {
+							env.getUi().getProofControl().stopAndWaitAutoMode();
+							Console.println("  Proof is canceled.");
+						}
 					}
+				} else {
+					env.getUi().getProofControl().startAndWaitForAutoMode(proof);
 				}
-			} else {
-				env.getUi().getProofControl().startAndWaitForAutoMode(proof);
-			}
-
-			// Show proof result
-			try {
-				proof.saveToFile(location);
-
 				try {
 					// TODO: inlining may be important too
 					StatDataCollector collector = new StatDataCollector();
 					collector.collectCorcStatistics(proof, formula, statement, problem, uri);
 				} catch (RuntimeException e) {
-						Console.println(
-								"Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer.");	
+					Console.println(
+							"Error: Statistical data collection failed. Please add Ids by right click on diagram in project explorer.");
 				}
+				break;
+			case ABSTRACT_PROOF_BEGIN:
+				Console.println("  Start partial proof: " + location.getName());
+				proofControl.runMacro(proof.root(), new ContinueAbstractProofMacro(), null);
+				proofControl.waitWhileAutoMode();
+				break;
+			case ABSTRACT_PROOF_COMPLETE:
+				Console.println("  Finish partial proof: " + location.getName());
+				proofControl.runMacro(proof.root(), new CompleteAbstractProofMacro(), null);
+				proofControl.waitWhileAutoMode();
+            case ABSTRACT_T_RESOLVED_PROOF:
+            Console.println("  Start t-resolved proof: " + location.getName());
+            proofControl.runMacro(proof.root(), new NoResolveProofMacro(), null);
+            proofControl.waitWhileAutoMode();
+            break;
+			}
+
+			// Show proof result
+			try {
+				String locationWithoutFileEnding = location.toString().substring(0, location.toString().indexOf("."));
+				var keyFile = new File(locationWithoutFileEnding + ".proof");
+				ProofSaver.saveToFile(keyFile, proof);
+				// proof.saveToFile(location);
 
 //				printStatistics(proof, inlining);
 			} catch (IOException e) {
@@ -120,17 +178,17 @@ public class KeYInteraction {
 		}
 		return proof;
 	}
-	
+
 	private static void handleError(ProblemLoaderException ex) {
 		Throwable error = ex.getCause();
-		
+
 		if (lastErrorMessage != null && lastErrorMessage.equals(ex.getMessage())) {
 			Console.println(ex.getMessage());
 			return;
 		} else {
 			lastErrorMessage = ex.getMessage();
 		}
-		
+
 		if (error.getClass() == ProofInputException.class) {
 			Console.println("  A ProofInputException occured.");
 			Console.println("  This happens when the function or method could not be located.");
@@ -142,25 +200,23 @@ public class KeYInteraction {
 			Console.println("  > Check whether the function resides in the right class / file");
 			Console.println("  > Check whether the return type of the function matches");
 			/*
-			if (error.getCause() instanceof RecognitionException) {
-				RecognitionException recE = (RecognitionException)error.getCause();
-				var inputStream = recE.input.toString();
-				var beforeError = inputStream.substring(0, recE.index);
-				var afterError = inputStream.substring(recE.index, inputStream.length());
-				String line = CodeHandler.createHorizontalLine(beforeError + "\n" + afterError);
-				beforeError = CodeHandler.createVerticalLines(beforeError, line);
-				afterError = CodeHandler.createVerticalLines(afterError, line);
-				Console.println("Input:");
-				Console.println(line);
-				Console.println(beforeError, Colors.GREEN);
-				Console.println(afterError, Colors.RED);
-				Console.println(line);
-			} else {
-			}*/
+			 * if (error.getCause() instanceof RecognitionException) { RecognitionException
+			 * recE = (RecognitionException)error.getCause(); var inputStream =
+			 * recE.input.toString(); var beforeError = inputStream.substring(0,
+			 * recE.index); var afterError = inputStream.substring(recE.index,
+			 * inputStream.length()); String line =
+			 * CodeHandler.createHorizontalLine(beforeError + "\n" + afterError);
+			 * beforeError = CodeHandler.createVerticalLines(beforeError, line); afterError
+			 * = CodeHandler.createVerticalLines(afterError, line);
+			 * Console.println("Input:"); Console.println(line);
+			 * Console.println(beforeError, Colors.GREEN); Console.println(afterError,
+			 * Colors.RED); Console.println(line); } else { }
+			 */
 			error.printStackTrace();
 		} else if (error.getClass() == PosConvertException.class) {
 			Console.println("  A PosConvertException occured.");
-			Console.println("  This happens when the function or method decleration does not correspond with its use in the CorC editor.");
+			Console.println(
+					"  This happens when the function or method decleration does not correspond with its use in the CorC editor.");
 			String info = ex.getCause().toString();
 			info = info.substring(info.indexOf("\n") + 1);
 			Console.println();
@@ -182,7 +238,8 @@ public class KeYInteraction {
 			Console.println("  > Check the file for syntax errors");
 		} else if (error.getClass() == IllegalArgumentException.class) {
 			Console.println("  An IllegalArgumentException occured.");
-			Console.println("  This happens when a parameter mismatch between the usage in CorC diagrams and its implementation in the java file exist.");
+			Console.println(
+					"  This happens when a parameter mismatch between the usage in CorC diagrams and its implementation in the java file exist.");
 			String info = ex.getCause().toString();
 			info = info.substring(info.indexOf("\n") + 1);
 			Console.println();
@@ -200,11 +257,11 @@ public class KeYInteraction {
 	public static void startKeYProofFirstContract(File location, int proofCounter) {
 		File keyFile = null;
 		List<File> classPaths = null; // Optionally: Additional specifications
-										// for API classes
+		// for API classes
 		File bootClassPath = null; // Optionally: Different default
-									// specifications for Java API
+		// specifications for Java API
 		List<File> includes = null; // Optionally: Additional includes to
-									// consider
+		// consider
 		try {
 			// Ensure that Taclets are parsed
 			if (!ProofSettings.isChoiceSettingInitialised()) {
@@ -213,7 +270,7 @@ public class KeYInteraction {
 			}
 			// Set Taclet options
 			ChoiceSettings choiceSettings = ProofSettings.DEFAULT_SETTINGS.getChoiceSettings();
-			HashMap<String, String> oldSettings = choiceSettings.getDefaultChoices();
+			Map<String, String> oldSettings = choiceSettings.getDefaultChoices();
 			HashMap<String, String> newSettings = new HashMap<String, String>(oldSettings);
 			newSettings.putAll(MiscTools.getDefaultTacletOptions());
 			newSettings.put("runtimeExceptions", "runtimeExceptions:ban");
@@ -271,7 +328,7 @@ public class KeYInteraction {
 						String locationWithoutFileEnding = location.toString().substring(0,
 								location.toString().indexOf("."));
 						keyFile = new File(locationWithoutFileEnding + ".proof");
-						proof.saveToFile(keyFile);
+						ProofSaver.saveToFile(keyFile, proof);
 						IWorkspace workspace = ResourcesPlugin.getWorkspace();
 						IPath iLocation = Path.fromOSString(keyFile.getAbsolutePath());
 						IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
@@ -286,12 +343,12 @@ public class KeYInteraction {
 				} finally {
 					if (proof != null) {
 						proof.dispose(); // Ensure always that all instances
-											// of Proof are disposed
+						// of Proof are disposed
 					}
 				}
 			} finally {
 				env.dispose(); // Ensure always that all instances of
-								// KeYEnvironment are disposed
+				// KeYEnvironment are disposed
 			}
 			MainWindow.getInstance().loadProblem(keyFile);
 			MainWindow.getInstance().setVisible(true);

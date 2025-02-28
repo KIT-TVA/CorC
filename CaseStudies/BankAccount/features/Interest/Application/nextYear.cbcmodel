@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
-  <cbcmodel:CbCFormula name="nextYear" proven="true" comment="" className="Application" methodName="nextYear">
-    <statement name="statement" id="d40a0d53-b383-475a-bf41-695230b6d918">
-      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="f7eb9e6b-58fa-4d17-a152-f10eebe6c02c">
-        <firstStatement name="statement1" id="8e615649-579e-499e-9c0e-8405fa7ce868">
-          <refinement xsi:type="cbcmodel:OriginalStatement" name="original();" proven="true" id="9394c47a-0197-4610-af01-ac677cd12643">
-            <postCondition name="true"/>
-            <preCondition name="true"/>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="nextYear" proven="true" comment="" compositionTechnique="EXPLICIT_CONTRACTING" className="Application" methodName="nextYear">
+    <statement name="statement" id="ae613b7f-9cc0-44c2-b524-00ba94a4ea91">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="20419b3e-96d5-45c4-b8e8-5e50f2336049">
+        <firstStatement name="statement1" id="778d561e-e6c3-4326-9bdc-e1fbafcc9236">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:OriginalStatement" name="original();" proven="true" id="9d189f59-eb5b-4ba8-b164-3adc12f2cd48">
+            <postCondition name="\original_post">
+              <modifiables>\nothing</modifiables>
+            </postCondition>
+            <preCondition name="\original_pre"/>
           </refinement>
-          <postCondition name="true"/>
-          <preCondition name="true"/>
+          <postCondition name="\original_post"/>
+          <preCondition name="\original_pre"/>
         </firstStatement>
-        <secondStatement name="statement2" id="c0485f70-14fc-48ce-8b84-46b822967391">
-          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="8014ba32-f43e-4753-8ffd-fee8b3acb64a">
-            <firstStatement name="statement1" id="98312f18-0904-4c97-885a-73a8bc880e99">
-              <refinement name="a.balance += a.interest;" proven="true" id="59858c68-845c-4576-84ba-f4bb1eaca897">
-                <postCondition name="a.balance =&#xD;&#xA; \old(a.balance) +&#xD;&#xA;a.interest">
+        <secondStatement name="statement2" id="5c761ba8-4cee-4a8d-b788-6aec1ef57d5b">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="a453e2fa-132f-4fbb-811e-54638aaaa901">
+            <firstStatement name="statement1" id="b890b407-d264-4722-ad80-59b07578366e">
+              <refinement name="a.balance += a.interest;" proven="true" id="1e630e84-bf2d-478b-b97a-0182b46fa425">
+                <postCondition name="a.balance = \old(a.balance) +&#xD;&#xA;a.interest">
                   <modifiables>a.balance</modifiables>
                 </postCondition>
-                <preCondition name="true"/>
+                <preCondition name="\original_post"/>
               </refinement>
-              <postCondition name="a.balance =&#xD;&#xA; \old(a.balance) +&#xD;&#xA;a.interest">
+              <postCondition name="a.balance = \old(a.balance) +&#xD;&#xA;a.interest">
                 <modifiables>a.balance</modifiables>
               </postCondition>
-              <preCondition name="true"/>
+              <preCondition name="\original_post"/>
             </firstStatement>
-            <secondStatement name="statement2" id="5dc9ddfa-6a0d-4c48-812d-cd690aae1707">
-              <refinement name="a.interest = 0;" proven="true" id="90755112-f9cd-4162-8a70-e80a44bd04c2">
+            <secondStatement name="statement2" id="c2a0d22b-b19e-411e-8a39-df286176c41f">
+              <refinement name="a.interest = 0;" proven="true" id="9f732503-57cd-41b6-98d1-a911e7aec5b6">
                 <postCondition name="a.balance = \old(a.balance) + \old(a.interest) &amp; a.interest = 0">
                   <modifiables>a.balance</modifiables>
                   <modifiables>a.interest</modifiables>
                 </postCondition>
-                <preCondition name="a.balance =&#xD;&#xA; \old(a.balance) +&#xD;&#xA;a.interest">
+                <preCondition name="a.balance = \old(a.balance) +&#xD;&#xA;a.interest">
                   <modifiables>a.balance</modifiables>
                 </preCondition>
               </refinement>
@@ -39,11 +41,11 @@
                 <modifiables>a.balance</modifiables>
                 <modifiables>a.interest</modifiables>
               </postCondition>
-              <preCondition name="a.balance =&#xD;&#xA; \old(a.balance) +&#xD;&#xA;a.interest">
+              <preCondition name="a.balance = \old(a.balance) +&#xD;&#xA;a.interest">
                 <modifiables>a.balance</modifiables>
               </preCondition>
             </secondStatement>
-            <intermediateCondition name="a.balance =&#xD;&#xA; \old(a.balance) +&#xD;&#xA;a.interest">
+            <intermediateCondition name="a.balance = \old(a.balance) +&#xD;&#xA;a.interest">
               <modifiables>a.balance</modifiables>
             </intermediateCondition>
           </refinement>
@@ -51,19 +53,19 @@
             <modifiables>a.balance</modifiables>
             <modifiables>a.interest</modifiables>
           </postCondition>
-          <preCondition name="true"/>
+          <preCondition name="\original_post"/>
         </secondStatement>
-        <intermediateCondition name="true"/>
+        <intermediateCondition name="\original_post"/>
       </refinement>
       <postCondition name="a.balance = \old(a.balance) + \old(a.interest) &amp; a.interest = 0">
         <modifiables>a.balance</modifiables>
         <modifiables>a.interest</modifiables>
       </postCondition>
-      <preCondition name="true"/>
+      <preCondition name="\original_pre"/>
     </statement>
     <preCondition name="pre"/>
     <postCondition name="post"/>
     <methodObj href="Application.cbcclass#//@methods.1"/>
-  </cbcmodel:CbCFormula>
-  <cbcmodel:JavaVariables/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
 </xmi:XMI>

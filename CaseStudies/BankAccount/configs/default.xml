@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <configuration>
-	<feature name="BankAccount"/>
+	<feature automatic="selected" name="BankAccount"/>
 	<feature name="DailyLimit"/>
 	<feature name="Interest"/>
 	<feature name="Transaction"/>

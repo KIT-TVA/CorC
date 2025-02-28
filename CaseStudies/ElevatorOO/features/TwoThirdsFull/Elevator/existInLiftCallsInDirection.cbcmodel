@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="existInLiftCallsInDirection" className="Elevator" methodName="existInLiftCallsInDirection">
+    <statement name="statement" id="84b0917a-85a1-459a-a8d9-441eec1cc960">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="f6b956a1-7ed2-494f-bd48-1b2eb0257d40">
+        <firstStatement name="statement1" id="56dc9e71-aad7-4569-9d06-4020026b907f">
+          <refinement name="result = false;" id="90f72d48-8451-4c48-a008-0e442f52c826">
+            <postCondition name="modifiable(result);&#xD;&#xA;result = false"/>
+            <preCondition name="this.floorButtons != null &amp; d >= 0 &amp; d&lt;= 1&amp; this.currentFloorID >= 0 &amp; d&lt;=1 &amp; this.floorButtons != null &amp; this != null"/>
+          </refinement>
+          <postCondition name="modifiable(result);&#xD;&#xA;result = false"/>
+          <preCondition name="this.floorButtons != null &amp; d >= 0 &amp; d&lt;= 1&amp; this.currentFloorID >= 0 &amp; d&lt;=1 &amp; this.floorButtons != null &amp; this != null"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="619f19f4-bc6b-4557-ae83-1fbdf7f49ab1">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="d04931d8-233d-437e-ab30-a6ed3992f99e">
+            <firstStatement name="statement1" id="654439d9-c7b4-4452-93b3-3bdd562644f0">
+              <refinement name="index = 0;" id="1273d59d-d54c-4d61-9a31-fd010978eab0">
+                <postCondition name="modifiable(index,result);&#xD;&#xA;index = 0"/>
+                <preCondition name="modifiable(result);&#xD;&#xA;result = false"/>
+              </refinement>
+              <postCondition name="modifiable(index,result);&#xD;&#xA;index = 0"/>
+              <preCondition name="modifiable(result);&#xD;&#xA;result = false"/>
+            </firstStatement>
+            <secondStatement name="statement2" id="0b8d5b7a-472e-4fa2-b250-a5928ba7a6c9">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="0f7d75b5-d05e-4d0d-a750-a8fe50f3a252">
+                <firstStatement name="statement1" id="a7445104-36c5-45fe-914f-00eed93533fc">
+                  <refinement name="index = this.getCurrentFloorID();" id="85a61430-c9c9-4f65-b631-b423c08e2023">
+                    <postCondition name="modifiable(index,result);&#xD;&#xA;index = this.getCurrentFloorID()"/>
+                    <preCondition name="modifiable(index,result);&#xD;&#xA;index = 0"/>
+                  </refinement>
+                  <postCondition name="modifiable(index,result);&#xD;&#xA;index = this.getCurrentFloorID()"/>
+                  <preCondition name="modifiable(index,result);&#xD;&#xA;index = 0"/>
+                </firstStatement>
+                <secondStatement name="statement2" id="ba063e6e-b7f9-4d06-8092-94bcf8af610f">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="1a8f34f3-9786-41f2-84d4-e38582e08b70">
+                    <firstStatement name="statement1" id="ef359f21-1593-429e-9211-81545b092fbd">
+                      <refinement name="result = false;" id="3f608910-761f-4923-a4a6-831d63857592">
+                        <postCondition name="modifiable(index,result);&#xD;&#xA;result = false"/>
+                        <preCondition name="modifiable(index,result);&#xD;&#xA;index = this.getCurrentFloorID()"/>
+                      </refinement>
+                      <postCondition name="modifiable(index,result);&#xD;&#xA;result = false"/>
+                      <preCondition name="modifiable(index,result);&#xD;&#xA;index = this.getCurrentFloorID()"/>
+                    </firstStatement>
+                    <secondStatement name="statement2" id="6e8c5a2d-430a-4393-8645-94f217653c4a">
+                      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="ab8c7288-4467-4a3a-ae39-473d29cce60e">
+                        <firstStatement name="statement1" id="b89d94d3-ffa7-4fa3-8ffe-f24636039b2e">
+                          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" id="7d02a7f7-db26-48ef-a759-f094d6d9ee7d">
+                            <guards name="d == 1"/>
+                            <guards name="d != 1"/>
+                            <commands name="statement" id="34b2b149-daba-4048-938d-3e68d6e399e4">
+                              <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" id="da918b19-6f17-4c3b-8949-454c405636bb">
+                                <postCondition name="modifiable(index,result);&#xD;&#xA;true"/>
+                                <preCondition name="modifiable(index,result);(result = false) &amp; (d == 1)"/>
+                                <loopStatement name="loop" id="7da53e27-92e0-46c5-8d7c-61e6ced2d011">
+                                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="b609b93d-a454-4ae8-b37a-818b1716aabd">
+                                    <firstStatement name="statement1" id="5dcaf3fe-d1a3-46b7-8403-62497d64fce2">
+                                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" id="7253a31d-3875-48be-9f1a-b13d438f6730">
+                                        <guards name="(this.buttonForFloorIsPressed(index) == true)"/>
+                                        <guards name="this.buttonForFloorIsPressed(index) != true"/>
+                                        <commands name="statement" id="a6816f33-fe55-44c7-880d-6168caef60ff">
+                                          <refinement name="result = true;" id="0b3af2c6-f205-48ee-9704-6587014ac6b4">
+                                            <postCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                            <preCondition name="modifiable(\nothing);((((\exists int j;((j>=this.getCurrentFloorID() &amp; j&lt;index &amp; j>=0 &amp; this.floorButtons != null &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)) &amp; (index &lt; this.floorButtons.length)) &amp; ((this.buttonForFloorIsPressed(index) == true))"/>
+                                          </refinement>
+                                          <postCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                          <preCondition name="modifiable(\nothing);((((\exists int j;((j>=this.getCurrentFloorID() &amp; j&lt;index &amp; j>=0 &amp; this.floorButtons != null &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)) &amp; (index &lt; this.floorButtons.length)) &amp; ((this.buttonForFloorIsPressed(index) == true))"/>
+                                        </commands>
+                                        <commands name="statement" id="01969f94-22d4-4b52-851f-3067cac1d52d">
+                                          <refinement xsi:type="cbcmodel:SkipStatement" name=";" id="2e178437-5ce0-49cb-a206-0d1e4db10900">
+                                            <postCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                            <preCondition name="modifiable(\nothing);((((\exists int j;((j>=this.getCurrentFloorID() &amp; j&lt;index &amp; j>=0 &amp; this.floorButtons != null &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)) &amp; (index &lt; this.floorButtons.length)) &amp; (this.buttonForFloorIsPressed(index) != true)"/>
+                                          </refinement>
+                                          <postCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                          <preCondition name="modifiable(\nothing);((((\exists int j;((j>=this.getCurrentFloorID() &amp; j&lt;index &amp; j>=0 &amp; this.floorButtons != null &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)) &amp; (index &lt; this.floorButtons.length)) &amp; (this.buttonForFloorIsPressed(index) != true)"/>
+                                        </commands>
+                                      </refinement>
+                                      <postCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                      <preCondition name="(((\exists int j;((j>=this.getCurrentFloorID() &amp; j&lt;index &amp; j>=0 &amp; this.floorButtons != null &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)) &amp; (index &lt; this.floorButtons.length)"/>
+                                    </firstStatement>
+                                    <secondStatement name="statement2" id="1a1b15b2-7d27-4ca6-9edb-db2059d9460b">
+                                      <refinement name="index++;" id="30804c13-7b4f-40c9-93c9-1f01f069177a">
+                                        <postCondition name="((\exists int j;((j>=this.getCurrentFloorID() &amp; j&lt;index &amp; j>=0 &amp; this.floorButtons != null &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)"/>
+                                        <preCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                      </refinement>
+                                      <postCondition name="((\exists int j;((j>=this.getCurrentFloorID() &amp; j&lt;index &amp; j>=0 &amp; this.floorButtons != null &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)"/>
+                                      <preCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                    </secondStatement>
+                                    <intermediateCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                  </refinement>
+                                  <postCondition name="((\exists int j;((j>=this.getCurrentFloorID() &amp; j&lt;index &amp; j>=0 &amp; this.floorButtons != null &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)"/>
+                                  <preCondition name="(((\exists int j;((j>=this.getCurrentFloorID() &amp; j&lt;index &amp; j>=0 &amp; this.floorButtons != null &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)) &amp; (index &lt; this.floorButtons.length)"/>
+                                </loopStatement>
+                                <variant name="index+1"/>
+                                <invariant name="((\exists int j;((j>=this.getCurrentFloorID() &amp; j&lt;index &amp; j>=0 &amp; this.floorButtons != null &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)"/>
+                                <guard name="index &lt; this.floorButtons.length"/>
+                              </refinement>
+                              <postCondition name="modifiable(index,result);&#xD;&#xA;true"/>
+                              <preCondition name="modifiable(index,result);(result = false) &amp; (d == 1)"/>
+                            </commands>
+                            <commands name="statement" id="3b78c73d-b878-4524-b54f-59b529f63a9c">
+                              <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" id="f87ada4c-2f70-44ac-bf55-250a8e8a9ed2">
+                                <postCondition name="modifiable(index,result);&#xD;&#xA;true"/>
+                                <preCondition name="modifiable(index,result);(result = false) &amp; (d != 1)"/>
+                                <loopStatement name="loop" id="9bd1b876-1d03-42a5-a9ff-a6cc76030f55">
+                                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="8ff3a3ba-f843-4707-a653-9bc479b061ab">
+                                    <firstStatement name="statement1" id="1f4ded38-43b1-4a32-829b-70211add99ed">
+                                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" id="67ed2567-5e75-46db-bddc-394d480d8c88">
+                                        <guards name="this.buttonForFloorIsPressed(index) == true"/>
+                                        <guards name="this.buttonForFloorIsPressed(index) != true"/>
+                                        <commands name="statement" id="1d083524-8c6d-4034-bf43-f3d2228bc82d">
+                                          <refinement name="result = true;" id="38f55c0b-852a-4adb-8172-b7b53fe39c3b">
+                                            <postCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                            <preCondition name="modifiable(\nothing);((index >= 0 &amp; this.getCurrentFloorID() >= 0 &amp; ((\exists int j;((j&lt;=this.getCurrentFloorID() &amp; j>index &amp; this.floorButtons != null &amp; this.getCurrentFloorID() &lt; this.floorButtons.length &amp; index &lt; this.floorButtons.length &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)) &amp; (index >= 0)) &amp; (this.buttonForFloorIsPressed(index) == true)"/>
+                                          </refinement>
+                                          <postCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                          <preCondition name="modifiable(\nothing);((index >= 0 &amp; this.getCurrentFloorID() >= 0 &amp; ((\exists int j;((j&lt;=this.getCurrentFloorID() &amp; j>index &amp; this.floorButtons != null &amp; this.getCurrentFloorID() &lt; this.floorButtons.length &amp; index &lt; this.floorButtons.length &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)) &amp; (index >= 0)) &amp; (this.buttonForFloorIsPressed(index) == true)"/>
+                                        </commands>
+                                        <commands name="statement" id="c1955718-c043-4ed8-90f3-cf2025386b65">
+                                          <refinement xsi:type="cbcmodel:SkipStatement" name=";" id="5e751fa4-dc6e-48e9-a829-d4e7541f72a5">
+                                            <postCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                            <preCondition name="modifiable(\nothing);((index >= 0 &amp; this.getCurrentFloorID() >= 0 &amp; ((\exists int j;((j&lt;=this.getCurrentFloorID() &amp; j>index &amp; this.floorButtons != null &amp; this.getCurrentFloorID() &lt; this.floorButtons.length &amp; index &lt; this.floorButtons.length &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)) &amp; (index >= 0)) &amp; (this.buttonForFloorIsPressed(index) != true)"/>
+                                          </refinement>
+                                          <postCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                          <preCondition name="modifiable(\nothing);((index >= 0 &amp; this.getCurrentFloorID() >= 0 &amp; ((\exists int j;((j&lt;=this.getCurrentFloorID() &amp; j>index &amp; this.floorButtons != null &amp; this.getCurrentFloorID() &lt; this.floorButtons.length &amp; index &lt; this.floorButtons.length &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)) &amp; (index >= 0)) &amp; (this.buttonForFloorIsPressed(index) != true)"/>
+                                        </commands>
+                                      </refinement>
+                                      <postCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                      <preCondition name="(index >= 0 &amp; this.getCurrentFloorID() >= 0 &amp; ((\exists int j;((j&lt;=this.getCurrentFloorID() &amp; j>index &amp; this.floorButtons != null &amp; this.getCurrentFloorID() &lt; this.floorButtons.length &amp; index &lt; this.floorButtons.length &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)) &amp; (index >= 0)"/>
+                                    </firstStatement>
+                                    <secondStatement name="statement2" id="2b1c0ab5-98d8-45f8-aba9-32b3bda533f8">
+                                      <refinement name="index--;" id="6a165301-bb9e-4d65-960f-1ffe76837ba3">
+                                        <postCondition name="index >= 0 &amp; this.getCurrentFloorID() >= 0 &amp; ((\exists int j;((j&lt;=this.getCurrentFloorID() &amp; j>index &amp; this.floorButtons != null &amp; this.getCurrentFloorID() &lt; this.floorButtons.length &amp; index &lt; this.floorButtons.length &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)"/>
+                                        <preCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                      </refinement>
+                                      <postCondition name="index >= 0 &amp; this.getCurrentFloorID() >= 0 &amp; ((\exists int j;((j&lt;=this.getCurrentFloorID() &amp; j>index &amp; this.floorButtons != null &amp; this.getCurrentFloorID() &lt; this.floorButtons.length &amp; index &lt; this.floorButtons.length &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)"/>
+                                      <preCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                    </secondStatement>
+                                    <intermediateCondition name="modifiable(result,index);&#xD;&#xA;true"/>
+                                  </refinement>
+                                  <postCondition name="index >= 0 &amp; this.getCurrentFloorID() >= 0 &amp; ((\exists int j;((j&lt;=this.getCurrentFloorID() &amp; j>index &amp; this.floorButtons != null &amp; this.getCurrentFloorID() &lt; this.floorButtons.length &amp; index &lt; this.floorButtons.length &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)"/>
+                                  <preCondition name="(index >= 0 &amp; this.getCurrentFloorID() >= 0 &amp; ((\exists int j;((j&lt;=this.getCurrentFloorID() &amp; j>index &amp; this.floorButtons != null &amp; this.getCurrentFloorID() &lt; this.floorButtons.length &amp; index &lt; this.floorButtons.length &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)) &amp; (index >= 0)"/>
+                                </loopStatement>
+                                <variant name="index-1"/>
+                                <invariant name="index >= 0 &amp; this.getCurrentFloorID() >= 0 &amp; ((\exists int j;((j&lt;=this.getCurrentFloorID() &amp; j>index &amp; this.floorButtons != null &amp; this.getCurrentFloorID() &lt; this.floorButtons.length &amp; index &lt; this.floorButtons.length &amp; this.floorButtons[j] != null &amp; this.buttonForFloorIsPressed(j) = true))) -> result = true)"/>
+                                <guard name="index >= 0"/>
+                              </refinement>
+                              <postCondition name="modifiable(index,result);&#xD;&#xA;true"/>
+                              <preCondition name="modifiable(index,result);(result = false) &amp; (d != 1)"/>
+                            </commands>
+                          </refinement>
+                          <postCondition name="modifiable(index,result);&#xD;&#xA;true"/>
+                          <preCondition name="modifiable(index,result);&#xD;&#xA;result = false"/>
+                        </firstStatement>
+                        <secondStatement name="statement2" id="2ae788fe-348a-42a6-af21-060bd5fb4f6c">
+                          <refinement xsi:type="cbcmodel:ReturnStatement" name="result = result;" comment="returnStatement" id="bad703dd-42d4-4dee-a75c-5da6a38ee93b">
+                            <postCondition name="modifiable(index,result);&#xD;&#xA;(this.floorButtons != null &amp; d = 1 &amp; (\exists int k;((k>=this.getCurrentFloorID() &amp; k&lt;this.floorButtons.length &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true&#xA;&#x9;&amp; (this.floorButtons != null &amp; d = 0 &amp; (\exists int k;((k&lt;=this.getCurrentFloorID() &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true"/>
+                            <preCondition name="modifiable(index,result);&#xD;&#xA;true"/>
+                          </refinement>
+                          <postCondition name="modifiable(index,result);&#xD;&#xA;(this.floorButtons != null &amp; d = 1 &amp; (\exists int k;((k>=this.getCurrentFloorID() &amp; k&lt;this.floorButtons.length &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true&#xA;&#x9;&amp; (this.floorButtons != null &amp; d = 0 &amp; (\exists int k;((k&lt;=this.getCurrentFloorID() &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true"/>
+                          <preCondition name="modifiable(index,result);&#xD;&#xA;true"/>
+                        </secondStatement>
+                        <intermediateCondition name="modifiable(index,result);&#xD;&#xA;true"/>
+                      </refinement>
+                      <postCondition name="modifiable(index,result);&#xD;&#xA;(this.floorButtons != null &amp; d = 1 &amp; (\exists int k;((k>=this.getCurrentFloorID() &amp; k&lt;this.floorButtons.length &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true&#xA;&#x9;&amp; (this.floorButtons != null &amp; d = 0 &amp; (\exists int k;((k&lt;=this.getCurrentFloorID() &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true"/>
+                      <preCondition name="modifiable(index,result);&#xD;&#xA;result = false"/>
+                    </secondStatement>
+                    <intermediateCondition name="modifiable(index,result);&#xD;&#xA;result = false"/>
+                  </refinement>
+                  <postCondition name="modifiable(index,result);&#xD;&#xA;(this.floorButtons != null &amp; d = 1 &amp; (\exists int k;((k>=this.getCurrentFloorID() &amp; k&lt;this.floorButtons.length &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true&#xA;&#x9;&amp; (this.floorButtons != null &amp; d = 0 &amp; (\exists int k;((k&lt;=this.getCurrentFloorID() &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true"/>
+                  <preCondition name="modifiable(index,result);&#xD;&#xA;index = this.getCurrentFloorID()"/>
+                </secondStatement>
+                <intermediateCondition name="modifiable(index,result);&#xD;&#xA;index = this.getCurrentFloorID()"/>
+              </refinement>
+              <postCondition name="modifiable(index,result);&#xD;&#xA;(this.floorButtons != null &amp; d = 1 &amp; (\exists int k;((k>=this.getCurrentFloorID() &amp; k&lt;this.floorButtons.length &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true&#xA;&#x9;&amp; (this.floorButtons != null &amp; d = 0 &amp; (\exists int k;((k&lt;=this.getCurrentFloorID() &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true"/>
+              <preCondition name="modifiable(index,result);&#xD;&#xA;index = 0"/>
+            </secondStatement>
+            <intermediateCondition name="modifiable(index,result);&#xD;&#xA;index = 0"/>
+          </refinement>
+          <postCondition name="modifiable(index,result);&#xD;&#xA;(this.floorButtons != null &amp; d = 1 &amp; (\exists int k;((k>=this.getCurrentFloorID() &amp; k&lt;this.floorButtons.length &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true&#xA;&#x9;&amp; (this.floorButtons != null &amp; d = 0 &amp; (\exists int k;((k&lt;=this.getCurrentFloorID() &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true"/>
+          <preCondition name="modifiable(result);&#xD;&#xA;result = false"/>
+        </secondStatement>
+        <intermediateCondition name="modifiable(result);&#xD;&#xA;result = false"/>
+      </refinement>
+      <postCondition name="modifiable(index,result);&#xD;&#xA;(this.floorButtons != null &amp; d = 1 &amp; (\exists int k;((k>=this.getCurrentFloorID() &amp; k&lt;this.floorButtons.length &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true&#xA;&#x9;&amp; (this.floorButtons != null &amp; d = 0 &amp; (\exists int k;((k&lt;=this.getCurrentFloorID() &amp; this.buttonForFloorIsPressed(k) = true)))) -> result = true"/>
+      <preCondition name="this.floorButtons != null &amp; d >= 0 &amp; d&lt;= 1&amp; this.currentFloorID >= 0 &amp; d&lt;=1 &amp; this.floorButtons != null &amp; this != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.0"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int index"/>
+    <variables name="boolean result"/>
+  </cbcmodel:JavaVariables>
+</xmi:XMI>

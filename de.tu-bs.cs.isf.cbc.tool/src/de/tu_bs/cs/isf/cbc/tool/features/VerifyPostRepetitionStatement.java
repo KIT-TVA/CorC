@@ -1,5 +1,8 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -11,16 +14,14 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
-import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
-import de.tu_bs.cs.isf.cbc.tool.helper.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.Console;
-import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
+import de.tu_bs.cs.isf.cbc.util.GenerateCodeForVariationalVerification;
+import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
+import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
@@ -32,7 +33,12 @@ import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
  *
  */
 public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomFeature {
-
+	private String proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
+	
+	public void setProofType(String proofType) {
+		this.proofType = proofType;
+	}
+	private static List<CbCFormula> refinements;
 	/**
 	 * Constructor of the class
 	 * 
@@ -68,6 +74,7 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
+		long startTime = System.nanoTime();
 		monitor.beginTask("Verify", IProgressMonitor.UNKNOWN);
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
@@ -88,27 +95,35 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
-				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), "");
+				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), new ArrayList<>(), 0, proofType);
 				if (isVariational) {
-					Console.println("--------------- Triggered variational verification ---------------");
+					Console.println("Starting variational verification...\n");
 					String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 					String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 					String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
+					String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
+
 					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
-					for (int i = 0; i < featureConfigs.length; i++) {
-						genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i]);
-						String configName = "";
-						for (String s : featureConfigs[i]) configName += s;
-						prove.setConfigName(configName);
-						proven = prove.provePostRepetitionWithKey(statement.getInvariant(), statement.getGuard(), parent.getPostCondition());
+					VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
+					
+					if (featureConfigs != null) {
+						String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
+						for (int i = 0; i < variants.length; i++) {
+							genCode.setProofTypeInfo(i, proofType);
+							if(!genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i])) continue;
+							prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), featureConfigs[i], i, KeYInteraction.ABSTRACT_PROOF_FULL);
+							List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i], callingMethod);
+							String configName = "";
+							for (String s : featureConfigs[i]) configName += s;
+							prove.setConfigName(configName);
+							proven = prove.provePostRepetitionWithKey(refinements, statement.getInvariant(), statement.getGuard(), parent.getPostCondition());
+						}
 					}
 				} else {
-					Console.println("--------------- Triggered verification ---------------");
-					proven = prove.provePostRepetitionWithKey(statement.getInvariant(), statement.getGuard(), parent.getPostCondition());
+					Console.println("Starting verification...\n");
+					proven = prove.provePostRepetitionWithKey(null, statement.getInvariant(), statement.getGuard(), parent.getPostCondition());
 				}		
-				Console.println("--------------- Verification completed --------------- ");
-								
 				if (proven) {
 					statement.setPostProven(true);
 				} else {
@@ -117,6 +132,12 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 				updatePictogramElement(((Shape)pes[0]).getContainer());
 			}
 		}
-		monitor.done();
+		// reset proof type since partial proofs also call this method.
+		proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime) / 1000000;
+		Console.println("\nVerification done."); 
+		Console.println("Time needed: " + duration + "ms");
+		monitor.done();	
 	}
 }

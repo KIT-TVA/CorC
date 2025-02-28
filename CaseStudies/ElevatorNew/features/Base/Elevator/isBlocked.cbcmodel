@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="isBlocked" proven="true" className="Elevator" methodName="isBlocked">
+    <statement name="statement" id="bd952da3-6c02-43a8-9857-90265e7589bf">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.blocked;" proven="true" comment="returnStatement" id="d53c6210-b285-49e0-8de9-5001ab63b429">
+        <postCondition name="retBlocked(\result, this.blocked)"/>
+        <preCondition name="this.blocked != null"/>
+      </refinement>
+      <postCondition name="retBlocked(\result, this.blocked)"/>
+      <preCondition name="this.blocked != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.6"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+</xmi:XMI>

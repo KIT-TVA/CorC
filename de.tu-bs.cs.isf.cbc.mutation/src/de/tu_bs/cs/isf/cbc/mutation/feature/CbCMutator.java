@@ -18,131 +18,136 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SelectionStatement;
 import de.tu_bs.cs.isf.cbc.mutation.op.cbc.CbCMutationOp;
 import de.tu_bs.cs.isf.cbc.mutation.util.MutatedClass;
+import de.tu_bs.cs.isf.cbc.mutation.util.MutationInformationTripel;
 import de.tu_bs.cs.isf.cbc.util.CopyDiagram;
+import de.tu_bs.cs.isf.cbc.util.LinePair;
 
 public class CbCMutator extends Mutator {
-	private Condition condition;
-	private String targetId;
-	private int curPos;
+    private Condition condition;
+    private String targetId;
+    private int curPos;
 
-	@Override
-	public void mutate(Diagram diagram, Condition condition) throws Exception {
-		this.condition = condition;
-		this.targetId = ((AbstractStatement)condition.eContainer()).getId();
-		setup(diagram);
-		generateMutants();
-		ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
-	}
-	
-	@Override
-	protected void generateDiagrams() throws Exception {
-		for (String mutant : this.mutants) {
-			String mutantName = this.mutantBaseName + this.curPos;
-			String diagCopyPath = this.mutationFolder.getLocation().toOSString() + File.separator + mutantName;
-			CopyDiagram cd = new CopyDiagram(diagCopyPath, this.getOriginalDiagram(), this.getOriginalDiagram().getName());//mutantName);
-			applyMutationsToDiagrams(cd.getResource(), mutant);
-			cd.save();
-			this.getMutantDiagrams().add(cd.getDiagram());
-			this.curPos++;
-		}
-	}
+    @Override
+    public void mutate(Diagram diagram, Condition condition) throws Exception {
+	this.condition = condition;
+	this.targetId = ((AbstractStatement) condition.eContainer()).getId();
+	setup(diagram);
+	generateMutants();
+	this.saveMutationInformation();
+	ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+    }
 
-	protected CbCMutator(List<String> operators) {
-		super(operators);
-		curPos = 0;
+    @Override
+    protected void generateDiagrams() throws Exception {
+	for (String mutant : this.mutants) {
+	    String mutantName = this.mutantBaseName + this.curPos;
+	    String diagCopyPath = this.mutationFolder.getLocation().toOSString() + File.separator + mutantName;
+	    CopyDiagram cd = new CopyDiagram(diagCopyPath, this.getOriginalDiagram(),
+		    this.getOriginalDiagram().getName());// mutantName);
+	    applyMutationsToDiagrams(cd.getResource(), mutant);
+	    cd.save();
+	    this.getMutantDiagrams().add(cd.getDiagram());
+	    this.curPos++;
 	}
+    }
 
-	private void generateMutants() throws Exception {
-		applyMutationOperators();
-		MutatedClass mc = new MutatedClass(this);
-		mc.generate();
-	}
-	
-	private void applyMutationOperators() throws Exception {
-		for (String opStr : operators) {
-			CbCMutationOp op = CbCMutationOp.get(opStr);
-			mutants = op.apply(condition);
-			generateDiagrams();
-		}
-	}
-	
-	private void applyMutationsToDiagrams(Resource resource, String mutant) throws IOException {
-		CbCFormula formula = this.getFormulaFrom(resource);
-		unproveEverything(formula.getStatement());
-		Condition c = findConditionIn(formula.getStatement());
-		if (c == null) {
-			return;
-		}
-		c.setName(mutant);
-		resource.save(Collections.EMPTY_MAP);
-	}
-	
+    protected CbCMutator(List<String> operators) {
+	super(operators);
+	curPos = 0;
+    }
 
-	private Condition findConditionIn(EObject cur) {
-		if (cur instanceof CompositionStatement) {
-			Condition compCon = checkComposition(cur);
-			if (compCon != null) {
-				((CompositionStatement)cur).setProven(false);
-				return compCon;
-			}
-		} else if (cur instanceof SelectionStatement) {
-			Condition selCon = checkSelection(cur);
-			if (selCon != null) {
-				((SelectionStatement)cur).setProven(false);
-				return selCon;
-			}
-		} else if (cur instanceof AbstractStatement) {
-			if (hasCorrectId(cur)) {
-				return findConditionOf(cur);
-			}
+    private void generateMutants() throws Exception {
+	applyMutationOperators();
+	MutatedClass mc = new MutatedClass(this);
+	mc.generate();
+    }
+
+    private void applyMutationOperators() throws Exception {
+	for (String opStr : operators) {
+	    CbCMutationOp op = CbCMutationOp.get(opStr);
+	    mutants = op.apply(condition);
+	    generateDiagrams();
+	}
+    }
+
+    private void applyMutationsToDiagrams(Resource resource, String mutant) throws IOException {
+	CbCFormula formula = this.getFormulaFrom(resource);
+	unproveEverything(formula.getStatement());
+	Condition c = findConditionIn(formula.getStatement());
+	if (c == null) {
+	    return;
+	}
+	this.mutantInfos.add(new MutationInformationTripel(new LinePair(c.getName(), mutant),
+		this.mutantBaseName + this.mutationCount));
+	c.setName(mutant);
+	resource.save(Collections.EMPTY_MAP);
+    }
+
+    private Condition findConditionIn(EObject cur) {
+	if (cur instanceof CompositionStatement) {
+	    Condition compCon = checkComposition(cur);
+	    if (compCon != null) {
+		((CompositionStatement) cur).setProven(false);
+		return compCon;
+	    }
+	} else if (cur instanceof SelectionStatement) {
+	    Condition selCon = checkSelection(cur);
+	    if (selCon != null) {
+		((SelectionStatement) cur).setProven(false);
+		return selCon;
+	    }
+	} else if (cur instanceof AbstractStatement) {
+	    if (hasCorrectId(cur)) {
+		return findConditionOf(cur);
+	    }
+	}
+	for (EObject child : cur.eContents()) {
+	    return findConditionIn(child);
+	}
+	return null;
+    }
+
+    private boolean hasCorrectId(EObject cur) {
+	return ((AbstractStatement) cur).getId().equals(this.targetId);
+    }
+
+    private boolean hasCorrectName(EObject o) {
+	return ((Condition) o).getName().equals(this.condition.getName());
+    }
+
+    private Condition findConditionOf(EObject cur) {
+	for (EObject o : cur.eContents()) {
+	    if (o instanceof Condition && hasCorrectName(o)) {
+		((AbstractStatement) cur).setProven(false);
+		return (Condition) o;
+	    }
+	}
+	return null;
+    }
+
+    private Condition checkComposition(EObject cur) {
+	if (hasCorrectId(cur)) {
+	    return findConditionOf(cur);
+	} else {
+	    Condition conInFirst = findConditionIn(((CompositionStatement) cur).getFirstStatement());
+	    Condition conInSecond = findConditionIn(((CompositionStatement) cur).getSecondStatement());
+	    return conInFirst != null ? conInFirst : conInSecond;
+	}
+    }
+
+    private Condition checkSelection(EObject cur) {
+	if (hasCorrectId(cur)) {
+	    return findConditionOf(cur);
+	} else {
+	    SelectionStatement sel = (SelectionStatement) cur;
+	    for (AbstractStatement c : sel.getCommands()) {
+		Condition con = findConditionIn(c);
+		if (con != null) {
+		    return con;
 		}
-		for (EObject child : cur.eContents()) {
-			return findConditionIn(child);
-		}
-		return null;
+	    }
 	}
-	
-	private boolean hasCorrectId(EObject cur) {
-		return ((AbstractStatement)cur).getId().equals(this.targetId);
-	}
-	
-	private boolean hasCorrectName(EObject o) {
-		return ((Condition)o).getName().equals(this.condition.getName());
-	}
-	
-	private Condition findConditionOf(EObject cur) {
-		for (EObject o : cur.eContents()) {
-			if (o instanceof Condition && hasCorrectName(o)) {
-				((AbstractStatement)cur).setProven(false);
-				return (Condition)o;
-			}
-		}
-		return null;
-	}
-	
-	private Condition checkComposition(EObject cur) {
-		if (hasCorrectId(cur)) {
-			return findConditionOf(cur);
-		} else {
-			Condition conInFirst = findConditionIn(((CompositionStatement)cur).getFirstStatement());
-			Condition conInSecond = findConditionIn(((CompositionStatement)cur).getSecondStatement());
-			return conInFirst != null ? conInFirst : conInSecond;
-		}
-	}
-	
-	private Condition checkSelection(EObject cur) {
-		if (hasCorrectId(cur)) {
-			return findConditionOf(cur);
-		} else {
-			SelectionStatement sel = (SelectionStatement)cur;
-			for (AbstractStatement c : sel.getCommands()) {
-				Condition con = findConditionIn(c);
-				if (con != null) {
-					return con;
-				}
-			}
-		}
-		return null;
-	}
+	return null;
+    }
 
 }

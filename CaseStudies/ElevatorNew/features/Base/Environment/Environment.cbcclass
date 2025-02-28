@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Environment" feature="Base">
+  <fields type="Floor[]" name="floors"/>
+  <methods cbcDiagramURI="createEnvironment.diagram" name="createEnvironment" returnType="void">
+    <cbcStartTriple href="createEnvironment.cbcmodel#/0"/>
+    <parameters type="int" name="numFloors"/>
+  </methods>
+  <methods cbcDiagramURI="getFloor.diagram" name="getFloor" returnType="Floor">
+    <cbcStartTriple href="getFloor.cbcmodel#/0"/>
+    <parameters type="int" name="id"/>
+    <parameters type="Floor" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="getFloors.diagram" name="getFloors" returnType="Floor[]">
+    <cbcStartTriple href="getFloors.cbcmodel#/0"/>
+    <parameters type="Floor[]" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="isTopFloor.diagram" name="isTopFloor" returnType="boolean">
+    <cbcStartTriple href="isTopFloor.cbcmodel#/0"/>
+    <parameters type="int" name="id"/>
+    <parameters type="boolean" name="ret"/>
+  </methods>
+</cbcclass:ModelClass>

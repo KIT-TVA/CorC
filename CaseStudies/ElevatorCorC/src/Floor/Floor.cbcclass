@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Floor" javaClassURI="src\Floor.java">
+  <fields visibility="PRIVATE" type="ArrayList" name="waiting"/>
+  <fields visibility="PRIVATE" type="boolean" name="elevatorCall"/>
+  <fields visibility="PRIVATE" type="int" name="thisFloorID"/>
+  <fields visibility="PRIVATE" type="Environment" name="env"/>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Floor\addWaitingPerson.cbcmodel" name="addWaitingPerson" returnType="void">
+    <cbcStartTriple href="addWaitingPerson.cbcmodel#/0"/>
+    <parameters type="Person" name="person"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Floor\callElevator.cbcmodel" name="callElevator" returnType="void">
+    <cbcStartTriple href="callElevator.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Floor\getFloorID.cbcmodel" name="getFloorID" returnType="int">
+    <cbcStartTriple href="getFloorID.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Floor\hasCall.cbcmodel" name="hasCall" returnType="boolean">
+    <cbcStartTriple href="hasCall.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Floor\reset.cbcmodel" name="reset" returnType="void">
+    <cbcStartTriple href="reset.cbcmodel#/0"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Floor\processWaitingPersons.cbcmodel" name="processWaitingPersons" returnType="void">
+    <cbcStartTriple href="processWaitingPersons.cbcmodel#/0"/>
+    <parameters type="Elevator" name="e"/>
+  </methods>
+  <methods cbcDiagramURI="C:\Users\tobia\workspaceCorCGitRuntime\ElevatorCorC\src\Floor\createFloor.cbcmodel" name="createFloor" returnType="void">
+    <cbcStartTriple href="createFloor.cbcmodel#/0"/>
+    <parameters type="Environment" name="envx"/>
+    <parameters type="int" name="idx"/>
+  </methods>
+</cbcclass:ModelClass>

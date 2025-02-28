@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="buttonForFloorIsPressed" proven="true" className="Elevator" methodName="buttonForFloorIsPressed">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="this.floorButtons[floorID];" proven="true" comment="returnStatement">
+        <postCondition name="\result = this.floorButtons[floorID]"/>
+        <preCondition name="floorID >= 0 &amp; this.floorButtons != null &amp; floorID &lt; this.floorButtons.length"/>
+      </refinement>
+      <postCondition name="\result = this.floorButtons[floorID]"/>
+      <preCondition name="floorID >= 0 &amp; this.floorButtons != null &amp; floorID &lt; this.floorButtons.length"/>
+    </statement>
+    <preCondition name=" floorID >= 0 &amp; this.floorButtons != null &amp; floorID &lt; this.floorButtons.length &amp; this.floorButtons != null"/>
+    <postCondition name=" result = this.floorButtons[floorID]"/>
+    <methodObj href="Elevator.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int floorID" kind="PARAM"/>
+    <variables name="boolean result" kind="RETURN"/>
+    <variables name="boolean result"/>
+    <fields href="Elevator.cbcclass#//@fields.0"/>
+    <fields href="Elevator.cbcclass#//@fields.1"/>
+    <fields href="Elevator.cbcclass#//@fields.2"/>
+    <fields href="Elevator.cbcclass#//@fields.3"/>
+    <fields href="Elevator.cbcclass#//@fields.4"/>
+    <fields href="Elevator.cbcclass#//@fields.5"/>
+    <fields href="Elevator.cbcclass#//@fields.6"/>
+    <fields href="Elevator.cbcclass#//@fields.7"/>
+    <fields href="Elevator.cbcclass#//@fields.8"/>
+    <fields href="Elevator.cbcclass#//@fields.9"/>
+    <fields href="Elevator.cbcclass#//@fields.10"/>
+    <fields href="Elevator.cbcclass#//@fields.11"/>
+    <fields href="Elevator.cbcclass#//@fields.12"/>
+    <fields href="Elevator.cbcclass#//@fields.13"/>
+    <fields href="Elevator.cbcclass#//@fields.14"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>

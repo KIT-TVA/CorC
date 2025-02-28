@@ -14,8 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
  de.tu-bs.cs.isf.cbc.model,
  org.eclipse.core.resources,
  com.google.guava,
- org.eclipse.graphiti,
- org.key_project.core.symbolic_execution
+ org.eclipse.graphiti
 Bundle-ActivationPolicy: lazy
 Export-Package: de.tu_bs.cs.isf.cbc.statistics,
  de.tu_bs.cs.isf.cbc.statistics.impl,

@@ -318,47 +318,55 @@ public class MetaMethod {
 	}
 	
 	private void addFields(JavaVariables metaJavaVariables) {
-		metaJavaVariables.getFields().addAll(this.metaClass.getModel().getFields());
+		boolean found = false;
+		for (int i = 0; i < this.metaClass.getModel().getFields().size(); i++) {
+			for (int j = 0; j < metaJavaVariables.getFields().size(); j++) {
+				if (metaJavaVariables.getFields().get(j).getName().equals(this.metaClass.getModel().getFields().get(i).getName())) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				metaJavaVariables.getFields().add(this.metaClass.getModel().getFields().get(i));
+				i--;
+			}
+			found = false;
+		}
+		//metaJavaVariables.getFields().addAll(this.metaClass.getModel().getFields());
 	}
 
 	private void addVariables(MethodStruct method, JavaVariables metaJavaVariables) {
-		for(int j = 0 ; j < method.javaVariables.getVariables().size(); j++) {
-			boolean alreadyInList = false;
-			JavaVariable variableToAdd = method.javaVariables.getVariables().get(j);
-			String  variableNameToAdd = variableToAdd.getDisplayedName();
-			
-			for(int k = 0 ; k < metaJavaVariables.getVariables().size(); k++) {
-
-				if(metaJavaVariables.getVariables().get(k).getDisplayedName().equals(variableNameToAdd)) {
-					alreadyInList = true;
+		boolean found = false;
+		for (int i = 0; i < method.javaVariables.getVariables().size(); i++) {
+			for (int j = 0; j < metaJavaVariables.getVariables().size(); j++) {
+				if (metaJavaVariables.getVariables().get(j).getName().equals(method.javaVariables.getVariables().get(i).getName())) {
+					found = true;
+					break;
 				}
 			}
-			if(!alreadyInList) {
-				metaJavaVariables.getVariables().add(CopyCbCFormula.copyJavaVariable(variableToAdd));
+			if (!found) {
+				metaJavaVariables.getVariables().add(CopyCbCFormula.copyJavaVariable(method.javaVariables.getVariables().get(i)));
 			}
+			found = false;
 		}
 	}
 	
 	private void addParameters(MethodStruct method, JavaVariables metaJavaVariables) throws Exception {
 		var metaMethod = metaClass.getMethod(method.nameOfMethod);
-		for(int j = 0 ; j < metaMethod.getParameters().size(); j++) {
-			boolean alreadyInList = false;
-			Parameter variableToAdd = metaMethod.getParameters().get(j);
-			String variableNameToAdd = variableToAdd.getName();
-			
-			for(int k = 0 ; k < metaJavaVariables.getVariables().size(); k++) {
-				if(metaJavaVariables.getVariables().get(k).getDisplayedName().equals(variableNameToAdd)) {
-					alreadyInList = true;
+		boolean found = false;
+		for (int i = 0; i < metaMethod.getParameters().size(); i++) {
+			for (int j = 0; j < metaJavaVariables.getVariables().size(); j++) {
+				if (metaJavaVariables.getVariables().get(j).getName().equals(metaMethod.getParameters().get(i).getType() + " " + metaMethod.getParameters().get(i).getName())) {
+					found = true;
+					break;
 				}
 			}
-			if(!alreadyInList) {
-				metaJavaVariables.getVariables().add(CopyCbCFormula.copyParameter(variableToAdd));
+			if (!found) {
+				metaJavaVariables.getVariables().add(CopyCbCFormula.copyParameter(metaMethod.getParameters().get(i)));
 			}
+			found = false;
 		}
 	}
-	
-	
-	
 	
 	private GlobalConditions createMetaInvariants() {
 		GlobalConditions globalConditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();

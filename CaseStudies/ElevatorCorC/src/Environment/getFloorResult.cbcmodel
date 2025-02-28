@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="getFloorResult" className="Environment" methodName="getFloorResult">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+        <firstStatement name="statement1">
+          <refinement name="floor = null;">
+            <postCondition name="intermediateCond"/>
+            <preCondition name=" this.floors != null &amp; 0 &lt;= id &amp; id &lt; this.floors.length &amp; this.floors[id] != null &amp; this.floors != null &amp; 0 &lt;= id"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name=" this.floors != null &amp; 0 &lt;= id &amp; id &lt; this.floors.length &amp; this.floors[id] != null &amp; this.floors != null &amp; 0 &lt;= id"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement">
+            <firstStatement name="statement1">
+              <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement">
+                <guards name="this.floors != null&amp;&amp;id &lt; this.floors.length&amp;&amp;id >= 0"/>
+                <guards name="!(this.floors != null&amp;&amp;id &lt; this.floors.length&amp;&amp;id >= 0)"/>
+                <commands name="statement1">
+                  <refinement name="floor = this.floors[id];">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (this.floors != null&amp;&amp;id &lt; this.floors.length&amp;&amp;id >= 0)"/>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (this.floors != null&amp;&amp;id &lt; this.floors.length&amp;&amp;id >= 0)"/>
+                </commands>
+                <commands name="statement">
+                  <refinement xsi:type="cbcmodel:SkipStatement" name=";">
+                    <postCondition name="intermediateCond"/>
+                    <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (!(this.floors != null&amp;&amp;id &lt; this.floors.length&amp;&amp;id >= 0))"/>
+                  </refinement>
+                  <postCondition name="intermediateCond"/>
+                  <preCondition name="modifiable(\nothing);(intermediateCond) &amp; (!(this.floors != null&amp;&amp;id &lt; this.floors.length&amp;&amp;id >= 0))"/>
+                </commands>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="result = floor;">
+                <postCondition name=" ((this.floors != null &amp; id &lt; this.floors.length &amp; id >= 0) -> result = this.floors[id])&amp; ((this.floors = null | id >= this.floors.length | id &lt; 0) -> result = null) &amp; (id &lt; this.floors.length&amp; id >= 0) -> result = this.floors[id]"/>
+                <preCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name=" ((this.floors != null &amp; id &lt; this.floors.length &amp; id >= 0) -> result = this.floors[id])&amp; ((this.floors = null | id >= this.floors.length | id &lt; 0) -> result = null) &amp; (id &lt; this.floors.length&amp; id >= 0) -> result = this.floors[id]"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name=" ((this.floors != null &amp; id &lt; this.floors.length &amp; id >= 0) -> result = this.floors[id])&amp; ((this.floors = null | id >= this.floors.length | id &lt; 0) -> result = null) &amp; (id &lt; this.floors.length&amp; id >= 0) -> result = this.floors[id]"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name=" ((this.floors != null &amp; id &lt; this.floors.length &amp; id >= 0) -> result = this.floors[id])&amp; ((this.floors = null | id >= this.floors.length | id &lt; 0) -> result = null) &amp; (id &lt; this.floors.length&amp; id >= 0) -> result = this.floors[id]"/>
+      <preCondition name=" this.floors != null &amp; 0 &lt;= id &amp; id &lt; this.floors.length &amp; this.floors[id] != null &amp; this.floors != null &amp; 0 &lt;= id"/>
+    </statement>
+    <preCondition name=" this.floors != null &amp; 0 &lt;= id &amp; id &lt; this.floors.length &amp; this.floors[id] != null &amp; this.floors != null &amp; 0 &lt;= id"/>
+    <postCondition name=" ((this.floors != null &amp; id &lt; this.floors.length &amp; id >= 0) -> result = this.floors[id])&amp; ((this.floors = null | id >= this.floors.length | id &lt; 0) -> result = null) &amp; (id &lt; this.floors.length&amp; id >= 0) -> result = this.floors[id]"/>
+    <methodObj href="Environment.cbcclass#//@methods.1"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int id" kind="PARAM"/>
+    <variables name="Floor result" kind="RETURN"/>
+    <variables name="Floor floor"/>
+    <fields href="Environment.cbcclass#//@fields.0"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>

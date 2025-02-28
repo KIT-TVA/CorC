@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+	<classpathentry exported="true" kind="lib" path="lib" sourcepath="lib"/>
+	<classpathentry exported="true" kind="lib" path="lib/key-2.13.0-exe.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
@@ -9,11 +11,15 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/antlr-3.4.jar"/>
 	<classpathentry kind="lib" path="lib/de.ovgu.featureide.lib.fm-v3.6.2.jar"/>
-	<classpathentry kind="lib" path="lib/org.sat4j.core.jar"/>
-	<classpathentry kind="lib" path="lib/junit-4.13.2.jar"/>
-	<classpathentry kind="lib" path="lib/junit-jupiter-api-5.9.1.jar"/>
-	<classpathentry kind="lib" path="lib/junit-platform-commons-1.9.1.jar"/>
+	<classpathentry kind="lib" path="lib/javaparser-core-3.25.9-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/javaparser-symbol-solver-core-3.25.9-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-core-4.8.1.jar"/>
+	<classpathentry kind="lib" path="lib/mockito-inline.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-inline-4.8.1.jar"/>
+	<classpathentry kind="lib" path="lib/org.sat4j.core.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="lib/byte-buddy-1.14.13.jar"/>
+	<classpathentry kind="lib" path="lib/byte-buddy-agent-1.14.13.jar"/>
+	<classpathentry kind="lib" path="lib/objenesis-3.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="processWaitingPersons" className="Floor" methodName="processWaitingPersons">
+    <statement name="statement" id="6fffd9a1-3782-4600-8f2d-d29c940171c3">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="8a350a4f-7e99-4739-82b6-ec24314c2c17">
+        <firstStatement name="statement1" id="caecf9f2-3ace-4098-9330-f690a0c349fe">
+          <refinement name="index = 0;" id="f1d89597-1628-4ad3-a0c4-ade43fe75628">
+            <postCondition name="modifiable(index);&#xD;&#xA;index = 0 &#xD;&#xA;&amp; this.waiting.elements != e.persons.elements"/>
+            <preCondition name="true"/>
+          </refinement>
+          <postCondition name="modifiable(index);&#xD;&#xA;index = 0 &#xD;&#xA;&amp; this.waiting.elements != e.persons.elements"/>
+          <preCondition name="true"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="1af598a8-f311-4a7c-a07a-4b427a074707">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" id="2ad5ce49-5756-4b28-a807-95a3e794ca7f">
+            <firstStatement name="statement1" id="d7bdfcd9-6168-4499-9d9d-c679a6914c57">
+              <refinement xsi:type="cbcmodel:SmallRepetitionStatement" name="repetitionStatement" id="d1e9bcaf-27a7-460a-923f-43cc178e5416">
+                <postCondition name="modifiable(index);&#xD;&#xA;index>=0 &#xD;&#xA;&amp; this.waiting.elements != e.persons.elements &#xD;&#xA;&amp; (\forall int i;(((i>=0 &amp; i &lt; this.waiting.collectionSize &amp; this.waiting.get(i) != null) -> e.persons.contains(this.waiting.get(i)) = TRUE)))"/>
+                <preCondition name="modifiable(index);&#xD;&#xA;index = 0 &#xD;&#xA;&amp; this.waiting.elements != e.persons.elements"/>
+                <loopStatement name="loop" id="d84a2624-03c6-4042-b0e0-711588625e4c">
+                  <refinement name="e.enterElevator(this.waiting.get(index));&#xD;&#xA;index++;" id="e127e9a1-4170-45d1-92da-9829d193dc3e">
+                    <postCondition name="index>=0 &amp; this.waiting.elements != e.persons.elements&amp; (\forall int i;((((i>=0 &amp; i&lt;index &amp;  i &lt; this.waiting.collectionSize &amp; this.waiting.get(i) != null &amp; &#xD;&#xA;e.persons.contains(this.waiting.get(i)) = FALSE) -> (e.persons.contains(this.waiting.get(i)) = TRUE &amp; e.floorButtons[this.waiting.get(i).destination] = TRUE )))))"/>
+                    <preCondition name="(index>=0 &amp; this.waiting.elements != e.persons.elements&amp; (\forall int i;((((i>=0 &amp; i&lt;index &amp;  i &lt; this.waiting.collectionSize &amp; this.waiting.get(i) != null &amp; &#xD;&#xA;e.persons.contains(this.waiting.get(i)) = FALSE) -> (e.persons.contains(this.waiting.get(i)) = TRUE &amp; e.floorButtons[this.waiting.get(i).destination] = TRUE )))))) &amp; (index &lt; this.waiting.size())"/>
+                  </refinement>
+                  <postCondition name="index>=0 &amp; this.waiting.elements != e.persons.elements&amp; (\forall int i;((((i>=0 &amp; i&lt;index &amp;  i &lt; this.waiting.collectionSize &amp; this.waiting.get(i) != null &amp; &#xD;&#xA;e.persons.contains(this.waiting.get(i)) = FALSE) -> (e.persons.contains(this.waiting.get(i)) = TRUE &amp; e.floorButtons[this.waiting.get(i).destination] = TRUE )))))"/>
+                  <preCondition name="(index>=0 &amp; this.waiting.elements != e.persons.elements&amp; (\forall int i;((((i>=0 &amp; i&lt;index &amp;  i &lt; this.waiting.collectionSize &amp; this.waiting.get(i) != null &amp; &#xD;&#xA;e.persons.contains(this.waiting.get(i)) = FALSE) -> (e.persons.contains(this.waiting.get(i)) = TRUE &amp; e.floorButtons[this.waiting.get(i).destination] = TRUE )))))) &amp; (index &lt; this.waiting.size())"/>
+                </loopStatement>
+                <variant name="this.waiting.collectionSize - index"/>
+                <invariant name="index>=0 &amp; this.waiting.elements != e.persons.elements&amp; (\forall int i;((((i>=0 &amp; i&lt;index &amp;  i &lt; this.waiting.collectionSize &amp; this.waiting.get(i) != null &amp; &#xD;&#xA;e.persons.contains(this.waiting.get(i)) = FALSE) -> (e.persons.contains(this.waiting.get(i)) = TRUE &amp; e.floorButtons[this.waiting.get(i).destination] = TRUE )))))"/>
+                <guard name="index &lt; this.waiting.size()"/>
+              </refinement>
+              <postCondition name="modifiable(index);&#xD;&#xA;index>=0 &#xD;&#xA;&amp; this.waiting.elements != e.persons.elements &#xD;&#xA;&amp; (\forall int i;(((i>=0 &amp; i &lt; this.waiting.collectionSize &amp; this.waiting.get(i) != null) -> e.persons.contains(this.waiting.get(i)) = TRUE)))"/>
+              <preCondition name="modifiable(index);&#xD;&#xA;index = 0 &#xD;&#xA;&amp; this.waiting.elements != e.persons.elements"/>
+            </firstStatement>
+            <secondStatement name="statement2" id="2b55eac7-00ea-441e-8b32-50ac96caf7bb">
+              <refinement name="this.waiting.clear();&#xD;&#xA;this.reset();" id="d1f7bd22-8a66-4dbd-a561-c64dab92ce46">
+                <postCondition name="this.waiting.isEmpty() = TRUE &amp; this.hasCall() = FALSE"/>
+                <preCondition name="modifiable(index);&#xD;&#xA;index>=0 &#xD;&#xA;&amp; this.waiting.elements != e.persons.elements &#xD;&#xA;&amp; (\forall int i;(((i>=0 &amp; i &lt; this.waiting.collectionSize &amp; this.waiting.get(i) != null) -> e.persons.contains(this.waiting.get(i)) = TRUE)))"/>
+              </refinement>
+              <postCondition name="this.waiting.isEmpty() = TRUE &amp; this.hasCall() = FALSE"/>
+              <preCondition name="modifiable(index);&#xD;&#xA;index>=0 &#xD;&#xA;&amp; this.waiting.elements != e.persons.elements &#xD;&#xA;&amp; (\forall int i;(((i>=0 &amp; i &lt; this.waiting.collectionSize &amp; this.waiting.get(i) != null) -> e.persons.contains(this.waiting.get(i)) = TRUE)))"/>
+            </secondStatement>
+            <intermediateCondition name="modifiable(index);&#xD;&#xA;index>=0 &#xD;&#xA;&amp; this.waiting.elements != e.persons.elements &#xD;&#xA;&amp; (\forall int i;(((i>=0 &amp; i &lt; this.waiting.collectionSize &amp; this.waiting.get(i) != null) -> e.persons.contains(this.waiting.get(i)) = TRUE)))"/>
+          </refinement>
+          <postCondition name="this.waiting.isEmpty() = TRUE &amp; this.hasCall() = FALSE"/>
+          <preCondition name="modifiable(index);&#xD;&#xA;index = 0 &#xD;&#xA;&amp; this.waiting.elements != e.persons.elements"/>
+        </secondStatement>
+        <intermediateCondition name="modifiable(index);&#xD;&#xA;index = 0 &#xD;&#xA;&amp; this.waiting.elements != e.persons.elements"/>
+      </refinement>
+      <postCondition name="this.waiting.isEmpty() = TRUE &amp; this.hasCall() = FALSE"/>
+      <preCondition name="true"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Floor.cbcclass#//@methods.5"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="Person tmpPerson"/>
+    <variables name="int index"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions>
+    <conditions name="e != null"/>
+    <conditions name="this.waiting.elements != null"/>
+    <conditions name="e.persons.elements != null"/>
+    <conditions name="e.floorButtons != null"/>
+    <conditions name="e.persons != null"/>
+    <conditions name="this.waiting.elements != e.persons.elements"/>
+    <conditions name="this.waiting.collectionSize >= 0"/>
+    <conditions name="e.persons.collectionSize >= 0"/>
+    <conditions name="index >= 0"/>
+    <conditions name="this.waiting.&lt;inv>"/>
+    <conditions name="e.persons.&lt;created> = TRUE"/>
+    <conditions name="e.floorButtons.&lt;created> = TRUE"/>
+    <conditions name="this.waiting.elements.&lt;created> = TRUE"/>
+    <conditions name="this.hasCall() != null"/>
+    <conditions name="Elevator e non-null"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

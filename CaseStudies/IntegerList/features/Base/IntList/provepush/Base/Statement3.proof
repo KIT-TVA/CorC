@@ -48,7 +48,7 @@
     "Strategy" : { 
         "ActiveStrategy" : "JavaCardDLStrategy",
         "MaximumNumberOfAutomaticApplications" : 2147483647,
-        "Timeout" : 5000,
+        "Timeout" : -1,
         "options" : { 
             "ABSTRACT_PROOF_FIRST_ORDER_GOALS_FORBIDDEN" : "true",
             "ABSTRACT_PROOF_FORBIDDEN_RULES" : "",
@@ -62,11 +62,11 @@
             "METHOD_OPTIONS_KEY" : "METHOD_CONTRACT",
             "MPS_OPTIONS_KEY" : "MPS_MERGE",
             "NON_LIN_ARITH_OPTIONS_KEY" : "NON_LIN_ARITH_DEF_OPS",
-            "OSS_OPTIONS_KEY" : "OSS_ON",
+            "OSS_OPTIONS_KEY" : "OSS_OFF",
             "QUANTIFIERS_OPTIONS_KEY" : "QUANTIFIERS_NON_SPLITTING_WITH_PROGS",
             "QUERYAXIOM_OPTIONS_KEY" : "QUERYAXIOM_ON",
             "QUERY_NEW_OPTIONS_KEY" : "QUERY_RESTRICTED",
-            "SPLITTING_OPTIONS_KEY" : "SPLITTING_DELAYED",
+            "SPLITTING_OPTIONS_KEY" : "SPLITTING_OFF",
             "STOPMODE_OPTIONS_KEY" : "STOPMODE_NONCLOSE",
             "SYMBOLIC_EXECUTION_ALIAS_CHECK_OPTIONS_KEY" : "SYMBOLIC_EXECUTION_ALIAS_CHECK_NEVER",
             "SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OPTIONS_KEY" : "SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OFF",
@@ -78,7 +78,7 @@
      }
  } 
 
-\javaSource "C:/Important/Work/CorC/IntegerList";
+\javaSource "C:/Important/Work/Projektarbeit/CorC/CaseStudies/IntegerList";
 \include "helper.key";
 \programVariables {
 int i;
@@ -171,12 +171,13 @@ Heap heapAtPre;
 }
 
 \proof {
-(keyLog "0" (keyUser "Fynn" ) (keyVersion "1fb0c10630b493ce138850ae0f9803d3f2fffc51"))
+(keyLog "0" (keyUser "Fynn" ) (keyVersion "255661ae2f2ff3b2df9506575116825ddb2e1159"))
 
-(autoModeTime "222")
+(autoModeTime "345")
 
 (branch "dummy ID"
- (builtin "One Step Simplification" (formula "1"))
+(rule "eq_and_2" (formula "1") (term "0,0,0,0,0,0,0,0,0,0,0,0"))
+(rule "simplifyUpdate2" (formula "1") (term "1"))
 (rule "impRight" (formula "1"))
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "1"))
@@ -203,14 +204,14 @@ Heap heapAtPre;
 (rule "andLeft" (formula "1"))
 (rule "eqSymm" (formula "16") (term "1,0,1"))
 (rule "eqSymm" (formula "5"))
+(rule "polySimp_homoEq" (formula "16") (term "0,0,0,0,0,1"))
 (rule "polySimp_elimSub" (formula "16") (term "0,2,0,1,0,0,0,0,1"))
 (rule "mul_literals" (formula "16") (term "1,0,2,0,1,0,0,0,0,1"))
-(rule "polySimp_homoEq" (formula "16") (term "0,0,0,0,0,1"))
 (rule "polySimp_homoEq" (formula "1"))
 (rule "polySimp_elimSub" (formula "2") (term "0,2,0"))
 (rule "mul_literals" (formula "2") (term "1,0,2,0"))
-(rule "polySimp_addComm0" (formula "16") (term "0,2,0,1,0,0,0,0,1"))
 (rule "polySimp_addComm0" (formula "16") (term "0,0,0,0,0,0,0,1"))
+(rule "polySimp_addComm0" (formula "16") (term "0,2,0,1,0,0,0,0,1"))
 (rule "polySimp_addComm0" (formula "1") (term "0,0"))
 (rule "polySimp_addComm0" (formula "2") (term "0,2,0"))
 (rule "polySimp_addComm1" (formula "16") (term "0,0,0,0,0,0,1"))
@@ -219,13 +220,14 @@ Heap heapAtPre;
 (rule "polySimp_mulComm0" (formula "16") (term "1,0,0,1,0,0,1,0,0,0,1"))
 (rule "inEqSimp_commuteLeq" (formula "16") (term "0,0,0,1,0,0,0,1"))
 (rule "assignment" (formula "16") (term "1"))
- (builtin "One Step Simplification" (formula "16"))
-(rule "applyEq" (formula "3") (term "0,0") (ifseqformula "5"))
-(rule "applyEq" (formula "7") (term "0,0") (ifseqformula "5"))
-(rule "applyEq" (formula "14") (term "0") (ifseqformula "5"))
-(rule "applyEq" (formula "8") (term "1,0") (ifseqformula "5"))
+(rule "sequentialToParallel2" (formula "16"))
+(rule "simplifyUpdate3" (formula "16") (term "1,0"))
 (rule "applyEq" (formula "1") (term "0,1,0") (ifseqformula "5"))
 (rule "polySimp_addComm1" (formula "1") (term "0"))
+(rule "applyEq" (formula "8") (term "1,0") (ifseqformula "5"))
+(rule "applyEq" (formula "3") (term "0,0") (ifseqformula "5"))
+(rule "applyEq" (formula "14") (term "0") (ifseqformula "5"))
+(rule "applyEq" (formula "7") (term "0,0") (ifseqformula "5"))
 (rule "polySimp_sepPosMonomial" (formula "16") (term "0,0,0,0,0,1"))
 (rule "polySimp_mulComm0" (formula "16") (term "1,0,0,0,0,0,1"))
 (rule "polySimp_rightDist" (formula "16") (term "1,0,0,0,0,0,1"))
@@ -247,11 +249,6 @@ Heap heapAtPre;
 (rule "polySimp_elimOne" (formula "16") (term "1,1,1,0,0,1,0,0,0,1"))
 (rule "nnf_imp2or" (formula "16") (term "0,1,0,0,0,1"))
 (rule "nnf_notAnd" (formula "16") (term "0,0,1,0,0,0,1"))
-(rule "inEqSimp_notGeq" (formula "16") (term "0,0,0,1,0,0,0,1"))
-(rule "times_zero_1" (formula "16") (term "1,0,0,0,0,0,1,0,0,0,1"))
-(rule "add_literals" (formula "16") (term "0,0,0,0,0,1,0,0,0,1"))
-(rule "inEqSimp_sepPosMonomial0" (formula "16") (term "0,0,0,1,0,0,0,1"))
-(rule "mul_literals" (formula "16") (term "1,0,0,0,1,0,0,0,1"))
 (rule "inEqSimp_notLeq" (formula "16") (term "1,0,0,1,0,0,0,1"))
 (rule "polySimp_rightDist" (formula "16") (term "1,0,0,1,0,0,1,0,0,0,1"))
 (rule "mul_literals" (formula "16") (term "0,1,0,0,1,0,0,1,0,0,0,1"))
@@ -261,19 +258,47 @@ Heap heapAtPre;
 (rule "inEqSimp_sepPosMonomial1" (formula "16") (term "1,0,0,1,0,0,0,1"))
 (rule "polySimp_mulLiterals" (formula "16") (term "1,1,0,0,1,0,0,0,1"))
 (rule "polySimp_elimOne" (formula "16") (term "1,1,0,0,1,0,0,0,1"))
+(rule "inEqSimp_notGeq" (formula "16") (term "0,0,0,1,0,0,0,1"))
+(rule "times_zero_1" (formula "16") (term "1,0,0,0,0,0,1,0,0,0,1"))
+(rule "add_literals" (formula "16") (term "0,0,0,0,0,1,0,0,0,1"))
+(rule "inEqSimp_sepPosMonomial0" (formula "16") (term "0,0,0,1,0,0,0,1"))
+(rule "mul_literals" (formula "16") (term "1,0,0,0,1,0,0,0,1"))
 (rule "emptyModality" (formula "16") (term "1"))
- (builtin "One Step Simplification" (formula "16"))
+(rule "applyOnRigidFormula" (formula "16"))
+(rule "simplifyUpdate2" (formula "16") (term "1"))
+(rule "simplifyUpdate2" (formula "16") (term "0"))
+(rule "applyOnRigidFormula" (formula "16") (term "1"))
+(rule "simplifyUpdate1" (formula "16") (term "1,1"))
+(rule "applyOnPV" (formula "16") (term "0,1"))
+(rule "eqClose" (formula "16") (term "1"))
+(rule "concrete_and_3" (formula "16"))
+(rule "applyOnRigidFormula" (formula "16"))
+(rule "applyOnRigidFormula" (formula "16") (term "1"))
+(rule "applyOnPV" (formula "16") (term "0,1"))
+(rule "simplifyUpdate1" (formula "16") (term "1,1"))
+(rule "eqClose" (formula "16") (term "1"))
+(rule "concrete_and_3" (formula "16"))
+(rule "applyOnRigidFormula" (formula "16"))
+(rule "simplifyUpdate2" (formula "16") (term "0"))
+(rule "applyOnRigidFormula" (formula "16") (term "1"))
+(rule "applyOnRigidFormula" (formula "16") (term "0,1"))
+(rule "simplifyUpdate2" (formula "16") (term "1,0,1"))
+(rule "applyOnRigidFormula" (formula "16") (term "0,0,1"))
+(rule "simplifyUpdate2" (formula "16") (term "0,0,0,1"))
+(rule "applyOnRigidFormula" (formula "16") (term "1,0,0,1"))
+(rule "applyOnPV" (formula "16") (term "1,1,0,0,1"))
+(rule "simplifyUpdate1" (formula "16") (term "0,1,0,0,1"))
 (rule "applyEq" (formula "16") (term "1,0,2,0,1,0") (ifseqformula "1"))
 (rule "polySimp_addAssoc" (formula "16") (term "0,2,0,1,0"))
 (rule "add_literals" (formula "16") (term "0,0,2,0,1,0"))
 (rule "add_zero_left" (formula "16") (term "0,2,0,1,0"))
 (rule "replace_known_left" (formula "16") (term "1,0") (ifseqformula "2"))
- (builtin "One Step Simplification" (formula "16"))
+(rule "concrete_and_3" (formula "16") (term "0"))
+(rule "applyEq" (formula "16") (term "1,0,1,0,1") (ifseqformula "5"))
+(rule "eqSymm" (formula "16") (term "1,0,1"))
 (rule "applyEq" (formula "16") (term "0,0,0") (ifseqformula "5"))
 (rule "polySimp_homoEq" (formula "16") (term "0"))
 (rule "polySimp_addComm1" (formula "16") (term "0,0"))
-(rule "applyEq" (formula "16") (term "1,0,1,0,1") (ifseqformula "5"))
-(rule "eqSymm" (formula "16") (term "1,0,1"))
 (rule "applyEq" (formula "16") (term "1,0,0") (ifseqformula "1"))
 (rule "polySimp_addAssoc" (formula "16") (term "0,0"))
 (rule "polySimp_addComm1" (formula "16") (term "0,0,0"))
@@ -282,14 +307,23 @@ Heap heapAtPre;
 (rule "polySimp_pullOutFactor2" (formula "16") (term "0,0"))
 (rule "add_literals" (formula "16") (term "1,0,0"))
 (rule "times_zero_1" (formula "16") (term "0,0"))
- (builtin "One Step Simplification" (formula "16"))
+(rule "eqClose" (formula "16") (term "0"))
+(rule "concrete_and_1" (formula "16"))
 (rule "allRight" (formula "16") (inst "sk=j_0"))
 (rule "orRight" (formula "16"))
 (rule "orRight" (formula "16"))
-(rule "inEqSimp_leqRight" (formula "16"))
+(rule "inEqSimp_geqRight" (formula "17"))
+(rule "times_zero_1" (formula "1") (term "1,0,0"))
+(rule "add_literals" (formula "1") (term "0,0"))
+(rule "inEqSimp_leqRight" (formula "17"))
 (rule "mul_literals" (formula "1") (term "1,0,0"))
 (rule "add_literals" (formula "1") (term "0,0"))
 (rule "add_zero_left" (formula "1") (term "0"))
-(rule "close" (formula "17") (ifseqformula "1"))
+(rule "inEqSimp_sepPosMonomial0" (formula "2"))
+(rule "mul_literals" (formula "2") (term "1"))
+(rule "inEqSimp_contradInEq0" (formula "1") (ifseqformula "2"))
+(rule "qeq_literals" (formula "1") (term "0"))
+(rule "concrete_and_2" (formula "1"))
+(rule "closeFalse" (formula "1"))
 )
 }

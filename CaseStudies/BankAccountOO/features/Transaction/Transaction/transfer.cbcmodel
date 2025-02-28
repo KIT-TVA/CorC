@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="transfer" proven="true" className="Transaction" methodName="transfer">
+    <statement name="statement" id="38f5dd24-659e-4174-9777-449989acd791">
+      <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="bab58347-87fb-4a09-ae93-bfc949758547">
+        <firstStatement name="statement1" id="4ab1c2f3-f2f8-42f8-a1ec-ae3ad2b3c5e5">
+          <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="f47ab7c7-9b97-4d8d-a427-ee9287a9a8b0" preProve="true">
+            <guards name="amount &lt;= 0"/>
+            <guards name="amount > 0"/>
+            <commands name="statement" id="90d9b5d2-82d5-441d-88bf-a6ff025097dc">
+              <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement" id="e19bfbd0-8640-438c-b4f3-a5a80c168228">
+                <postCondition name="modifiable(ret);&#xD;&#xA;\result = TRUE -> (\old(destination.balance) + amount = destination.balance)&#xD;&#xA;&#x9;  &amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(destination.balance) = destination.balance) &#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                <preCondition name="modifiable(\nothing);(source != destination) &amp; (amount &lt;= 0)"/>
+              </refinement>
+              <postCondition name="modifiable(\nothing);&#xD;&#xA;amount > 0"/>
+              <preCondition name="modifiable(\nothing);(source != destination) &amp; (amount &lt;= 0)"/>
+            </commands>
+            <commands name="statement" id="b5ff515c-64af-4854-8020-04ea2819d52f">
+              <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true" id="eb799d70-55d6-41df-ab4a-96106e4b9fd1">
+                <postCondition name="modifiable(\nothing);&#xD;&#xA;amount > 0"/>
+                <preCondition name="modifiable(\nothing);(source != destination) &amp; (amount > 0)"/>
+              </refinement>
+              <postCondition name="modifiable(\nothing);&#xD;&#xA;amount > 0"/>
+              <preCondition name="modifiable(\nothing);(source != destination) &amp; (amount > 0)"/>
+            </commands>
+          </refinement>
+          <postCondition name="modifiable(\nothing);&#xD;&#xA;amount > 0"/>
+          <preCondition name="source != destination"/>
+        </firstStatement>
+        <secondStatement name="statement2" id="261a8d00-0078-4dfc-88d5-6058cd716263">
+          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="c2bd2ccd-4590-4c50-91d8-81a3556c88b2">
+            <firstStatement name="statement1" id="e919061d-4465-4fe8-bc01-f108d07c593d">
+              <refinement xsi:type="cbcmodel:MethodStatement" name="ret = source.update(amount * -1);" proven="true" id="492d6084-84e0-476c-a9d2-1807b12a5693">
+                <postCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE -> source.balance = \old(source.balance) - amount &amp; ret = FALSE -> source.balance = \old(source.balance)"/>
+                <preCondition name="modifiable(\nothing);&#xD;&#xA;amount > 0"/>
+              </refinement>
+              <postCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE -> source.balance = \old(source.balance) - amount &amp; ret = FALSE -> source.balance = \old(source.balance)"/>
+              <preCondition name="modifiable(\nothing);&#xD;&#xA;amount > 0"/>
+            </firstStatement>
+            <secondStatement name="statement2" id="40cb5c62-0546-4f1c-923e-fc941cfb0199">
+              <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="5d419c29-1db6-4e09-bd49-01c92ff4c83a">
+                <firstStatement name="statement1" id="e2843fb3-eaf6-4bd8-8f3f-949ddfe54ff4">
+                  <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="cde196c6-bb3c-4ac5-8939-b0d8ce4341db" preProve="true">
+                    <guards name="ret = FALSE"/>
+                    <guards name="ret = TRUE"/>
+                    <commands name="statement" id="4b108857-34b3-40d7-a586-0bc622632057">
+                      <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement" id="023da084-0b88-468e-a09e-2da3057bf944">
+                        <postCondition name="modifiable(ret);&#xD;&#xA;\result = TRUE -> (\old(destination.balance) + amount = destination.balance)&#xD;&#xA;&#x9;  &amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(destination.balance) = destination.balance) &#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                        <preCondition name="modifiable(\nothing);(ret = TRUE -> source.balance = \old(source.balance) - amount &amp; ret = FALSE -> source.balance = \old(source.balance)) &amp; (ret = FALSE)"/>
+                      </refinement>
+                      <postCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE"/>
+                      <preCondition name="modifiable(\nothing);(ret = TRUE -> source.balance = \old(source.balance) - amount &amp; ret = FALSE -> source.balance = \old(source.balance)) &amp; (ret = FALSE)"/>
+                    </commands>
+                    <commands name="statement" id="26459b10-431d-4177-b66b-d784347fc50b">
+                      <refinement xsi:type="cbcmodel:SkipStatement" name=";" proven="true" id="b1d4def9-0e8e-4b66-8f3f-b926b13e746a">
+                        <postCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE"/>
+                        <preCondition name="modifiable(\nothing);(ret = TRUE -> source.balance = \old(source.balance) - amount &amp; ret = FALSE -> source.balance = \old(source.balance)) &amp; (ret = TRUE)"/>
+                      </refinement>
+                      <postCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE"/>
+                      <preCondition name="modifiable(\nothing);(ret = TRUE -> source.balance = \old(source.balance) - amount &amp; ret = FALSE -> source.balance = \old(source.balance)) &amp; (ret = TRUE)"/>
+                    </commands>
+                  </refinement>
+                  <postCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE"/>
+                  <preCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE -> source.balance = \old(source.balance) - amount &amp; ret = FALSE -> source.balance = \old(source.balance)"/>
+                </firstStatement>
+                <secondStatement name="statement2" id="41c897c9-294d-4b8a-8ebe-de0dd3254ced">
+                  <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="9046f447-2031-41db-8534-40baac295247">
+                    <firstStatement name="statement1" id="29784c65-8361-4d76-9d1a-a70f422f5cc6">
+                      <refinement xsi:type="cbcmodel:MethodStatement" name="ret = destination.update(amount);" proven="true" id="a52b7ef9-ecf1-405b-bede-9badd213c974">
+                        <postCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE -> destination.balance = \old(destination.balance) + amount &amp; ret = FALSE -> destination.balance = \old(destination.balance)"/>
+                        <preCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE"/>
+                      </refinement>
+                      <postCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE -> destination.balance = \old(destination.balance) + amount &amp; ret = FALSE -> destination.balance = \old(destination.balance)"/>
+                      <preCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE"/>
+                    </firstStatement>
+                    <secondStatement name="statement2" id="bf0bbdec-4280-49af-a2ea-465158ba3e58">
+                      <refinement xsi:type="cbcmodel:SelectionStatement" name="selectionStatement" proven="true" id="aed9ab75-f820-452c-b1c0-5355e47719e8" preProve="true">
+                        <guards name="ret = TRUE"/>
+                        <guards name="ret = FALSE"/>
+                        <commands name="statement" id="bbcf7c8d-3e91-4157-b8ae-ba4c24e592d1">
+                          <refinement xsi:type="cbcmodel:ReturnStatement" name="true;" proven="true" comment="returnStatement" id="be6c40c1-7279-499f-8355-7c1b57eba203">
+                            <postCondition name="modifiable(ret);&#xD;&#xA;\result = TRUE -> (\old(destination.balance) + amount = destination.balance)&#xD;&#xA;&#x9;  &amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(destination.balance) = destination.balance) &#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                            <preCondition name="modifiable(\nothing);(ret = TRUE -> destination.balance = \old(destination.balance) + amount &amp; ret = FALSE -> destination.balance = \old(destination.balance)) &amp; (ret = TRUE)"/>
+                          </refinement>
+                          <postCondition name="modifiable(ret);&#xD;&#xA;\result = TRUE -> (\old(destination.balance) + amount = destination.balance)&#xD;&#xA;&#x9;  &amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(destination.balance) = destination.balance) &#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                          <preCondition name="modifiable(\nothing);(ret = TRUE -> destination.balance = \old(destination.balance) + amount &amp; ret = FALSE -> destination.balance = \old(destination.balance)) &amp; (ret = TRUE)"/>
+                        </commands>
+                        <commands name="statement" id="28eb508c-dc61-4f1b-9d6a-6a1fc4edd153">
+                          <refinement xsi:type="cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="e0fba91c-1bc8-4270-a706-cd74daccedc1">
+                            <firstStatement name="statement1" id="4d3894f0-5f42-4aea-9e88-93c6a31b09c0">
+                              <refinement xsi:type="cbcmodel:MethodStatement" name="ret = source.undoUpdate(amount * -1);" proven="true" id="7bec5c66-2331-4816-9b9b-b0ab61ca240d">
+                                <postCondition name="modifiable(ret);&#xD;&#xA;true"/>
+                                <preCondition name="modifiable(\nothing);(ret = TRUE -> destination.balance = \old(destination.balance) + amount &amp; ret = FALSE -> destination.balance = \old(destination.balance)) &amp; (ret = FALSE)"/>
+                              </refinement>
+                              <postCondition name="modifiable(ret);&#xD;&#xA;true"/>
+                              <preCondition name="modifiable(\nothing);(ret = TRUE -> destination.balance = \old(destination.balance) + amount &amp; ret = FALSE -> destination.balance = \old(destination.balance)) &amp; (ret = FALSE)"/>
+                            </firstStatement>
+                            <secondStatement name="statement2" id="e4d96b43-e492-402b-8059-38ca35c42dbb">
+                              <refinement xsi:type="cbcmodel:ReturnStatement" name="false;" proven="true" comment="returnStatement" id="2bf43638-7331-4708-9c06-c7235bb91c13">
+                                <postCondition name="modifiable(ret);&#xD;&#xA;\result = TRUE -> (\old(destination.balance) + amount = destination.balance)&#xD;&#xA;&#x9;  &amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(destination.balance) = destination.balance) &#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                                <preCondition name="modifiable(ret);&#xD;&#xA;true"/>
+                              </refinement>
+                              <postCondition name="modifiable(ret);&#xD;&#xA;\result = TRUE -> (\old(destination.balance) + amount = destination.balance)&#xD;&#xA;&#x9;  &amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(destination.balance) = destination.balance) &#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                              <preCondition name="modifiable(ret);&#xD;&#xA;true"/>
+                            </secondStatement>
+                            <intermediateCondition name="modifiable(ret);&#xD;&#xA;true"/>
+                          </refinement>
+                          <postCondition name="modifiable(ret);&#xD;&#xA;\result = TRUE -> (\old(destination.balance) + amount = destination.balance)&#xD;&#xA;&#x9;  &amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(destination.balance) = destination.balance) &#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                          <preCondition name="modifiable(\nothing);(ret = TRUE -> destination.balance = \old(destination.balance) + amount &amp; ret = FALSE -> destination.balance = \old(destination.balance)) &amp; (ret = FALSE)"/>
+                        </commands>
+                      </refinement>
+                      <postCondition name="modifiable(ret);&#xD;&#xA;\result = TRUE -> (\old(destination.balance) + amount = destination.balance)&#xD;&#xA;&#x9;  &amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(destination.balance) = destination.balance) &#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                      <preCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE -> destination.balance = \old(destination.balance) + amount &amp; ret = FALSE -> destination.balance = \old(destination.balance)"/>
+                    </secondStatement>
+                    <intermediateCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE -> destination.balance = \old(destination.balance) + amount &amp; ret = FALSE -> destination.balance = \old(destination.balance)"/>
+                  </refinement>
+                  <postCondition name="modifiable(ret);&#xD;&#xA;\result = TRUE -> (\old(destination.balance) + amount = destination.balance)&#xD;&#xA;&#x9;  &amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(destination.balance) = destination.balance) &#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+                  <preCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE"/>
+                </secondStatement>
+                <intermediateCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE"/>
+              </refinement>
+              <postCondition name="modifiable(ret);&#xD;&#xA;\result = TRUE -> (\old(destination.balance) + amount = destination.balance)&#xD;&#xA;&#x9;  &amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(destination.balance) = destination.balance) &#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+              <preCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE -> source.balance = \old(source.balance) - amount &amp; ret = FALSE -> source.balance = \old(source.balance)"/>
+            </secondStatement>
+            <intermediateCondition name="modifiable(ret);&#xD;&#xA;ret = TRUE -> source.balance = \old(source.balance) - amount &amp; ret = FALSE -> source.balance = \old(source.balance)"/>
+          </refinement>
+          <postCondition name="modifiable(ret);&#xD;&#xA;\result = TRUE -> (\old(destination.balance) + amount = destination.balance)&#xD;&#xA;&#x9;  &amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(destination.balance) = destination.balance) &#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+          <preCondition name="modifiable(\nothing);&#xD;&#xA;amount > 0"/>
+        </secondStatement>
+        <intermediateCondition name="modifiable(\nothing);&#xD;&#xA;amount > 0"/>
+      </refinement>
+      <postCondition name="modifiable(ret);&#xD;&#xA;\result = TRUE -> (\old(destination.balance) + amount = destination.balance)&#xD;&#xA;&#x9;  &amp; \result = TRUE -> (\old(source.balance) - amount = source.balance)&#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(destination.balance) = destination.balance) &#xD;&#xA;&#x9;  &amp; \result = FALSE -> (\old(source.balance) = source.balance)"/>
+      <preCondition name="source != destination"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Transaction.cbcclass#//@methods.0"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+  <cbcmodel:GlobalConditions>
+    <conditions name="source.&lt;inv>"/>
+    <conditions name="destination.&lt;inv>"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

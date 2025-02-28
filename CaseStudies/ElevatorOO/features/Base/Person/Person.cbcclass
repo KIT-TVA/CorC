@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Person" feature="Base">
+  <fields visibility="PRIVATE" type="int" name="destination"/>
+  <fields visibility="PRIVATE" type="boolean" name="destinationReached"/>
+  <fields visibility="PRIVATE" type="String" name="name"/>
+  <fields visibility="PRIVATE" type="int" name="weight"/>
+  <fields visibility="PRIVATE" type="int" name="origin"/>
+  <fields visibility="PRIVATE" type="int[]" name="additionalButtons"/>
+  <methods cbcDiagramURI="createPerson.diagram" name="createPerson" returnType="void">
+    <cbcStartTriple href="createPerson.cbcmodel#/0"/>
+    <parameters type="String" name="namex"/>
+    <parameters type="int" name="weightx"/>
+    <parameters type="int" name="originx"/>
+    <parameters type="int" name="destinationx"/>
+    <parameters type="Environment" name="envx"/>
+  </methods>
+  <methods cbcDiagramURI="getDestination.diagram" name="getDestination" returnType="int">
+    <cbcStartTriple href="getDestination.cbcmodel#/0"/>
+    <parameters type="int" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="getName.diagram" name="getName" returnType="String">
+    <cbcStartTriple href="getName.cbcmodel#/0"/>
+    <parameters type="String" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="getOrigin.diagram" name="getOrigin" returnType="int">
+    <cbcStartTriple href="getOrigin.cbcmodel#/0"/>
+    <parameters type="int" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="getWeight.diagram" name="getWeight" returnType="int">
+    <cbcStartTriple href="getWeight.cbcmodel#/0"/>
+    <parameters type="int" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="isDestinationReached.diagram" name="isDestinationReached" returnType="boolean">
+    <cbcStartTriple href="isDestinationReached.cbcmodel#/0"/>
+    <parameters type="boolean" name="ret"/>
+  </methods>
+  <methods cbcDiagramURI="enterElevator.diagram" name="enterElevator" returnType="void">
+    <cbcStartTriple href="enterElevator.cbcmodel#/0"/>
+    <parameters type="Elevator" name="e"/>
+  </methods>
+  <methods cbcDiagramURI="leaveElevator.diagram" name="leaveElevator" returnType="void">
+    <cbcStartTriple href="leaveElevator.cbcmodel#/0"/>
+  </methods>
+</cbcclass:ModelClass>

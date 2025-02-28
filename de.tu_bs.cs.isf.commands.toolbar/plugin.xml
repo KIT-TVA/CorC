@@ -36,6 +36,36 @@
             id="de.tu_bs.cs.isf.commands.toolbar.command3"
             name="VerifyWithKeY">
       </command>
+      <command
+      		defaultHandler = "de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.CreateODGraphHandler"
+      		id= "de.tu_bs.cs.isf.commands.toolbar.generategraph"
+      		name="CreateGraph">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="de.tu_bs.cs.isf.commands.toolbar.predicateManagement"
+               icon="icons/predicatemanager.png"
+               id="de.tu_bs.cs.isf.commands.toolbar.predicateManagement.mapping"
+               label="Open Predicate Management"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <test
+                        property="org.eclipse.core.resources.name"
+                        value="*.diagram">
+                  </test>
+               </iterate>
+            </visibleWhen>
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -67,6 +97,12 @@
                   commandId="de.tu_bs.cs.isf.commands.toolbar.command3"
                   icon="icons/green.GIF"
                   label="Verify with KeY"
+                  style="push">
+            </command>
+            <command
+                  commandId="de.tu_bs.cs.isf.commands.toolbar.predicateManagement"
+                  icon="icons/predicatemanager.png"
+                  label="Predicate Management"
                   style="push">
             </command>
          </toolbar>
@@ -126,6 +162,7 @@
 	</with>
   </visibleWhen>
   </command>
+  
   </menuContribution>
   <menuContribution
         locationURI="popup:org.eclipse.ui.popup.any">
@@ -210,16 +247,36 @@
 	</with>
   </visibleWhen>
   </command>
+   <command commandId="de.tu_bs.cs.isf.commands.toolbar.generategraph"
+     label = "Generate VDGs for SPL">
+      <visibleWhen>
+           <with
+                 variable="activeMenuSelection">
+              <iterate
+                    ifEmpty="false">
+                    <adapt
+                          type="org.eclipse.core.resources.IProject">
+                    </adapt>
+              </iterate>
+           </with>
+        </visibleWhen>
+     </command>
   </menuContribution>
   </extension>
   
-	<extension point="org.eclipse.ui.commands">
+  <extension point="org.eclipse.ui.commands">
 		<command 
 			id="de.tu_bs.cs.isf.commands.toolbar.generateProductVariant" 
 			defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.GenerateProductVariantHandler" 
 			name="Generate Product Variant">
 		</command>
-	</extension>
-	
-
+  </extension>
+  <extension
+       point="org.eclipse.ui.commands">
+    <command
+          defaultHandler="de.tu_bs.cs.isf.commands.toolbar.handler.PredicateWizardHandler"
+          id="de.tu_bs.cs.isf.commands.toolbar.predicateManagement"
+          name="Manage Predicates command">
+    </command>
+  </extension>
 </plugin>

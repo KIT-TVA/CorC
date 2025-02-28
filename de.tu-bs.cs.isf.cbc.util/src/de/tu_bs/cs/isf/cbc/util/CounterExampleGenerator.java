@@ -6,7 +6,6 @@ import de.uka.ilkd.key.logic.SequentFormula;
 import de.uka.ilkd.key.logic.Term;
 import de.uka.ilkd.key.pp.LogicPrinter;
 import de.uka.ilkd.key.pp.NotationInfo;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,14 +13,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.uka.ilkd.key.java.Services;
-import de.uka.ilkd.key.pp.ProgramPrinter;
 import de.uka.ilkd.key.smt.SMTProblem;
+import de.uka.ilkd.key.smt.SMTSolver;
 import de.uka.ilkd.key.smt.SMTSolverResult;
 import de.uka.ilkd.key.smt.SMTSolverResult.ThreeValuedTruth;
 import de.uka.ilkd.key.smt.SolverLauncher;
-import de.uka.ilkd.key.smt.SolverType;
+import de.uka.ilkd.key.smt.solvertypes.SolverType;
+import de.uka.ilkd.key.smt.solvertypes.SolverTypeImplementation;
+import de.uka.ilkd.key.smt.solvertypes.SolverTypes;
+import de.uka.ilkd.key.settings.DefaultSMTSettings;
+/*
+import de.uka.ilkd.key.smt.solvertypes.SolverType;
+import de.uka.ilkd.key.smt.solvertypes.SolverTypeImplementation;
+import de.uka.ilkd.key.smt.solvertypes.SolverTypes;
+import de.uka.ilkd.key.settings.DefaultSMTSettings;*/
+import de.uka.ilkd.key.settings.ProofIndependentSMTSettings;
 import de.uka.ilkd.key.settings.ProofIndependentSettings;
-import de.uka.ilkd.key.settings.SMTSettings;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
@@ -163,7 +170,7 @@ public class CounterExampleGenerator{
 	}
 	
 	private static String prettify(Term t)  {
-		LogicPrinter logicPrinter = new LogicPrinter(new ProgramPrinter(), new NotationInfo(), serv);
+		LogicPrinter logicPrinter = LogicPrinter.purePrinter(new NotationInfo(), serv);
 		try {
 			logicPrinter.printTerm(t);
 			String result = logicPrinter.result().toString();
@@ -294,10 +301,10 @@ public class CounterExampleGenerator{
 		
 		for (int i = 0; i < list.size(); i++) {
 			var path = list.get(i);
-			problem = new SMTProblem(proof.getGoal(path.current));
+			problem = new SMTProblem(proof.getOpenGoal(path.current));
 			SMTSolverResult result = runZ3(problem, proof);
 			if (result.isValid() == ThreeValuedTruth.FALSIFIABLE) {
-				String counterexample = problem.getSolvers().iterator().next().getSolverOutput();
+				String counterexample = problem.getSolvers().iterator().next().getRawSolverOutput();
 				SolverOutputCleaner cleaner = new SolverOutputCleaner();
 				cleaner.clean(counterexample);
 				Console.print(cleaner.cleaned(), Colors.BLUE);
@@ -315,10 +322,13 @@ public class CounterExampleGenerator{
 	}
 	
 	private static SMTSolverResult runZ3(SMTProblem problem, Proof proof) {
-			SMTSettings settings = new SMTSettings(proof.getSettings().getSMTSettings(),
-			ProofIndependentSettings.DEFAULT_INSTANCE.getSMTSettings(), proof);
+			ProofIndependentSMTSettings sett = ProofIndependentSettings.DEFAULT_INSTANCE.getSMTSettings();
+			sett.setStoreSMTTranslationToFile(true);
+			DefaultSMTSettings settings = new DefaultSMTSettings(proof.getSettings().getSMTSettings(), sett, proof.getSettings().getNewSMTSettings(), proof);
 			SolverLauncher launcher = new SolverLauncher(settings);
-			launcher.launch(problem, serv, SolverType.Z3_SOLVER); 
+			SolverType z3 = SolverTypes.getSolverTypes().stream().filter(it -> it.getClass().equals(SolverTypeImplementation.class) && it.getName().equals("Z3_CE")).findFirst().orElse(null);
+			launcher.launch(problem, serv, z3); 
+			
 			SMTSolverResult result = problem.getFinalResult();
 			return result;
 	}

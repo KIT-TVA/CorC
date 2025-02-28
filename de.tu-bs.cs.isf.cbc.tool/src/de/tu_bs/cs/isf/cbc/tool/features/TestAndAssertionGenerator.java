@@ -80,9 +80,11 @@ import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.InputData;
 import de.tu_bs.cs.isf.cbc.util.InputDataTupel;
 import de.tu_bs.cs.isf.cbc.util.MethodHandler;
+import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.Settings;
 import de.tu_bs.cs.isf.cbc.util.TestCaseData;
 import de.tu_bs.cs.isf.cbc.util.TestUtilSPL;
+import de.tu_bs.cs.isf.cbc.util.Variable;
 import de.tu_bs.cs.isf.cbc.util.conditionparser.ConditionParser;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 
@@ -235,6 +237,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	    final Features features) throws ReferenceException, TestAndAssertionGeneratorException,
 	    PreConditionSolverException, UnexpectedTokenException, TestStatementException, DiagnosticsException,
 	    SettingsException, MalformedURLException, ClassNotFoundException {
+	final JavaVariable returnVar = Variable.getReturnVar(vars);
 	var methodToGenerate = getDiagram();
 	String code2 = genCode(methodToGenerate);
 	var className = code2.split("public\\sclass\\s", 2)[1].split("\\s", 2)[0];
@@ -248,7 +251,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	if (FileHandler.instance.isSPL(uri)) {
 	    if (code.contains("original(")) {
 		TestUtilSPL.getInstance().handleOriginalCode(this.getFeatureProvider(), projectPath, code, features,
-			originalMethods, formula.getMethodObj().getSignature(), vars);
+			originalMethods, formula.getMethodObj().getSignature(), vars, returnVar);
 		code = code.replaceAll("original\\(", originalMethods.get(0).getMethodName() + "(");
 	    }
 	    // TODO: ignore methods that are not abstract
@@ -1410,8 +1413,7 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 			input.setValues(values);
 		    }
 		    if (dimensions == 0) {
-			// input.getRandomValue();
-			input.getValue(counter);
+			input.getRandomValue();
 		    } else if (input.isPrimitive()) {
 			input.getPrimitiveArrayInit();
 		    } else {
@@ -2057,7 +2059,19 @@ public class TestAndAssertionGenerator extends MyAbstractAsynchronousCustomFeatu
 	return this.projectInternalClasses;
     }
 
-    private List<String> getProjectJavaFiles() {
+    public List<String> getSrcFiles() {
+	var fileNames = new ArrayList<String>();
+	var projectLocation = FileUtil.getProjectLocation(this.projectPath);
+	var project = FileUtil.getProject(this.projectPath);
+	var srcFolder = project.getFolder("src");
+	var javaFiles = FileUtil.getFiles(srcFolder, ".java");
+	for (var file : javaFiles) {
+	    fileNames.add(file.getName().split("\\.")[0]);
+	}
+	return fileNames;
+    }
+
+    public List<String> getProjectJavaFiles() {
 	if (this.projectJavaFiles == null) {
 	    this.projectJavaFiles = new ArrayList<String>();
 	    loadAllJavaFilesFromProject();

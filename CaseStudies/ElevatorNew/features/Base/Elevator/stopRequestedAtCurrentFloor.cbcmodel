@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="stopRequestedAtCurrentFloor" className="Elevator" methodName="stopRequestedAtCurrentFloor">
+    <statement name="statement" id="7290be77-f2bd-4b9f-8a28-afa25a8bedc2">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="(this.env.getFloor(this.currentFloorID).hasCall() == true || this.floorButtons[this.currentFloorID] == true);" comment="returnStatement" id="c32473a1-577b-40d0-ad6d-218d68ea0cef">
+        <postCondition name="modifiable(ret,(this.env.getFloor(this.currentFloorID).hasCall()); ((this.env.getFloor(this.currentFloorID).hasCall() = TRUE)-> \result = TRUE)&amp; ((this.floorButtons[this.currentFloorID] = TRUE) -> \result = TRUE)"/>
+        <preCondition name="this.env != null &amp; this.env.floors != null &amp; this.floorButtons != null &amp; this.currentFloorID >= 0 &amp; this.currentFloorID &lt; this.env.floors.length&amp; this.currentFloorID &lt; this.floorButtons.length &amp; this.env.floors[this.currentFloorID] != null"/>
+      </refinement>
+      <postCondition name="modifiable(ret,(this.env.getFloor(this.currentFloorID).hasCall()); ((this.env.getFloor(this.currentFloorID).hasCall() = TRUE)-> \result = TRUE)&amp; ((this.floorButtons[this.currentFloorID] = TRUE) -> \result = TRUE)"/>
+      <preCondition name="this.env != null &amp; this.env.floors != null &amp; this.floorButtons != null &amp; this.currentFloorID >= 0 &amp; this.currentFloorID &lt; this.env.floors.length&amp; this.currentFloorID &lt; this.floorButtons.length &amp; this.env.floors[this.currentFloorID] != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Elevator.cbcclass#//@methods.13"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables/>
+  <cbcmodel:GlobalConditions>
+    <conditions name="this.currentFloorID &lt; this.floorButtons.length"/>
+    <conditions name="this.env.floors != null"/>
+    <conditions name="this.env.floors.&lt;created> = TRUE"/>
+    <conditions name="this.env.&lt;inv>"/>
+  </cbcmodel:GlobalConditions>
+</xmi:XMI>

@@ -1,20 +1,16 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Parser
-Bundle-SymbolicName: de.tu-bs.cs.isf.cbc.util
+Bundle-SymbolicName: de.tu-bs.cs.isf.cbc.util;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-17,
- JavaSE-16
-Require-Bundle: org.key_project.core,
- org.key_project.util,
- org.eclipse.core.resources,
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.eclipse.core.resources,
  org.eclipse.core.runtime,
  org.eclipse.graphiti.mm,
  org.eclipse.core.filesystem,
  org.eclipse.ui,
  org.eclipse.ui.console,
  org.emftext.language.java,
- org.key_project.ui,
  com.google.guava,
  org.mockito.mockito-core;bundle-version="4.8.1";resolution:=optional,
  org.junit;bundle-version="4.13.2",
@@ -23,16 +19,21 @@ Require-Bundle: org.key_project.core,
  org.eclipse.graphiti.ui,
  de.tu_bs.cs.isf.cbc.statistics,
  de.tu-bs.cs.isf.cbc.model,
- de.tu-bs.cs.isf.cbc.exceptions,
- org.eclipse.graphiti;bundle-version="0.18.0"
+ org.eclipse.graphiti;bundle-version="0.18.0",
+ org.eclipse.emf.transaction,
+ de.tu_bs.cs.isf.cbc.exceptions
 Export-Package: de.tu_bs.cs.isf.cbc.util,
  de.tu_bs.cs.isf.cbc.util.conditionparser,
  de.tu_bs.cs.isf.cbc.util.consts,
  de.tu_bs.cs.isf.cbc.util.diagnostics,
+ de.tu_bs.cs.isf.cbc.util.presenceconditionparser,
  de.tu_bs.cs.isf.cbc.util.statistics
-Import-Package: org.eclipse.emf.ecore.xmi.impl;version="2.35.0",
- org.emftext.language.java.resource.java.util
-Bundle-ClassPath: lib/antlr-3.4.jar,
+Import-Package: org.eclipse.emf.ecore.xmi.impl;version="2.35.0"
+Bundle-ClassPath: lib/,
+ lib/key-2.13.0-exe.jar,
+ lib/antlr-3.4.jar,
  lib/de.ovgu.featureide.lib.fm-v3.6.2.jar,
  lib/org.sat4j.core.jar,
+ lib/javaparser-core-3.25.9-SNAPSHOT.jar,
+ lib/javaparser-symbol-solver-core-3.25.9-SNAPSHOT.jar,
  .

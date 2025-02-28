@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cbcmodel="http://www.example.org/cbcmodel">
+  <cbcmodel:CbCFormula name="creditAccountCredit" proven="true" className="Account" methodName="creditAccountCredit">
+    <statement name="statement">
+      <refinement xsi:type="cbcmodel:ReturnStatement" name="balance >= amount;" proven="true" comment="returnStatement">
+        <postCondition name="balance >= amount &lt;-> \result = TRUE"/>
+        <preCondition name=" amount > 0"/>
+      </refinement>
+      <postCondition name="balance >= amount &lt;-> \result = TRUE"/>
+      <preCondition name=" amount > 0"/>
+    </statement>
+    <preCondition name=" amount > 0"/>
+    <postCondition name=" balance >= amount &lt;-> result = true"/>
+    <methodObj href="Account.cbcclass#//@methods.11"/>
+  </cbcmodel:CbCFormula>
+  <cbcmodel:JavaVariables>
+    <variables name="int amount" kind="PARAM"/>
+    <variables name="boolean result" kind="RETURN"/>
+    <variables name="boolean result"/>
+    <fields href="Account.cbcclass#//@fields.0"/>
+    <fields href="Account.cbcclass#//@fields.1"/>
+    <fields href="Account.cbcclass#//@fields.2"/>
+    <fields href="Account.cbcclass#//@fields.3"/>
+    <fields href="Account.cbcclass#//@fields.4"/>
+    <fields href="Account.cbcclass#//@fields.5"/>
+    <fields href="Account.cbcclass#//@fields.6"/>
+  </cbcmodel:JavaVariables>
+  <cbcmodel:GlobalConditions/>
+</xmi:XMI>

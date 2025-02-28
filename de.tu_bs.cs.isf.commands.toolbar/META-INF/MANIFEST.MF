@@ -11,12 +11,16 @@ Require-Bundle: org.eclipse.ui,
  org.emftext.language.java,
  org.eclipse.emf.ecore.xmi,
  de.ovgu.featureide.fm.core
-Bundle-RequiredExecutionEnvironment: JavaSE-17,
- JavaSE-16
-Import-Package: newDiagramWizard,
+Bundle-RequiredExecutionEnvironment: JavaSE-16
+Import-Package: de.tu_bs.cs.isf.corc.predicateWizard,
+ newDiagramWizard,
  org.eclipse.core.runtime;version="3.7.0",
  org.eclipse.graphiti.mm.pictograms;version="0.18.0",
- org.eclipse.jdt.internal.core,
- org.emftext.language.java.containers,
- org.emftext.language.java.resource.java.util
-Export-Package: de.tu_bs.cs.isf.commands.toolbar.handler.family
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.internal.core
+Export-Package: de.tu_bs.cs.isf.commands.toolbar.handler.family,
+ de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs
+Bundle-ClassPath: lib/javaparser-core-3.25.9-SNAPSHOT.jar,
+ lib/javaparser-symbol-solver-core-3.25.9-SNAPSHOT.jar,
+ lib/gson-2.11.0.jar,
+ .

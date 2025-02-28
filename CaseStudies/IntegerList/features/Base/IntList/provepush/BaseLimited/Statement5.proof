@@ -180,7 +180,11 @@ Heap heapAtPre;
 \proof {
 (keyLog "0" (keyUser "Fynn" ) (keyVersion "1fb0c10630b493ce138850ae0f9803d3f2fffc51"))
 
+<<<<<<<< HEAD:CaseStudies/IntegerList/features/Base/IntList/provepush/BaseLimited/Statement5.proof
 (autoModeTime "491")
+========
+(autoModeTime "463")
+>>>>>>>> master:CaseStudies/IntegerList/features/Base/IntList/provepush/BaseLimitedSortedDecreasing/Statement5.proof
 
 (branch "dummy ID"
  (builtin "One Step Simplification" (formula "1"))

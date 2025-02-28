@@ -11,7 +11,7 @@
         "initialisation" : "initialisation:disableStaticInitialisation",
         "intRules" : "intRules:arithmeticSemanticsIgnoringOF",
         "integerSimplificationRules" : "integerSimplificationRules:full",
-        "javaLoopTreatment" : "javaLoopTreatment:teaching",
+        "javaLoopTreatment" : "javaLoopTreatment:efficient",
         "mergeGenerateIsWeakeningGoal" : "mergeGenerateIsWeakeningGoal:off",
         "methodExpansion" : "methodExpansion:modularOnly",
         "modelFields" : "modelFields:showSatisfiability",
@@ -86,8 +86,8 @@ int[] tmp;
 int newTop;
 int i_old;
 int newTop_old;
-int LIMIT1_oldVal;
 int[] data2_oldVal;
+int LIMIT1_oldVal;
 IntList self;
 Heap heapAtPre;
 }
@@ -160,7 +160,7 @@ Heap heapAtPre;
 \proof {
 (keyLog "0" (keyUser "Fynn" ) (keyVersion "1fb0c10630b493ce138850ae0f9803d3f2fffc51"))
 
-(autoModeTime "415")
+(autoModeTime "707")
 
 (branch "dummy ID"
  (builtin "One Step Simplification" (formula "1"))

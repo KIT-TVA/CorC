@@ -37,8 +37,6 @@ public final class ConditionHandler {
     public static JavaCondition translateConditionToJava(final URI projectPath, String condition, String instanceName,
 	    List<InputData> gVars) throws UnexpectedTokenException {
 	var tree = parseCondition(projectPath, condition, instanceName, gVars);
-	var testtree = tree.getRep();
-	System.out.println(tree.getRep());
 	JavaCondition javaCondition = new JavaCondition(tree);
 	return javaCondition;
     }
