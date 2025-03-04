@@ -66,142 +66,184 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 
 	@Override
 	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
-		super.createControls(parent, tabbedPropertySheetPage);
-		this.parent = parent;
-		this.tabbedPropertySheetPage = tabbedPropertySheetPage;
+	    super.createControls(parent, tabbedPropertySheetPage);
+	    this.parent = parent;
+	    this.tabbedPropertySheetPage = tabbedPropertySheetPage;
 
-		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+	    TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+	    Composite mainComposite = factory.createFlatFormComposite(parent);
+	    display = Display.getCurrent();
 
-		Composite composite = factory.createFlatFormComposite(parent);
+	    // Set main layout: Two equally sized columns
+	    GridLayout mainLayout = new GridLayout(2, true);
+	    mainLayout.verticalSpacing = 10;
+	    mainComposite.setLayout(mainLayout);
 
-		display = Display.getCurrent();
+	    // ==== LEFT GROUP (Code & Response) ====
+	    Composite leftGroup = new Composite(mainComposite, SWT.BORDER);
+	    leftGroup.setLayout(new GridLayout(2, false));
+	    GridData leftGroupData = new GridData(SWT.FILL, SWT.FILL, true, true);
+	    leftGroupData.widthHint = 400; // Adjusted to smaller width
+	    leftGroup.setLayoutData(leftGroupData);
 
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 2;
-		gridLayout.verticalSpacing = 20;
-		composite.setLayout(gridLayout);
+	    codeLabel = new Label(leftGroup, SWT.NONE);
+	    codeLabel.setText("Code: ");
 
-		codeLabel = new Label(composite, SWT.PUSH);
-		codeLabel.setText("Code: ");
-		codeLabel.setBackground(white);
+	    codeText = new StyledText(leftGroup, SWT.WRAP | SWT.PUSH | SWT.BORDER);
+	    GridData codeTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+	    codeTextGridData.horizontalSpan = 2;
+	    codeTextGridData.widthHint = 500; // Reduced width
+	    codeText.setText("Choose a code block");
+	    codeText.setLayoutData(codeTextGridData);
+	    codeText.setBackground(white);
 
-		// codeText configuration
-		codeText = new StyledText(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
-		GridData codeTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		codeTextGridData.horizontalSpan = 2; // Span across both columns
-		codeTextGridData.widthHint = 800;
-		codeText.setText("Choose a code block");
-		codeText.setLayoutData(codeTextGridData);
-		codeText.setBackground(white);
-		
-		
-		// generateButton
-		generateButton = new Button(composite, SWT.PUSH);
-		generateButton.setText("Generate");
-		generateButton.setEnabled(false);
-		
-		// Make generateButton span across both columns
-		GridData generateButtonGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		generateButtonGridData.horizontalSpan = 2; // Span across both columns
-		generateButton.setLayoutData(generateButtonGridData);
-		
-		aiLabel = new Label(composite, SWT.PUSH);
-		aiLabel.setText("Response: ");
-		aiLabel.setBackground(white);
+	    // Generate Button
+	    generateButton = new Button(leftGroup, SWT.PUSH);
+	    generateButton.setText("Generate");
+	    generateButton.setEnabled(false);
+	    GridData generateButtonGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	    generateButtonGridData.horizontalSpan = 2;
+	    generateButton.setLayoutData(generateButtonGridData);
 
-		// aiText configuration
-		aiText = new StyledText(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
-		GridData aiTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		aiTextGridData.horizontalSpan = 2; // Span across both columns
-		aiTextGridData.widthHint = 800;
-		aiTextGridData.heightHint = 100;
-		aiText.setText("GPTs response.");
-		aiText.setLayoutData(aiTextGridData);
-		aiText.setBackground(white);
-		aiText.setEditable(true);
-		
-		// New Response Button (Follow-up)
-        responseButton = new Button(composite, SWT.PUSH);
-        responseButton.setText("Answer"); // Button name
-        responseButton.setEnabled(true);
-        GridData responseButtonGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-        responseButtonGridData.horizontalSpan = 2;
-        responseButton.setLayoutData(responseButtonGridData);
-		
-		// Button Click Listener
-		generateButton.addListener(SWT.Selection, event -> sendGPTRequest(codeText.getText(), false));
-		
-		// Generate Button Action (Only processes new code)
-        generateButton.addListener(SWT.Selection, event -> {
-            String currentCodeText = codeText.getText().trim();
-            if (!currentCodeText.equals(lastCodeText)) { // Prevent duplicate processing
-                lastCodeText = currentCodeText;
-                sendGPTRequest(currentCodeText, false);
-            }
-        });
-		
-		// Response Button Action (New)
-        responseButton.addListener(SWT.Selection, event -> sendGPTRequest(aiText.getText(), true));
-        
-        // AI Text Enter Key Listener for Follow-ups
-        aiText.addListener(SWT.KeyDown, event -> {
-            if (event.keyCode == SWT.CR || event.keyCode == SWT.KEYPAD_CR) { 
-                sendGPTRequest(aiText.getText(), true); // Follow-up request
-            }
-        });
+	    // AI Response Label (Now below the Generate button)
+	    aiLabel = new Label(leftGroup, SWT.NONE);
+	    aiLabel.setText("Response:");
+	    aiLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
+
+	    // AI Response Field (Read-Only)
+	    aiText = new StyledText(leftGroup, SWT.WRAP | SWT.PUSH | SWT.BORDER | SWT.READ_ONLY);
+	    GridData aiTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+	    aiTextGridData.horizontalSpan = 2;
+	    aiTextGridData.widthHint = 500;
+	    aiTextGridData.heightHint = 80;
+	    aiText.setText("GPT's response.");
+	    aiText.setLayoutData(aiTextGridData);
+	    aiText.setBackground(white);
+
+	    // ==== RIGHT GROUP (Questions & Responses) ====
+	    Composite rightGroup = new Composite(mainComposite, SWT.BORDER);
+	    rightGroup.setLayout(new GridLayout(2, false));
+	    GridData rightGroupData = new GridData(SWT.FILL, SWT.FILL, true, true);
+	    rightGroupData.widthHint = 400; // Adjusted to smaller width
+	    rightGroup.setLayoutData(rightGroupData);
+
+	    // Question Label
+	    Label questionLabel = new Label(rightGroup, SWT.NONE);
+	    questionLabel.setText("Questions:");
+	    questionLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
+
+	    // Question Text Field
+	    StyledText questionText = new StyledText(rightGroup, SWT.WRAP | SWT.PUSH | SWT.BORDER);
+	    GridData questionTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+	    questionTextGridData.horizontalSpan = 2;
+	    questionTextGridData.widthHint = 500;
+	    questionTextGridData.heightHint = 80;
+	    questionText.setText("Write your question here...");
+	    questionText.setLayoutData(questionTextGridData);
+	    questionText.setEditable(true);
+
+	    // Checkbox for specification relevance
+	    Button specificationCheckbox = new Button(rightGroup, SWT.CHECK);
+	    specificationCheckbox.setText("Question relates to the specification");
+	    GridData checkboxGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	    checkboxGridData.horizontalSpan = 2;
+	    specificationCheckbox.setLayoutData(checkboxGridData);
+
+	    // Answer Button
+	    Button rightAnswerButton = new Button(rightGroup, SWT.PUSH);
+	    rightAnswerButton.setText("Answer");
+	    rightAnswerButton.setEnabled(true);
+	    GridData rightAnswerButtonGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	    rightAnswerButtonGridData.horizontalSpan = 2;
+	    rightAnswerButton.setLayoutData(rightAnswerButtonGridData);
+
+	    // Question Response Label (Now below the Answer button)
+	    Label questionResponseLabel = new Label(rightGroup, SWT.NONE);
+	    questionResponseLabel.setText("Question Response:");
+	    questionResponseLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
+
+	    // Question Response Text Field (Read-Only)
+	    StyledText questionResponseText = new StyledText(rightGroup, SWT.WRAP | SWT.PUSH | SWT.BORDER | SWT.READ_ONLY);
+	    GridData questionResponseTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+	    questionResponseTextGridData.horizontalSpan = 2;
+	    questionResponseTextGridData.widthHint = 500;
+	    questionResponseTextGridData.heightHint = 80;
+	    questionResponseText.setText("Response to your question...");
+	    questionResponseText.setLayoutData(questionResponseTextGridData);
+	    questionResponseText.setBackground(white);
+
+	    // === Button Listeners ===
+	    generateButton.addListener(SWT.Selection, event -> sendGPTRequest(codeText.getText(), aiText, false, false));
+
+	    rightAnswerButton.addListener(SWT.Selection, event -> {
+	        boolean includeSpecification = specificationCheckbox.getSelection();
+	        sendGPTRequest(questionText.getText(), questionResponseText, includeSpecification, true);
+	    });
 	}
+
+
 	/**
-     * @param inputText The user's input (either from codeText or aiText)
-     * @param isFollowUp Whether this is a follow-up question
-     */
-    private void sendGPTRequest(String inputText, boolean isFollowUp) {
-        String prompt;
-        
-        if (isFollowUp) { // If this is a follow-up question
-            prompt = "Follow-up question based on the previous AI response: " + lastAiResponse + 
-                     "\nUser question: " + inputText + 
-                     "\nAnswer concisely.";
-        } else { // First-time request
-            prompt = "In one sentence explain the following formal specification:" + inputText;
-        }
+	 * Handles AI requests for both generating responses and answering user questions.
+	 *
+	 * @param inputText        The text input from the user.
+	 * @param outputField      The text field where the AI response should be displayed.
+	 * @param includeSpec      Whether to include the previous AI response (for follow-ups).
+	 * @param isFollowUp       If the request is a follow-up or a new question.
+	 */
+	private void sendGPTRequest(String inputText, StyledText outputField, boolean includeSpec, boolean isFollowUp) {
+	    String prompt;
 
-        GPTAccess gptAccess = new GPTAccess();
-        TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(bo);
+	    if (isFollowUp && includeSpec) {
+	        // Follow-up question including previous response
+	        prompt = "Follow-up question based on the previous AI response: " + aiText.getText() + 
+	                 "\nUser question: " + inputText + 
+	                 "\nAnswer concisely.";
+	    } else if (isFollowUp) {
+	        // Follow-up question without context
+	        prompt = "User question: " + inputText + 
+	                 "\nAnswer concisely.";
+	    } else {
+	        // First-time request (for specification-related input)
+	        prompt = "In one sentence explain the following formal specification: " + inputText;
+	    }
 
-        domain.getCommandStack().execute(new RecordingCommand(domain) {
-            @Override
-            protected void doExecute() {
-                try {
-                	String safePrompt = prompt
-                	        .replace("\\", "\\\\")  // Escape backslashes
-                	        .replace("\"", "\\\"")  // Escape double quotes
-                	        .replace("\n", "\\n")   // Escape new lines properly
-                	        .replace("\r", "")      // Remove carriage returns (if any)
-                	        .replace("\t", " ")     // Replace tabs with a space
-                	        .replace("≤", "<=")     // Normalize mathematical symbols
-                	        .replace("≥", ">=")     // Normalize mathematical symbols
-                	        .replace("→", "->")     // Normalize logical arrows
-                	        .replace("∀", "\\forall") // Preserve universal quantifier
-                	        .replace("∃", "\\exists"); // Preserve existential quantifier
+	    GPTAccess gptAccess = new GPTAccess();
+	    TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(bo);
 
-                    String response = gptAccess.getResponse(safePrompt);
+	    domain.getCommandStack().execute(new RecordingCommand(domain) {
+	        @Override
+	        protected void doExecute() {
+	            try {
+	                String safePrompt = prompt
+	                        .replace("\\", "\\\\")  // Escape backslashes
+	                        .replace("\"", "\\\"")  // Escape double quotes
+	                        .replace("\n", "\\n")   // Escape new lines properly
+	                        .replace("\r", "")      // Remove carriage returns (if any)
+	                        .replace("\t", " ")     // Replace tabs with a space
+	                        .replace("≤", "<=")     // Normalize mathematical symbols
+	                        .replace("≥", ">=")     // Normalize mathematical symbols
+	                        .replace("→", "->")     // Normalize logical arrows
+	                        .replace("∀", "\\forall") // Preserve universal quantifier
+	                        .replace("∃", "\\exists"); // Preserve existential quantifier
 
-                    // Extract the AI response
-                    Pattern pattern = Pattern.compile("\"content\":\\s*\"(.*?)\"");
-                    Matcher matcher = pattern.matcher(response);
-                    if (matcher.find()) {
-                        lastAiResponse = matcher.group(1).replace("\\n", " "); // Store last AI response
-                        aiText.setText(lastAiResponse);
-                    }
-                    System.out.println("Response from GPT: " + lastAiResponse);
+	                String response = gptAccess.getResponse(safePrompt);
 
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    aiText.setText("Error communicating with GPT.");
-                }
-            }
-        });
-    }
+	                // Extract AI response
+	                Pattern pattern = Pattern.compile("\"content\":\\s*\"(.*?)\"");
+	                Matcher matcher = pattern.matcher(response);
+	                if (matcher.find()) {
+	                    String aiResponse = matcher.group(1).replace("\\n", " ");
+	                    outputField.setText(aiResponse);
+	                }
+	            } catch (Exception ex) {
+	                ex.printStackTrace();
+	                outputField.setText("Error communicating with GPT.");
+	            }
+	        }
+	    });
+	}
+
+
 	@Override
 	public void refresh() {
 		CbCDiagramTypeProvider test = new CbCDiagramTypeProvider();

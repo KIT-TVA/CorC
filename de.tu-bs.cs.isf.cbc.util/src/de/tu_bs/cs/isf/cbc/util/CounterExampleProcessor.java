@@ -65,7 +65,7 @@ public class CounterExampleProcessor {
         String variableNames = variables.stream()
             .map(JavaVariable::getName)
             .collect(Collectors.joining(", "));
-        String prompt = "Shortly give the decimal values of variables "+variableNames+" from the output of Z3 that calculated a counter example for given code and specification: "+sanitizedCounterExample;
+        String prompt = "Shortly give only the values of variables "+variableNames+" from the output of Z3 that calculated a counter example for given code and specification(ints in decimal numbers and bools in true or false): "+sanitizedCounterExample;
 
         // Log the final prompt for debugging
         System.out.println("Final Prompt Sent to GPT: " + prompt);
