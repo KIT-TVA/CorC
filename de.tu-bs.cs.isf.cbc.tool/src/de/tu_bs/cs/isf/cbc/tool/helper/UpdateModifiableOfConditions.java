@@ -1,14 +1,9 @@
 package de.tu_bs.cs.isf.cbc.tool.helper;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.emf.common.util.ECollections;
-import org.eclipse.emf.ecore.EObject;
-
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
+import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
@@ -20,24 +15,79 @@ import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.IFileUtil;
 import de.tu_bs.cs.isf.cbc.util.Parser;
 import de.tu_bs.cs.isf.cbc.util.ParserException;
+import java.util.ArrayList;
+import java.util.List;
+import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.ecore.EObject;
 
 public class UpdateModifiableOfConditions {
 	private static Condition currentPost = null;
 	private static JavaVariables vars = null;
 	private static IFileUtil fileUtil = null;
 
+	private static boolean customUpdate = false;
+	private static List<Field> fields;
+	private static String methodModifiables;
+
 	public static void setVars(JavaVariables vars) {
 		UpdateModifiableOfConditions.vars = vars;
 	}
-	
+
+	public static void updateAssignmentStatement(List<Field> pFields, AbstractStatement statement,
+			String pMethodModifiables) {
+		customUpdate = true;
+		fields = pFields;
+		methodModifiables = pMethodModifiables;
+		updateStatement(statement);
+	}
+
 	public static void updateAssignmentStatement(AbstractStatement statement, IFileUtil fileHandler) {
+		customUpdate = false;
 		fileUtil = fileHandler;
 		updateAssignmentStatement(statement);
 	}
-	
+
+	private static void updateStatement(AbstractStatement statement) {
+		copyModifiableVariables(statement.getPreCondition(), statement.getPostCondition());
+		if (!statement.getName().contains(";")) {
+			// TODO: Exception handling ....
+			return;
+		}
+		try {
+			JavaVariables tmpVars = CbcmodelFactory.eINSTANCE.createJavaVariables();
+			tmpVars.getFields().addAll(fields);
+			List<String> variablesInStatement = Parser.findAllVariables(statement, tmpVars, methodModifiables);
+			List<String> modifiableVariables = new ArrayList<>(statement.getPreCondition().getModifiables());
+			for (String var : variablesInStatement) {
+				if (!modifiableVariables.contains(var)) {
+					for (Field f : fields) {
+						if (f.getName().equals(var) && f.getType().contains("[]") && !var.contains("[")) {
+							var = var + "[*]";
+						}
+					}
+					modifiableVariables.add(var);
+				}
+			}
+			if (statement instanceof ReturnStatement && variablesInStatement.size() == 0)
+				modifiableVariables.add("ret");
+			statement.getPostCondition().getModifiables().clear();
+			for (String mv : modifiableVariables) {
+				if (!statement.getPostCondition().getModifiables().contains(mv)) {
+					statement.getPostCondition().getModifiables().add(mv);
+				}
+			}
+			ECollections.sort(statement.getPostCondition().getModifiables());
+			currentPost = statement.getPostCondition();
+			updateParent(statement);
+		} catch (ParserException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private static void updateAssignmentStatement(AbstractStatement statement) {
 		copyModifiableVariables(statement.getPreCondition(), statement.getPostCondition());
-		if (statement.getName().contains(";") && CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
+		if (statement.getName().contains(";")
+				&& CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 			try {
 				List<String> variablesInStatement = Parser.findAllVariables(statement, vars, fileUtil);
 				List<String> modifiableVariables = new ArrayList<>(statement.getPreCondition().getModifiables());
@@ -51,7 +101,8 @@ public class UpdateModifiableOfConditions {
 						modifiableVariables.add(var);
 					}
 				}
-				if (statement instanceof ReturnStatement && variablesInStatement.size() == 0) modifiableVariables.add("ret"); 
+				if (statement instanceof ReturnStatement && variablesInStatement.size() == 0)
+					modifiableVariables.add("ret");
 				statement.getPostCondition().getModifiables().clear();
 				for (String mv : modifiableVariables) {
 					if (!statement.getPostCondition().getModifiables().contains(mv)) {
@@ -97,27 +148,31 @@ public class UpdateModifiableOfConditions {
 				copyModifiableVariables(repStatement.getPreCondition(), repStatement.getPostCondition());
 				updateParent(repStatement);
 			} else if (parent instanceof SelectionStatement) {
-				SelectionStatement selStatement = (SelectionStatement) parent;//pre and post of selection are always null
-				copyModifiableVariables(selStatement.getPreCondition(), selStatement.getPostCondition());//?
-				if(statement.eContainer() instanceof SelectionStatement) {//abstract stmnt. embedded in Selection 
-					for (AbstractStatement subStatement : selStatement.getCommands()) {//update postcondition of the parent extraselection
-						if (!statement.equals(subStatement)) {//parent.equals(subStatement)
+				SelectionStatement selStatement = (SelectionStatement) parent; // pre and post of selection are always
+				// null
+				copyModifiableVariables(selStatement.getPreCondition(), selStatement.getPostCondition()); // ?
+				if (statement.eContainer() instanceof SelectionStatement) { // abstract stmnt. embedded in Selection
+					for (AbstractStatement subStatement : selStatement.getCommands()) { // update postcondition of the
+						// parent extraselection
+						if (!statement.equals(subStatement)) { // parent.equals(subStatement)
 							copySelectionModifiableVariables(subStatement.getPostCondition(), currentPost);
 						}
 					}
-				} else {//Abstract stmnt is child of Selection
-					for (AbstractStatement subStatement : selStatement.getCommands()) {//update postcondition of the parent extraselection
-						if (statement.eContainer().equals(subStatement)) {//update post condition of parent
+				} else { // Abstract stmnt is child of Selection
+					for (AbstractStatement subStatement : selStatement.getCommands()) { // update postcondition of the
+						// parent extraselection
+						if (statement.eContainer().equals(subStatement)) { // update post condition of parent
 							copyModifiableVariables(currentPost, subStatement.getPostCondition());
 						}
 					}
-					for (AbstractStatement subStatement : selStatement.getCommands()) {//update postcondition of the parent extraselection
-						if (!statement.eContainer().equals(subStatement)) {//parent.equals(subStatement)
+					for (AbstractStatement subStatement : selStatement.getCommands()) { // update postcondition of the
+						// parent extraselection
+						if (!statement.eContainer().equals(subStatement)) { // parent.equals(subStatement)
 							copySelectionModifiableVariables(subStatement.getPostCondition(), currentPost);
 						}
 					}
 				}
-				//show all modifiables of Selection
+				// show all modifiables of Selection
 				copyModifiableVariables(currentPost, selStatement.getCommands().get(0).getPostCondition());
 				updateParent(selStatement);
 			} else if (statement.getParent() instanceof StrengthWeakStatement) {
@@ -132,10 +187,12 @@ public class UpdateModifiableOfConditions {
 		if (statement.getRefinement() != null) {
 			AbstractStatement refinement = statement.getRefinement();
 			copyModifiableVariables(statement.getPreCondition(), refinement.getPreCondition());
-			copyModifiableVariables(statement.getPreCondition(), ((AbstractStatement) refinement.eContainer()).getPreCondition());
+			copyModifiableVariables(statement.getPreCondition(),
+					((AbstractStatement) refinement.eContainer()).getPreCondition());
 			if (refinement instanceof CompositionStatement) {
 				CompositionStatement subCompoStatement = (CompositionStatement) refinement;
-				copyModifiableVariables(((AbstractStatement) subCompoStatement.eContainer()).getPreCondition(), subCompoStatement.getFirstStatement().getPreCondition());
+				copyModifiableVariables(((AbstractStatement) subCompoStatement.eContainer()).getPreCondition(),
+						subCompoStatement.getFirstStatement().getPreCondition());
 				updatePreChild(subCompoStatement.getFirstStatement());
 				copyModifiableVariables(currentPost, subCompoStatement.getSecondStatement().getPostCondition());
 			} else if (refinement instanceof SelectionStatement) {
@@ -143,7 +200,11 @@ public class UpdateModifiableOfConditions {
 				for (AbstractStatement subSelStatement : selStatement.getCommands()) {
 					copyModifiableVariables(statement.getPreCondition(), subSelStatement.getPreCondition());
 					if (subSelStatement instanceof AbstractStatement) {
-						updateAssignmentStatement(subSelStatement);
+						if (customUpdate) {
+							updateStatement(subSelStatement);
+						} else {
+							updateAssignmentStatement(subSelStatement);
+						}
 					} else {
 						copyModifiableVariables(statement.getPreCondition(), subSelStatement.getPostCondition());
 					}
@@ -154,7 +215,11 @@ public class UpdateModifiableOfConditions {
 				AbstractStatement loopStatement = repStatement.getLoopStatement();
 				copyModifiableVariables(repStatement.getPreCondition(), loopStatement.getPreCondition());
 				if (loopStatement instanceof AbstractStatement) {
-					updateAssignmentStatement(loopStatement);
+					if (customUpdate) {
+						updateStatement(loopStatement);
+					} else {
+						updateAssignmentStatement(loopStatement);
+					}
 				} else {
 					copyModifiableVariables(statement.getPreCondition(), loopStatement.getPostCondition());
 				}
@@ -163,7 +228,11 @@ public class UpdateModifiableOfConditions {
 				updatePreChild(refinement);
 			} else if (refinement instanceof AbstractStatement) {
 				copyModifiableVariables(statement.getPreCondition(), statement.getPostCondition());
-				updateAssignmentStatement(refinement);
+				if (customUpdate) {
+					updateStatement(refinement);
+				} else {
+					updateAssignmentStatement(refinement);
+				}
 			}
 		}
 	}
@@ -177,11 +246,11 @@ public class UpdateModifiableOfConditions {
 			}
 		}
 	}
-	
+
 	private static void copyModifiableVariables(Condition copyFromCondition, Condition copyToCondition) {
 		if (copyFromCondition != null && copyToCondition != null && !copyFromCondition.getModifiables().isEmpty()) {
 			List<String> temp = new ArrayList<>();
-			for (String s: copyFromCondition.getModifiables()) {
+			for (String s : copyFromCondition.getModifiables()) {
 				temp.add(s);
 			}
 			copyToCondition.getModifiables().clear();

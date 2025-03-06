@@ -54,7 +54,6 @@ git@github.com:xtext/maven-xtext-example.git-->
 									<java>
 										<removeUnusedImports/>
 										<eclipse />
-												<!-- Remove line comments between imports -->
 										<includes>
 											<include>src/**/*.java</include>
 										</includes>
@@ -203,17 +202,6 @@ git@github.com:xtext/maven-xtext-example.git-->
 	  		<layout>p2</layout>
   		</repository>
 	  	
-		<repository>
-			<id>codehaus-snapshots</id>
-			<name>disable dead 'Codehaus Snapshots' repository, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
-			<url>http://nexus.codehaus.org/snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
 		<!-- This must be disabled explicitly, otherwise it is enabled by https://github.com/mojohaus/mojo-parent 
 			which is taken from exec-maven-plugin from at least version 1.6.0 -->
 		<repository>
@@ -242,17 +230,6 @@ git@github.com:xtext/maven-xtext-example.git-->
 		</repository>
 	</repositories>
 	<pluginRepositories>
-		<pluginRepository>
-			<id>codehaus-snapshots</id>
-			<name>disable dead 'Codehaus Snapshots' repository, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
-			<url>http://nexus.codehaus.org/snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
 		<pluginRepository>
 			<id>ossrh-snapshots</id>
 			<name>ossrh-snapshots</name>
