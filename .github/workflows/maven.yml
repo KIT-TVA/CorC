@@ -3,14 +3,20 @@
 name: Java CI with Maven
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited, ready_for_review]
   push:
     branches: [ "master" ]
 
 jobs:
-  build:
-
+  format:
     runs-on: ubuntu-latest
+    steps:
+    - name: Apply Format
+      run: mvn spotless:apply
 
+  build:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17

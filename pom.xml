@@ -29,6 +29,7 @@ git@github.com:xtext/maven-xtext-example.git-->
 	    <module>de.tu_bs.cs.isf.cbc.parser</module>
 	    <module>de.tu_bs.cs.isf.lattice</module>
 	    <module>de.kit.tva.lost</module>
+			<module>de.tu-bs.cs.isf.cbc.proofrepository</module>
 	</modules>
 
 	<properties>
@@ -44,7 +45,23 @@ git@github.com:xtext/maven-xtext-example.git-->
 	<build>
 	    <pluginManagement>
 	      	<plugins>
-
+							<!-- Formatting Plugin -->
+							<plugin>
+								<groupId>com.diffplug.spotless</groupId>
+								<artifactId>spotless-maven-plugin</artifactId>
+								<version>2.44.0</version>
+								<configuration>
+									<java>
+										<removeUnusedImports/>
+										<eclipse />
+												<!-- Remove line comments between imports -->
+										<includes>
+											<include>src/**/*.java</include>
+										</includes>
+									</java>
+								</configuration>
+							<!-- -->
+						</plugin>
 	      		<plugin>
 		            <groupId>org.eclipse.tycho</groupId>
 		            <artifactId>tycho-p2-director-plugin</artifactId>
