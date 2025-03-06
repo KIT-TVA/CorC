@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbcclass" name="IntList" snapToGrid="true" pictogramLinks="//@children.0/@link //@children.0/@children.1/@link //@children.0/@children.0/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.1/@link //@children.1/@children.3/@link //@children.1/@children.12/@link" version="0.18.0">
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="cbcclass" name="IntList" snapToGrid="true" pictogramLinks="//@children.0/@link //@children.0/@children.1/@link //@children.0/@children.0/@link //@children.1/@link //@children.1/@children.0/@link //@children.1/@children.2/@link //@children.1/@children.1/@link //@children.1/@children.3/@link //@children.1/@children.12/@link //@children.0/@children.8/@link" version="0.19.0">
   <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+<<<<<<<< HEAD:CaseStudies/IntegerList/features/Limited/IntList/IntList.diagram
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="350" height="201" x="160" y="30" cornerHeight="20" cornerWidth="20">
+========
     <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineWidth="1" filled="true" transparency="0.0" width="350" height="171" x="190" y="50" cornerHeight="20" cornerWidth="20">
+>>>>>>>> master:CaseStudies/IntegerListOO/features/Cons/IntList/IntList.diagram
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">
@@ -99,10 +103,23 @@
         <points x="350" y="120"/>
       </graphicsAlgorithm>
     </children>
+    <children visible="true" active="true">
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" width="350" height="30" y="123" horizontalAlignment="ALIGNMENT_CENTER" value="PUBLIC final int LIMIT">
+        <properties key="org.eclipse.graphiti.pattern.id.id" value="fieldsNameText"/>
+        <properties key="org.eclipse.graphiti.pattern.id.index" value="0"/>
+      </graphicsAlgorithm>
+      <link>
+        <businessObjects href="IntList.cbcclass#//@fields.0"/>
+      </link>
+    </children>
   </children>
   <children xsi:type="pi:ContainerShape" visible="true" active="true">
     <properties key="org.eclipse.graphiti.pattern.patternType" value="org.eclipse.graphiti.pattern.idpattern"/>
+<<<<<<<< HEAD:CaseStudies/IntegerList/features/Limited/IntList/IntList.diagram
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.3" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="40" y="300" cornerHeight="20" cornerWidth="20">
+========
     <graphicsAlgorithm xsi:type="al:RoundedRectangle" foreground="//@colors.2" lineWidth="2" filled="true" transparency="0.0" width="600" height="150" x="130" y="300" cornerHeight="20" cornerWidth="20">
+>>>>>>>> master:CaseStudies/IntegerListOO/features/Cons/IntList/IntList.diagram
       <properties key="org.eclipse.graphiti.pattern.id.id" value="mainRectangle"/>
       <renderingStyle>
         <adaptedGradientColoredAreas definedStyleId="blue-white" gradientType="0">

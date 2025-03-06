@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
+<<<<<<<< HEAD:de.kit.tva.corc.feature/.project
+	<name>de.kit.tva.corc.feature</name>
+========
 	<name>ElevatorCorC</name>
+>>>>>>>> master:CaseStudies/ElevatorCorC/.project
 	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
 		<buildCommand>
+<<<<<<<< HEAD:de.kit.tva.corc.feature/.project
+			<name>org.eclipse.pde.FeatureBuilder</name>
+========
 			<name>org.eclipse.jdt.core.javabuilder</name>
+>>>>>>>> master:CaseStudies/ElevatorCorC/.project
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
+<<<<<<<< HEAD:de.kit.tva.corc.feature/.project
+		<nature>org.eclipse.pde.FeatureNature</nature>
+========
 		<nature>org.eclipse.jdt.core.javanature</nature>
+>>>>>>>> master:CaseStudies/ElevatorCorC/.project
 	</natures>
 </projectDescription>

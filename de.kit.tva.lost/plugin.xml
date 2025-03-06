@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="LOST"
+            id="LOST">
+      </category>
+      <view
+            id="de.kit.tva.lost.boot.Bootstrap"
+            name="LOST Editor"
+            icon="icons/sample.png"
+            class="de.kit.tva.lost.boot.Bootstrap"
+            category="LOST"
+            inject="true">
+      </view>
+   </extension>
+   <extension
+         id="corc"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ui.ide.workbench"
+            name="CorC">
+         <property
+               name="appName"
+               value="CorC">
+         </property>
+      </product>
+   </extension>
+
+</plugin>

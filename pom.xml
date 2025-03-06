@@ -28,6 +28,8 @@ git@github.com:xtext/maven-xtext-example.git-->
 	    <module>de.tu_bs.cs.isf.commands.toolbar</module>
 	    <module>de.tu_bs.cs.isf.cbc.parser</module>
 	    <module>de.tu_bs.cs.isf.lattice</module>
+	    <module>de.kit.tva.lost</module>
+			<module>de.tu-bs.cs.isf.cbc.proofrepository</module>
 	</modules>
 
 	<properties>
@@ -43,7 +45,22 @@ git@github.com:xtext/maven-xtext-example.git-->
 	<build>
 	    <pluginManagement>
 	      	<plugins>
-
+							<!-- Formatting Plugin -->
+							<plugin>
+								<groupId>com.diffplug.spotless</groupId>
+								<artifactId>spotless-maven-plugin</artifactId>
+								<version>2.44.0</version>
+								<configuration>
+									<java>
+										<removeUnusedImports/>
+										<eclipse />
+										<includes>
+											<include>src/**/*.java</include>
+										</includes>
+									</java>
+								</configuration>
+							<!-- -->
+						</plugin>
 	      		<plugin>
 		            <groupId>org.eclipse.tycho</groupId>
 		            <artifactId>tycho-p2-director-plugin</artifactId>
@@ -185,17 +202,6 @@ git@github.com:xtext/maven-xtext-example.git-->
 	  		<layout>p2</layout>
   		</repository>
 	  	
-		<repository>
-			<id>codehaus-snapshots</id>
-			<name>disable dead 'Codehaus Snapshots' repository, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
-			<url>http://nexus.codehaus.org/snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
 		<!-- This must be disabled explicitly, otherwise it is enabled by https://github.com/mojohaus/mojo-parent 
 			which is taken from exec-maven-plugin from at least version 1.6.0 -->
 		<repository>
@@ -224,17 +230,6 @@ git@github.com:xtext/maven-xtext-example.git-->
 		</repository>
 	</repositories>
 	<pluginRepositories>
-		<pluginRepository>
-			<id>codehaus-snapshots</id>
-			<name>disable dead 'Codehaus Snapshots' repository, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
-			<url>http://nexus.codehaus.org/snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
 		<pluginRepository>
 			<id>ossrh-snapshots</id>
 			<name>ossrh-snapshots</name>

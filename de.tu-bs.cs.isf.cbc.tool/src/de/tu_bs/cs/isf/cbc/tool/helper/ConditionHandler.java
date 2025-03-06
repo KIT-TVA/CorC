@@ -42,6 +42,7 @@ public final class ConditionHandler {
     }
 
     public static String cleanCondition(final URI projectPath, String condition, final String className) {
+	condition = translateCondition(projectPath, condition, "this", new ArrayList<InputData>(), false);
 	condition = CodeHandler.removeFunctions(condition);
 	condition = CodeHandler.removeFloatingClosingBrackets(condition);
 	condition = CodeHandler.removeDotIdentifiers(condition, className);

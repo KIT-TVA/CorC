@@ -62,11 +62,11 @@
             "METHOD_OPTIONS_KEY" : "METHOD_CONTRACT",
             "MPS_OPTIONS_KEY" : "MPS_MERGE",
             "NON_LIN_ARITH_OPTIONS_KEY" : "NON_LIN_ARITH_DEF_OPS",
-            "OSS_OPTIONS_KEY" : "OSS_ON",
+            "OSS_OPTIONS_KEY" : "OSS_OFF",
             "QUANTIFIERS_OPTIONS_KEY" : "QUANTIFIERS_NON_SPLITTING_WITH_PROGS",
             "QUERYAXIOM_OPTIONS_KEY" : "QUERYAXIOM_ON",
             "QUERY_NEW_OPTIONS_KEY" : "QUERY_RESTRICTED",
-            "SPLITTING_OPTIONS_KEY" : "SPLITTING_DELAYED",
+            "SPLITTING_OPTIONS_KEY" : "SPLITTING_OFF",
             "STOPMODE_OPTIONS_KEY" : "STOPMODE_NONCLOSE",
             "SYMBOLIC_EXECUTION_ALIAS_CHECK_OPTIONS_KEY" : "SYMBOLIC_EXECUTION_ALIAS_CHECK_NEVER",
             "SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OPTIONS_KEY" : "SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OFF",
@@ -78,7 +78,7 @@
      }
  } 
 
-\javaSource "C:/Important/Work/CorC/IntegerList";
+\javaSource "C:/Important/Work/Projektarbeit/CorC/CaseStudies/IntegerList";
 \include "helper.key";
 \programVariables {
 int i;
@@ -175,12 +175,13 @@ Heap heapAtPre;
 }
 
 \proof {
-(keyLog "0" (keyUser "Fynn" ) (keyVersion "1fb0c10630b493ce138850ae0f9803d3f2fffc51"))
+(keyLog "0" (keyUser "Fynn" ) (keyVersion "255661ae2f2ff3b2df9506575116825ddb2e1159"))
 
-(autoModeTime "77")
+(autoModeTime "75")
 
 (branch "dummy ID"
- (builtin "One Step Simplification" (formula "1"))
+(rule "eq_and_2" (formula "1") (term "0,0,0,0,0,0,0,0,0,0,0,0"))
+(rule "simplifyUpdate2" (formula "1") (term "1"))
 (rule "impRight" (formula "1"))
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "1"))

@@ -1,22 +1,5 @@
 package de.tu_bs.cs.isf.cbc.tool.features;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.ICustomContext;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
-
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
@@ -33,17 +16,31 @@ import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.GenerateCodeForVariationalVerification;
 import de.tu_bs.cs.isf.cbc.util.GetDiagramUtil;
+import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
-import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.ICustomContext;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 
 /**
  * Class that changes the abstract value of algorithms
- * 
- * @author Tobias
  *
+ * @author Tobias
  */
 public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 	private String proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
@@ -54,8 +51,9 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 
 	/**
 	 * Constructor of the class
-	 * 
-	 * @param fp The FeatureProvider
+	 *
+	 * @param fp
+	 *            The FeatureProvider
 	 */
 	public VerifyStatement(IFeatureProvider fp) {
 		super(fp);
@@ -91,6 +89,34 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
 		verifyStatement(context, monitor, false);
+	}
+
+	public void verifyStatement(Diagram diagram, AbstractStatement statement) {
+		long startTime = System.nanoTime();
+		Console.clear();
+		boolean returnStatement = statement instanceof ReturnStatement;
+		boolean proven = false;
+		URI uri = diagram.eResource().getURI();
+		// delete 'tests' folder if it exists because it will cause reference errors
+		// since key doesn't use TestNG.
+		FileHandler.instance.deleteFolder(uri, "tests");
+
+		IProject project = FileUtil.getProjectFromFileInProject(uri);
+		boolean isVariational = false;
+		if (FileHandler.instance.isSPL(uri)) {
+			isVariational = true;
+		}
+
+		if (isVariational) {
+			proven = executeVariationalVerification(project, statement, diagram, returnStatement, null);
+		} else {
+			proven = executeNormalVerification(statement, diagram, returnStatement, null);
+		}
+		statement.setProven(proven);
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime) / 1000000;
+		Console.println("\nVerification done.");
+		Console.println("Time needed: " + duration + "ms");
 	}
 
 	void verifyStatement(ICustomContext context, IProgressMonitor monitor, boolean inlining) {
@@ -143,8 +169,8 @@ public class VerifyStatement extends MyAbstractAsynchronousCustomFeature {
 			URI uri = getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
 			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
-			ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(platformUri), new ArrayList<>(), 0,
-					proofType);
+			ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(platformUri),
+					new ArrayList<>(), 0, proofType);
 			proven = prove.proveStatementWithKey(returnStatement, false, callingClass, true);
 		} else {
 			Console.println("Statement is not in correct format.");

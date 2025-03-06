@@ -72,7 +72,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.8"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="169" height="174" x="338" y="146" horizontalAlignment="ALIGNMENT_CENTER" value="{containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="169" height="174" x="338" y="146" horizontalAlignment="ALIGNMENT_CENTER" value="{(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -416,7 +416,7 @@
       <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.7"/>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="90" x="166" y="260" horizontalAlignment="ALIGNMENT_CENTER" value="{(tmp.length = data.length + 1)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="90" x="166" y="260" horizontalAlignment="ALIGNMENT_CENTER" value="{tmp.length = data.length + 1}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="conditionText"/>
       </graphicsAlgorithm>
       <link>
@@ -462,7 +462,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" x="250" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" x="250" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -664,7 +664,7 @@
       </graphicsAlgorithm>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{(tmp.length = data.length + 1)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{tmp.length = data.length + 1}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="pre1NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -680,7 +680,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" x="250" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" x="250" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -860,7 +860,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="45" x="166" y="215" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(data[*], i, tmp, tmp[i], tmp[tmp.length-1]);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="166" height="45" x="166" y="215" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(i, tmp, tmp[i], tmp[tmp.length-1]);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="otherConditionModifiables"/>
       </graphicsAlgorithm>
       <link>
@@ -898,7 +898,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" x="250" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="90" x="250" y="105" horizontalAlignment="ALIGNMENT_CENTER" value="{(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="post2NameText"/>
       </graphicsAlgorithm>
       <link>
@@ -1124,7 +1124,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="45" x="250" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(data[*], i, tmp, tmp[i], tmp[tmp.length-1]);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="250" height="45" x="250" y="60" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(i, tmp, tmp[i], tmp[tmp.length-1]);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postConditionModifiables"/>
       </graphicsAlgorithm>
       <link>
@@ -1296,7 +1296,7 @@
       </link>
     </children>
     <children visible="true" active="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="36" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(data[*], i, tmp, tmp[i], tmp[tmp.length-1]);">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="36" y="40" horizontalAlignment="ALIGNMENT_CENTER" value="modifiable(i, tmp, tmp[i], tmp[tmp.length-1]);">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preConditionModifiables"/>
       </graphicsAlgorithm>
       <link>
@@ -1304,7 +1304,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="72" x="232" y="76" horizontalAlignment="ALIGNMENT_CENTER" value="{containsNewTop(data, newTop)&#xD;&#xA;&amp; containsOldElements(data, \old(data))}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="72" x="232" y="76" horizontalAlignment="ALIGNMENT_CENTER" value="{(\exists int z;(0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = newTop))&#xD;&#xA;&amp; (\forall int k; (0 &lt;= k &amp; k &lt; \old(data).length&#xD;&#xA;-> (\exists int z; (0 &lt;= z &amp; z &lt; data.length&#xD;&#xA;&amp; data[z] = \old(data)[k])))) &amp; data[data.length - 1] = newTop}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -1431,7 +1431,7 @@
       <anchors xsi:type="pi:ChopboxAnchor"/>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="72" y="76" horizontalAlignment="ALIGNMENT_CENTER" value="{(tmp.length = data.length + 1)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="72" y="76" horizontalAlignment="ALIGNMENT_CENTER" value="{tmp.length = data.length + 1}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="preText"/>
       </graphicsAlgorithm>
       <link>
@@ -1590,7 +1590,7 @@
       </link>
     </children>
     <children visible="true">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="72" x="232" y="76" horizontalAlignment="ALIGNMENT_CENTER" value="{(tmp.length = data.length + 1)}">
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="116" height="72" x="232" y="76" horizontalAlignment="ALIGNMENT_CENTER" value="{tmp.length = data.length + 1}">
         <properties key="org.eclipse.graphiti.pattern.id.id" value="postText"/>
       </graphicsAlgorithm>
       <link>
@@ -2263,6 +2263,5 @@
   <colors green="127"/>
   <colors red="255"/>
   <colors/>
-  <colors red="252" green="207" blue="153"/>
   <fonts name="Arial" size="9" bold="true"/>
 </pi:Diagram>

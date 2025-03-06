@@ -67,6 +67,13 @@ de.tu_bs.cs.isf.cbc.cbcclass.model/src-gen/de/tu_bs/cs/isf/cbc/cbcclass/model/cb
 de.tu_bs.cs.isf.cbc.cbcclass.model/src-gen/de/tu_bs/cs/isf/cbc/cbcclass/model/cbcclass/util/
 de.tu_bs.cs.isf.cbc.statistics/src-gen/
 
+# Update site
+de.kit.tva.corc.update
+
+# Antlr
+**/target/
+
+
 tmp/
 *.tmp
 *.bak
@@ -78,7 +85,7 @@ local.properties
 .recommenders
 
 # External tool builders
-.externalToolBuilders/
+*.externalToolBuilders/
 
 # Locally stored "Eclipse launch configurations"
 *.launch
@@ -87,40 +94,40 @@ local.properties
 *.pydevproject
 
 # CDT-specific (C/C++ Development Tooling)
-.cproject
+*.cproject
 
 # CDT- autotools
-.autotools
+*.autotools
 
 # Java annotation processor (APT)
-.factorypath
+*.factorypath
 
 # PDT-specific (PHP Development Tools)
-.buildpath
+*.buildpath
 
 # sbteclipse plugin
-.target
+*.target
 
 # Tern plugin
-.tern-project
+*.tern-project
 
 # TeXlipse plugin
-.texlipse
+*.texlipse
 
 # STS (Spring Tool Suite)
-.springBeans
+*.springBeans
 
 # Code Recommenders
-.recommenders/
+*.recommenders/
 
 # Annotation Processing
-.apt_generated/
-.apt_generated_test/
+*.apt_generated/
+*.apt_generated_test/
 
 # Scala IDE specific (Scala & Java development for Eclipse)
-.cache-main
-.scala_dependencies
-.worksheet
+*.cache-main
+*.scala_dependencies
+*.worksheet
 
 # Uncomment this line if you wish to ignore the project description file.
 # Typically, this file would be tracked if it contains build/dependency configurations:
@@ -128,9 +135,13 @@ local.properties
 
 ### Eclipse Patch ###
 # Spring Boot Tooling
-.sts4-cache/
+*.sts4-cache/
 
 ### Someone used a Mac and added DS_Store files... ###
-.DS_Store
+*.DS_Store
 
-# End of https://www.toptal.com/developers/gitignore/api/eclipse
+### Ignore merge backup files
+*.orig
+
+### Class files
+*.class

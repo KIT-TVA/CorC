@@ -1,0 +1,2 @@
+[PATHS]
+0#statement -> composition -> statement2 -> composition -> statement2 -> composition -> statement1 -> composition -> statement2 -> repetition -> statement1 -> tmp[i] = data[i];i++;#98.0

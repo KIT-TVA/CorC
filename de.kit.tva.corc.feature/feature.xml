@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="de.kit.tva.corc.feature"
+      label="CorC"
+      version="1.0.0.qualifier"
+      provider-name="KIT-TVA">
+
+   <description url="https://github.com/KIT-TVA/CorC">
+      CbC is an approach to incrementally create correct programs. Guided by pre-/postcondition specications, a program is created using refinement rules, guaranteeing the resulting implementation is correct. With CorC, we implemented a graphical and textual IDE to create programs following the CbC approach. Starting with an abstract specification, CorC supports CbC developers in refining a program by a sequence of refinement steps and in verifying the correctness of these refinement steps using a theorem prover.
+   </description>
+
+   <includes
+         id="de.hentschel.visualdbc.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="de.ovgu.featureide"
+         version="0.0.0"/>
+
+   <includes
+         id="de.ovgu.featureide.featuremodeling"
+         version="0.0.0"/>
+
+   <includes
+         id="org.key_project.jmlediting.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.key_project.key4eclipse.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.key_project.monkey.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.key_project.removegenerics.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.key_project.shellutility.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.key_project.stubby.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.testng.eclipse"
+         version="0.0.0"/>
+
+   <includes
+         id="org.testng.eclipse.maven.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.testng.p2.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.export.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.export.feature.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.feature.examples"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.feature.examples.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.feature.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.feature.tools"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.feature.tools.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.sdk.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.sdk.feature.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.sdk.plus.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.sdk.plus.feature.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.export.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.export.feature.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.feature.examples"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.feature.examples.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.feature.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.feature.tools"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.feature.tools.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.sdk.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.sdk.feature.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.sdk.plus.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.graphiti.sdk.plus.feature.source"
+         version="0.0.0"/>
+
+   <includes
+         id="antlr4ide.sdk"
+         version="0.0.0"/>
+
+   <includes
+         id="org.emftext.commons.jdt"
+         version="0.0.0"
+         search-location="self"/>
+
+   <includes
+         id="org.emftext.commons.layout"
+         version="0.0.0"/>
+
+   <includes
+         id="org.emftext.language.java"
+         version="0.0.0"/>
+
+   <includes
+         id="org.emftext.language.java.jdt"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu-bs.cs.isf.cbc.exceptions"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu-bs.cs.isf.cbc.model"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu-bs.cs.isf.cbc.model.edit"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu-bs.cs.isf.cbc.model.editor"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu-bs.cs.isf.cbc.mutation"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu-bs.cs.isf.cbc.tool"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu-bs.cs.isf.cbc.util"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu-bs.cs.isf.cbcclass.tool"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu-bs.cs.isf.wizards"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu_bs.cs.isf.cbc.parser"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu_bs.cs.isf.cbc.statistics"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu_bs.cs.isf.cbc.statistics.edit"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu_bs.cs.isf.cbc.statistics.editor"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu_bs.cs.isf.cbc.statistics.ui"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu_bs.cs.isf.commands.toolbar"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu_bs.cs.isf.lattice"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.kit.tva.lost"
+         version="0.0.0"/>
+
+</feature>

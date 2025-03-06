@@ -4,12 +4,13 @@ Bundle-Name: Mutation
 Bundle-SymbolicName: de.tu-bs.cs.isf.cbc.mutation;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: de.tu.bs.cs.isf.cbc.mutation
-Bundle-RequiredExecutionEnvironment: JavaSE-16
+Bundle-RequiredExecutionEnvironment: JavaSE-17,
+ JavaSE-16
 Require-Bundle: org.junit,
  org.eclipse.graphiti.ui;bundle-version="0.18.0",
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.graphiti;bundle-version="0.18.0",
- org.apache.commons.io
+ org.apache.commons.commons-io
 Import-Package: de.tu_bs.cs.isf.cbc.cbcclass,
  de.tu_bs.cs.isf.cbc.cbcmodel,
  de.tu_bs.cs.isf.cbc.exceptions,

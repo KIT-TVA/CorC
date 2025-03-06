@@ -1,0 +1,2 @@
+1. Change grammar and code such that any diagram defintion get passed a signature instead of a name.
+2. Make sure buttons like 'load' switch to Full view first before doing stuff.

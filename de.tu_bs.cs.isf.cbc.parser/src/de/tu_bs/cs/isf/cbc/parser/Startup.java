@@ -179,11 +179,11 @@ public class Startup implements IStartup {
 	}
 
 	public static void log(String msg) {
-		log(msg, null);
+		//log(msg, null);
 	}
 
 	public static void log(String msg, Exception e) {
-		LOGGER.log(new Status((e == null ? Status.INFO : Status.ERROR), BUNDLE.getSymbolicName(), msg, e));
+		//LOGGER.log(new Status((e == null ? Status.INFO : Status.ERROR), BUNDLE.getSymbolicName(), msg, e));
 	}
 
 }
