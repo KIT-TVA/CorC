@@ -35,7 +35,7 @@ git@github.com:xtext/maven-xtext-example.git-->
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-	 	<tycho-version>3.0.0</tycho-version>
+	 	<tycho-version>4.0.10</tycho-version>
 	 	<xtext-version>2.31.0</xtext-version>
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	    <eclipse-repo.url>https://download.eclipse.org/releases/latest</eclipse-repo.url>
@@ -202,6 +202,17 @@ git@github.com:xtext/maven-xtext-example.git-->
 	  		<layout>p2</layout>
   		</repository>
 	  	
+		<repository>
+			<id>codehaus-snapshots</id>
+			<name>disable dead 'Codehaus Snapshots' repository, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
+			<url>http://nexus.codehaus.org/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 		<!-- This must be disabled explicitly, otherwise it is enabled by https://github.com/mojohaus/mojo-parent 
 			which is taken from exec-maven-plugin from at least version 1.6.0 -->
 		<repository>
@@ -230,6 +241,17 @@ git@github.com:xtext/maven-xtext-example.git-->
 		</repository>
 	</repositories>
 	<pluginRepositories>
+		<pluginRepository>
+			<id>codehaus-snapshots</id>
+			<name>disable dead 'Codehaus Snapshots' repository, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
+			<url>http://nexus.codehaus.org/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
 		<pluginRepository>
 			<id>ossrh-snapshots</id>
 			<name>ossrh-snapshots</name>
