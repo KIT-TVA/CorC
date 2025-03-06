@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
@@ -20,10 +20,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -U clean compile
-
-  format:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check Format
-      run: mvn com.diffplug.spotless:spotless-maven-plugin:2.44.0:check
+      run: mvn -U -B clean compile spotless:check
