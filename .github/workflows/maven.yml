@@ -20,4 +20,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -U -B clean compile spotless:check
+      run: mvn compile spotless:check
