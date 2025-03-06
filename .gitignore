@@ -143,4 +143,5 @@ local.properties
 ### Ignore merge backup files
 *.orig
 
-# End of https://www.toptal.com/developers/gitignore/api/eclipse
+### Class files
+*.class
