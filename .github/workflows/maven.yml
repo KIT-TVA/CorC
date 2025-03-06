@@ -1,6 +1,8 @@
-# This workflow will build a Java project with Maven.
-
 name: Java CI with Maven
+
+permissions:
+  contents: read
+  actions: read
 
 on:
   pull_request:
