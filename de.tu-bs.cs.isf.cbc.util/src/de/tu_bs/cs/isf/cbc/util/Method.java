@@ -15,11 +15,10 @@ public class Method {
 	private String feature;
 	private List<String> parameters;
 	private String returnType;
-	
-	
-	public Method(MethodDeclaration methodDeclaration, String methodName, String className, 
-			boolean isAbstract, List<String> preCondition,
-			List<String> postCondition, String feature, List<String> parameter, String returnType) {
+
+	public Method(MethodDeclaration methodDeclaration, String methodName, String className, boolean isAbstract,
+			List<String> preCondition, List<String> postCondition, String feature, List<String> parameter,
+			String returnType) {
 		this.methodDeclaration = methodDeclaration;
 		this.methodName = methodName;
 		this.className = className;
@@ -43,84 +42,69 @@ public class Method {
 		return methodName;
 	}
 
-
 	public void setMethodName(String methodName) {
 		this.methodName = methodName;
 	}
-
 
 	public String getClassName() {
 		return className;
 	}
 
-
 	public void setClassName(String className) {
 		this.className = className;
 	}
-
 
 	public boolean isAbstract() {
 		return isAbstract;
 	}
 
-
 	public void setAbstract(boolean isAbstract) {
 		this.isAbstract = isAbstract;
 	}
-
 
 	public List<String> getPreCondition() {
 		return preCondition;
 	}
 
-
 	public void setPreCondition(List<String> preCondition) {
 		this.preCondition = preCondition;
 	}
-
 
 	public List<String> getPostCondition() {
 		return postCondition;
 	}
 
-
 	public void setPostCondition(List<String> postCondition) {
 		this.postCondition = postCondition;
 	}
-
 
 	public String getFeature() {
 		return feature;
 	}
 
-
 	public void setFeature(String feature) {
 		this.feature = feature;
 	}
-
 
 	public List<String> getParameters() {
 		return parameters;
 	}
 
-
 	public void setParameters(List<String> parameter) {
 		this.parameters = parameter;
 	}
 
-
 	public String getReturnType() {
 		return returnType;
 	}
-
 
 	public void setReturnType(String returnType) {
 		this.returnType = returnType;
 	}
 
 	public String createSignature() {
-		return "public " + getReturnType() + " " + getMethodName() + "(" + getParameters().stream().collect(Collectors.joining(", ")) + ")";
+		return "public " + getReturnType() + " " + getMethodName() + "("
+				+ getParameters().stream().collect(Collectors.joining(", ")) + ")";
 	}
-	
-	
+
 }

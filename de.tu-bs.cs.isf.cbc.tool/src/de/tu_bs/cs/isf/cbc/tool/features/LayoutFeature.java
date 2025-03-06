@@ -67,7 +67,6 @@ public class LayoutFeature extends AbstractCustomFeature {
 	private final IFeatureProvider featureProvider = getFeatureProvider();
 	private final IGaService gaService = Graphiti.getGaService();
 
-
 	public LayoutFeature(IFeatureProvider fp) {
 		super(fp);
 	}
@@ -141,7 +140,6 @@ public class LayoutFeature extends AbstractCustomFeature {
 		dg.edges = edgeList;
 		return dg;
 	}
-
 
 	private void resizeGraphicsAlgo(GraphicsAlgorithm ga) {
 		Object businessObject = getBusinessObjectForPictogramElement(ga.getPictogramElement());
@@ -358,10 +356,10 @@ public class LayoutFeature extends AbstractCustomFeature {
 		pre.setName(newPre);
 		String newPost = setWordWraps(post.getName());
 		post.setName(newPost);
-		MultiText preText = (MultiText)
-		featureProvider.getPictogramElementForBusinessObject(pre).getGraphicsAlgorithm();
-		MultiText postText = (MultiText)
-		featureProvider.getPictogramElementForBusinessObject(post).getGraphicsAlgorithm();
+		MultiText preText = (MultiText) featureProvider.getPictogramElementForBusinessObject(pre)
+				.getGraphicsAlgorithm();
+		MultiText postText = (MultiText) featureProvider.getPictogramElementForBusinessObject(post)
+				.getGraphicsAlgorithm();
 		MultiText statementText = null;
 		for (PictogramElement pe : featureProvider.getAllPictogramElementsForBusinessObject(businessObject)) {
 			if (pe.getGraphicsAlgorithm() instanceof MultiText) {
@@ -381,7 +379,8 @@ public class LayoutFeature extends AbstractCustomFeature {
 	/**
 	 * adds suitable word wraps and deletes old word wraps
 	 * 
-	 * @param name pre or post condition
+	 * @param name
+	 *            pre or post condition
 	 * @return name with additional word wraps
 	 */
 	private String setWordWraps(String name) {
@@ -394,7 +393,7 @@ public class LayoutFeature extends AbstractCustomFeature {
 		String lastPart = name;
 		while (lastPart.length() > lineLength) {
 			checkedPart = findBestCuttingPoint(name, checkedPart);
-			if(checkedPart == -1) {
+			if (checkedPart == -1) {
 				break;
 			}
 			String firstPart = name.substring(0, checkedPart);
@@ -408,15 +407,16 @@ public class LayoutFeature extends AbstractCustomFeature {
 
 	/**
 	 * looks for good split point(&, |, space)
+	 * 
 	 * @param name
 	 * @param checkedPart
 	 * @return
 	 */
 	private int findBestCuttingPoint(String name, int checkedPart) {
 		int cutIndex = name.indexOf("&", checkedPart - 8);
-		if(cutIndex == -1 || cutIndex > checkedPart + 8) {
+		if (cutIndex == -1 || cutIndex > checkedPart + 8) {
 			cutIndex = name.indexOf("|", checkedPart - 8);
-			if(cutIndex == -1 || cutIndex > checkedPart + 8) {
+			if (cutIndex == -1 || cutIndex > checkedPart + 8) {
 				cutIndex = name.indexOf(" ", checkedPart - 8);
 			}
 		}

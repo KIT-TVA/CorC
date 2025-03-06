@@ -5,7 +5,7 @@ import java.util.List;
 import de.tu_bs.cs.isf.cbc.parser.annotations.MDF;
 
 public class IFbCFieldAssignEntity extends IFbCFieldEntity {
-	
+
 	public IFbCFieldAssignEntity(String name, String securityLevel, MDF mutationModifier, String type,
 			List<IFbCReferenceEntity> scopes) {
 		super(name, securityLevel, mutationModifier, type, scopes);
@@ -15,14 +15,14 @@ public class IFbCFieldAssignEntity extends IFbCFieldEntity {
 	public EntityType getEntityType() {
 		return EntityType.FIELD_ASSIGN;
 	}
-	
+
 	public String getQualifiedName() {
 		final StringBuilder sb = new StringBuilder();
-		
+
 		scopes.forEach(s -> {
 			sb.append(s.getName() + ".");
 		});
-		
+
 		return sb.append(this.getName()).toString();
 	}
 

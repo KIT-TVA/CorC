@@ -67,7 +67,7 @@ public class FormulaPattern extends IdPattern implements IPattern {
 	private static final String ID_HOR4_LINE = "hor4Line";
 	private static final String ID_VER1_LINE = "ver1Line";
 	private static final String ID_VER2_LINE = "ver2Line";
-	
+
 	/**
 	 * Constructor of the class
 	 */
@@ -117,7 +117,7 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		Condition postCondition = CbcmodelFactory.eINSTANCE.createCondition();
 		postCondition.setName("post");
 		statement.setPostCondition(postCondition);
-		
+
 		// Use the following instead of the above line to store the model
 		// data in a seperate file parallel to the diagram file
 		try {
@@ -126,7 +126,7 @@ public class FormulaPattern extends IdPattern implements IPattern {
 			e.printStackTrace();
 		}
 		addGraphicalRepresentation(context, formula);
-		return new Object[] { formula };
+		return new Object[]{formula};
 	}
 
 	@Override
@@ -168,7 +168,7 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		preConditionText.setValue("{" + addedFormula.getStatement().getPreCondition().getName() + "}");
 		preConditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		preConditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		
+
 		Shape textShapePreConditionMod = peCreateService.createShape(outerContainerShape, true);
 		MultiText preConditionTextMod = gaService.createMultiText(textShapePreConditionMod, "");
 		setId(preConditionTextMod, ID_PRE_MOD);
@@ -176,7 +176,8 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		for (String s : addedFormula.getStatement().getPreCondition().getModifiables()) {
 			modString += s + ", ";
 		}
-		preConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+		preConditionTextMod.setValue(
+				"modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
 		preConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		preConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 
@@ -193,7 +194,7 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		setId(postConditionText, ID_POST_TEXT);
 		postConditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		postConditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		
+
 		Shape textShapePostConditionMod = peCreateService.createShape(outerContainerShape, true);
 		MultiText postConditionTextMod = gaService.createMultiText(textShapePostConditionMod, "");
 		setId(postConditionTextMod, ID_POST_MOD);
@@ -201,7 +202,8 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		for (String s : addedFormula.getStatement().getPostCondition().getModifiables()) {
 			modString += s + ", ";
 		}
-		postConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+		postConditionTextMod.setValue(
+				"modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
 		postConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		postConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 
@@ -215,7 +217,7 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
 		setId(image, ID_IMAGE_PROVEN);
-		
+
 		Shape inheritanceShape = peCreateService.createShape(outerContainerShape, false);
 		Image imageInheritance = gaService.createImage(inheritanceShape, CbCImageProvider.IMG_INHERITANCE);
 		setId(imageInheritance, ID_IMAGE_INHERITANCE);
@@ -249,11 +251,11 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		Shape hor2LineShape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor2Polyline = gaService.createPolyline(hor2LineShape);
 		setId(hor2Polyline, ID_HOR2_LINE);
-		
+
 		Shape hor3LineShape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor3Polyline = gaService.createPolyline(hor3LineShape);
 		setId(hor3Polyline, ID_HOR3_LINE);
-		
+
 		Shape hor4LineShape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor4Polyline = gaService.createPolyline(hor4LineShape);
 		setId(hor4Polyline, ID_HOR4_LINE);
@@ -277,7 +279,7 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		link(textShapePostConditionMod, addedFormula.getStatement().getPostCondition());
 		link(proveShape, addedFormula);
 		link(inheritanceShape, addedFormula);
-		
+
 		return outerContainerShape;
 	}
 
@@ -292,7 +294,8 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		int sizeName = 30; // size from Formular block
 		int sizeHeader = 20; // size from the Header
 		int positionHeader = 40; // position where the Header is
-		int sizeText = mainRectangle.getHeight() - positionHeader - sizeHeader; // size from the blocks (pre, statement, post)
+		int sizeText = mainRectangle.getHeight() - positionHeader - sizeHeader; // size from the blocks (pre, statement,
+																				// post)
 		int positionText = positionHeader + sizeHeader; // position from the blocks (pre, statement, post)
 		int modThird = sizeText / 3;
 
@@ -309,7 +312,8 @@ public class FormulaPattern extends IdPattern implements IPattern {
 			Graphiti.getGaService().setLocationAndSize(ga, third, positionText, third, sizeText);
 			changesDone = true;
 		} else if (id.equals(ID_POST_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, third * 2, positionText + modThird, third, sizeText - modThird);
+			Graphiti.getGaService().setLocationAndSize(ga, third * 2, positionText + modThird, third,
+					sizeText - modThird);
 			changesDone = true;
 		} else if (id.equals(ID_POST_MOD)) {
 			Graphiti.getGaService().setLocationAndSize(ga, third * 2, positionText, third, modThird);
@@ -333,42 +337,42 @@ public class FormulaPattern extends IdPattern implements IPattern {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { 0, positionHeader, mainRectangle.getWidth(), positionHeader });
+					.createPointList(new int[]{0, positionHeader, mainRectangle.getWidth(), positionHeader});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR2_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService().createPointList(new int[] { 0, positionHeader + sizeHeader,
-					mainRectangle.getWidth(), positionHeader + sizeHeader });
+			List<Point> pointList = Graphiti.getGaService().createPointList(
+					new int[]{0, positionHeader + sizeHeader, mainRectangle.getWidth(), positionHeader + sizeHeader});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR3_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService().createPointList(new int[] { 0, positionText + modThird,
-					third, positionText + modThird });
+			List<Point> pointList = Graphiti.getGaService()
+					.createPointList(new int[]{0, positionText + modThird, third, positionText + modThird});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR4_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService().createPointList(new int[] { third * 2, positionText + modThird,
-					mainRectangle.getWidth(), positionText + modThird });
+			List<Point> pointList = Graphiti.getGaService().createPointList(
+					new int[]{third * 2, positionText + modThird, mainRectangle.getWidth(), positionText + modThird});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_VER1_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { third, positionHeader, third, mainRectangle.getHeight() });
+					.createPointList(new int[]{third, positionHeader, third, mainRectangle.getHeight()});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_VER2_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { third * 2, positionHeader, third * 2, mainRectangle.getHeight() });
+					.createPointList(new int[]{third * 2, positionHeader, third * 2, mainRectangle.getHeight()});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		}
@@ -393,17 +397,21 @@ public class FormulaPattern extends IdPattern implements IPattern {
 						&& !rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN)))
 						|| rectangle.getForeground() == null)) {
 					return Reason.createTrueReason("Statement is proven. Expected green color.");
-				} else if (!statementToCheck.isProven() && statementToCheck.isTested() &&
-						((rectangle.getForeground() != null && !rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE))) 
+				} else if (!statementToCheck.isProven() && statementToCheck.isTested()
+						&& ((rectangle.getForeground() != null
+								&& !rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE)))
 								|| rectangle.getForeground() == null)) {
 					return Reason.createTrueReason("Statement is tested. Expected orange color.");
-				} else if (!statementToCheck.isProven() && !statementToCheck.isTested() && 
-						((rectangle.getForeground() != null && (rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN)) || rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE)))) 
+				} else if (!statementToCheck.isProven() && !statementToCheck.isTested()
+						&& ((rectangle.getForeground() != null
+								&& (rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN))
+										|| rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE))))
 								|| rectangle.getForeground() == null)) {
 					return Reason.createTrueReason("Statement is not proven. Expected red color.");
-				}  
+				}
 			} catch (Exception e) {
-				// TODO: find better solution than this exception handling to fix the manageColor error that happens when a diagram is opened.
+				// TODO: find better solution than this exception handling to fix the
+				// manageColor error that happens when a diagram is opened.
 			}
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			CbCFormula domainObject = (CbCFormula) context.getDomainObject();
@@ -423,7 +431,8 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		} else if (id.equals(ID_IMAGE_INHERITANCE)) {
 			CbCFormula domainObject = (CbCFormula) context.getDomainObject();
 			boolean superImpl = false;
-			if (domainObject.getMethodObj() != null && domainObject.getMethodObj().getParentClass() != null &&  domainObject.getMethodObj().getParentClass().getInheritsFrom() != null) {
+			if (domainObject.getMethodObj() != null && domainObject.getMethodObj().getParentClass() != null
+					&& domainObject.getMethodObj().getParentClass().getInheritsFrom() != null) {
 				for (Method m : domainObject.getMethodObj().getParentClass().getInheritsFrom().getMethods()) {
 					if (m.getCbcStartTriple().getName().equals(domainObject.getName())) {
 						superImpl = true;
@@ -434,7 +443,8 @@ public class FormulaPattern extends IdPattern implements IPattern {
 			if (superImpl && image.getTransparency().equals(1.0)) {
 				return Reason.createTrueReason("Method has super implementation. Expected inheritance symbol.");
 			} else if (!superImpl && image.getTransparency().equals(0.0)) {
-				return Reason.createTrueReason("Method has no super implementation. Did not expect inheritance symbol.");
+				return Reason
+						.createTrueReason("Method has no super implementation. Did not expect inheritance symbol.");
 			}
 		}
 		return Reason.createFalseReason();
@@ -458,7 +468,7 @@ public class FormulaPattern extends IdPattern implements IPattern {
 			} else if (statementToCheck.isTested()) {
 				domainObject.setTested(true);
 				rectangle.setForeground(manageColor(IColorConstant.LIGHT_ORANGE));
-			}  else {
+			} else {
 				domainObject.setProven(false);
 				domainObject.setTested(false);
 				rectangle.setForeground(manageColor(IColorConstant.RED));
@@ -482,7 +492,8 @@ public class FormulaPattern extends IdPattern implements IPattern {
 		} else if (id.equals(ID_IMAGE_INHERITANCE)) {
 			CbCFormula domainObject = (CbCFormula) context.getDomainObject();
 			boolean superImpl = false;
-			if (domainObject.getMethodObj() != null && domainObject.getMethodObj().getParentClass().getInheritsFrom() != null) {
+			if (domainObject.getMethodObj() != null
+					&& domainObject.getMethodObj().getParentClass().getInheritsFrom() != null) {
 				for (Method m : domainObject.getMethodObj().getParentClass().getInheritsFrom().getMethods()) {
 					if (m.getCbcStartTriple().getName().equals(domainObject.getName())) {
 						superImpl = true;

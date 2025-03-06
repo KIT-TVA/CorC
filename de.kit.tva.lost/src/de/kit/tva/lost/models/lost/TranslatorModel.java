@@ -14,24 +14,24 @@ import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
  * already exists, it's contents are updated.
  */
 public class TranslatorModel extends AbstractModel {
-    private LostTranslator lostTranslator;
+	private LostTranslator lostTranslator;
 
-    public TranslatorModel() {
-	lostTranslator = new LostTranslator();
-    }
-
-    public boolean translate(String lostCode) throws DiagramResourceModelException, IOException, CoreException,
-	    SettingsException, NotImplementedException {
-	if (!lostTranslator.translate(lostCode)) {
-	    return false;
+	public TranslatorModel() {
+		lostTranslator = new LostTranslator();
 	}
-	/*
-	 * GenerateDiagramFromModel generator = new GenerateDiagramFromModel(); var
-	 * diagramRes =
-	 * DiagramResourceModel.getInstance().get(lostTranslator.getFormula().getName())
-	 * ; addInitializersTo(lostTranslator.getFormula().getName(), diagramRes);
-	 * generator.execute(diagramRes);
-	 */
-	return true;
-    }
+
+	public boolean translate(String lostCode) throws DiagramResourceModelException, IOException, CoreException,
+			SettingsException, NotImplementedException {
+		if (!lostTranslator.translate(lostCode)) {
+			return false;
+		}
+		/*
+		 * GenerateDiagramFromModel generator = new GenerateDiagramFromModel(); var
+		 * diagramRes =
+		 * DiagramResourceModel.getInstance().get(lostTranslator.getFormula().getName())
+		 * ; addInitializersTo(lostTranslator.getFormula().getName(), diagramRes);
+		 * generator.execute(diagramRes);
+		 */
+		return true;
+	}
 }

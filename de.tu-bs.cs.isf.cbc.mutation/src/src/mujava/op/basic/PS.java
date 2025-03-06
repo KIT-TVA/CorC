@@ -42,17 +42,17 @@ public class PS extends MethodLevelMutator {
 						String prefix = "";
 						for (int k = 0; k < j; ++k) {
 							prefix += parts[k];
-							if(k != j-1)
+							if (k != j - 1)
 								prefix += ">=";
 						}
 
 						String postfix = "";
 						for (int k = j; k < parts.length; ++k) {
 							postfix += parts[k];
-							if(k != parts.length-1)
+							if (k != parts.length - 1)
 								postfix += ">=";
 						}
-						
+
 						// Create mutants
 						String mutant1 = genNewContract(lines, prefix + ">" + postfix, i);
 						String mutant2 = genNewContract(lines, prefix + "==" + postfix, i);
@@ -64,24 +64,24 @@ public class PS extends MethodLevelMutator {
 						outputToFile(m);
 					}
 				}
-				
+
 				{/////////// Strengthen >=
 					String[] parts = line.replace("<==>", "#BIIMPL#").split("<=");
 					for (int j = 1; j < parts.length; ++j) {
 						String prefix = "";
 						for (int k = 0; k < j; ++k) {
 							prefix += parts[k];
-							if(k != j-1)
+							if (k != j - 1)
 								prefix += "<=";
 						}
 
 						String postfix = "";
 						for (int k = j; k < parts.length; ++k) {
 							postfix += parts[k];
-							if(k != parts.length-1)
+							if (k != parts.length - 1)
 								postfix += "<=";
 						}
-						
+
 						prefix = prefix.replace("#BIIMPL#", "<==>");
 						postfix = postfix.replace("#BIIMPL#", "<==>");
 
@@ -96,21 +96,21 @@ public class PS extends MethodLevelMutator {
 						outputToFile(m);
 					}
 				}
-				
+
 				{/////////// Strengthen !=
 					String[] parts = line.split("!=");
 					for (int j = 1; j < parts.length; ++j) {
 						String prefix = "";
 						for (int k = 0; k < j; ++k) {
 							prefix += parts[k];
-							if(k != j-1)
+							if (k != j - 1)
 								prefix += "!=";
 						}
 
 						String postfix = "";
 						for (int k = j; k < parts.length; ++k) {
 							postfix += parts[k];
-							if(k != parts.length-1)
+							if (k != parts.length - 1)
 								postfix += "!=";
 						}
 
@@ -125,22 +125,21 @@ public class PS extends MethodLevelMutator {
 						outputToFile(m);
 					}
 				}
-				
-				
+
 				{/////////// Strengthen ||
 					String[] parts = line.split("\\|\\|");
 					for (int j = 1; j < parts.length; ++j) {
 						String prefix = "";
 						for (int k = 0; k < j; ++k) {
 							prefix += parts[k];
-							if(k != j-1)
+							if (k != j - 1)
 								prefix += "||";
 						}
 
 						String postfix = "";
 						for (int k = j; k < parts.length; ++k) {
 							postfix += parts[k];
-							if(k != parts.length-1)
+							if (k != parts.length - 1)
 								postfix += "||";
 						}
 
@@ -151,21 +150,21 @@ public class PS extends MethodLevelMutator {
 						outputToFile(m);
 					}
 				}
-				
+
 				{/////////// Strengthen exists
 					String[] parts = line.split("exists");
 					for (int j = 1; j < parts.length; ++j) {
 						String prefix = "";
 						for (int k = 0; k < j; ++k) {
 							prefix += parts[k];
-							if(k != j-1)
+							if (k != j - 1)
 								prefix += "exists";
 						}
 
 						String postfix = "";
 						for (int k = j; k < parts.length; ++k) {
 							postfix += parts[k];
-							if(k != parts.length-1)
+							if (k != parts.length - 1)
 								postfix += "exists";
 						}
 
@@ -176,41 +175,43 @@ public class PS extends MethodLevelMutator {
 						outputToFile(m);
 					}
 				}
-				
+
 				{/////////// Strengten P>Q ... replace biimplikation
-					String[] parts = line.replaceAll(">=", "GEQ").replaceAll("==>", "IMPLIES").replaceAll("<==>", "BIIMP").replaceAll(" > ", ">").replaceAll(">", " > ").replaceAll("  ", " ").split(" ");
-					
+					String[] parts = line.replaceAll(">=", "GEQ").replaceAll("==>", "IMPLIES")
+							.replaceAll("<==>", "BIIMP").replaceAll(" > ", ">").replaceAll(">", " > ")
+							.replaceAll("  ", " ").split(" ");
+
 					for (int j = 0; j < parts.length; ++j) {
 						String[] tmp = parts;
-						if(tmp[j].equals(">")) {
-							tmp[j+1] = tmp[j+1] + " + 1";
-							if(tmp[j+1].contains(";")) {
-								tmp[j+1] = tmp[j+1].replace(";", "") + ";";
+						if (tmp[j].equals(">")) {
+							tmp[j + 1] = tmp[j + 1] + " + 1";
+							if (tmp[j + 1].contains(";")) {
+								tmp[j + 1] = tmp[j + 1].replace(";", "") + ";";
 							}
 							// Create mutants
-							
-							
-							String mutant1 = genNewContract(lines, String.join(" ", tmp).replaceAll("GEQ", ">=").replaceAll("IMPLIES","==>").replaceAll("BIIMP","<==>"), i);
+
+							String mutant1 = genNewContract(lines, String.join(" ", tmp).replaceAll("GEQ", ">=")
+									.replaceAll("IMPLIES", "==>").replaceAll("BIIMP", "<==>"), i);
 
 							m.setComment(mutant1);
 							outputToFile(m);
 						}
 					}
 				}
-				
+
 				{/////////// Strengten P<Q 
-					String[] parts = line.replaceAll("<=", "##").replaceAll(" < ", "<").replaceAll("<", " < ").replaceAll("  ", " ").split(" ");
-					
+					String[] parts = line.replaceAll("<=", "##").replaceAll(" < ", "<").replaceAll("<", " < ")
+							.replaceAll("  ", " ").split(" ");
+
 					for (int j = 0; j < parts.length; ++j) {
 						String[] tmp = parts;
-						if(tmp[j].equals(">")) {
-							tmp[j+1] = tmp[j+1] + " - 1";
-							if(tmp[j+1].contains(";")) {
-								tmp[j+1] = tmp[j+1].replace(";", "") + ";";
+						if (tmp[j].equals(">")) {
+							tmp[j + 1] = tmp[j + 1] + " - 1";
+							if (tmp[j + 1].contains(";")) {
+								tmp[j + 1] = tmp[j + 1].replace(";", "") + ";";
 							}
 							// Create mutants
-							
-							
+
 							String mutant1 = genNewContract(lines, String.join(" ", tmp).replaceAll("##", "<="), i);
 
 							m.setComment(mutant1);
@@ -218,7 +219,7 @@ public class PS extends MethodLevelMutator {
 						}
 					}
 				}
-			
+
 			}
 			i++;
 		}

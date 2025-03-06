@@ -29,15 +29,15 @@ import src.com.beust.jcommander.ParameterException;
  */
 public class BigDecimalConverter extends BaseConverter<BigDecimal> {
 
-  public BigDecimalConverter(String optionName) {
-    super(optionName);
-  }
+	public BigDecimalConverter(String optionName) {
+		super(optionName);
+	}
 
-  public BigDecimal convert(String value) {
-    try {
-      return new BigDecimal(value);
-    } catch (NumberFormatException nfe) {
-      throw new ParameterException(getErrorString(value, "a BigDecimal"));
-    }
-  }
+	public BigDecimal convert(String value) {
+		try {
+			return new BigDecimal(value);
+		} catch (NumberFormatException nfe) {
+			throw new ParameterException(getErrorString(value, "a BigDecimal"));
+		}
+	}
 }

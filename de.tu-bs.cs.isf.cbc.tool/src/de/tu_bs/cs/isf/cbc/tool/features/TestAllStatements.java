@@ -32,102 +32,102 @@ import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
  * @author Fynn
  */
 public class TestAllStatements extends MyAbstractAsynchronousCustomFeature {
-    private final IFeatureProvider fp;
+	private final IFeatureProvider fp;
 
-    public TestAllStatements(IFeatureProvider fp) {
-	super(fp);
-	this.fp = fp;
-    }
-
-    @Override
-    public String getName() {
-	return "Test all statements";
-    }
-
-    @Override
-    public String getDescription() {
-	return "Generates statement tests for the diagram.";
-    }
-
-    @Override
-    public boolean canExecute(ICustomContext context) {
-	return true;
-    }
-
-    @Override
-    public void execute(ICustomContext context, IProgressMonitor monitor) {
-	Console.clear();
-	Console.println("Start testing...\n");
-	final long startTime = System.nanoTime();
-
-	try {
-	    testDiagram(getDiagram());
-	} catch (SettingsException | FeatureCallerException | IOException e) {
-	    e.printStackTrace();
-	    return;
+	public TestAllStatements(IFeatureProvider fp) {
+		super(fp);
+		this.fp = fp;
 	}
 
-	long endTime = System.nanoTime();
-	long duration = (endTime - startTime) / 1000000;
-	Console.println("Testing finished.");
-	Console.println("Time needed: " + duration + "ms");
-    }
-
-    public URI getUri(final Diagram diag) {
-	final URI uri = diag.eResource().getURI();
-	return uri;
-    }
-
-    public void testDiagram(final Diagram diag) throws SettingsException, FeatureCallerException, IOException {
-	final URI uri;
-	boolean returnStatement;
-
-	DiagramPartsExtractor extractor = new DiagramPartsExtractor(diag);
-	JavaVariables vars = extractor.getVars();
-	GlobalConditions conds = extractor.getConds();
-	CbCFormula formula = extractor.getFormula();
-	StatDataCollector.checkForId(formula.getStatement());
-
-	final TestStatement ts = new TestStatement(fp);
-	uri = getUri(diag);
-	DataCollector dataCollector;
-	try {
-	    dataCollector = new DataCollector(uri, DataType.PATH, diag.getName());
-	} catch (DiagnosticsException e) {
-	    e.printStackTrace();
-	    return;
+	@Override
+	public String getName() {
+		return "Test all statements";
 	}
-	ts.setUri(uri);
-	FileHandler.instance.clearLog(diag.eResource().getURI());
-	var allStatements = TestStatement.collectAllStatements(formula);
-	Features features = null;
-	if (FileHandler.instance.isSPL(uri)) {
-	    features = new Features(uri);
-	} else {
-	    features = null;
+
+	@Override
+	public String getDescription() {
+		return "Generates statement tests for the diagram.";
 	}
-	if (features == null) {
-	    for (var statement : allStatements) {
-		returnStatement = statement instanceof ReturnStatement;
-		float pathTime = ts.testPath((AbstractStatement) statement, vars, conds, formula, returnStatement,
-			features);
-		dataCollector.addData(ts.getStatementPath(statement), pathTime);
-	    }
-	    return;
+
+	@Override
+	public boolean canExecute(ICustomContext context) {
+		return true;
 	}
-	Console.println("[SPL detected]", Colors.BLUE);
-	for (int i = 0; i < features.getSize(); i++) {
-	    features.getNextConfig();
-	    Console.println(" > Configuration: [" + features.getConfigRep() + "]", Colors.BLUE);
-	    for (var statement : allStatements) {
-		returnStatement = statement instanceof ReturnStatement;
-		float pathTime = ts.testPath((AbstractStatement) statement, vars, conds, formula, returnStatement,
-			features);
-		dataCollector.addData(features.getCurConfigName(), ts.getStatementPath(statement), pathTime);
-	    }
-	    FileHandler.instance.saveConfig(uri, formula, features, false);
+
+	@Override
+	public void execute(ICustomContext context, IProgressMonitor monitor) {
+		Console.clear();
+		Console.println("Start testing...\n");
+		final long startTime = System.nanoTime();
+
+		try {
+			testDiagram(getDiagram());
+		} catch (SettingsException | FeatureCallerException | IOException e) {
+			e.printStackTrace();
+			return;
+		}
+
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime) / 1000000;
+		Console.println("Testing finished.");
+		Console.println("Time needed: " + duration + "ms");
 	}
-	dataCollector.finish();
-    }
+
+	public URI getUri(final Diagram diag) {
+		final URI uri = diag.eResource().getURI();
+		return uri;
+	}
+
+	public void testDiagram(final Diagram diag) throws SettingsException, FeatureCallerException, IOException {
+		final URI uri;
+		boolean returnStatement;
+
+		DiagramPartsExtractor extractor = new DiagramPartsExtractor(diag);
+		JavaVariables vars = extractor.getVars();
+		GlobalConditions conds = extractor.getConds();
+		CbCFormula formula = extractor.getFormula();
+		StatDataCollector.checkForId(formula.getStatement());
+
+		final TestStatement ts = new TestStatement(fp);
+		uri = getUri(diag);
+		DataCollector dataCollector;
+		try {
+			dataCollector = new DataCollector(uri, DataType.PATH, diag.getName());
+		} catch (DiagnosticsException e) {
+			e.printStackTrace();
+			return;
+		}
+		ts.setUri(uri);
+		FileHandler.instance.clearLog(diag.eResource().getURI());
+		var allStatements = TestStatement.collectAllStatements(formula);
+		Features features = null;
+		if (FileHandler.instance.isSPL(uri)) {
+			features = new Features(uri);
+		} else {
+			features = null;
+		}
+		if (features == null) {
+			for (var statement : allStatements) {
+				returnStatement = statement instanceof ReturnStatement;
+				float pathTime = ts.testPath((AbstractStatement) statement, vars, conds, formula, returnStatement,
+						features);
+				dataCollector.addData(ts.getStatementPath(statement), pathTime);
+			}
+			return;
+		}
+		Console.println("[SPL detected]", Colors.BLUE);
+		for (int i = 0; i < features.getSize(); i++) {
+			features.getNextConfig();
+			Console.println(" > Configuration: [" + features.getConfigRep() + "]", Colors.BLUE);
+			for (var statement : allStatements) {
+				returnStatement = statement instanceof ReturnStatement;
+				float pathTime = ts.testPath((AbstractStatement) statement, vars, conds, formula, returnStatement,
+						features);
+				dataCollector.addData(features.getCurConfigName(), ts.getStatementPath(statement), pathTime);
+			}
+			FileHandler.instance.saveConfig(uri, formula, features, false);
+		}
+		dataCollector.finish();
+	}
 
 }

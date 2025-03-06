@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.basic;
 
 import java.io.PrintWriter;
@@ -25,95 +25,86 @@ import openjava.ptree.UnaryExpression;
 import src.mujava.op.util.TraditionalMutantCodeWriter;
 
 /**
- * <p>Output and log VDL mutants to files </p>
+ * <p>
+ * Output and log VDL mutants to files
+ * </p>
+ * 
  * @author Lin Deng
  * @version 1.0
-  */
+ */
 
-public class VDL_Writer extends TraditionalMutantCodeWriter
-{
-   Expression original;
-   Expression mutant;
+public class VDL_Writer extends TraditionalMutantCodeWriter {
+	Expression original;
+	Expression mutant;
 
-   public VDL_Writer( String file_name, PrintWriter out ) 
-   {
-      super(file_name, out);
-   }
+	public VDL_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-   /**
-    * Set original source code and mutated code
-    * @param exp1 - original 
-    * @param exp2 - mutant
-    */
-   public void setMutant(BinaryExpression exp1, Expression exp2)
-   {
-      original = exp1;
-      mutant = exp2;
-   }
+	/**
+	 * Set original source code and mutated code
+	 * 
+	 * @param exp1
+	 *            - original
+	 * @param exp2
+	 *            - mutant
+	 */
+	public void setMutant(BinaryExpression exp1, Expression exp2) {
+		original = exp1;
+		mutant = exp2;
+	}
 
-   /**
-    * Log mutated line 
-    */
-   public void visit( BinaryExpression p ) throws ParseTreeException
-   {
-      if (isSameObject(p, original))
-      {
-         super.visit(mutant);
-         // -----------------------------------------------------------
-         mutated_line = line_num;
-         String log_str = p.toString() + " => " + mutant.toString();
-         writeLog(removeNewline(log_str));
-         // -------------------------------------------------------------
-      } 
-      else
-      {
-         super.visit(p);
-      }
-   }
-   
-   public void visit( UnaryExpression p ) throws ParseTreeException
-   {
-      if (isSameObject(p, original))
-      {
-         super.visit(mutant);
-         // -----------------------------------------------------------
-         mutated_line = line_num;
-         String log_str = p.toString() + " => " + mutant.toString();
-         writeLog(removeNewline(log_str));
-         // -------------------------------------------------------------
-      } 
-      else
-      {
-         super.visit(p);
-      }
-   }
-   
-   public void visit( AssignmentExpression p ) throws ParseTreeException
-   {
-      if (isSameObject(p, original))
-      {
-         super.visit(mutant);
-         // -----------------------------------------------------------
-         mutated_line = line_num;
-         String log_str = p.toString() + " => " + mutant.toString();
-         writeLog(removeNewline(log_str));
-         // -------------------------------------------------------------
-      } 
-      else
-      {
-         super.visit(p);
-      }
-   }
+	/**
+	 * Log mutated line
+	 */
+	public void visit(BinaryExpression p) throws ParseTreeException {
+		if (isSameObject(p, original)) {
+			super.visit(mutant);
+			// -----------------------------------------------------------
+			mutated_line = line_num;
+			String log_str = p.toString() + " => " + mutant.toString();
+			writeLog(removeNewline(log_str));
+			// -------------------------------------------------------------
+		} else {
+			super.visit(p);
+		}
+	}
 
-public void setMutant(UnaryExpression exp1, Expression exp2) {
-    original = exp1;
-    mutant = exp2;
-	
-}
+	public void visit(UnaryExpression p) throws ParseTreeException {
+		if (isSameObject(p, original)) {
+			super.visit(mutant);
+			// -----------------------------------------------------------
+			mutated_line = line_num;
+			String log_str = p.toString() + " => " + mutant.toString();
+			writeLog(removeNewline(log_str));
+			// -------------------------------------------------------------
+		} else {
+			super.visit(p);
+		}
+	}
 
-public void setMutant(AssignmentExpression exp1, Expression exp2) {
-    original = exp1;
-    mutant = exp2;
-	
-}
+	public void visit(AssignmentExpression p) throws ParseTreeException {
+		if (isSameObject(p, original)) {
+			super.visit(mutant);
+			// -----------------------------------------------------------
+			mutated_line = line_num;
+			String log_str = p.toString() + " => " + mutant.toString();
+			writeLog(removeNewline(log_str));
+			// -------------------------------------------------------------
+		} else {
+			super.visit(p);
+		}
+	}
+
+	public void setMutant(UnaryExpression exp1, Expression exp2) {
+		original = exp1;
+		mutant = exp2;
+
+	}
+
+	public void setMutant(AssignmentExpression exp1, Expression exp2) {
+		original = exp1;
+		mutant = exp2;
+
+	}
 }

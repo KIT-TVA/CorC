@@ -12,19 +12,20 @@ import de.tu_bs.cs.isf.cbc.parser.data.IFieldOrMethod;
 import de.tu_bs.cs.isf.cbc.parser.data.JavaClass;
 
 public class JavaFileParserTest {
-	
+
 	private static SimpleDateFormat df = new SimpleDateFormat();
 
 	public static void main(String[] args) {
 		final File parserTestClass = new File("src/de/tu_bs/cs/isf/cbc/parser/test/ParserTestClass.java");
 		final JavaFileParser parser = new JavaFileParser();
-		
+
 		try {
 			final Map<String, JavaClass> clazzes = parser.parseFile(parserTestClass);
 			clazzes.forEach((name, clazz) -> {
 				System.out.println("Class name: " + clazz.getClassName());
 				System.out.println("Source file: " + clazz.getSourceFile());
-				System.out.println("Parse time: " + df.format(clazz.getParseTime()) + " (Milliseconds: " + clazz.getParseTime() + ")");
+				System.out.println("Parse time: " + df.format(clazz.getParseTime()) + " (Milliseconds: "
+						+ clazz.getParseTime() + ")");
 				System.out.println();
 				final ClassSubtypes subtypes = clazz.getSubtypes();
 				if (!subtypes.getExtendedTypes().isEmpty() || !subtypes.getImplementedTypes().isEmpty()) {
@@ -36,8 +37,10 @@ public class JavaFileParserTest {
 				final List<IFieldOrMethod> fields = clazz.getFieldsAndMethods();
 				if (!fields.isEmpty()) {
 					System.out.println("Fields and Methods: ");
-					fields.forEach(f -> System.out.println("\t - " + (f.getType().equals(IFieldOrMethod.Type.FIELD) ? "Field" : "Method") + " declaration: " + f.toString()));
-					System.out.println();					
+					fields.forEach(f -> System.out
+							.println("\t - " + (f.getType().equals(IFieldOrMethod.Type.FIELD) ? "Field" : "Method")
+									+ " declaration: " + f.toString()));
+					System.out.println();
 				}
 			});
 		} catch (FileNotFoundException e) {

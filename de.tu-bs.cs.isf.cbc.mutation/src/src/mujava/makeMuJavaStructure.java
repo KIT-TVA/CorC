@@ -12,8 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
 
 package src.mujava;
 
@@ -23,34 +22,38 @@ import java.io.OutputStream;
 import de.tu_bs.cs.isf.cbc.mutation.util.NoOpPrintStream;
 
 /**
- * <p>Description: </p>
+ * <p>
+ * Description:
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
 public class makeMuJavaStructure {
 
-  public static void main(String[] args) {
-	System.setOut(new NoOpPrintStream(new OutputStream() {
-		public void write(int a) {
-			// no op
-		}
-	}));
-    //MutationSystem.setJMutationStructure();
-    makeDir(new File(MutationSystem.SYSTEM_HOME));
-    makeDir(new File(MutationSystem.SRC_PATH));
-    makeDir(new File(MutationSystem.CLASS_PATH));
-    makeDir(new File(MutationSystem.MUTANT_HOME));
-    makeDir(new File(MutationSystem.TESTSET_PATH));
-  }
+	public static void main(String[] args) {
+		System.setOut(new NoOpPrintStream(new OutputStream() {
+			public void write(int a) {
+				// no op
+			}
+		}));
+		// MutationSystem.setJMutationStructure();
+		makeDir(new File(MutationSystem.SYSTEM_HOME));
+		makeDir(new File(MutationSystem.SRC_PATH));
+		makeDir(new File(MutationSystem.CLASS_PATH));
+		makeDir(new File(MutationSystem.MUTANT_HOME));
+		makeDir(new File(MutationSystem.TESTSET_PATH));
+	}
 
-  public static void makeDir(File dir){
-    //System.out.println("\nMake " + dir.getAbsolutePath() + " directory...");
-    boolean newly_made = dir.mkdir();
-    if(!newly_made){
-      //System.out.println(dir.getAbsolutePath() + " directory exists already.");
-    }else{
-      //System.out.println("Making " + dir.getAbsolutePath() + " directory " + " ...done.");
-    }
-  }
+	public static void makeDir(File dir) {
+		// System.out.println("\nMake " + dir.getAbsolutePath() + " directory...");
+		boolean newly_made = dir.mkdir();
+		if (!newly_made) {
+			// System.out.println(dir.getAbsolutePath() + " directory exists already.");
+		} else {
+			// System.out.println("Making " + dir.getAbsolutePath() + " directory " + "
+			// ...done.");
+		}
+	}
 }

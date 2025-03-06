@@ -70,46 +70,51 @@ public class VerifyVariantWithoutInnerLoopsProofGraphBegin extends MyAbstractAsy
 
 				SmallRepetitionStatement statement = (SmallRepetitionStatement) bo;
 				AbstractStatement parent = statement.getParent();
-				
+
 				boolean proven = false;
 				String uriString = getDiagram().eResource().getURI().toPlatformString(true);
 				URI uri = getDiagram().eResource().getURI();
 				IProject project = FileUtil.getProjectFromFileInProject(uri);
 
 				Console.println("Starting variational verification...\n");
-				String callingClass = uri.segment(uri.segmentCount()-2) + "";
-				String callingFeature = uri.segment(uri.segmentCount()-3) + "";
-				String callingMethod = uri.trimFileExtension().segment(uri.segmentCount()-1) + "";
+				String callingClass = uri.segment(uri.segmentCount() - 2) + "";
+				String callingFeature = uri.segment(uri.segmentCount() - 3) + "";
+				String callingMethod = uri.trimFileExtension().segment(uri.segmentCount() - 1) + "";
 
 				String[] featureConfig = VerifyFeatures.findValidProduct(List.of(callingFeature), project);
 				String[][] variantWrapper = {featureConfig};
 
-				GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
+				GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(
+						super.getFeatureProvider());
 				VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
-				
-				String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(variantWrapper, callingFeature, callingClass);
+
+				String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(variantWrapper, callingFeature,
+						callingClass);
 				for (int i = 0; i < variants.length; i++) {
-					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_FULL);
+					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString),
+							featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_FULL);
 					genCode.setProofTypeInfo(i, KeYInteraction.ABSTRACT_PROOF_BEGIN);
-					if(!genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, variantWrapper[i])) continue;
+					if (!genCode.generate(
+							FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(),
+							callingFeature, callingClass, callingMethod, variantWrapper[i]))
+						continue;
 					String configName = "";
-					for (String s : variantWrapper[i]) configName += s;
+					for (String s : variantWrapper[i])
+						configName += s;
 					prove.setConfigName(configName);
-					proven = prove.proveVariantWithKey(
-							ConstructCodeBlock.constructCodeBlockAndVerify(statement, false),
-							statement.getInvariant(),
-							statement.getGuard(),
-							statement.getVariant());
+					proven = prove.proveVariantWithKey(ConstructCodeBlock.constructCodeBlockAndVerify(statement, false),
+							statement.getInvariant(), statement.getGuard(), statement.getVariant());
 				}
 
 				statement.setPostProven(proven);
-				updatePictogramElement(((Shape)pes[0]).getContainer());				
+				updatePictogramElement(((Shape) pes[0]).getContainer());
 			}
 		}
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1000000;
-		RunEvaluationForStatementPP.WHOLE_RUNTIME_START.add(duration + ""); //PG DEBUG
-		Console.println("\nVerification done."); 
+		RunEvaluationForStatementPP.WHOLE_RUNTIME_START.add(duration + ""); // PG DEBUG
+		Console.println("\nVerification done.");
 		Console.println("Time needed: " + duration + "ms");
-		monitor.done();	}		
+		monitor.done();
+	}
 }

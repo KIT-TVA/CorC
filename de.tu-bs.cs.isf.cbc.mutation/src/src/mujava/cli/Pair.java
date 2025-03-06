@@ -12,31 +12,26 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
-
+ */
 
 package src.mujava.cli;
 
 import java.util.ArrayList;
- /**
+/**
  * <p>
  * Description: Pair class used for storing results of mutation scores
  * </p>
  * 
  * @author Lin Deng
- * @version 1.0  
+ * @version 1.0
  */
-public class Pair
-{
-   public ArrayList<String> testSet;
-   public double mutationScore;
+public class Pair {
+	public ArrayList<String> testSet;
+	public double mutationScore;
 
-   public Pair(ArrayList<String> testSet, double mutationScore)
-   {
-      this.testSet = testSet;
-      this.mutationScore = mutationScore;
-   }
-   
+	public Pair(ArrayList<String> testSet, double mutationScore) {
+		this.testSet = testSet;
+		this.mutationScore = mutationScore;
+	}
 
 }

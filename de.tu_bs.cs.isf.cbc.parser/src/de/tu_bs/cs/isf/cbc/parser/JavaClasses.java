@@ -92,9 +92,8 @@ public class JavaClasses {
 	 *         i.e. the runtime parameter is a decendant of the signature definition
 	 *         type
 	 */
-	public static Boolean isRuntimeParameterMatchingSignature(	String runtimeParameterType,
-																String signatureParameterType,
-																final String projectName) {
+	public static Boolean isRuntimeParameterMatchingSignature(String runtimeParameterType,
+			String signatureParameterType, final String projectName) {
 		final Map<String, JavaClass> javaClassesForProject = getJavaClassesForProject(projectName);
 		final JavaClass javaClass = getClassIgnoringGeneric(javaClassesForProject, signatureParameterType);
 
@@ -132,12 +131,14 @@ public class JavaClasses {
 
 		return false;
 	}
-	
+
 	/**
 	 * Get a java class by name ignoring an optional generic modifier
 	 * 
-	 * @param javaClassesForProject a map of java classes for a project
-	 * @param clazzName the desired class name (containing an optional generic)
+	 * @param javaClassesForProject
+	 *            a map of java classes for a project
+	 * @param clazzName
+	 *            the desired class name (containing an optional generic)
 	 * 
 	 * @return the desired java class
 	 */

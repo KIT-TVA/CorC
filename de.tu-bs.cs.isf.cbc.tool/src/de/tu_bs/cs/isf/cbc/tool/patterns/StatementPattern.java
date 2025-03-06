@@ -120,7 +120,7 @@ public class StatementPattern extends IdPattern implements IPattern {
 		statement.setPostCondition(post);
 
 		addGraphicalRepresentation(context, statement);
-		return new Object[] { statement };
+		return new Object[]{statement};
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class StatementPattern extends IdPattern implements IPattern {
 	public PictogramElement doAdd(IAddContext context) {
 		manageColor(IColorConstant.DARK_GREEN);
 		manageColor(IColorConstant.LIGHT_ORANGE);
-		
+
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
 		// System.out.println("contributorID:
 		// "+targetDiagram.getDiagramTypeId()+".PropertyContributor");
@@ -171,7 +171,7 @@ public class StatementPattern extends IdPattern implements IPattern {
 		setId(preNameText, ID_PRE_TEXT);
 		preNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		preNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		
+
 		Shape textShapePreConditionMod = peCreateService.createShape(outerContainerShape, true);
 		MultiText preConditionTextMod = gaService.createMultiText(textShapePreConditionMod, "");
 		setId(preConditionTextMod, ID_PRE_MOD);
@@ -179,7 +179,8 @@ public class StatementPattern extends IdPattern implements IPattern {
 		for (String s : addedStatement.getPreCondition().getModifiables()) {
 			modString += s + ", ";
 		}
-		preConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+		preConditionTextMod.setValue(
+				"modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
 		preConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		preConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 
@@ -189,7 +190,7 @@ public class StatementPattern extends IdPattern implements IPattern {
 		setId(postNameText, ID_POST_TEXT);
 		postNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		postNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		
+
 		Shape textShapePostConditionMod = peCreateService.createShape(outerContainerShape, true);
 		MultiText postConditionTextMod = gaService.createMultiText(textShapePostConditionMod, "");
 		setId(postConditionTextMod, ID_POST_MOD);
@@ -197,7 +198,8 @@ public class StatementPattern extends IdPattern implements IPattern {
 		for (String s : addedStatement.getPostCondition().getModifiables()) {
 			modString += s + ", ";
 		}
-		postConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+		postConditionTextMod.setValue(
+				"modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
 		postConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		postConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 
@@ -247,7 +249,7 @@ public class StatementPattern extends IdPattern implements IPattern {
 		Shape hor2LineShape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor2Polyline = gaService.createPolyline(hor2LineShape);
 		setId(hor2Polyline, ID_HOR2_LINE);
-		
+
 		peCreateService.createChopboxAnchor(outerContainerShape);
 		peCreateService.createChopboxAnchor(textShape);
 
@@ -269,19 +271,20 @@ public class StatementPattern extends IdPattern implements IPattern {
 		GraphicsAlgorithm mainRectangle = context.getRootPictogramElement().getGraphicsAlgorithm();
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		int third = mainRectangle.getWidth() / 3;
-		int thirdBlockHeight = (mainRectangle.getHeight() - 40)/3;
+		int thirdBlockHeight = (mainRectangle.getHeight() - 40) / 3;
 
 		if (id.equals(ID_NAME_TEXT)) {
 			Graphiti.getGaService().setLocationAndSize(ga, third, 40, third, mainRectangle.getHeight() - 40);
 			changesDone = true;
 		} else if (id.equals(ID_PRE_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, 0, thirdBlockHeight+40, third, 2*thirdBlockHeight);
+			Graphiti.getGaService().setLocationAndSize(ga, 0, thirdBlockHeight + 40, third, 2 * thirdBlockHeight);
 			changesDone = true;
 		} else if (id.equals(ID_PRE_MOD)) {
 			Graphiti.getGaService().setLocationAndSize(ga, 0, 40, third, thirdBlockHeight);
 			changesDone = true;
 		} else if (id.equals(ID_POST_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, third * 2, thirdBlockHeight+40, third, 2*thirdBlockHeight);
+			Graphiti.getGaService().setLocationAndSize(ga, third * 2, thirdBlockHeight + 40, third,
+					2 * thirdBlockHeight);
 			changesDone = true;
 		} else if (id.equals(ID_POST_MOD)) {
 			Graphiti.getGaService().setLocationAndSize(ga, third * 2, 40, third, thirdBlockHeight);
@@ -304,35 +307,35 @@ public class StatementPattern extends IdPattern implements IPattern {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { 0, 40, mainRectangle.getWidth(), 40 });
+					.createPointList(new int[]{0, 40, mainRectangle.getWidth(), 40});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_PRE_SEP)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { third * 2, 0, third * 2, mainRectangle.getHeight() });
+					.createPointList(new int[]{third * 2, 0, third * 2, mainRectangle.getHeight()});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR1_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { 0, thirdBlockHeight+40, third, thirdBlockHeight+40 });
+					.createPointList(new int[]{0, thirdBlockHeight + 40, third, thirdBlockHeight + 40});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_POST_SEP)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { third, 0, third, mainRectangle.getHeight() });
+					.createPointList(new int[]{third, 0, third, mainRectangle.getHeight()});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR2_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { 2*third, thirdBlockHeight+40, mainRectangle.getWidth(), thirdBlockHeight+40 });
+			List<Point> pointList = Graphiti.getGaService().createPointList(
+					new int[]{2 * third, thirdBlockHeight + 40, mainRectangle.getWidth(), thirdBlockHeight + 40});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		}
@@ -356,15 +359,18 @@ public class StatementPattern extends IdPattern implements IPattern {
 					&& !rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN)))
 					|| rectangle.getForeground() == null)) {
 				return Reason.createTrueReason("Statement is proven. Expected green color.");
-			} else if (!domainObject.isProven() && domainObject.isTested() &&
-					((rectangle.getForeground() != null && !rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE))) 
+			} else if (!domainObject.isProven() && domainObject.isTested()
+					&& ((rectangle.getForeground() != null
+							&& !rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE)))
 							|| rectangle.getForeground() == null)) {
 				return Reason.createTrueReason("Statement is tested. Expected orange color.");
-			} else if (!domainObject.isProven() && !domainObject.isTested() && 
-					((rectangle.getForeground() != null && (rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN)) || rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE)))) 
+			} else if (!domainObject.isProven() && !domainObject.isTested()
+					&& ((rectangle.getForeground() != null
+							&& (rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN))
+									|| rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE))))
 							|| rectangle.getForeground() == null)) {
 				return Reason.createTrueReason("Statement is not proven. Expected red color.");
-			}  
+			}
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			AbstractStatement domainObject = (AbstractStatement) context.getDomainObject();
 			Image image = (Image) context.getGraphicsAlgorithm();
@@ -375,10 +381,10 @@ public class StatementPattern extends IdPattern implements IPattern {
 			}
 		}
 
-		if(HighlightHelper.instance.needsInitialHighlightUpdate(context)) {
+		if (HighlightHelper.instance.needsInitialHighlightUpdate(context)) {
 			return Reason.createTrueReason("Element needs to be highlighted.");
 		}
-		
+
 		return Reason.createFalseReason();
 	}
 
@@ -397,7 +403,7 @@ public class StatementPattern extends IdPattern implements IPattern {
 				rectangle.setForeground(manageColor(IColorConstant.DARK_GREEN));
 				if (domainObject.getParent() != null) {
 					IPeService pe = Graphiti.getPeService();
-					EObject[] objArray = { domainObject.getParent() };
+					EObject[] objArray = {domainObject.getParent()};
 					Object[] obj = pe.getLinkedPictogramElements(objArray, getDiagram());
 					Shape pElement = (Shape) obj[0];
 					if (pElement.getContainer() != null)
@@ -407,7 +413,7 @@ public class StatementPattern extends IdPattern implements IPattern {
 				rectangle.setForeground(manageColor(IColorConstant.LIGHT_ORANGE));
 				if (domainObject.getParent() != null) {
 					IPeService pe = Graphiti.getPeService();
-					EObject[] objArray = { domainObject.getParent() };
+					EObject[] objArray = {domainObject.getParent()};
 					Object[] obj = pe.getLinkedPictogramElements(objArray, getDiagram());
 					Shape pElement = (Shape) obj[0];
 					if (pElement.getContainer() != null)
@@ -417,7 +423,7 @@ public class StatementPattern extends IdPattern implements IPattern {
 				rectangle.setForeground(manageColor(IColorConstant.RED));
 				if (domainObject.getParent() != null) {
 					IPeService pe = Graphiti.getPeService();
-					EObject[] objArray = { domainObject.getParent() };
+					EObject[] objArray = {domainObject.getParent()};
 					Object[] obj = pe.getLinkedPictogramElements(objArray, getDiagram());
 					if (obj.length > 0) {
 						Shape pElement = (Shape) obj[0];
@@ -426,8 +432,8 @@ public class StatementPattern extends IdPattern implements IPattern {
 					}
 				}
 			}
-			
-			HighlightHelper.instance.handleHighlightDrawing(context, rectangle);	
+
+			HighlightHelper.instance.handleHighlightDrawing(context, rectangle);
 
 			updateParent(domainObject);
 			return true;
@@ -442,11 +448,11 @@ public class StatementPattern extends IdPattern implements IPattern {
 		}
 		return false;
 	}
-	
+
 	private void updateParent(AbstractStatement statement) {
 		if (statement.getParent() != null) {
 			IPeService pe = Graphiti.getPeService();
-			EObject[] objArray = { statement.getParent() };
+			EObject[] objArray = {statement.getParent()};
 			Object[] obj = pe.getLinkedPictogramElements(objArray, getDiagram());
 			if (obj.length > 0) {
 				Shape pElement = (Shape) obj[0];
@@ -503,13 +509,14 @@ public class StatementPattern extends IdPattern implements IPattern {
 		statement.setTested(false);
 		TestStatement.setPathTested(statement, false);
 		updateParent(statement);
-		
+
 		DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
 		JavaVariables vars = extractor.getVars();
 		UpdateModifiableOfConditions.setVars(vars);
-		UpdateModifiableOfConditions.updateAssignmentStatement(statement, new FileUtil(getDiagram().eResource().getURI().toPlatformString(true)));
-		
-		//Start of IFbC
+		UpdateModifiableOfConditions.updateAssignmentStatement(statement,
+				new FileUtil(getDiagram().eResource().getURI().toPlatformString(true)));
+
+		// Start of IFbC
 		final IProject project = GetProjectUtil.getProjectForDiagram(getDiagram());
 		final Lattice lattice = Lattices.getLatticeForProject(project);
 		if (lattice != null) {
@@ -520,7 +527,7 @@ public class StatementPattern extends IdPattern implements IPattern {
 				e.printStackTrace();
 			}
 		}
-		
+
 		updatePictogramElement(context.getPictogramElement());
 	}
 

@@ -18,83 +18,84 @@ import de.tu_bs.cs.isf.cbc.tool.features.TestStatement;
 import de.tu_bs.cs.isf.cbc.util.UpdateDiagram;
 
 public class LostTester extends TestModelNotifier {
-    private final static String TEST_MARKER = " <- T: ";
-    private final static Color TEST_SUCCESS = new Color(252, 207, 153);
-    private final static Color TEST_FAIL = new Color(188, 71, 73);
+	private final static String TEST_MARKER = " <- T: ";
+	private final static Color TEST_SUCCESS = new Color(252, 207, 153);
+	private final static Color TEST_FAIL = new Color(188, 71, 73);
 
-    private ArrayList<Result> testees;
-    private LostTranslator lostTranslator;
-    private LostCodeHandler lostCodeHandler;
-    private ArrayList<CodeColor> highlights;
+	private ArrayList<Result> testees;
+	private LostTranslator lostTranslator;
+	private LostCodeHandler lostCodeHandler;
+	private ArrayList<CodeColor> highlights;
 
-    public LostTester() {
-	this.testees = new ArrayList<Result>();
-	this.lostTranslator = new LostTranslator();
-	this.lostCodeHandler = new LostCodeHandler();
-	this.highlights = new ArrayList<CodeColor>();
-    }
-
-    public ArrayList<Result> getTestees() {
-	return this.testees;
-    }
-
-    public ArrayList<CodeColor> getHighlights() {
-	return this.highlights;
-    }
-
-    public void test(String lostCode) throws DiagramResourceModelException, IOException, CoreException,
-	    SettingsException, NotImplementedException {
-	this.testees.clear();
-	this.highlights.clear();
-	lostTranslator.translate(lostCode);
-	generateTestees();
-	testAll();
-	UpdateDiagram.getInstance().updateDiagram(lostTranslator.getDiagram());
-    }
-
-    public String getResults(String viewCode) {
-	if (viewCode.contains(TEST_MARKER))
-	    return viewCode;
-	for (var testee : testees) {
-	    var statement = testee.get() instanceof StatementContext ? testee.get().getText().trim()
-		    : testee.get().getChild(1).getText().trim();
-	    CodeColor highlight = new CodeColor();
-	    lostCodeHandler.createInfoForStatement(highlight, viewCode, statement, TEST_MARKER);
-	    highlight.colorToSet = testee.wasSuccessful() ? TEST_SUCCESS : TEST_FAIL;
-	    // highlights.add(highlight); TODO: fix bugs when in use with verify highlights
-	    var codeSplit = lostCodeHandler.getCodeUntilStatement(viewCode, statement, TEST_MARKER);
-	    viewCode = codeSplit[0] + TEST_MARKER + testee.wasSuccessful() + ", " + testee.getTime() + "ms"
-		    + codeSplit[1];
+	public LostTester() {
+		this.testees = new ArrayList<Result>();
+		this.lostTranslator = new LostTranslator();
+		this.lostCodeHandler = new LostCodeHandler();
+		this.highlights = new ArrayList<CodeColor>();
 	}
-	return viewCode;
-    }
 
-    private boolean testAll() throws IOException {
-	if (lostTranslator.getFormula() == null) {
-	    return false;
+	public ArrayList<Result> getTestees() {
+		return this.testees;
 	}
-	for (int i = 0; i < testees.size(); ++i) {
-	    test(testees.get(i));
-	}
-	this.testsFinished();
-	return true;
-    }
 
-    private void test(Result testee) throws IOException {
-	long startTime = System.nanoTime();
-	var statement = lostTranslator.getModelLinker().getStatementFor(testee.get());
-	var featureProvider = UpdateDiagram.getInstance().getFeatureProvider(lostTranslator.getDiagram());
-	TestStatement ts = new TestStatement(featureProvider);
-	ts.testStatement(lostTranslator.getDiagram(), statement);
-	long endTime = (System.nanoTime() - startTime) / 1000000;
-	testee.done(endTime, statement.isTested());
-	statement.eResource().save(Collections.EMPTY_MAP);
-	this.testFinished(testee);
-    }
-
-    private void generateTestees() {
-	for (var statementCtx : lostTranslator.getModelLinker().getAllContexts()) {
-	    this.testees.add(new Result(statementCtx));
+	public ArrayList<CodeColor> getHighlights() {
+		return this.highlights;
 	}
-    }
+
+	public void test(String lostCode) throws DiagramResourceModelException, IOException, CoreException,
+			SettingsException, NotImplementedException {
+		this.testees.clear();
+		this.highlights.clear();
+		lostTranslator.translate(lostCode);
+		generateTestees();
+		testAll();
+		UpdateDiagram.getInstance().updateDiagram(lostTranslator.getDiagram());
+	}
+
+	public String getResults(String viewCode) {
+		if (viewCode.contains(TEST_MARKER))
+			return viewCode;
+		for (var testee : testees) {
+			var statement = testee.get() instanceof StatementContext
+					? testee.get().getText().trim()
+					: testee.get().getChild(1).getText().trim();
+			CodeColor highlight = new CodeColor();
+			lostCodeHandler.createInfoForStatement(highlight, viewCode, statement, TEST_MARKER);
+			highlight.colorToSet = testee.wasSuccessful() ? TEST_SUCCESS : TEST_FAIL;
+			// highlights.add(highlight); TODO: fix bugs when in use with verify highlights
+			var codeSplit = lostCodeHandler.getCodeUntilStatement(viewCode, statement, TEST_MARKER);
+			viewCode = codeSplit[0] + TEST_MARKER + testee.wasSuccessful() + ", " + testee.getTime() + "ms"
+					+ codeSplit[1];
+		}
+		return viewCode;
+	}
+
+	private boolean testAll() throws IOException {
+		if (lostTranslator.getFormula() == null) {
+			return false;
+		}
+		for (int i = 0; i < testees.size(); ++i) {
+			test(testees.get(i));
+		}
+		this.testsFinished();
+		return true;
+	}
+
+	private void test(Result testee) throws IOException {
+		long startTime = System.nanoTime();
+		var statement = lostTranslator.getModelLinker().getStatementFor(testee.get());
+		var featureProvider = UpdateDiagram.getInstance().getFeatureProvider(lostTranslator.getDiagram());
+		TestStatement ts = new TestStatement(featureProvider);
+		ts.testStatement(lostTranslator.getDiagram(), statement);
+		long endTime = (System.nanoTime() - startTime) / 1000000;
+		testee.done(endTime, statement.isTested());
+		statement.eResource().save(Collections.EMPTY_MAP);
+		this.testFinished(testee);
+	}
+
+	private void generateTestees() {
+		for (var statementCtx : lostTranslator.getModelLinker().getAllContexts()) {
+			this.testees.add(new Result(statementCtx));
+		}
+	}
 }

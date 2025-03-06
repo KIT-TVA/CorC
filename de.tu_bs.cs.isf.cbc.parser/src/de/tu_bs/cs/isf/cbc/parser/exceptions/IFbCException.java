@@ -9,5 +9,5 @@ public class IFbCException extends Exception {
 
 	public IFbCException(String arg0) {
 		super(arg0);
-	}	
+	}
 }

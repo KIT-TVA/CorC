@@ -26,11 +26,11 @@ package src.com.beust.jcommander;
 @SuppressWarnings("serial")
 public class MissingCommandException extends ParameterException {
 
-  public MissingCommandException(String string) {
-    super(string);
-  }
+	public MissingCommandException(String string) {
+		super(string);
+	}
 
-  public MissingCommandException(Throwable t) {
-    super(t);
-  }
+	public MissingCommandException(Throwable t) {
+		super(t);
+	}
 }

@@ -26,15 +26,16 @@ public class JavaFileParseJob extends Job {
 	}
 
 	@Override
-	protected IStatus run(IProgressMonitor monitor) {		
+	protected IStatus run(IProgressMonitor monitor) {
 		final JavaFileParser parser = new JavaFileParser();
 		try {
-			final Map<String, JavaClass> classInformation = parser.parseFile(new File(javaFile.getLocation().toOSString()));
+			final Map<String, JavaClass> classInformation = parser
+					.parseFile(new File(javaFile.getLocation().toOSString()));
 			JavaClasses.refreshJavaClassesForProject(this.projectName, classInformation);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		return Status.OK_STATUS;
 	}
 

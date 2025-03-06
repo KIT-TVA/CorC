@@ -4,6 +4,7 @@ import de.tu_bs.cs.isf.cbc.util.TokenType;
 
 /**
  * Contains definition of a single node.
+ * 
  * @author Fynn
  */
 public class SingleNode implements Node {
@@ -14,20 +15,20 @@ public class SingleNode implements Node {
 		this.type = type;
 		this.value = value;
 	}
-	
+
 	@Override
 	public TokenType getType() {
 		return type;
 	}
-	
+
 	public Node getLeft() {
 		return null;
 	}
-	
+
 	public Node getRight() {
 		return null;
 	}
-	
+
 	public String getValue() {
 		return value;
 	}

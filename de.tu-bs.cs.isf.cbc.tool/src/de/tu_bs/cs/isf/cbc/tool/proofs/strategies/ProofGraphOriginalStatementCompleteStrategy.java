@@ -29,12 +29,12 @@ import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraph;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraphCollection;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofNode;
 
-public final class ProofGraphOriginalStatementCompleteStrategy extends KeYProofStrategy implements ProofGraphStrategy{
-	
+public final class ProofGraphOriginalStatementCompleteStrategy extends KeYProofStrategy implements ProofGraphStrategy {
+
 	private final List<List<String>> forks = new ArrayList<>();
 	private final List<List<String>> paths = new ArrayList<>();
-	private ProofGraph graph; 
-	
+	private ProofGraph graph;
+
 	@Override
 	public Set<List<String>> generateFeatureConfigurations(IKeYProof proof) {
 		List<Set<SelectionInfo>> predicateInfo = generatePredicateInfo(proof);
@@ -42,12 +42,15 @@ public final class ProofGraphOriginalStatementCompleteStrategy extends KeYProofS
 		IProject project = FileUtil.getProjectFromFileInProject(uri);
 		Set<List<String>> toProve = new HashSet<List<String>>();
 		try {
-			ProofGraphCollection collection = ProofGraphCollection.loadFromJson(project.getRawLocation() + "/graph.json");
-			Console.println(String.format("Successfully loaded proof graph for %s:%s", proof.getCallingFeature(), proof.getCallingMethod()), Colors.GREEN);
+			ProofGraphCollection collection = ProofGraphCollection
+					.loadFromJson(project.getRawLocation() + "/graph.json");
+			Console.println(String.format("Successfully loaded proof graph for %s:%s", proof.getCallingFeature(),
+					proof.getCallingMethod()), Colors.GREEN);
 			graph = collection.getGraphForMethod(proof.getCallingMethod());
 
 			List<String> localPathList = new ArrayList<>();
-			ProofNode node = new ProofNode(proof.getCallingFeature(), proof.getCallingMethod(), graph.getIdForFeature(proof.getCallingFeature()));
+			ProofNode node = new ProofNode(proof.getCallingFeature(), proof.getCallingMethod(),
+					graph.getIdForFeature(proof.getCallingFeature()));
 			localPathList.add(node.getFeature());
 			findPaths(graph, node, paths, localPathList);
 			localPathList.clear();
@@ -58,7 +61,7 @@ public final class ProofGraphOriginalStatementCompleteStrategy extends KeYProofS
 				String[] featureConfig = VerifyFeatures.findValidProduct(path, project);
 				toProve.add(new ArrayList<>(Arrays.asList(featureConfig)));
 			}
-			
+
 			Console.println("Minimal amount of produts for valid proof: ");
 			toProve.forEach(l -> {
 				Console.println("\t -" + Arrays.toString(l.toArray()));
@@ -66,8 +69,9 @@ public final class ProofGraphOriginalStatementCompleteStrategy extends KeYProofS
 
 			Console.println("Caused by this predicate condition the following configurations need to be proven:");
 			for (Set<SelectionInfo> allSelections : predicateInfo) {
-				List<String> predicateConfig = Arrays.asList(VerifyFeatures.getSolutionForConditions(allSelections, project));
-				
+				List<String> predicateConfig = Arrays
+						.asList(VerifyFeatures.getSolutionForConditions(allSelections, project));
+
 				toProve.forEach(originalImpliedConfig -> {
 					Set<String> union = new HashSet<String>();
 					union.addAll(predicateConfig);
@@ -76,17 +80,16 @@ public final class ProofGraphOriginalStatementCompleteStrategy extends KeYProofS
 						toProve.add(new ArrayList<>(union));
 					}
 				});
-				
+
 				Console.println("\t -");
 				predicateConfig.forEach(feature -> Console.print(", " + feature + ", ", Colors.BLACK));
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		return toProve;
 	}
-	
 
 	public boolean prove(IKeYProof proof, List<String> featureConfig) {
 		URI uri = proof.getDiagram().eResource().getURI();
@@ -103,39 +106,24 @@ public final class ProofGraphOriginalStatementCompleteStrategy extends KeYProofS
 					legalFork = false;
 				}
 			}
-							
+
 			if (legalFork && bestForkLength < fork.size()) {
 				bestForkLength = fork.size();
 				forkToUse = fork;
 			}
 		}
-						
+
 		List<UUID> uuids = forkToUse.stream().map(f -> graph.getIdForFeature(f)).toList();
 
 		FileNameManager manager = new FileNameManager();
 		String name = manager.getFileName(null, location, proof.getStatement(), "") + ".proof";
 		proofRepo.getPartialProofForId(forkToUse, uuids, location, name);
 
-		ProveWithKey prove = new ProveWithKey(
-				proof.getStatement(), 
-				proof.getDiagram(), 
-				proof.getProgressMonitor(), 
-				fileHandler,
-				featureConfig,
-				0, 
-				this.getProofType()
-			);
+		ProveWithKey prove = new ProveWithKey(proof.getStatement(), proof.getDiagram(), proof.getProgressMonitor(),
+				fileHandler, featureConfig, 0, this.getProofType());
 
-		return prove.proveStatementWithKey(null, 
-				proof.getCbcFormulas(),
-				proof.getJavaVariables(),
-				false, 
-				false, 
-				proof.getCallingMethod(), 
-				"", 
-				proof.getCallingClass(), 
-				true
-			);	
+		return prove.proveStatementWithKey(null, proof.getCbcFormulas(), proof.getJavaVariables(), false, false,
+				proof.getCallingMethod(), "", proof.getCallingClass(), true);
 	}
 
 	@Override

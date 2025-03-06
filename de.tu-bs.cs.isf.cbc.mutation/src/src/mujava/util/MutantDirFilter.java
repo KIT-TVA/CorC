@@ -12,8 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
+ */
 
 package src.mujava.util;
 
@@ -21,24 +20,23 @@ import java.io.File;
 import java.io.FilenameFilter;
 
 /**
- * <p>Description: </p>
+ * <p>
+ * Description:
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
-public class MutantDirFilter implements FilenameFilter
-{
+public class MutantDirFilter implements FilenameFilter {
 
-  public MutantDirFilter()
-  {
-  }
+	public MutantDirFilter() {
+	}
 
-  public boolean accept(File dir, String name)
-  {
-	if( (name.indexOf("_")==3) || (name.indexOf("_")==4) )
-    {
-      return true;
-    }
-    else return false;
-  }
+	public boolean accept(File dir, String name) {
+		if ((name.indexOf("_") == 3) || (name.indexOf("_") == 4)) {
+			return true;
+		} else
+			return false;
+	}
 }

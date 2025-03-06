@@ -9,19 +9,18 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 
 /**
  * Class to filter for statements
+ * 
  * @author Tobias
  *
  */
 public class VariableFilter extends AbstractPropertySectionFilter {
 
 	@Override
-    protected boolean accept(PictogramElement pe) {
-        EObject eObject =
-            Graphiti.getLinkService()
-            .getBusinessObjectForLinkedPictogramElement(pe);
-        if (eObject instanceof JavaVariables) {
-            return true;
-        }
-        return false;
-    }
+	protected boolean accept(PictogramElement pe) {
+		EObject eObject = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		if (eObject instanceof JavaVariables) {
+			return true;
+		}
+		return false;
+	}
 }

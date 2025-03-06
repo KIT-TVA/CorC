@@ -27,8 +27,8 @@ import src.com.beust.jcommander.IStringConverter;
  */
 public class NoConverter implements IStringConverter<String> {
 
-  public String convert(String value) {
-    throw new UnsupportedOperationException();
-  }
+	public String convert(String value) {
+		throw new UnsupportedOperationException();
+	}
 
 }

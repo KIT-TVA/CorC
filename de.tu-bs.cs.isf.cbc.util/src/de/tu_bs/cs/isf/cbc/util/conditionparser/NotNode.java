@@ -4,11 +4,12 @@ import de.tu_bs.cs.isf.cbc.util.TokenType;
 
 /**
  * Contains definition of a not node.
+ * 
  * @author Fynn
  */
-public class NotNode implements Node{
+public class NotNode implements Node {
 	private Node next;
-	
+
 	public NotNode(Node next) {
 		this.next = next;
 	}

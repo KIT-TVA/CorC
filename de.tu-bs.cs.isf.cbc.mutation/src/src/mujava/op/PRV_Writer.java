@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op;
 
 import java.io.PrintWriter;
@@ -23,75 +23,66 @@ import openjava.ptree.ParseTreeException;
 import src.mujava.op.util.MutantCodeWriter;
 
 /**
- * <p>Output and log PRV mutants to files</p>
+ * <p>
+ * Output and log PRV mutants to files
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class PRV_Writer extends MutantCodeWriter
-{
-   AssignmentExpression original = null;
-   String mutant = null;
+public class PRV_Writer extends MutantCodeWriter {
+	AssignmentExpression original = null;
+	String mutant = null;
 
-  /** 
-   * Set original source code and mutated code
-   * @param original
-   * @param mutant
-   */
-   public void setMutant(AssignmentExpression original, String mutant)
-   {
-      this.original = original;
-      this.mutant = mutant;
-   }
+	/**
+	 * Set original source code and mutated code
+	 * 
+	 * @param original
+	 * @param mutant
+	 */
+	public void setMutant(AssignmentExpression original, String mutant) {
+		this.original = original;
+		this.mutant = mutant;
+	}
 
-   public PRV_Writer( String file_name, PrintWriter out ) 
-   {
-      super(file_name, out);
-   }
+	public PRV_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-   public void visit( AssignmentExpression p ) throws ParseTreeException
-   {
-      if (isSameObject(p, original))
-      {
-         Expression lexpr = p.getLeft();
+	public void visit(AssignmentExpression p) throws ParseTreeException {
+		if (isSameObject(p, original)) {
+			Expression lexpr = p.getLeft();
 
-         if (lexpr instanceof AssignmentExpression) 
-         {
-		 	writeParenthesis( lexpr );
-         } 
-         else 
-         {
-		    lexpr.accept( this );
-         }
+			if (lexpr instanceof AssignmentExpression) {
+				writeParenthesis(lexpr);
+			} else {
+				lexpr.accept(this);
+			}
 
-		 String operator = p.operatorString();
-         out.print( " " + operator + " " );
+			String operator = p.operatorString();
+			out.print(" " + operator + " ");
 
-         // -------------------------------------------------------------
-	     mutated_line = line_num;
-		 out.print(mutant);
-		 writeLog(removeNewline(original.toString()+";  =>  "+ lexpr.toString() + " = " + mutant+";"));
-		 // -------------------------------------------------------------
+			// -------------------------------------------------------------
+			mutated_line = line_num;
+			out.print(mutant);
+			writeLog(removeNewline(original.toString() + ";  =>  " + lexpr.toString() + " = " + mutant + ";"));
+			// -------------------------------------------------------------
 
-      }
-      else
-      {
-         Expression lexpr = p.getLeft();
+		} else {
+			Expression lexpr = p.getLeft();
 
-         if (lexpr instanceof AssignmentExpression) 
-         {
-	        writeParenthesis( lexpr );
-         } 
-         else 
-         {
-	        lexpr.accept( this );
-         }
+			if (lexpr instanceof AssignmentExpression) {
+				writeParenthesis(lexpr);
+			} else {
+				lexpr.accept(this);
+			}
 
-	     String operator = p.operatorString();
-         out.print( " " + operator + " " );
+			String operator = p.operatorString();
+			out.print(" " + operator + " ");
 
-         Expression rexp = p.getRight();
-         rexp.accept( this );
-      }
-   }
+			Expression rexp = p.getRight();
+			rexp.accept(this);
+		}
+	}
 }

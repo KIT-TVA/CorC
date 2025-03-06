@@ -50,165 +50,165 @@ import de.tu_bs.cs.isf.cbc.tool.diagram.CbCFeatureProvider;
  */
 public class UpdateContractsToProve {
 
-    public static void updateContractsToProve(Condition condition) {
+	public static void updateContractsToProve(Condition condition) {
 
-	// Get Uri of Condition
-	URI uri = condition.eResource().getURI();
+		// Get Uri of Condition
+		URI uri = condition.eResource().getURI();
 
-	// get corresponding FeatureModel
-	IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-	IWorkbenchPage activePage = window.getActivePage();
-	IEditorPart activeEditor = activePage.getActiveEditor();
-	IEditorInput input = activeEditor.getEditorInput();
-	IResource diagramResource = input.getAdapter(IResource.class);
-	IResource projectResource = diagramResource.getParent().getParent().getParent().getParent();
-	if (projectResource.getName().equals("features")) {
-	    projectResource = projectResource.getParent();
-	}
-	IPath projectPath = projectResource.getLocation();
-	IPath modelPath = projectPath.append("model.xml");
-	IFile modelFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(modelPath);
-	if (modelFile == null) {
-	    return;
-	}
-	Path path = Paths.get(modelFile.getLocationURI());
-	IFeatureModel featModel = FeatureModelManager.load(path);
+		// get corresponding FeatureModel
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchPage activePage = window.getActivePage();
+		IEditorPart activeEditor = activePage.getActiveEditor();
+		IEditorInput input = activeEditor.getEditorInput();
+		IResource diagramResource = input.getAdapter(IResource.class);
+		IResource projectResource = diagramResource.getParent().getParent().getParent().getParent();
+		if (projectResource.getName().equals("features")) {
+			projectResource = projectResource.getParent();
+		}
+		IPath projectPath = projectResource.getLocation();
+		IPath modelPath = projectPath.append("model.xml");
+		IFile modelFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(modelPath);
+		if (modelFile == null) {
+			return;
+		}
+		Path path = Paths.get(modelFile.getLocationURI());
+		IFeatureModel featModel = FeatureModelManager.load(path);
 
-	// get current Feature
-	String feature = uri.segment(3);
+		// get current Feature
+		String feature = uri.segment(3);
 
-	// get current Class
-	String className = uri.segment(4);
+		// get current Class
+		String className = uri.segment(4);
 
-	// get all features which could be affected due CompositionOrder
-	List<String> affectedOriginalFeatures = new ArrayList<String>();
-	for (int i = featModel.getFeatureOrderList().size() - 1; i > 0; i--) {
-	    if (featModel.getFeatureOrderList().get(i).equals(feature)) {
-		break;
-	    } else {
-		affectedOriginalFeatures.add(featModel.getFeatureOrderList().get(i));
-	    }
-	}
-	// To get the composition order
-	Collections.reverse(affectedOriginalFeatures);
-
-	// Get diagramUri from CbCUri
-	uri = uri.trimFileExtension();
-	uri = uri.appendFileExtension("diagram");
-	// Get URIs for all features
-	List<URI> diagramURIs = new ArrayList<URI>();
-	for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
-	    String[] lastSegments = { affectedOriginalFeatures.get(i), className, uri.lastSegment() };
-	    diagramURIs.add(uri.trimSegments(uri.segmentCount() - 3).appendSegments(lastSegments));
-	}
-	// Throw out features which doesn't implement the method
-	ResourceSet rs = new ResourceSetImpl();
-	for (int i = 0; i < diagramURIs.size(); i++) {
-	    if (!rs.getURIConverter().exists(diagramURIs.get(i), null)) {
-		affectedOriginalFeatures.remove(diagramURIs.get(i).segment(diagramURIs.get(i).segmentCount() - 3));
-	    }
-	}
-	// Get all valid URIs for all features
-	List<URI> validDiagramURIs = new ArrayList<URI>();
-	for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
-	    String[] lastSegments = { affectedOriginalFeatures.get(i), className, uri.lastSegment() };
-	    validDiagramURIs.add(uri.trimSegments(diagramURIs.get(i).segmentCount() - 3).appendSegments(lastSegments));
-	}
-
-	// Forall valid URIs
-	List<URI> validDiagramsAffectedURIs = new ArrayList<URI>();
-	boolean chain = true;
-	for (int i = 0; i < validDiagramURIs.size(); i++) {
-	    // Get DiagramResource
-	    ResourceSet resourceSet = new ResourceSetImpl();
-	    Resource diagram_Resource = resourceSet.getResource(validDiagramURIs.get(i), true);
-	    Resource cbc_Resource = resourceSet
-		    .getResource(validDiagramURIs.get(i).trimFileExtension().appendFileExtension("cbcmodel"), true);
-	    // Get Diagram
-	    Diagram diagram = null;
-	    try {
-		if (diagram_Resource != null) {
-		    // does resource contain a diagram as root object?
-		    final EList<EObject> contents = diagram_Resource.getContents();
-		    for (final EObject object : contents) {
-			if (object instanceof Diagram) {
-			    diagram = (Diagram) object;
+		// get all features which could be affected due CompositionOrder
+		List<String> affectedOriginalFeatures = new ArrayList<String>();
+		for (int i = featModel.getFeatureOrderList().size() - 1; i > 0; i--) {
+			if (featModel.getFeatureOrderList().get(i).equals(feature)) {
+				break;
+			} else {
+				affectedOriginalFeatures.add(featModel.getFeatureOrderList().get(i));
 			}
-		    }
 		}
-	    } catch (final WrappedException e) {
-		e.printStackTrace();
-	    }
+		// To get the composition order
+		Collections.reverse(affectedOriginalFeatures);
 
-	    // Get Diagram Pictograms
-	    List<PictogramElement> pes = new ArrayList<PictogramElement>();
-	    List<Object> bos = new ArrayList<Object>();
-	    CbCDiagramTypeProvider test = new CbCDiagramTypeProvider();
-	    IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram,
-		    "de.tu-bs.cs.isf.cbc.tool.CbCDiagramTypeProvider");
-	    CbCFeatureProvider featureProvider = (CbCFeatureProvider) dtp.getFeatureProvider();
+		// Get diagramUri from CbCUri
+		uri = uri.trimFileExtension();
+		uri = uri.appendFileExtension("diagram");
+		// Get URIs for all features
+		List<URI> diagramURIs = new ArrayList<URI>();
+		for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
+			String[] lastSegments = {affectedOriginalFeatures.get(i), className, uri.lastSegment()};
+			diagramURIs.add(uri.trimSegments(uri.segmentCount() - 3).appendSegments(lastSegments));
+		}
+		// Throw out features which doesn't implement the method
+		ResourceSet rs = new ResourceSetImpl();
+		for (int i = 0; i < diagramURIs.size(); i++) {
+			if (!rs.getURIConverter().exists(diagramURIs.get(i), null)) {
+				affectedOriginalFeatures.remove(diagramURIs.get(i).segment(diagramURIs.get(i).segmentCount() - 3));
+			}
+		}
+		// Get all valid URIs for all features
+		List<URI> validDiagramURIs = new ArrayList<URI>();
+		for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
+			String[] lastSegments = {affectedOriginalFeatures.get(i), className, uri.lastSegment()};
+			validDiagramURIs.add(uri.trimSegments(diagramURIs.get(i).segmentCount() - 3).appendSegments(lastSegments));
+		}
 
-	    // Only add Pictograms to Pictogram-List
-	    for (int j = 0; j < diagram_Resource.getContents().get(0).eContents().size(); j++) {
-		if (diagram_Resource.getContents().get(0).eContents().get(j).getClass()
-			.equals(ContainerShapeImpl.class)) {
-		    pes.add((PictogramElement) diagram_Resource.getContents().get(0).eContents().get(j));
+		// Forall valid URIs
+		List<URI> validDiagramsAffectedURIs = new ArrayList<URI>();
+		boolean chain = true;
+		for (int i = 0; i < validDiagramURIs.size(); i++) {
+			// Get DiagramResource
+			ResourceSet resourceSet = new ResourceSetImpl();
+			Resource diagram_Resource = resourceSet.getResource(validDiagramURIs.get(i), true);
+			Resource cbc_Resource = resourceSet
+					.getResource(validDiagramURIs.get(i).trimFileExtension().appendFileExtension("cbcmodel"), true);
+			// Get Diagram
+			Diagram diagram = null;
+			try {
+				if (diagram_Resource != null) {
+					// does resource contain a diagram as root object?
+					final EList<EObject> contents = diagram_Resource.getContents();
+					for (final EObject object : contents) {
+						if (object instanceof Diagram) {
+							diagram = (Diagram) object;
+						}
+					}
+				}
+			} catch (final WrappedException e) {
+				e.printStackTrace();
+			}
+
+			// Get Diagram Pictograms
+			List<PictogramElement> pes = new ArrayList<PictogramElement>();
+			List<Object> bos = new ArrayList<Object>();
+			CbCDiagramTypeProvider test = new CbCDiagramTypeProvider();
+			IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram,
+					"de.tu-bs.cs.isf.cbc.tool.CbCDiagramTypeProvider");
+			CbCFeatureProvider featureProvider = (CbCFeatureProvider) dtp.getFeatureProvider();
+
+			// Only add Pictograms to Pictogram-List
+			for (int j = 0; j < diagram_Resource.getContents().get(0).eContents().size(); j++) {
+				if (diagram_Resource.getContents().get(0).eContents().get(j).getClass()
+						.equals(ContainerShapeImpl.class)) {
+					pes.add((PictogramElement) diagram_Resource.getContents().get(0).eContents().get(j));
+				}
+			}
+			// Add the chain of conjunctive CompositionTechniques to affectedList
+			boolean affectedFormula = false;
+			for (int j = 0; j < pes.size(); j++) {
+				bos.add(test.getFeatureProvider().getBusinessObjectForPictogramElement(pes.get(j)));
+				if (bos.get(j).getClass().equals(CbCFormulaImpl.class)) {
+					String compositionTechnique = (((CbCFormulaImpl) bos.get(j)).getCompositionTechnique().toString());
+					if ((compositionTechnique.equals("CONJUNCTIVE_CONTRACTING")
+							|| compositionTechnique.equals("EXPLICIT_CONTRACTING")) && chain) {
+						affectedFormula = true;
+						validDiagramsAffectedURIs.add(validDiagramURIs.get(i));
+					} else {
+						chain = false;
+					}
+				}
+			}
+			if (affectedFormula == true) {
+				for (int j = 0; j < pes.size(); j++) {
+					bos.add(test.getFeatureProvider().getBusinessObjectForPictogramElement(pes.get(j)));
+					// all rules which could be affected due contracting must be listed here
+					UpdateContext context = new UpdateContext(pes.get(j));
+					if (bos.get(j).getClass().equals(AbstractStatementImpl.class)) {
+						((AbstractStatementImpl) bos.get(j)).setProven(false);
+						featureProvider.updateIfPossible(context);
+					} else if (bos.get(j).getClass().equals(OriginalStatementImpl.class)) {
+						((OriginalStatementImpl) bos.get(j)).setProven(false);
+						featureProvider.updateIfPossible(context);
+					} else if (bos.get(j).getClass().equals(MethodStatementImpl.class)) {
+						((MethodStatementImpl) bos.get(j)).setProven(false);
+						featureProvider.updateIfPossible(context);
+					}
+				}
+			}
+			// Save Diagram
+			try {
+				diagram_Resource.save(Collections.EMPTY_MAP);
+				diagram_Resource.setTrackingModification(true);
+				cbc_Resource.save(Collections.EMPTY_MAP);
+				cbc_Resource.setTrackingModification(true);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-	    }
-	    // Add the chain of conjunctive CompositionTechniques to affectedList
-	    boolean affectedFormula = false;
-	    for (int j = 0; j < pes.size(); j++) {
-		bos.add(test.getFeatureProvider().getBusinessObjectForPictogramElement(pes.get(j)));
-		if (bos.get(j).getClass().equals(CbCFormulaImpl.class)) {
-		    String compositionTechnique = (((CbCFormulaImpl) bos.get(j)).getCompositionTechnique().toString());
-		    if ((compositionTechnique.equals("CONJUNCTIVE_CONTRACTING")
-			    || compositionTechnique.equals("EXPLICIT_CONTRACTING")) && chain) {
-			affectedFormula = true;
-			validDiagramsAffectedURIs.add(validDiagramURIs.get(i));
-		    } else {
-			chain = false;
-		    }
+		// Setup Notification
+		if (!validDiagramsAffectedURIs.isEmpty())
+
+		{
+			System.out.println("okok");
+			Display display = PlatformUI.getWorkbench().getDisplay();
+			AbstractNotificationPopup notification = new NotificationPopup(display, validDiagramsAffectedURIs,
+					"compositionTechnique");
+			notification.setFadingEnabled(false);
+			notification.setDelayClose(0L);
+			notification.open();
 		}
-	    }
-	    if (affectedFormula == true) {
-		for (int j = 0; j < pes.size(); j++) {
-		    bos.add(test.getFeatureProvider().getBusinessObjectForPictogramElement(pes.get(j)));
-		    // all rules which could be affected due contracting must be listed here
-		    UpdateContext context = new UpdateContext(pes.get(j));
-		    if (bos.get(j).getClass().equals(AbstractStatementImpl.class)) {
-			((AbstractStatementImpl) bos.get(j)).setProven(false);
-			featureProvider.updateIfPossible(context);
-		    } else if (bos.get(j).getClass().equals(OriginalStatementImpl.class)) {
-			((OriginalStatementImpl) bos.get(j)).setProven(false);
-			featureProvider.updateIfPossible(context);
-		    } else if (bos.get(j).getClass().equals(MethodStatementImpl.class)) {
-			((MethodStatementImpl) bos.get(j)).setProven(false);
-			featureProvider.updateIfPossible(context);
-		    }
-		}
-	    }
-	    // Save Diagram
-	    try {
-		diagram_Resource.save(Collections.EMPTY_MAP);
-		diagram_Resource.setTrackingModification(true);
-		cbc_Resource.save(Collections.EMPTY_MAP);
-		cbc_Resource.setTrackingModification(true);
-	    } catch (IOException e) {
-		e.printStackTrace();
-	    }
+
 	}
-	// Setup Notification
-	if (!validDiagramsAffectedURIs.isEmpty())
-
-	{
-	    System.out.println("okok");
-	    Display display = PlatformUI.getWorkbench().getDisplay();
-	    AbstractNotificationPopup notification = new NotificationPopup(display, validDiagramsAffectedURIs,
-		    "compositionTechnique");
-	    notification.setFadingEnabled(false);
-	    notification.setDelayClose(0L);
-	    notification.open();
-	}
-
-    }
 }

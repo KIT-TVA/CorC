@@ -27,16 +27,16 @@ import src.com.beust.jcommander.ParameterException;
  */
 public class IntegerConverter extends BaseConverter<Integer> {
 
-  public IntegerConverter(String optionName) {
-    super(optionName);
-  }
+	public IntegerConverter(String optionName) {
+		super(optionName);
+	}
 
-  public Integer convert(String value) {
-    try {
-      return Integer.parseInt(value);
-    } catch(NumberFormatException ex) {
-      throw new ParameterException(getErrorString(value, "an integer"));
-    }
-  }
+	public Integer convert(String value) {
+		try {
+			return Integer.parseInt(value);
+		} catch (NumberFormatException ex) {
+			throw new ParameterException(getErrorString(value, "an integer"));
+		}
+	}
 
 }

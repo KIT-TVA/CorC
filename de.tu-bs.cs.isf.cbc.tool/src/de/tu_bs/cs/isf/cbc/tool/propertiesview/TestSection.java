@@ -24,15 +24,15 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 import de.tu_bs.cs.isf.cbc.util.TestValues;
 
-public class TestSection extends GFPropertySection implements ITabbedPropertyConstants {	
+public class TestSection extends GFPropertySection implements ITabbedPropertyConstants {
 	final List<Button> buttons = new ArrayList<Button>();
 	// Defining the logical properties
 	private Composite parent;
 	private TabbedPropertySheetPage tabbedPropertySheetPage;
-	
-	private Device device = Display.getCurrent ();
-	private Color white = new Color (device, 255, 255, 255);
-	
+
+	private Device device = Display.getCurrent();
+	private Color white = new Color(device, 255, 255, 255);
+
 	private final int NUM_GROUPS = 2;
 	private StyledText byteText;
 	private StyledText booleanText;
@@ -41,7 +41,6 @@ public class TestSection extends GFPropertySection implements ITabbedPropertyCon
 	private StyledText longText;
 	private StyledText charText;
 	private StyledText strText;
-	
 
 	// Defining the UI properties
 
@@ -52,15 +51,15 @@ public class TestSection extends GFPropertySection implements ITabbedPropertyCon
 		this.parent = parent;
 		this.tabbedPropertySheetPage = tabbedPropertySheetPage;
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-		
+
 		Composite composite = factory.createFlatFormComposite(parent);
-		
+
 		// Defining GridLayout for properties-view
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = NUM_GROUPS;
 		gridLayout.verticalSpacing = 5;
 		composite.setLayout(gridLayout);
-		
+
 		byteText = createLabeledTextbox(composite, "Byte");
 		booleanText = createLabeledTextbox(composite, "Boolean");
 		shortText = createLabeledTextbox(composite, "Short");
@@ -81,7 +80,7 @@ public class TestSection extends GFPropertySection implements ITabbedPropertyCon
 			intText.setText(values.getIntStr());
 			longText.setText(values.getLongStr());
 			charText.setText(values.getCharStr());
-			strText.setText(values.getStringStr());	
+			strText.setText(values.getStringStr());
 		} catch (SettingsException e1) {
 			e1.printStackTrace();
 		}
@@ -109,16 +108,15 @@ public class TestSection extends GFPropertySection implements ITabbedPropertyCon
 					e1.printStackTrace();
 				}
 			}
-		}
-		);
+		});
 	}
-	
+
 	private StyledText createLabeledTextbox(Composite parent, String labelName) {
 		// methodSignatureLabel
 		var label = new Label(parent, SWT.PUSH);
 		label.setText(labelName + ": ");
 		label.setBackground(white);
-		
+
 		// methodSignatureLabelText
 		var textbox = new StyledText(parent, SWT.WRAP | SWT.PUSH | SWT.BORDER);
 		GridData methodSignatureLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
@@ -127,7 +125,7 @@ public class TestSection extends GFPropertySection implements ITabbedPropertyCon
 		textbox.setBackground(white);
 		return textbox;
 	}
-	
+
 	private Group createButtonGroup(Composite parent, String name) {
 		Group buttonGroup = new Group(parent, SWT.PUSH);
 		buttonGroup.setText(name);
@@ -137,7 +135,7 @@ public class TestSection extends GFPropertySection implements ITabbedPropertyCon
 		buttonGroup.setBackground(white);
 		return buttonGroup;
 	}
-	
+
 	private Button createButton(Composite buttonGroup, String name) {
 		Button newButton = new Button(buttonGroup, SWT.PUSH);
 		newButton.setText(name);
@@ -145,7 +143,7 @@ public class TestSection extends GFPropertySection implements ITabbedPropertyCon
 		buttons.add(newButton);
 		return newButton;
 	}
-	
+
 	@Override
 	public void refresh() {
 		if (TestValues.canRead()) {

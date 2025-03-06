@@ -11,31 +11,31 @@ import org.eclipse.ui.part.ViewPart;
 import de.kit.tva.lost.views.LostUiView;
 
 public class Bootstrap extends ViewPart {
-    public Bootstrap() {
-    }
+	public Bootstrap() {
+	}
 
-    /**
-     * The ID of the view as specified by the extension.
-     */
-    public static final String ID = "lost.views.LostView";
+	/**
+	 * The ID of the view as specified by the extension.
+	 */
+	public static final String ID = "lost.views.LostView";
 
-    @Inject
-    IWorkbench workbench;
+	@Inject
+	IWorkbench workbench;
 
-    private static final int STYLE = 0;
-    private LostUiView ui;
-    private StyledText codeField;
+	private static final int STYLE = 0;
+	private LostUiView ui;
+	private StyledText codeField;
 
-    @Override
-    public void createPartControl(Composite parent) {
-	ui = new LostUiView(parent, STYLE);
-	ui.getExtendedViewButton().setAlignment(SWT.CENTER);
-	ui.getBasicViewButton().setAlignment(SWT.CENTER);
-	codeField = ui.getCodeField();
-    }
+	@Override
+	public void createPartControl(Composite parent) {
+		ui = new LostUiView(parent, STYLE);
+		ui.getExtendedViewButton().setAlignment(SWT.CENTER);
+		ui.getBasicViewButton().setAlignment(SWT.CENTER);
+		codeField = ui.getCodeField();
+	}
 
-    @Override
-    public void setFocus() {
-	codeField.setFocus();
-    }
+	@Override
+	public void setFocus() {
+		codeField.setFocus();
+	}
 }

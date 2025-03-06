@@ -13,8 +13,6 @@ import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -23,15 +21,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.jdt.internal.core.PackageFragment;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.github.javaparser.StaticJavaParser;
@@ -57,9 +49,8 @@ import de.tu_bs.cs.isf.cbc.util.GenerateDiagramFromModel;
 import de.tu_bs.cs.isf.cbc.util.GenerateModelFromCode;
 import de.tu_bs.cs.isf.cbc.util.StatementsCollector;
 
-
 public class GenerateDiagramFromClassHandler extends AbstractHandler {
-	
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
@@ -68,44 +59,45 @@ public class GenerateDiagramFromClassHandler extends AbstractHandler {
 			if (strucSelection.size() != 1) {
 				throw new ExecutionException("Select only one file.");
 			}
-			
+
 			IFile file = null;
-			
-			//for OO Projects
+
+			// for OO Projects
 			if (strucSelection.getFirstElement() instanceof org.eclipse.jdt.internal.core.CompilationUnit) {
-				org.eclipse.jdt.internal.core.CompilationUnit cu = ((org.eclipse.jdt.internal.core.CompilationUnit) strucSelection.getFirstElement());
+				org.eclipse.jdt.internal.core.CompilationUnit cu = ((org.eclipse.jdt.internal.core.CompilationUnit) strucSelection
+						.getFirstElement());
 				file = ResourcesPlugin.getWorkspace().getRoot().getFile(cu.getPath());
-			//for SPL Projects
+				// for SPL Projects
 			} else if (strucSelection.getFirstElement() instanceof IResource) {
 				IResource res = ((File) strucSelection.getFirstElement());
 				file = ResourcesPlugin.getWorkspace().getRoot().getFile(res.getFullPath());
 			}
-			
+
 			if (file == null) {
 				throw new ExecutionException("Select a valid file.");
 			}
-			
+
 			final String PARM_MSG = "de.tu_bs.cs.isf.commands.toolbar.msg";
 			String msg = event.getParameter(PARM_MSG);
-			
+
 			GenerateModelFromCode gmfc = new GenerateModelFromCode();
 			List<String> methodNames = getMethodNames(file, gmfc);
-			
+
 			SelectMethodWizard smw = new SelectMethodWizard(methodNames);
 			WizardDialog wd = new WizardDialog(null, smw);
 			wd.open();
-			
+
 			if (smw.getMethodNames() == null || smw.getMethodNames().size() == 0) {
 				throw new ExecutionException("Select a Method");
 			}
-			
+
 			for (String name : smw.getMethodNames()) {
 				buildDiagram(gmfc, file, name);
 			}
-			
-			//Refresh Workspace
-			for(IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()){
-			    try {
+
+			// Refresh Workspace
+			for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+				try {
 					project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 				} catch (CoreException e) {
 					// TODO Auto-generated catch block
@@ -114,10 +106,11 @@ public class GenerateDiagramFromClassHandler extends AbstractHandler {
 			}
 		}
 		return null;
-		
+
 	}
-	
-	private void buildDiagram(GenerateModelFromCode gmfc, IFile iFile, String selectedMethod) throws ExecutionException {
+
+	private void buildDiagram(GenerateModelFromCode gmfc, IFile iFile, String selectedMethod)
+			throws ExecutionException {
 		ArrayList<String> jmlMethodConditions = new ArrayList<String>();
 
 		String javaFileContent = gmfc.readFileToString(iFile.getLocation().toPortableString());
@@ -125,44 +118,46 @@ public class GenerateDiagramFromClassHandler extends AbstractHandler {
 		gmfc.readJMLAnnotations(javaFileContent, jmlMethodConditions);
 
 		CompilationUnit compilationUnit = StaticJavaParser.parse(javaFileContent);
-		
+
 		if (compilationUnit.getChildNodes().isEmpty()) {
 			return;
 		}
-		
+
 		ClassOrInterfaceCollector collector = new ClassOrInterfaceCollector();
 		collector.visit(compilationUnit, null);
-		
-		if (collector.getClassOrInterfaceDeclaration().getNameAsString() != null && !collector.getClassOrInterfaceDeclaration().getNameAsString().isEmpty()) {
-			gmfc.setPackageName(collector.getClassOrInterfaceDeclaration().getNameAsString().substring(0, collector.getClassOrInterfaceDeclaration().getNameAsString().length()-1));
+
+		if (collector.getClassOrInterfaceDeclaration().getNameAsString() != null
+				&& !collector.getClassOrInterfaceDeclaration().getNameAsString().isEmpty()) {
+			gmfc.setPackageName(collector.getClassOrInterfaceDeclaration().getNameAsString().substring(0,
+					collector.getClassOrInterfaceDeclaration().getNameAsString().length() - 1));
 		}
 		gmfc.setupProjectStructure(iFile);
-		
+
 		ModelClass modelClass = gmfc.instantiateModelClass(selectedMethod);
 		modelClass.setJavaClassURI(URI.createFileURI(iFile.getProjectRelativePath().toPortableString()).toFileString());
 		modelClass.setPackage(gmfc.getPackageName());
-		
+
 		if (!collector.getClassOrInterfaceDeclaration().isInterface()) {
 			for (FieldDeclaration fieldDeclaration : collector.getFields()) {
 				gmfc.addFieldToList(fieldDeclaration);
 			}
-			
+
 			for (MethodDeclaration methodDeclaration : collector.getMethods()) {
 				String methodName = methodDeclaration.getNameAsString();
-				
+
 				if (methodName.equals(selectedMethod)) {
-				
+
 					Method method = CbcclassFactory.eINSTANCE.createMethod();
-					
+
 					Resource cbcmodelResource = gmfc.setupProjectForCbCModel(method, methodName);
 
 					JavaVariables variables = CbcmodelFactory.eINSTANCE.createJavaVariables();
 					gmfc.fillVariableList(variables, methodDeclaration);
 
-					//String signature = buildSignatureString(classMethod, variables);
+					// String signature = buildSignatureString(classMethod, variables);
 					gmfc.settingSignature(methodDeclaration, variables, method);
 
-					//get global conditions from existing diagram
+					// get global conditions from existing diagram
 					GlobalConditions conditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
 					for (EObject obj : cbcmodelResource.getContents()) {
 						if (obj instanceof GlobalConditions) {
@@ -176,8 +171,8 @@ public class GenerateDiagramFromClassHandler extends AbstractHandler {
 					method.setCbcStartTriple(formula);
 					formula.setMethodObj(method);
 					variables.eSet(CbcmodelPackage.eINSTANCE.getJavaVariables_Fields(), gmfc.getFields());
-					
-					//parse JML contract to pre- and postconditions of cbcFormula
+
+					// parse JML contract to pre- and postconditions of cbcFormula
 					String defaultAnnotation = "	/*@\r\n" + "	  @ public normal_behavior\r\n"
 							+ "	  @ requires true;\r\n" + "	  @ ensures true;\r\n" + "	  @ assignable \nothing;\r\n"
 							+ "	  @*/";
@@ -208,12 +203,12 @@ public class GenerateDiagramFromClassHandler extends AbstractHandler {
 						gmfc.addConditionsToFormula(formula, currentJmlPart, variables, conditions);
 
 					} while (index != -1);
-					
+
 					cbcmodelResource.getContents().clear();
 					cbcmodelResource.getContents().add(formula);
 					cbcmodelResource.getContents().add(variables);
 					cbcmodelResource.getContents().add(conditions);
-//					modelClass.getMethods().add(method);
+					// modelClass.getMethods().add(method);
 					gmfc.getMethods().add(method);
 					for (Method m : modelClass.getMethods()) {
 						gmfc.getMethods().add(m);
@@ -231,7 +226,8 @@ public class GenerateDiagramFromClassHandler extends AbstractHandler {
 					}
 					Collections.copy(listOfStatements, statementsCollector.getStatements());
 					Collections.copy(listOfAssertStatements, statementsCollector.getAssertStatements());
-					gmfc.handleListOfStatements(cbcmodelResource, listOfStatements, listOfAssertStatements, formula.getStatement());//throws error					
+					gmfc.handleListOfStatements(cbcmodelResource, listOfStatements, listOfAssertStatements,
+							formula.getStatement());// throws error
 					for (int i = 0; i < variables.getVariables().size(); i++) {
 						JavaVariable var = variables.getVariables().get(i);
 						if (var.getKind().equals(VariableKind.PARAM) || var.getKind().equals(VariableKind.RETURN)) {
@@ -242,40 +238,40 @@ public class GenerateDiagramFromClassHandler extends AbstractHandler {
 					gmfc.getCbcmodelResources().add(cbcmodelResource);
 				}
 			}
-			
+
 			modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Methods(), gmfc.getMethods());
 			modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_Fields(), gmfc.getFields());
 			modelClass.eSet(CbcclassPackage.eINSTANCE.getModelClass_ClassInvariants(), gmfc.getInvariants());
 			gmfc.getCbcclassResource().getContents().add(modelClass);
 			gmfc.saveResource(gmfc.getCbcclassResource());
 			// TODO: generate class diagram from model
-			
-			for(Resource cbcmodelResource: gmfc.getCbcmodelResources()) {
+
+			for (Resource cbcmodelResource : gmfc.getCbcmodelResources()) {
 				gmfc.saveResource(cbcmodelResource);
 				GenerateDiagramFromModel gdfm = new GenerateDiagramFromModel();
 				gdfm.execute(cbcmodelResource);
 			}
-			
+
 		}
 
 	}
-	
+
 	private List<String> getMethodNames(IFile iFile, GenerateModelFromCode gmfc) {
 		String javaFileContent = gmfc.readFileToString(iFile.getLocation().toPortableString());
 		List<String> methodNames = new ArrayList<String>();
-		
+
 		CompilationUnit compilationUnit = StaticJavaParser.parse(javaFileContent);
 		if (compilationUnit.getChildNodes().isEmpty()) {
 			return null;
 		}
-		
+
 		ClassOrInterfaceCollector collector = new ClassOrInterfaceCollector();
 		collector.visit(compilationUnit, null);
-		
+
 		for (MethodDeclaration methodDec : collector.getMethods()) {
 			methodNames.add(methodDec.getNameAsString());
 		}
-		
+
 		return methodNames;
 	}
 

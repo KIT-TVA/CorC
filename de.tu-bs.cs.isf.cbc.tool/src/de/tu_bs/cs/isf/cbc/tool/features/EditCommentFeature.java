@@ -14,94 +14,99 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 
 /**
  * Class that allows to add and edit code of methods
+ * 
  * @author Tobias
  *
  */
 public class EditCommentFeature extends AbstractCustomFeature {
-	
+
 	/**
 	 * boolean that indicate if something changes
 	 */
-    private boolean hasDoneChanges = false;
-    
-    /**
-     * Constructor of the class
-     * @param fp	The FeatureProvider
-     */
-    public EditCommentFeature(IFeatureProvider fp) {
-        super(fp);
-    }
- 
-    @Override
-    public String getName() {
-        return "Edit Comment";
-    }
- 
-    @Override
-    public String getDescription() {
-        return "Edit Comment of a statement";
-    }
- 
-    @Override
-    public boolean canExecute(ICustomContext context) {
-        boolean ret = false;
-        PictogramElement[] pes = context.getPictogramElements();
-        if (pes != null && pes.length == 1) {
-            Object bo = getBusinessObjectForPictogramElement(pes[0]);
-            if (bo instanceof AbstractStatement || bo instanceof CbCFormula) {
-                ret = true;
-            }
-        }
-        return ret;
-    }
- 
-    @Override
-    public void execute(ICustomContext context) {
-        PictogramElement[] pes = context.getPictogramElements();
-        if (pes != null && pes.length == 1) {
-            Object bo = getBusinessObjectForPictogramElement(pes[0]);
-            if (bo instanceof AbstractStatement) {
-            	AbstractStatement statement = (AbstractStatement) bo;
-                String currentComment = statement.getComment();
-                // ask user for a new comment
-                String newComment = askString(getName(), getDescription(),
-                        currentComment);
-                if (newComment != null && !newComment.equals(currentComment)) {
-            		this.hasDoneChanges = true;
-                    statement.setComment(newComment);
-                    updatePictogramElement(((Shape)pes[0]).getContainer());
-                    getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refresh();
-                }
-            } else if (bo instanceof CbCFormula) {
-            	CbCFormula formula = (CbCFormula) bo;
-                String currentComment = formula.getComment();
-                // ask user for a new comment
-                String newComment = askString(getName(), getDescription(),
-                        currentComment);
-                if (newComment != null && !newComment.equals(currentComment)) {
-            		this.hasDoneChanges = true;
-                    formula.setComment(newComment);
-                    updatePictogramElement(((Shape)pes[0]).getContainer());
-                    getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refresh();
-                    
-                }
-            }
-        }
-    }
- 
-    @Override
-    public boolean hasDoneChanges() {
-           return this.hasDoneChanges;
-    }
-    
-    /**
-     * Helper method that asks for a String as input
-     * @param dialogTitle	The title of the dialog
-     * @param dialogMessage	A message inside the dialog
-     * @param initialValue	The current code of the Method
-     * @return	The new code of the Method
-     */
-    public static String askString(String dialogTitle, String dialogMessage, String initialValue) {
+	private boolean hasDoneChanges = false;
+
+	/**
+	 * Constructor of the class
+	 * 
+	 * @param fp
+	 *            The FeatureProvider
+	 */
+	public EditCommentFeature(IFeatureProvider fp) {
+		super(fp);
+	}
+
+	@Override
+	public String getName() {
+		return "Edit Comment";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Edit Comment of a statement";
+	}
+
+	@Override
+	public boolean canExecute(ICustomContext context) {
+		boolean ret = false;
+		PictogramElement[] pes = context.getPictogramElements();
+		if (pes != null && pes.length == 1) {
+			Object bo = getBusinessObjectForPictogramElement(pes[0]);
+			if (bo instanceof AbstractStatement || bo instanceof CbCFormula) {
+				ret = true;
+			}
+		}
+		return ret;
+	}
+
+	@Override
+	public void execute(ICustomContext context) {
+		PictogramElement[] pes = context.getPictogramElements();
+		if (pes != null && pes.length == 1) {
+			Object bo = getBusinessObjectForPictogramElement(pes[0]);
+			if (bo instanceof AbstractStatement) {
+				AbstractStatement statement = (AbstractStatement) bo;
+				String currentComment = statement.getComment();
+				// ask user for a new comment
+				String newComment = askString(getName(), getDescription(), currentComment);
+				if (newComment != null && !newComment.equals(currentComment)) {
+					this.hasDoneChanges = true;
+					statement.setComment(newComment);
+					updatePictogramElement(((Shape) pes[0]).getContainer());
+					getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refresh();
+				}
+			} else if (bo instanceof CbCFormula) {
+				CbCFormula formula = (CbCFormula) bo;
+				String currentComment = formula.getComment();
+				// ask user for a new comment
+				String newComment = askString(getName(), getDescription(), currentComment);
+				if (newComment != null && !newComment.equals(currentComment)) {
+					this.hasDoneChanges = true;
+					formula.setComment(newComment);
+					updatePictogramElement(((Shape) pes[0]).getContainer());
+					getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refresh();
+
+				}
+			}
+		}
+	}
+
+	@Override
+	public boolean hasDoneChanges() {
+		return this.hasDoneChanges;
+	}
+
+	/**
+	 * Helper method that asks for a String as input
+	 * 
+	 * @param dialogTitle
+	 *            The title of the dialog
+	 * @param dialogMessage
+	 *            A message inside the dialog
+	 * @param initialValue
+	 *            The current code of the Method
+	 * @return The new code of the Method
+	 */
+	public static String askString(String dialogTitle, String dialogMessage, String initialValue) {
 		String ret = null;
 		Shell shell = getShell();
 		if (initialValue == null) {
@@ -114,8 +119,8 @@ public class EditCommentFeature extends AbstractCustomFeature {
 		}
 		return ret;
 	}
-    
-    /**
+
+	/**
 	 * Returns the currently active Shell.
 	 * 
 	 * @return The currently active Shell.

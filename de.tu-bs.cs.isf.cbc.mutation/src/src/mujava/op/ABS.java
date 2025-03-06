@@ -12,8 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
+ */
 
 package src.mujava.op;
 
@@ -22,22 +21,23 @@ import openjava.ptree.ClassDeclaration;
 import openjava.ptree.CompilationUnit;
 
 /**
- * <p>Generate ABS (Absolute Value Insertion) mutants --
- *    modify each arthmetic expression (and subexpression) by the function 
- *    <i>abs()</i>, <i>negAbs()</i>, and <i>faileOnZero()</i>. 
+ * <p>
+ * Generate ABS (Absolute Value Insertion) mutants -- modify each arthmetic
+ * expression (and subexpression) by the function <i>abs()</i>, <i>negAbs()</i>,
+ * and <i>faileOnZero()</i>.
  * </p>
- * <p>-- <i>abs()</i> returns the absolute value of the expression<br/> 
- *    -- <i>negAbs()</i> returns the negative of the absolute value<br/> 
- *    -- <i>failOnZero()</i> tests whether the expression is zero 
+ * <p>
+ * -- <i>abs()</i> returns the absolute value of the expression<br/>
+ * -- <i>negAbs()</i> returns the negative of the absolute value<br/>
+ * -- <i>failOnZero()</i> tests whether the expression is zero
  * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class ABS extends src.mujava.op.util.Mutator
-{
-   public ABS(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit)
-   {
-      super( file_env, comp_unit );
-   }
+public class ABS extends src.mujava.op.util.Mutator {
+	public ABS(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit) {
+		super(file_env, comp_unit);
+	}
 }

@@ -8,11 +8,11 @@ public class Vertex {
 		this.name = name;
 		this.next = null;
 	}
-	
+
 	public String getName() {
 		return this.name;
-	} 
-	
+	}
+
 	public Vertex getNext() {
 		return this.next;
 	}

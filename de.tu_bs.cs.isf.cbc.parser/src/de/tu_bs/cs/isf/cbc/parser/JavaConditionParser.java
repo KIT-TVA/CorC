@@ -26,14 +26,11 @@ import de.tu_bs.cs.isf.lattice.Lattices;
 
 public class JavaConditionParser extends AbstractIFbCParser {
 
-	public static String parseJavaCondition(final String projectName,
-											final String condition,
-											final Map<String, IFbCReferenceEntity> diagramVariables,
-											final Map<String, String> changedTypes,
-											final Method constructingMethod) {
+	public static String parseJavaCondition(final String projectName, final String condition,
+			final Map<String, IFbCReferenceEntity> diagramVariables, final Map<String, String> changedTypes,
+			final Method constructingMethod) {
 		final String string = wrapIntoJavaClass(condition);
-		final CompilationUnit cu = StaticJavaParser
-				.parse(string);
+		final CompilationUnit cu = StaticJavaParser.parse(string);
 		DotPrinter printer = new DotPrinter(true);
 		try (FileWriter fileWriter = new FileWriter("ast.dot");
 				final PrintWriter printWriter = new PrintWriter(fileWriter)) {
@@ -41,9 +38,9 @@ public class JavaConditionParser extends AbstractIFbCParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		final Lattice lattice = Lattices.getLatticeForProject(projectName);
-		
+
 		final List<String> sl = new ArrayList<>();
 		cu.accept(new VoidVisitorAdapter<List<String>>() {
 
@@ -51,22 +48,27 @@ public class JavaConditionParser extends AbstractIFbCParser {
 			public void visit(IfStmt i, List<String> sl) {
 				super.visit(i, sl);
 
-				// For stuff like negations extract the expression from the unary expression and forget about the unary operator
+				// For stuff like negations extract the expression from the unary expression and
+				// forget about the unary operator
 				Expression condition = i.getCondition();
 				if (condition.isUnaryExpr()) {
 					condition = condition.asUnaryExpr().getExpression();
 				}
 				if (condition.isBinaryExpr()) {
 					try {
-						sl.add(AbstractIFbCParser.analyzeSLForBinaryExpression(condition.asBinaryExpr(), lattice, projectName, diagramVariables, changedTypes, constructingMethod));
+						sl.add(AbstractIFbCParser.analyzeSLForBinaryExpression(condition.asBinaryExpr(), lattice,
+								projectName, diagramVariables, changedTypes, constructingMethod));
 					} catch (IFbCException e) {
-						System.out.println("Error parsing binary condition " + condition.toString() + ": " + e.getMessage());
+						System.out.println(
+								"Error parsing binary condition " + condition.toString() + ": " + e.getMessage());
 					}
 				} else if (condition.isMethodCallExpr()) {
 					try {
-						sl.add(analyzeSLForExpression(condition.asMethodCallExpr(), lattice, projectName, diagramVariables, changedTypes, constructingMethod));
+						sl.add(analyzeSLForExpression(condition.asMethodCallExpr(), lattice, projectName,
+								diagramVariables, changedTypes, constructingMethod));
 					} catch (IFbCException e) {
-						System.out.println("Error parsing method call exception Object " + condition.toString() + ": " + e.getMessage());
+						System.out.println("Error parsing method call exception Object " + condition.toString() + ": "
+								+ e.getMessage());
 					}
 				} else {
 					System.out.println(condition + " is no binary or method call expression.");
@@ -86,7 +88,7 @@ public class JavaConditionParser extends AbstractIFbCParser {
 	public static Map<String, String> parseSpecification(String condition) {
 		final String string = wrapIntoJavaClass(condition);
 		final CompilationUnit cu = StaticJavaParser.parse(string);
-		
+
 		final Map<String, String> specification = new HashMap<>();
 		cu.accept(new VoidVisitorAdapter<Map<String, String>>() {
 
@@ -95,32 +97,31 @@ public class JavaConditionParser extends AbstractIFbCParser {
 				super.visit(i, specification);
 				final Expression condition = i.getCondition();
 				if (condition.isBinaryExpr()) {
-					final BinaryExpr binaryExpr = condition.asBinaryExpr();			
+					final BinaryExpr binaryExpr = condition.asBinaryExpr();
 					parseSpecificationFromBinary(binaryExpr, specification);
 				} else {
 					System.out.println(condition + " is no binary expression.");
 					return;
 				}
 			}
-			
 
-			
-			private void parseSpecificationFromBinary(final BinaryExpr binaryExpr, 
-			                                          final Map<String, String> specification) {
+			private void parseSpecificationFromBinary(final BinaryExpr binaryExpr,
+					final Map<String, String> specification) {
 
 				final Expression left = binaryExpr.getLeft();
 				final Expression right = binaryExpr.getRight();
-				
-				if (binaryExpr.getOperator().equals(Operator.AND)) {					
+
+				if (binaryExpr.getOperator().equals(Operator.AND)) {
 					parseSpecificationFromExpression(left, specification);
 					parseSpecificationFromExpression(right, specification);
 				}
-				
+
 				if (binaryExpr.getOperator().equals(Operator.EQUALS)) {
 					if (!left.isNameExpr() || !right.isNameExpr()) {
-						System.out.println("Only name expression allowed in specification. (left: " + left + ", right: " + right + ")" );
+						System.out.println("Only name expression allowed in specification. (left: " + left + ", right: "
+								+ right + ")");
 					}
-					
+
 					final NameExpr referenceName = left.asNameExpr();
 					final NameExpr securityLevel = right.asNameExpr();
 					specification.put(referenceName.getNameAsString(), securityLevel.getNameAsString());
@@ -128,9 +129,9 @@ public class JavaConditionParser extends AbstractIFbCParser {
 					System.out.println("Unsupported operator for specification, only '==' is allowed.");
 				}
 			}
-			
-			private void parseSpecificationFromExpression(final Expression expr, 
-			                                              final Map<String, String> specification) {		
+
+			private void parseSpecificationFromExpression(final Expression expr,
+					final Map<String, String> specification) {
 				if (expr.isBinaryExpr()) {
 					parseSpecificationFromBinary(expr.asBinaryExpr(), specification);
 				} else {

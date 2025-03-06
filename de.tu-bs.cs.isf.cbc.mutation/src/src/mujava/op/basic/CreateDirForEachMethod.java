@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package src.mujava.op.basic;
 
@@ -29,34 +29,30 @@ import src.mujava.MutationSystem;
 /**
  * <p>
  * </p>
+ * 
  * @author Jeff Offutt and Yu-Seung Ma
  * @version 1.0
-  */
-public class CreateDirForEachMethod extends MethodLevelMutator
-{
-   PrintWriter out = null;
-   public CreateDirForEachMethod(FileEnvironment file_env, ClassDeclaration cdecl,
-                                 CompilationUnit comp_unit, PrintWriter out)
-   {
-      super( file_env, comp_unit );
-      this.out = out;
-   }
+ */
+public class CreateDirForEachMethod extends MethodLevelMutator {
+	PrintWriter out = null;
+	public CreateDirForEachMethod(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit,
+			PrintWriter out) {
+		super(file_env, comp_unit);
+		this.out = out;
+	}
 
-   void createDirectory(String dir_name)
-   { 
-      out.println(dir_name);
-      String absolute_dir_path = MutationSystem.MUTANT_PATH + "/" + dir_name;
-      File dirF = new File(absolute_dir_path);
-      dirF.mkdir();
-   }
+	void createDirectory(String dir_name) {
+		out.println(dir_name);
+		String absolute_dir_path = MutationSystem.MUTANT_PATH + "/" + dir_name;
+		File dirF = new File(absolute_dir_path);
+		dirF.mkdir();
+	}
 
-   public void visit(ConstructorDeclaration p) throws ParseTreeException 
-   {
-      createDirectory(getConstructorSignature(p));
-   }
+	public void visit(ConstructorDeclaration p) throws ParseTreeException {
+		createDirectory(getConstructorSignature(p));
+	}
 
-   public void visit(MethodDeclaration p) throws ParseTreeException
-   {
-      createDirectory(getMethodSignature(p));
-   }
+	public void visit(MethodDeclaration p) throws ParseTreeException {
+		createDirectory(getMethodSignature(p));
+	}
 }

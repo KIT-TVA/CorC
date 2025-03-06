@@ -22,12 +22,11 @@ import org.osgi.framework.Bundle;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 
 public class CbCDiagramDecorator extends LabelProvider implements ILabelDecorator {
-	
-	public CbCDiagramDecorator()
-	  {
-	    super();
-	  }
-	
+
+	public CbCDiagramDecorator() {
+		super();
+	}
+
 	@Override
 	public void addListener(ILabelProviderListener listener) {
 		// TODO Auto-generated method stub
@@ -54,7 +53,8 @@ public class CbCDiagramDecorator extends LabelProvider implements ILabelDecorato
 	/**
 	 * @author Hayreddin Ciner
 	 * 
-	 * Loads the cbcmodel file of a diagram and returns the isProven property of the formula statement in the model.
+	 *         Loads the cbcmodel file of a diagram and returns the isProven
+	 *         property of the formula statement in the model.
 	 * 
 	 * @param filepath
 	 * @param rSet
@@ -72,7 +72,7 @@ public class CbCDiagramDecorator extends LabelProvider implements ILabelDecorato
 		}
 		return isProven;
 	}
-	
+
 	@Override
 	public Image decorateImage(Image image, Object element) {
 		Image img = null;
@@ -82,29 +82,30 @@ public class CbCDiagramDecorator extends LabelProvider implements ILabelDecorato
 		/*
 		 * TODO Masterarbeit Ciner
 		 * 
-		 * If the folder contains diagram files, replace the folder icon tha represents the 
-		 * verification status of all diagrams.
+		 * If the folder contains diagram files, replace the folder icon tha represents
+		 * the verification status of all diagrams.
 		 */
 		if (element instanceof IFolder) {
 			IFolder decFolder = (IFolder) element;
 			int numberOfDiagrams = 0;
 			int numberOfProvenDiagrams = 0;
 			for (java.io.File f : decFolder.getRawLocation().toFile().listFiles()) {
-				if (!f.isDirectory()  && f.getName().endsWith(".diagram")) {
+				if (!f.isDirectory() && f.getName().endsWith(".diagram")) {
 					if (new java.io.File(f.getAbsolutePath().toString().replace(".diagram", ".cbcmodel")).exists()) {
 						numberOfDiagrams++;
-						boolean isProven = getProvenProperty(f.getAbsolutePath().toString().replace(".diagram", ".cbcmodel"), rSet);
+						boolean isProven = getProvenProperty(
+								f.getAbsolutePath().toString().replace(".diagram", ".cbcmodel"), rSet);
 						if (isProven) {
 							numberOfProvenDiagrams++;
 						}
 					}
-					
+
 				}
 			}
 			// Check for at least one diagram file.
-			if (numberOfDiagrams>0 && numberOfDiagrams == numberOfProvenDiagrams) {
+			if (numberOfDiagrams > 0 && numberOfDiagrams == numberOfProvenDiagrams) {
 				imagePath = new Path("icons/folderGreen.gif");
-			}else if (numberOfDiagrams>0 && numberOfDiagrams != numberOfProvenDiagrams) {
+			} else if (numberOfDiagrams > 0 && numberOfDiagrams != numberOfProvenDiagrams) {
 				imagePath = new Path("icons/folderRed.gif");
 			} else {
 				return null;
@@ -115,11 +116,13 @@ public class CbCDiagramDecorator extends LabelProvider implements ILabelDecorato
 			 */
 			IFile diagramFile = (IFile) element;
 			if (diagramFile.getName().endsWith(".diagram")) {
-				if (new java.io.File(diagramFile.getRawLocation().toString().replace(".diagram", ".cbcmodel")).exists()) {
-					boolean isProven = getProvenProperty(diagramFile.getRawLocation().toString().replace(".diagram", ".cbcmodel"), rSet);
+				if (new java.io.File(diagramFile.getRawLocation().toString().replace(".diagram", ".cbcmodel"))
+						.exists()) {
+					boolean isProven = getProvenProperty(
+							diagramFile.getRawLocation().toString().replace(".diagram", ".cbcmodel"), rSet);
 					if (isProven) {
-//						imagePath = new Path("icons/diagramGreen.gif");
-					}else {
+						// imagePath = new Path("icons/diagramGreen.gif");
+					} else {
 						imagePath = new Path("icons/diagramRed.gif");
 					}
 				}
@@ -132,25 +135,27 @@ public class CbCDiagramDecorator extends LabelProvider implements ILabelDecorato
 		}
 		return img;
 	}
-	
+
 	@Override
 	public String decorateText(String text, Object element) {
 		String decorationText = null;
 		ResourceSet rSet = new ResourceSetImpl();
 		/*
-		 * TODO Masterarbeit Hayreddin
-		 * For folders: Add text decoration in the format '[numberOfProvenDiagrams/numberOfDiagrams]'
-		 * For diagram files: Add the verification status "VERIFIED" or "PENDING" depending on the verification status.
+		 * TODO Masterarbeit Hayreddin For folders: Add text decoration in the format
+		 * '[numberOfProvenDiagrams/numberOfDiagrams]' For diagram files: Add the
+		 * verification status "VERIFIED" or "PENDING" depending on the verification
+		 * status.
 		 */
 		if (element instanceof IFolder) {
 			IFolder decFolder = (IFolder) element;
 			int numberOfDiagrams = 0;
 			int numberOfProvenDiagrams = 0;
 			for (java.io.File f : decFolder.getRawLocation().toFile().listFiles()) {
-				if (!f.isDirectory()  && f.getName().endsWith(".diagram")) {
+				if (!f.isDirectory() && f.getName().endsWith(".diagram")) {
 					if (new java.io.File(f.getAbsolutePath().toString().replace(".diagram", ".cbcmodel")).exists()) {
 						numberOfDiagrams++;
-						boolean isProven = getProvenProperty(f.getAbsolutePath().toString().replace(".diagram", ".cbcmodel"), rSet);
+						boolean isProven = getProvenProperty(
+								f.getAbsolutePath().toString().replace(".diagram", ".cbcmodel"), rSet);
 						if (isProven) {
 							numberOfProvenDiagrams++;
 						}
@@ -158,17 +163,19 @@ public class CbCDiagramDecorator extends LabelProvider implements ILabelDecorato
 				}
 			}
 			// Check for at least one diagram file.
-			if (numberOfDiagrams>0) {
+			if (numberOfDiagrams > 0) {
 				decorationText = "[" + numberOfProvenDiagrams + "/" + numberOfDiagrams + " ] " + text;
 			}
 		} else if (element instanceof IFile) {
 			IFile diagramFile = (IFile) element;
 			if (diagramFile.getName().endsWith(".diagram")) {
-				if (new java.io.File(diagramFile.getRawLocation().toString().replace(".diagram", ".cbcmodel")).exists()) {
-					boolean isProven = getProvenProperty(diagramFile.getRawLocation().toString().replace(".diagram", ".cbcmodel"), rSet);
+				if (new java.io.File(diagramFile.getRawLocation().toString().replace(".diagram", ".cbcmodel"))
+						.exists()) {
+					boolean isProven = getProvenProperty(
+							diagramFile.getRawLocation().toString().replace(".diagram", ".cbcmodel"), rSet);
 					if (isProven) {
 						decorationText = "[VERIFIED] " + text;
-					}else {
+					} else {
 						decorationText = "[PENDING] " + text;
 					}
 				}

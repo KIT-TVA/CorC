@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op;
 
 import java.io.PrintWriter;
@@ -22,47 +22,44 @@ import openjava.ptree.ParseTreeException;
 import src.mujava.op.util.MutantCodeWriter;
 
 /**
- * <p>Output and log JDC mutants to files</p>
+ * <p>
+ * Output and log JDC mutants to files
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
-public class JDC_Writer extends MutantCodeWriter
-{
-   ConstructorDeclaration mutant = null;
+public class JDC_Writer extends MutantCodeWriter {
+	ConstructorDeclaration mutant = null;
 
-   /**
-    * Set mutated code
-    * @param mutant
-    */
-   public void setMutant(ConstructorDeclaration mutant)
-   {
-      this.mutant = mutant;
-   }
+	/**
+	 * Set mutated code
+	 * 
+	 * @param mutant
+	 */
+	public void setMutant(ConstructorDeclaration mutant) {
+		this.mutant = mutant;
+	}
 
-   public JDC_Writer( String file_name, PrintWriter out ) 
-   {
-	  super(file_name, out);
-   }
+	public JDC_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-   public void visit( ConstructorDeclaration p ) throws ParseTreeException
-   {
-      if (!(isSameObject(p, mutant)))
-      {
-	     super.visit(p);
-      }
-      else
-      {
-         mutated_line = line_num;
-         //call JDC.class_name instread of super.class_name
-	     String log_str = p.getModifiers().toString() + " "
-	                 + JDC.class_name + "(" + p.getParameters().toString() + ")";
-	     
-	     writeLog(removeNewline(log_str) + " is deleted");
+	public void visit(ConstructorDeclaration p) throws ParseTreeException {
+		if (!(isSameObject(p, mutant))) {
+			super.visit(p);
+		} else {
+			mutated_line = line_num;
+			// call JDC.class_name instread of super.class_name
+			String log_str = p.getModifiers().toString() + " " + JDC.class_name + "(" + p.getParameters().toString()
+					+ ")";
 
-	     writeTab();
-	     out.println("// " + log_str + " { ... } ");
-	     line_num++;
-      }
-   }
+			writeLog(removeNewline(log_str) + " is deleted");
+
+			writeTab();
+			out.println("// " + log_str + " { ... } ");
+			line_num++;
+		}
+	}
 }

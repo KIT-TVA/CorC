@@ -1,7 +1,7 @@
 package src.com.beust.jcommander;
 
 public class Strings {
-  public static boolean isStringEmpty(String s) {
-    return s == null || "".equals(s);
-  }
+	public static boolean isStringEmpty(String s) {
+		return s == null || "".equals(s);
+	}
 }

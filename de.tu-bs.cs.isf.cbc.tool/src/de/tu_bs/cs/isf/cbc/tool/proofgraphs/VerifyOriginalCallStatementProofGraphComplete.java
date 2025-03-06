@@ -44,7 +44,8 @@ public class VerifyOriginalCallStatementProofGraphComplete extends MyAbstractAsy
 	/**
 	 * Constructor of the class
 	 * 
-	 * @param fp The FeatureProvider
+	 * @param fp
+	 *            The FeatureProvider
 	 */
 	public VerifyOriginalCallStatementProofGraphComplete(IFeatureProvider fp) {
 		super(fp);
@@ -78,39 +79,44 @@ public class VerifyOriginalCallStatementProofGraphComplete extends MyAbstractAsy
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
-long startTime = System.nanoTime();
+		long startTime = System.nanoTime();
 		PictogramElement[] pes = context.getPictogramElements();
 
 		VerifyStatement verifyStatement = new VerifyStatement(getFeatureProvider());
-		VerifyStatementProofGraphComplete verifyGraphStatement = new VerifyStatementProofGraphComplete(getFeatureProvider());
-		
+		VerifyStatementProofGraphComplete verifyGraphStatement = new VerifyStatementProofGraphComplete(
+				getFeatureProvider());
+
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
 			if (bo instanceof AbstractStatement statement) {
 				URI uri = this.getDiagram().eResource().getURI();
 				FileHandler.instance.deleteFolder(uri, "tests");
-				
+
 				IProject project = FileUtil.getProjectFromFileInProject(uri);
 
 				String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 				String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 				String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 				IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
-				String location = fileHandler.getLocationString(getDiagram().eResource().getURI().toPlatformString(true));
+				String location = fileHandler
+						.getLocationString(getDiagram().eResource().getURI().toPlatformString(true));
 				IProofRepository proofRepo = new FileSystemProofRepository(location + "/proofRepository/");
 
 				try {
-					ProofGraphCollection collection = ProofGraphCollection.loadFromJson(project.getRawLocation() + "/graph.json");
-					Console.println(String.format("Successfully loaded proof graph for %s:%s", callingFeature, callingMethod), Colors.GREEN);
-					
-					ProofGraph graph = collection.getGraphForMethod(callingMethod);
-					//Load proof from repository
+					ProofGraphCollection collection = ProofGraphCollection
+							.loadFromJson(project.getRawLocation() + "/graph.json");
+					Console.println(
+							String.format("Successfully loaded proof graph for %s:%s", callingFeature, callingMethod),
+							Colors.GREEN);
 
+					ProofGraph graph = collection.getGraphForMethod(callingMethod);
+					// Load proof from repository
 
 					List<List<String>> paths = new ArrayList<>();
 					List<List<String>> forks = new ArrayList<>();
 					List<String> localPathList = new ArrayList<>();
-					ProofNode node = new ProofNode(callingFeature,callingMethod, graph.getIdForFeature(callingFeature));
+					ProofNode node = new ProofNode(callingFeature, callingMethod,
+							graph.getIdForFeature(callingFeature));
 					localPathList.add(node.getFeature());
 					verifyGraphStatement.findPaths(graph, node, paths, localPathList);
 					localPathList.clear();
@@ -122,14 +128,14 @@ long startTime = System.nanoTime();
 						String[] featureConfig = VerifyFeatures.findValidProduct(path, project);
 						toProve.add(new ArrayList<>(Arrays.asList(featureConfig)));
 					}
-					
+
 					Console.println("Minimal amount of produts for valid proof: ");
 					toProve.forEach(l -> {
 						Console.println("\t -" + Arrays.toString(l.toArray()));
 					});
-					
+
 					Set<String[]> toProveConverted = verifyGraphStatement.convertArrays(toProve);
-					
+
 					boolean proven = true;
 					for (String[] featureConfig : toProveConverted) {
 						List<String> forkToUse = new ArrayList<>();
@@ -141,33 +147,36 @@ long startTime = System.nanoTime();
 									legalFork = false;
 								}
 							}
-							
+
 							if (legalFork && bestForkLength < fork.size()) {
 								bestForkLength = fork.size();
 								forkToUse = fork;
 							}
 						}
-						
+
 						List<UUID> uuids = forkToUse.stream().map(f -> graph.getIdForFeature(f)).toList();
-						
+
 						FileNameManager manager = new FileNameManager();
 						String name = manager.getFileName(null, location, statement, "") + ".proof";
 						proofRepo.getPartialProofForId(forkToUse, uuids, location, name);
 
-						GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
+						GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(
+								super.getFeatureProvider());
 						genCode.setProofTypeInfo(0, KeYInteraction.ABSTRACT_PROOF_COMPLETE);
-						genCode.generate(project.getLocation(), 
-								callingFeature, 
-								callingClass, 
-								callingMethod, 
+						genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod,
 								featureConfig);
 
 						String[][] variantWrapper = {featureConfig};
-						String variant = verifyStatement.generateVariantsStringFromFeatureConfigs(variantWrapper, callingFeature, callingClass)[0];
-						List<CbCFormula> refinements = verifyStatement.generateCbCFormulasForRefinements(variant, callingMethod);
-						List<JavaVariables> refinementVars = verifyStatement.generateJavaVariablesForRefinements(variant, callingMethod);
-						ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, fileHandler, featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_COMPLETE);
-						if(!prove.proveStatementWithKey(null, refinements, refinementVars, false, false, callingMethod, "", callingClass, true)) {
+						String variant = verifyStatement.generateVariantsStringFromFeatureConfigs(variantWrapper,
+								callingFeature, callingClass)[0];
+						List<CbCFormula> refinements = verifyStatement.generateCbCFormulasForRefinements(variant,
+								callingMethod);
+						List<JavaVariables> refinementVars = verifyStatement
+								.generateJavaVariablesForRefinements(variant, callingMethod);
+						ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, fileHandler,
+								featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_COMPLETE);
+						if (!prove.proveStatementWithKey(null, refinements, refinementVars, false, false, callingMethod,
+								"", callingClass, true)) {
 							proven = false;
 						}
 					}
@@ -176,14 +185,14 @@ long startTime = System.nanoTime();
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
-				
+
 			}
 		}
-		
+
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1_000_000;
-		RunEvaluationForStatementPP.WHOLE_RUNTIME_COMPLETE.add(duration + ""); //PG DEBUG
-		Console.println("\nVerification done."); 
+		RunEvaluationForStatementPP.WHOLE_RUNTIME_COMPLETE.add(duration + ""); // PG DEBUG
+		Console.println("\nVerification done.");
 		Console.println("Time needed: " + duration + "ms");
 	}
 }

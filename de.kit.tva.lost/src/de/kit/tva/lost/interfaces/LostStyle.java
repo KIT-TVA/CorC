@@ -9,15 +9,15 @@ import org.eclipse.swt.graphics.Color;
  * status, test status, ...
  */
 public interface LostStyle {
-    Color getInitializerColor();
+	Color getInitializerColor();
 
-    Color getRefinementColor();
+	Color getRefinementColor();
 
-    Color getIndicatorColor();
+	Color getIndicatorColor();
 
-    Color getTagColor();
+	Color getTagColor();
 
-    Color getCodeColor();
+	Color getCodeColor();
 
-    Color getBackgroundColor();
+	Color getBackgroundColor();
 }

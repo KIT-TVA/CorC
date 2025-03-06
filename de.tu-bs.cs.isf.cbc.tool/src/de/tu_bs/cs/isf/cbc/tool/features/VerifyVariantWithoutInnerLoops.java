@@ -48,7 +48,8 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 	/**
 	 * Constructor of the class
 	 * 
-	 * @param fp The FeatureProvider
+	 * @param fp
+	 *            The FeatureProvider
 	 */
 	public VerifyVariantWithoutInnerLoops(IFeatureProvider fp) {
 		super(fp);
@@ -115,8 +116,8 @@ public class VerifyVariantWithoutInnerLoops extends MyAbstractAsynchronousCustom
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
-				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), new ArrayList<>(),
-						0, proofType);
+				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString),
+						new ArrayList<>(), 0, proofType);
 				if (isVariational) {
 					Console.println("Starting variational verification...\n");
 					String callingClass = FeatureUtil.getInstance().getCallingClass(uri);

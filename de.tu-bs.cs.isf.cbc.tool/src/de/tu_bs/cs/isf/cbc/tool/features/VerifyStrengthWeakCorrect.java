@@ -14,12 +14,8 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
-import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 import de.tu_bs.cs.isf.cbc.util.Console;
-import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.GenerateCodeForVariationalVerification;
@@ -47,7 +43,8 @@ public class VerifyStrengthWeakCorrect extends MyAbstractAsynchronousCustomFeatu
 	/**
 	 * Constructor of the class
 	 * 
-	 * @param fp The FeatureProvider
+	 * @param fp
+	 *            The FeatureProvider
 	 */
 	public VerifyStrengthWeakCorrect(IFeatureProvider fp) {
 		super(fp);

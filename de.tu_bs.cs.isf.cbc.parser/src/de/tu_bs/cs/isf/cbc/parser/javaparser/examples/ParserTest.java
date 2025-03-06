@@ -11,19 +11,19 @@ import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 public class ParserTest extends AbstractJavaParserExample {
-	
+
 	public static void main(String[] args) throws Exception {
 		CompilationUnit compilationUnit = StaticJavaParser.parse(new File(FILE_PATH));
 
 		VoidVisitor<?> methodNameVisitor = new MethodNamePrinter();
-		methodNameVisitor.visit(compilationUnit,  null);
-		
+		methodNameVisitor.visit(compilationUnit, null);
+
 		List<String> methodNames = new ArrayList<>();
 		VoidVisitor<List<String>> methodNameCollector = new MethodNameCollector();
-		methodNameCollector.visit(compilationUnit,  methodNames);
+		methodNameCollector.visit(compilationUnit, methodNames);
 		methodNames.forEach(n -> System.out.println("Method Name Collected: " + n));
 	}
-	
+
 	private static class MethodNamePrinter extends VoidVisitorAdapter<Void> {
 
 		@Override
@@ -32,9 +32,9 @@ public class ParserTest extends AbstractJavaParserExample {
 			System.out.println("Method Name Printed: " + md.getName());
 		}
 	}
-	
+
 	private static class MethodNameCollector extends VoidVisitorAdapter<List<String>> {
-		
+
 		@Override
 		public void visit(MethodDeclaration md, List<String> collector) {
 			super.visit(md, collector);

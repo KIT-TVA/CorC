@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.basic;
 
 import openjava.mop.FileEnvironment;
@@ -24,50 +24,48 @@ import openjava.ptree.Expression;
 import openjava.ptree.ParseTreeException;
 
 /**
- * <p> </p>
+ * <p>
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class Arithmetic_OP extends MethodLevelMutator
-{
-   public Arithmetic_OP(FileEnvironment file_env, CompilationUnit comp_unit)
-   {
-      super( file_env, comp_unit );
-   }
+public class Arithmetic_OP extends MethodLevelMutator {
+	public Arithmetic_OP(FileEnvironment file_env, CompilationUnit comp_unit) {
+		super(file_env, comp_unit);
+	}
 
-   /**
-    * Determine whether a given expression is of arithmetic type
-    * @param p
-    * @return
-    * @throws ParseTreeException
-    */
-   public boolean isArithmeticType(Expression p) throws ParseTreeException
-   {
-      OJClass type = getType(p);
-      if ( type == OJSystem.INT || type == OJSystem.DOUBLE || type == OJSystem.FLOAT
-         || type == OJSystem.LONG || type == OJSystem.SHORT 
-         || type == OJSystem.CHAR || type == OJSystem.BYTE )
-      {
-         return true;
-      }
-      return false;
-   }
+	/**
+	 * Determine whether a given expression is of arithmetic type
+	 * 
+	 * @param p
+	 * @return
+	 * @throws ParseTreeException
+	 */
+	public boolean isArithmeticType(Expression p) throws ParseTreeException {
+		OJClass type = getType(p);
+		if (type == OJSystem.INT || type == OJSystem.DOUBLE || type == OJSystem.FLOAT || type == OJSystem.LONG
+				|| type == OJSystem.SHORT || type == OJSystem.CHAR || type == OJSystem.BYTE) {
+			return true;
+		}
+		return false;
+	}
 
-   /**
-    * Determine whether a given expression has a binary arithmetic operator
-    * @param p
-    * @return
-    * @throws ParseTreeException
-    */
-   public boolean hasBinaryArithmeticOp( BinaryExpression p ) throws ParseTreeException 
-   {
-      int op_type = p.getOperator();
-      if (  (op_type == BinaryExpression.TIMES) || (op_type == BinaryExpression.DIVIDE)
-          || (op_type == BinaryExpression.MOD) || (op_type == BinaryExpression.PLUS)
-          || (op_type == BinaryExpression.MINUS)) 
-    	 return true;
-      else 
-    	 return false;
-   }
+	/**
+	 * Determine whether a given expression has a binary arithmetic operator
+	 * 
+	 * @param p
+	 * @return
+	 * @throws ParseTreeException
+	 */
+	public boolean hasBinaryArithmeticOp(BinaryExpression p) throws ParseTreeException {
+		int op_type = p.getOperator();
+		if ((op_type == BinaryExpression.TIMES) || (op_type == BinaryExpression.DIVIDE)
+				|| (op_type == BinaryExpression.MOD) || (op_type == BinaryExpression.PLUS)
+				|| (op_type == BinaryExpression.MINUS))
+			return true;
+		else
+			return false;
+	}
 }

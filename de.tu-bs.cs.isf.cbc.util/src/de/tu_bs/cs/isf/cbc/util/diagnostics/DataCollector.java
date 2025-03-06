@@ -1,55 +1,51 @@
 package de.tu_bs.cs.isf.cbc.util.diagnostics;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 
 import de.tu_bs.cs.isf.cbc.exceptions.DiagnosticsException;
-import de.tu_bs.cs.isf.cbc.exceptions.ExceptionMessages;
 import de.tu_bs.cs.isf.cbc.util.FileHandler;
 
 public class DataCollector {
 	public static final String EXPR_DELIM = "\n";
 	public static final String TEST_SYMBOL = "[TESTCASE]";
-	public static final String PATHS_SYMBOL  = "[PATHS]";
+	public static final String PATHS_SYMBOL = "[PATHS]";
 	public static final String DATA_DELIM = "#";
 	public static final int EXPR_SIZE = 3;
 	public static final String FOLDER_APPENDIX = "_diagnostics";
 	private final URI projectPath;
 	private final String folderName;
 	private DiagnosticsData data;
-	
 
 	public DataCollector(final URI projectPath, final String diagramName) {
 		this.projectPath = projectPath;
 		this.folderName = diagramName + "_diagnostics";
 		this.data = null;
 	}
-	
-	public DataCollector(final URI projectPath, final DataType type, final String diagramName) throws DiagnosticsException {
+
+	public DataCollector(final URI projectPath, final DataType type, final String diagramName)
+			throws DiagnosticsException {
 		this.projectPath = projectPath;
 		this.folderName = diagramName + "_diagnostics";
 		this.setType(type);
 	}
-	
+
 	public void finish() {
 		FileHandler.instance.saveDiagnosticData(projectPath, this);
 	}
-	
+
 	private void initData(DataType type) {
 		if (type == DataType.PATH) {
 			data = new TestStatementData(this.projectPath);
 		} else if (type == DataType.TESTCASE) {
 			data = new TestGeneratorData(this.projectPath);
 		} else {
-			//throw new DiagnosticsException(ExceptionMessages.UNKNOWN_DATA_TYPE);
+			// throw new DiagnosticsException(ExceptionMessages.UNKNOWN_DATA_TYPE);
 		}
 	}
-	
+
 	public boolean addData(final String pathName, final float executionTime) {
 		return addData("", pathName, executionTime);
 	}
@@ -64,12 +60,13 @@ public class DataCollector {
 			return addData(this.getType(), configName, pathName, executionTime);
 		}
 	}
-	
+
 	public boolean addData(final DataType type, final String pathName, final float executionTime) {
 		return addData(type, null, pathName, executionTime);
 	}
-	
-	public boolean addData(final DataType type, final String configName, final String pathName, final float executionTime) {
+
+	public boolean addData(final DataType type, final String configName, final String pathName,
+			final float executionTime) {
 		if (pathName == null) {
 			return false;
 		}
@@ -83,7 +80,7 @@ public class DataCollector {
 		}
 		return true;
 	}
-	
+
 	public Collection<String> getConfigNames() {
 		return this.data.getConfigNames();
 	}
@@ -97,21 +94,22 @@ public class DataCollector {
 			return DataType.NONE;
 		}
 	}
-	
+
 	public void setType(DataType type) throws DiagnosticsException {
 		if (data == null) {
 			initData(type);
 		}
 	}
-	
+
 	/**
-	 * Creates the string representation for the paths and their execution times. 
+	 * Creates the string representation for the paths and their execution times.
+	 * 
 	 * @return String representation of the execution times of paths
 	 */
 	public String getPathsRep() {
 		return getPathsRep(data.getData());
 	}
-	
+
 	private String getPathsRep(final List<TimedObject> timedObjects) {
 		if (timedObjects == null) {
 			return "";
@@ -127,7 +125,9 @@ public class DataCollector {
 	}
 
 	/**
-	 * Creates the string representation for the configuration and it's paths and their execution times. 
+	 * Creates the string representation for the configuration and it's paths and
+	 * their execution times.
+	 * 
 	 * @param config
 	 * @return
 	 */
@@ -137,7 +137,7 @@ public class DataCollector {
 		}
 		return getPathsRep(data.getConfigData(config));
 	}
-	
+
 	public String getTestCaseRep() {
 		String rep = TEST_SYMBOL + "\n";
 		int counter = 0;

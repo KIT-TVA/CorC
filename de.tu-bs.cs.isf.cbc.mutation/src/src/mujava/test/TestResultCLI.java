@@ -12,8 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
+ */
 
 package src.mujava.test;
 
@@ -50,28 +49,29 @@ public class TestResultCLI extends TestResult {
 	public String path = new String();
 
 	public void outputToFile(String method) throws IOException {
-		//displayResultConsole();
+		// displayResultConsole();
 
 		File f = new File(path);
 
 		if (runmutes.mode.equals("fresh")) // fresh mode, need to save with time
 											// stamp
 		{
-			if(!TestExecuterCLI.methodList.contains(method))
-				{System.out.println("ERROR");return;}
-			
+			if (!TestExecuterCLI.methodList.contains(method)) {
+				System.out.println("ERROR");
+				return;
+			}
+
 			TestExecuterCLI.methodList.remove(method);
-			
+
 			// merge results
 			Util.mutants.addAll(mutants);
 			Util.killed_mutants.addAll(killed_mutants);
 			Util.live_mutants.addAll(live_mutants);
 			Util.eq_mutants.addAll(eq_mutants);
-			
+
 			// if no methods left, save file
 			// else continue
-			if(TestExecuterCLI.methodList.size()==0)
-			{	
+			if (TestExecuterCLI.methodList.size() == 0) {
 				// get time
 				Calendar nowtime = new GregorianCalendar();
 
@@ -105,7 +105,7 @@ public class TestResultCLI extends TestResult {
 				fout.close();
 				displayResultConsole();
 				Util.setUpVectors(); // reset after finish
-				
+
 			}
 
 			return;
@@ -173,9 +173,8 @@ public class TestResultCLI extends TestResult {
 				TestResultCLI oldTestResult = new TestResultCLI();
 				oldTestResult.setPath(path);
 				oldTestResult.getResults();
-				for (Object liveMutant : live_mutants)
-				{
-					if(!oldTestResult.live_mutants.contains((String) liveMutant))
+				for (Object liveMutant : live_mutants) {
+					if (!oldTestResult.live_mutants.contains((String) liveMutant))
 						oldTestResult.live_mutants.add(liveMutant);
 				}
 				for (Object killedMutant : killed_mutants) // for each new
@@ -185,7 +184,7 @@ public class TestResultCLI extends TestResult {
 				{
 					if (oldTestResult.live_mutants.contains((String) killedMutant))
 						oldTestResult.live_mutants.remove(killedMutant);
-						
+
 					if (!oldTestResult.killed_mutants.contains((String) killedMutant))
 						oldTestResult.killed_mutants.add(killedMutant);
 				}
@@ -267,12 +266,11 @@ public class TestResultCLI extends TestResult {
 				oldTestResult.setPath(path);
 				oldTestResult.getResults();
 				//
-				for (Object liveMutant : live_mutants)
-				{
-					if(!oldTestResult.live_mutants.contains((String) liveMutant))
+				for (Object liveMutant : live_mutants) {
+					if (!oldTestResult.live_mutants.contains((String) liveMutant))
 						oldTestResult.live_mutants.add(liveMutant);
 				}
-				
+
 				for (Object killedMutant : killed_mutants) // for each new
 															// killed mutant,
 															// move it from live
@@ -280,11 +278,10 @@ public class TestResultCLI extends TestResult {
 				{
 					if (oldTestResult.live_mutants.contains((String) killedMutant))
 						oldTestResult.live_mutants.remove(killedMutant);
-						
+
 					if (!oldTestResult.killed_mutants.contains((String) killedMutant))
 						oldTestResult.killed_mutants.add(killedMutant);
 				}
-				
 
 				// if in eq mode, an eq mutant is killed, also need to move to
 				// killed mutant set
@@ -355,7 +352,7 @@ public class TestResultCLI extends TestResult {
 					+ oldTestResult.eq_mutants.size();
 			Util.Print("\nTotal mutants killed: " + oldTestResult.killed_mutants.size());
 			Util.Print("Total mutants: " + total);
-			double ms = (double)oldTestResult.killed_mutants.size() / (double)total;
+			double ms = (double) oldTestResult.killed_mutants.size() / (double) total;
 			DecimalFormat df = new DecimalFormat();
 			df.setMaximumFractionDigits(4);
 			Util.Print("Mutation Score: " + df.format(ms));
@@ -363,7 +360,7 @@ public class TestResultCLI extends TestResult {
 			int total = killed_mutants.size() + live_mutants.size() + eq_mutants.size();
 			Util.Print("\nTotal mutants killed: " + killed_mutants.size());
 			Util.Print("Total mutants: " + total);
-			double ms = (double)killed_mutants.size() / (double)total;
+			double ms = (double) killed_mutants.size() / (double) total;
 			DecimalFormat df = new DecimalFormat();
 			df.setMaximumFractionDigits(4);
 			Util.Print("Mutation Score: " + df.format(ms));

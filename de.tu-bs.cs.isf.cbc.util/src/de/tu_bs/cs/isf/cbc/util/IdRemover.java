@@ -16,7 +16,7 @@ public class IdRemover {
 		deleteIds(formula);
 		save();
 	}
-	
+
 	private void save() {
 		try {
 			formula.eResource().save(Collections.EMPTY_MAP);
@@ -24,12 +24,15 @@ public class IdRemover {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private boolean deleteIds(EObject root) {
 		for (int i = 0; i < root.eContents().size(); i++) {
 			EObject content = root.eContents().get(i);
 			if (content instanceof AbstractStatement) {
-				try { ((AbstractStatement) content).setId(null); } catch (IllegalStateException e) {}
+				try {
+					((AbstractStatement) content).setId(null);
+				} catch (IllegalStateException e) {
+				}
 			}
 			if (content.eContents().size() > 0) {
 				if (deleteIds(content)) {

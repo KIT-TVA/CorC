@@ -24,17 +24,19 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 
 public class CbcModelUtil {
-	
-	public static void saveFormulaToModelFile(final CbCFormula formula, final Diagram d) throws CoreException, IOException {
+
+	public static void saveFormulaToModelFile(final CbCFormula formula, final Diagram d)
+			throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(formula);
 	}
-	
-	public static void saveVariablesToModelFile(final JavaVariables variables, final Diagram d) throws CoreException, IOException {
+
+	public static void saveVariablesToModelFile(final JavaVariables variables, final Diagram d)
+			throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(variables);
 	}
-	
+
 	public static CbCFormula readFormula(URI uri) {
 		CbcmodelPackage.eINSTANCE.eClass();
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
@@ -42,7 +44,7 @@ public class CbcModelUtil {
 		m.put("cbcmodel", new XMIResourceFactoryImpl());
 		ResourceSet rs = new ResourceSetImpl();
 		Resource r = rs.getResource(uri, true);
-		for (EObject obj :  r.getContents()) {
+		for (EObject obj : r.getContents()) {
 			if (obj instanceof CbCFormula) {
 				CbCFormula formula = (CbCFormula) obj;
 				return formula;
@@ -50,7 +52,7 @@ public class CbcModelUtil {
 		}
 		return null;
 	}
-	
+
 	public static ModelClass readModelClass(URI uri) {
 		CbcmodelPackage.eINSTANCE.eClass();
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
@@ -58,7 +60,7 @@ public class CbcModelUtil {
 		m.put("cbcclass", new XMIResourceFactoryImpl());
 		ResourceSet rs = new ResourceSetImpl();
 		Resource r = rs.getResource(uri, true);
-		for (EObject obj :  r.getContents()) {
+		for (EObject obj : r.getContents()) {
 			if (obj instanceof ModelClass) {
 				ModelClass modelclass = (ModelClass) obj;
 				return modelclass;
@@ -67,16 +69,17 @@ public class CbcModelUtil {
 		return null;
 	}
 
-	public static void saveGlobalConditionsToModelFile(GlobalConditions conditions, Diagram d) throws CoreException, IOException {
+	public static void saveGlobalConditionsToModelFile(GlobalConditions conditions, Diagram d)
+			throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(conditions);
 	}
-	
+
 	public static void saveRenamingToModelFile(Renaming renaming, Diagram d) throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(renaming);
 	}
-	
+
 	public static Resource getResource(Diagram d) throws CoreException, IOException {
 		URI uri = d.eResource().getURI();
 		uri = uri.trimFragment();
@@ -100,9 +103,9 @@ public class CbcModelUtil {
 		m.put("cbcmodel", new XMIResourceFactoryImpl());
 		ResourceSet rs = new ResourceSetImpl();
 		Resource r = rs.getResource(uri, true);
-		for (EObject obj :  r.getContents()) {
+		for (EObject obj : r.getContents()) {
 			if (obj instanceof JavaVariables) {
-				return (JavaVariables)obj;
+				return (JavaVariables) obj;
 			}
 		}
 		return null;
@@ -115,9 +118,9 @@ public class CbcModelUtil {
 		m.put("cbcmodel", new XMIResourceFactoryImpl());
 		ResourceSet rs = new ResourceSetImpl();
 		Resource r = rs.getResource(uri, true);
-		for (EObject obj :  r.getContents()) {
+		for (EObject obj : r.getContents()) {
 			if (obj instanceof GlobalConditions) {
-				return (GlobalConditions)obj;
+				return (GlobalConditions) obj;
 			}
 		}
 		return null;

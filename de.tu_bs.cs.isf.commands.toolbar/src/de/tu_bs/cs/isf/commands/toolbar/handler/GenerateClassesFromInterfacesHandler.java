@@ -28,7 +28,7 @@ public class GenerateClassesFromInterfacesHandler extends AbstractHandler {
 			} else if (strucSelection.getFirstElement() instanceof IFile) {
 				IFile file = (IFile) strucSelection.getFirstElement();
 				gen.execute(file);
-			}		
+			}
 		}
 		return null;
 	}

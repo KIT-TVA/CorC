@@ -9,14 +9,16 @@ import org.eclipse.emf.common.util.URI;
 import de.tu_bs.cs.isf.cbc.util.FileHandler;
 
 /**
- * Generates all needed data regarding test cases generated through the test generator.
+ * Generates all needed data regarding test cases generated through the test
+ * generator.
+ * 
  * @author Fynn
  */
 public class TestGeneratorData implements DiagnosticsData {
 	private final LinkedHashMap<String, List<TimedObject>> configTestCases;
 	private final List<TimedObject> testCases;
 	private final URI diagramUri;
-	
+
 	public TestGeneratorData(final URI diagramUri) {
 		this.configTestCases = new LinkedHashMap<String, List<TimedObject>>();
 		this.testCases = new ArrayList<TimedObject>();
@@ -25,7 +27,7 @@ public class TestGeneratorData implements DiagnosticsData {
 
 	@Override
 	public boolean isSplData() {
-		return FileHandler.instance.isSPL(diagramUri); 
+		return FileHandler.instance.isSPL(diagramUri);
 	}
 
 	@Override

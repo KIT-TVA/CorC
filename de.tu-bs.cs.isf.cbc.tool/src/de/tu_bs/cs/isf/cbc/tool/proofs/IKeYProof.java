@@ -14,7 +14,6 @@ import de.tu_bs.cs.isf.cbc.util.FeatureUtil;
 
 public class IKeYProof {
 
-
 	private String callingFeature;
 	private String callingMethod;
 	private String callingClass;
@@ -25,8 +24,7 @@ public class IKeYProof {
 	private AbstractStatement statement;
 	private IFeatureProvider featureProvider;
 	private IProgressMonitor progressMonitor;
-	
-	
+
 	public boolean isReturnStatement() {
 		return isReturnStatement;
 	}
@@ -74,15 +72,15 @@ public class IKeYProof {
 	public void setCallingFeature(String callingFeature) {
 		this.callingFeature = callingFeature;
 	}
-	
+
 	public void setCallingClass(String callingClass) {
 		this.callingClass = callingClass;
 	}
-	
+
 	public void setCallingMethod(String callingMethod) {
 		this.callingMethod = callingMethod;
 	}
-	
+
 	public void setDiagram(Diagram diagram) {
 		this.diagram = diagram;
 		URI uri = this.getDiagram().eResource().getURI();
@@ -90,19 +88,19 @@ public class IKeYProof {
 		this.callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 		this.callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 	}
-	
+
 	public void setJavaVariables(List<JavaVariables> javaVariables) {
 		this.javaVariables = javaVariables;
 	}
-	
+
 	public void setCbCFormulas(List<CbCFormula> cbcFormulas) {
 		this.cbcFormulas = cbcFormulas;
 	}
-	
+
 	public void setStatement(AbstractStatement statement) {
 		this.statement = statement;
 	}
-	
+
 	public void setFeatureProvider(IFeatureProvider featureProvider) {
 		this.featureProvider = featureProvider;
 	}
@@ -110,5 +108,5 @@ public class IKeYProof {
 	public void setProgressMonitor(IProgressMonitor progressMonitor) {
 		this.progressMonitor = progressMonitor;
 	}
-	
+
 }

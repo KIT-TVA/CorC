@@ -1,7 +1,7 @@
 package de.kit.tva.lost.interfaces;
 
 public interface TestListener extends Listener {
-    void testsDone();
+	void testsDone();
 
-    void testDone(Result testee);
+	void testDone(Result testee);
 }

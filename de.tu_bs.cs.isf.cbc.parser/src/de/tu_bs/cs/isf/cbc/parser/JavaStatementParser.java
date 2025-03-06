@@ -43,11 +43,9 @@ import de.tu_bs.cs.isf.lattice.Lattices;
 
 public class JavaStatementParser extends AbstractIFbCParser {
 
-	public static List<IFbCStatement> parseJavaStatement(final String projectName,
-	                                                     final String statement,
-	                                                     final Map<String, IFbCReferenceEntity> diagramVariables, 
-	                                                     final Map<String, String> changedTypes,
-	                                                     final Method constructingMethod) {
+	public static List<IFbCStatement> parseJavaStatement(final String projectName, final String statement,
+			final Map<String, IFbCReferenceEntity> diagramVariables, final Map<String, String> changedTypes,
+			final Method constructingMethod) {
 		final List<IFbCStatement> statemements = new ArrayList<>();
 		final CompilationUnit cu = StaticJavaParser.parse("class TestClass { void testMethod() { " + statement + "} }");
 		DotPrinter printer = new DotPrinter(true);
@@ -84,7 +82,8 @@ public class JavaStatementParser extends AbstractIFbCParser {
 						final Expression expr = exprStmt.getExpression();
 
 						try {
-							final IFbCStatement statement = checkExpression(expr, projectName, diagramVariables, changedTypes, constructingMethod);
+							final IFbCStatement statement = checkExpression(expr, projectName, diagramVariables,
+									changedTypes, constructingMethod);
 							statements.add(statement);
 						} catch (IFbCException e) {
 							System.out.println("Error parsing expression " + expr + ": " + e.getMessage());
@@ -95,9 +94,10 @@ public class JavaStatementParser extends AbstractIFbCParser {
 						final Optional<Expression> optionalExpression = returnStmt.getExpression();
 						if (optionalExpression.isPresent()) {
 							final Expression expr = optionalExpression.get();
-							
+
 							try {
-								final IFbCStatement statement = checkExpression(expr, projectName, diagramVariables, changedTypes, constructingMethod);
+								final IFbCStatement statement = checkExpression(expr, projectName, diagramVariables,
+										changedTypes, constructingMethod);
 								if (statement != null) {
 									final IFbCReturn ifbcReturn = new IFbCReturn(statement.getStatement(), statement);
 									statements.add(ifbcReturn);
@@ -119,11 +119,9 @@ public class JavaStatementParser extends AbstractIFbCParser {
 		return statemements;
 	}
 
-	private static IFbCStatement checkExpression(final Expression expr,
-	                                             final String projectName,
-	                                             final Map<String, IFbCReferenceEntity> diagramVariables,
-	                                             final Map<String, String> changedTypes,
-	                                             final Method constructingMethod) throws IFbCException {
+	private static IFbCStatement checkExpression(final Expression expr, final String projectName,
+			final Map<String, IFbCReferenceEntity> diagramVariables, final Map<String, String> changedTypes,
+			final Method constructingMethod) throws IFbCException {
 		final Lattice lattice = Lattices.getLatticeForProject(projectName);
 		final Map<String, JavaClass> javaClassesForProject = JavaClasses.getJavaClassesForProject(projectName);
 		if (javaClassesForProject == null) {
@@ -145,7 +143,7 @@ public class JavaStatementParser extends AbstractIFbCParser {
 			IFbCReferenceEntity valueEntity = null;
 
 			/**
-			 *  ANALYZE TARGET OF ASSIGNMENT   
+			 * ANALYZE TARGET OF ASSIGNMENT
 			 */
 
 			// Target is (possibly nested) field access expression
@@ -161,32 +159,38 @@ public class JavaStatementParser extends AbstractIFbCParser {
 			}
 
 			/**
-			 *  ANALYZE VALUE OF ASSIGNMENT   
+			 * ANALYZE VALUE OF ASSIGNMENT
 			 */
-			
+
 			if (value.isNameExpr()) {
 				// Value is just a name reference
 				valueEntity = diagramVariables.get(value.toString());
 			} else if (value.isMethodCallExpr()) {
 				// Value is a method call
 				final MethodCallExpr methodCallExpr = value.asMethodCallExpr();
-				valueEntity = parseMethodCallExpr(diagramVariables, changedTypes, javaClassesForProject, methodCallExpr, projectName, constructingMethod);
+				valueEntity = parseMethodCallExpr(diagramVariables, changedTypes, javaClassesForProject, methodCallExpr,
+						projectName, constructingMethod);
 			} else if (value.isFieldAccessExpr()) {
 				// Assignment value is field access
 				final FieldAccessExpr fieldAccessExpr = value.asFieldAccessExpr();
-				valueEntity = JavaStatementParser.parseFieldAccessEntity(fieldAccessExpr, diagramVariables, javaClassesForProject);
+				valueEntity = JavaStatementParser.parseFieldAccessEntity(fieldAccessExpr, diagramVariables,
+						javaClassesForProject);
 			} else if (value.isObjectCreationExpr()) {
 				final ObjectCreationExpr objectCreationExpr = value.asObjectCreationExpr();
-				valueEntity = JavaStatementParser.parseNewEntity(objectCreationExpr, diagramVariables, javaClassesForProject, lattice);
+				valueEntity = JavaStatementParser.parseNewEntity(objectCreationExpr, diagramVariables,
+						javaClassesForProject, lattice);
 			} else if (value.isBooleanLiteralExpr()) {
-				valueEntity = new IFbCReferenceEntity("false", lattice.getBottom().getName(), MDF.IMMUTABLE, "BooleanLiteral", true);
+				valueEntity = new IFbCReferenceEntity("false", lattice.getBottom().getName(), MDF.IMMUTABLE,
+						"BooleanLiteral", true);
 			} else if (value.isBinaryExpr()) {
 				BinaryExpr binaryExpr = value.asBinaryExpr();
-				IFbCBinaryExpression binaryExprEntity = parseBinaryExpression(binaryExpr, lattice, projectName, diagramVariables, changedTypes, constructingMethod);
+				IFbCBinaryExpression binaryExprEntity = parseBinaryExpression(binaryExpr, lattice, projectName,
+						diagramVariables, changedTypes, constructingMethod);
 				valueEntity = binaryExprEntity;
 			} else if (value.isIntegerLiteralExpr()) {
 				IntegerLiteralExpr integerExp = value.asIntegerLiteralExpr();
-				valueEntity = new IFbCReferenceEntity(integerExp.getValue(), lattice.getBottom().getName(), MDF.IMMUTABLE, "int", false);
+				valueEntity = new IFbCReferenceEntity(integerExp.getValue(), lattice.getBottom().getName(),
+						MDF.IMMUTABLE, "int", false);
 			} else {
 				throw new IFbCException("Expression not yet supported as value: " + value.toString());
 			}
@@ -197,32 +201,37 @@ public class JavaStatementParser extends AbstractIFbCParser {
 
 			return new IFbCAssignment(targetEntity, valueEntity, expr.toString());
 		} else if (expr.isMethodCallExpr()) {
-			
+
 			final MethodCallExpr methodCallExpr = expr.asMethodCallExpr();
-			final IFbCReferenceEntity methodCall = parseMethodCallExpr(diagramVariables, changedTypes, javaClassesForProject, methodCallExpr, projectName, constructingMethod);
+			final IFbCReferenceEntity methodCall = parseMethodCallExpr(diagramVariables, changedTypes,
+					javaClassesForProject, methodCallExpr, projectName, constructingMethod);
 			if (methodCall instanceof IFbCDeclassifyEntity) {
 				System.out.println("Method call outside of assignment should not be declassify(), ignoring this call.");
 				return null;
 			}
 			return new IFbCMethod(methodCall.getName(), (IFbCMethodEntity) methodCall);
-		} else if (expr.isNameExpr()) {		
+		} else if (expr.isNameExpr()) {
 			// Expression could be a simple name expression as part of a return statement
 			final IFbCReferenceEntity entity = diagramVariables.get(expr.toString());
-			return new IFbCReference(entity);		
+			return new IFbCReference(entity);
 		} else if (expr.isBooleanLiteralExpr()) {
 			// Expression could be a boolean literal as part of a return statement
 			final BooleanLiteralExpr booleanLiteralExpr = expr.asBooleanLiteralExpr();
-			final IFbCReferenceEntity entity = new IFbCReferenceEntity("return " + booleanLiteralExpr.toString(), lattice.getBottom().getName(), MDF.IMMUTABLE, "Boolean");
+			final IFbCReferenceEntity entity = new IFbCReferenceEntity("return " + booleanLiteralExpr.toString(),
+					lattice.getBottom().getName(), MDF.IMMUTABLE, "Boolean");
 			return new IFbCReference(entity);
 		} else if (expr.isBinaryExpr()) {
 			final BinaryExpr binaryExpr = expr.asBinaryExpr();
-			final String binaryExprSL = analyzeSLForBinaryExpression(binaryExpr, lattice, projectName, diagramVariables, changedTypes, constructingMethod);
-			final IFbCBinaryExpression binaryExprEntity = new IFbCBinaryExpression("return " + binaryExpr.toString(), binaryExprSL, MDF.IMMUTABLE, "BinaryExpression");
+			final String binaryExprSL = analyzeSLForBinaryExpression(binaryExpr, lattice, projectName, diagramVariables,
+					changedTypes, constructingMethod);
+			final IFbCBinaryExpression binaryExprEntity = new IFbCBinaryExpression("return " + binaryExpr.toString(),
+					binaryExprSL, MDF.IMMUTABLE, "BinaryExpression");
 			return new IFbCReference(binaryExprEntity);
 		} else if (expr.isNullLiteralExpr()) {
-			final IFbCReferenceEntity entity = new IFbCReferenceEntity("return " + null, lattice.getBottom().getName(), MDF.CAPSULE, "null");
+			final IFbCReferenceEntity entity = new IFbCReferenceEntity("return " + null, lattice.getBottom().getName(),
+					MDF.CAPSULE, "null");
 			return new IFbCReference(entity);
-		}	else {
+		} else {
 			System.out.println("Support for expression " + expr.toString() + " is not implemented.");
 		}
 
@@ -230,5 +239,4 @@ public class JavaStatementParser extends AbstractIFbCParser {
 		return null;
 	}
 
-	
 }

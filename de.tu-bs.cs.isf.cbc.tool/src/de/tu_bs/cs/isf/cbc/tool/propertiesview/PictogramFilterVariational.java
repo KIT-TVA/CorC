@@ -14,7 +14,7 @@ public class PictogramFilterVariational extends AbstractPropertySectionFilter {
 			// check if current project is variational project
 			IProject project = FileUtil.getProjectFromFileInProject(pictogramElement.eResource().getURI());
 			try {
-				if(project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
+				if (project.getNature("de.ovgu.featureide.core.featureProjectNature") != null) {
 					return true;
 				}
 			} catch (CoreException e) {

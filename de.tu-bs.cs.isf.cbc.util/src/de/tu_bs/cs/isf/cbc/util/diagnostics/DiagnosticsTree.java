@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Transforms diagnostics data into a tree view.
+ * 
  * @author Fynn
  *
  */
@@ -14,7 +15,7 @@ public class DiagnosticsTree {
 		this.data = data;
 		createTree();
 	}
-	
+
 	private void createTree() {
 		if (!data.isSplData()) {
 			if (data instanceof TestStatementData) {

@@ -21,9 +21,9 @@ import de.tu_bs.cs.isf.cbc.util.statistics.RHelper;
 public class HtmlHandler {
 
 	// String with placeholder
-//	private String beforeEntrys = "";
-//	private String betweenEntrysAndDiagrams = ""; 
-//	private String afterDiagrams = ""; 
+	// private String beforeEntrys = "";
+	// private String betweenEntrysAndDiagrams = "";
+	// private String afterDiagrams = "";
 	private int numberOfDiagrams;
 	private List<StatisticsEntry> entries = new ArrayList<StatisticsEntry>();
 	private HashMap<StatisticsEntry, String> configEntries = new HashMap<StatisticsEntry, String>();
@@ -47,15 +47,16 @@ public class HtmlHandler {
 		this.selectedDiagramFiles = selectedDiagramFiles;
 
 	}
-	
-	public void setDataSPL(int numberOfDiagrams, final HashMap<StatisticsEntry, String> configEntries, final List<String> configs, final List<IFile> selectedDiagramFiles, final Features features) {
+
+	public void setDataSPL(int numberOfDiagrams, final HashMap<StatisticsEntry, String> configEntries,
+			final List<String> configs, final List<IFile> selectedDiagramFiles, final Features features) {
 		this.numberOfDiagrams = numberOfDiagrams;
 		this.configEntries = configEntries;
 		this.configs = configs;
 		this.selectedDiagramFiles = selectedDiagramFiles;
 		this.features = features;
 	}
-	
+
 	private String generateDiagrams(final List<StatisticsEntry> entries, boolean isSpl) {
 		String diagStr = "";
 		if (entries == null || entries.isEmpty()) {
@@ -69,7 +70,7 @@ public class HtmlHandler {
 		} else {
 			helper = new RHelper();
 		}
-		
+
 		for (int i = 0; i < 2; i++) {
 			String pathToPNG;
 			String pathToPDF;
@@ -81,15 +82,16 @@ public class HtmlHandler {
 				pathToPDF = helper.generatePDF("statistics" + i + "-pdf", entries, DiagramType.PROOF_STEPS);
 			}
 
-			if(pathToPDF != null) {
-				//diagStr += "<a class=\"text\" href=\" "+ pathToPDF + "\">Open as PDF</a>\r\n<br>\r\n";
+			if (pathToPDF != null) {
+				// diagStr += "<a class=\"text\" href=\" "+ pathToPDF + "\">Open as
+				// PDF</a>\r\n<br>\r\n";
 			}
-			
-			if(pathToPNG != null) {
+
+			if (pathToPNG != null) {
 				diagStr += "<img class=\"\" src=\"" + pathToPNG + "\">\r\n";
-			}
-			else {
-				URL errorImageURI = Platform.getBundle("de.tu_bs.cs.isf.cbc.statistics.ui").getEntry("icons/how-to-environment-R.png");
+			} else {
+				URL errorImageURI = Platform.getBundle("de.tu_bs.cs.isf.cbc.statistics.ui")
+						.getEntry("icons/how-to-environment-R.png");
 				try {
 					pathToPNG = new File(FileLocator.resolve(errorImageURI).toURI()).getAbsolutePath();
 				} catch (URISyntaxException | IOException e1) {
@@ -124,12 +126,14 @@ public class HtmlHandler {
 			}
 			if (numberOfDiagrams == 1) {
 				entriesPerDiagram = entries;
-				placeholderPlainStatistics = placeholderPlainStatistics + "<h3 class\"text\">Diagram: " + diagramName + "</h3>";
+				placeholderPlainStatistics = placeholderPlainStatistics + "<h3 class\"text\">Diagram: " + diagramName
+						+ "</h3>";
 				createPlaceholderPlainStringForOneDiagram(diagramName, entriesPerDiagram);
 				placeholderGeneratedDiagram = "<div class=\"text block\">\r\n"
-						+ "                <p>No diagrams generated. For diagram generation, please select more than one CorC diagram</p>\r\n" + "            </div>";
+						+ "                <p>No diagrams generated. For diagram generation, please select more than one CorC diagram</p>\r\n"
+						+ "            </div>";
 			} else if (numberOfDiagrams > 1) {
-				
+
 				for (IFile file : selectedDiagramFiles) {
 					diagramName = file.getName().substring(0, file.getName().indexOf(".diagram"));
 					for (StatisticsEntry entry : entries) {
@@ -137,7 +141,8 @@ public class HtmlHandler {
 							entriesPerDiagram.add(entry);
 						}
 					}
-					placeholderPlainStatistics = placeholderPlainStatistics + "<h3 class\"text\">Diagram: " + diagramName + "</h3>";
+					placeholderPlainStatistics = placeholderPlainStatistics + "<h3 class\"text\">Diagram: "
+							+ diagramName + "</h3>";
 					createPlaceholderPlainStringForOneDiagram(diagramName, entriesPerDiagram);
 					entriesPerDiagram = new LinkedList<StatisticsEntry>();
 				}
@@ -148,8 +153,8 @@ public class HtmlHandler {
 				placeholderGeneratedDiagram += generateDiagrams(entries, true);
 			}
 		}
-	
-//		TODO: abfangen keine entries
+
+		// TODO: abfangen keine entries
 
 		String htmlStyleTag = "<style>\r\n" + "        body{\r\n" + "            margin: 0;\r\n"
 				+ "            padding: 0;\r\n" + "        }\r\n" + "        .container{\r\n" + "        }\r\n"
@@ -169,29 +174,31 @@ public class HtmlHandler {
 				+ "</p>\r\n" + "            </div>\r\n" + "        </div>\r\n"
 				+ "        <hr class=\"horizontal-line\">\r\n" + "        <div class=\"inner-box\">\r\n"
 				+ "            <h1 class=\"text\" style=\"color:DarkGreen\">Generated Diagram</h1>\r\n"
-//				+ "            <img class=\"\" src=\"file:///D:/Uni/Bachelorarbeit/HTMLTemplateCode/test.png\">\r\n"
+				// + " <img class=\"\"
+				// src=\"file:///D:/Uni/Bachelorarbeit/HTMLTemplateCode/test.png\">\r\n"
 				+ placeholderGeneratedDiagram + "        </div>\r\n" + "    </div>\r\n" + "</body>\r\n" + "</html>";
 	}
-	
+
 	public String getHtmlString() {
 		String diagramName = "";
 		List<StatisticsEntry> entriesPerDiagram = new LinkedList<StatisticsEntry>();
 
 		if (entries == null || entries.isEmpty()) {
-			
-		}
-		else {
-			
+
+		} else {
+
 			if (numberOfDiagrams == 1) {
 				entriesPerDiagram = entries;
 				diagramName = entries.get(0).getMapping().getCorcDiagramName();
-				placeholderPlainStatistics = placeholderPlainStatistics + "<h3 class\"text\">Diagram: " + diagramName + "</h3>";
+				placeholderPlainStatistics = placeholderPlainStatistics + "<h3 class\"text\">Diagram: " + diagramName
+						+ "</h3>";
 				createPlaceholderPlainStringForOneDiagram(diagramName, entriesPerDiagram);
-				
+
 				placeholderGeneratedDiagram = "<div class=\"text block\">\r\n"
-						+ "                <p>No diagrams generated. For diagram generation, please select more than one CorC diagram</p>\r\n" + "            </div>";
+						+ "                <p>No diagrams generated. For diagram generation, please select more than one CorC diagram</p>\r\n"
+						+ "            </div>";
 			} else if (numberOfDiagrams > 1) {
-				
+
 				for (IFile file : selectedDiagramFiles) {
 					diagramName = file.getName().substring(0, file.getName().indexOf(".diagram"));
 					for (StatisticsEntry entry : entries) {
@@ -199,14 +206,15 @@ public class HtmlHandler {
 							entriesPerDiagram.add(entry);
 						}
 					}
-					placeholderPlainStatistics = placeholderPlainStatistics + "<h3 class\"text\">Diagram: " + diagramName + "</h3>";
+					placeholderPlainStatistics = placeholderPlainStatistics + "<h3 class\"text\">Diagram: "
+							+ diagramName + "</h3>";
 					createPlaceholderPlainStringForOneDiagram(diagramName, entriesPerDiagram);
 					entriesPerDiagram = new LinkedList<StatisticsEntry>();
 				}
 				placeholderGeneratedDiagram += generateDiagrams(entries, false);
 			}
 		}
-//		TODO: abfangen keine entries
+		// TODO: abfangen keine entries
 
 		String htmlStyleTag = "<style>\r\n" + "        body{\r\n" + "            margin: 0;\r\n"
 				+ "            padding: 0;\r\n" + "        }\r\n" + "        .container{\r\n" + "        }\r\n"
@@ -226,36 +234,40 @@ public class HtmlHandler {
 				+ "</p>\r\n" + "            </div>\r\n" + "        </div>\r\n"
 				+ "        <hr class=\"horizontal-line\">\r\n" + "        <div class=\"inner-box\">\r\n"
 				+ "            <h2 class=\"text\">Generated Diagram</h2>\r\n"
-//				+ "            <img class=\"\" src=\"file:///D:/Uni/Bachelorarbeit/HTMLTemplateCode/test.png\">\r\n"
+				// + " <img class=\"\"
+				// src=\"file:///D:/Uni/Bachelorarbeit/HTMLTemplateCode/test.png\">\r\n"
 				+ placeholderGeneratedDiagram + "        </div>\r\n" + "    </div>\r\n" + "</body>\r\n" + "</html>";
 	}
-	
+
 	private void createConfigName(String config) {
-		/*for (int i = 0; i < config.length()-1; i++) {
-			if (Character.isLowerCase(config.charAt(i)) && Character.isUpperCase(config.charAt(i+1))) {
-				config = config.substring(0, i+1) + ", " + config.substring(i+1, config.length());
-			}
-		}
-		config = "[" + config + "]"; */
-		placeholderPlainStatistics = placeholderPlainStatistics + "<h2 class\"text\" style=\"color:rgb(10,10,200);\">Configuration: " + config + "</h2>";
+		/*
+		 * for (int i = 0; i < config.length()-1; i++) { if
+		 * (Character.isLowerCase(config.charAt(i)) &&
+		 * Character.isUpperCase(config.charAt(i+1))) { config = config.substring(0,
+		 * i+1) + ", " + config.substring(i+1, config.length()); } } config = "[" +
+		 * config + "]";
+		 */
+		placeholderPlainStatistics = placeholderPlainStatistics
+				+ "<h2 class\"text\" style=\"color:rgb(10,10,200);\">Configuration: " + config + "</h2>";
 	}
 
 	private void createPlaceholderPlainStringForOneDiagram(String diagramName,
 			List<StatisticsEntry> entriesPerDiagram) {
 
-		//placeholderPlainStatistics = placeholderPlainStatistics + "<h3 class\"text\">Diagram: " + diagramName + "</h3>";
+		// placeholderPlainStatistics = placeholderPlainStatistics + "<h3
+		// class\"text\">Diagram: " + diagramName + "</h3>";
 
 		if (entriesPerDiagram.isEmpty()) {
 			placeholderPlainStatistics = placeholderPlainStatistics
 					+ "<p class= \"left-margin-class\">No data found. Please generate statistics by verifying statements.</p>";
 		} else {
 			float totalAutomodeTime = 0;
-			// TODO: sort entriesPerDiagram: alphabetic names 
+			// TODO: sort entriesPerDiagram: alphabetic names
 			for (StatisticsEntry entry : entriesPerDiagram) {
 
 				String KeYFile = entry.getMapping().getKeyFilePath();
 				KeYFile = KeYFile.substring(KeYFile.lastIndexOf(File.separator) + 1, KeYFile.length());
-				
+
 				placeholderPlainStatistics = placeholderPlainStatistics + "<div class=\"left-margin-class\">"
 						+ "<h4 class=\"text\">KeY file: " + KeYFile + "</h4>" + "<p class= \"left-margin-class\">"
 						+ "Automode Time: " + entry.getData().getAutoModeTimeInMillis() + "ms" + lineBreak
@@ -263,12 +275,12 @@ public class HtmlHandler {
 						+ "Number of Nodes: " + entry.getData().getNumberOfNodes() + lineBreak
 						+ "total Rule Applications: " + entry.getData().getTotalRuleApps() + lineBreak
 						+ "Time per Step: " + entry.getData().getTimePerStepInMillis() + "ms" + lineBreak + "Time: "
-						+ entry.getData().getTimeInMillis() + "ms" + lineBreak
-						+ "Successfully proven: " + entry.getData().isIsProven() + "</p>" + "</div>";
+						+ entry.getData().getTimeInMillis() + "ms" + lineBreak + "Successfully proven: "
+						+ entry.getData().isIsProven() + "</p>" + "</div>";
 				totalAutomodeTime = totalAutomodeTime + entry.getData().getAutoModeTimeInMillis();
 			}
-			placeholderPlainStatistics = placeholderPlainStatistics + "Total automode time needed: " + totalAutomodeTime + "ms" 
-			+ lineBreak			+ lineBreak			+ lineBreak;
+			placeholderPlainStatistics = placeholderPlainStatistics + "Total automode time needed: " + totalAutomodeTime
+					+ "ms" + lineBreak + lineBreak + lineBreak;
 		}
 	}
 

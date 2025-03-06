@@ -31,20 +31,22 @@ public interface ProofGraphStrategy {
 
 		for (Predicate pred : this.readPredicates(proof.getDiagram())) {
 			if (preFormula.contains(pred.name) || postFormula.contains(pred.name)) {
-				for (PredicateDefinition def: pred.definitions) {
+				for (PredicateDefinition def : pred.definitions) {
 					if (!def.presenceCondition.equals("true")) {
-						IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
-						
-						PresenceConditionParser parser = new PresenceConditionParser(def.presenceCondition, featureModel.getFeatureOrderList());
+						IFeatureModel featureModel = FeatureModelManager
+								.load(Paths.get(project.getLocation() + "/model.xml"));
+
+						PresenceConditionParser parser = new PresenceConditionParser(def.presenceCondition,
+								featureModel.getFeatureOrderList());
 						List<Set<SelectionInfo>> conditions = parser.parseCondition();
-						
+
 						return conditions;
-						
+
 					}
 				}
 			}
 		}
-		
+
 		return new ArrayList<Set<SelectionInfo>>();
 	}
 
@@ -68,10 +70,10 @@ public interface ProofGraphStrategy {
 			localPathList.remove(cn.getFeature());
 		}
 
-		if (graph.getAdjacencyList().get(node).size() >= 2) { 
+		if (graph.getAdjacencyList().get(node).size() >= 2) {
 			paths.add(List.copyOf(localPathList));
 		}
-		
+
 		if (graph.getAdjacencyList().get(node).isEmpty()) {
 			return;
 		}
@@ -85,7 +87,7 @@ public interface ProofGraphStrategy {
 		String filePath = project.getRawLocation() + "/predicates.def";
 
 		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
-		
+
 		return readPredicates;
 	}
 }

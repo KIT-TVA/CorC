@@ -25,23 +25,22 @@ public class ParserTestClass extends ParserTest {
 	private Integer testInteger;
 
 	@MethodReceiver(SL = "high", MDF = MDF.CAPSULE)
-	public void voidTestMethod(	@SecurityLevel("low")  String testParam1,
-							@SecurityLevel("high") @MutationModifier(MDF.CAPSULE) String testParam2) {
+	public void voidTestMethod(@SecurityLevel("low") String testParam1,
+			@SecurityLevel("high") @MutationModifier(MDF.CAPSULE) String testParam2) {
 		return;
 	}
-	
-	
+
 	public void wrongTestMethod(@SecurityLevel("low") @MutationModifier(MDF.IMMUTABLE) String testParam1,
-								@SecurityLevel("high") @MutationModifier(MDF.CAPSULE) String testParam2) {
+			@SecurityLevel("high") @MutationModifier(MDF.CAPSULE) String testParam2) {
 		return;
 	}
-	
+
 	@SecurityLevel("high")
 	@MutationModifier(MDF.CAPSULE)
 	static String staticMethod() {
 		return "";
 	}
-	
+
 	@SecurityLevel("high")
 	@MutationModifier(MDF.CAPSULE)
 	@MethodReceiver(SL = "high", MDF = MDF.CAPSULE)
@@ -51,8 +50,8 @@ public class ParserTestClass extends ParserTest {
 
 	@SecurityLevel("high")
 	@MutationModifier(MDF.CAPSULE)
-	public void wrongParameterMethod(	@SecurityLevel("low") @MutationModifier(MDF.IMMUTABLE) String testParam1,
-										@MutationModifier(MDF.CAPSULE) String testParam2) {
+	public void wrongParameterMethod(@SecurityLevel("low") @MutationModifier(MDF.IMMUTABLE) String testParam1,
+			@MutationModifier(MDF.CAPSULE) String testParam2) {
 		return;
 	}
 
@@ -61,15 +60,13 @@ public class ParserTestClass extends ParserTest {
 		@SecurityLevel("low")
 		@MutationModifier(MDF.IMMUTABLE)
 		private String testString = "bla", testString2 = "muh";
-		
-		
+
 		@SecurityLevel("high")
 		@MutationModifier(MDF.CAPSULE)
-		public void innerTestMethod(	@SecurityLevel("low") @MutationModifier(MDF.IMMUTABLE) String testParam1,
-								@SecurityLevel("high") @MutationModifier(MDF.CAPSULE) String testParam2) {
+		public void innerTestMethod(@SecurityLevel("low") @MutationModifier(MDF.IMMUTABLE) String testParam1,
+				@SecurityLevel("high") @MutationModifier(MDF.CAPSULE) String testParam2) {
 			return;
 		}
-
 
 		@Override
 		public int compareTo(String o) {
@@ -77,13 +74,11 @@ public class ParserTestClass extends ParserTest {
 			return 0;
 		}
 
-
 		@Override
 		public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition) {
 			// TODO Auto-generated method stub
 			return null;
 		}
-
 
 		@Override
 		public Date parse(String source, ParsePosition pos) {

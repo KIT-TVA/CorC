@@ -29,8 +29,8 @@ import src.com.beust.jcommander.IStringConverter;
  */
 public class FileConverter implements IStringConverter<File> {
 
-  public File convert(String value) {
-    return new File(value);
-  }
+	public File convert(String value) {
+		return new File(value);
+	}
 
 }

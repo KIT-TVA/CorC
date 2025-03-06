@@ -27,8 +27,8 @@ import src.com.beust.jcommander.IStringConverter;
  */
 public class StringConverter implements IStringConverter<String> {
 
-  public String convert(String value) {
-    return value;
-  }
+	public String convert(String value) {
+		return value;
+	}
 
 }

@@ -22,7 +22,7 @@ import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 public class VerifyWithKeYHandler extends AbstractHandler implements IHandler {
 
 	private static int counter = 0;
-	
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
@@ -39,9 +39,9 @@ public class VerifyWithKeYHandler extends AbstractHandler implements IHandler {
 				javaFile = new File(location + "SecondExercise.java");
 			}
 			try {
-				File javaFileCopy = new File(location + "saved/Ex" + counter +  ".txt");
-				Files.copy(javaFile.toPath(), javaFileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);  
-				IPath iLocation = Path.fromOSString(javaFileCopy.getAbsolutePath()); 
+				File javaFileCopy = new File(location + "saved/Ex" + counter + ".txt");
+				Files.copy(javaFile.toPath(), javaFileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				IPath iLocation = Path.fromOSString(javaFileCopy.getAbsolutePath());
 				IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
 				ifile.refreshLocal(0, null);
 				KeYInteraction.startKeYProofFirstContract(javaFile, counter);

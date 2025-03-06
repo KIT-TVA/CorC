@@ -12,9 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
-
+ */
 
 package src.mujava.cli;
 
@@ -22,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import src.com.beust.jcommander.Parameter;
-
 
 /**
  * <p>
@@ -34,50 +31,43 @@ import src.com.beust.jcommander.Parameter;
  * 
  */
 
-
 class testnewCom {
-	  @Parameter
-	  public List<String> parameters = new ArrayList<String>();
-	 
-	  @Parameter(names = "-test", description = "Debug mode")
-	  private boolean test = false;
-	  
-	  @Parameter(names = "-research", description = "Debug mode")
-	  private boolean research = false;
-	  
-	  @Parameter(names = "-debug", description = "Debug mode")
-	  private boolean debug = false;
-	  
-	  @Parameter(names = "-d", description = "Debug mode")
-	  private boolean debugMode = false;
+	@Parameter
+	public List<String> parameters = new ArrayList<String>();
 
-	public List<String> getParameters()
-	{
+	@Parameter(names = "-test", description = "Debug mode")
+	private boolean test = false;
+
+	@Parameter(names = "-research", description = "Debug mode")
+	private boolean research = false;
+
+	@Parameter(names = "-debug", description = "Debug mode")
+	private boolean debug = false;
+
+	@Parameter(names = "-d", description = "Debug mode")
+	private boolean debugMode = false;
+
+	public List<String> getParameters() {
 		return parameters;
 	}
 
-	public void setParameters(List<String> parameters)
-	{
+	public void setParameters(List<String> parameters) {
 		this.parameters = parameters;
 	}
 
-	public boolean isTest()
-	{
+	public boolean isTest() {
 		return test;
 	}
 
-	public void setTest(boolean test)
-	{
+	public void setTest(boolean test) {
 		this.test = test;
 	}
 
-	public boolean isResearch()
-	{
+	public boolean isResearch() {
 		return research;
 	}
 
-	public void setResearch(boolean research)
-	{
+	public void setResearch(boolean research) {
 		this.research = research;
 	}
 
@@ -96,15 +86,5 @@ class testnewCom {
 	public void setDebugMode(boolean debugMode) {
 		this.debugMode = debugMode;
 	}
-
-	  
-
-
-
-
-
-
-
-
 
 }

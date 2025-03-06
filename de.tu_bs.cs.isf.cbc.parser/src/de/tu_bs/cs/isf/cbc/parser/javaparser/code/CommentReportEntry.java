@@ -13,9 +13,9 @@ public class CommentReportEntry {
 		this.lineNumber = lineNumber;
 		this.isOprhan = isOprhan;
 	}
-	
+
 	@Override
 	public String toString() {
-		return lineNumber + "|" + type + "|" + isOprhan + "|" + text.replaceAll("\\n",  "").trim();
+		return lineNumber + "|" + type + "|" + isOprhan + "|" + text.replaceAll("\\n", "").trim();
 	}
 }

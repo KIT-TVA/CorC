@@ -121,7 +121,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		statement.setPostCondition(post);
 
 		addGraphicalRepresentation(context, selectionStatement);
-		return new Object[] { selectionStatement };
+		return new Object[]{selectionStatement};
 	}
 
 	@Override
@@ -229,11 +229,11 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		Shape hor8Shape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor8line = gaService.createPolyline(hor8Shape);
 		setId(hor8line, ID_HOR8_LINE);
-		
+
 		Shape hor9Shape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor9line = gaService.createPolyline(hor9Shape);
 		setId(hor9line, ID_HOR9_LINE);
-		
+
 		Shape hor10Shape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor10line = gaService.createPolyline(hor10Shape);
 		setId(hor10line, ID_HOR10_LINE);
@@ -263,9 +263,10 @@ public class SelectionPattern extends IdPattern implements IPattern {
 		int positionLine2 = mainRectangle.getHeight() - (mainRectangle.getHeight() - sizeName) / 4 * 3 + 20; // pre
 		int positionLine3 = mainRectangle.getHeight() - (mainRectangle.getHeight() - sizeName) / 4 * 2 + 20; // statement
 		int positionLine4 = mainRectangle.getHeight() - (mainRectangle.getHeight() - sizeName) / 4 * 1 + 20; // post
-		int positionLine5 = mainRectangle.getHeight() - (mainRectangle.getHeight() - sizeName) / 4 * 0 + 20; // virtual line
-		int positionPreModLine = (positionLine3-positionLine2-20)/3 + positionLine2; // modifiables pre
-		int positionPostModLine = (positionLine5-positionLine4-20)/3 + positionLine4; // modifiables post
+		int positionLine5 = mainRectangle.getHeight() - (mainRectangle.getHeight() - sizeName) / 4 * 0 + 20; // virtual
+																												// line
+		int positionPreModLine = (positionLine3 - positionLine2 - 20) / 3 + positionLine2; // modifiables pre
+		int positionPostModLine = (positionLine5 - positionLine4 - 20) / 3 + positionLine4; // modifiables post
 		if (statement.getCommands().size() > 1) {
 			width = width / statement.getCommands().size();
 		}
@@ -283,20 +284,22 @@ public class SelectionPattern extends IdPattern implements IPattern {
 			changesDone = true;
 		} else if (id.equals(ID_PRE_TEXT)) {
 			int index = getIndex(context.getGraphicsAlgorithm());
-			Graphiti.getGaService().setLocationAndSize(ga, width * index, positionPreModLine, width, (sizeBlock/3)*2);
+			Graphiti.getGaService().setLocationAndSize(ga, width * index, positionPreModLine, width,
+					(sizeBlock / 3) * 2);
 			changesDone = true;
 		} else if (id.equals(ID_PRE_MOD)) {
-			Graphiti.getGaService().setLocationAndSize(ga, 0, positionLine2, mainRectangle.getWidth(), sizeBlock/3);
+			Graphiti.getGaService().setLocationAndSize(ga, 0, positionLine2, mainRectangle.getWidth(), sizeBlock / 3);
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
 			changesDone = true;
 			// Header:
 		} else if (id.equals(ID_POST_TEXT) && getIndex(context.getGraphicsAlgorithm()) == 0) {
-			Graphiti.getGaService().setLocationAndSize(ga, 0, positionPostModLine, mainRectangle.getWidth(), (sizeBlock/3)*2);
+			Graphiti.getGaService().setLocationAndSize(ga, 0, positionPostModLine, mainRectangle.getWidth(),
+					(sizeBlock / 3) * 2);
 			changesDone = true;
 		} else if (id.equals(ID_POST_MOD)) {
-			Graphiti.getGaService().setLocationAndSize(ga, 0, positionLine4, mainRectangle.getWidth(), sizeBlock/3);
+			Graphiti.getGaService().setLocationAndSize(ga, 0, positionLine4, mainRectangle.getWidth(), sizeBlock / 3);
 			changesDone = true;
 		} else if (id.equals(ID_GUARD_HEADER)) {
 			Graphiti.getGaService().setLocationAndSize(ga, 0, positionLine1 - sizeHeader, mainRectangle.getWidth(),
@@ -319,70 +322,70 @@ public class SelectionPattern extends IdPattern implements IPattern {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService().createPointList(
-					new int[] { 0, positionLine1 - sizeHeader, mainRectangle.getWidth(), positionLine1 - sizeHeader });
+					new int[]{0, positionLine1 - sizeHeader, mainRectangle.getWidth(), positionLine1 - sizeHeader});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR2_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { 0, positionLine1, mainRectangle.getWidth(), positionLine1 });
+					.createPointList(new int[]{0, positionLine1, mainRectangle.getWidth(), positionLine1});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR3_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService().createPointList(
-					new int[] { 0, positionLine2 - sizeHeader, mainRectangle.getWidth(), positionLine2 - sizeHeader });
+					new int[]{0, positionLine2 - sizeHeader, mainRectangle.getWidth(), positionLine2 - sizeHeader});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR4_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { 0, positionLine2, mainRectangle.getWidth(), positionLine2 });
+					.createPointList(new int[]{0, positionLine2, mainRectangle.getWidth(), positionLine2});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR5_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService().createPointList(
-					new int[] { 0, positionLine3 - sizeHeader, mainRectangle.getWidth(), positionLine3 - sizeHeader });
+					new int[]{0, positionLine3 - sizeHeader, mainRectangle.getWidth(), positionLine3 - sizeHeader});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR6_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { 0, positionLine3, mainRectangle.getWidth(), positionLine3 });
+					.createPointList(new int[]{0, positionLine3, mainRectangle.getWidth(), positionLine3});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR7_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService().createPointList(
-					new int[] { 0, positionLine4 - sizeHeader, mainRectangle.getWidth(), positionLine4 - sizeHeader });
+					new int[]{0, positionLine4 - sizeHeader, mainRectangle.getWidth(), positionLine4 - sizeHeader});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR8_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { 0, positionLine4, mainRectangle.getWidth(), positionLine4 });
+					.createPointList(new int[]{0, positionLine4, mainRectangle.getWidth(), positionLine4});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR9_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { 0, positionPreModLine, mainRectangle.getWidth(), positionPreModLine });
+					.createPointList(new int[]{0, positionPreModLine, mainRectangle.getWidth(), positionPreModLine});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR10_LINE)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { 0, positionPostModLine, mainRectangle.getWidth(), positionPostModLine });
+					.createPointList(new int[]{0, positionPostModLine, mainRectangle.getWidth(), positionPostModLine});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_VER1_LINE)) {
@@ -391,7 +394,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				Polyline polyline = (Polyline) ga;
 				polyline.getPoints().clear();
 				List<Point> pointList = Graphiti.getGaService().createPointList(
-						new int[] { width * index, positionLine1, width * index, positionLine2 - sizeHeader });
+						new int[]{width * index, positionLine1, width * index, positionLine2 - sizeHeader});
 				polyline.getPoints().addAll(pointList);
 			} else {
 				Polyline polyline = (Polyline) ga;
@@ -404,7 +407,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				Polyline polyline = (Polyline) ga;
 				polyline.getPoints().clear();
 				List<Point> pointList = Graphiti.getGaService().createPointList(
-						new int[] { width * index, positionPreModLine, width * index, positionLine3 - sizeHeader });
+						new int[]{width * index, positionPreModLine, width * index, positionLine3 - sizeHeader});
 				polyline.getPoints().addAll(pointList);
 			} else {
 				Polyline polyline = (Polyline) ga;
@@ -417,7 +420,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				Polyline polyline = (Polyline) ga;
 				polyline.getPoints().clear();
 				List<Point> pointList = Graphiti.getGaService().createPointList(
-						new int[] { width * index, positionLine3, width * index, positionLine4 - sizeHeader });
+						new int[]{width * index, positionLine3, width * index, positionLine4 - sizeHeader});
 				polyline.getPoints().addAll(pointList);
 			} else {
 				Polyline polyline = (Polyline) ga;
@@ -443,13 +446,16 @@ public class SelectionPattern extends IdPattern implements IPattern {
 					&& !rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN)))
 					|| rectangle.getForeground() == null)) {
 				return Reason.createTrueReason("Statement is proven. Expected green color.");
-			} else if (!statement.isProven() && statement.isTested() 
-					&& ((rectangle.getForeground() != null && !rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE))) 
-					|| rectangle.getForeground() == null)) {
+			} else if (!statement.isProven() && statement.isTested()
+					&& ((rectangle.getForeground() != null
+							&& !rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE)))
+							|| rectangle.getForeground() == null)) {
 				return Reason.createTrueReason("Statement is tested. Expected orange color.");
-			} else if (!checkIsProven(statement) && !statement.isTested() && ((rectangle.getForeground() != null
-					&& rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN)) || rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE)))
-					|| rectangle.getForeground() == null)) {
+			} else if (!checkIsProven(statement) && !statement.isTested()
+					&& ((rectangle.getForeground() != null
+							&& rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN))
+							|| rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE)))
+							|| rectangle.getForeground() == null)) {
 				return Reason.createTrueReason("Statement is not proven or tested. Expected red color.");
 			}
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
@@ -461,8 +467,8 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				return Reason.createTrueReason("Statement is not proven. Expected red color.");
 			}
 		}
-		
-		if(HighlightHelper.instance.needsInitialHighlightUpdate(context)) {
+
+		if (HighlightHelper.instance.needsInitialHighlightUpdate(context)) {
 			return Reason.createTrueReason("Element needs to be highlighted.");
 		}
 		return Reason.createFalseReason();
@@ -476,7 +482,8 @@ public class SelectionPattern extends IdPattern implements IPattern {
 			// 9 = number of graphics elements in update (vertical lines + blocks)
 			// 16 = number of graphics in doAdd (horizontal lines + header + name)
 			while (containerShape.getChildren().size() - 16 != statement.getCommands().size() * 9) {
-				EList<AbstractStatement> childStatements = ((SelectionStatement) context.getDomainObject()).getCommands();
+				EList<AbstractStatement> childStatements = ((SelectionStatement) context.getDomainObject())
+						.getCommands();
 				int newIndex = (containerShape.getChildren().size() - 16) / 9;
 				AbstractStatement childStatement = childStatements.get(newIndex);
 				Shape shapeText = Graphiti.getPeCreateService()
@@ -500,7 +507,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				preNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 				preNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 				link(shapeTextPre, childStatement.getPreCondition());
-				
+
 				Shape textShapePreConditionMod = Graphiti.getPeCreateService()
 						.createShape((ContainerShape) context.getPictogramElement(), true);
 				MultiText preConditionTextMod = Graphiti.getGaService().createMultiText(textShapePreConditionMod, "");
@@ -510,7 +517,8 @@ public class SelectionPattern extends IdPattern implements IPattern {
 					modString += s + ", ";
 				}
 				if (newIndex == 0) {
-					preConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+					preConditionTextMod.setValue("modifiable("
+							+ (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
 				} else {
 					preConditionTextMod.setValue("");
 				}
@@ -527,7 +535,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				postNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 				postNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 				link(shapeTextPost, childStatement.getPostCondition());
-				
+
 				Shape textShapePostConditionMod = Graphiti.getPeCreateService()
 						.createShape((ContainerShape) context.getPictogramElement(), true);
 				MultiText postConditionTextMod = Graphiti.getGaService().createMultiText(textShapePostConditionMod, "");
@@ -539,7 +547,8 @@ public class SelectionPattern extends IdPattern implements IPattern {
 					}
 				}
 				if (newIndex == 0) {
-					postConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+					postConditionTextMod.setValue("modifiable("
+							+ (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
 				} else {
 					postConditionTextMod.setValue("");
 				}
@@ -591,10 +600,10 @@ public class SelectionPattern extends IdPattern implements IPattern {
 				rectangle.setForeground(manageColor(IColorConstant.RED));
 				updateParent(statement);
 			}
-			
+
 			// TODO: update parent may be redundant here
 			HighlightHelper.instance.handleHighlightDrawing(context, rectangle);
-			
+
 			updateParent(statement);
 			return true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
@@ -629,7 +638,7 @@ public class SelectionPattern extends IdPattern implements IPattern {
 	private void updateParent(AbstractStatement statement) {
 		if (statement.getParent() != null) {
 			IPeService pe = Graphiti.getPeService();
-			EObject[] objArray = { statement.getParent() };
+			EObject[] objArray = {statement.getParent()};
 			Object[] obj = pe.getLinkedPictogramElements(objArray, getDiagram());
 			if (obj.length > 0) {
 				Shape pElement = (Shape) obj[0];

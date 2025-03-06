@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package src.mujava.op;
 
@@ -30,75 +30,62 @@ import openjava.ptree.Variable;
 import src.mujava.op.util.MutantCodeWriter;
 
 /**
- * <p>Output and log EAM mutants to files</p>
+ * <p>
+ * Output and log EAM mutants to files
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
-public class EAM_Writer extends MutantCodeWriter
-{
-   MethodCall original = null;
-   MethodCall mutant = null;
+public class EAM_Writer extends MutantCodeWriter {
+	MethodCall original = null;
+	MethodCall mutant = null;
 
-   /**
-    * Set original source code and mutated code
-    * @param original
-    * @param mutant
-    */
-   public void setMutant(MethodCall original, MethodCall mutant)
-   {
-	  this.mutant = mutant;
-      this.original = original;
-   }
+	/**
+	 * Set original source code and mutated code
+	 * 
+	 * @param original
+	 * @param mutant
+	 */
+	public void setMutant(MethodCall original, MethodCall mutant) {
+		this.mutant = mutant;
+		this.original = original;
+	}
 
-   public EAM_Writer( String file_name, PrintWriter out ) 
-   {
-	  super(file_name, out);
-   }
-   
-   public void visit( MethodCall p ) throws ParseTreeException
-   {
-      if (isSameObject(p, original))
-      {
-		 // -------------------------------------------------------------
-		 mutated_line = line_num;
-		 visit(mutant);
-		 writeLog(removeNewline(original.toString()+" => "+mutant.toString()));
-		 // -------------------------------------------------------------
-      } 
-      else 
-      {
-         Expression expr = p.getReferenceExpr();
-         TypeName reftype = p.getReferenceType();
+	public EAM_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-         if (expr != null) 
-         {
-            if (expr instanceof Leaf  ||
-                expr instanceof ArrayAccess ||
-                expr instanceof FieldAccess ||
-                expr instanceof MethodCall ||
-                expr instanceof Variable) 
-            {
-               expr.accept( this );
-            } 
-            else 
-            {
-		       writeParenthesis( expr );
-            }
-            out.print( "." );
-         } 
-         else if (reftype != null) 
-         {
-  	        reftype.accept( this );
-	        out.print( "." );
-	     }
+	public void visit(MethodCall p) throws ParseTreeException {
+		if (isSameObject(p, original)) {
+			// -------------------------------------------------------------
+			mutated_line = line_num;
+			visit(mutant);
+			writeLog(removeNewline(original.toString() + " => " + mutant.toString()));
+			// -------------------------------------------------------------
+		} else {
+			Expression expr = p.getReferenceExpr();
+			TypeName reftype = p.getReferenceType();
 
-         String name = p.getName();
-         out.print( name );
+			if (expr != null) {
+				if (expr instanceof Leaf || expr instanceof ArrayAccess || expr instanceof FieldAccess
+						|| expr instanceof MethodCall || expr instanceof Variable) {
+					expr.accept(this);
+				} else {
+					writeParenthesis(expr);
+				}
+				out.print(".");
+			} else if (reftype != null) {
+				reftype.accept(this);
+				out.print(".");
+			}
 
-         ExpressionList args = p.getArguments();
-	     writeArguments( args );
-      }
-   }
+			String name = p.getName();
+			out.print(name);
+
+			ExpressionList args = p.getArguments();
+			writeArguments(args);
+		}
+	}
 }
- 

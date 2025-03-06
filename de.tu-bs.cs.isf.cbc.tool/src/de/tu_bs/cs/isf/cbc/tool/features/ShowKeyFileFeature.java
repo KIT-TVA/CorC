@@ -56,27 +56,26 @@ public class ShowKeyFileFeature extends AbstractCustomFeature {
 	}
 
 	@Override
-	public void execute(ICustomContext context) {		
+	public void execute(ICustomContext context) {
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
 			if (bo instanceof AbstractStatement) {
-				
-				//get content from diagram
+
+				// get content from diagram
 				AbstractStatement statement = (AbstractStatement) bo;
 				String statementId = statement.getId();
-				
+
 				List<IFile> keyFiles = new LinkedList<IFile>();
 				keyFiles = StatisticsDatabase.instance.getKeYFilesForId(statementId);
-				
+
 				if (keyFiles == null || keyFiles.isEmpty()) {
 					Console.println("No related KeY files found.");
-				}
-				else {
+				} else {
 					// TODO: mark key files within Project Explorer
 					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 					IViewPart view = page.findView(IPageLayout.ID_PROJECT_EXPLORER);
-					((ISetSelectionTarget)view).selectReveal(new StructuredSelection(keyFiles));
+					((ISetSelectionTarget) view).selectReveal(new StructuredSelection(keyFiles));
 				}
 			}
 		}

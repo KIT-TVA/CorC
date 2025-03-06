@@ -55,9 +55,9 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 	private String outputFormat = "";
 	private List<String> originalFeatureNames = new ArrayList<String>();
 	private List<String> methodFeatureNames = new ArrayList<String>();
-	
-	private Device device = Display.getCurrent ();
-	private Color white = new Color (device, 255, 255, 255);
+
+	private Device device = Display.getCurrent();
+	private Color white = new Color(device, 255, 255, 255);
 
 	// Defining the UI properties
 	private Label replacementLabel;
@@ -82,19 +82,20 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 		this.parent = parent;
 		this.tabbedPropertySheetPage = tabbedPropertySheetPage;
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-		
+
 		Composite composite = factory.createFlatFormComposite(parent);
-		
+
 		// Defining GridLayout for properties-view
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		gridLayout.verticalSpacing = 20;
 		composite.setLayout(gridLayout);
-		
+
 		currentFeature = getCurrentFeature();
-		if(currentFeature.contentEquals("")) {
+		if (currentFeature.contentEquals("")) {
 			noProductLineLabel = new Label(composite, SWT.PUSH);
-			noProductLineLabel.setText("This view is only available for diagrams representing a software product line.");
+			noProductLineLabel
+					.setText("This view is only available for diagrams representing a software product line.");
 			noProductLineLabel.setBackground(white);
 			return;
 		}
@@ -166,7 +167,7 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 					}
 				}
 				if (replacementText.getText().equals("Original-Call")) {
-//					configs = featureModel.getFeatureConfigsOriginal(selectedFeatures);
+					// configs = featureModel.getFeatureConfigsOriginal(selectedFeatures);
 					configs = featureModel.getFeatureConfigs(selectedFeatures, "original");
 				} else if (replacementText.getText().equals("Method-Call")) {
 					configs = featureModel.getFeatureConfigs(selectedFeatures, "method");
@@ -192,7 +193,7 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 
 	@Override
 	public void refresh() {
-		if(currentFeature.contentEquals("")) {
+		if (currentFeature.contentEquals("")) {
 			return;
 		}
 		CbCDiagramTypeProvider test = new CbCDiagramTypeProvider();
@@ -231,7 +232,8 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 			while (!(tmpObj.eContainer() instanceof CbCFormula)) {
 				tmpObj = tmpObj.eContainer();
 			}
-			methodFeatureNames = featureModel.getMethodFeatureNames(((MethodStatementImpl) bo).getName(), ((CbCFormula) tmpObj.eContainer()).getClassName());
+			methodFeatureNames = featureModel.getMethodFeatureNames(((MethodStatementImpl) bo).getName(),
+					((CbCFormula) tmpObj.eContainer()).getClassName());
 			if (methodFeatureNames.isEmpty()) {
 				generateButton.setEnabled(false);
 				Label hint = new Label(buttonGroup, SWT.PUSH);
@@ -269,7 +271,7 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 		IResource featureResource = diagramResource.getParent().getParent();
 		return featureResource.getName();
 	}
-	
+
 	public String getCurrentClass() {
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IWorkbenchPage activePage = window.getActivePage();
@@ -285,8 +287,7 @@ public class ReplacementsSection extends GFPropertySection implements ITabbedPro
 		IWorkbenchPage activePage = window.getActivePage();
 		IEditorPart activeEditor = activePage.getActiveEditor();
 		IEditorInput input = activeEditor.getEditorInput();
-		IResource diagramResource = input.getAdapter(IResource.class);
-		; // ->diagramFolder->featureFolder
+		IResource diagramResource = input.getAdapter(IResource.class);; // ->diagramFolder->featureFolder
 		String diagramName = diagramResource.getName().replaceFirst("[.][^.]+$", ""); // remove File extension
 		return diagramName;
 	}

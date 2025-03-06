@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op;
 
 import java.io.PrintWriter;
@@ -21,44 +21,40 @@ import openjava.ptree.ParseTreeException;
 import openjava.ptree.Variable;
 import src.mujava.op.util.MutantCodeWriter;
 
-
 /**
- * <p>Output and log JTI mutants to files</p>
+ * <p>
+ * Output and log JTI mutants to files
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
-public class JTI_Writer  extends MutantCodeWriter
-{
-   Variable target = null;
+public class JTI_Writer extends MutantCodeWriter {
+	Variable target = null;
 
-   /**
-    * Set mutated code
-    * @param f
-    */
-   public void setMutant(Variable f)
-   {
-      target = f;
-   }
+	/**
+	 * Set mutated code
+	 * 
+	 * @param f
+	 */
+	public void setMutant(Variable f) {
+		target = f;
+	}
 
-   public JTI_Writer( String file_name, PrintWriter out ) 
-   {
-	  super(file_name, out);
-   }
+	public JTI_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-   public void visit( Variable p ) throws ParseTreeException
-   {
-      if (isSameObject(p, target))
-      {
-         out.print("this."+p.toString());
-         // -------------------------------------------------------------
-         mutated_line = line_num;
-         writeLog(removeNewline(p.toString()+"  -->  this." + p.toString()));
-         // -------------------------------------------------------------
-      }
-      else
-      {
-         super.visit(p);
-      }
-   }
+	public void visit(Variable p) throws ParseTreeException {
+		if (isSameObject(p, target)) {
+			out.print("this." + p.toString());
+			// -------------------------------------------------------------
+			mutated_line = line_num;
+			writeLog(removeNewline(p.toString() + "  -->  this." + p.toString()));
+			// -------------------------------------------------------------
+		} else {
+			super.visit(p);
+		}
+	}
 }

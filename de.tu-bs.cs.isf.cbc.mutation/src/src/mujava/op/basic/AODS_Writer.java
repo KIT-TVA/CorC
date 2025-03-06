@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.basic;
 
 import java.io.PrintWriter;
@@ -22,46 +22,43 @@ import openjava.ptree.UnaryExpression;
 import src.mujava.op.util.TraditionalMutantCodeWriter;
 
 /**
- * <p>Output and log AODS mutants to files </p>
+ * <p>
+ * Output and log AODS mutants to files
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class AODS_Writer extends TraditionalMutantCodeWriter
-{
-   UnaryExpression original;
+public class AODS_Writer extends TraditionalMutantCodeWriter {
+	UnaryExpression original;
 
-   public AODS_Writer( String file_name, PrintWriter out ) 
-   {
-      super(file_name, out);
-   }
+	public AODS_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-   /**
-    * Set original source code
-    * @param exp1
-    */
-   public void setMutant(UnaryExpression exp1)
-   {
-      original = exp1;
-   }
+	/**
+	 * Set original source code
+	 * 
+	 * @param exp1
+	 */
+	public void setMutant(UnaryExpression exp1) {
+		original = exp1;
+	}
 
-   /**
-    * Log mutated line 
-    */
-   public void visit( UnaryExpression p ) throws ParseTreeException
-   {
-      if (isSameObject(p, original)) 
-      {
-         super.visit(p.getExpression());
-         // -----------------------------------------------------------
-         mutated_line = line_num;
-         String log_str = p.toString() + " => " + p.getExpression().toString();
-         writeLog(removeNewline(log_str));
-         // -------------------------------------------------------------
-      } 
-      else
-      {
-         super.visit(p);
-      }
-   }
+	/**
+	 * Log mutated line
+	 */
+	public void visit(UnaryExpression p) throws ParseTreeException {
+		if (isSameObject(p, original)) {
+			super.visit(p.getExpression());
+			// -----------------------------------------------------------
+			mutated_line = line_num;
+			String log_str = p.toString() + " => " + p.getExpression().toString();
+			writeLog(removeNewline(log_str));
+			// -------------------------------------------------------------
+		} else {
+			super.visit(p);
+		}
+	}
 }

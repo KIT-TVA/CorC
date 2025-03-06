@@ -24,7 +24,8 @@ public class MetaClass {
 	private ModelClass metaModel;
 
 	public static MetaClass compose(IProject project, String className) {
-		var cbcClasses = collectRelevantClasses(FileUtil.getCbCClasses(project).stream().collect(Collectors.toList()), className);
+		var cbcClasses = collectRelevantClasses(FileUtil.getCbCClasses(project).stream().collect(Collectors.toList()),
+				className);
 		var models = new ModelClass[cbcClasses.size()];
 		for (int i = 0; i < cbcClasses.size(); i++) {
 			models[i] = cbcClasses.get(i);
@@ -33,13 +34,13 @@ public class MetaClass {
 		metaClass.init(project);
 		return metaClass;
 	}
-	
+
 	public void create() {
 		IFolder metaFolder = project.getFolder(MetaNames.FOLDER_NAME);
 		IFolder classFolder = metaFolder.getFolder(metaModel.getName());
 		ResourceSet rs = new ResourceSetImpl();
-		var cbcclassResource = rs
-					.createResource(URI.createFileURI(classFolder.getLocation() + "\\" + metaModel.getName() + ".cbcclass"));
+		var cbcclassResource = rs.createResource(
+				URI.createFileURI(classFolder.getLocation() + "\\" + metaModel.getName() + ".cbcclass"));
 		cbcclassResource.getContents().add(metaModel);
 		GenerateModelFromCode.saveResource(cbcclassResource);
 	}
@@ -47,7 +48,7 @@ public class MetaClass {
 	public ModelClass getModel() {
 		return this.metaModel;
 	}
-	
+
 	public Method getMethod(String name) throws Exception {
 		for (var m : this.metaModel.getMethods()) {
 			if (m.getName().equals(name)) {
@@ -56,36 +57,38 @@ public class MetaClass {
 		}
 		return DummyMethod.createFromSrc(project, name).get();
 	}
-	
-	private static List<ModelClass> collectRelevantClasses(final List<org.eclipse.emf.ecore.resource.Resource> allClasses, String className) {
+
+	private static List<ModelClass> collectRelevantClasses(
+			final List<org.eclipse.emf.ecore.resource.Resource> allClasses, String className) {
 		final var relevantClasses = new ArrayList<ModelClass>();
-		
+
 		for (var res : allClasses) {
-			var cbcClass = (ModelClass)res.getContents().get(0);
+			var cbcClass = (ModelClass) res.getContents().get(0);
 			if (isRelevant(cbcClass, className, res)) {
 				relevantClasses.add(cbcClass);
 			}
 		}
 		return relevantClasses;
 	}
-	
-	private static boolean isRelevant(ModelClass cbcClass, String className, org.eclipse.emf.ecore.resource.Resource res) {
+
+	private static boolean isRelevant(ModelClass cbcClass, String className,
+			org.eclipse.emf.ecore.resource.Resource res) {
 		return cbcClass.getName().equals(className) && !res.getURI().path().contains(MetaNames.FOLDER_NAME);
 	}
-	
+
 	private MetaClass(ModelClass[] models, String className) {
 		this.models = models;
 		this.metaModel = CbcclassFactory.eINSTANCE.createModelClass();
 		this.metaModel.setName(className);
 	}
-	
+
 	private void init(IProject project) {
 		this.project = project;
 		this.createFields();
 		this.createMethods();
 		this.createInvariants();
 	}
-	
+
 	private void createFields() {
 		for (ModelClass model : models) {
 			for (int i = 0; i < model.getFields().size(); i++) {
@@ -93,7 +96,7 @@ public class MetaClass {
 			}
 		}
 	}
-	
+
 	private int addField(ModelClass model, int i) {
 		if (!containsField(model.getFields().get(i))) {
 			metaModel.getFields().add(model.getFields().get(i));
@@ -101,11 +104,11 @@ public class MetaClass {
 		}
 		return i;
 	}
-	
+
 	private boolean containsField(Field toFind) {
 		return metaModel.getFields().stream().anyMatch(f -> f.getName().equals(toFind.getName()));
 	}
-	
+
 	private void createMethods() {
 		for (ModelClass model : models) {
 			for (int i = 0; i < model.getMethods().size(); i++) {
@@ -113,7 +116,7 @@ public class MetaClass {
 			}
 		}
 	}
-	
+
 	private int addMethod(ModelClass model, int i) {
 		if (!containsMethod(model.getMethods().get(i))) {
 			metaModel.getMethods().add(model.getMethods().get(i));
@@ -125,15 +128,15 @@ public class MetaClass {
 	private boolean containsMethod(Method toFind) {
 		return metaModel.getMethods().stream().anyMatch(m -> m.getSignature().equals(toFind.getSignature()));
 	}
-	
+
 	private void createInvariants() {
 		for (ModelClass model : models) {
-			for (int i = 0; i < model.getClassInvariants().size(); i++) { 
+			for (int i = 0; i < model.getClassInvariants().size(); i++) {
 				i = addInvariant(model, i);
 			}
 		}
 	}
-	
+
 	private int addInvariant(ModelClass model, int i) {
 		if (!containsInvariant(model.getClassInvariants().get(i))) {
 			metaModel.getClassInvariants().add(model.getClassInvariants().get(i));
@@ -141,7 +144,7 @@ public class MetaClass {
 		}
 		return i;
 	}
-	
+
 	private boolean containsInvariant(Condition toFind) {
 		return metaModel.getClassInvariants().stream().anyMatch(m -> m.getName().equals(toFind.getName()));
 	}

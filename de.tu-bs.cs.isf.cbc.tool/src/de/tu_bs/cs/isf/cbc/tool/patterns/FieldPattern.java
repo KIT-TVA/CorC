@@ -16,6 +16,7 @@ import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 
 /**
  * Class that creates the graphical representation of Methods
+ * 
  * @author Tobias
  *
  */
@@ -25,9 +26,8 @@ public class FieldPattern extends IdPattern implements IPattern {
 	public static final String VARIABLE_KIND_GLOBAL = "global";
 	public static final String VARIABLE_KIND_GLOBAL_PARAM = "global param";
 	public static final String VARIABLE_KIND_RETURNPARAM = "returnparam";
-	
+
 	public static final String VARIABLE_KIND_LOCAL = "local";
-	
 
 	/**
 	 * Constructor of the class
@@ -35,7 +35,7 @@ public class FieldPattern extends IdPattern implements IPattern {
 	public FieldPattern() {
 		super();
 	}
-	
+
 	@Override
 	public String getCreateName() {
 		return "Field";
@@ -65,7 +65,7 @@ public class FieldPattern extends IdPattern implements IPattern {
 	protected boolean layout(IdLayoutContext context, String id) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean canDirectEdit(IDirectEditingContext context) {
 		return false;
@@ -73,7 +73,7 @@ public class FieldPattern extends IdPattern implements IPattern {
 
 	@Override
 	public boolean canDelete(IDeleteContext context) {
-			return false;
+		return false;
 	}
 
 	@Override

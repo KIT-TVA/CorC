@@ -18,7 +18,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 
 public class UpdateConditionsOfChildren {
 	private static boolean adjustModifiables = true;
-	
+
 	public static void updateConditionsofChildren(Condition condition, boolean adjustModifiables) {
 		UpdateConditionsOfChildren.adjustModifiables = adjustModifiables;
 		updateConditionsofChildren(condition);
@@ -27,8 +27,7 @@ public class UpdateConditionsOfChildren {
 
 	public static void updateConditionsofChildren(Condition condition) {
 		AbstractStatement statement = (AbstractStatement) condition.eContainer();
-		if (statement instanceof CompositionStatement
-				|| statement instanceof SmallRepetitionStatement
+		if (statement instanceof CompositionStatement || statement instanceof SmallRepetitionStatement
 				|| statement instanceof SelectionStatement) {
 			if (statement.getParent() != null) {
 				updateRefinedStatement(statement.getParent(), statement);
@@ -73,14 +72,14 @@ public class UpdateConditionsOfChildren {
 				copyModifiables(preParent, firstStatement.getPreCondition());
 				copyModifiables(childCompo.getIntermediateCondition(), firstStatement.getPostCondition());
 			}
-			
+
 			secondStatement.getPreCondition().setName(childCompo.getIntermediateCondition().getName());
 			secondStatement.getPostCondition().setName(postParent.getName());
 			if (adjustModifiables) {
 				copyModifiables(childCompo.getIntermediateCondition(), secondStatement.getPreCondition());
 				copyModifiables(postParent, secondStatement.getPostCondition());
 			}
-			
+
 			if (firstStatement.getRefinement() != null) {
 				updateRefinedStatement(firstStatement, firstStatement.getRefinement());
 			}
@@ -114,9 +113,10 @@ public class UpdateConditionsOfChildren {
 				copyModifiables(postParent, childRep.getPostCondition());
 			}
 
-			loopStatement.getPreCondition().setName("(" + childRep.getInvariant().getName() + ") & (" + childRep.getGuard().getName() + ")");
+			loopStatement.getPreCondition()
+					.setName("(" + childRep.getInvariant().getName() + ") & (" + childRep.getGuard().getName() + ")");
 			loopStatement.getPostCondition().setName(childRep.getInvariant().getName());
-			
+
 			if (loopStatement.getRefinement() != null) {
 				updateRefinedStatement(loopStatement, loopStatement.getRefinement());
 			}
@@ -128,9 +128,12 @@ public class UpdateConditionsOfChildren {
 				Condition childGuard = childSel.getGuards().get(i);
 
 				String preCondParent = Parser.getConditionFromCondition(preParent.getName());
-				boolean preParentModsEqualsChildPreMods = (preParent.getModifiables().containsAll(childStatement.getPreCondition().getModifiables()) && childStatement.getPreCondition().getModifiables().containsAll(preParent.getModifiables()));
-				
-				if (!(preParentModsEqualsChildPreMods && childStatement.getPreCondition().getName().equals("(" + preCondParent + ") & (" + childGuard.getName() + ")"))
+				boolean preParentModsEqualsChildPreMods = (preParent.getModifiables()
+						.containsAll(childStatement.getPreCondition().getModifiables())
+						&& childStatement.getPreCondition().getModifiables().containsAll(preParent.getModifiables()));
+
+				if (!(preParentModsEqualsChildPreMods && childStatement.getPreCondition().getName()
+						.equals("(" + preCondParent + ") & (" + childGuard.getName() + ")"))
 						|| !childStatement.getPostCondition().getName().equals(postParent.getName())) {
 					refinedStatement.setProven(false);
 				}
@@ -145,7 +148,7 @@ public class UpdateConditionsOfChildren {
 					copyModifiables(postParent, childStatement.getPostCondition());
 					copyModifiables(preParent, childStatement.getPreCondition());
 				}
-				
+
 				if (childStatement.getRefinement() != null) {
 					updateRefinedStatement(childStatement, childStatement.getRefinement());
 				}
@@ -267,11 +270,11 @@ public class UpdateConditionsOfChildren {
 			}
 		}
 	}
-	
+
 	private static void copyModifiables(Condition copyFromCondition, Condition copyToCondition) {
 		if (copyFromCondition != null && copyToCondition != null) {
 			List<String> temp = new ArrayList<>();
-			for (String s: copyFromCondition.getModifiables()) {
+			for (String s : copyFromCondition.getModifiables()) {
 				temp.add(s);
 			}
 			copyToCondition.getModifiables().clear();

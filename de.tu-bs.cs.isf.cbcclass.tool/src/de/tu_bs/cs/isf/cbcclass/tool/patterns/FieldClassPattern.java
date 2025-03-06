@@ -79,7 +79,7 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 		field.setIsStatic(false);
 		modelClass.getFields().add(field);
 		updatePictogramElement(context.getTargetContainer());
-		return new Object[] { field };
+		return new Object[]{field};
 	}
 
 	@Override
@@ -90,22 +90,22 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 
 		// check for visibility modifier
 		switch (split[0].toLowerCase()) {
-		case "private":
-			field.setVisibility(Visibility.PRIVATE);
-			break;
-		case "public":
-			field.setVisibility(Visibility.PUBLIC);
-			break;
-		case "protected":
-			field.setVisibility(Visibility.PROTECTED);
-			break;
-		case "package":
-			field.setVisibility(Visibility.PACKAGE);
-			break;
-		default:
-			field.setVisibility(Visibility.PUBLIC);
-			pointer = 0;
-			break;
+			case "private" :
+				field.setVisibility(Visibility.PRIVATE);
+				break;
+			case "public" :
+				field.setVisibility(Visibility.PUBLIC);
+				break;
+			case "protected" :
+				field.setVisibility(Visibility.PROTECTED);
+				break;
+			case "package" :
+				field.setVisibility(Visibility.PACKAGE);
+				break;
+			default :
+				field.setVisibility(Visibility.PUBLIC);
+				pointer = 0;
+				break;
 		}
 		// check for final and static modifier
 		if (Arrays.stream(split).anyMatch("static"::equalsIgnoreCase)) {
@@ -126,7 +126,7 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 		ShapeImpl shape = (ShapeImpl) context.getPictogramElement();
 		TextImpl text = (TextImpl) shape.getGraphicsAlgorithm();
 		text.setValue(field.getDisplayedName());
-		
+
 		// refresh project
 		URI uri = getDiagram().eResource().getURI();
 		ClassUtil.refreshProject(FileUtil.getProjectLocation(uri));
@@ -134,7 +134,8 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 		IProject thisProject = null;
 
 		for (IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-			if (p.getLocation().toPortableString().equals(path) || (p.getLocation().toPortableString() + "/").equals(path)) {
+			if (p.getLocation().toPortableString().equals(path)
+					|| (p.getLocation().toPortableString() + "/").equals(path)) {
 				thisProject = p;
 			}
 		}
@@ -160,8 +161,8 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 	public String checkValueValid(String value, IDirectEditingContext context) {
 		if (value == null || value.length() == 0) {
 			return "Variable must not be empty";
-		} else if (value.length() > 0 && !value.toLowerCase().matches(
-				"(public\\s|private\\s|protected\\s|)" + "(static\\s|final\\s)?" + "(final\\s|static\\s)?"
+		} else if (value.length() > 0 && !value.toLowerCase()
+				.matches("(public\\s|private\\s|protected\\s|)" + "(static\\s|final\\s)?" + "(final\\s|static\\s)?"
 						+ "(int|char|float|long|boolean|byte|short|double|([A-Za-z]\\w*))(\\[\\])?\\s[a-zA-Z]\\w*")) {
 			return "Field must contain a type and a name";
 		}
@@ -173,7 +174,8 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 	}
 
 	private boolean hasKeywordsAsTypeOrName(String value) {
-		ArrayList<String> keywords = new ArrayList<>(Arrays.asList("public", "private", "protected", "static", "final"));
+		ArrayList<String> keywords = new ArrayList<>(
+				Arrays.asList("public", "private", "protected", "static", "final"));
 		String[] tokens = value.split(" ");
 		if (tokens.length > 1) {
 			String lastValue = tokens[tokens.length - 1].trim();
@@ -200,7 +202,8 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 	protected IReason updateNeeded(IdUpdateContext context, String id) {
 		Text nameText = (Text) context.getPictogramElement().getGraphicsAlgorithm();
 		Field domainObject = (Field) getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (domainObject.getName() == null || !nameText.getValue().replace(" inherited", "").equals(domainObject.getDisplayedName())) {
+		if (domainObject.getName() == null
+				|| !nameText.getValue().replace(" inherited", "").equals(domainObject.getDisplayedName())) {
 			return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getName() + "'");
 		}
 		return Reason.createFalseReason();
@@ -211,7 +214,7 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 		if (!id.equals(ID_FIELD_TEXT)) {
 			Text nameText = (Text) context.getGraphicsAlgorithm();
 			Field domainObject = (Field) context.getDomainObject();
-			nameText.setValue(domainObject.getDisplayedName());		
+			nameText.setValue(domainObject.getDisplayedName());
 			return true;
 		}
 		return false;
@@ -246,7 +249,7 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean canDelete(IDeleteContext context) {
 		Shape shape = (Shape) context.getPictogramElement();
@@ -260,12 +263,12 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public void delete(IDeleteContext context) {
 		Shape shape = (Shape) context.getPictogramElement();
 		ContainerShape container = shape.getContainer();
-		
+
 		Field field = (Field) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (field.eContainer() != null && field.eContainer() instanceof ModelClass) {
 			int indexToDelete = getIndex(shape.getGraphicsAlgorithm());
@@ -274,7 +277,7 @@ public class FieldClassPattern extends IdPattern implements IPattern {
 					setIndex(childShape.getGraphicsAlgorithm(), getIndex(childShape.getGraphicsAlgorithm()) - 1);
 				}
 			}
-			super.delete(context);			
+			super.delete(context);
 			layoutPictogramElement(container);
 		}
 	}

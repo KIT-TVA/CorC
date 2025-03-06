@@ -38,12 +38,11 @@ import openjava.ptree.Variable;
  * @author Yu-Seung Ma
  * @version 1.0
  * 
- * Took out aor_flag for not clear about the reason of using it. 
- * Lin Deng, Aug 23
+ *          Took out aor_flag for not clear about the reason of using it. Lin
+ *          Deng, Aug 23
  * 
- * Added code to generate mutants for logical expressions.
- * E.g., a < b  =>  -a < b
- * Lin Deng, Aug 28
+ *          Added code to generate mutants for logical expressions. E.g., a < b
+ *          => -a < b Lin Deng, Aug 28
  * 
  */
 
@@ -105,7 +104,7 @@ public class AOIU extends Arithmetic_OP {
 			super.visit(e1);
 			// Ignore right expression because it produce equivalent mutants;
 			// Expression e2 = p.getRight();
-			// 
+			//
 			// WHY??? (LIN 08/28)
 		} else if ((p.getOperator() == BinaryExpression.DIVIDE) || (p.getOperator() == BinaryExpression.TIMES)) {
 			Expression e1 = p.getLeft();
@@ -120,18 +119,18 @@ public class AOIU extends Arithmetic_OP {
 			} else {
 				super.visit(p);
 			}
-		} 
+		}
 		// 08/28
 		// Lin added to generate mutants for logical expressions
 		// e.g.
-		// a < b  => -a < b
+		// a < b => -a < b
 		else if ((p.getOperator() == BinaryExpression.GREATER) || (p.getOperator() == BinaryExpression.GREATEREQUAL)
 				|| (p.getOperator() == BinaryExpression.LESSEQUAL) || (p.getOperator() == BinaryExpression.EQUAL)
 				|| (p.getOperator() == BinaryExpression.NOTEQUAL) || (p.getOperator() == BinaryExpression.LESS)) {
 			Expression e1 = p.getLeft();
 			Expression e2 = p.getRight();
-				super.visit(e1);
-				super.visit(e2);
+			super.visit(e1);
+			super.visit(e2);
 		}
 	}
 

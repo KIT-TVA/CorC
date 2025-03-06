@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.basic;
 
 import java.io.PrintWriter;
@@ -23,76 +23,69 @@ import openjava.ptree.Variable;
 import src.mujava.op.util.TraditionalMutantCodeWriter;
 
 /**
- * <p>Output and log AOIU mutants to files </p>
+ * <p>
+ * Output and log AOIU mutants to files
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class AOIU_Writer extends TraditionalMutantCodeWriter
-{
-   Variable original_var;
-   FieldAccess original_field;
+public class AOIU_Writer extends TraditionalMutantCodeWriter {
+	Variable original_var;
+	FieldAccess original_field;
 
-   public AOIU_Writer( String file_name, PrintWriter out ) 
-   {
-      super(file_name,out);
-   }
+	public AOIU_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-   /**
-    * Set original source code
-    * @param exp1
-    */
-   public void setMutant(Variable exp1)
-   {
-      original_var = exp1;
-   }
+	/**
+	 * Set original source code
+	 * 
+	 * @param exp1
+	 */
+	public void setMutant(Variable exp1) {
+		original_var = exp1;
+	}
 
-   /**
-    * Set original source code
-    * @param exp1
-    */
-   public void setMutant(FieldAccess exp1)
-   {
-      original_field = exp1;
-   }
+	/**
+	 * Set original source code
+	 * 
+	 * @param exp1
+	 */
+	public void setMutant(FieldAccess exp1) {
+		original_field = exp1;
+	}
 
-   /**
-    * Log mutated line
-    */
-   public void visit( Variable p ) throws ParseTreeException
-   {
-      if (isSameObject(p, original_var))
-      {
-         out.print("-" + p.toString());
-         // -----------------------------------------------------------
-         mutated_line = line_num;
-         String log_str = p.toString() + " => " + "-" + p.toString();
-         writeLog(removeNewline(log_str));
-         // -------------------------------------------------------------
-      }
-      else
-      {
-         super.visit(p);
-      }
-   }
+	/**
+	 * Log mutated line
+	 */
+	public void visit(Variable p) throws ParseTreeException {
+		if (isSameObject(p, original_var)) {
+			out.print("-" + p.toString());
+			// -----------------------------------------------------------
+			mutated_line = line_num;
+			String log_str = p.toString() + " => " + "-" + p.toString();
+			writeLog(removeNewline(log_str));
+			// -------------------------------------------------------------
+		} else {
+			super.visit(p);
+		}
+	}
 
-   /**
-    * Log mutated line
-    */
-   public void visit( FieldAccess p ) throws ParseTreeException
-   {
-      if (isSameObject(p, original_field))
-      {
-         out.print("-"+p.toString());
-         // -----------------------------------------------------------
-         mutated_line = line_num;
-         String log_str = p.toString() + " => " + "-"+p.toString();
-         writeLog(removeNewline(log_str));
-         // -------------------------------------------------------------
-      }
-      else
-      {
-         super.visit(p);
-      }
-   }
+	/**
+	 * Log mutated line
+	 */
+	public void visit(FieldAccess p) throws ParseTreeException {
+		if (isSameObject(p, original_field)) {
+			out.print("-" + p.toString());
+			// -----------------------------------------------------------
+			mutated_line = line_num;
+			String log_str = p.toString() + " => " + "-" + p.toString();
+			writeLog(removeNewline(log_str));
+			// -------------------------------------------------------------
+		} else {
+			super.visit(p);
+		}
+	}
 }

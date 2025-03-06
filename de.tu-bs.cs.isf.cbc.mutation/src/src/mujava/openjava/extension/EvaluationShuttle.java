@@ -12,11 +12,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
+ */
 
 package src.mujava.openjava.extension;
-
 
 import openjava.mop.Environment;
 import openjava.ptree.AllocationExpression;
@@ -87,28 +85,27 @@ import openjava.ptree.WhileStatement;
 import openjava.ptree.util.ParseTreeVisitor;
 
 /**
- * The class <code>EvaluationShuttle</code> is a Visitor role
- * in the Visitor pattern and this also visits each child
- * <code>ParseTree</code> object from left to right.
+ * The class <code>EvaluationShuttle</code> is a Visitor role in the Visitor
+ * pattern and this also visits each child <code>ParseTree</code> object from
+ * left to right.
  * <p>
- * The class <code>Evaluator</code> is an evaluator of each
- * objects of <code>ParseTree</code> family.  Each methods in
- * this class is invoked from the class <code>EvaluationShuttle</code>.
+ * The class <code>Evaluator</code> is an evaluator of each objects of
+ * <code>ParseTree</code> family. Each methods in this class is invoked from the
+ * class <code>EvaluationShuttle</code>.
  * <p>
- * The method <code>evaluateDown()</code> is invoked before evaluating
- * the children of the parse tree object, and <code>evaluateUp()</code>
- * is invoked after the evaluation.
+ * The method <code>evaluateDown()</code> is invoked before evaluating the
+ * children of the parse tree object, and <code>evaluateUp()</code> is invoked
+ * after the evaluation.
  * <p>
  *
- * @author   Michiaki Tatsubori
- * @version  1.0
- * @since    $Id: EvaluationShuttle.java,v 1.2 2003/02/19 02:55:00 tatsubori Exp $
+ * @author Michiaki Tatsubori
+ * @version 1.0
+ * @since $Id: EvaluationShuttle.java,v 1.2 2003/02/19 02:55:00 tatsubori Exp $
  * @see openjava.ptree.ParseTree
  * @see openjava.ptree.util.ParseTreeVisitor
  * 
  * @update Lin Deng, add support for AssertStatement, Aug 23, 2014
  */
-
 
 public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	protected Environment env;
@@ -125,27 +122,22 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 		this.env = env;
 	}
 
-	public Expression evaluateDown(AllocationExpression p)
-		throws ParseTreeException {
+	public Expression evaluateDown(AllocationExpression p) throws ParseTreeException {
 		return p;
 	}
 	public Expression evaluateDown(ArrayAccess p) throws ParseTreeException {
 		return p;
 	}
-	public Expression evaluateDown(ArrayAllocationExpression p)
-		throws ParseTreeException {
+	public Expression evaluateDown(ArrayAllocationExpression p) throws ParseTreeException {
 		return p;
 	}
-	public VariableInitializer evaluateDown(ArrayInitializer p)
-		throws ParseTreeException {
+	public VariableInitializer evaluateDown(ArrayInitializer p) throws ParseTreeException {
 		return p;
 	}
-	public Expression evaluateDown(AssignmentExpression p)
-		throws ParseTreeException {
+	public Expression evaluateDown(AssignmentExpression p) throws ParseTreeException {
 		return p;
 	}
-	public Expression evaluateDown(BinaryExpression p)
-		throws ParseTreeException {
+	public Expression evaluateDown(BinaryExpression p) throws ParseTreeException {
 		return p;
 	}
 	public Statement evaluateDown(Block p) throws ParseTreeException {
@@ -157,19 +149,16 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	public CaseGroup evaluateDown(CaseGroup p) throws ParseTreeException {
 		return p;
 	}
-	public CaseGroupList evaluateDown(CaseGroupList p)
-		throws ParseTreeException {
+	public CaseGroupList evaluateDown(CaseGroupList p) throws ParseTreeException {
 		return p;
 	}
 	public CaseLabel evaluateDown(CaseLabel p) throws ParseTreeException {
 		return p;
 	}
-	public CaseLabelList evaluateDown(CaseLabelList p)
-		throws ParseTreeException {
+	public CaseLabelList evaluateDown(CaseLabelList p) throws ParseTreeException {
 		return p;
 	}
-	public Expression evaluateDown(CastExpression p)
-		throws ParseTreeException {
+	public Expression evaluateDown(CastExpression p) throws ParseTreeException {
 		return p;
 	}
 	public CatchBlock evaluateDown(CatchBlock p) throws ParseTreeException {
@@ -178,39 +167,31 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	public CatchList evaluateDown(CatchList p) throws ParseTreeException {
 		return p;
 	}
-	public ClassDeclaration evaluateDown(ClassDeclaration p)
-		throws ParseTreeException {
+	public ClassDeclaration evaluateDown(ClassDeclaration p) throws ParseTreeException {
 		return p;
 	}
-	public ClassDeclarationList evaluateDown(ClassDeclarationList p)
-		throws ParseTreeException {
+	public ClassDeclarationList evaluateDown(ClassDeclarationList p) throws ParseTreeException {
 		return p;
 	}
 	public Expression evaluateDown(ClassLiteral p) throws ParseTreeException {
 		return p;
 	}
-	public CompilationUnit evaluateDown(CompilationUnit p)
-		throws ParseTreeException {
+	public CompilationUnit evaluateDown(CompilationUnit p) throws ParseTreeException {
 		return p;
 	}
-	public Expression evaluateDown(ConditionalExpression p)
-		throws ParseTreeException {
+	public Expression evaluateDown(ConditionalExpression p) throws ParseTreeException {
 		return p;
 	}
-	public MemberDeclaration evaluateDown(ConstructorDeclaration p)
-		throws ParseTreeException {
+	public MemberDeclaration evaluateDown(ConstructorDeclaration p) throws ParseTreeException {
 		return p;
 	}
-	public ConstructorInvocation evaluateDown(ConstructorInvocation p)
-		throws ParseTreeException {
+	public ConstructorInvocation evaluateDown(ConstructorInvocation p) throws ParseTreeException {
 		return p;
 	}
-	public Statement evaluateDown(ContinueStatement p)
-		throws ParseTreeException {
+	public Statement evaluateDown(ContinueStatement p) throws ParseTreeException {
 		return p;
 	}
-	public Statement evaluateDown(DoWhileStatement p)
-		throws ParseTreeException {
+	public Statement evaluateDown(DoWhileStatement p) throws ParseTreeException {
 		return p;
 	}
 	public Statement evaluateDown(EmptyStatement p) throws ParseTreeException {
@@ -218,6 +199,7 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	}
 	/**
 	 * Added for Java 1.5 Enumration
+	 * 
 	 * @param p
 	 * @return
 	 * @throws ParseTreeException
@@ -225,28 +207,25 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	public MemberDeclaration evaluateDown(EnumDeclaration p) throws ParseTreeException {
 		return p;
 	}
-	
+
 	public EnumConstant evaluateDown(EnumConstant p) throws ParseTreeException {
 		return p;
 	}
-	
+
 	public EnumConstantList evaluateDown(EnumConstantList p) throws ParseTreeException {
 		return p;
 	}
-	
-	public ExpressionList evaluateDown(ExpressionList p)
-		throws ParseTreeException {
+
+	public ExpressionList evaluateDown(ExpressionList p) throws ParseTreeException {
 		return p;
 	}
-	public Statement evaluateDown(ExpressionStatement p)
-		throws ParseTreeException {
+	public Statement evaluateDown(ExpressionStatement p) throws ParseTreeException {
 		return p;
 	}
 	public Expression evaluateDown(FieldAccess p) throws ParseTreeException {
 		return p;
 	}
-	public MemberDeclaration evaluateDown(FieldDeclaration p)
-		throws ParseTreeException {
+	public MemberDeclaration evaluateDown(FieldDeclaration p) throws ParseTreeException {
 		return p;
 	}
 	public Statement evaluateDown(ForStatement p) throws ParseTreeException {
@@ -256,68 +235,55 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 		return p;
 	}
 	/*
-	 * Update: Aug 23, 2014
-	 * Author: Lin Deng
-	 * Add support for AssertStatement
+	 * Update: Aug 23, 2014 Author: Lin Deng Add support for AssertStatement
 	 */
 	public Statement evaluateDown(AssertStatement p) throws ParseTreeException {
 		return p;
 	}
-	
-	public Expression evaluateDown(InstanceofExpression p)
-		throws ParseTreeException {
+
+	public Expression evaluateDown(InstanceofExpression p) throws ParseTreeException {
 		return p;
 	}
-	public Statement evaluateDown(LabeledStatement p)
-		throws ParseTreeException {
+	public Statement evaluateDown(LabeledStatement p) throws ParseTreeException {
 		return p;
 	}
 	public Expression evaluateDown(Literal p) throws ParseTreeException {
 		return p;
 	}
-	public MemberDeclarationList evaluateDown(MemberDeclarationList p)
-		throws ParseTreeException {
+	public MemberDeclarationList evaluateDown(MemberDeclarationList p) throws ParseTreeException {
 		return p;
 	}
-	public MemberDeclaration evaluateDown(MemberInitializer p)
-		throws ParseTreeException {
+	public MemberDeclaration evaluateDown(MemberInitializer p) throws ParseTreeException {
 		return p;
 	}
 	public Expression evaluateDown(MethodCall p) throws ParseTreeException {
 		return p;
 	}
-	public MemberDeclaration evaluateDown(MethodDeclaration p)
-		throws ParseTreeException {
+	public MemberDeclaration evaluateDown(MethodDeclaration p) throws ParseTreeException {
 		return p;
 	}
-	public ModifierList evaluateDown(ModifierList p)
-		throws ParseTreeException {
+	public ModifierList evaluateDown(ModifierList p) throws ParseTreeException {
 		return p;
 	}
 	public Parameter evaluateDown(Parameter p) throws ParseTreeException {
 		return p;
 	}
-	public ParameterList evaluateDown(ParameterList p)
-		throws ParseTreeException {
+	public ParameterList evaluateDown(ParameterList p) throws ParseTreeException {
 		return p;
 	}
-	public Statement evaluateDown(ReturnStatement p)
-		throws ParseTreeException {
+	public Statement evaluateDown(ReturnStatement p) throws ParseTreeException {
 		return p;
 	}
 	public Expression evaluateDown(SelfAccess p) throws ParseTreeException {
 		return p;
 	}
-	public StatementList evaluateDown(StatementList p)
-		throws ParseTreeException {
+	public StatementList evaluateDown(StatementList p) throws ParseTreeException {
 		return p;
 	}
-	public Statement evaluateDown(SwitchStatement p)
-		throws ParseTreeException {
+	public Statement evaluateDown(SwitchStatement p) throws ParseTreeException {
 		return p;
 	}
-	public Statement evaluateDown(SynchronizedStatement p)
-		throws ParseTreeException {
+	public Statement evaluateDown(SynchronizedStatement p) throws ParseTreeException {
 		return p;
 	}
 	public Statement evaluateDown(ThrowStatement p) throws ParseTreeException {
@@ -335,46 +301,38 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	public TypeParameterList evaluateDown(TypeParameterList p) throws ParseTreeException {
 		return p;
 	}
-	public Expression evaluateDown(UnaryExpression p)
-		throws ParseTreeException {
+	public Expression evaluateDown(UnaryExpression p) throws ParseTreeException {
 		return p;
 	}
 	public Expression evaluateDown(Variable p) throws ParseTreeException {
 		return p;
 	}
-	public Statement evaluateDown(VariableDeclaration p)
-		throws ParseTreeException {
+	public Statement evaluateDown(VariableDeclaration p) throws ParseTreeException {
 		return p;
 	}
-	public VariableDeclarator evaluateDown(VariableDeclarator p)
-		throws ParseTreeException {
+	public VariableDeclarator evaluateDown(VariableDeclarator p) throws ParseTreeException {
 		return p;
 	}
 	public Statement evaluateDown(WhileStatement p) throws ParseTreeException {
 		return p;
 	}
 
-	public Expression evaluateUp(AllocationExpression p)
-		throws ParseTreeException {
+	public Expression evaluateUp(AllocationExpression p) throws ParseTreeException {
 		return p;
 	}
 	public Expression evaluateUp(ArrayAccess p) throws ParseTreeException {
 		return p;
 	}
-	public Expression evaluateUp(ArrayAllocationExpression p)
-		throws ParseTreeException {
+	public Expression evaluateUp(ArrayAllocationExpression p) throws ParseTreeException {
 		return p;
 	}
-	public VariableInitializer evaluateUp(ArrayInitializer p)
-		throws ParseTreeException {
+	public VariableInitializer evaluateUp(ArrayInitializer p) throws ParseTreeException {
 		return p;
 	}
-	public Expression evaluateUp(AssignmentExpression p)
-		throws ParseTreeException {
+	public Expression evaluateUp(AssignmentExpression p) throws ParseTreeException {
 		return p;
 	}
-	public Expression evaluateUp(BinaryExpression p)
-		throws ParseTreeException {
+	public Expression evaluateUp(BinaryExpression p) throws ParseTreeException {
 		return p;
 	}
 	public Statement evaluateUp(Block p) throws ParseTreeException {
@@ -386,15 +344,13 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	public CaseGroup evaluateUp(CaseGroup p) throws ParseTreeException {
 		return p;
 	}
-	public CaseGroupList evaluateUp(CaseGroupList p)
-		throws ParseTreeException {
+	public CaseGroupList evaluateUp(CaseGroupList p) throws ParseTreeException {
 		return p;
 	}
 	public CaseLabel evaluateUp(CaseLabel p) throws ParseTreeException {
 		return p;
 	}
-	public CaseLabelList evaluateUp(CaseLabelList p)
-		throws ParseTreeException {
+	public CaseLabelList evaluateUp(CaseLabelList p) throws ParseTreeException {
 		return p;
 	}
 	public Expression evaluateUp(CastExpression p) throws ParseTreeException {
@@ -406,35 +362,28 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	public CatchList evaluateUp(CatchList p) throws ParseTreeException {
 		return p;
 	}
-	public ClassDeclaration evaluateUp(ClassDeclaration p)
-		throws ParseTreeException {
+	public ClassDeclaration evaluateUp(ClassDeclaration p) throws ParseTreeException {
 		return p;
 	}
-	public ClassDeclarationList evaluateUp(ClassDeclarationList p)
-		throws ParseTreeException {
+	public ClassDeclarationList evaluateUp(ClassDeclarationList p) throws ParseTreeException {
 		return p;
 	}
 	public Expression evaluateUp(ClassLiteral p) throws ParseTreeException {
 		return p;
 	}
-	public CompilationUnit evaluateUp(CompilationUnit p)
-		throws ParseTreeException {
+	public CompilationUnit evaluateUp(CompilationUnit p) throws ParseTreeException {
 		return p;
 	}
-	public Expression evaluateUp(ConditionalExpression p)
-		throws ParseTreeException {
+	public Expression evaluateUp(ConditionalExpression p) throws ParseTreeException {
 		return p;
 	}
-	public MemberDeclaration evaluateUp(ConstructorDeclaration p)
-		throws ParseTreeException {
+	public MemberDeclaration evaluateUp(ConstructorDeclaration p) throws ParseTreeException {
 		return p;
 	}
-	public ConstructorInvocation evaluateUp(ConstructorInvocation p)
-		throws ParseTreeException {
+	public ConstructorInvocation evaluateUp(ConstructorInvocation p) throws ParseTreeException {
 		return p;
 	}
-	public Statement evaluateUp(ContinueStatement p)
-		throws ParseTreeException {
+	public Statement evaluateUp(ContinueStatement p) throws ParseTreeException {
 		return p;
 	}
 	public Statement evaluateUp(DoWhileStatement p) throws ParseTreeException {
@@ -449,28 +398,25 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	public MemberDeclaration evaluateUp(EnumDeclaration p) throws ParseTreeException {
 		return p;
 	}
-	
+
 	public EnumConstant evaluateUp(EnumConstant p) throws ParseTreeException {
 		return p;
 	}
-	
+
 	public EnumConstantList evaluateUp(EnumConstantList p) throws ParseTreeException {
 		return p;
 	}
-	
-	public ExpressionList evaluateUp(ExpressionList p)
-		throws ParseTreeException {
+
+	public ExpressionList evaluateUp(ExpressionList p) throws ParseTreeException {
 		return p;
 	}
-	public Statement evaluateUp(ExpressionStatement p)
-		throws ParseTreeException {
+	public Statement evaluateUp(ExpressionStatement p) throws ParseTreeException {
 		return p;
 	}
 	public Expression evaluateUp(FieldAccess p) throws ParseTreeException {
 		return p;
 	}
-	public MemberDeclaration evaluateUp(FieldDeclaration p)
-		throws ParseTreeException {
+	public MemberDeclaration evaluateUp(FieldDeclaration p) throws ParseTreeException {
 		return p;
 	}
 	public Statement evaluateUp(ForStatement p) throws ParseTreeException {
@@ -480,17 +426,13 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 		return p;
 	}
 	/*
-	 * Update: Aug 23, 2014
-	 * Author: Lin Deng
-	 * Add support for AssertStatement
+	 * Update: Aug 23, 2014 Author: Lin Deng Add support for AssertStatement
 	 */
 	public Statement evaluateUp(AssertStatement p) throws ParseTreeException {
 		return p;
 	}
-	
-	
-	public Expression evaluateUp(InstanceofExpression p)
-		throws ParseTreeException {
+
+	public Expression evaluateUp(InstanceofExpression p) throws ParseTreeException {
 		return p;
 	}
 	public Statement evaluateUp(LabeledStatement p) throws ParseTreeException {
@@ -499,19 +441,16 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	public Expression evaluateUp(Literal p) throws ParseTreeException {
 		return p;
 	}
-	public MemberDeclarationList evaluateUp(MemberDeclarationList p)
-		throws ParseTreeException {
+	public MemberDeclarationList evaluateUp(MemberDeclarationList p) throws ParseTreeException {
 		return p;
 	}
-	public MemberDeclaration evaluateUp(MemberInitializer p)
-		throws ParseTreeException {
+	public MemberDeclaration evaluateUp(MemberInitializer p) throws ParseTreeException {
 		return p;
 	}
 	public Expression evaluateUp(MethodCall p) throws ParseTreeException {
 		return p;
 	}
-	public MemberDeclaration evaluateUp(MethodDeclaration p)
-		throws ParseTreeException {
+	public MemberDeclaration evaluateUp(MethodDeclaration p) throws ParseTreeException {
 		return p;
 	}
 	public ModifierList evaluateUp(ModifierList p) throws ParseTreeException {
@@ -520,8 +459,7 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	public Parameter evaluateUp(Parameter p) throws ParseTreeException {
 		return p;
 	}
-	public ParameterList evaluateUp(ParameterList p)
-		throws ParseTreeException {
+	public ParameterList evaluateUp(ParameterList p) throws ParseTreeException {
 		return p;
 	}
 	public Statement evaluateUp(ReturnStatement p) throws ParseTreeException {
@@ -530,15 +468,13 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	public Expression evaluateUp(SelfAccess p) throws ParseTreeException {
 		return p;
 	}
-	public StatementList evaluateUp(StatementList p)
-		throws ParseTreeException {
+	public StatementList evaluateUp(StatementList p) throws ParseTreeException {
 		return p;
 	}
 	public Statement evaluateUp(SwitchStatement p) throws ParseTreeException {
 		return p;
 	}
-	public Statement evaluateUp(SynchronizedStatement p)
-		throws ParseTreeException {
+	public Statement evaluateUp(SynchronizedStatement p) throws ParseTreeException {
 		return p;
 	}
 	public Statement evaluateUp(ThrowStatement p) throws ParseTreeException {
@@ -562,12 +498,10 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	public Expression evaluateUp(Variable p) throws ParseTreeException {
 		return p;
 	}
-	public Statement evaluateUp(VariableDeclaration p)
-		throws ParseTreeException {
+	public Statement evaluateUp(VariableDeclaration p) throws ParseTreeException {
 		return p;
 	}
-	public VariableDeclarator evaluateUp(VariableDeclarator p)
-		throws ParseTreeException {
+	public VariableDeclarator evaluateUp(VariableDeclarator p) throws ParseTreeException {
 		return p;
 	}
 	public Statement evaluateUp(WhileStatement p) throws ParseTreeException {
@@ -867,12 +801,12 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 		if (newp != p)
 			p.replace(newp);
 	}
-	
+
 	/**
 	 * Added for Java 1.5 Enumeration
 	 */
 	public void visit(EnumDeclaration p) throws ParseTreeException {
-		
+
 		MemberDeclaration newp = this.evaluateDown(p);
 		if (newp != p) {
 			p.replace(newp);
@@ -883,7 +817,7 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 		if (newp != p)
 			p.replace(newp);
 	}
-	
+
 	public void visit(EnumConstant p) throws ParseTreeException {
 		EnumConstant newp = this.evaluateDown(p);
 		if (newp != p) {
@@ -895,7 +829,7 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 		if (newp != p)
 			p.replace(newp);
 	}
-	
+
 	public void visit(EnumConstantList p) throws ParseTreeException {
 		EnumConstantList newp = this.evaluateDown(p);
 		if (newp != p) {
@@ -958,7 +892,7 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 	}
 
 	public void visit(ForStatement p) throws ParseTreeException {
-	
+
 		Statement newp = this.evaluateDown(p);
 		if (newp != p) {
 			p.replace(newp);
@@ -982,9 +916,7 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 			p.replace(newp);
 	}
 	/*
-	 * Update: Aug 23, 2014
-	 * Author: Lin Deng
-	 * Add support for AssertStatement
+	 * Update: Aug 23, 2014 Author: Lin Deng Add support for AssertStatement
 	 */
 	public void visit(AssertStatement p) throws ParseTreeException {
 		Statement newp = this.evaluateDown(p);
@@ -1213,7 +1145,7 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 		if (newp != p)
 			p.replace(newp);
 	}
-	
+
 	public void visit(TypeParameter p) throws ParseTreeException {
 		TypeParameter newp = this.evaluateDown(p);
 		if (newp != p) {
@@ -1225,7 +1157,7 @@ public abstract class EvaluationShuttle extends ParseTreeVisitor {
 		if (newp != p)
 			p.replace(newp);
 	}
-	
+
 	public void visit(TypeParameterList p) throws ParseTreeException {
 		TypeParameterList newp = this.evaluateDown(p);
 		if (newp != p) {

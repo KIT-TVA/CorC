@@ -3,13 +3,13 @@ package de.tu_bs.cs.isf.cbc.parser.data;
 import de.tu_bs.cs.isf.cbc.parser.annotations.MDF;
 
 public class Field implements IFieldOrMethod {
-	
+
 	private String name;
 	private String securityLevel;
 	private MDF mutationModifier;
 	private String type;
 	private Boolean staticReference;
-	
+
 	public Field(String name, String securityLevel, MDF mutationModifier, String type, Boolean staticReference) {
 		super();
 		this.name = name;
@@ -18,7 +18,7 @@ public class Field implements IFieldOrMethod {
 		this.type = type;
 		this.staticReference = staticReference;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -28,7 +28,7 @@ public class Field implements IFieldOrMethod {
 	public MDF getMutationModifier() {
 		return mutationModifier;
 	}
-	
+
 	public String getFieldType() {
 		return type;
 	}

@@ -27,16 +27,16 @@ import src.com.beust.jcommander.ParameterException;
  */
 public class FloatConverter extends BaseConverter<Float> {
 
-  public FloatConverter(String optionName) {
-    super(optionName);
-  }
+	public FloatConverter(String optionName) {
+		super(optionName);
+	}
 
-  public Float convert(String value) {
-    try {
-      return Float.parseFloat(value);
-    } catch(NumberFormatException ex) {
-      throw new ParameterException(getErrorString(value, "a float"));
-    }
-  }
+	public Float convert(String value) {
+		try {
+			return Float.parseFloat(value);
+		} catch (NumberFormatException ex) {
+			throw new ParameterException(getErrorString(value, "a float"));
+		}
+	}
 
 }

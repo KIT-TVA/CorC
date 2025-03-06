@@ -8,13 +8,9 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
-import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.AbstractStatementImpl;
 import de.tu_bs.cs.isf.cbc.util.CompareMethodBodies;
 import de.tu_bs.cs.isf.cbc.util.Console;
-import de.tu_bs.cs.isf.cbc.util.DiagramPartsExtractor;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
@@ -23,45 +19,48 @@ import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
 
 /**
  * Class that generates the weakest precondition with key
+ * 
  * @author Tobias
  *
  */
 public class GenerateIntermediateConditionFeature2 extends MyAbstractAsynchronousCustomFeature {
-    
-    /**
-     * Constructor of the class
-     * @param fp	The FeatureProvider
-     */
-    public GenerateIntermediateConditionFeature2(IFeatureProvider fp) {
-        super(fp);
-    }
- 
-    @Override
-    public String getName() {
-        return "Generate intermediate condition with wp calculus";
-    }
- 
-    @Override
-    public String getDescription() {
-        return "Generates a intermediate condition from an assignment and a post condition";
-    }
- 
-    @Override
-    public boolean canExecute(ICustomContext context) {
-        boolean ret = false;
-        PictogramElement[] pes = context.getPictogramElements();
-        if (pes != null && pes.length == 1) {
-            Object bo = getBusinessObjectForPictogramElement(pes[0]);
-            if (bo != null && bo.getClass().equals(AbstractStatementImpl.class)) {
-            		ret = true;
-            }
-        }
-        return ret;
-    }
- 
-    @Override
-    public void execute(ICustomContext context, IProgressMonitor monitor) {
-    	monitor.beginTask("Verify statement", IProgressMonitor.UNKNOWN);
+
+	/**
+	 * Constructor of the class
+	 * 
+	 * @param fp
+	 *            The FeatureProvider
+	 */
+	public GenerateIntermediateConditionFeature2(IFeatureProvider fp) {
+		super(fp);
+	}
+
+	@Override
+	public String getName() {
+		return "Generate intermediate condition with wp calculus";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Generates a intermediate condition from an assignment and a post condition";
+	}
+
+	@Override
+	public boolean canExecute(ICustomContext context) {
+		boolean ret = false;
+		PictogramElement[] pes = context.getPictogramElements();
+		if (pes != null && pes.length == 1) {
+			Object bo = getBusinessObjectForPictogramElement(pes[0]);
+			if (bo != null && bo.getClass().equals(AbstractStatementImpl.class)) {
+				ret = true;
+			}
+		}
+		return ret;
+	}
+
+	@Override
+	public void execute(ICustomContext context, IProgressMonitor monitor) {
+		monitor.beginTask("Verify statement", IProgressMonitor.UNKNOWN);
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
@@ -73,12 +72,13 @@ public class GenerateIntermediateConditionFeature2 extends MyAbstractAsynchronou
 					compoStatement = (CompositionStatement) statement.getParent().eContainer();
 					if (!compoStatement.getSecondStatement().equals(statement.getParent())) {
 						compoStatement = null;
-	            	}
+					}
 				}
 				String weakestPre = "";
 				if (CompareMethodBodies.readAndTestMethodBodyWithJaMoPP2(statement.getName())) {
 					String uriString = getDiagram().eResource().getURI().toPlatformString(true);
-					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), new String[] {}, 0, KeYInteraction.ABSTRACT_PROOF_FULL);
+					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString),
+							new String[]{}, 0, KeYInteraction.ABSTRACT_PROOF_FULL);
 					weakestPre = prove.proveUseWeakestPreWithKey();
 				} else {
 					Console.println("Statement is not in correct format.");
@@ -87,10 +87,10 @@ public class GenerateIntermediateConditionFeature2 extends MyAbstractAsynchronou
 					compoStatement.getIntermediateCondition().setName(weakestPre);
 					UpdateConditionsOfChildren.updateConditionsofChildren(compoStatement.getIntermediateCondition());
 					updatePictogramElement(pes[0]);
-					updatePictogramElement(((Shape)pes[0]).getContainer());
+					updatePictogramElement(((Shape) pes[0]).getContainer());
 				}
 			}
 		}
 		monitor.done();
-    }
+	}
 }

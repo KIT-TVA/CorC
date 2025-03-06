@@ -7,7 +7,7 @@ import static java.lang.annotation.ElementType.PARAMETER;
 
 import java.lang.annotation.Target;
 
-@Target({ FIELD, METHOD, PARAMETER, LOCAL_VARIABLE })
+@Target({FIELD, METHOD, PARAMETER, LOCAL_VARIABLE})
 public @interface SecurityLevel {
 	String value();
 }

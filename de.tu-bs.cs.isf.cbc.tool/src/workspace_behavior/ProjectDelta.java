@@ -26,22 +26,22 @@ class ProjectDelta implements IResourceDeltaVisitor {
 	public boolean visit(IResourceDelta delta) throws CoreException {
 		IResource res = delta.getResource();
 		switch (delta.getKind()) {
-		case IResourceDelta.ADDED:
-			System.out.print("Resource ");
-			System.out.print(res.getFullPath());
-			System.out.println(" was added.");
-			if (Objects.equals(res.getFullPath().lastSegment(), "model.xml")) {
-				new FeatureModelDelta(res);
-			}
-			break;
-		case IResourceDelta.REMOVED:
-			break;
-		case IResourceDelta.CHANGED:
-			// only if feature-diagram changes
-			if (Objects.equals(res.getFullPath().lastSegment(), "model.xml")) {
-				new FeatureModelDelta(res);
-			}
-			break;
+			case IResourceDelta.ADDED :
+				System.out.print("Resource ");
+				System.out.print(res.getFullPath());
+				System.out.println(" was added.");
+				if (Objects.equals(res.getFullPath().lastSegment(), "model.xml")) {
+					new FeatureModelDelta(res);
+				}
+				break;
+			case IResourceDelta.REMOVED :
+				break;
+			case IResourceDelta.CHANGED :
+				// only if feature-diagram changes
+				if (Objects.equals(res.getFullPath().lastSegment(), "model.xml")) {
+					new FeatureModelDelta(res);
+				}
+				break;
 		}
 		return true; // visit the children
 	}

@@ -78,7 +78,7 @@ public class UpdateOriginals {
 		// Get URIs for all features
 		List<URI> diagramURIs = new ArrayList<URI>();
 		for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
-			String[] lastSegments = { affectedOriginalFeatures.get(i), "diagram", uri.lastSegment() };
+			String[] lastSegments = {affectedOriginalFeatures.get(i), "diagram", uri.lastSegment()};
 			diagramURIs.add(uri.trimSegments(uri.segmentCount() - 3).appendSegments(lastSegments));
 		}
 		// Throw out features which doesn't implement the method
@@ -91,7 +91,7 @@ public class UpdateOriginals {
 		// Get all valid URIs for all features
 		List<URI> validDiagramURIs = new ArrayList<URI>();
 		for (int i = 0; i < affectedOriginalFeatures.size(); i++) {
-			String[] lastSegments = { affectedOriginalFeatures.get(i), "diagram", uri.lastSegment() };
+			String[] lastSegments = {affectedOriginalFeatures.get(i), "diagram", uri.lastSegment()};
 			validDiagramURIs.add(uri.trimSegments(diagramURIs.get(i).segmentCount() - 3).appendSegments(lastSegments));
 		}
 

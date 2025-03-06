@@ -12,25 +12,27 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
 
 package src.mujava;
 
 /**
- * <p>Description: </p>
+ * <p>
+ * Description:
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class OpenJavaException extends Exception{
+public class OpenJavaException extends Exception {
 
 	private static final long serialVersionUID = 1L;
-	
-  public OpenJavaException() {
-  }
 
-  public OpenJavaException(String str) {
-    super(str);
-  }
+	public OpenJavaException() {
+	}
+
+	public OpenJavaException(String str) {
+		super(str);
+	}
 }

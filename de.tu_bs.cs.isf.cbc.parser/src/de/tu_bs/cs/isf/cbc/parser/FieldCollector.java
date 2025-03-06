@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
@@ -61,7 +60,7 @@ class FieldCollector extends VoidVisitorAdapter<Map<String, List<IFieldOrMethod>
 			// MDF is not defined, using default value for MDF
 			mutationModifier = "MDF.IMMUTABLE";
 		}
-		
+
 		final NodeList<Modifier> modifiers = fd.getModifiers();
 		Boolean staticReference = false;
 		for (Modifier modifier : modifiers) {
@@ -75,12 +74,11 @@ class FieldCollector extends VoidVisitorAdapter<Map<String, List<IFieldOrMethod>
 		// Add fields to appropriate list per class. Loop because of multiple
 		// declarations per line
 		for (VariableDeclarator variable : fd.getVariables()) {
-			final List<IFieldOrMethod> classMethodsAndFields = fields.get(className) != null ? fields.get(className)
+			final List<IFieldOrMethod> classMethodsAndFields = fields.get(className) != null
+					? fields.get(className)
 					: new ArrayList<>();
-			final Field field = new Field(variable.getNameAsString(),
-					securityLevel,
-					MDF.forAnnotationExpress(mutationModifier), variable.getTypeAsString(),
-					staticReference);
+			final Field field = new Field(variable.getNameAsString(), securityLevel,
+					MDF.forAnnotationExpress(mutationModifier), variable.getTypeAsString(), staticReference);
 			classMethodsAndFields.add(field);
 			fields.put(className, classMethodsAndFields);
 		}

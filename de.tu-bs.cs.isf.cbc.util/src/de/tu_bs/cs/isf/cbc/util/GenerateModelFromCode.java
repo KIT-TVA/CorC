@@ -104,44 +104,45 @@ public class GenerateModelFromCode {
 		String javaFileContent = readFileToString(iFile.getLocation().toPortableString());
 
 		readJMLAnnotations(javaFileContent, jmlMethodConditions);
-		
+
 		CompilationUnit compilationUnit = StaticJavaParser.parse(javaFileContent);
 		if (compilationUnit.getChildNodes().isEmpty()) {
 			return;
 		}
-		
+
 		ClassOrInterfaceCollector collector = new ClassOrInterfaceCollector();
 		collector.visit(compilationUnit, null);
-		
+
 		/*
-		if (compilationUnit.getNamespacesAsString() != null && !compilationUnit.getNamespacesAsString().isEmpty()) {
-			packageName = compilationUnit.getNamespacesAsString().substring(0, compilationUnit.getNamespacesAsString().length()-1);
-		}
-		*/
-		
+		 * if (compilationUnit.getNamespacesAsString() != null &&
+		 * !compilationUnit.getNamespacesAsString().isEmpty()) { packageName =
+		 * compilationUnit.getNamespacesAsString().substring(0,
+		 * compilationUnit.getNamespacesAsString().length()-1); }
+		 */
+
 		setupProjectStructure(iFile);
-		
+
 		ModelClass modelClass = instantiateModelClass(null);
 		modelClass.setJavaClassURI(URI.createFileURI(iFile.getProjectRelativePath().toPortableString()).toFileString());
 		modelClass.setPackage(packageName);
-		
+
 		if (!collector.getClassOrInterfaceDeclaration().isInterface()) {
 			for (FieldDeclaration fieldDeclaration : collector.getFields()) {
 				addFieldToList(fieldDeclaration);
 			}
-			
+
 			for (MethodDeclaration methodDeclaration : collector.getMethods()) {
 				Method method = CbcclassFactory.eINSTANCE.createMethod();
-				
+
 				Resource cbcmodelResource = setupProjectForCbCModel(method, methodDeclaration.getNameAsString());
-				
+
 				JavaVariables variables = CbcmodelFactory.eINSTANCE.createJavaVariables();
 				fillVariableList(variables, methodDeclaration);
 
-				//String signature = buildSignatureString(classMethod, variables);
+				// String signature = buildSignatureString(classMethod, variables);
 				settingSignature(methodDeclaration, variables, method);
 
-				//get global conditions from existing diagram
+				// get global conditions from existing diagram
 				GlobalConditions conditions = CbcmodelFactory.eINSTANCE.createGlobalConditions();
 				for (EObject obj : cbcmodelResource.getContents()) {
 					if (obj instanceof GlobalConditions) {
@@ -155,8 +156,8 @@ public class GenerateModelFromCode {
 				method.setCbcStartTriple(formula);
 				formula.setMethodObj(method);
 				variables.eSet(CbcmodelPackage.eINSTANCE.getJavaVariables_Fields(), fields);
-				
-				//parse JML contract to pre- and postconditions of cbcFormula
+
+				// parse JML contract to pre- and postconditions of cbcFormula
 				String defaultAnnotation = "	/*@\r\n" + "	  @ public normal_behavior\r\n"
 						+ "	  @ requires true;\r\n" + "	  @ ensures true;\r\n" + "	  @ assignable \\nothing;\r\n"
 						+ "	  @*/";
@@ -185,7 +186,7 @@ public class GenerateModelFromCode {
 					addConditionsToFormula(formula, currentJmlPart, variables, conditions);
 
 				} while (index != -1);
-				
+
 				cbcmodelResource.getContents().clear();
 				cbcmodelResource.getContents().add(formula);
 				cbcmodelResource.getContents().add(variables);
@@ -204,7 +205,8 @@ public class GenerateModelFromCode {
 				}
 				Collections.copy(listOfStatements, statementsCollector.getStatements());
 				Collections.copy(listOfAssertStatements, statementsCollector.getAssertStatements());
-				handleListOfStatements(cbcmodelResource, listOfStatements, listOfAssertStatements, formula.getStatement());					
+				handleListOfStatements(cbcmodelResource, listOfStatements, listOfAssertStatements,
+						formula.getStatement());
 				for (int i = 0; i < variables.getVariables().size(); i++) {
 					JavaVariable var = variables.getVariables().get(i);
 					if (var.getKind().equals(VariableKind.PARAM) || var.getKind().equals(VariableKind.RETURN)) {
@@ -220,8 +222,8 @@ public class GenerateModelFromCode {
 			cbcclassResource.getContents().add(modelClass);
 			saveResource(cbcclassResource);
 			// TODO: generate class diagram from model
-			
-			for(Resource cbcmodelResource: cbcmodelResources) {
+
+			for (Resource cbcmodelResource : cbcmodelResources) {
 				saveResource(cbcmodelResource);
 				GenerateDiagramFromModel gdfm = new GenerateDiagramFromModel();
 				gdfm.execute(cbcmodelResource);
@@ -229,38 +231,39 @@ public class GenerateModelFromCode {
 		}
 	}
 
-	public ModelClass instantiateModelClass(String methodName) throws ExecutionException{
+	public ModelClass instantiateModelClass(String methodName) throws ExecutionException {
 		ModelClass modelClass = null;
-		
+
 		if (methodName == null) {
 			for (EObject obj : cbcclassResource.getContents()) {
-				if(obj instanceof ModelClass) {
+				if (obj instanceof ModelClass) {
 					modelClass = (ModelClass) obj;
 					modelClass.getMethods().clear();
 					modelClass.getClassInvariants().clear();
 					modelClass.getFields();
 				}
 			}
-			
-			if(modelClass == null) {
+
+			if (modelClass == null) {
 				modelClass = CbcclassFactory.eINSTANCE.createModelClass();
 				modelClass.setName(className);
 			}
 		} else {
 			for (EObject obj : cbcclassResource.getContents()) {
-				if(obj instanceof ModelClass) {
+				if (obj instanceof ModelClass) {
 					modelClass = (ModelClass) obj;
 				}
 			}
-			
-			if(modelClass == null) {
+
+			if (modelClass == null) {
 				modelClass = CbcclassFactory.eINSTANCE.createModelClass();
 				modelClass.setName(className);
 			} else {
 				for (Method m : modelClass.getMethods()) {
 					if (m.getName().equals(methodName)) {
-						boolean answer = MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
-								, "Confirm", "The selected Diagram already exists and will be replaced. Do you still want to continue?");
+						boolean answer = MessageDialog.openQuestion(
+								PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Confirm",
+								"The selected Diagram already exists and will be replaced. Do you still want to continue?");
 						if (!answer) {
 							throw new ExecutionException("The selected Diagram already exists.");
 						}
@@ -277,16 +280,18 @@ public class GenerateModelFromCode {
 	public Resource setupProjectForCbCModel(Method method, String methodName) {
 		Resource cbcmodelResource;
 
-		//URI cbcDiagramUri = URI.createFileURI(folder.getLocation() + "\\" + methodName + ".cbcmodel");
+		// URI cbcDiagramUri = URI.createFileURI(folder.getLocation() + "\\" +
+		// methodName + ".cbcmodel");
 		URI cbcDiagramUri = URI.createFileURI(folder.getLocation() + File.separator + methodName + ".cbcmodel");
-		
 
 		if (!folder.getFile(methodName + ".cbcmodel").exists()) {
 
 			m.put("cbcmodel", new XMIResourceFactoryImpl());
 			cbcmodelResource = rs
-					//.createResource(URI.createFileURI(folder.getLocation() + "\\" + methodName + ".cbcmodel"));
-					.createResource(URI.createFileURI(folder.getLocation() + File.separator + methodName + ".cbcmodel"));
+					// .createResource(URI.createFileURI(folder.getLocation() + "\\" + methodName +
+					// ".cbcmodel"));
+					.createResource(
+							URI.createFileURI(folder.getLocation() + File.separator + methodName + ".cbcmodel"));
 			method.setCbcDiagramURI(cbcDiagramUri.toFileString());
 		} else {
 			IFile cbcmodelFile = folder.getFile(methodName + ".cbcmodel");
@@ -297,11 +302,11 @@ public class GenerateModelFromCode {
 
 	public void fillVariableList(JavaVariables variables, MethodDeclaration methodDec) {
 		// add parameters to variables
-		
+
 		for (Parameter p : methodDec.getParameters()) {
 			addToVariables(new VariableDeclarator(p.getType(), p.getName()), variables, VariableKind.PARAM);
 		}
-		
+
 		com.github.javaparser.ast.type.Type type = methodDec.getType();
 		if (!type.isVoidType()) {
 			JavaVariable variable = CbcmodelFactory.eINSTANCE.createJavaVariable();
@@ -310,22 +315,22 @@ public class GenerateModelFromCode {
 			variable.setKind(VariableKind.RETURN);
 			variables.getVariables().add(variable);
 		}
-		
+
 	}
 
 	public void addFieldToList(FieldDeclaration fieldDec) {
 		Field field = CbcclassFactory.eINSTANCE.createField();
-		
+
 		NodeList<VariableDeclarator> varDec = fieldDec.getVariables();
 		field.setName(varDec.get(0).getNameAsString());
 		field.setType(varDec.get(0).getTypeAsString());
-		
+
 		if (fieldDec.isPrivate()) {
 			field.setVisibility(Visibility.PRIVATE);
 		} else if (fieldDec.isProtected()) {
 			field.setVisibility(Visibility.PROTECTED);
 		}
-		
+
 		if (fieldDec.isStatic()) {
 			field.setIsStatic(true);
 		}
@@ -334,8 +339,11 @@ public class GenerateModelFromCode {
 
 	public void setupProjectStructure(IFile iFile) {
 		className = iFile.getName().split("\\.")[0];
-		//folder = iFile.getProject().getFolder(iFile.getParent().getProjectRelativePath().append("\\" + className));
-		folder = iFile.getProject().getFolder(iFile.getParent().getProjectRelativePath().append(File.separator + className));
+		// folder =
+		// iFile.getProject().getFolder(iFile.getParent().getProjectRelativePath().append("\\"
+		// + className));
+		folder = iFile.getProject()
+				.getFolder(iFile.getParent().getProjectRelativePath().append(File.separator + className));
 		if (!folder.exists()) {
 			try {
 				folder.create(true, true, null);
@@ -349,7 +357,8 @@ public class GenerateModelFromCode {
 
 			m.put("cbcclass", new XMIResourceFactoryImpl());
 			cbcclassResource = rs
-					//.createResource(URI.createFileURI(folder.getLocation() + "\\" + className + ".cbcclass"));
+					// .createResource(URI.createFileURI(folder.getLocation() + "\\" + className +
+					// ".cbcclass"));
 					.createResource(URI.createFileURI(folder.getLocation() + File.separator + className + ".cbcclass"));
 		} else {
 			IFile cbcclassFile = folder.getFile(className + ".cbcclass");
@@ -399,7 +408,7 @@ public class GenerateModelFromCode {
 
 		return signature;
 	}
-	
+
 	public void settingSignature(MethodDeclaration methodDec, JavaVariables variables, Method method) {
 		if (methodDec.isPublic()) {
 			method.setVisibility(Visibility.PUBLIC);
@@ -411,7 +420,7 @@ public class GenerateModelFromCode {
 		if (methodDec.isStatic()) {
 			method.setIsStatic(true);
 		}
-		
+
 		method.setReturnType("void");
 		method.setName(methodDec.getNameAsString());
 
@@ -419,15 +428,15 @@ public class GenerateModelFromCode {
 			if (v.getKind().equals(VariableKind.PARAM)) {
 				de.tu_bs.cs.isf.cbc.cbcclass.Parameter param = CbcclassFactory.eINSTANCE.createParameter();
 				String[] nameSplitted = v.getName().split(" ");
-				param.setType(nameSplitted[nameSplitted.length-2]);
-				param.setName(nameSplitted[nameSplitted.length-1]);
+				param.setType(nameSplitted[nameSplitted.length - 2]);
+				param.setName(nameSplitted[nameSplitted.length - 1]);
 				method.getParameters().add(param);
 			} else if (v.getKind().equals(VariableKind.RETURN)) {
 				method.setReturnType(v.getName().substring(0, v.getName().indexOf(' ')));
 				de.tu_bs.cs.isf.cbc.cbcclass.Parameter param = CbcclassFactory.eINSTANCE.createParameter();
 				String[] nameSplitted = v.getName().split(" ");
-				param.setType(nameSplitted[nameSplitted.length-2]);
-				param.setName(nameSplitted[nameSplitted.length-1]);
+				param.setType(nameSplitted[nameSplitted.length - 2]);
+				param.setName(nameSplitted[nameSplitted.length - 1]);
 				method.getParameters().add(param);
 			}
 		}
@@ -437,14 +446,17 @@ public class GenerateModelFromCode {
 	 * adds the pre and post condition from jmlAnnotation to formula
 	 * 
 	 * @param formula
-	 * @param jmlAnnotation contains pre and post condition for formula
+	 * @param jmlAnnotation
+	 *            contains pre and post condition for formula
 	 * @param variables
 	 * @param conditions
 	 */
-	public void addConditionsToFormula(CbCFormula formula, String jmlAnnotation, JavaVariables variables, GlobalConditions conditions) {
+	public void addConditionsToFormula(CbCFormula formula, String jmlAnnotation, JavaVariables variables,
+			GlobalConditions conditions) {
 		jmlAnnotation = replaceSpecialSymbols(jmlAnnotation);
 
-		//jmlAnnotation = cbcWorkaroundForOldKeyword(jmlAnnotation, variables, conditions);
+		// jmlAnnotation = cbcWorkaroundForOldKeyword(jmlAnnotation, variables,
+		// conditions);
 
 		// adds pre condition
 		int startPre = jmlAnnotation.indexOf("requires");
@@ -468,9 +480,9 @@ public class GenerateModelFromCode {
 		while (startPost != -1) {
 			int endPost = findEnd(jmlAnnotation, startPost);
 			String currentPost = jmlAnnotation.substring(startPost + 8, endPost);
-//			if (jmlAnnotation.contains("\\result")) {
-//				currentPost = currentPost.replace("\\result", "result");
-//			}
+			// if (jmlAnnotation.contains("\\result")) {
+			// currentPost = currentPost.replace("\\result", "result");
+			// }
 			post = post + " & " + currentPost;
 			startPost = jmlAnnotation.indexOf("ensures", endPost);
 		}
@@ -480,7 +492,7 @@ public class GenerateModelFromCode {
 		postCond.setName(post);
 		formula.getPostCondition().setName(post);
 		formula.getStatement().getPostCondition().setName(post);
-		
+
 		// adds modifiables
 		int startMod = jmlAnnotation.indexOf("assignable");
 		int endMod = findEnd(jmlAnnotation, startMod);
@@ -489,7 +501,8 @@ public class GenerateModelFromCode {
 		}
 	}
 
-	private String cbcWorkaroundForOldKeyword(String jmlAnnotation, JavaVariables variables, GlobalConditions conditions) {
+	private String cbcWorkaroundForOldKeyword(String jmlAnnotation, JavaVariables variables,
+			GlobalConditions conditions) {
 		int old = jmlAnnotation.indexOf("\\old");
 		while (old != -1) {
 			int endOld = findEndOfBracket(jmlAnnotation, old + 5);
@@ -516,14 +529,14 @@ public class GenerateModelFromCode {
 					break;
 				}
 			}
-			for(Field f: variables.getFields()) {
-				if(f.getName().equals(name)) {
+			for (Field f : variables.getFields()) {
+				if (f.getName().equals(name)) {
 					typeOfVariable = f.getType();
 				}
 			}
 			variable.setName(typeOfVariable + " " + newVariableName);
 			variables.getVariables().add(variable);
-			
+
 			boolean conditionAlreadyExists = false;
 			String newCondition = newVariableName + " = " + name;
 			for (Condition c : conditions.getConditions()) {
@@ -545,7 +558,8 @@ public class GenerateModelFromCode {
 	/**
 	 * replaces special symbols(&& -> &, forall, ...)
 	 * 
-	 * @param jmlAnnotation with required symbols
+	 * @param jmlAnnotation
+	 *            with required symbols
 	 * @return
 	 */
 	private String replaceSpecialSymbols(String jmlAnnotation) {
@@ -605,9 +619,12 @@ public class GenerateModelFromCode {
 	 * finds next semicolon, corresponding to part between start and end position,
 	 * which is a forall or exists part
 	 * 
-	 * @param jmlAnnotation part where to look for next semicolon
-	 * @param startForAll   start position
-	 * @param endForAll     end position
+	 * @param jmlAnnotation
+	 *            part where to look for next semicolon
+	 * @param startForAll
+	 *            start position
+	 * @param endForAll
+	 *            end position
 	 * @return
 	 */
 	private int findNextSemic(String jmlAnnotation, int start, int end) {
@@ -631,7 +648,8 @@ public class GenerateModelFromCode {
 	 * finds the end position of the part belonging to 'requires' or 'ensures'
 	 * 
 	 * @param jmlAnnotation
-	 * @param startPosition index of requires or ensures
+	 * @param startPosition
+	 *            index of requires or ensures
 	 * @return
 	 */
 	private int findEnd(String jmlAnnotation, int startPosition) {
@@ -650,8 +668,9 @@ public class GenerateModelFromCode {
 	 * bracket '(' right before starting position
 	 * 
 	 * @param jmlAnnotation
-	 * @param start         new part in brackets starts here(not the exact position
-	 *                      of "(", after "(")
+	 * @param start
+	 *            new part in brackets starts here(not the exact position of "(",
+	 *            after "(")
 	 * @return end of the part
 	 */
 	private int findEndOfBracket(String jmlAnnotation, int start) {
@@ -672,7 +691,8 @@ public class GenerateModelFromCode {
 	 * @param r
 	 * 
 	 * @param repStatement
-	 * @param jmlAnnotation contains loop variant and invariant
+	 * @param jmlAnnotation
+	 *            contains loop variant and invariant
 	 */
 	private void addLoopConditions(Resource r, SmallRepetitionStatement repStatement, String jmlAnnotation) {
 		// adds invariant
@@ -726,9 +746,12 @@ public class GenerateModelFromCode {
 	 * to the list jmlMethodConditions and adds the JML blocks before a loop to the
 	 * list jmlLoopConditions.
 	 * 
-	 * @param file                java code with JML annotations
-	 * @param jmlMethodConditions list for pre/post conditions for methods
-	 * @param jmlLoopConditions   list for conditions for loops
+	 * @param file
+	 *            java code with JML annotations
+	 * @param jmlMethodConditions
+	 *            list for pre/post conditions for methods
+	 * @param jmlLoopConditions
+	 *            list for conditions for loops
 	 */
 	public void readJMLAnnotations(String file, ArrayList<String> jmlMethodConditions) {
 
@@ -805,8 +828,10 @@ public class GenerateModelFromCode {
 	 * Determines name for diagram and model. If there are methods with the same
 	 * name, number consecutively.
 	 * 
-	 * @param names   list of already used names
-	 * @param potName name of method
+	 * @param names
+	 *            list of already used names
+	 * @param potName
+	 *            name of method
 	 * @return unique name
 	 */
 	private String findName(List<String> names, String potentialName) {
@@ -845,18 +870,20 @@ public class GenerateModelFromCode {
 	 * CompositionStatement and handles rest of the list
 	 * 
 	 * @param r
-	 * @param statements list of statements from java code
-	 * @param parent     the statements from the list should be connected to that
-	 *                   statement
+	 * @param statements
+	 *            list of statements from java code
+	 * @param parent
+	 *            the statements from the list should be connected to that statement
 	 */
-	public void handleListOfStatements(Resource r, EList<Statement> statements, EList<Statement> assertStatements, AbstractStatement parent) throws ExecutionException {
+	public void handleListOfStatements(Resource r, EList<Statement> statements, EList<Statement> assertStatements,
+			AbstractStatement parent) throws ExecutionException {
 		if (statements.size() > 1) {
 			CompositionStatement composition = createComposition();
 			parent.setRefinement(composition);
-			
+
 			handleStatement(r, statements.get(0), assertStatements, composition.getFirstStatement());
 			int i = 0;
-			if(!assertStatements.isEmpty()) { // assert statements contain intermediate conditions
+			if (!assertStatements.isEmpty()) { // assert statements contain intermediate conditions
 				AssertStmt assertSt = assertStatements.get(0).asAssertStmt();
 				Condition intermediate = CbcmodelFactory.eINSTANCE.createCondition();
 				intermediate.setName(assertSt.toString());
@@ -864,23 +891,25 @@ public class GenerateModelFromCode {
 				i = 1;
 			}
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, composition);
-			
+
 			BasicEList<Statement> newAssertStatementList = new BasicEList<Statement>();
 			while (i < assertStatements.size()) {
 				newAssertStatementList.add(assertStatements.get(i));
 				i++;
 			}
-			
+
 			BasicEList<Statement> newStatementList = new BasicEList<Statement>();
 			int j = 1;
 			while (j < statements.size()) {
 				newStatementList.add(statements.get(j));
 				j++;
 			}
-			handleListOfStatements(r, newStatementList, newAssertStatementList, composition.getSecondStatement());//Todo: throws Error
+			handleListOfStatements(r, newStatementList, newAssertStatementList, composition.getSecondStatement());// Todo:
+																													// throws
+																													// Error
 		} else if (statements.size() == 1) {
 			handleStatement(r, statements.get(0), assertStatements, parent);
-			
+
 		} else {
 			SkipStatement skipStatement = createSkipStatement();
 			parent.setRefinement(skipStatement);
@@ -896,10 +925,12 @@ public class GenerateModelFromCode {
 	 * @param statement
 	 * @param parent
 	 */
-	private void handleStatement(Resource r, Statement statement, EList<Statement> assertStatements, AbstractStatement parent) throws ExecutionException {
+	private void handleStatement(Resource r, Statement statement, EList<Statement> assertStatements,
+			AbstractStatement parent) throws ExecutionException {
 		if (statement.isExpressionStmt()) {
 			if (statement.asExpressionStmt().getExpression().isVariableDeclarationExpr()) {
-				VariableDeclarationExpr variableStmt = statement.asExpressionStmt().getExpression().asVariableDeclarationExpr();
+				VariableDeclarationExpr variableStmt = statement.asExpressionStmt().getExpression()
+						.asVariableDeclarationExpr();
 				NodeList<VariableDeclarator> varDec = variableStmt.getVariables();
 				String text = varDec.get(0).toString();
 				if (text.contains("=")) {
@@ -928,12 +959,12 @@ public class GenerateModelFromCode {
 			conditionString = conditionString.replace("&&", "&");
 			conditionString = conditionString.replace("||", "|");
 			SmallRepetitionStatement repStatement = createRepetition(conditionString);
-			
+
 			if (jmlLoopConditions.size() != 0) {
 				addLoopConditions(r, repStatement, jmlLoopConditions.get(position));
 				position++;
 			}
-			
+
 			parent.setRefinement(repStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, repStatement);
 			if (whileStmt.getBody().isBlockStmt()) {
@@ -970,7 +1001,7 @@ public class GenerateModelFromCode {
 				EList<Statement> elseBlock = new BasicEList<Statement>();
 				if (elseStat.get().isBlockStmt()) {
 					for (Statement stmt : elseStat.get().asBlockStmt().getStatements()) {
-					elseBlock.add(stmt);
+						elseBlock.add(stmt);
 					}
 					handleListOfStatements(r, elseBlock, assertStatements, selStatement.getCommands().get(1));
 				} else {
@@ -1049,7 +1080,9 @@ public class GenerateModelFromCode {
 			ReturnStmt returnStmt = statement.asReturnStmt();
 			if (returnStmt.getExpression().isPresent()) {
 				ReturnStatement retStatement = createReturnStatement(
-						"ret = " + returnStmt.getExpression().get().toString() + ";");//"\\result = " + JavaResourceUtil.getText(returnImpl.getReturnValue()) + ";");
+						"ret = " + returnStmt.getExpression().get().toString() + ";");// "\\result = " +
+																						// JavaResourceUtil.getText(returnImpl.getReturnValue())
+																						// + ";");
 				parent.setRefinement(retStatement);
 				UpdateConditionsOfChildren.updateRefinedStatement(parent, retStatement);
 			}
@@ -1078,7 +1111,8 @@ public class GenerateModelFromCode {
 			conditionString = conditionString.replace("&&", "&");
 			conditionString = conditionString.replace("||", "|");
 			SmallRepetitionStatement repStatement = createRepetition(conditionString);
-			if (position < jmlLoopConditions.size()) addLoopConditions(r, repStatement, jmlLoopConditions.get(position++));
+			if (position < jmlLoopConditions.size())
+				addLoopConditions(r, repStatement, jmlLoopConditions.get(position++));
 			composition2.getFirstStatement().setRefinement(repStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(composition2.getFirstStatement(), repStatement);
 
@@ -1108,8 +1142,7 @@ public class GenerateModelFromCode {
 					firstCondition = label.get();
 				}
 			}
-			SelectionStatement selStatement = createMultiSelection(
-					switchVariable + " = " + firstCondition.toString());
+			SelectionStatement selStatement = createMultiSelection(switchVariable + " = " + firstCondition.toString());
 			parent.setRefinement(selStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
 			EList<Statement> switchStmts = new BasicEList<Statement>();
@@ -1119,7 +1152,8 @@ public class GenerateModelFromCode {
 			handleListOfStatements(r, switchStmts, assertStatements, selStatement.getCommands().get(0));
 
 			for (int i = 1; i < switchStmt.getEntries().size(); i++) {
-				if (switchStmt.getEntry(i).getType().equals(SwitchEntry.Type.STATEMENT_GROUP) && switchStmt.getEntry(i).getLabels().isNonEmpty()) {
+				if (switchStmt.getEntry(i).getType().equals(SwitchEntry.Type.STATEMENT_GROUP)
+						&& switchStmt.getEntry(i).getLabels().isNonEmpty()) {
 					SwitchEntry normalCase = switchStmt.getEntry(i);
 					Expression condition = null;
 					Optional<Expression> label = normalCase.getLabels().getFirst();
@@ -1358,35 +1392,35 @@ public class GenerateModelFromCode {
 		statement.setPostCondition(post);
 		return statement;
 	}
-	
+
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
 	}
-	
+
 	public String getPackageName() {
 		return this.packageName;
 	}
-	
+
 	public String getClassName() {
 		return this.className;
 	}
-	
+
 	public EList<Field> getFields() {
 		return this.fields;
 	}
-	
+
 	public EList<Method> getMethods() {
 		return this.methods;
 	}
-	
+
 	public List<Resource> getCbcmodelResources() {
 		return this.cbcmodelResources;
 	}
-	
+
 	public EList<Condition> getInvariants() {
 		return this.invariants;
 	}
-	
+
 	public Resource getCbcclassResource() {
 		return this.cbcclassResource;
 	}

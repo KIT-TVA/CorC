@@ -5,8 +5,8 @@ import java.util.List;
 
 public class CommaParameterSplitter implements IParameterSplitter {
 
-  public List<String> split(String value) {
-    return Arrays.asList(value.split(","));
-  }
+	public List<String> split(String value) {
+		return Arrays.asList(value.split(","));
+	}
 
 }

@@ -12,8 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package src.mujava;
 
 import java.io.File;
@@ -25,37 +25,34 @@ import src.mujava.util.Debug;
 import src.mujava.util.ExtensionFilter;
 
 /**
- * <p>Description: </p>
+ * <p>
+ * Description:
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
-public class compileTestcase 
-{
-   public static void main(String[] args)
-   {
-      Debug.setDebugLevel(3);
-      File f = new File(MutationSystem.TESTSET_PATH);
-      String[] s = f.list(new ExtensionFilter("java"));
-      String[] pars = new String[2+s.length];
-      pars[0] = "-classpath";
-      pars[1] = MutationSystem.CLASS_PATH;
+public class compileTestcase {
+	public static void main(String[] args) {
+		Debug.setDebugLevel(3);
+		File f = new File(MutationSystem.TESTSET_PATH);
+		String[] s = f.list(new ExtensionFilter("java"));
+		String[] pars = new String[2 + s.length];
+		pars[0] = "-classpath";
+		pars[1] = MutationSystem.CLASS_PATH;
 
-      for (int i=0; i<s.length; i++)
-      {
-         pars[i+2] = MutationSystem.TESTSET_PATH + "/" + s[i];
-      }
-      try
-      {
-         // result = 0 : SUCCESS,   result = 1 : FALSE
-         int result = Main.compile(pars,new PrintWriter(System.out));
-         if (result == 0)
-         {
-            Debug.println("Compile Finished");
-         }
-      } catch (Exception e)
-      {
-         e.printStackTrace();
-      }
-   }
+		for (int i = 0; i < s.length; i++) {
+			pars[i + 2] = MutationSystem.TESTSET_PATH + "/" + s[i];
+		}
+		try {
+			// result = 0 : SUCCESS, result = 1 : FALSE
+			int result = Main.compile(pars, new PrintWriter(System.out));
+			if (result == 0) {
+				Debug.println("Compile Finished");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

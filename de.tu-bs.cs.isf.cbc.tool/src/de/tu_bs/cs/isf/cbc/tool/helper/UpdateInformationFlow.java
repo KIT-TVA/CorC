@@ -62,14 +62,13 @@ public class UpdateInformationFlow {
 	 *             number of different cases. For now the exception should be
 	 *             delegated to the calling method.
 	 */
-	public static void updateInformationFlow(	final String projectName,
-												final AbstractStatement statement,
-												final Lattice lattice)
-			throws IFbCException {
+	public static void updateInformationFlow(final String projectName, final AbstractStatement statement,
+			final Lattice lattice) throws IFbCException {
 		final Map<String, IFbCReferenceEntity> declaredVariables = getDeclaredVariables(statement);
 		final Method constructingMethod = getLinkedMethod(statement, projectName);
 		final CbCFormula cbCFormula = getCbCFormula(statement);
-		if (cbCFormula == null) return;
+		if (cbCFormula == null)
+			return;
 		final AbstractStatement firstStatement = cbCFormula.getStatement().getRefinement();
 
 		// Update the rest of the diagram
@@ -109,12 +108,9 @@ public class UpdateInformationFlow {
 	 *             number of different cases. For now the exception should be
 	 *             delegated to the calling method.
 	 */
-	private static boolean updateDiagramBlock(	final AbstractStatement actualStatement,
-												final String projectName,
-												final Lattice lattice,
-												final Map<String, IFbCReferenceEntity> declaredVariables,
-												final Method constructingMethod)
-			throws IFbCException {
+	private static boolean updateDiagramBlock(final AbstractStatement actualStatement, final String projectName,
+			final Lattice lattice, final Map<String, IFbCReferenceEntity> declaredVariables,
+			final Method constructingMethod) throws IFbCException {
 		if (actualStatement instanceof CompositionStatement) {
 			return updateCompositionStatement(projectName, actualStatement, lattice, declaredVariables,
 					constructingMethod);
@@ -125,7 +121,8 @@ public class UpdateInformationFlow {
 			return updateSelectionStatement(projectName, actualStatement, lattice, declaredVariables,
 					constructingMethod);
 		} else if (actualStatement instanceof AbstractStatement) {
-			return updateAbstractStatement(projectName, actualStatement, lattice, declaredVariables, constructingMethod);
+			return updateAbstractStatement(projectName, actualStatement, lattice, declaredVariables,
+					constructingMethod);
 		} else {
 			if (actualStatement != null) {
 				System.out.println("updateDiagramBlock() not implemented for instance of AbstractStatement: "
@@ -162,13 +159,9 @@ public class UpdateInformationFlow {
 	 *             number of different cases. For now the exception should be
 	 *             delegated to the calling method.
 	 */
-	private static boolean updateDiagramBlock(	final AbstractStatement actualStatement,
-												final String projectName,
-												final Lattice lattice,
-												final Map<String, IFbCReferenceEntity> declaredVariables,
-												final Method constructingMethod,
-												final String guardSL)
-			throws IFbCException {
+	private static boolean updateDiagramBlock(final AbstractStatement actualStatement, final String projectName,
+			final Lattice lattice, final Map<String, IFbCReferenceEntity> declaredVariables,
+			final Method constructingMethod, final String guardSL) throws IFbCException {
 		if (actualStatement instanceof CompositionStatement) {
 			return updateCompositionStatement(projectName, actualStatement, lattice, declaredVariables,
 					constructingMethod, guardSL);
@@ -225,12 +218,9 @@ public class UpdateInformationFlow {
 	 *             number of different cases. For now the exception should be
 	 *             delegated to the calling method.
 	 */
-	private static boolean updateSmallRepetitionStatement(	final String projectName,
-															final AbstractStatement statement,
-															final Lattice lattice,
-															final Map<String, IFbCReferenceEntity> declaredVariables,
-															final Method constructingMethod)
-			throws IFbCException {
+	private static boolean updateSmallRepetitionStatement(final String projectName, final AbstractStatement statement,
+			final Lattice lattice, final Map<String, IFbCReferenceEntity> declaredVariables,
+			final Method constructingMethod) throws IFbCException {
 		return updateSmallRepetitionStatement(projectName, statement, lattice, declaredVariables, constructingMethod);
 	}
 
@@ -260,13 +250,9 @@ public class UpdateInformationFlow {
 	 *             number of different cases. For now the exception should be
 	 *             delegated to the calling method.
 	 */
-	private static boolean updateSmallRepetitionStatement(	final String projectName,
-															final AbstractStatement statement,
-															final Lattice lattice,
-															final Map<String, IFbCReferenceEntity> declaredVariables,
-															final Method constructingMethod,
-															final String guardSL)
-			throws IFbCException {
+	private static boolean updateSmallRepetitionStatement(final String projectName, final AbstractStatement statement,
+			final Lattice lattice, final Map<String, IFbCReferenceEntity> declaredVariables,
+			final Method constructingMethod, final String guardSL) throws IFbCException {
 		SmallRepetitionStatement repetition = (SmallRepetitionStatement) statement;
 		final Condition guard = repetition.getGuard();
 		final AbstractStatement command = repetition.getLoopStatement().getRefinement();
@@ -347,12 +333,9 @@ public class UpdateInformationFlow {
 	 *             number of different cases. For now the exception should be
 	 *             delegated to the calling method.
 	 */
-	private static boolean updateSelectionStatement(final String projectName,
-													final AbstractStatement statement,
-													final Lattice lattice,
-													final Map<String, IFbCReferenceEntity> declaredVariables,
-													final Method constructingMethod)
-			throws IFbCException {
+	private static boolean updateSelectionStatement(final String projectName, final AbstractStatement statement,
+			final Lattice lattice, final Map<String, IFbCReferenceEntity> declaredVariables,
+			final Method constructingMethod) throws IFbCException {
 		return updateSelectionStatement(projectName, statement, lattice, declaredVariables, constructingMethod, null);
 	}
 
@@ -382,13 +365,9 @@ public class UpdateInformationFlow {
 	 *             number of different cases. For now the exception should be
 	 *             delegated to the calling method.
 	 */
-	private static boolean updateSelectionStatement(final String projectName,
-													final AbstractStatement statement,
-													final Lattice lattice,
-													final Map<String, IFbCReferenceEntity> declaredVariables,
-													final Method constructingMethod,
-													final String guardSL)
-			throws IFbCException {
+	private static boolean updateSelectionStatement(final String projectName, final AbstractStatement statement,
+			final Lattice lattice, final Map<String, IFbCReferenceEntity> declaredVariables,
+			final Method constructingMethod, final String guardSL) throws IFbCException {
 		SelectionStatement selection = (SelectionStatement) statement;
 		final EList<Condition> guards = selection.getGuards();
 		final EList<AbstractStatement> commands = selection.getCommands();
@@ -501,13 +480,13 @@ public class UpdateInformationFlow {
 					foundSec = secInList;
 				}
 			}
-			 if (foundSec != null) {
-				 selectionPostCondition.getConfToVarsMap().put(reference, foundSec);
-			 } else {
+			if (foundSec != null) {
+				selectionPostCondition.getConfToVarsMap().put(reference, foundSec);
+			} else {
 				cbCFormula.getSecurity().add(sec);
 				System.out.println("Putting Security " + sec.toString() + " into confToVarsMap.");
 				selectionPostCondition.getConfToVarsMap().put(reference, sec);
-			 }
+			}
 
 		});
 
@@ -519,19 +498,20 @@ public class UpdateInformationFlow {
 				AtType foundType = null;
 				atType.setName(reference);
 				final CbCFormula cbCFormula = getCbCFormula(statement);
-				
+
 				for (AtType typeInList : cbCFormula.getAtType()) {
 					if (typeInList.getName().equals(reference)) {
 						foundType = typeInList;
 					}
 				}
-				 if (foundType != null) {
-					 atType = foundType;
-				 } else {
-					 System.out.println("Putting Changed type for " + reference + " to " + type + " into AtTypesToVarsMap.");
-					 cbCFormula.getAtType().add(atType);
-				 }
-				
+				if (foundType != null) {
+					atType = foundType;
+				} else {
+					System.out.println(
+							"Putting Changed type for " + reference + " to " + type + " into AtTypesToVarsMap.");
+					cbCFormula.getAtType().add(atType);
+				}
+
 				// Is this type already present or should it be created?
 				if (selectionPostCondition.getAtTypesToVarsMap().get(type) == null) {
 					final EList<AtType> newList = new BasicEList<AtType>();
@@ -576,12 +556,9 @@ public class UpdateInformationFlow {
 	 *             number of different cases. For now the exception should be
 	 *             delegated to the calling method.
 	 */
-	private static boolean updateCompositionStatement(	final String projectName,
-														final AbstractStatement statement,
-														final Lattice lattice,
-														final Map<String, IFbCReferenceEntity> declaredVariables,
-														final Method constructingMethod)
-			throws IFbCException {
+	private static boolean updateCompositionStatement(final String projectName, final AbstractStatement statement,
+			final Lattice lattice, final Map<String, IFbCReferenceEntity> declaredVariables,
+			final Method constructingMethod) throws IFbCException {
 		return updateCompositionStatement(projectName, statement, lattice, declaredVariables, constructingMethod, null);
 	}
 
@@ -611,13 +588,9 @@ public class UpdateInformationFlow {
 	 *             number of different cases. For now the exception should be
 	 *             delegated to the calling method.
 	 */
-	private static boolean updateCompositionStatement(	final String projectName,
-														final AbstractStatement statement,
-														final Lattice lattice,
-														final Map<String, IFbCReferenceEntity> declaredVariables,
-														final Method constructingMethod,
-														final String guardSL)
-			throws IFbCException {
+	private static boolean updateCompositionStatement(final String projectName, final AbstractStatement statement,
+			final Lattice lattice, final Map<String, IFbCReferenceEntity> declaredVariables,
+			final Method constructingMethod, final String guardSL) throws IFbCException {
 		System.out.println("Updating Composition");
 		final CompositionStatement comp = (CompositionStatement) statement;
 		final AbstractStatement first = comp.getFirstStatement().getRefinement();
@@ -694,12 +667,9 @@ public class UpdateInformationFlow {
 	 *             number of different cases. For now the exception should be
 	 *             delegated to the calling method.
 	 */
-	private static boolean updateAbstractStatement(	final String projectName,
-													final AbstractStatement actualStatement,
-													final Lattice lattice,
-													final Map<String, IFbCReferenceEntity> declaredVariables,
-													final Method constructingMethod)
-			throws IFbCException {
+	private static boolean updateAbstractStatement(final String projectName, final AbstractStatement actualStatement,
+			final Lattice lattice, final Map<String, IFbCReferenceEntity> declaredVariables,
+			final Method constructingMethod) throws IFbCException {
 		return updateAbstractStatement(projectName, actualStatement, lattice, declaredVariables, constructingMethod,
 				null);
 	}
@@ -730,13 +700,9 @@ public class UpdateInformationFlow {
 	 *             number of different cases. For now the exception should be
 	 *             delegated to the calling method.
 	 */
-	private static boolean updateAbstractStatement(	final String projectName,
-													final AbstractStatement actualStatement,
-													final Lattice lattice,
-													final Map<String, IFbCReferenceEntity> declaredVariables,
-													final Method constructingMethod,
-													final String guardSL)
-			throws IFbCException {
+	private static boolean updateAbstractStatement(final String projectName, final AbstractStatement actualStatement,
+			final Lattice lattice, final Map<String, IFbCReferenceEntity> declaredVariables,
+			final Method constructingMethod, final String guardSL) throws IFbCException {
 		final String refinementName = actualStatement.getName();
 		System.out.println("Updating Abstract statement regarding information flow: " + refinementName);
 
@@ -839,21 +805,21 @@ public class UpdateInformationFlow {
 				sec.setLevel(key);
 				sec.setMutationModifier(entity.getMutationModifier().toString());
 				final CbCFormula cbCFormula = getCbCFormula(actualStatement);
-				
+
 				for (Security secInList : cbCFormula.getSecurity()) {
 					if (secInList.getLevel().equals(key)
 							&& secInList.getMutationModifier().equals(entity.getMutationModifier().toString())) {
 						foundSec = secInList;
 					}
 				}
-				
+
 				if (foundSec != null) {
-					 actualStatement.getPostCondition().getConfToVarsMap().put(entity.getName(), foundSec);
-				 } else {
+					actualStatement.getPostCondition().getConfToVarsMap().put(entity.getName(), foundSec);
+				} else {
 					cbCFormula.getSecurity().add(sec);
 					System.out.println("Putting Security " + sec.toString() + " into confToVarsMap.");
 					actualStatement.getPostCondition().getConfToVarsMap().put(entity.getName(), sec);
-				 }
+				}
 			});
 		});
 
@@ -865,20 +831,20 @@ public class UpdateInformationFlow {
 			AtType foundType = null;
 			atType.setName(targetScopeName);
 			final CbCFormula cbCFormula = getCbCFormula(actualStatement);
-			
+
 			for (AtType typeInList : cbCFormula.getAtType()) {
 				if (typeInList.getName().equals(targetScopeName)) {
 					foundType = typeInList;
 				}
 			}
-			 if (foundType != null) {
-				 atType = foundType;
-			 } else {
-				 System.out.println("Putting Changed type for " + targetScopeName + " to " + valueReturnType
-							+ " into AtTypesToVarsMap.");
-				 cbCFormula.getAtType().add(atType);
-			 }
-			
+			if (foundType != null) {
+				atType = foundType;
+			} else {
+				System.out.println("Putting Changed type for " + targetScopeName + " to " + valueReturnType
+						+ " into AtTypesToVarsMap.");
+				cbCFormula.getAtType().add(atType);
+			}
+
 			if (actualStatement.getPostCondition().getAtTypesToVarsMap().get(valueReturnType) == null) {
 				final EList<AtType> newList = new BasicEList<AtType>();
 				newList.add(atType);
@@ -940,14 +906,14 @@ public class UpdateInformationFlow {
 		}
 		return variablesAsMap;
 	}
-	
+
 	private static String getTypeOfVar(JavaVariable var) {
 		String varName = var.getName();
 		String varType = varName.substring(0, varName.lastIndexOf(" "));
 		varType = varType.replace("static", "").replace("non-null", "");
 		return varType.trim();
 	}
-	
+
 	private static String getNameOfVar(JavaVariable var) {
 		String varName = var.getName();
 		String varRet = varName.substring(varName.lastIndexOf(" ") + 1, varName.length());
@@ -995,18 +961,17 @@ public class UpdateInformationFlow {
 			}
 			if (formula != null) {
 				// get Name and Method from formula
-				final String className = formula.getClassName();	
+				final String className = formula.getClassName();
 				if (className == null) {
 					System.out.println("No class name set in CbCFormula");
 					return null;
 				}
-				
+
 				final String methodSignature = formula.getMethodName();
 				if (methodSignature == null || methodSignature.isEmpty()) {
 					System.out.println("No method signature set in CbCFormula");
 					return null;
 				}
-			
 
 				final String returnType = methodSignature.substring(0, methodSignature.indexOf(' '));
 				final String methodName = methodSignature.substring(methodSignature.indexOf(' ') + 1,

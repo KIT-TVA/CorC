@@ -12,51 +12,53 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
+ */
 
 package src.mujava.util;
 
 import java.util.Vector;
 
 /**
- * <p>Description: </p>
+ * <p>
+ * Description:
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
 public class InheritanceINFO {
 
-  InheritanceINFO direct_parent = null;
-  Vector direct_child = new Vector();
-  String class_name = null;
-  String parent_class_name = null;
+	InheritanceINFO direct_parent = null;
+	Vector direct_child = new Vector();
+	String class_name = null;
+	String parent_class_name = null;
 
-  public InheritanceINFO(String my_name,String parent_name) {
-    class_name = my_name;
-    parent_class_name = parent_name;
-  }
+	public InheritanceINFO(String my_name, String parent_name) {
+		class_name = my_name;
+		parent_class_name = parent_name;
+	}
 
-  public void addChild(InheritanceINFO child){
-    direct_child.add(child);
-  }
+	public void addChild(InheritanceINFO child) {
+		direct_child.add(child);
+	}
 
-  public void setParent(InheritanceINFO parent){
-    direct_parent = parent;
-  }
+	public void setParent(InheritanceINFO parent) {
+		direct_parent = parent;
+	}
 
-  public String getParentName(){
-    return parent_class_name;
-  }
+	public String getParentName() {
+		return parent_class_name;
+	}
 
-  public InheritanceINFO getParent(){
-    return direct_parent;
-  }
-  public Vector getChilds(){
-    return direct_child;
-  }
+	public InheritanceINFO getParent() {
+		return direct_parent;
+	}
+	public Vector getChilds() {
+		return direct_child;
+	}
 
-  public String getClassName(){
-    return class_name;
-  }
+	public String getClassName() {
+		return class_name;
+	}
 }

@@ -18,25 +18,22 @@ import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
 
 public abstract class KeYProofStrategy {
-	
+
 	public Set<List<String>> generateFeatureConfigurations(IKeYProof proof) {
 		return new HashSet<List<String>>();
 	}
 
 	public void generateCode(IKeYProof proof, List<String> featureConfig) {
-			URI uri = proof.getDiagram().eResource().getURI();
-			IProject project = FileUtil.getProjectFromFileInProject(uri);
+		URI uri = proof.getDiagram().eResource().getURI();
+		IProject project = FileUtil.getProjectFromFileInProject(uri);
 
-			GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(proof.getFeatureProvider());
-			genCode.setProofTypeInfo(0, this.getProofType());
-			genCode.generate(project.getLocation(), 
-					proof.getCallingFeature(), 
-					proof.getCallingClass(), 
-					proof.getCallingMethod(), 
-					featureConfig
-				);
+		GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(
+				proof.getFeatureProvider());
+		genCode.setProofTypeInfo(0, this.getProofType());
+		genCode.generate(project.getLocation(), proof.getCallingFeature(), proof.getCallingClass(),
+				proof.getCallingMethod(), featureConfig);
 	}
-	
+
 	public boolean proveWithoutVariation(IKeYProof proof) {
 		StatDataCollector.checkForId(proof.getStatement());
 		Console.println("Starting verification...\n");
@@ -44,7 +41,8 @@ public abstract class KeYProofStrategy {
 			URI uri = proof.getDiagram().eResource().getURI();
 			String platformUri = uri.toPlatformString(true);
 			String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
-			ProveWithKey prove = new ProveWithKey(proof.getStatement(), proof.getDiagram(), proof.getProgressMonitor(), new FileUtil(platformUri), new ArrayList<>(), 0, KeYInteraction.ABSTRACT_PROOF_FULL);
+			ProveWithKey prove = new ProveWithKey(proof.getStatement(), proof.getDiagram(), proof.getProgressMonitor(),
+					new FileUtil(platformUri), new ArrayList<>(), 0, KeYInteraction.ABSTRACT_PROOF_FULL);
 			return prove.proveStatementWithKey(proof.isReturnStatement(), false, callingClass, true);
 		} else {
 			Console.println("Statement is not in correct format.");
@@ -54,5 +52,5 @@ public abstract class KeYProofStrategy {
 
 	public abstract boolean prove(IKeYProof proof, List<String> featureConfig);
 	public abstract String getProofType();
-	
+
 }

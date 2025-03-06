@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.basic;
 
 import java.io.IOException;
@@ -24,82 +24,74 @@ import openjava.ptree.CompilationUnit;
 import openjava.ptree.ParseTreeException;
 import openjava.ptree.UnaryExpression;
 
-
 /**
- * <p>Generate AORU (Arithmetic Operator Replacement (Unary)) mutants --
- *    replace each occurrence of one of the arithmetic operators + and - 
- *    by each of the other operators 
+ * <p>
+ * Generate AORU (Arithmetic Operator Replacement (Unary)) mutants -- replace
+ * each occurrence of one of the arithmetic operators + and - by each of the
+ * other operators
  * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class AORU extends MethodLevelMutator
-{
-   public AORU(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit)
-   {
-      super( file_env, comp_unit );
-   }
+public class AORU extends MethodLevelMutator {
+	public AORU(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit) {
+		super(file_env, comp_unit);
+	}
 
-   /**
-    * If a given unary expression contains an arithmetic operator + or -,
-    * generate an AORU mutant
-    */
-   public void visit( UnaryExpression p ) throws ParseTreeException
-   {
-      int op = p.getOperator();
-      if ( (op == UnaryExpression.MINUS) || (op == UnaryExpression.PLUS) ) 
-      {
-         genBasicUnaryMutants(p,op);
-      }
-   }
+	/**
+	 * If a given unary expression contains an arithmetic operator + or -, generate
+	 * an AORU mutant
+	 */
+	public void visit(UnaryExpression p) throws ParseTreeException {
+		int op = p.getOperator();
+		if ((op == UnaryExpression.MINUS) || (op == UnaryExpression.PLUS)) {
+			genBasicUnaryMutants(p, op);
+		}
+	}
 
-   void genBasicUnaryMutants(UnaryExpression p, int op)
-   {
-      UnaryExpression mutant;
-      if ( op == UnaryExpression.PLUS )
-      {
-         mutant = (UnaryExpression)(p.makeRecursiveCopy());
-         mutant.setOperator(UnaryExpression.MINUS);
-         outputToFile(p, mutant);
-      }
-      else if ( op == UnaryExpression.MINUS )
-      {
-         mutant = (UnaryExpression)(p.makeRecursiveCopy());
-         mutant.setOperator(UnaryExpression.PLUS);
-         outputToFile(p, mutant);
-      }
-   }
+	void genBasicUnaryMutants(UnaryExpression p, int op) {
+		UnaryExpression mutant;
+		if (op == UnaryExpression.PLUS) {
+			mutant = (UnaryExpression) (p.makeRecursiveCopy());
+			mutant.setOperator(UnaryExpression.MINUS);
+			outputToFile(p, mutant);
+		} else if (op == UnaryExpression.MINUS) {
+			mutant = (UnaryExpression) (p.makeRecursiveCopy());
+			mutant.setOperator(UnaryExpression.PLUS);
+			outputToFile(p, mutant);
+		}
+	}
 
-   /**
-    * Output AORU mutants to files
-    * @param original
-    * @param mutant
-    */
-   public void outputToFile(UnaryExpression original, UnaryExpression mutant)
-   {
-      if (comp_unit == null) 
-    	 return;
-      
-      String f_name;
-      num++;
-      f_name = getSourceName("AORU");
-      String mutant_dir = getMuantID("AORU");
+	/**
+	 * Output AORU mutants to files
+	 * 
+	 * @param original
+	 * @param mutant
+	 */
+	public void outputToFile(UnaryExpression original, UnaryExpression mutant) {
+		if (comp_unit == null)
+			return;
 
-      try 
-      {
-		 PrintWriter out = getPrintWriter(f_name);
-		 AORU_Writer writer = new AORU_Writer(mutant_dir, out);
-		 writer.setMutant(original, mutant);
-         writer.setMethodSignature(currentMethodSignature);
-		 comp_unit.accept( writer );
-		 out.flush();  
-		 out.close();
-      } catch ( IOException e ) {
-		 System.err.println( "fails to create " + f_name );
-      } catch ( ParseTreeException e ) {
-		 System.err.println( "errors during printing " + f_name );
-		 e.printStackTrace();
-      }
-   }
+		String f_name;
+		num++;
+		f_name = getSourceName("AORU");
+		String mutant_dir = getMuantID("AORU");
+
+		try {
+			PrintWriter out = getPrintWriter(f_name);
+			AORU_Writer writer = new AORU_Writer(mutant_dir, out);
+			writer.setMutant(original, mutant);
+			writer.setMethodSignature(currentMethodSignature);
+			comp_unit.accept(writer);
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			System.err.println("fails to create " + f_name);
+		} catch (ParseTreeException e) {
+			System.err.println("errors during printing " + f_name);
+			e.printStackTrace();
+		}
+	}
 }

@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.exception;
 
 import java.io.IOException;
@@ -28,57 +28,58 @@ import openjava.ptree.StatementList;
 import openjava.ptree.TryStatement;
 
 /**
- * <p>Description: </p>
+ * <p>
+ * Description:
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class EHD extends src.mujava.op.util.Mutator
-{
-  public EHD(FileEnvironment file_env,ClassDeclaration cdecl,
-    CompilationUnit comp_unit)
-  {
-	super( file_env, comp_unit );
-  }
+public class EHD extends src.mujava.op.util.Mutator {
+	public EHD(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit) {
+		super(file_env, comp_unit);
+	}
 
-  public void visit( TryStatement p ) throws ParseTreeException
-  {
-    CatchList catchlist = p.getCatchList();
-    if (! catchlist.isEmpty()) {
-      int num = catchlist.size();
-      if(num==1){
-        StatementList finstmts = p.getFinallyBody();
-        if(!finstmts.isEmpty()){
-          outputToFile(catchlist.get(0));
-        }
-      }else{
-        for(int i=0;i<num;i++){
-          outputToFile(catchlist.get(i));
-        }
+	public void visit(TryStatement p) throws ParseTreeException {
+		CatchList catchlist = p.getCatchList();
+		if (!catchlist.isEmpty()) {
+			int num = catchlist.size();
+			if (num == 1) {
+				StatementList finstmts = p.getFinallyBody();
+				if (!finstmts.isEmpty()) {
+					outputToFile(catchlist.get(0));
+				}
+			} else {
+				for (int i = 0; i < num; i++) {
+					outputToFile(catchlist.get(i));
+				}
 
-      }
-    }
-  }
+			}
+		}
+	}
 
-  public void outputToFile(CatchBlock p){
-      if (comp_unit==null) return;
-      String f_name;
-      num++;
-      f_name = getSourceName(this);
-      String mutant_dir = getMuantID();
+	public void outputToFile(CatchBlock p) {
+		if (comp_unit == null)
+			return;
+		String f_name;
+		num++;
+		f_name = getSourceName(this);
+		String mutant_dir = getMuantID();
 
-      try {
-		 PrintWriter out = getPrintWriter(f_name);
-		 EHD_Writer writer = new EHD_Writer( mutant_dir,out );
-		 writer.setMutant(p);
-		 comp_unit.accept( writer );
-		 out.flush();  out.close();
-      } catch ( IOException e ) {
-	    System.err.println( "fails to create " + f_name );
-      } catch ( ParseTreeException e ) {
-	    System.err.println( "errors during printing " + f_name );
-	    e.printStackTrace();
-      }
-   }
+		try {
+			PrintWriter out = getPrintWriter(f_name);
+			EHD_Writer writer = new EHD_Writer(mutant_dir, out);
+			writer.setMutant(p);
+			comp_unit.accept(writer);
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			System.err.println("fails to create " + f_name);
+		} catch (ParseTreeException e) {
+			System.err.println("errors during printing " + f_name);
+			e.printStackTrace();
+		}
+	}
 
- }
+}

@@ -24,21 +24,26 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * <p>When applied to a field all of its child fields annotated
- * with {@link Parameter} will be included during arguments
- * parsing.</p>
+ * <p>
+ * When applied to a field all of its child fields annotated with
+ * {@link Parameter} will be included during arguments parsing.
+ * </p>
  *
- * <p>Mainly useful when creating complex command based CLI interfaces,
- * where several commands can share a set of arguments, but using
- * object inheritance is not enough, due to no-multiple-inheritance
- * restriction. Using {@link ParametersDelegate} any number of
- * command sets can be shared by using composition pattern.</p>
+ * <p>
+ * Mainly useful when creating complex command based CLI interfaces, where
+ * several commands can share a set of arguments, but using object inheritance
+ * is not enough, due to no-multiple-inheritance restriction. Using
+ * {@link ParametersDelegate} any number of command sets can be shared by using
+ * composition pattern.
+ * </p>
  *
- * <p>Delegations can be chained (nested).</p>
+ * <p>
+ * Delegations can be chained (nested).
+ * </p>
  * 
  * @author rodionmoiseev
  */
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
-@Target({ FIELD })
+@Target({FIELD})
 public @interface ParametersDelegate {
 }

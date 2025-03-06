@@ -22,17 +22,19 @@ import de.tu_bs.cs.isf.cbc.cbcclass.impl.MethodImpl;
 import de.tu_bs.cs.isf.cbc.cbcclass.impl.ModelClassImpl;
 
 /**
- * Class that creates the graphical representation of the parent hierarchy between Algorithms
+ * Class that creates the graphical representation of the parent hierarchy
+ * between Algorithms
+ * 
  * @author Tobias
  *
  */
 public class ConnectionPattern extends AbstractConnectionPattern {
-	
+
 	@Override
 	public String getCreateName() {
 		return "Refinement";
 	}
-	
+
 	@Override
 	public String getCreateDescription() {
 		return "Firstly, select the class, then the method.";
@@ -59,7 +61,7 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 		ConnectionDecorator cd;
 		cd = peCreateService.createConnectionDecorator(connection, false, 1.0, true);
 		createArrow(cd);
-		
+
 		return connection;
 	}
 
@@ -68,7 +70,7 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 		// Defines the start of the connection; allowed are objects that may
 		// contain other objects
 		Object domainObject = getBusinessObjectForPictogramElement(context.getSourcePictogramElement());
-		
+
 		if (domainObject != null && domainObject instanceof ModelClassImpl) {
 			if (context.getSourcePictogramElement() instanceof ContainerShape) {
 				return true;
@@ -82,17 +84,18 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 		PictogramElement sourcePictogramElement = context.getSourcePictogramElement();
 		PictogramElement targetPictogramElement = context.getTargetPictogramElement();
 
-		if (sourcePictogramElement == null || targetPictogramElement == null || targetPictogramElement.equals(getDiagram()) || !(targetPictogramElement instanceof ContainerShape)) {
+		if (sourcePictogramElement == null || targetPictogramElement == null
+				|| targetPictogramElement.equals(getDiagram()) || !(targetPictogramElement instanceof ContainerShape)) {
 			return false;
 		}
-		
+
 		Object sourceDomainObject = getBusinessObjectForPictogramElement(sourcePictogramElement);
 		Object targetDomainObject = getBusinessObjectForPictogramElement(targetPictogramElement);
 
 		if (!(sourceDomainObject instanceof ModelClassImpl)) {
 			return false;
 		}
-		
+
 		if (!(targetDomainObject instanceof MethodImpl)) {
 			return false;
 		}
@@ -116,15 +119,17 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 		Connection connection = (Connection) getFeatureProvider().addIfPossible(addContext);
 		return connection;
 	}
-	
+
 	/**
 	 * Helper method to create an arrow at the end of the connection
-	 * @param gaContainer	the connection decorator
-	 * @return	A polyline that is formed like an arrow
+	 * 
+	 * @param gaContainer
+	 *            the connection decorator
+	 * @return A polyline that is formed like an arrow
 	 */
 	private Polyline createArrow(GraphicsAlgorithmContainer gaContainer) {
 		Polyline polyline = Graphiti.getGaCreateService().createPlainPolyline(gaContainer,
-				new int[] { -15, 10, 0, 0, -15, -10 });
+				new int[]{-15, 10, 0, 0, -15, -10});
 		polyline.setForeground(manageColor(IColorConstant.BLACK));
 		return polyline;
 	}

@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op;
 
 import java.io.PrintWriter;
@@ -23,71 +23,63 @@ import openjava.ptree.ParseTreeException;
 import src.mujava.op.util.MutantCodeWriter;
 
 /**
- * <p>Output and log JSI mutants to files</p>
+ * <p>
+ * Output and log JSI mutants to files
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
-public class JSI_Writer extends MutantCodeWriter
-{
-   FieldDeclaration mutant = null;
-   boolean isMutantTarget = false;
+public class JSI_Writer extends MutantCodeWriter {
+	FieldDeclaration mutant = null;
+	boolean isMutantTarget = false;
 
-   /**
-    * Set mutated code
-    * @param f
-    */
-   public void setMutant(FieldDeclaration f)
-   {
-      mutant = f;
-      isMutantTarget = false;
-   }
+	/**
+	 * Set mutated code
+	 * 
+	 * @param f
+	 */
+	public void setMutant(FieldDeclaration f) {
+		mutant = f;
+		isMutantTarget = false;
+	}
 
-   public JSI_Writer( String file_name, PrintWriter out ) 
-   {
-	  super(file_name, out);
-   }
+	public JSI_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-   public void visit( FieldDeclaration p ) throws ParseTreeException
-   {
-      if (isSameObject(p, mutant))
-      {
-         isMutantTarget = true;
-         super.visit(p);
-         isMutantTarget = false;
-      }
-      else
-      {
-         super.visit(p);
-      }
-   }
+	public void visit(FieldDeclaration p) throws ParseTreeException {
+		if (isSameObject(p, mutant)) {
+			isMutantTarget = true;
+			super.visit(p);
+			isMutantTarget = false;
+		} else {
+			super.visit(p);
+		}
+	}
 
-   public void visit( ModifierList p ) throws ParseTreeException
-   {
-      if (isMutantTarget)
-      {
-    	 boolean empt = false;
-         ModifierList temp = (ModifierList)p.makeRecursiveCopy();
-         if (temp.isEmpty()) 
-         {
-        	empt = true;
-         }
-         temp.add(ModifierList.STATIC);
-         super.visit(temp);
-         
-         if (empt) 
-            out.print(" ");
-         
-         // -------------------------------------------------------------
-         mutated_line = line_num;
-         //out.print(mutated_modifier);
-         writeLog(removeNewline("static is inserted"));
-         // -------------------------------------------------------------
-      }
-      else
-      {
-         super.visit(p);
-         //out.print( ModifierList.toString( p.getRegular() ) );
-      }
-   }
+	public void visit(ModifierList p) throws ParseTreeException {
+		if (isMutantTarget) {
+			boolean empt = false;
+			ModifierList temp = (ModifierList) p.makeRecursiveCopy();
+			if (temp.isEmpty()) {
+				empt = true;
+			}
+			temp.add(ModifierList.STATIC);
+			super.visit(temp);
+
+			if (empt)
+				out.print(" ");
+
+			// -------------------------------------------------------------
+			mutated_line = line_num;
+			// out.print(mutated_modifier);
+			writeLog(removeNewline("static is inserted"));
+			// -------------------------------------------------------------
+		} else {
+			super.visit(p);
+			// out.print( ModifierList.toString( p.getRegular() ) );
+		}
+	}
 }

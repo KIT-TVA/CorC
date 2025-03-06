@@ -40,27 +40,27 @@ public class GenerateClassFromInterfaces {
 	private List<FieldDeclaration> fields = new ArrayList<FieldDeclaration>();
 	private String newTraitName;
 	private List<String> composedTraits = new ArrayList<>();
-	private List<Map.Entry<String,String>> removedMethods = new ArrayList<>();
+	private List<Map.Entry<String, String>> removedMethods = new ArrayList<>();
 	private IProject project;
 	List<Method> abstractMethods;
 	List<Method> concreteMethods;
 
 	public GenerateClassFromInterfaces() {
-		
+
 	}
 
 	public void execute(IFile file) {
 		project = FileUtil.getProjectFromFileInProject(URI.createURI(file.getFullPath().toPortableString()));
 		handleTraitFiles(Collections.singletonList(file));
 	}
-	
+
 	public void execute(IProject project) {
 		this.project = project;
 		List<IFile> traitCompositionFiles = FileUtil.getFilesFromProject(project, ".tc");
 		Iterator<IFile> itr = traitCompositionFiles.iterator();
-		while(itr.hasNext()){
-		    if (itr.next().getLocation().toPortableString().contains("/bin/"))
-		    	itr.remove();
+		while (itr.hasNext()) {
+			if (itr.next().getLocation().toPortableString().contains("/bin/"))
+				itr.remove();
 		}
 		handleTraitFiles(traitCompositionFiles);
 	}
@@ -68,19 +68,20 @@ public class GenerateClassFromInterfaces {
 	private void handleTraitFiles(List<IFile> traitCompositionFiles) {
 		List<IFile> javaFiles = FileUtil.getJavaFilesFromProject(project);
 		Iterator<IFile> itr = javaFiles.iterator();
-		
-		while(itr.hasNext()){
-		    if (itr.next().getLocation().toPortableString().contains("/src_key/"))
-		    	itr.remove();
+
+		while (itr.hasNext()) {
+			if (itr.next().getLocation().toPortableString().contains("/src_key/"))
+				itr.remove();
 		}
-		
+
 		for (IFile javaFile : javaFiles) {
 			String javaFileContent = readFileToString(javaFile.getLocation().toPortableString());
 			readClass(javaFileContent);
 		}
-		
+
 		for (IFile traitCompositionFile : traitCompositionFiles) {
-			String traitCompositionFileContent = readFileToString(traitCompositionFile.getLocation().toPortableString());
+			String traitCompositionFileContent = readFileToString(
+					traitCompositionFile.getLocation().toPortableString());
 			parseTraitCompositionFile(traitCompositionFileContent);
 			IFile location = null;
 			try {
@@ -91,7 +92,7 @@ public class GenerateClassFromInterfaces {
 			}
 		}
 	}
-	
+
 	private void verifyImplications(String path) throws NotImplementedException {
 		for (Method abstractMethod : abstractMethods) {
 			for (Method concreteMethod : concreteMethods) {
@@ -102,9 +103,16 @@ public class GenerateClassFromInterfaces {
 						// TODO: pass a diagram into ProveWithKey for this to work.
 						throw new NotImplementedException("");
 						/*
-						ProveWithKey proveImplication = new ProveWithKey(null, diagram, null, new FileUtil(path), "/src_key");
-						proveImplication.proveCImpliesCWithKey(createConditionForKeY(abstractMethod.getPreCondition().get(i), vars, conds), createConditionForKeY(concreteMethod.getPreCondition().get(i), vars, conds));
-						proveImplication.proveCImpliesCWithKey(createConditionForKeY(concreteMethod.getPostCondition().get(i), vars, conds), createConditionForKeY(abstractMethod.getPostCondition().get(i), vars, conds));*/
+						 * ProveWithKey proveImplication = new ProveWithKey(null, diagram, null, new
+						 * FileUtil(path), "/src_key");
+						 * proveImplication.proveCImpliesCWithKey(createConditionForKeY(abstractMethod.
+						 * getPreCondition().get(i), vars, conds),
+						 * createConditionForKeY(concreteMethod.getPreCondition().get(i), vars, conds));
+						 * proveImplication.proveCImpliesCWithKey(createConditionForKeY(concreteMethod.
+						 * getPostCondition().get(i), vars, conds),
+						 * createConditionForKeY(abstractMethod.getPostCondition().get(i), vars,
+						 * conds));
+						 */
 					}
 				}
 			}
@@ -151,7 +159,7 @@ public class GenerateClassFromInterfaces {
 		IFile location = generateClassForKey(allMethodsAsString, newTraitName);
 		return location;
 	}
-	
+
 	private IFile generateClassForKey(String content, String fileName) {
 		IFolder srcFolder = project.getFolder("src_key");
 		if (!srcFolder.exists()) {
@@ -161,10 +169,10 @@ public class GenerateClassFromInterfaces {
 				e.printStackTrace();
 			}
 		}
-		
+
 		IFile srcFile = project.getFile("src_key/" + fileName + ".java");
 		InputStream stream = createFileContentInputStream(content);
-		
+
 		if (!srcFile.exists()) {
 			try {
 				srcFile.create(stream, false, null);
@@ -192,16 +200,16 @@ public class GenerateClassFromInterfaces {
 				builder.append("\n");
 			}
 		}
-		
+
 		checkForConsistency(concreteMethods);
 
 		for (Method method : concreteMethods) {
 			builder.append(getJMLSpecification(method.getMethodDeclaration()));
-			//TODO: Was wird hier gemacht?
+			// TODO: Was wird hier gemacht?
 			builder.append(method.createSignature());
 			builder.append("\n");
 		}
-		
+
 		for (Method method : abstractMethods) {
 			boolean isImplemented = false;
 			for (Method concreteMethod : concreteMethods) {
@@ -221,10 +229,10 @@ public class GenerateClassFromInterfaces {
 
 	private void checkForConsistency(List<Method> concreteMethods) throws Exception {
 		for (int i = 0; i < concreteMethods.size(); i++) {
-			for (int j = i+1; j < concreteMethods.size(); j++) {
+			for (int j = i + 1; j < concreteMethods.size(); j++) {
 				if (concreteMethods.get(i).getMethodName().equals(concreteMethods.get(j).getMethodName())) {
-					throw new Exception(concreteMethods.get(i).getMethodName() + " implemented in " + concreteMethods.get(i).getClassName() 
-							+ " and " + concreteMethods.get(j).getClassName());
+					throw new Exception(concreteMethods.get(i).getMethodName() + " implemented in "
+							+ concreteMethods.get(i).getClassName() + " and " + concreteMethods.get(j).getClassName());
 				}
 			}
 		}
@@ -236,9 +244,8 @@ public class GenerateClassFromInterfaces {
 	}
 
 	private String getJMLSpecification(MethodDeclaration methodDeclaration) {
-		String defaultAnnotation = "	/*@\r\n" + "	  @ public normal_behavior\r\n"
-				+ "	  @ requires true;\r\n" + "	  @ ensures true;\r\n" + "	  @ assignable \\nothing;\r\n"
-				+ "	  @*/";
+		String defaultAnnotation = "	/*@\r\n" + "	  @ public normal_behavior\r\n" + "	  @ requires true;\r\n"
+				+ "	  @ ensures true;\r\n" + "	  @ assignable \\nothing;\r\n" + "	  @*/";
 		String jmlAnnotation;
 		Optional<Comment> comment = methodDeclaration.getComment();
 		if (!comment.isPresent()) {
@@ -249,14 +256,14 @@ public class GenerateClassFromInterfaces {
 				jmlAnnotation = defaultAnnotation;
 			}
 		}
-		
+
 		return jmlAnnotation;
 	}
 
 	private List<Method> getMethods(boolean isAbstract) {
-		List<Method> returnList = new ArrayList<>(); 
+		List<Method> returnList = new ArrayList<>();
 		for (Method method : methods) {
-			if (composedTraits.contains(method.getClassName()) 
+			if (composedTraits.contains(method.getClassName())
 					&& (method.isAbstract() == isAbstract && (isAbstract == isMadeAbstract(method)))) {
 				returnList.add(method);
 			}
@@ -265,10 +272,10 @@ public class GenerateClassFromInterfaces {
 	}
 
 	private boolean isMadeAbstract(Method method) {
-		if (method.isAbstract()) return true;
-		for (Entry<String,String> entry : removedMethods) {
-			if (method.getClassName().equals(entry.getKey())
-					&& method.getMethodName().equals(entry.getValue())) {
+		if (method.isAbstract())
+			return true;
+		for (Entry<String, String> entry : removedMethods) {
+			if (method.getClassName().equals(entry.getKey()) && method.getMethodName().equals(entry.getValue())) {
 				return true;
 			}
 		}
@@ -276,7 +283,7 @@ public class GenerateClassFromInterfaces {
 	}
 
 	private InputStream createFileContentInputStream(String content) {
-	    InputStream targetStream = new ByteArrayInputStream(content.getBytes());
+		InputStream targetStream = new ByteArrayInputStream(content.getBytes());
 		return targetStream;
 	}
 
@@ -285,14 +292,17 @@ public class GenerateClassFromInterfaces {
 		String[] splitForTraitName = traitCompositionFileContent.split("=");
 		composedTraits.clear();
 		removedMethods.clear();
-		if (splitForTraitName.length == 1) return;
+		if (splitForTraitName.length == 1)
+			return;
 		newTraitName = splitForTraitName[0].trim();
 		String[] splitTraits = splitForTraitName[1].split("\\+");
-		if (splitTraits.length == 1) return;
+		if (splitTraits.length == 1)
+			return;
 		for (String trait : splitTraits) {
 			if (trait.contains("makeAbstract")) {
 				String splitted[] = trait.split("\\[");
-				if (splitted.length == 1) return;
+				if (splitted.length == 1)
+					return;
 				composedTraits.add(splitted[0].trim());
 				String abstractMethods = splitted[1].replace("]", "").replace("makeAbstract ", "");
 				for (String abstractMethod : abstractMethods.split(",")) {
@@ -301,7 +311,7 @@ public class GenerateClassFromInterfaces {
 			} else {
 				composedTraits.add(trait.trim());
 			}
-		}	
+		}
 	}
 
 	private Entry<String, String> createEntry(String trait, String abstractMethod) {
@@ -313,30 +323,32 @@ public class GenerateClassFromInterfaces {
 		if (compilationUnit.getChildNodes().isEmpty()) {
 			return;
 		}
-		
+
 		ClassOrInterfaceCollector collector = new ClassOrInterfaceCollector();
 		collector.visit(compilationUnit, null);
-		
+
 		if (collector.getClassOrInterfaceDeclaration().isInterface()) {
-			generateClassForKey(javaFileContent.replaceFirst("interface", "class"), collector.getClassOrInterfaceDeclaration().getNameAsString());
-			
+			generateClassForKey(javaFileContent.replaceFirst("interface", "class"),
+					collector.getClassOrInterfaceDeclaration().getNameAsString());
+
 			for (FieldDeclaration fieldDeclaration : collector.getFields()) {
-				if(!fields.contains(fieldDeclaration)) {
+				if (!fields.contains(fieldDeclaration)) {
 					fields.add(fieldDeclaration);
 				}
 			}
-			
+
 			for (MethodDeclaration methodDeclaration : collector.getMethods()) {
-				handleMethod(methodDeclaration, collector.getClassOrInterfaceDeclaration().getNameAsString(), methodDeclaration.isAbstract());
+				handleMethod(methodDeclaration, collector.getClassOrInterfaceDeclaration().getNameAsString(),
+						methodDeclaration.isAbstract());
 			}
-		}	
+		}
 	}
 
 	private void handleMethod(MethodDeclaration methodDeclaration, String className, boolean isAbstract) {
-		//parse JML contract to pre- and postconditions of cbcFormula
+		// parse JML contract to pre- and postconditions of cbcFormula
 		String jmlAnnotation = getJMLSpecification(methodDeclaration);
 		int index = 0;
-		
+
 		List<String> preCondition = new ArrayList<>();
 		List<String> postCondition = new ArrayList<>();
 		do {
@@ -353,8 +365,9 @@ public class GenerateClassFromInterfaces {
 			postCondition.add(getPostCondition(currentJmlPart));
 
 		} while (index != -1);
-		Method method = new Method(methodDeclaration, methodDeclaration.getNameAsString(), className, isAbstract, preCondition, postCondition,
-				null, getParameters(methodDeclaration), methodDeclaration.getTypeAsString());
+		Method method = new Method(methodDeclaration, methodDeclaration.getNameAsString(), className, isAbstract,
+				preCondition, postCondition, null, getParameters(methodDeclaration),
+				methodDeclaration.getTypeAsString());
 		methods.add(method);
 	}
 
@@ -371,14 +384,16 @@ public class GenerateClassFromInterfaces {
 	 * adds the pre and post condition from jmlAnnotation to formula
 	 * 
 	 * @param formula
-	 * @param jmlAnnotation contains pre and post condition for formula
+	 * @param jmlAnnotation
+	 *            contains pre and post condition for formula
 	 * @param variables
 	 * @param conditions
 	 */
 	private String getPreCondition(String jmlAnnotation) {
-		//jmlAnnotation = replaceSpecialSymbols(jmlAnnotation);
+		// jmlAnnotation = replaceSpecialSymbols(jmlAnnotation);
 
-		//jmlAnnotation = cbcWorkaroundForOldKeyword(jmlAnnotation, variables, conditions);
+		// jmlAnnotation = cbcWorkaroundForOldKeyword(jmlAnnotation, variables,
+		// conditions);
 
 		// adds pre condition
 		int startPre = jmlAnnotation.indexOf("requires");
@@ -393,10 +408,11 @@ public class GenerateClassFromInterfaces {
 		pre = pre.substring(2);
 		return pre;
 	}
-	
+
 	private String getPostCondition(String jmlAnnotation) {
-		//jmlAnnotation = replaceSpecialSymbols(jmlAnnotation);
-		//jmlAnnotation = cbcWorkaroundForOldKeyword(jmlAnnotation, variables, conditions);
+		// jmlAnnotation = replaceSpecialSymbols(jmlAnnotation);
+		// jmlAnnotation = cbcWorkaroundForOldKeyword(jmlAnnotation, variables,
+		// conditions);
 		// adds post condition
 		int startPost = jmlAnnotation.indexOf("ensures");
 		String post = "";
@@ -411,7 +427,8 @@ public class GenerateClassFromInterfaces {
 		return post;
 	}
 
-	private String cbcWorkaroundForOldKeyword(String jmlAnnotation, JavaVariables variables, GlobalConditions conditions) {
+	private String cbcWorkaroundForOldKeyword(String jmlAnnotation, JavaVariables variables,
+			GlobalConditions conditions) {
 		int old = jmlAnnotation.indexOf("\\old");
 		while (old != -1) {
 			int endOld = findEndOfBracket(jmlAnnotation, old + 5);
@@ -441,7 +458,7 @@ public class GenerateClassFromInterfaces {
 			if (!typeOfVariable.isEmpty()) {
 				variable.setName(typeOfVariable + " " + newVariableName);
 				variables.getVariables().add(variable);
-				
+
 				boolean conditionAlreadyExists = false;
 				String newCondition = newVariableName + " = " + name;
 				for (Condition c : conditions.getConditions()) {
@@ -462,7 +479,8 @@ public class GenerateClassFromInterfaces {
 	/**
 	 * replaces special symbols(&& -> &, forall, ...)
 	 * 
-	 * @param jmlAnnotation with required symbols
+	 * @param jmlAnnotation
+	 *            with required symbols
 	 * @return
 	 */
 	private String replaceSpecialSymbols(String jmlAnnotation) {
@@ -524,9 +542,12 @@ public class GenerateClassFromInterfaces {
 	 * finds next semicolon, corresponding to part between start and end position,
 	 * which is a forall or exists part
 	 * 
-	 * @param jmlAnnotation part where to look for next semicolon
-	 * @param startForAll   start position
-	 * @param endForAll     end position
+	 * @param jmlAnnotation
+	 *            part where to look for next semicolon
+	 * @param startForAll
+	 *            start position
+	 * @param endForAll
+	 *            end position
 	 * @return
 	 */
 	private int findNextSemic(String jmlAnnotation, int start, int end) {
@@ -550,7 +571,8 @@ public class GenerateClassFromInterfaces {
 	 * finds the end position of the part belonging to 'requires' or 'ensures'
 	 * 
 	 * @param jmlAnnotation
-	 * @param startPosition index of requires or ensures
+	 * @param startPosition
+	 *            index of requires or ensures
 	 * @return
 	 */
 	private int findEnd(String jmlAnnotation, int startPosition) {
@@ -569,8 +591,9 @@ public class GenerateClassFromInterfaces {
 	 * bracket '(' right before starting position
 	 * 
 	 * @param jmlAnnotation
-	 * @param start         new part in brackets starts here(not the exact position
-	 *                      of "(", after "(")
+	 * @param start
+	 *            new part in brackets starts here(not the exact position of "(",
+	 *            after "(")
 	 * @return end of the part
 	 */
 	private int findEndOfBracket(String jmlAnnotation, int start) {
@@ -605,7 +628,7 @@ public class GenerateClassFromInterfaces {
 	}
 
 	// adds variable to the list of JavaVariables
-	//TODO: kann das so stimmen?
+	// TODO: kann das so stimmen?
 	public String getParameter(Parameter p) {
 		return p.getTypeAsString() + " " + p.getNameAsString();
 	}

@@ -5,7 +5,7 @@ import java.util.List;
 import de.tu_bs.cs.isf.cbc.parser.annotations.MDF;
 
 public class Method implements IFieldOrMethod {
-	
+
 	private String name;
 	private String returnType;
 	private String securityLevel;
@@ -18,7 +18,8 @@ public class Method implements IFieldOrMethod {
 	private String definingClass;
 
 	public Method(String name, String returnType, String securityLevel, MDF mutationModifier,
-			List<ParameterDefinition> parameterList, String receiverSL, MDF receiverMDF, Boolean staticMethod, Boolean voidMethod, String definingClass) {
+			List<ParameterDefinition> parameterList, String receiverSL, MDF receiverMDF, Boolean staticMethod,
+			Boolean voidMethod, String definingClass) {
 		super();
 		this.name = name;
 		this.returnType = returnType;

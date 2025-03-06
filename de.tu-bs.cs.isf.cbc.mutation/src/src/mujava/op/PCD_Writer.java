@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op;
 
 import java.io.PrintWriter;
@@ -28,57 +28,49 @@ import openjava.ptree.UnaryExpression;
 import src.mujava.op.util.MutantCodeWriter;
 
 /**
- * <p>Output and log PCD mutants to files</p>
+ * <p>
+ * Output and log PCD mutants to files
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
-public class PCD_Writer extends MutantCodeWriter
-{
-   CastExpression original = null;
+public class PCD_Writer extends MutantCodeWriter {
+	CastExpression original = null;
 
-   /**
-    * Set original source code 
-    * @param original
-    */
-   public void setMutant(CastExpression original)
-   {
-      this.original = original;
-   }
+	/**
+	 * Set original source code
+	 * 
+	 * @param original
+	 */
+	public void setMutant(CastExpression original) {
+		this.original = original;
+	}
 
-   public PCD_Writer( String file_name, PrintWriter out ) 
-   {
-	  super(file_name, out);
-   }
+	public PCD_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-   /**
-    * Log mutated line
-    */
-   public void visit( CastExpression p ) throws ParseTreeException
-   {
-      if (isSameObject(p, original))
-      {
-         Expression expr = p.getExpression();
-         if (expr instanceof AssignmentExpression
-           || expr instanceof ConditionalExpression
-           || expr instanceof BinaryExpression
-           || expr instanceof InstanceofExpression
-           || expr instanceof UnaryExpression)
-         {
-            writeParenthesis( expr );
-         } 
-         else 
-         {
-	        expr.accept( this );
-         }
-         // -------------------------------------------------------------
-         mutated_line = line_num;
-         writeLog(removeNewline(original.toString() + " => " + expr.toString()));
-         // -------------------------------------------------------------
-      }
-      else
-      {
-         super.visit(p);
-      }
-   }
+	/**
+	 * Log mutated line
+	 */
+	public void visit(CastExpression p) throws ParseTreeException {
+		if (isSameObject(p, original)) {
+			Expression expr = p.getExpression();
+			if (expr instanceof AssignmentExpression || expr instanceof ConditionalExpression
+					|| expr instanceof BinaryExpression || expr instanceof InstanceofExpression
+					|| expr instanceof UnaryExpression) {
+				writeParenthesis(expr);
+			} else {
+				expr.accept(this);
+			}
+			// -------------------------------------------------------------
+			mutated_line = line_num;
+			writeLog(removeNewline(original.toString() + " => " + expr.toString()));
+			// -------------------------------------------------------------
+		} else {
+			super.visit(p);
+		}
+	}
 }

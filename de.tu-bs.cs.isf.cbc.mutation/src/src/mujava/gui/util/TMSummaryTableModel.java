@@ -12,20 +12,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
+ */
 
 package src.mujava.gui.util;
 
 /**
- * <p>Template containing summary of traditional mutants generated</p>
+ * <p>
+ * Template containing summary of traditional mutants generated
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class TMSummaryTableModel extends SummaryTableModel 
-{
-   private static final long serialVersionUID = 203L;
-   
-   int getOperatorType() {    return TMO;    }
+public class TMSummaryTableModel extends SummaryTableModel {
+	private static final long serialVersionUID = 203L;
+
+	int getOperatorType() {
+		return TMO;
+	}
 }

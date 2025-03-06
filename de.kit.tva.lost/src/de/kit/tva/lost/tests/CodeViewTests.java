@@ -15,14 +15,14 @@ class CodeViewTests {
 	private static StyledText codeField;
 
 	private CodeView instance;
-	
+
 	@BeforeAll
 	public static void setUp() {
 		var display = new Display();
 		var shell = new Shell(display);
 		codeField = new StyledText(shell, 0);
 	}
-	
+
 	@BeforeEach
 	public void init() {
 		instance = new CodeView(codeField);
@@ -32,14 +32,14 @@ class CodeViewTests {
 	public void setCaretToInBetweenPosition() {
 		instance.updateCode("abcdefg");
 		instance.setCaretOffset(3);
-		
+
 		assertEquals(3, codeField.getCaretOffset());
 	}
-	
+
 	@Test
 	public void setCaretToInvalidPosition() {
 		instance.setCaretOffset(-1);
-		
+
 		assertEquals(0, codeField.getCaretOffset());
 	}
 }

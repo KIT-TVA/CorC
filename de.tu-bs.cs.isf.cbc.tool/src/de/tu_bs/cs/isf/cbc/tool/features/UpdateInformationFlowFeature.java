@@ -74,7 +74,7 @@ public class UpdateInformationFlowFeature extends MyAbstractAsynchronousCustomFe
 					System.out.println("ERROR: no lattice found for project " + project.getName());
 					return;
 				}
-				
+
 				try {
 					UpdateInformationFlow.updateInformationFlow(project.getName(), statement, lattice);
 				} catch (IFbCException e) {

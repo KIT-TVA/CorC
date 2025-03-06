@@ -18,7 +18,8 @@ public class VerifyStatementPartialProofBegin extends MyAbstractAsynchronousCust
 	/**
 	 * Constructor of the class
 	 * 
-	 * @param fp The FeatureProvider
+	 * @param fp
+	 *            The FeatureProvider
 	 */
 	public VerifyStatementPartialProofBegin(IFeatureProvider fp) {
 		super(fp);

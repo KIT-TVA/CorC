@@ -12,8 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
+ */
 
 package src.mujava.op;
 
@@ -24,57 +23,54 @@ import openjava.ptree.ParseTreeException;
 import src.mujava.op.util.MutantCodeWriter;
 
 /**
- * <p>Output and log AOR mutants to files</p>
+ * <p>
+ * Output and log AOR mutants to files
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
-public class AOR_Writer extends MutantCodeWriter
-{
-   BinaryExpression original;
-   int mutant_op;
- 
-   public AOR_Writer( String file_name, PrintWriter out ) 
-   {
-      super(file_name, out);
-   }
+public class AOR_Writer extends MutantCodeWriter {
+	BinaryExpression original;
+	int mutant_op;
 
-   /**
-    * Set original source code and mutated code
-    * @param exp
-    * @param op
-    */
-   public void setMutant(BinaryExpression exp, int op)
-   {
-      original = exp;
-      mutant_op = op;
-   }
+	public AOR_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-   /**
-    * Log mutated line
-    */
-   public void visit( BinaryExpression p ) throws ParseTreeException
-   {
-      if (isSameObject(p, original))
-      {
-    	 BinaryExpression mutant_exp;
-    	 mutant_exp = (BinaryExpression)original.makeRecursiveCopy();
-    	 mutant_exp.setOperator(mutant_op);
-    	 super.visit(mutant_exp);
+	/**
+	 * Set original source code and mutated code
+	 * 
+	 * @param exp
+	 * @param op
+	 */
+	public void setMutant(BinaryExpression exp, int op) {
+		original = exp;
+		mutant_op = op;
+	}
 
-     	 String operator = mutant_exp.operatorString();
-    	 out.print( " " + operator + " " );
-	     // -----------------------------------------------------------
-	     mutated_line = line_num;
-	     String log_str = p.operatorString()+ " => " + operator;
-	     writeLog(removeNewline(log_str));
-	     // -------------------------------------------------------------
+	/**
+	 * Log mutated line
+	 */
+	public void visit(BinaryExpression p) throws ParseTreeException {
+		if (isSameObject(p, original)) {
+			BinaryExpression mutant_exp;
+			mutant_exp = (BinaryExpression) original.makeRecursiveCopy();
+			mutant_exp.setOperator(mutant_op);
+			super.visit(mutant_exp);
 
-     	 mutant_exp = null;
-      }
-      else
-      {
-         super.visit(p);
-      }
-   }
+			String operator = mutant_exp.operatorString();
+			out.print(" " + operator + " ");
+			// -----------------------------------------------------------
+			mutated_line = line_num;
+			String log_str = p.operatorString() + " => " + operator;
+			writeLog(removeNewline(log_str));
+			// -------------------------------------------------------------
+
+			mutant_exp = null;
+		} else {
+			super.visit(p);
+		}
+	}
 }

@@ -25,7 +25,7 @@ import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
 import de.tu_bs.cs.isf.cbc.util.Parser;
 
 public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustomFeature {
-	
+
 	public VerifyStatementProofGraphBegin(IFeatureProvider fp) {
 		super(fp);
 	}
@@ -61,7 +61,7 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
 		long startTime = System.nanoTime();
 		PictogramElement[] pes = context.getPictogramElements();
-		
+
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
 			boolean isReturnStatement = bo instanceof ReturnStatement;
@@ -72,12 +72,13 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 				String postFormula = Parser.getConditionFromCondition(statement.getPostCondition().getName());
 
 				if (preFormula.contains("original") || postFormula.contains("original")) {
-					VerifyOriginalCallStatementProofGraphBegin verify = new VerifyOriginalCallStatementProofGraphBegin(getFeatureProvider());
+					VerifyOriginalCallStatementProofGraphBegin verify = new VerifyOriginalCallStatementProofGraphBegin(
+							getFeatureProvider());
 					verify.execute(context);
 				} else {
 					Console.println("No Variation within statement. Instantly starting verification!");
 					FileHandler.instance.deleteFolder(uri, "tests");
-					
+
 					IKeYProof keyProof = new IKeYProof();
 					keyProof.setDiagram(getDiagram());
 					keyProof.setFeatureProvider(getFeatureProvider());
@@ -86,7 +87,7 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 					keyProof.setJavaVariables(generateJavaVariables());
 					keyProof.setCbCFormulas(generateCbCFormulas());
 					keyProof.setReturnStatement(isReturnStatement);
-					
+
 					KeYProofProver prover = new KeYProofProver(keyProof, new ProofGraphStatementBeginStrategy());
 					statement.setProven(prover.prove());
 				}
@@ -95,7 +96,7 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 				long duration = (endTime - startTime) / 1_000_000;
 				startTime = System.nanoTime();
 
-				Console.println("\nVerification done."); 
+				Console.println("\nVerification done.");
 				Console.println("Time needed: " + duration + "ms");
 			}
 		}
@@ -129,4 +130,3 @@ public class VerifyStatementProofGraphBegin extends MyAbstractAsynchronousCustom
 		return cbcFormulas;
 	}
 }
-	

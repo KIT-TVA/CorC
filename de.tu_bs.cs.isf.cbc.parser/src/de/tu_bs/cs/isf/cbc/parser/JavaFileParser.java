@@ -27,7 +27,8 @@ public class JavaFileParser {
 		parseFields(cu, fieldsAndMethods);
 		parseMethods(cu, fieldsAndMethods);
 		fieldsAndMethods.forEach((k, v) -> {
-			final JavaClass clazz = new JavaClass(k, file.getPath(), System.currentTimeMillis(), v, subtypes.get(k), constructors.get(k));
+			final JavaClass clazz = new JavaClass(k, file.getPath(), System.currentTimeMillis(), v, subtypes.get(k),
+					constructors.get(k));
 			clazzes.put(k, clazz);
 		});
 

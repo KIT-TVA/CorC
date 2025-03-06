@@ -27,19 +27,19 @@ public class LatticeProjectBuilder extends IncrementalProjectBuilder {
 		public boolean visit(IResourceDelta delta) throws CoreException {
 			IResource resource = delta.getResource();
 			switch (delta.getKind()) {
-			case IResourceDelta.ADDED:
-				// handle added resource
-				checkXML(resource);
-				break;
-			case IResourceDelta.REMOVED:
-				// handle removed resource
-				break;
-			case IResourceDelta.CHANGED:
-				// handle changed resource
-				checkXML(resource);
-				break;
+				case IResourceDelta.ADDED :
+					// handle added resource
+					checkXML(resource);
+					break;
+				case IResourceDelta.REMOVED :
+					// handle removed resource
+					break;
+				case IResourceDelta.CHANGED :
+					// handle changed resource
+					checkXML(resource);
+					break;
 			}
-			//return true to continue visiting children.
+			// return true to continue visiting children.
 			return true;
 		}
 	}
@@ -47,13 +47,13 @@ public class LatticeProjectBuilder extends IncrementalProjectBuilder {
 	class SampleResourceVisitor implements IResourceVisitor {
 		public boolean visit(IResource resource) {
 			checkXML(resource);
-			//return true to continue visiting children.
+			// return true to continue visiting children.
 			return true;
 		}
 	}
 
 	class XMLErrorHandler extends DefaultHandler {
-		
+
 		private IFile file;
 
 		public XMLErrorHandler(IFile file) {
@@ -61,8 +61,7 @@ public class LatticeProjectBuilder extends IncrementalProjectBuilder {
 		}
 
 		private void addMarker(SAXParseException e, int severity) {
-			LatticeProjectBuilder.this.addMarker(file, e.getMessage(), e
-					.getLineNumber(), severity);
+			LatticeProjectBuilder.this.addMarker(file, e.getMessage(), e.getLineNumber(), severity);
 		}
 
 		public void error(SAXParseException exception) throws SAXException {
@@ -84,8 +83,7 @@ public class LatticeProjectBuilder extends IncrementalProjectBuilder {
 
 	private SAXParserFactory parserFactory;
 
-	private void addMarker(IFile file, String message, int lineNumber,
-			int severity) {
+	private void addMarker(IFile file, String message, int lineNumber, int severity) {
 		try {
 			IMarker marker = file.createMarker(MARKER_TYPE);
 			marker.setAttribute(IMarker.MESSAGE, message);
@@ -99,8 +97,7 @@ public class LatticeProjectBuilder extends IncrementalProjectBuilder {
 	}
 
 	@Override
-	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor)
-			throws CoreException {
+	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) throws CoreException {
 		if (kind == FULL_BUILD) {
 			fullBuild(monitor);
 		} else {
@@ -138,24 +135,21 @@ public class LatticeProjectBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
-	protected void fullBuild(final IProgressMonitor monitor)
-			throws CoreException {
+	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {
 		try {
 			getProject().accept(new SampleResourceVisitor());
 		} catch (CoreException e) {
 		}
 	}
 
-	private SAXParser getParser() throws ParserConfigurationException,
-			SAXException {
+	private SAXParser getParser() throws ParserConfigurationException, SAXException {
 		if (parserFactory == null) {
 			parserFactory = SAXParserFactory.newInstance();
 		}
 		return parserFactory.newSAXParser();
 	}
 
-	protected void incrementalBuild(IResourceDelta delta,
-			IProgressMonitor monitor) throws CoreException {
+	protected void incrementalBuild(IResourceDelta delta, IProgressMonitor monitor) throws CoreException {
 		// the visitor does the work.
 		delta.accept(new SampleDeltaVisitor());
 	}

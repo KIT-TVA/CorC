@@ -42,7 +42,7 @@ import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraph;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraphCollection;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofNode;
 
-public class VerifyMethodCallStatementProofGraphComplete extends MyAbstractAsynchronousCustomFeature{
+public class VerifyMethodCallStatementProofGraphComplete extends MyAbstractAsynchronousCustomFeature {
 
 	public VerifyMethodCallStatementProofGraphComplete(IFeatureProvider fp) {
 		super(fp);
@@ -79,66 +79,75 @@ public class VerifyMethodCallStatementProofGraphComplete extends MyAbstractAsync
 		long startTime = System.nanoTime();
 		PictogramElement[] pes = context.getPictogramElements();
 		VerifyStatement verifyStatement = new VerifyStatement(getFeatureProvider());
-		VerifyStatementProofGraphComplete verifyGraphStatement = new VerifyStatementProofGraphComplete(getFeatureProvider());
+		VerifyStatementProofGraphComplete verifyGraphStatement = new VerifyStatementProofGraphComplete(
+				getFeatureProvider());
 
-		
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
 			if (bo instanceof AbstractStatement statement) {
 				URI uri = this.getDiagram().eResource().getURI();
 				FileHandler.instance.deleteFolder(uri, "tests");
-				
+
 				IProject project = FileUtil.getProjectFromFileInProject(uri);
 
 				String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 				String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 				String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
 				IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
-				String location = fileHandler.getLocationString(getDiagram().eResource().getURI().toPlatformString(true));
+				String location = fileHandler
+						.getLocationString(getDiagram().eResource().getURI().toPlatformString(true));
 				IProofRepository proofRepo = new FileSystemProofRepository(location + "/proofRepository/");
 
 				try {
-					ProofGraphCollection collection = ProofGraphCollection.loadFromJson(project.getRawLocation() + "/graph.json");
-					Console.println(String.format("Successfully loaded proof graph for %s:%s", callingFeature, callingMethod), Colors.GREEN);
-					
+					ProofGraphCollection collection = ProofGraphCollection
+							.loadFromJson(project.getRawLocation() + "/graph.json");
+					Console.println(
+							String.format("Successfully loaded proof graph for %s:%s", callingFeature, callingMethod),
+							Colors.GREEN);
+
 					ProofGraph graph = collection.getGraphForMethod(callingMethod);
-					//Load proof from repository
+					// Load proof from repository
 
 					Set<ProofNode> edgesToProve = graph.getNodesForFeature(callingFeature, callingMethod);
 					if (!edgesToProve.isEmpty()) {
 						Console.println("Starting proof on proof graph:");
-						for(ProofNode node : edgesToProve) {
-							Console.println("\t" + callingFeature +  " --> " + node.getFeature());
+						for (ProofNode node : edgesToProve) {
+							Console.println("\t" + callingFeature + " --> " + node.getFeature());
 						}
 					} else {
 						Console.println("No variation points - proof can just go on");
 					}
 
-					Set<String> varMethodCalls = graph.getVarMethodCalls().get(new ProofNode(callingFeature, callingMethod, graph.getIdForFeature(callingFeature)));
+					Set<String> varMethodCalls = graph.getVarMethodCalls()
+							.get(new ProofNode(callingFeature, callingMethod, graph.getIdForFeature(callingFeature)));
 					List<List<String>> varMethodCallPaths = new ArrayList<>();
 					if (varMethodCalls != null && !varMethodCalls.isEmpty()) {
 						for (String method : varMethodCalls) {
-							varMethodCallPaths.addAll(verifyGraphStatement.generateAllPaths(collection.getGraphForMethod(method)));
+							varMethodCallPaths.addAll(
+									verifyGraphStatement.generateAllPaths(collection.getGraphForMethod(method)));
 						}
 					}
-					
+
 					Set<List<String>> toProve = new HashSet<>();
 
 					List<List<String>> currentGraphPaths = new ArrayList<>();
 					List<String> localPathList = new ArrayList<>();
 					localPathList.add(callingFeature);
-					verifyGraphStatement.findPaths(graph, new ProofNode(callingFeature, callingMethod, graph.getIdForFeature(callingFeature)), currentGraphPaths,localPathList);
-					
+					verifyGraphStatement.findPaths(graph,
+							new ProofNode(callingFeature, callingMethod, graph.getIdForFeature(callingFeature)),
+							currentGraphPaths, localPathList);
+
 					for (List<String> path : currentGraphPaths) {
 						for (List<String> path2 : varMethodCallPaths) {
 							Set<String> paths = new HashSet<>();
 							paths.addAll(path);
 							paths.addAll(path2);
-							String[] featureConfig = VerifyFeatures.findValidProduct(new ArrayList<String>(paths), project);
+							String[] featureConfig = VerifyFeatures.findValidProduct(new ArrayList<String>(paths),
+									project);
 							toProve.add(new ArrayList<>(Arrays.asList(featureConfig)));
 						}
 					}
-					
+
 					Console.println("Minimal amount of produts for valid proof: ");
 					toProve.forEach(l -> {
 						Console.println("\t -" + Arrays.toString(l.toArray()));
@@ -148,34 +157,38 @@ public class VerifyMethodCallStatementProofGraphComplete extends MyAbstractAsync
 						toProve.add(List.of(VerifyFeatures.findValidProduct(List.of(callingFeature), project)));
 					}
 					Set<String[]> toProveConverted = verifyGraphStatement.convertArrays(toProve);
-					
+
 					boolean proven = true;
-					
 
 					for (String[] featureConfig : toProveConverted) {
 
 						FileNameManager manager = new FileNameManager();
 						String name = manager.getFileName(null, location, statement, "") + ".proof";
-						proofRepo.getPartialProofForId(List.of(callingFeature), List.of(graph.getIdForFeature(callingFeature)), location, name);
+						proofRepo.getPartialProofForId(List.of(callingFeature),
+								List.of(graph.getIdForFeature(callingFeature)), location, name);
 
-						GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
+						GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(
+								super.getFeatureProvider());
 						genCode.setProofTypeInfo(0, KeYInteraction.ABSTRACT_PROOF_COMPLETE);
-						genCode.generate(project.getLocation(), 
-								callingFeature, 
-								callingClass, 
-								callingMethod, 
+						genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod,
 								featureConfig);
 
 						DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
 						JavaVariables vars = extractor.getVars();
-						String varM = handleVarM(Parser.extractMethodNameFromStatemtent(statement.getName()), callingClass, vars);
+						String varM = handleVarM(Parser.extractMethodNameFromStatemtent(statement.getName()),
+								callingClass, vars);
 						String varMParts[] = varM.split("\\.");
 						String[][] variantWrapper = {featureConfig};
-						String variant = verifyStatement.generateVariantsStringFromFeatureConfigs(variantWrapper, callingFeature, varM.contains(".") ? varMParts[0] : callingClass)[0];
-						List<CbCFormula> refinements = verifyStatement.generateCbCFormulasForRefinements(variant, varMParts[1].toLowerCase());
-						List<JavaVariables> refinementVars = verifyStatement.generateJavaVariablesForRefinements(variant, varMParts[1].toLowerCase());
-						ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, fileHandler, featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_COMPLETE);
-						if(!prove.proveStatementWithKey(refinements, refinements, refinementVars, false, false, callingMethod, varM, callingClass, true)) {
+						String variant = verifyStatement.generateVariantsStringFromFeatureConfigs(variantWrapper,
+								callingFeature, varM.contains(".") ? varMParts[0] : callingClass)[0];
+						List<CbCFormula> refinements = verifyStatement.generateCbCFormulasForRefinements(variant,
+								varMParts[1].toLowerCase());
+						List<JavaVariables> refinementVars = verifyStatement
+								.generateJavaVariablesForRefinements(variant, varMParts[1].toLowerCase());
+						ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, fileHandler,
+								featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_COMPLETE);
+						if (!prove.proveStatementWithKey(refinements, refinements, refinementVars, false, false,
+								callingMethod, varM, callingClass, true)) {
 							proven = false;
 						}
 
@@ -185,14 +198,14 @@ public class VerifyMethodCallStatementProofGraphComplete extends MyAbstractAsync
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
-				
+
 			}
 		}
-		
+
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1_000_000;
-		RunEvaluationForStatementPP.WHOLE_RUNTIME_COMPLETE.add(duration + ""); //PG DEBUG
-		Console.println("\nVerification done."); 
+		RunEvaluationForStatementPP.WHOLE_RUNTIME_COMPLETE.add(duration + ""); // PG DEBUG
+		Console.println("\nVerification done.");
 		Console.println("Time needed: " + duration + "ms");
 	}
 	private String handleVarM(String methodCall, String callingClass, JavaVariables vars) {

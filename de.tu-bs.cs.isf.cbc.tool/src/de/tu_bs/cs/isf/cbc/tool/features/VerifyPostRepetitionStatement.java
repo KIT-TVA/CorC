@@ -34,7 +34,7 @@ import de.tu_bs.cs.isf.cbc.util.statistics.StatDataCollector;
  */
 public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomFeature {
 	private String proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
-	
+
 	public void setProofType(String proofType) {
 		this.proofType = proofType;
 	}
@@ -95,49 +95,63 @@ public class VerifyPostRepetitionStatement extends MyAbstractAsynchronousCustomF
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
-				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), new ArrayList<>(), 0, proofType);
+				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString),
+						new ArrayList<>(), 0, proofType);
 				if (isVariational) {
 					Console.println("Starting variational verification...\n");
 					String callingClass = FeatureUtil.getInstance().getCallingClass(uri);
 					String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
 					String callingMethod = FeatureUtil.getInstance().getCallingMethod(uri);
-					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount()-1), true, callingClass, false, null);				
-					String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri, uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
+					String[][] featureConfigs = VerifyFeatures.verifyConfig(uri, uri.segment(uri.segmentCount() - 1),
+							true, callingClass, false, null);
+					String[][] featureConfigsRelevant = VerifyFeatures.verifyConfig(uri,
+							uri.trimFileExtension().segment(uri.segmentCount() - 1), true, callingClass, true, null);
 
-					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
+					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(
+							super.getFeatureProvider());
 					VerifyStatement verifyStmt = new VerifyStatement(super.getFeatureProvider());
-					
+
 					if (featureConfigs != null) {
-						String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant, callingFeature, callingClass);
+						String[] variants = verifyStmt.generateVariantsStringFromFeatureConfigs(featureConfigsRelevant,
+								callingFeature, callingClass);
 						for (int i = 0; i < variants.length; i++) {
 							genCode.setProofTypeInfo(i, proofType);
-							if(!genCode.generate(FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI()).getLocation(), callingFeature, callingClass, callingMethod, featureConfigs[i])) continue;
-							prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString), featureConfigs[i], i, KeYInteraction.ABSTRACT_PROOF_FULL);
-							List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i], callingMethod);
+							if (!genCode.generate(
+									FileUtil.getProjectFromFileInProject(getDiagram().eResource().getURI())
+											.getLocation(),
+									callingFeature, callingClass, callingMethod, featureConfigs[i]))
+								continue;
+							prove = new ProveWithKey(statement, getDiagram(), monitor, new FileUtil(uriString),
+									featureConfigs[i], i, KeYInteraction.ABSTRACT_PROOF_FULL);
+							List<CbCFormula> refinements = verifyStmt.generateCbCFormulasForRefinements(variants[i],
+									callingMethod);
 							String configName = "";
-							for (String s : featureConfigs[i]) configName += s;
+							for (String s : featureConfigs[i])
+								configName += s;
 							prove.setConfigName(configName);
-							proven = prove.provePostRepetitionWithKey(refinements, statement.getInvariant(), statement.getGuard(), parent.getPostCondition());
+							proven = prove.provePostRepetitionWithKey(refinements, statement.getInvariant(),
+									statement.getGuard(), parent.getPostCondition());
 						}
 					}
 				} else {
 					Console.println("Starting verification...\n");
-					proven = prove.provePostRepetitionWithKey(null, statement.getInvariant(), statement.getGuard(), parent.getPostCondition());
-				}		
+					proven = prove.provePostRepetitionWithKey(null, statement.getInvariant(), statement.getGuard(),
+							parent.getPostCondition());
+				}
 				if (proven) {
 					statement.setPostProven(true);
 				} else {
 					statement.setPostProven(false);
 				}
-				updatePictogramElement(((Shape)pes[0]).getContainer());
+				updatePictogramElement(((Shape) pes[0]).getContainer());
 			}
 		}
 		// reset proof type since partial proofs also call this method.
 		proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1000000;
-		Console.println("\nVerification done."); 
+		Console.println("\nVerification done.");
 		Console.println("Time needed: " + duration + "ms");
-		monitor.done();	
+		monitor.done();
 	}
 }

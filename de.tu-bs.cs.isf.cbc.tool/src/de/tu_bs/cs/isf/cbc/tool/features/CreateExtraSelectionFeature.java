@@ -12,6 +12,7 @@ import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
 
 /**
  * Class that creates a new DataStructure in the diagram
+ * 
  * @author Tobias
  *
  */
@@ -19,7 +20,9 @@ public class CreateExtraSelectionFeature extends AbstractCreateFeature {
 
 	/**
 	 * Constructor of the class
-	 * @param fp The FeatureProvider
+	 * 
+	 * @param fp
+	 *            The FeatureProvider
 	 */
 	public CreateExtraSelectionFeature(IFeatureProvider fp) {
 		super(fp, "ExtraSelection", "Create an extra entry for the selection statement");
@@ -32,7 +35,8 @@ public class CreateExtraSelectionFeature extends AbstractCreateFeature {
 
 	@Override
 	public Object[] create(ICreateContext context) {
-		SelectionStatement selectionStatement = (SelectionStatement) getBusinessObjectForPictogramElement(context.getTargetContainer());
+		SelectionStatement selectionStatement = (SelectionStatement) getBusinessObjectForPictogramElement(
+				context.getTargetContainer());
 		AbstractStatement statement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 		statement.setName("statement");
 		Condition guard = CbcmodelFactory.eINSTANCE.createCondition();
@@ -49,6 +53,6 @@ public class CreateExtraSelectionFeature extends AbstractCreateFeature {
 			UpdateConditionsOfChildren.updateRefinedStatement(selectionStatement.getParent(), selectionStatement);
 		}
 		updatePictogramElement(context.getTargetContainer());
-		return new Object[] { statement, guard };
+		return new Object[]{statement, guard};
 	}
 }

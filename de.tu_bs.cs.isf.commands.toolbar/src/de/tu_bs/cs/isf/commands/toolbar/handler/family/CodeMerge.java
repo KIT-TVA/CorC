@@ -8,18 +8,18 @@ public class CodeMerge {
 	private String className;
 	private String mergedCode;
 	private final List<String> codes;
-	
+
 	public CodeMerge(List<String> codes) throws CodeMergeException {
 		this.codes = codes;
 		this.mergedCode = "";
 		this.className = "";
 		merge();
 	}
-	
+
 	public String get() {
 		return this.mergedCode;
 	}
-	
+
 	private void merge() throws CodeMergeException {
 		removeCodeClassLayers();
 		addMergedClassLayer();
@@ -29,7 +29,7 @@ public class CodeMerge {
 		mergedCode = CodeHandler.removeAllTabs(mergedCode);
 		mergedCode = CodeHandler.indentCode(mergedCode, 0);
 	}
-	
+
 	private void removeCodeClassLayers() throws CodeMergeException {
 		for (int i = 0; i < codes.size(); i++) {
 			if (!codes.get(i).contains(" class ")) {
@@ -40,32 +40,32 @@ public class CodeMerge {
 			codes.set(i, removeClassDefinition(codes.get(i)));
 		}
 	}
-	
+
 	private String getClassNameFromCode(String code) {
-			String curName;
-			curName = code.substring(code.indexOf("class ") + "class ".length(), code.indexOf("{"));
-			curName = curName.substring(0, curName.indexOf(" ")).trim();
-			return curName;
+		String curName;
+		curName = code.substring(code.indexOf("class ") + "class ".length(), code.indexOf("{"));
+		curName = curName.substring(0, curName.indexOf(" ")).trim();
+		return curName;
 	}
-	
+
 	private void setClassName(String curName) throws CodeMergeException {
-			if (className.isEmpty()) {
-				className = curName;
-				return;
-			} 
-			if (!curName.equals(className)) {
-				throw new CodeMergeException("Tried merging code of different classes.");
-			}
+		if (className.isEmpty()) {
+			className = curName;
+			return;
+		}
+		if (!curName.equals(className)) {
+			throw new CodeMergeException("Tried merging code of different classes.");
+		}
 	}
-	
+
 	private String removeClassDefinition(String code) {
 		return code.substring(code.indexOf("{") + 1, code.lastIndexOf("}"));
 	}
-	
+
 	private void addMergedClassLayer() {
 		this.mergedCode += "public class " + this.className + " {\n";
 	}
-	
+
 	private String mergeHeaders() {
 		String mergedHeaders = "";
 		for (var code : codes) {
@@ -74,7 +74,7 @@ public class CodeMerge {
 		}
 		return mergedHeaders;
 	}
-	
+
 	private String[] getHeader(String code) {
 		code = code.trim();
 		var lines = code.split(";");
@@ -83,7 +83,7 @@ public class CodeMerge {
 		if (--headerEnd == 0) {
 			return new String[0];
 		}
-		String[] header = new String[headerEnd]; 
+		String[] header = new String[headerEnd];
 		for (int i = 0; i < headerEnd; i++) {
 			if (lines[i].contains("@")) {
 				header[i] = "/*@ " + removeComment(lines[i]) + "; @*/";
@@ -93,7 +93,7 @@ public class CodeMerge {
 		}
 		return header;
 	}
-	
+
 	private String addHeader(String mergedHeaders, String[] header) {
 		for (var line : header) {
 			if (!mergedHeaders.contains(line)) {
@@ -102,17 +102,17 @@ public class CodeMerge {
 		}
 		return mergedHeaders + "\n";
 	}
-	
+
 	private String removeComment(String line) {
 		line = line.replaceAll("\\/|\\*|\\@", "");
 		return line.trim();
 	}
-	
+
 	private String mergeMethods() {
 		String mergedMethods = "";
 		var methods = new JavaMethods(this.codes);
 		for (var m : methods.getAll()) {
-			if(!mergedMethods.contains(m.getSignature())) {
+			if (!mergedMethods.contains(m.getSignature())) {
 				mergedMethods += m.getContract() + "\n" + m.getCode() + "\n";
 			}
 		}

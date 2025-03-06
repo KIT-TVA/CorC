@@ -20,7 +20,7 @@ public class GetProjectUtil {
 				return fileResource.getProject();
 			}
 		}
-		
+
 		return null;
 	}
 }

@@ -59,28 +59,27 @@ import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.ClassUtil;
 
 public class BasicsSection extends GFPropertySection implements ITabbedPropertyConstants {
-	
 
 	Display display = Display.getCurrent();// for UI updating of back-process
 	boolean variationalProject = false;
-	
+
 	// Defining the UI properties
 	private Label classLabel;
 	private Label classLabelText;
 
 	private Label invariantLabel;
 	private List invariantList;
-	
+
 	private Label methodSignatureLabel;
 	private StyledText methodSignatureLabelText;
 	private boolean methodSignatureLabelChanged = false;
-	
+
 	private Label featureLabel;
 	private Label featureLabelText;
-	
+
 	private Label compositionTechniqueLabel;
 	private Label compositionTechniqueLabelText;
-	
+
 	private Button saveButton;
 	private Object bo;
 
@@ -91,46 +90,46 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 
 		Composite composite = factory.createFlatFormComposite(parent);
-		
+
 		// Defining GridLayout for properties-view
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		gridLayout.verticalSpacing = 20;
 		composite.setLayout(gridLayout);
-		Color white = new Color (device, 255, 255, 255);
-		
+		Color white = new Color(device, 255, 255, 255);
+
 		// featureLabel
 		featureLabel = new Label(composite, SWT.PUSH);
 		featureLabel.setBackground(white);
 		featureLabel.setText("Feature: ");
-		
+
 		// featureLabelText
 		featureLabelText = new Label(composite, SWT.PUSH);
 		featureLabelText.setBackground(white);
-		
+
 		// compositionTechniqueLabel
 		compositionTechniqueLabel = new Label(composite, SWT.PUSH);
 		compositionTechniqueLabel.setBackground(white);
 		compositionTechniqueLabel.setText("Composition technique: ");
-						
+
 		// compositionTechniqueLabelText
 		compositionTechniqueLabelText = new Label(composite, SWT.PUSH);
-		compositionTechniqueLabelText.setBackground(white);	
-		
+		compositionTechniqueLabelText.setBackground(white);
+
 		// classLabel
 		classLabel = new Label(composite, SWT.PUSH);
 		classLabel.setBackground(white);
 		classLabel.setText("Class: ");
-		
+
 		// classLabelText
 		classLabelText = new Label(composite, SWT.PUSH);
 		classLabelText.setBackground(white);
-		
+
 		// methodSignatureLabel
 		methodSignatureLabel = new Label(composite, SWT.PUSH);
 		methodSignatureLabel.setText("MethodSignature: ");
 		methodSignatureLabel.setBackground(white);
-		
+
 		// methodSignatureLabelText
 		methodSignatureLabelText = new StyledText(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
 		GridData methodSignatureLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
@@ -144,7 +143,7 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 				saveButton.setEnabled(true);
 			}
 		});
-		
+
 		// invariantLabel
 		invariantLabel = new Label(composite, SWT.PUSH);
 		invariantLabel.setText("Invariants: ");
@@ -153,14 +152,14 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 		// invariantLabelText
 		invariantList = new List(composite, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		invariantList.setItems();
-	    int listHeight = invariantList.getItemHeight() * 5;
+		int listHeight = invariantList.getItemHeight() * 5;
 
-	    Rectangle trim = invariantList.computeTrim(0, 0, 0, listHeight);
-	    GridData invariantLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
-	    invariantLabelTextGridData.heightHint = trim.height;
-	    invariantList.setLayoutData(invariantLabelTextGridData);
-	    invariantList.setBackground(white);
-	    invariantList.addSelectionListener(new SelectionListener() {
+		Rectangle trim = invariantList.computeTrim(0, 0, 0, listHeight);
+		GridData invariantLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		invariantLabelTextGridData.heightHint = trim.height;
+		invariantList.setLayoutData(invariantLabelTextGridData);
+		invariantList.setBackground(white);
+		invariantList.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
@@ -171,7 +170,7 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 				// TODO Auto-generated method stub
 			}
 		});
-		
+
 		// generateButton
 		saveButton = new Button(composite, SWT.PUSH);
 		saveButton.setText("Save");
@@ -182,8 +181,8 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 				TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(bo);
 				domain.getCommandStack().execute(new RecordingCommand(domain) {
 					@Override
-					protected void doExecute() {						
-						if(methodSignatureLabelChanged) {
+					protected void doExecute() {
+						if (methodSignatureLabelChanged) {
 							String text = methodSignatureLabelText.getText();
 							changeMethodSignature(text);
 							methodSignatureLabelChanged = false;
@@ -194,7 +193,7 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 				});
 			}
 		});
-		
+
 	}
 
 	@Override
@@ -202,23 +201,23 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 		CbCDiagramTypeProvider diagramProvider = new CbCDiagramTypeProvider();
 		PictogramElement pe = getSelectedPictogramElement();
 		bo = diagramProvider.getFeatureProvider().getBusinessObjectForPictogramElement(pe);
-		if(bo instanceof CbCFormulaImpl) {
-			updateData(bo);			
+		if (bo instanceof CbCFormulaImpl) {
+			updateData(bo);
 		}
 	}
-	
+
 	public void changeMethodSignature(String newMethodSignature) {
 		Method methodobj = null;
-		if(bo instanceof CbCFormula) {
+		if (bo instanceof CbCFormula) {
 			methodobj = ((CbCFormula) bo).getMethodObj();
-		}else if(bo instanceof AbstractStatement) {
-			CbCFormula formula = getFormula((AbstractStatement)bo);
+		} else if (bo instanceof AbstractStatement) {
+			CbCFormula formula = getFormula((AbstractStatement) bo);
 			methodobj = formula.getMethodObj();
-		}else {
+		} else {
 			Console.println("Click on formula!");
 		}
-		
-		if(methodobj != null) {
+
+		if (methodobj != null) {
 			String oldName = methodobj.getName();
 			String oldSignature = methodobj.getSignature();
 			methodobj.setSignature(newMethodSignature.trim());
@@ -229,14 +228,16 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 			}
 		}
 		getDiagramTypeProvider().getDiagramBehavior().refresh();
-		
-		//automatic update of vp in cbcmodel
-		Resource diagram_Resource = ClassUtil.getCbcDiagramResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI()), methodobj.getName());
+
+		// automatic update of vp in cbcmodel
+		Resource diagram_Resource = ClassUtil.getCbcDiagramResource(
+				FileUtil.getProjectLocation(getDiagram().eResource().getURI()), methodobj.getName());
 		Diagram diagram = (Diagram) diagram_Resource.getContents().get(0);
 		ArrayList<PictogramElement> pes = new ArrayList<PictogramElement>();
-		IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram, "de.tu-bs.cs.isf.cbc.tool.CbCDiagramTypeProvider");
+		IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram,
+				"de.tu-bs.cs.isf.cbc.tool.CbCDiagramTypeProvider");
 		CbCFeatureProvider featureProvider = (CbCFeatureProvider) dtp.getFeatureProvider();
-		
+
 		for (int j = 0; j < diagram_Resource.getContents().get(0).eContents().size(); j++) {
 			if (diagram_Resource.getContents().get(0).eContents().get(j).getClass().equals(ContainerShapeImpl.class)) {
 				pes.add((PictogramElement) diagram_Resource.getContents().get(0).eContents().get(j));
@@ -250,9 +251,9 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 				if (text.getValue().equals("Variables")) {
 					UpdateContext updateContext = new UpdateContext(pe);
 					featureProvider.updateIfPossible(updateContext);
-				}	
-			}			
-		}		
+				}
+			}
+		}
 	}
 
 	public void updateData(Object bo) {
@@ -261,40 +262,49 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 			public void run() {
 				boolean isVariational = false;
 				// update methodSignature, invariants, feature
-				if(((CbCFormulaImpl) bo).getMethodObj() instanceof Method) {
+				if (((CbCFormulaImpl) bo).getMethodObj() instanceof Method) {
 					Method methodObj = (Method) ((CbCFormulaImpl) bo).getMethodObj();
 					methodSignatureLabelText.setText(methodObj.getSignature());
-					classLabelText.setText(methodObj.getParentClass().getName() + (methodObj.getParentClass().getInheritsFrom() != null ? (" extends " + methodObj.getParentClass().getInheritsFrom().getName()) : ""));
+					classLabelText.setText(
+							methodObj.getParentClass().getName() + (methodObj.getParentClass().getInheritsFrom() != null
+									? (" extends " + methodObj.getParentClass().getInheritsFrom().getName())
+									: ""));
 					EList<Condition> classInvariants = methodObj.getParentClass().getClassInvariants();
 					EList<Condition> inheritedClassInvariants = null;
 					if (methodObj.getParentClass().getInheritsFrom() != null) {
 						inheritedClassInvariants = methodObj.getParentClass().getInheritsFrom().getClassInvariants();
 					}
-					String[] invariants = new String[classInvariants.size() + (inheritedClassInvariants != null ? inheritedClassInvariants.size() : 0)];
-					for (int i = 0; i < classInvariants.size(); i++){
+					String[] invariants = new String[classInvariants.size()
+							+ (inheritedClassInvariants != null ? inheritedClassInvariants.size() : 0)];
+					for (int i = 0; i < classInvariants.size(); i++) {
 						invariants[i] = classInvariants.get(i).getName();
 					}
 
 					if (inheritedClassInvariants != null) {
-						for (int i = classInvariants.size(); i<invariants.length; i++){
-							invariants[i] = inheritedClassInvariants.get(i-classInvariants.size()).getName() + " (inherited)";
+						for (int i = classInvariants.size(); i < invariants.length; i++) {
+							invariants[i] = inheritedClassInvariants.get(i - classInvariants.size()).getName()
+									+ " (inherited)";
 						}
 					}
-					invariantList.setItems(invariants);	
-					
-					if (methodObj.getParentClass().getFeature() != null && methodObj.getParentClass().getFeature().length() > 0 && !methodObj.getParentClass().getFeature().equals("default")) {
+					invariantList.setItems(invariants);
+
+					if (methodObj.getParentClass().getFeature() != null
+							&& methodObj.getParentClass().getFeature().length() > 0
+							&& !methodObj.getParentClass().getFeature().equals("default")) {
 						isVariational = true;
 						featureLabelText.setText(methodObj.getParentClass().getFeature());
 					}
 				}
 				if (isVariational) {
 					// update compositionTechnique
-					if ((((CbCFormulaImpl) bo).getCompositionTechnique()).toString().equals("CONJUNCTIVE_CONTRACTING")) {
+					if ((((CbCFormulaImpl) bo).getCompositionTechnique()).toString()
+							.equals("CONJUNCTIVE_CONTRACTING")) {
 						compositionTechniqueLabelText.setText("Conjunctive Contract Refinement");
 					} else if ((((CbCFormulaImpl) bo).getCompositionTechnique()).toString()
 							.equals("EXPLICIT_CONTRACTING")) {
 						compositionTechniqueLabelText.setText("Explicit Contracting");
-					} else if ((((CbCFormulaImpl) bo).getCompositionTechnique()).toString().equals("CONTRACT_OVERRIDING")) {
+					} else if ((((CbCFormulaImpl) bo).getCompositionTechnique()).toString()
+							.equals("CONTRACT_OVERRIDING")) {
 						compositionTechniqueLabelText.setText("Contract Overriding");
 					}
 				} else {
@@ -306,7 +316,7 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 			}
 		});
 	}
-	
+
 	public CbCFormula getFormula(AbstractStatement statement) {
 		if (statement.getParent() != null) {
 			return getFormula(statement.getParent());

@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.basic;
 
 import java.io.PrintWriter;
@@ -22,49 +22,46 @@ import openjava.ptree.ParseTreeException;
 import src.mujava.op.util.TraditionalMutantCodeWriter;
 
 /**
- * <p>Output and log ASRS mutants to files </p>
+ * <p>
+ * Output and log ASRS mutants to files
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class ASRS_Writer extends TraditionalMutantCodeWriter
-{
-   AssignmentExpression assign_original;
-   AssignmentExpression assign_mutant;
+public class ASRS_Writer extends TraditionalMutantCodeWriter {
+	AssignmentExpression assign_original;
+	AssignmentExpression assign_mutant;
 
-   public ASRS_Writer( String file_name, PrintWriter out ) 
-   {
-      super(file_name,out);
-   }
+	public ASRS_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-   /**
-    * Set original source code and mutated code
-    * @param exp1
-    * @param exp2
-    */
-   public void setMutant(AssignmentExpression exp1, AssignmentExpression exp2)
-   {
-      assign_original = exp1;
-      assign_mutant = exp2;
-   }
+	/**
+	 * Set original source code and mutated code
+	 * 
+	 * @param exp1
+	 * @param exp2
+	 */
+	public void setMutant(AssignmentExpression exp1, AssignmentExpression exp2) {
+		assign_original = exp1;
+		assign_mutant = exp2;
+	}
 
-   /**
-    * Log mutated line
-    */
-   public void visit( AssignmentExpression p ) throws ParseTreeException
-   {
-      if (isSameObject(p, assign_original))
-      {
-         super.visit(assign_mutant);
-         // -----------------------------------------------------------
-         mutated_line = line_num;
-         String log_str = p.toString() + " => " + assign_mutant.toString();
-         writeLog(removeNewline(log_str));
-         // -------------------------------------------------------------
-      }
-      else
-      {
-         super.visit(p);
-      }
-   }
+	/**
+	 * Log mutated line
+	 */
+	public void visit(AssignmentExpression p) throws ParseTreeException {
+		if (isSameObject(p, assign_original)) {
+			super.visit(assign_mutant);
+			// -----------------------------------------------------------
+			mutated_line = line_num;
+			String log_str = p.toString() + " => " + assign_mutant.toString();
+			writeLog(removeNewline(log_str));
+			// -------------------------------------------------------------
+		} else {
+			super.visit(p);
+		}
+	}
 }

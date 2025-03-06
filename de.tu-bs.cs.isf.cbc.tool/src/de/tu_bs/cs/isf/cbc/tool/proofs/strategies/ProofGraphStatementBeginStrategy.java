@@ -20,8 +20,8 @@ import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
 import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 import de.tu_bs.cs.isf.cbc.util.presenceconditionparser.PresenceConditionParser.SelectionInfo;
 
-public final class ProofGraphStatementBeginStrategy extends KeYProofStrategy implements ProofGraphStrategy{
-	
+public final class ProofGraphStatementBeginStrategy extends KeYProofStrategy implements ProofGraphStrategy {
+
 	@Override
 	public Set<List<String>> generateFeatureConfigurations(IKeYProof proof) {
 		List<Set<SelectionInfo>> predicateInfo = generatePredicateInfo(proof);
@@ -34,40 +34,25 @@ public final class ProofGraphStatementBeginStrategy extends KeYProofStrategy imp
 
 		Console.println("Caused by this predicate condition the following configurations need to be proven:");
 		for (Set<SelectionInfo> allSelections : predicateInfo) {
-			List<String> predicateConfig = Arrays.asList(VerifyFeatures.getSolutionForConditions(allSelections, project));
+			List<String> predicateConfig = Arrays
+					.asList(VerifyFeatures.getSolutionForConditions(allSelections, project));
 			toProve.add(predicateConfig);
 			Console.println("\t -");
 			predicateConfig.forEach(feature -> Console.print(", " + feature + ", ", Colors.BLACK));
 		}
-		
+
 		return toProve;
 	}
-	
 
 	public boolean prove(IKeYProof proof, List<String> featureConfig) {
 		URI uri = proof.getDiagram().eResource().getURI();
 		IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
 
-		ProveWithKey prove = new ProveWithKey(
-				proof.getStatement(), 
-				proof.getDiagram(), 
-				proof.getProgressMonitor(), 
-				fileHandler,
-				featureConfig,
-				0, 
-				this.getProofType()
-			);
+		ProveWithKey prove = new ProveWithKey(proof.getStatement(), proof.getDiagram(), proof.getProgressMonitor(),
+				fileHandler, featureConfig, 0, this.getProofType());
 
-		return prove.proveStatementWithKey(null, 
-				proof.getCbcFormulas(),
-				proof.getJavaVariables(),
-				proof.isReturnStatement(),
-				false, 
-				proof.getCallingMethod(), 
-				"", 
-				proof.getCallingClass(), 
-				true
-			);	
+		return prove.proveStatementWithKey(null, proof.getCbcFormulas(), proof.getJavaVariables(),
+				proof.isReturnStatement(), false, proof.getCallingMethod(), "", proof.getCallingClass(), true);
 	}
 
 	@Override

@@ -18,7 +18,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 public class PredicateWizardHandler extends AbstractHandler {
 
-	
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		System.out.println("----- Triggered Predicate Management -----");
 		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
@@ -38,14 +37,15 @@ public class PredicateWizardHandler extends AbstractHandler {
 		if (resourceList.isEmpty()) {
 			return null;
 		}
-		
-		WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), new PredicateWizard(resourceList.get(0)));
+
+		WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				new PredicateWizard(resourceList.get(0)));
 		if (wizardDialog.open() == Window.OK) {
-	        System.out.println("Ok pressed");
-	    } else {
-	        System.out.println("Cancel pressed");
-	    }
-		
+			System.out.println("Ok pressed");
+		} else {
+			System.out.println("Cancel pressed");
+		}
+
 		return null;
 	}
 }

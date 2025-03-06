@@ -6,7 +6,7 @@ import de.tu_bs.cs.isf.cbc.parser.annotations.MDF;
 import de.tu_bs.cs.isf.cbc.parser.data.ParameterDefinition;
 
 public class IFbCNewEntity extends IFbCReferenceEntity {
-	
+
 	private List<ParameterDefinition> parameters;
 
 	public IFbCNewEntity(String name, String securityLevel, MDF mutationModifier, String type,

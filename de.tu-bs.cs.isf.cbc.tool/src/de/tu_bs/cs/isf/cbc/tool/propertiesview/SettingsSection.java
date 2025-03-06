@@ -3,8 +3,6 @@ package de.tu_bs.cs.isf.cbc.tool.propertiesview;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -13,24 +11,15 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
-import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.Settings;
 
 /**
@@ -40,19 +29,18 @@ import de.tu_bs.cs.isf.cbc.util.Settings;
  */
 public class SettingsSection extends GFPropertySection implements ITabbedPropertyConstants {
 	private final int COUNTEREXAMPLE = 0;
-	
+
 	final List<Button> buttons = new ArrayList<Button>();
 	// Defining the logical properties
 	private Composite parent;
 	private TabbedPropertySheetPage tabbedPropertySheetPage;
-	
-	private Device device = Display.getCurrent ();
-	private Color white = new Color (device, 255, 255, 255);
-	
+
+	private Device device = Display.getCurrent();
+	private Color white = new Color(device, 255, 255, 255);
+
 	private final int NUM_GROUPS = 2;
 	private final String CEX_BUTTON_NAME = "Generate Counterexamples";
 	private final String TWARN_BUTTON_NAME = "Show Warnings";
-	
 
 	// Defining the UI properties
 
@@ -63,32 +51,32 @@ public class SettingsSection extends GFPropertySection implements ITabbedPropert
 		this.parent = parent;
 		this.tabbedPropertySheetPage = tabbedPropertySheetPage;
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-		
+
 		Composite composite = factory.createFlatFormComposite(parent);
-		
+
 		// Defining GridLayout for properties-view
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = NUM_GROUPS;
 		gridLayout.verticalSpacing = 5;
 		composite.setLayout(gridLayout);
-		
+
 		// Verify Settings
 		Group verifyGroup = createButtonGroup(composite, "Verify Settings");
 		var counterButton = createButton(verifyGroup, CEX_BUTTON_NAME);
-		
+
 		// Test Settings
 		Group testGroup = createButtonGroup(composite, "Test Settings");
 		testGroup.setLayoutData(new GridData(SWT.FILL, SWT.RIGHT, false, false));
 		var warningButton = createButton(testGroup, TWARN_BUTTON_NAME);
-		
+
 		try {
 			readSettings();
 		} catch (SettingsException e) {
 			e.printStackTrace();
 		}
-		addListeners();	
+		addListeners();
 	}
-	
+
 	private Group createButtonGroup(Composite parent, String name) {
 		Group buttonGroup = new Group(parent, SWT.PUSH);
 		buttonGroup.setText(name);
@@ -98,7 +86,7 @@ public class SettingsSection extends GFPropertySection implements ITabbedPropert
 		buttonGroup.setBackground(white);
 		return buttonGroup;
 	}
-	
+
 	private Button createButton(Group buttonGroup, String name) {
 		Button newButton = new Button(buttonGroup, SWT.CHECK);
 		newButton.setText(name);
@@ -106,7 +94,7 @@ public class SettingsSection extends GFPropertySection implements ITabbedPropert
 		buttons.add(newButton);
 		return newButton;
 	}
-	
+
 	private void addListeners() {
 		for (var button : this.buttons) {
 			button.addListener(SWT.Selection, new Listener() {
@@ -129,7 +117,7 @@ public class SettingsSection extends GFPropertySection implements ITabbedPropert
 			});
 		}
 	}
-	
+
 	private void readSettings() throws SettingsException {
 		if (Settings.canRead()) {
 			Settings b = Settings.get();
@@ -163,4 +151,3 @@ public class SettingsSection extends GFPropertySection implements ITabbedPropert
 		}
 	}
 }
-

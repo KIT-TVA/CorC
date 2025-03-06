@@ -7,9 +7,9 @@ public class NoOpPrintStream extends PrintStream {
 	public NoOpPrintStream(OutputStream out) {
 		super(out);
 	}
-	
+
 	@Override
-    public void println(String x) {
+	public void println(String x) {
 		// no op
 	}
 

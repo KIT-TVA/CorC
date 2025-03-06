@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.exception;
 
 import openjava.mop.FileEnvironment;
@@ -20,17 +20,17 @@ import openjava.ptree.ClassDeclaration;
 import openjava.ptree.CompilationUnit;
 
 /**
- * <p>Description: </p>
+ * <p>
+ * Description:
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class EHI extends src.mujava.op.util.Mutator
-{
-  public EHI(FileEnvironment file_env,ClassDeclaration cdecl,
-    CompilationUnit comp_unit)
-  {
-	super( file_env, comp_unit );
-  }
+public class EHI extends src.mujava.op.util.Mutator {
+	public EHI(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit) {
+		super(file_env, comp_unit);
+	}
 
 }

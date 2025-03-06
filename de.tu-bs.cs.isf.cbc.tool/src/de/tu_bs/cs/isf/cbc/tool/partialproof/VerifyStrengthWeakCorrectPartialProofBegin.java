@@ -49,5 +49,5 @@ public class VerifyStrengthWeakCorrectPartialProofBegin extends MyAbstractAsynch
 		VerifyStrengthWeakCorrect feature = new VerifyStrengthWeakCorrect(super.getFeatureProvider());
 		feature.setProofType(KeYInteraction.ABSTRACT_PROOF_BEGIN);
 		feature.execute(context, monitor);
-	}	
+	}
 }

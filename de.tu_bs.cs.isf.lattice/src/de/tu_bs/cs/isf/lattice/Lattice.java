@@ -7,7 +7,7 @@ import java.util.Set;
 public class Lattice {
 
 	private List<Node> nodes;
-	
+
 	public static final String LATTICE_DOT = "lattice.dot";
 
 	public List<Node> getNodes() {
@@ -21,11 +21,11 @@ public class Lattice {
 	public Lattice(List<Node> nodes) {
 		this.nodes = nodes;
 	}
-	
+
 	public Lattice() {
 		this.nodes = new ArrayList<Node>();
 	}
-	
+
 	public List<Node> getNodesPerName(Set<String> names) {
 		List<Node> returnList = new ArrayList<Node>();
 		for (Node node : nodes) {
@@ -37,7 +37,7 @@ public class Lattice {
 		}
 		return returnList;
 	}
-	
+
 	public Node getNodePerName(String name) {
 		for (Node node : nodes) {
 			if (node.getName().equals(name)) {
@@ -46,7 +46,7 @@ public class Lattice {
 		}
 		return null;
 	}
-	
+
 	public Node getBottom() {
 		List<Node> allNodes = new ArrayList<Node>();
 		allNodes.addAll(nodes);

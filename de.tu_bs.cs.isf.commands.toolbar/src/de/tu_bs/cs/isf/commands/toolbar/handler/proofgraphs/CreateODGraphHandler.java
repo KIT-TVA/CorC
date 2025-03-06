@@ -46,16 +46,16 @@ import de.tu_bs.cs.isf.cbc.util.Console;
 
 public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 
-	private static final int MAX_DEPTH = 500; 
+	private static final int MAX_DEPTH = 500;
 
 	private final Set<String> varMethodCalls = new HashSet<String>();
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		Console.println("Creation of OD Graph started!");
-		
+
 		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
-		
+
 		if (selection != null && selection instanceof StructuredSelection structuredSelection) {
 			if (structuredSelection.size() != 1) {
 				throw new ExecutionException("Select one project only.");
@@ -64,20 +64,20 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 				createGraphForProject(project);
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	private void createGraphForProject(IProject project) {
 		long start = System.currentTimeMillis();
 		Path featureModelPath = Paths.get(project.getLocation() + "/model.xml");
 		IFeatureModel featureModel = FeatureModelManager.load(featureModelPath);
-		
+
 		Console.println("Feature Order: ");
 		for (String feature : featureModel.getFeatureOrderList()) {
 			Console.println(feature);
 		}
-		
+
 		ProofGraphCollection graphCollection = new ProofGraphCollection(featureModel);
 
 		Set<String> methods = new HashSet<String>();
@@ -94,70 +94,77 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 				}
 			}
 		}
-		
+
 		for (IFeature feature : featureModel.getFeatures()) {
 
 			Console.println("Now generating feature: " + feature, Colors.GREEN);
 			String featurePath = project.getLocation() + "/features/" + feature.getName();
 			File featureDir = new File(featurePath);
-			
-			
+
 			if (featureDir.exists()) {
 				for (File featureClass : featureDir.listFiles()) {
 					for (File featureFile : featureClass.listFiles()) {
-					//Find cbcmodel
-					if (featureFile.getName().endsWith(".cbcmodel")) {
-						String methodName = featureFile.getName().split("\\.")[0];
-						ResourceSet rs = new ResourceSetImpl(); 
-						Resource cbcRes = rs.getResource(URI.createFileURI(featureFile.getAbsolutePath()), true);
-						
-						
-						ProofGraph graph = graphCollection.getGraphForMethod(methodName);
+						// Find cbcmodel
+						if (featureFile.getName().endsWith(".cbcmodel")) {
+							String methodName = featureFile.getName().split("\\.")[0];
+							ResourceSet rs = new ResourceSetImpl();
+							Resource cbcRes = rs.getResource(URI.createFileURI(featureFile.getAbsolutePath()), true);
 
-						//graph.getNode(feature, methodName).addImplementedMethod(methodName);
-						ProofNode nodeA = new ProofNode(feature.getName(), methodName, graph.getIdForFeature(feature.getName()));
-						graph.createNode(feature, methodName);
-						graph.addImplementedMethod(feature.getName(), methodName);
-						for (EObject cont : cbcRes.getContents()) {
-							if (cont instanceof CbCFormula cbcForm) {
-								findVarMethodCalls(cbcForm.getStatement(), 0);
-								if (!this.varMethodCalls.isEmpty()) {
-									Set<String> varM = new HashSet<String>();
-									for (String m : varMethodCalls) {
-										for (String m2 : methods) {
-											Console.println("If " + m + " contains " + m2);
-											if (m.contains(m2)) {
-												varM.add(m2);
+							ProofGraph graph = graphCollection.getGraphForMethod(methodName);
+
+							// graph.getNode(feature, methodName).addImplementedMethod(methodName);
+							ProofNode nodeA = new ProofNode(feature.getName(), methodName,
+									graph.getIdForFeature(feature.getName()));
+							graph.createNode(feature, methodName);
+							graph.addImplementedMethod(feature.getName(), methodName);
+							for (EObject cont : cbcRes.getContents()) {
+								if (cont instanceof CbCFormula cbcForm) {
+									findVarMethodCalls(cbcForm.getStatement(), 0);
+									if (!this.varMethodCalls.isEmpty()) {
+										Set<String> varM = new HashSet<String>();
+										for (String m : varMethodCalls) {
+											for (String m2 : methods) {
+												Console.println("If " + m + " contains " + m2);
+												if (m.contains(m2)) {
+													varM.add(m2);
+												}
 											}
 										}
-									}
-									
-									if (!varM.isEmpty()) {
-										Console.println("Found (Variational) Method Calls:");
-										graph.setVarMethodCalls(nodeA, varM);
-										varM.forEach(m -> {
-											Console.println("\t-" + m);
-										});
 
+										if (!varM.isEmpty()) {
+											Console.println("Found (Variational) Method Calls:");
+											graph.setVarMethodCalls(nodeA, varM);
+											varM.forEach(m -> {
+												Console.println("\t-" + m);
+											});
+
+										}
 									}
-																	}
-								if (hasOriginalCall(cbcForm.getStatement(), 0)) {
-									int index = Math.max(featureModel.getFeatureOrderList().indexOf(feature.getName()) - 1, 0);
-									IFeature featureB = featureModel.getFeature(featureModel.getFeatureOrderList().get(index));
-									graph.createEdge(nodeA, new ProofNode(featureB.getName(), methodName, graph.getIdForFeature(featureB.getName())));
-									/*If there are optional features in feature order also add edges to higher features in order*/
-									while(!featureB.getStructure().isMandatory() && index >= 0) {
-										index = Math.max(0, index-1);
-										featureB = featureModel.getFeature(featureModel.getFeatureOrderList().get(index));
-										graph.createEdge(nodeA, new ProofNode(featureB.getName(), methodName, graph.getIdForFeature(featureB.getName())));
+									if (hasOriginalCall(cbcForm.getStatement(), 0)) {
+										int index = Math.max(
+												featureModel.getFeatureOrderList().indexOf(feature.getName()) - 1, 0);
+										IFeature featureB = featureModel
+												.getFeature(featureModel.getFeatureOrderList().get(index));
+										graph.createEdge(nodeA, new ProofNode(featureB.getName(), methodName,
+												graph.getIdForFeature(featureB.getName())));
+										/*
+										 * If there are optional features in feature order also add edges to higher
+										 * features in order
+										 */
+										while (!featureB.getStructure().isMandatory() && index >= 0) {
+											index = Math.max(0, index - 1);
+											featureB = featureModel
+													.getFeature(featureModel.getFeatureOrderList().get(index));
+											graph.createEdge(nodeA, new ProofNode(featureB.getName(), methodName,
+													graph.getIdForFeature(featureB.getName())));
+										}
 									}
 								}
 							}
 						}
 					}
 				}
-				}
-				
+
 			} else {
 				Console.println("Feature Dir does not exist for " + feature.getName());
 			}
@@ -186,21 +193,20 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 		} catch (JsonIOException | IOException | CoreException e) {
 			e.printStackTrace();
 		}
-		
+
 		long end = System.currentTimeMillis();
 		Console.println("Graph Creation Time: " + (end - start));
 	}
-	
+
 	private void findVarMethodCalls(AbstractStatement statement, int depth) {
 		if (depth > MAX_DEPTH || statement == null) {
 			return;
 		}
-		if (statement instanceof MethodStatement methodStatement){
+		if (statement instanceof MethodStatement methodStatement) {
 			findVarMethodCalls(methodStatement.getRefinement(), ++depth);
 			this.varMethodCalls.add(methodStatement.getName().split("\\(")[0]);
 		}
 
-		
 		if (statement instanceof CompositionStatement compStatement) {
 
 			findVarMethodCalls(compStatement.getFirstStatement().getRefinement(), ++depth);
@@ -213,38 +219,37 @@ public class CreateODGraphHandler extends AbstractHandler implements IHandler {
 				findVarMethodCalls(stmnt.getRefinement(), ++depth);
 			}
 		} else if (statement instanceof OriginalStatement origiStatement) {
-				findVarMethodCalls(origiStatement.getRefinement(), ++depth);
-			} else {
+			findVarMethodCalls(origiStatement.getRefinement(), ++depth);
+		} else {
 			findVarMethodCalls(statement.getRefinement(), ++depth);
-			}
-
-		
-	}
-	
-	private boolean hasOriginalCall(AbstractStatement statement, int depth) {
-			if (depth > MAX_DEPTH || statement == null) 
-				return false;
-			
-			if (statement instanceof OriginalStatement) {
-				return true;
-			}
-
-			if (statement instanceof CompositionStatement compStatement) {
-				return hasOriginalCall(compStatement.getFirstStatement().getRefinement(), ++depth)
-				 || hasOriginalCall(compStatement.getSecondStatement().getRefinement(), ++depth);
-			} else if (statement instanceof SmallRepetitionStatement repStatement) {
-				return hasOriginalCall(repStatement.getLoopStatement().getRefinement(), ++depth);
-			} else if (statement instanceof SelectionStatement selecStatement) {
-				for (AbstractStatement stmnt : selecStatement.getCommands()) {
-					if(hasOriginalCall(stmnt.getRefinement(), ++depth)) { 
-						return true;
-					}
-				}
-				return false;
-			} else if (statement instanceof MethodStatement methodStatement){
-				return hasOriginalCall(methodStatement.getRefinement(), ++depth);
-			} else {
-				return hasOriginalCall(statement.getRefinement(), ++depth);
-			}
 		}
+
+	}
+
+	private boolean hasOriginalCall(AbstractStatement statement, int depth) {
+		if (depth > MAX_DEPTH || statement == null)
+			return false;
+
+		if (statement instanceof OriginalStatement) {
+			return true;
+		}
+
+		if (statement instanceof CompositionStatement compStatement) {
+			return hasOriginalCall(compStatement.getFirstStatement().getRefinement(), ++depth)
+					|| hasOriginalCall(compStatement.getSecondStatement().getRefinement(), ++depth);
+		} else if (statement instanceof SmallRepetitionStatement repStatement) {
+			return hasOriginalCall(repStatement.getLoopStatement().getRefinement(), ++depth);
+		} else if (statement instanceof SelectionStatement selecStatement) {
+			for (AbstractStatement stmnt : selecStatement.getCommands()) {
+				if (hasOriginalCall(stmnt.getRefinement(), ++depth)) {
+					return true;
+				}
+			}
+			return false;
+		} else if (statement instanceof MethodStatement methodStatement) {
+			return hasOriginalCall(methodStatement.getRefinement(), ++depth);
+		} else {
+			return hasOriginalCall(statement.getRefinement(), ++depth);
+		}
+	}
 }

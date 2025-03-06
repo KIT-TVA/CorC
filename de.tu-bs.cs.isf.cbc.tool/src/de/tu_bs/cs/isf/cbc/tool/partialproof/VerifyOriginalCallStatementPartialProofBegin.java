@@ -16,7 +16,8 @@ public class VerifyOriginalCallStatementPartialProofBegin extends MyAbstractAsyn
 	/**
 	 * Constructor of the class
 	 * 
-	 * @param fp The FeatureProvider
+	 * @param fp
+	 *            The FeatureProvider
 	 */
 	public VerifyOriginalCallStatementPartialProofBegin(IFeatureProvider fp) {
 		super(fp);
@@ -50,12 +51,10 @@ public class VerifyOriginalCallStatementPartialProofBegin extends MyAbstractAsyn
 
 	@Override
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
-	
-		
+
 		VerifyOriginalCallStatement feature = new VerifyOriginalCallStatement(super.getFeatureProvider());
 		feature.setProofType(KeYInteraction.ABSTRACT_PROOF_BEGIN);
 		feature.execute(context, monitor);
 	}
-
 
 }

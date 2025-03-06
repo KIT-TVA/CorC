@@ -22,7 +22,7 @@ public class FileReader {
 		scanner.close();
 		return code;
 	}
-	
+
 	private String clear() {
 		String code = "";
 		while (scanner.hasNextLine()) {

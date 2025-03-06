@@ -1,31 +1,14 @@
 package de.tu_bs.cs.isf.cbc.tool.partialproof;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 
-import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
-import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
-import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
-import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
-import de.tu_bs.cs.isf.cbc.cbcmodel.Variant;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.tool.features.VerifyVariantWithoutInnerLoops;
-import de.tu_bs.cs.isf.cbc.util.Console;
-import de.tu_bs.cs.isf.cbc.util.ConstructCodeBlock;
-import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.KeYInteraction;
 import de.tu_bs.cs.isf.cbc.util.MyAbstractAsynchronousCustomFeature;
-import de.tu_bs.cs.isf.cbc.util.ProveWithKey;
-import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 
 public class VerifyVariantWithoutInnerLoopsPartialProofComplete extends MyAbstractAsynchronousCustomFeature {
 
@@ -67,5 +50,5 @@ public class VerifyVariantWithoutInnerLoopsPartialProofComplete extends MyAbstra
 		VerifyVariantWithoutInnerLoops feature = new VerifyVariantWithoutInnerLoops(super.getFeatureProvider());
 		feature.setProofType(KeYInteraction.ABSTRACT_PROOF_COMPLETE);
 		feature.execute(context, monitor);
-	}	
+	}
 }

@@ -43,14 +43,14 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 
 public class GenerateDiagramFromModel {
 	private Diagram diagram;
-	
+
 	public Diagram getDiagram() {
 		return diagram;
 	}
 
 	public GenerateDiagramFromModel() {
 	}
-	
+
 	public Diagram execute(Resource resource) {
 		CbCFormula formula = null;
 		JavaVariables vars = null;
@@ -75,7 +75,6 @@ public class GenerateDiagramFromModel {
 		Resource diagramResource = resourceSet.createResource(uri);
 		diagramResource.getContents().add(diagram);
 
-		
 		IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram,
 				"de.tu-bs.cs.isf.cbc.tool.CbCDiagramTypeProvider");
 		IFeatureProvider featureProvider = dtp.getFeatureProvider();
@@ -88,26 +87,28 @@ public class GenerateDiagramFromModel {
 			addElement(featureProvider, conds, diagram, 600, 220);
 		if (renaming != null)
 			addElement(featureProvider, renaming, diagram, 600, 420);
-		//if(javaClass != null)
-			//addElement(featureProvider, javaClass, diagram, 600, 20);
-		
+		// if(javaClass != null)
+		// addElement(featureProvider, javaClass, diagram, 600, 20);
+
 		try {
 			UpdateDiagram.getInstance().run(diagram);
-		
+
 			diagramResource.save(Collections.EMPTY_MAP);
 			diagramResource.setTrackingModification(true);
 			String projectPath = FileUtil.getProjectLocation(diagram.eResource().getURI());
-			URI fullUri = URI.createURI("file:/" + projectPath.substring(0, projectPath.lastIndexOf("/") + 1) + uri.toString().replace("platform:/resource/", ""));
+			URI fullUri = URI.createURI("file:/" + projectPath.substring(0, projectPath.lastIndexOf("/") + 1)
+					+ uri.toString().replace("platform:/resource/", ""));
 			IPath iLocation = Path.fromOSString(fullUri.toFileString());
 			IFile ifile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(iLocation);
-			//ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+			// ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE,
+			// null);
 			ifile.getParent().refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (CoreException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
-			//System.out.println("Local refresh not available!");
+			// System.out.println("Local refresh not available!");
 		}
 		return diagram;
 	}
@@ -126,30 +127,34 @@ public class GenerateDiagramFromModel {
 				addNextElement(featureProvider, formula.getStatement().getRefinement(), diagram, x, y + 200, pe);
 			}
 		}
-		
+
 	}
-	
-	private void addNextElement(IFeatureProvider featureProvider, AbstractStatement statement, Diagram diagram, int x, int y, Shape sourcePe) {
+
+	private void addNextElement(IFeatureProvider featureProvider, AbstractStatement statement, Diagram diagram, int x,
+			int y, Shape sourcePe) {
 		AddContext addContext = new AddContext();
 		addContext.setNewObject(statement);
 		addContext.setTargetContainer(diagram);
 		addContext.setX(x);
 		addContext.setY(y);
-		
+
 		IAddFeature addFeature = featureProvider.getAddFeature(addContext);
 		if (addFeature.canAdd(addContext)) {
 			Shape pe = (Shape) addFeature.add(addContext);
-			AddConnectionContext addConContext = new AddConnectionContext(sourcePe.getAnchors().get(0), pe.getAnchors().get(0));
+			AddConnectionContext addConContext = new AddConnectionContext(sourcePe.getAnchors().get(0),
+					pe.getAnchors().get(0));
 			addFeature = featureProvider.getAddFeature(addConContext);
 			if (addFeature.canAdd(addConContext)) {
 				addFeature.add(addConContext);
 			}
-			
+
 			if (statement instanceof SmallRepetitionStatement) {
 				SmallRepetitionStatement repetitionStatement = (SmallRepetitionStatement) statement;
 				if (repetitionStatement.getLoopStatement().getRefinement() != null) {
-					Shape repPe = (Shape) findPictogramElementForBusinessObject(diagram, repetitionStatement.getLoopStatement());
-					addNextElement(featureProvider, repetitionStatement.getLoopStatement().getRefinement(), diagram, x, y + 350, repPe);
+					Shape repPe = (Shape) findPictogramElementForBusinessObject(diagram,
+							repetitionStatement.getLoopStatement());
+					addNextElement(featureProvider, repetitionStatement.getLoopStatement().getRefinement(), diagram, x,
+							y + 350, repPe);
 				}
 			} else if (statement instanceof SelectionStatement) {
 				SelectionStatement selectionStatement = (SelectionStatement) statement;
@@ -162,17 +167,22 @@ public class GenerateDiagramFromModel {
 						x = x + 400;
 					}
 				}
-			}  else if (statement instanceof CompositionStatement) {
+			} else if (statement instanceof CompositionStatement) {
 				CompositionStatement compositionStatement = (CompositionStatement) statement;
-				
-				if (compositionStatement.getFirstStatement().getRefinement() != null) {			
-					Shape st1Pe = (Shape)findPictogramElementForBusinessObject(diagram, compositionStatement.getFirstStatement());
-					//Shape st1Pe = (Shape) featureProvider.getPictogramElementForBusinessObject(compositionStatement.getFirstStatement());
-					addNextElement(featureProvider, compositionStatement.getFirstStatement().getRefinement(), diagram, x - 100, y + 350, st1Pe);
+
+				if (compositionStatement.getFirstStatement().getRefinement() != null) {
+					Shape st1Pe = (Shape) findPictogramElementForBusinessObject(diagram,
+							compositionStatement.getFirstStatement());
+					// Shape st1Pe = (Shape)
+					// featureProvider.getPictogramElementForBusinessObject(compositionStatement.getFirstStatement());
+					addNextElement(featureProvider, compositionStatement.getFirstStatement().getRefinement(), diagram,
+							x - 100, y + 350, st1Pe);
 				}
 				if (compositionStatement.getSecondStatement().getRefinement() != null) {
-					Shape st2Pe = (Shape) findPictogramElementForBusinessObject(diagram, compositionStatement.getSecondStatement());
-					addNextElement(featureProvider, compositionStatement.getSecondStatement().getRefinement(), diagram, x + 300, y + 350, st2Pe);
+					Shape st2Pe = (Shape) findPictogramElementForBusinessObject(diagram,
+							compositionStatement.getSecondStatement());
+					addNextElement(featureProvider, compositionStatement.getSecondStatement().getRefinement(), diagram,
+							x + 300, y + 350, st2Pe);
 				}
 			} else if (statement instanceof StrengthWeakStatement) {
 				StrengthWeakStatement strengthWeakStatement = (StrengthWeakStatement) statement;

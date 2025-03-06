@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.exception;
 
 import java.io.IOException;
@@ -25,46 +25,45 @@ import openjava.ptree.ParseTreeException;
 import openjava.ptree.ThrowStatement;
 
 /**
- * <p>Description: </p>
+ * <p>
+ * Description:
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class ETD extends src.mujava.op.util.Mutator
-{
-  public ETD(FileEnvironment file_env,ClassDeclaration cdecl,
-    CompilationUnit comp_unit)
-  {
-	super( file_env, comp_unit );
-  }
+public class ETD extends src.mujava.op.util.Mutator {
+	public ETD(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit) {
+		super(file_env, comp_unit);
+	}
 
-  public void visit( ThrowStatement p ) throws ParseTreeException
-  {
-    outputToFile(p);
-  }
+	public void visit(ThrowStatement p) throws ParseTreeException {
+		outputToFile(p);
+	}
 
-   public void outputToFile(ThrowStatement original){
-      if (comp_unit==null) return;
+	public void outputToFile(ThrowStatement original) {
+		if (comp_unit == null)
+			return;
 
-      String f_name;
-      num++;
-      f_name = getSourceName(this);
-      String mutant_dir = getMuantID();
+		String f_name;
+		num++;
+		f_name = getSourceName(this);
+		String mutant_dir = getMuantID();
 
-      try {
-		 PrintWriter out = getPrintWriter(f_name);
-		 ETD_Writer writer = new ETD_Writer( mutant_dir,out );
-		 writer.setMutant(original);
-		 comp_unit.accept( writer );
-		 out.flush();  out.close();
-      } catch ( IOException e ) {
-	System.err.println( "fails to create " + f_name );
-      } catch ( ParseTreeException e ) {
-	System.err.println( "errors during printing " + f_name );
-	e.printStackTrace();
-      }
-   }
-
-
+		try {
+			PrintWriter out = getPrintWriter(f_name);
+			ETD_Writer writer = new ETD_Writer(mutant_dir, out);
+			writer.setMutant(original);
+			comp_unit.accept(writer);
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			System.err.println("fails to create " + f_name);
+		} catch (ParseTreeException e) {
+			System.err.println("errors during printing " + f_name);
+			e.printStackTrace();
+		}
+	}
 
 }

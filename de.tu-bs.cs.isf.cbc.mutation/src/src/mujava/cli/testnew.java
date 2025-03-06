@@ -12,9 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
-
+ */
 
 package src.mujava.cli;
 
@@ -28,9 +26,9 @@ import org.apache.commons.io.FileUtils;
 import src.com.beust.jcommander.JCommander;
 /**
  * <p>
- * Description: Create new test session API for command line version
- * Creates a new test session. It means, it creates all the files necessary
- * to run a test on a java program. 
+ * Description: Create new test session API for command line version Creates a
+ * new test session. It means, it creates all the files necessary to run a test
+ * on a java program.
  * </p>
  * 
  * @author Lin Deng
@@ -42,7 +40,7 @@ public class testnew {
 
 	public static void main(String[] args) throws IOException {
 		testnewCom jct = new testnewCom();
-		String[] argv = { "Flower", "/Users/dmark/mujava/src/Flower" };
+		String[] argv = {"Flower", "/Users/dmark/mujava/src/Flower"};
 		new JCommander(jct, args);
 
 		muJavaHomePath = Util.loadConfig();
@@ -72,9 +70,8 @@ public class testnew {
 		File[] listOfFiles = folder.listFiles();
 		// null checking
 		// check the specified folder has files or not
-		if (listOfFiles==null)
-		{
-			Util.Error("ERROR: no files in the muJava home folder "+muJavaHomePath);
+		if (listOfFiles == null) {
+			Util.Error("ERROR: no files in the muJava home folder " + muJavaHomePath);
 			return;
 		}
 		List<String> fileNameList = new ArrayList<>();
@@ -93,10 +90,11 @@ public class testnew {
 			for (String srcFile : srcFiles) {
 				// new (dir, name)
 				// check abs path or not
-				
+
 				// need to check if srcFile has .java at the end or not
 				if (srcFile.length() > 5) {
-					if (srcFile.substring(srcFile.length() - 5).equals(".java")) // name has .java at the end, e.g. cal.java
+					if (srcFile.substring(srcFile.length() - 5).equals(".java")) // name has .java at the end, e.g.
+																					// cal.java
 					{
 						// delete .java, e.g. make it cal
 						srcFile = srcFile.substring(0, srcFile.length() - 5);
@@ -104,13 +102,12 @@ public class testnew {
 				}
 
 				File source = new File(srcFile + ".java");
-				
+
 				if (!source.isAbsolute()) // relative path, attach path, e.g. cal.java, make it c:\mujava\cal.java
 				{
 					source = new File(muJavaHomePath + "/src" + java.io.File.separator + srcFile + ".java");
 
-				} 
-
+				}
 
 				File desc = new File(muJavaHomePath + "/" + sessionName + "/src");
 				FileUtils.copyFileToDirectory(source, desc);
@@ -159,7 +156,7 @@ public class testnew {
 			src_dir_path = srcName + ".java";
 		}
 
-		String[] args = new String[] { "-d", session_dir_path + "/classes", src_dir_path };
+		String[] args = new String[]{"-d", session_dir_path + "/classes", src_dir_path};
 		int status = javac.compile(args);
 
 		if (status != 0) {
@@ -185,6 +182,5 @@ public class testnew {
 			Util.DebugPrint("Making " + dir.getAbsolutePath() + " directory " + " ...done.");
 		}
 	}
-
 
 }

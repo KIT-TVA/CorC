@@ -30,7 +30,7 @@ public class CbCClassFeatureProvider extends DefaultFeatureProviderWithPatterns 
 		addConnectionPattern(new ConnectionPattern());
 
 	}
-	
+
 	@Override
 	public ICreateFeature[] getCreateFeatures() {
 		ICreateFeature[] oldArray = super.getCreateFeatures();
@@ -40,15 +40,12 @@ public class CbCClassFeatureProvider extends DefaultFeatureProviderWithPatterns 
 		}
 		return array;
 	}
-	
+
 	@Override
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
-		return new ICustomFeature[] { 
-					
-				new RenameConditionFeature(this),
-				new RenameStatementFeature(this),
-				new RenameVariableFeature(this),
-				new RenameMethodClassFeature(this),
-				new RenameModelClassInheritanceFeature(this)};
-		}		
+		return new ICustomFeature[]{
+
+				new RenameConditionFeature(this), new RenameStatementFeature(this), new RenameVariableFeature(this),
+				new RenameMethodClassFeature(this), new RenameModelClassInheritanceFeature(this)};
+	}
 }

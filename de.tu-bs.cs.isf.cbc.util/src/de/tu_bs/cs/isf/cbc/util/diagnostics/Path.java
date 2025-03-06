@@ -5,17 +5,17 @@ public class Path {
 	private Vertex head;
 	private float time;
 	private int numNodes;
-	
+
 	public Path(final TimedObject tObj) {
 		this.time = tObj.getExecutionTime();
 		buildPath(tObj.getName());
 		this.numNodes = countNodes(tObj.getName());
 	}
-	
+
 	public float getTime() {
 		return this.time;
 	}
-	
+
 	public Vertex nextVertex() {
 		if (head == null) {
 			return null;
@@ -24,7 +24,7 @@ public class Path {
 		head = head.next;
 		return cur;
 	}
-	
+
 	private int countNodes(String path) {
 		if (path == null) {
 			return -1;
@@ -39,7 +39,7 @@ public class Path {
 		}
 		return count;
 	}
-	
+
 	private void buildPath(String pathStr) {
 		Vertex cur = head;
 		while (pathStr.contains(EDGE_SYMBOL)) {
@@ -65,7 +65,7 @@ public class Path {
 
 	public Vertex getVertex(int h) {
 		var cur = head;
-		while(h > 0 && cur.next != null) {
+		while (h > 0 && cur.next != null) {
 			cur = cur.next;
 			h--;
 		}

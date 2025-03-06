@@ -46,19 +46,18 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 	private Composite parent;
 	private TabbedPropertySheetPage tabbedPropertySheetPage;
 	private Display display;
-	
-	private Device device = Display.getCurrent ();
-	private Color white = new Color (device, 255, 255, 255);
+
+	private Device device = Display.getCurrent();
+	private Color white = new Color(device, 255, 255, 255);
 
 	private Object bo;
-	
+
 	// Defining the UI properties
 	private StyledText codeText;
 	private Label codeLabel;
 
 	private Label actionLabel;
 	private Button saveButton;
-
 
 	@Override
 	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -91,7 +90,7 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 		actionLabel = new Label(composite, SWT.PUSH);
 		actionLabel.setText("Action: ");
 		actionLabel.setBackground(white);
-		
+
 		// generateButton
 		saveButton = new Button(composite, SWT.PUSH);
 		saveButton.setText("Save");
@@ -110,13 +109,12 @@ public class CodeReaderSection extends GFPropertySection implements ITabbedPrope
 						if (bo instanceof Condition) {
 							((Condition) bo).setName(text);
 							UpdateConditionsOfChildren.updateConditionsofChildren((Condition) bo);
-							UpdateOriginalCallsToProve.updateOriginalCallsToProve((Condition) bo); //varcorcXFeatureIDE
-							UpdateMethodCallsToProve.updateMethodCallsToProve((Condition) bo);//varcorcXFeatureIDE
-							UpdateContractsToProve.updateContractsToProve((Condition) bo);//varcorcXFeatureIDE
+							UpdateOriginalCallsToProve.updateOriginalCallsToProve((Condition) bo); // varcorcXFeatureIDE
+							UpdateMethodCallsToProve.updateMethodCallsToProve((Condition) bo);// varcorcXFeatureIDE
+							UpdateContractsToProve.updateContractsToProve((Condition) bo);// varcorcXFeatureIDE
 						} else if (bo instanceof AbstractStatement) {
 							((AbstractStatement) bo).setName(text);
-							((AbstractStatement) bo).setProven(false);
-							;
+							((AbstractStatement) bo).setProven(false);;
 						}
 					}
 				});

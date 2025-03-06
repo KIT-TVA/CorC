@@ -28,8 +28,7 @@ import src.com.beust.jcommander.ParameterException;
  */
 public class NoValidator implements IParameterValidator {
 
-  public void validate(String parameterName, String parameterValue)
-      throws ParameterException {
-  }
+	public void validate(String parameterName, String parameterValue) throws ParameterException {
+	}
 
 }

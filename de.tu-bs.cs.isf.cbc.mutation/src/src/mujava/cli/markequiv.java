@@ -12,10 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
-
-
+ */
 
 package src.mujava.cli;
 
@@ -35,16 +32,16 @@ import java.util.Map.Entry;
 import src.com.beust.jcommander.JCommander;
 import src.mujava.MutationSystem;
 import src.mujava.test.TestResultCLI;
- /**
+/**
  * <p>
  * Description: Mark equivalent mutants API for command line version
  * </p>
  * 
  * @author Lin Deng
- * @version 1.0  
-  */
+ * @version 1.0
+ */
 public class markequiv {
-	
+
 	static String muJavaHomePath = new String();
 
 	/**
@@ -53,7 +50,7 @@ public class markequiv {
 	 */
 	public static void main(String[] args) throws IOException {
 		markequivCom jct = new markequivCom();
-		String[] argv = { "Triangle", "AOIS_18", "Triangle" }; // dev use
+		String[] argv = {"Triangle", "AOIS_18", "Triangle"}; // dev use
 
 		JCommander jCommander = new JCommander(jct, args);
 
@@ -78,8 +75,8 @@ public class markequiv {
 		eqMutants.addAll(parameters);
 
 		// get all file names
-		File folder = new File(muJavaHomePath + "/" + session + "/result" + "/" + targetClassName + "/"
-				+ MutationSystem.TM_DIR_NAME);
+		File folder = new File(
+				muJavaHomePath + "/" + session + "/result" + "/" + targetClassName + "/" + MutationSystem.TM_DIR_NAME);
 		File[] listOfFiles = folder.listFiles();
 
 		// run one by one update
@@ -111,18 +108,18 @@ public class markequiv {
 			} else if (file.getName().contains("result_list")) { // also need to
 																	// mark
 																	// result_list.csv
-			// TestResultCLI tr = new TestResultCLI();
-			// tr.path = MutationSystem.SYSTEM_HOME + "/"
-			// + session +
-			// "/result"+"/"+targetClassName+"/"+MutationSystem.TM_DIR_NAME+"\\"+file.getName();
-			// tr.getResults();
+				// TestResultCLI tr = new TestResultCLI();
+				// tr.path = MutationSystem.SYSTEM_HOME + "/"
+				// + session +
+				// "/result"+"/"+targetClassName+"/"+MutationSystem.TM_DIR_NAME+"\\"+file.getName();
+				// tr.getResults();
 
 				markResultListFile(eqMutants, file);
 			}
 		}
 
 		Util.Print("All equivalent mutants are marked.");
-		//System.exit(0);
+		// System.exit(0);
 
 	}
 
@@ -186,7 +183,8 @@ public class markequiv {
 
 	}
 
-	private static void markMutantListFile(TestResultCLI tr, File file) throws UnsupportedEncodingException, IOException {
+	private static void markMutantListFile(TestResultCLI tr, File file)
+			throws UnsupportedEncodingException, IOException {
 		// delete original file
 		file.delete();
 

@@ -12,8 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
+ */
 
 package src.mujava.cli;
 
@@ -30,17 +29,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
- /**
+/**
  * <p>
- * Description: The Class doRandomGivenMutationOperator. 
- * Overview: This class is used to calculate mutation scores
- * based on randomly generated adequate test set of given mutation operators.
- * Experiment use only.
+ * Description: The Class doRandomGivenMutationOperator. Overview: This class is
+ * used to calculate mutation scores based on randomly generated adequate test
+ * set of given mutation operators. Experiment use only.
  * </p>
  * 
  * @author Lin Deng
- * @version 1.0  $Date: 06/10/2014 $
-  */ 
+ * @version 1.0 $Date: 06/10/2014 $
+ */
 
 public class doRandomGivenMutationOperator {
 
@@ -54,8 +52,10 @@ public class doRandomGivenMutationOperator {
 	 */
 	public static void main(String[] args) throws IOException {
 		// need result file name
-//		String[] argv = { "/Users/dmark/COVDLsExpCopy/Triangle/result_list_2014_7_22_11_13_35.csv", "twoPred", "CDL", "10",
-//				"/Users/dmark/COVDLsExpCopy/Triangle/" };
+		// String[] argv = {
+		// "/Users/dmark/COVDLsExpCopy/Triangle/result_list_2014_7_22_11_13_35.csv",
+		// "twoPred", "CDL", "10",
+		// "/Users/dmark/COVDLsExpCopy/Triangle/" };
 		String path = args[0];
 		String target = args[2];
 
@@ -68,22 +68,20 @@ public class doRandomGivenMutationOperator {
 		String resultPath = args[4];
 
 		ArrayList<String> targets = new ArrayList<>();
-		
+
 		// used for getting results
 		// if no target is selected, randomly take one test
-		
-//		targets.add("SDL");
-//		targets.add("ODL");
-//		targets.add("VDL");
-//		targets.add("CDL");
-//		targets.add("SDL");targets.add("ODL");
-//		targets.add("SDL");targets.add("VDL");
-//		targets.add("SDL");targets.add("CDL");
-//		targets.add("VDL");targets.add("CDL");
-//		targets.add("SDL");targets.add("VDL");targets.add("CDL");
-		
-		
-		
+
+		// targets.add("SDL");
+		// targets.add("ODL");
+		// targets.add("VDL");
+		// targets.add("CDL");
+		// targets.add("SDL");targets.add("ODL");
+		// targets.add("SDL");targets.add("VDL");
+		// targets.add("SDL");targets.add("CDL");
+		// targets.add("VDL");targets.add("CDL");
+		// targets.add("SDL");targets.add("VDL");targets.add("CDL");
+
 		// read in file into data structure
 		HashMap<String, ArrayList<String>> result = readResultsFromFile(path);
 		// get all tests names
@@ -93,45 +91,47 @@ public class doRandomGivenMutationOperator {
 		HashMap<String, ArrayList<String>> filtered_data = getFilteredDataBasedOnTargets(result, targets);
 
 		// get the adequate test set
-//		CopyOnWriteArrayList<ArrayList<String>> adequateTestSet = getAdequateTestSets4(filtered_data, testNames);
+		// CopyOnWriteArrayList<ArrayList<String>> adequateTestSet =
+		// getAdequateTestSets4(filtered_data, testNames);
 		// randomly get N adequate test set
 		ArrayList<ArrayList<String>> randomedTestSet = new ArrayList<>();
-		for(int i = 0; i < numOfRandom; i++)
-		{
+		for (int i = 0; i < numOfRandom; i++) {
 			randomedTestSet.add(getAdequateTestSets4(filtered_data, testNames));
 		}
-		
-		
+
 		// calculate each one with mutation score
 		ArrayList<Pair> mutationScores = getMutationScores(randomedTestSet, path);
 		double totalMS = 0.0;
-		for (Pair ms : mutationScores)
-		{
-			//System.out.println(ms.testSet + ": " + ms.mutationScore);
-			totalMS=totalMS+ms.mutationScore;
+		for (Pair ms : mutationScores) {
+			// System.out.println(ms.testSet + ": " + ms.mutationScore);
+			totalMS = totalMS + ms.mutationScore;
 		}
 		double avgMS = totalMS / mutationScores.size();
-		//System.out.println("avg: " + avgMS);
-		
+		// System.out.println("avg: " + avgMS);
+
 		// write files
 		writeResultToFiles(mutationScores, resultPath, targets);
 
-	
 	}
 
 	/**
 	 * Write result to files.
 	 *
-	 * @param mutationScores the mutation scores
-	 * @param resultPath the result path
-	 * @param targets the targets
-	 * @throws UnsupportedEncodingException the unsupported encoding exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param mutationScores
+	 *            the mutation scores
+	 * @param resultPath
+	 *            the result path
+	 * @param targets
+	 *            the targets
+	 * @throws UnsupportedEncodingException
+	 *             the unsupported encoding exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	private static void writeResultToFiles(ArrayList<Pair> mutationScores, String resultPath, ArrayList<String> targets)
 			throws UnsupportedEncodingException, IOException {
-		
-		resultPath=resultPath+"ResultOfRandomAdequateTests_"+targets+".txt";
+
+		resultPath = resultPath + "ResultOfRandomAdequateTests_" + targets + ".txt";
 		// set the output file
 		File file = new File(resultPath);
 
@@ -176,9 +176,9 @@ public class doRandomGivenMutationOperator {
 	}
 
 	/**
-	 * Read results from file. Note: This result include the fist title line.
-	 * e.g. {VDL_3=[, 1, 1, 1, 2], Mutant=[test4, test1, test2, test3, Total,
-	 * Equiv?], VDL_4=[1, 1, 1, , 3, y], VDL_5=[1, , 1, , 2]}
+	 * Read results from file. Note: This result include the fist title line. e.g.
+	 * {VDL_3=[, 1, 1, 1, 2], Mutant=[test4, test1, test2, test3, Total, Equiv?],
+	 * VDL_4=[1, 1, 1, , 3, y], VDL_5=[1, , 1, , 2]}
 	 * 
 	 * @param path
 	 *            the path
@@ -216,10 +216,13 @@ public class doRandomGivenMutationOperator {
 	/**
 	 * Gets the mutation scores.
 	 *
-	 * @param randomedTestSet            the randomed test set
-	 * @param path the path
+	 * @param randomedTestSet
+	 *            the randomed test set
+	 * @param path
+	 *            the path
 	 * @return the mutation scores
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	private static ArrayList<Pair> getMutationScores(ArrayList<ArrayList<String>> randomedTestSet, String path)
 			throws IOException {
@@ -271,7 +274,7 @@ public class doRandomGivenMutationOperator {
 			}
 
 			// save mutation score
-			double ms = (double)numOfKilledMutants / (double)(totalNumOfMutants - numOfEq);
+			double ms = (double) numOfKilledMutants / (double) (totalNumOfMutants - numOfEq);
 			mutationScores.add(new Pair(tests, ms));
 		}
 
@@ -281,7 +284,8 @@ public class doRandomGivenMutationOperator {
 	/**
 	 * Gets the results with names.
 	 *
-	 * @param result the result
+	 * @param result
+	 *            the result
 	 * @return the results with names
 	 */
 	private static HashMap<String, ArrayList<String>> getResultsWithNames(HashMap<String, ArrayList<String>> result) {
@@ -297,7 +301,7 @@ public class doRandomGivenMutationOperator {
 			ArrayList<String> testStrings = new ArrayList<>();
 			for (int i = 0; i < temp.size(); i++) {
 				if (temp.get(i).equals("1") && !testNames.get(i).equals("Total")) // current test kills the current
-												// mutant
+				// mutant
 				{
 					testStrings.add(testNames.get(i));
 					if (resultStat.containsKey(testNames.get(i)))
@@ -313,27 +317,25 @@ public class doRandomGivenMutationOperator {
 		return resultWithTestNames;
 	}
 
-
-	
-
-	
 	/**
 	 * Gets the adequate test sets.
 	 *
-	 * @param filtered_data the filtered_data
-	 * @param testNamesCopy the test names copy
+	 * @param filtered_data
+	 *            the filtered_data
+	 * @param testNamesCopy
+	 *            the test names copy
 	 * @return the adequate test sets4
 	 */
-	public static ArrayList<String> getAdequateTestSets4 (HashMap<String, ArrayList<String>> filtered_data,
+	public static ArrayList<String> getAdequateTestSets4(HashMap<String, ArrayList<String>> filtered_data,
 			ArrayList<String> testNamesCopy) {
-		
+
 		CopyOnWriteArrayList<ArrayList<String>> testSets = new CopyOnWriteArrayList<ArrayList<String>>();
 		CopyOnWriteArrayList<String> mutantStrings = new CopyOnWriteArrayList<>();
 		HashMap<String, ArrayList<String>> resultWithTestNames = new HashMap<>();
 		HashMap<String, Integer> resultStat = new HashMap<>();
-		
+
 		ArrayList<String> testNames = new ArrayList<>(testNamesCopy);
-		
+
 		// get all mutants name in filtered data
 		for (Object key : filtered_data.keySet()) {
 			mutantStrings.add(key.toString());
@@ -341,10 +343,10 @@ public class doRandomGivenMutationOperator {
 			ArrayList<String> testStrings = new ArrayList<>();
 			for (int i = 0; i < temp.size(); i++) {
 				if (temp.get(i).equals("1") && !testNames.get(i).equals("Total")) // current test kills the current
-												// mutant
+				// mutant
 				{
 					testStrings.add(testNames.get(i));
- 
+
 					if (resultStat.containsKey(testNames.get(i)))
 						resultStat.put(testNames.get(i), resultStat.get(testNames.get(i)) + 1);
 					else {
@@ -354,62 +356,55 @@ public class doRandomGivenMutationOperator {
 			}
 			resultWithTestNames.put(key.toString(), testStrings);
 		}
-		
+
 		// check if there is an equivalent
 		int numOfEq = 0;
 		int numOfTotalMutants = filtered_data.size();
 
 		ArrayList<String> nonEquivNonKilled = new ArrayList<>();
-		
+
 		// remove those weren't be killed
 		for (Object key : filtered_data.keySet()) {
-			if (filtered_data.get(key).contains("y") || 
-					filtered_data.get(key).contains("Y") ||
-					filtered_data.get(key).contains("n") || 
-					filtered_data.get(key).contains("N")|| 
-					filtered_data.get(key).contains("?")
-					)  
-			{
+			if (filtered_data.get(key).contains("y") || filtered_data.get(key).contains("Y")
+					|| filtered_data.get(key).contains("n") || filtered_data.get(key).contains("N")
+					|| filtered_data.get(key).contains("?")) {
 				mutantStrings.remove(key.toString());
 			}
 		}
-		
- 
+
 		testNames.remove("Total");
 		testNames.remove("Equiv?");
-		
+
 		ArrayList<String> result = new ArrayList<>();
 		int[] mutants = new int[mutantStrings.size()];
 		// for each mutant, randomly find a test that kills it
-		for(int i =0; i<mutantStrings.size();i++)
-		{
-			if(mutants[i]==1)
+		for (int i = 0; i < mutantStrings.size(); i++) {
+			if (mutants[i] == 1)
 				continue;
 			// get all tests that kill it
 			ArrayList<String> testsKillCurrentMutant = resultWithTestNames.get(mutantStrings.get(i));
-				
+
 			// randomly choose one
 			SecureRandom random = new SecureRandom();
 			String randomTest = testsKillCurrentMutant.get(random.nextInt(testsKillCurrentMutant.size()));
 			result.add(randomTest);
-			
+
 			// remove this mutant by marking the array to 1
-			mutants[i] = 1;       
-			
+			mutants[i] = 1;
+
 			// remove other mutants that killed by the same test
-			for (int j =0; j<mutantStrings.size();j++)
-			{
-				if(mutants[j]==1)
+			for (int j = 0; j < mutantStrings.size(); j++) {
+				if (mutants[j] == 1)
 					continue;
-				if(resultWithTestNames.get(mutantStrings.get(j)).contains(randomTest))
-					// the test selected killed this m
+				if (resultWithTestNames.get(mutantStrings.get(j)).contains(randomTest))
+				// the test selected killed this m
 				{
-					mutants[j] = 1;    
+					mutants[j] = 1;
 				}
 			}
-			
+
 		}
-//	System.out.println(result);
-	return result;
+		// System.out.println(result);
+		return result;
 	}
 }

@@ -127,20 +127,20 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 		addPattern(new VariablePattern());
 		addPattern(new RenamingPattern());
 		addPattern(new RenamePattern());
-		addPattern(new FieldPattern()); //this one is remove by getCreateFeatures() below
-		addPattern(new ParameterPattern()); //this one is remove by getCreateFeatures() below
-		addPattern(new VariantPattern()); //this one is remove by getCreateFeatures() below
+		addPattern(new FieldPattern()); // this one is remove by getCreateFeatures() below
+		addPattern(new ParameterPattern()); // this one is remove by getCreateFeatures() below
+		addPattern(new VariantPattern()); // this one is remove by getCreateFeatures() below
 		addConnectionPattern(new ConnectionPattern());
 	}
 
 	@Override
 	public ICreateFeature[] getCreateFeatures() {
 		ICreateFeature[] oldArray = super.getCreateFeatures();
-		ICreateFeature[] array = new ICreateFeature[oldArray.length-2];//remove the last two from above
+		ICreateFeature[] array = new ICreateFeature[oldArray.length - 2];// remove the last two from above
 		for (int i = 0; i < array.length; i++) {
 			array[i] = oldArray[i];
 		}
-		array[array.length - 1] = new CreateExtraSelectionFeature(this);//replace the third last with ExtraSelection
+		array[array.length - 1] = new CreateExtraSelectionFeature(this);// replace the third last with ExtraSelection
 		return array;
 	}
 
@@ -159,79 +159,50 @@ public class CbCFeatureProvider extends DefaultFeatureProviderWithPatterns {
 
 	@Override
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
-		return new ICustomFeature[] { 
-				new ExtractMethodStubsFeature(this), //!
-				new GenerateCodeFromModel(this),
-				new GenerateTextualRepresentation(this), 	
-				new TestAllStatements(this),
-				new TestStatement(this),
-	    		new TestAndAssertionGenerator(this),
-				new VerifyStatement(this),
-				//Eval
-				new RunEvaluationForStatementPP(this),
-				new RunEvaluationForStatementPBV(this),
+		return new ICustomFeature[]{new ExtractMethodStubsFeature(this), // !
+				new GenerateCodeFromModel(this), new GenerateTextualRepresentation(this), new TestAllStatements(this),
+				new TestStatement(this), new TestAndAssertionGenerator(this), new VerifyStatement(this),
+				// Eval
+				new RunEvaluationForStatementPP(this), new RunEvaluationForStatementPBV(this),
 				new RunEvaluationForStatementPG(this),
-				//Proof Graphs
-	    		new VerifyStatementProofGraphBegin(this),
-	    		new VerifyStatementProofGraphComplete(this),
-	    		new VerifyOriginalCallStatementProofGraphBegin(this),
-	    		new VerifyOriginalCallStatementProofGraphComplete(this),
-	    		new VerifyMethodCallStatementProofGraphBegin(this),
-	    		new VerifyMethodCallStatementProofGraphComplete(this),
-	    		new VerifyPreSelectionStatementProofGraphBegin(this),
-	    		new VerifyPreRepetitionStatementProofGraphBegin(this),
-	    		new VerifyPostRepetitionStatementProofGraphBegin(this),
-	    		new VerifyVariantWithInnerLoopsProofGraphBegin(this),
-	    		new VerifyVariantWithoutInnerLoopsProofGraphBegin(this),
-	    		//Partial Proofs
-				new VerifyStatementPartialProofBegin(this),
-				new VerifyStatementPartialProofComplete(this),
-				new VerifyOriginalCallStatement(this),
-				new VerifyOriginalCallStatementPartialProofBegin(this),
-				new VerifyOriginalCallStatementPartialProofComplete(this),
-				new VerifyMethodCallStatement(this),
+				// Proof Graphs
+				new VerifyStatementProofGraphBegin(this), new VerifyStatementProofGraphComplete(this),
+				new VerifyOriginalCallStatementProofGraphBegin(this),
+				new VerifyOriginalCallStatementProofGraphComplete(this),
+				new VerifyMethodCallStatementProofGraphBegin(this),
+				new VerifyMethodCallStatementProofGraphComplete(this),
+				new VerifyPreSelectionStatementProofGraphBegin(this),
+				new VerifyPreRepetitionStatementProofGraphBegin(this),
+				new VerifyPostRepetitionStatementProofGraphBegin(this),
+				new VerifyVariantWithInnerLoopsProofGraphBegin(this),
+				new VerifyVariantWithoutInnerLoopsProofGraphBegin(this),
+				// Partial Proofs
+				new VerifyStatementPartialProofBegin(this), new VerifyStatementPartialProofComplete(this),
+				new VerifyOriginalCallStatement(this), new VerifyOriginalCallStatementPartialProofBegin(this),
+				new VerifyOriginalCallStatementPartialProofComplete(this), new VerifyMethodCallStatement(this),
 				new VerifyMethodCallStatementPartialProofBegin(this),
-				new VerifyMethodCallStatementPartialProofComplete(this),
-				new VerifyPreRepetitionStatement(this), 
-				new VerifyPreRepetitionStatementPartialProofBegin(this), 
-				new VerifyPreRepetitionStatementPartialProofComplete(this), 
-				new VerifyPostRepetitionStatement(this),
+				new VerifyMethodCallStatementPartialProofComplete(this), new VerifyPreRepetitionStatement(this),
+				new VerifyPreRepetitionStatementPartialProofBegin(this),
+				new VerifyPreRepetitionStatementPartialProofComplete(this), new VerifyPostRepetitionStatement(this),
 				new VerifyPostRepetitionStatementPartialProofBegin(this),
-				new VerifyPostRepetitionStatementPartialProofComplete(this),
-				new VerifyPreSelectionStatement(this), 
-				new VerifyPreSelectionStatementPartialProofBegin(this), 
-				new VerifyPreSelectionStatementPartialProofComplete(this), 
-				new VerifyStrengthWeakCorrect(this),
+				new VerifyPostRepetitionStatementPartialProofComplete(this), new VerifyPreSelectionStatement(this),
+				new VerifyPreSelectionStatementPartialProofBegin(this),
+				new VerifyPreSelectionStatementPartialProofComplete(this), new VerifyStrengthWeakCorrect(this),
 				new VerifyStrengthWeakCorrectPartialProofBegin(this),
-				new VerifyStrengthWeakCorrectPartialProofComplete(this),
-				new VerifyVariantWithInnerLoops(this), 
-				new VerifyVariantWithInnerLoopsPartialProofBegin(this), 
-				new VerifyVariantWithInnerLoopsPartialProofComplete(this), 
-				new VerifyVariantWithoutInnerLoops(this), //!
-				new VerifyVariantWithoutInnerLoopsPartialProofBegin(this), //!
-				new VerifyVariantWithoutInnerLoopsPartialProofComplete(this), //!
-				new EditCommentFeature(this),
-				new EditCompositionTechniqueOfFormula(this), //!
-				new ChangeNameOfFormulaFeature(this),
-				new RenameStatementFeature(this), 
-				new RenameConditionFeature(this), 
-				new RenameVariantFeature(this),
-				new RenameVariableFeature(this), 
-				new RenameRenamingFeature(this),
-				new LayoutFeature(this), 
-				new GenerateIntermediateConditionFeature(this), 
-				new GenerateIntermediateConditionFeature2(this),
-	    		new ChangeNameOfAssociatedClassFeature(this),
-	    		new ChangeNameOfAssociatedMethodFeature(this),
-	    		new AboveCompositionFirstFeature(this),
-	    		new AboveCompositionSecondFeature(this),
-	    		new AboveSelectionFeature(this),
-	    		new AboveRepetitionFeature(this),
-	    		new BelowImplementationFeature(this),
-	    		new VerifyAllStatements(this),
-				new VerifyStatementInlining(this),
-	    		new UpdateDiagramFeature(this),	    		
-				new ShowKeyFileFeature(this),
-	    		new UpdateInformationFlowFeature(this)};
+				new VerifyStrengthWeakCorrectPartialProofComplete(this), new VerifyVariantWithInnerLoops(this),
+				new VerifyVariantWithInnerLoopsPartialProofBegin(this),
+				new VerifyVariantWithInnerLoopsPartialProofComplete(this), new VerifyVariantWithoutInnerLoops(this), // !
+				new VerifyVariantWithoutInnerLoopsPartialProofBegin(this), // !
+				new VerifyVariantWithoutInnerLoopsPartialProofComplete(this), // !
+				new EditCommentFeature(this), new EditCompositionTechniqueOfFormula(this), // !
+				new ChangeNameOfFormulaFeature(this), new RenameStatementFeature(this),
+				new RenameConditionFeature(this), new RenameVariantFeature(this), new RenameVariableFeature(this),
+				new RenameRenamingFeature(this), new LayoutFeature(this),
+				new GenerateIntermediateConditionFeature(this), new GenerateIntermediateConditionFeature2(this),
+				new ChangeNameOfAssociatedClassFeature(this), new ChangeNameOfAssociatedMethodFeature(this),
+				new AboveCompositionFirstFeature(this), new AboveCompositionSecondFeature(this),
+				new AboveSelectionFeature(this), new AboveRepetitionFeature(this), new BelowImplementationFeature(this),
+				new VerifyAllStatements(this), new VerifyStatementInlining(this), new UpdateDiagramFeature(this),
+				new ShowKeyFileFeature(this), new UpdateInformationFlowFeature(this)};
 	}
 }

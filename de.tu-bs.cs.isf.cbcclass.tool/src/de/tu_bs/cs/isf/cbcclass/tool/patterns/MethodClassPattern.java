@@ -19,14 +19,12 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IAddContext;
-import org.eclipse.graphiti.features.context.IAreaContext;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.context.impl.DirectEditingContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.Image;
 import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
@@ -38,7 +36,6 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.graphiti.mm.pictograms.impl.PictogramElementImpl;
 import org.eclipse.graphiti.pattern.IPattern;
 import org.eclipse.graphiti.pattern.id.IdLayoutContext;
 import org.eclipse.graphiti.pattern.id.IdPattern;
@@ -140,17 +137,19 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 
 		URI relURIdiagram = getDiagram().eResource().getURI();
 		String projectName = relURIdiagram.segment(1);
-		String className = relURIdiagram.segment(2).equals("features") ? relURIdiagram.segment(4) : relURIdiagram.segment(3);
+		String className = relURIdiagram.segment(2).equals("features")
+				? relURIdiagram.segment(4)
+				: relURIdiagram.segment(3);
 		String featureName = relURIdiagram.segment(2).equals("features") ? relURIdiagram.segment(3) : "";
 
-		Resource cbcclassResource = ClassUtil.getClassModelResource("platform:/resource/" + projectName, className, featureName);
+		Resource cbcclassResource = ClassUtil.getClassModelResource("platform:/resource/" + projectName, className,
+				featureName);
 		rs = cbcclassResource.getResourceSet();
-		
-		
+
 		Method method = CbcclassFactory.eINSTANCE.createMethod();
 		method.setSignature(input);
 		method.setIsStatic(input.contains(" static "));
-		
+
 		Resource classResource = null;
 		try {
 			classResource = CbcClassUtil.getResource(getDiagram());
@@ -158,18 +157,19 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			e1.printStackTrace();
 			return null;
 		}
-		
+
 		for (EObject obj : classResource.getContents()) {
 			if (obj instanceof ModelClass) {
 				method.setParentClass((ModelClass) obj);
 			}
 		}
-		
-		Resource cbcmodelResource = ClassUtil.getCbcModelResource(FileUtil.getProjectLocation(relURIdiagram), method.getName(), featureName, className);
+
+		Resource cbcmodelResource = ClassUtil.getCbcModelResource(FileUtil.getProjectLocation(relURIdiagram),
+				method.getName(), featureName, className);
 		boolean alreadyExisting = false;
 		if (cbcmodelResource != null) {
-			alreadyExisting = true;			
-			for (EObject obj: cbcmodelResource.getContents()) {
+			alreadyExisting = true;
+			for (EObject obj : cbcmodelResource.getContents()) {
 				if (obj instanceof CbCFormula) {
 					CbCFormula formula = (CbCFormula) obj;
 					method.setCbcStartTriple(formula);
@@ -181,9 +181,13 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			}
 		} else {
 			m.put("cbcmodel", new XMIResourceFactoryImpl());
-			URI cbcmodelURI = URI.createPlatformResourceURI("/" + projectName + (!method.getParentClass().getFeature().equals("default") ? ("/features/" + method.getParentClass().getFeature()) : "/src") + "/" + className + "/" + method.getName() + ".cbcmodel", true);
+			URI cbcmodelURI = URI.createPlatformResourceURI("/" + projectName
+					+ (!method.getParentClass().getFeature().equals("default")
+							? ("/features/" + method.getParentClass().getFeature())
+							: "/src")
+					+ "/" + className + "/" + method.getName() + ".cbcmodel", true);
 			cbcmodelResource = rs.createResource(cbcmodelURI);
-			
+
 			CbCFormula formula = ClassUtil.createFormula(method.getName());
 			formula.setMethodName(method.getName());
 			formula.setClassName(className);
@@ -191,21 +195,23 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			formula.setMethodObj(method);
 			method.setCbcDiagramURI(method.getName() + ".diagram");
 			method.setCbcStartTriple(formula);
-			
+
 			cbcmodelResource.getContents().add(formula);
 		}
-		
+
 		ModelClassHelper.setObject(method);
 		updatePictogramElement(context.getTargetContainer());
 
 		// save class fields to cbcmodel of new method
 		JavaVariables variables = CbcmodelFactory.eINSTANCE.createJavaVariables();
-		if (alreadyExisting) {			
+		if (alreadyExisting) {
 			for (EObject obj : cbcmodelResource.getContents()) {
 				if (obj instanceof JavaVariables) {
 					variables = (JavaVariables) obj;
-					Predicate<JavaVariable> isParamOrReturn = (JavaVariable var) -> var.getKind().equals(VariableKind.RETURN) || var.getKind().equals(VariableKind.PARAM);
-					variables.getVariables().removeIf(isParamOrReturn);		
+					Predicate<JavaVariable> isParamOrReturn = (
+							JavaVariable var) -> var.getKind().equals(VariableKind.RETURN)
+									|| var.getKind().equals(VariableKind.PARAM);
+					variables.getVariables().removeIf(isParamOrReturn);
 				}
 			}
 		} else {
@@ -218,8 +224,8 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 				}
 			}
 			cbcmodelResource.getContents().add(variables);
-		} 
-		
+		}
+
 		try {
 			cbcmodelResource.save(Collections.EMPTY_MAP);
 			cbcmodelResource.setTrackingModification(true);
@@ -233,7 +239,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		}
 		addGraphicalRepresentation(context, method);
 		ClassUtil.refreshProject(FileUtil.getProjectLocation(relURIdiagram));
-		return new Object[] { method };
+		return new Object[]{method};
 	}
 
 	@Override
@@ -257,10 +263,10 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			String type = "(int|char|float|long|boolean|byte|short|double|([A-Z]\\w*))(\\[\\])?";
 			if (value == null || value.length() == 0) {
 				return "Methodsignature must not be empty";
-			} else if (value.length() > 0 && !value.trim()
-					.matches("(public\\s|private\\s|protected\\s)?" + "(static\\s)?"
-							+ "((void|int|char|float|long|boolean|byte|short|double|([A-Z]\\w*))(\\[\\])?)?(\\s)?[a-z]\\w*"
-							+ "\\(" + "((" + type + "\\s[A-Za-z]\\w*,(\\s)?)*(" + type + "\\s[A-Za-z]\\w*))?" + "\\)")) {
+			} else if (value.length() > 0 && !value.trim().matches("(public\\s|private\\s|protected\\s)?"
+					+ "(static\\s)?"
+					+ "((void|int|char|float|long|boolean|byte|short|double|([A-Z]\\w*))(\\[\\])?)?(\\s)?[a-z]\\w*"
+					+ "\\(" + "((" + type + "\\s[A-Za-z]\\w*,(\\s)?)*(" + type + "\\s[A-Za-z]\\w*))?" + "\\)")) {
 				return "Signature must contain a name and parentheses with optional arguments";
 			}
 		} else {
@@ -269,7 +275,8 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			for (Field f : method.getParentClass().getFields()) {
 				value = value.replaceAll("-" + f.getName() + "(\\[.*\\])*-", "");
 			}
-			if (value.replaceAll("-", "").length() != 0) return "Modifiables must only contain fields of this class";
+			if (value.replaceAll("-", "").length() != 0)
+				return "Modifiables must only contain fields of this class";
 		}
 		return null;
 	}
@@ -424,28 +431,28 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { fourth, 0, fourth, mainRectangle.getHeight() });
+					.createPointList(new int[]{fourth, 0, fourth, mainRectangle.getHeight()});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_LINE_MID)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { fourth * 2, 0, fourth * 2, mainRectangle.getHeight() });
+					.createPointList(new int[]{fourth * 2, 0, fourth * 2, mainRectangle.getHeight()});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_LINE_RIGHT)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { fourth * 3, 0, fourth * 3, mainRectangle.getHeight() });
+					.createPointList(new int[]{fourth * 3, 0, fourth * 3, mainRectangle.getHeight()});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_LINE_HEAD)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { 0, 40, mainRectangle.getWidth(), 40 });
+					.createPointList(new int[]{0, 40, mainRectangle.getWidth(), 40});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		}
@@ -457,7 +464,12 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		if (id.equals(ID_MAIN_RECTANGLE)) {
 			Method domainObject = (Method) context.getDomainObject();
 			RoundedRectangle rectangle = (RoundedRectangle) context.getGraphicsAlgorithm();
-			String path = FileUtil.getProjectLocation(getDiagram().eResource().getURI())+ (domainObject.getParentClass().getFeature().equals("default") ? "/src" : "/features/" + domainObject.getParentClass().getFeature()) + "/" + domainObject.getCbcStartTriple().getClassName() + "/" + domainObject.getName() + ".cbcmodel";
+			String path = FileUtil.getProjectLocation(getDiagram().eResource().getURI())
+					+ (domainObject.getParentClass().getFeature().equals("default")
+							? "/src"
+							: "/features/" + domainObject.getParentClass().getFeature())
+					+ "/" + domainObject.getCbcStartTriple().getClassName() + "/" + domainObject.getName()
+					+ ".cbcmodel";
 			File cbcmodelFile = new File(path);
 			if (cbcmodelFile.exists()) {
 				URI cbcmodelURI = URI.createFileURI(path);
@@ -469,15 +481,16 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 				} else if (!read.isProven() && (rectangle.getForeground() != null
 						&& !rectangle.getForeground().equals(manageColor(IColorConstant.RED)))) {
 					return Reason.createTrueReason("Statement is not proven. Expected red color.");
-				}	
-			}	
+				}
+			}
 		} else if (id.equals(ID_PRE_TEXT)) {
 			Condition domainObject = (Condition) context.getDomainObject();
 			String[] fragments = domainObject.eResource().getURI().trimFileExtension().toString().split("/");
-			String methodName = fragments[fragments.length-1];
-			String cbcmodelPath = getDiagram().eResource().getURI().trimSegments(1).appendSegment(methodName +".cbcmodel").toPlatformString(true);
+			String methodName = fragments[fragments.length - 1];
+			String cbcmodelPath = getDiagram().eResource().getURI().trimSegments(1)
+					.appendSegment(methodName + ".cbcmodel").toPlatformString(true);
 			Resource cbcmodelResource = rs.getResource(URI.createPlatformResourceURI(cbcmodelPath, true), true);
-			
+
 			for (EObject obj : cbcmodelResource.getContents()) {
 				if (obj instanceof CbCFormula) {
 					CbCFormula formula = (CbCFormula) obj;
@@ -489,10 +502,11 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		} else if (id.equals(ID_POST_TEXT)) {
 			Condition domainObject = (Condition) context.getDomainObject();
 			String[] fragments = domainObject.eResource().getURI().trimFileExtension().toString().split("/");
-			String methodName = fragments[fragments.length-1];
-			String cbcmodelPath = getDiagram().eResource().getURI().trimSegments(1).appendSegment(methodName +".cbcmodel").toPlatformString(true);
+			String methodName = fragments[fragments.length - 1];
+			String cbcmodelPath = getDiagram().eResource().getURI().trimSegments(1)
+					.appendSegment(methodName + ".cbcmodel").toPlatformString(true);
 			Resource cbcmodelResource = rs.getResource(URI.createPlatformResourceURI(cbcmodelPath, true), true);
-			
+
 			for (EObject obj : cbcmodelResource.getContents()) {
 				if (obj instanceof CbCFormula) {
 					CbCFormula formula = (CbCFormula) obj;
@@ -510,7 +524,8 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		} else if (id.equals(ID_MOD_TEXT)) {
 			MultiText modText = (MultiText) context.getGraphicsAlgorithm();
 			Method domainObject = (Method) context.getDomainObject();
-			if (!modText.getValue().equals(getModifiablesString(domainObject.getParentClass(), domainObject.getCbcStartTriple().getStatement().getPostCondition()))) {
+			if (!modText.getValue().equals(getModifiablesString(domainObject.getParentClass(),
+					domainObject.getCbcStartTriple().getStatement().getPostCondition()))) {
 				return Reason.createTrueReason("Modifiables are not up to date.");
 			}
 		}
@@ -527,7 +542,8 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		if (id.equals(ID_MAIN_RECTANGLE)) {
 			RoundedRectangle rectangle = (RoundedRectangle) context.getGraphicsAlgorithm();
 			Method domainObject = (Method) context.getDomainObject();
-			String classPath = FileUtil.getProjectLocation(getDiagram().eResource().getURI()) +"/"+ domainObject.getCbcStartTriple().getClassName() + "\\";
+			String classPath = FileUtil.getProjectLocation(getDiagram().eResource().getURI()) + "/"
+					+ domainObject.getCbcStartTriple().getClassName() + "\\";
 			File cbcmodelFile = new File(classPath + domainObject.getCbcStartTriple().getMethodName() + ".diagram");
 			if (cbcmodelFile.exists()) {
 				URI cbcmodelURI = URI.createFileURI(classPath + domainObject.getName() + ".cbcmodel");
@@ -548,17 +564,19 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			Method domainObject = (Method) context.getDomainObject();
 			if (!nameText.getValue().equals(domainObject.getSignature())) {
 				nameText.setValue(domainObject.getSignature());
-				DirectEditingContext dec = new DirectEditingContext(context.getPictogramElement(), context.getGraphicsAlgorithm());
+				DirectEditingContext dec = new DirectEditingContext(context.getPictogramElement(),
+						context.getGraphicsAlgorithm());
 				setValue(domainObject.getSignature(), dec);
 			}
 			return true;
 		} else if (id.equals(ID_PRE_TEXT) && context.getDomainObject() instanceof Condition) {
 			Condition domainObject = (Condition) context.getDomainObject();
 			String[] fragments = domainObject.eResource().getURI().trimFileExtension().toString().split("/");
-			String methodName = fragments[fragments.length-1];
-			String cbcmodelPath = getDiagram().eResource().getURI().trimSegments(1).appendSegment(methodName +".cbcmodel").toPlatformString(true);
+			String methodName = fragments[fragments.length - 1];
+			String cbcmodelPath = getDiagram().eResource().getURI().trimSegments(1)
+					.appendSegment(methodName + ".cbcmodel").toPlatformString(true);
 			Resource cbcmodelResource = rs.getResource(URI.createPlatformResourceURI(cbcmodelPath, true), true);
-			
+
 			for (EObject obj : cbcmodelResource.getContents()) {
 				if (obj instanceof CbCFormula) {
 					CbCFormula formula = (CbCFormula) obj;
@@ -569,10 +587,11 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		} else if (id.equals(ID_POST_TEXT) && context.getDomainObject() instanceof Condition) {
 			Condition domainObject = (Condition) context.getDomainObject();
 			String[] fragments = domainObject.eResource().getURI().trimFileExtension().toString().split("/");
-			String methodName = fragments[fragments.length-1];
-			String cbcmodelPath = getDiagram().eResource().getURI().trimSegments(1).appendSegment(methodName +".cbcmodel").toPlatformString(true);
+			String methodName = fragments[fragments.length - 1];
+			String cbcmodelPath = getDiagram().eResource().getURI().trimSegments(1)
+					.appendSegment(methodName + ".cbcmodel").toPlatformString(true);
 			Resource cbcmodelResource = rs.getResource(URI.createPlatformResourceURI(cbcmodelPath, true), true);
-			
+
 			for (EObject obj : cbcmodelResource.getContents()) {
 				if (obj instanceof CbCFormula) {
 					CbCFormula formula = (CbCFormula) obj;
@@ -580,11 +599,14 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 					return true;
 				}
 			}
-		} else if (id.equals(ID_MOD_TEXT) && context.getGraphicsAlgorithm() instanceof MultiText && context.getDomainObject() instanceof Method) {
+		} else if (id.equals(ID_MOD_TEXT) && context.getGraphicsAlgorithm() instanceof MultiText
+				&& context.getDomainObject() instanceof Method) {
 			MultiText modText = (MultiText) context.getGraphicsAlgorithm();
 			Method domainObject = (Method) context.getDomainObject();
-			if (!modText.getValue().equals(getModifiablesString(domainObject.getParentClass(), domainObject.getCbcStartTriple().getStatement().getPostCondition()))) {
-				modText.setValue(getModifiablesString(domainObject.getParentClass(), domainObject.getCbcStartTriple().getStatement().getPostCondition()));
+			if (!modText.getValue().equals(getModifiablesString(domainObject.getParentClass(),
+					domainObject.getCbcStartTriple().getStatement().getPostCondition()))) {
+				modText.setValue(getModifiablesString(domainObject.getParentClass(),
+						domainObject.getCbcStartTriple().getStatement().getPostCondition()));
 			}
 			return true;
 		}
@@ -605,7 +627,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 				JOptionPane.showMessageDialog(null, "Can not change name of method in the this state of CorC.");
 				return;
 			}
-		
+
 			if (method.getParameters().size() != oldParamSize) {
 				URI urii = getDiagram().eResource().getURI();
 				ClassUtil.refreshProject(FileUtil.getProjectLocation(urii));
@@ -614,7 +636,8 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			String[] split = value.trim().split(",");
 			method.getCbcStartTriple().getStatement().getPostCondition().getModifiables().clear();
 			for (String s : split) {
-				if (!s.equals("")) method.getCbcStartTriple().getStatement().getPostCondition().getModifiables().add(s.trim());
+				if (!s.equals(""))
+					method.getCbcStartTriple().getStatement().getPostCondition().getModifiables().add(s.trim());
 			}
 			try {
 				method.getCbcStartTriple().getStatement().getPostCondition().eResource().save(Collections.EMPTY_MAP);
@@ -622,9 +645,10 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			UpdateConditionsOfChildren.updateConditionsofChildren(method.getCbcStartTriple().getStatement().getPostCondition());	
+			UpdateConditionsOfChildren
+					.updateConditionsofChildren(method.getCbcStartTriple().getStatement().getPostCondition());
 		}
-		updatePictogramElement(((Shape) context.getPictogramElement()));		
+		updatePictogramElement(((Shape) context.getPictogramElement()));
 	}
 
 	@Override
@@ -634,15 +658,16 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 		if (ga instanceof RoundedRectangle) {
 			return method.getSignature();
 		} else {
-			return getModifiablesString(method.getParentClass(), method.getCbcStartTriple().getStatement().getPostCondition());
+			return getModifiablesString(method.getParentClass(),
+					method.getCbcStartTriple().getStatement().getPostCondition());
 		}
 	}
-	
+
 	@Override
 	public void delete(IDeleteContext context) {
 		rs.getResources();
 		Shape shape = (Shape) context.getPictogramElement();
-		ContainerShape container = shape.getContainer();	
+		ContainerShape container = shape.getContainer();
 		Method method = (Method) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		String toDelete = method.getParentClass().getName() + "/" + method.getName() + ".cbcmodel";
 		ModelClass mc = method.getParentClass();
@@ -656,7 +681,7 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 			}
 		}
 	}
-	
+
 	private String getModifiablesString(ModelClass parent, Condition condition) {
 		String modString = "";
 		if (condition.getModifiables() != null && condition.getModifiables().size() > 0) {
@@ -664,11 +689,11 @@ public class MethodClassPattern extends IdPattern implements IPattern {
 				for (Field f : parent.getFields()) {
 					if (f.getName() != null) {
 						String fieldName = f.getName().replace("[", "").replace("]", "").trim();
-						if (mod.replace("this.","").startsWith(fieldName)) {
+						if (mod.replace("this.", "").startsWith(fieldName)) {
 							if (modString.length() != 0) {
-								modString = modString + ", " + mod.replace("this.","");
+								modString = modString + ", " + mod.replace("this.", "");
 							} else {
-								modString = mod.replace("this.","");
+								modString = mod.replace("this.", "");
 							}
 							break;
 						}

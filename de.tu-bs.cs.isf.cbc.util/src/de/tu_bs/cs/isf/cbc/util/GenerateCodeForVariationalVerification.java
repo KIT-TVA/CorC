@@ -45,7 +45,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 	private String[] config;
 	private String proofType = KeYInteraction.ABSTRACT_PROOF_FULL;
 	private int variant = 0;
-    private String nonResolvedFeature;
+	private String nonResolvedFeature;
 
 	public String predicatesPath = "";
 
@@ -62,17 +62,18 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 		this.proofType = proofType;
 		this.variant = variant;
 	}
-	
-	 public boolean generateWithRestriction(IPath location, String callingFeature, String callingClass, String callingMethod,
-	    String[] config, String nonResolvedFeature) {
-    	
-    	this.nonResolvedFeature = nonResolvedFeature;
-    	return generate(location, callingFeature, callingClass, callingMethod, config); 
-    }
-	 
-	public boolean generate(IPath location, String callingFeature, String callingClass, String callingMethod, List<String> listConfig) {
+
+	public boolean generateWithRestriction(IPath location, String callingFeature, String callingClass,
+			String callingMethod, String[] config, String nonResolvedFeature) {
+
+		this.nonResolvedFeature = nonResolvedFeature;
+		return generate(location, callingFeature, callingClass, callingMethod, config);
+	}
+
+	public boolean generate(IPath location, String callingFeature, String callingClass, String callingMethod,
+			List<String> listConfig) {
 		String[] config = listConfig.toArray(new String[0]);
-		
+
 		this.config = config;
 		String output = "  > Configuration: [";
 		for (int j = 0; j < config.length; j++) {
@@ -92,7 +93,7 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 		writeFile(location + "/src_gen/" + callingClass + ".java", "public class " + callingClass + " {\n}");
 		generateClasses(location + "/src_gen/", config, callingFeature, callingClass, callingMethod.toLowerCase());
 		resolveRemainingExplicitOriginalInCondition(location + "/src_gen/");
-		return true;	
+		return true;
 	}
 
 	public boolean generate(IPath location, String callingFeature, String callingClass, String callingMethod,
@@ -190,7 +191,8 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 								}
 								for (Field f : mc.getFields()) {
 									String newField = f.getVisibility().toString().toLowerCase()
-											+ (f.getVisibility().equals(Visibility.PRIVATE) ? " /*@spec_public@*/ "
+											+ (f.getVisibility().equals(Visibility.PRIVATE)
+													? " /*@spec_public@*/ "
 													: "")
 											+ (f.isIsStatic() ? " static " : " ") + f.getType() + " " + f.getName()
 											+ ";";
@@ -283,8 +285,8 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 				}
 				helperCode = helperCode + "// End of code from " + helperLocation + "\n";
 			}
-			writeFile(location,
-					codeFields + "\n" + codeInvariants + "\n" + getLengthFunction() + getTResolvedProofFunction() + methodCode + helperCode);
+			writeFile(location, codeFields + "\n" + codeInvariants + "\n" + getLengthFunction()
+					+ getTResolvedProofFunction() + methodCode + helperCode);
 		}
 	}
 
@@ -295,12 +297,11 @@ public class GenerateCodeForVariationalVerification extends MyAbstractAsynchrono
 
 	}
 
-    private String getTResolvedProofFunction() {
-    	return "\n\n" + "\t/*@\n" + "\t@ public normal_behavior\n" + "\t@ requires true;\n" + "\t@ ensures false;\n"
-		+ "\t@ assignable \\nothing;\n" + "\t@*/\n"
-		+ "\tboolean /*@ pure @*/ noResolve() {return false;}\n\n";
+	private String getTResolvedProofFunction() {
+		return "\n\n" + "\t/*@\n" + "\t@ public normal_behavior\n" + "\t@ requires true;\n" + "\t@ ensures false;\n"
+				+ "\t@ assignable \\nothing;\n" + "\t@*/\n" + "\tboolean /*@ pure @*/ noResolve() {return false;}\n\n";
 
-    }
+	}
 
 	private String generateMethodForClass(Diagram diagram, String methodName) {
 		diagram.eResource().getAllContents();

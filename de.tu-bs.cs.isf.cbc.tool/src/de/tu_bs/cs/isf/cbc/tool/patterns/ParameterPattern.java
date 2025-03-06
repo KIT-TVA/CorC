@@ -12,11 +12,11 @@ import org.eclipse.graphiti.pattern.id.IdLayoutContext;
 import org.eclipse.graphiti.pattern.id.IdPattern;
 import org.eclipse.graphiti.pattern.id.IdUpdateContext;
 
-import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcclass.Parameter;
 
 /**
  * Class that creates the graphical representation of Methods
+ * 
  * @author Tobias
  *
  */
@@ -26,9 +26,8 @@ public class ParameterPattern extends IdPattern implements IPattern {
 	public static final String VARIABLE_KIND_GLOBAL = "global";
 	public static final String VARIABLE_KIND_GLOBAL_PARAM = "global param";
 	public static final String VARIABLE_KIND_RETURNPARAM = "returnparam";
-	
+
 	public static final String VARIABLE_KIND_LOCAL = "local";
-	
 
 	/**
 	 * Constructor of the class
@@ -36,7 +35,7 @@ public class ParameterPattern extends IdPattern implements IPattern {
 	public ParameterPattern() {
 		super();
 	}
-	
+
 	@Override
 	public String getCreateName() {
 		return "Parameter";
@@ -66,7 +65,7 @@ public class ParameterPattern extends IdPattern implements IPattern {
 	protected boolean layout(IdLayoutContext context, String id) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean canDirectEdit(IDirectEditingContext context) {
 		return false;
@@ -74,7 +73,7 @@ public class ParameterPattern extends IdPattern implements IPattern {
 
 	@Override
 	public boolean canDelete(IDeleteContext context) {
-			return false;
+		return false;
 	}
 
 	@Override

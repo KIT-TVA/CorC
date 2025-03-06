@@ -14,9 +14,9 @@ import de.tu_bs.cs.isf.cbc.util.Console;
  * A implementation of a proof repository for testing purposes
  */
 public final class FileSystemProofRepository implements IProofRepository {
-	
+
 	private final String repositoryPath;
-	
+
 	public FileSystemProofRepository(String repositoryPath) {
 		this.repositoryPath = repositoryPath;
 		File repo = new File(repositoryPath);
@@ -26,7 +26,8 @@ public final class FileSystemProofRepository implements IProofRepository {
 	}
 
 	@Override
-	public void getPartialProofForId(List<String> featureNames, List<UUID> uuids, String location, String proofFileName) {
+	public void getPartialProofForId(List<String> featureNames, List<UUID> uuids, String location,
+			String proofFileName) {
 		File currentFolder = new File(repositoryPath);
 		for (int i = 0; i < uuids.size(); i++) {
 			File currentFile = new File(currentFolder.getPath() + "/" + uuids.get(i) + "(" + featureNames.get(i) + ")");
@@ -58,7 +59,7 @@ public final class FileSystemProofRepository implements IProofRepository {
 			}
 			currentFolder = currentFile;
 		}
-		
+
 		try {
 			Files.copy(proofFolder, new File(currentFolder.getPath() + "/" + proofFolder.getName()));
 		} catch (IOException e) {
@@ -67,9 +68,9 @@ public final class FileSystemProofRepository implements IProofRepository {
 		Console.println("Saving " + proof + " to :");
 		Console.println("proofrepository/");
 		for (int i = 0; i < uuids.size(); i++) {
-			for (int j = 0; j < i+1; j++)
+			for (int j = 0; j < i + 1; j++)
 				Console.print("\t", Colors.BLACK);
-			
+
 			Console.println(uuids.get(i) + " (" + featureNames.get(i) + ")");
 		}
 

@@ -4,7 +4,7 @@ import static java.lang.annotation.ElementType.METHOD;
 
 import java.lang.annotation.Target;
 
-@Target({ METHOD })
+@Target({METHOD})
 public @interface MethodReceiver {
 	String SL();
 	MDF MDF();

@@ -26,29 +26,28 @@ import java.util.List;
 
 public class Lists {
 
-    public static <K> List<K> newArrayList() {
-        return new ArrayList<K>();
-    }
+	public static <K> List<K> newArrayList() {
+		return new ArrayList<K>();
+	}
 
-    public static <K> List<K> newArrayList(Collection<K> c) {
-        return new ArrayList<K>(c);
-    }
+	public static <K> List<K> newArrayList(Collection<K> c) {
+		return new ArrayList<K>(c);
+	}
 
-    public static <K> List<K> newArrayList(K... c) {
-      return new ArrayList<K>(Arrays.asList(c));
-    }
+	public static <K> List<K> newArrayList(K... c) {
+		return new ArrayList<K>(Arrays.asList(c));
+	}
 
-    public static <K> List<K> newArrayList(int size) {
-        return new ArrayList<K>(size);
-    }
+	public static <K> List<K> newArrayList(int size) {
+		return new ArrayList<K>(size);
+	}
 
-    public static <K> LinkedList<K> newLinkedList() {
-        return new LinkedList<K>();
-    }
+	public static <K> LinkedList<K> newLinkedList() {
+		return new LinkedList<K>();
+	}
 
-    public static <K> LinkedList<K> newLinkedList(Collection<K> c) {
-        return new LinkedList<K>(c);
-    }
-
+	public static <K> LinkedList<K> newLinkedList(Collection<K> c) {
+		return new LinkedList<K>(c);
+	}
 
 }

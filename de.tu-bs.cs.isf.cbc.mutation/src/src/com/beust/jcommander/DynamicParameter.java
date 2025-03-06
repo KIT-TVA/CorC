@@ -9,42 +9,42 @@ import src.com.beust.jcommander.validators.NoValidator;
 import src.com.beust.jcommander.validators.NoValueValidator;
 
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
-@Target({ FIELD })
+@Target({FIELD})
 public @interface DynamicParameter {
-  /**
-   * An array of allowed command line parameters (e.g. "-D", "--define", etc...).
-   */
-  String[] names() default {};
+	/**
+	 * An array of allowed command line parameters (e.g. "-D", "--define", etc...).
+	 */
+	String[] names() default {};
 
-  /**
-   * Whether this option is required.
-   */
-  boolean required() default false;
+	/**
+	 * Whether this option is required.
+	 */
+	boolean required() default false;
 
-  /**
-   * A description of this option.
-   */
-  String description() default "";
+	/**
+	 * A description of this option.
+	 */
+	String description() default "";
 
-  /**
-   * The key used to find the string in the message bundle.
-   */
-  String descriptionKey() default "";
+	/**
+	 * The key used to find the string in the message bundle.
+	 */
+	String descriptionKey() default "";
 
-  /**
-   * If true, this parameter won't appear in the usage().
-   */
-  boolean hidden() default false;
+	/**
+	 * If true, this parameter won't appear in the usage().
+	 */
+	boolean hidden() default false;
 
-  /**
-   * The validation class to use.
-   */
-  Class<? extends IParameterValidator> validateWith() default NoValidator.class;
+	/**
+	 * The validation class to use.
+	 */
+	Class<? extends IParameterValidator> validateWith() default NoValidator.class;
 
-  /**
-   * The character(s) used to assign the values.
-   */
-  String assignment() default "=";
+	/**
+	 * The character(s) used to assign the values.
+	 */
+	String assignment() default "=";
 
-  Class<? extends IValueValidator> validateValueWith() default NoValueValidator.class;
+	Class<? extends IValueValidator> validateValueWith() default NoValueValidator.class;
 }

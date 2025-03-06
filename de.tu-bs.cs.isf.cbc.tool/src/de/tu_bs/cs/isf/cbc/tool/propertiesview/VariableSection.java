@@ -27,18 +27,17 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
 
 public class VariableSection extends GFPropertySection implements ITabbedPropertyConstants {
-	
 
 	Display display = Display.getCurrent();// for UI updating of back-process
 	boolean variationalProject = false;
-	
+
 	// Defining the UI properties
-	
+
 	private Button saveButton;
 	private JavaVariables variables;
-	
+
 	Composite composite;
-	
+
 	private List<JavaVariable> variablesList = new ArrayList<>();
 	private List<StyledText> variablesName = new ArrayList<>();
 	private List<StyledText> variablesSecurity = new ArrayList<>();
@@ -50,7 +49,7 @@ public class VariableSection extends GFPropertySection implements ITabbedPropert
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 
 		composite = factory.createFlatFormComposite(parent);
-		
+
 		// Defining GridLayout for properties-view
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
@@ -60,19 +59,19 @@ public class VariableSection extends GFPropertySection implements ITabbedPropert
 
 	@Override
 	public void refresh() {
-		Color white = new Color (Display.getCurrent(), 255, 255, 255);
+		Color white = new Color(Display.getCurrent(), 255, 255, 255);
 		CbCDiagramTypeProvider diagramProvider = new CbCDiagramTypeProvider();
 		PictogramElement pe = getSelectedPictogramElement();
 		Object bo = diagramProvider.getFeatureProvider().getBusinessObjectForPictogramElement(pe);
 		if (bo instanceof JavaVariables) {
 			variables = (JavaVariables) bo;
 		}
-		
+
 		if (variables != null) {
 			for (JavaVariable var : variables.getVariables()) {
 				if (!variablesList.contains(var)) {
 					variablesList.add(var);
-					
+
 					StyledText variableSecurity = new StyledText(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
 					GridData variableSecurityGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 					variableSecurity.setEditable(true);
@@ -80,7 +79,7 @@ public class VariableSection extends GFPropertySection implements ITabbedPropert
 					variableSecurity.setBackground(white);
 					variablesSecurity.add(variableSecurity);
 					variableSecurity.setText(var.getConfidentiality() == null ? "" : var.getConfidentiality());
-					
+
 					StyledText variableModifier = new StyledText(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
 					GridData variableModifierGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 					variableModifier.setEditable(true);
@@ -88,7 +87,7 @@ public class VariableSection extends GFPropertySection implements ITabbedPropert
 					variableModifier.setBackground(white);
 					variablesModifier.add(variableModifier);
 					variableModifier.setText(var.getModifier() == null ? "" : var.getModifier());
-					
+
 					StyledText variableName = new StyledText(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
 					GridData variableNameGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 					variableName.setEditable(false);
@@ -96,11 +95,11 @@ public class VariableSection extends GFPropertySection implements ITabbedPropert
 					variableName.setBackground(white);
 					variablesName.add(variableName);
 					variableName.setText(var.getName());
-					
+
 				}
 			}
 		}
-		
+
 		// generateButton
 		if (saveButton == null) {
 			saveButton = new Button(composite, SWT.PUSH);
@@ -123,16 +122,16 @@ public class VariableSection extends GFPropertySection implements ITabbedPropert
 		}
 
 	}
-	
+
 	public void changeText(int index) {
 		JavaVariable var = variablesList.get(index);
-		
+
 		String newSecurity = variablesSecurity.get(index).getText();
 		String newModifier = variablesModifier.get(index).getText();
-		
+
 		var.setConfidentiality(newSecurity);
 		var.setModifier(newModifier);
-		
+
 	}
 
 }

@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.exception;
 
 import java.io.IOException;
@@ -27,48 +27,48 @@ import openjava.ptree.StatementList;
 import openjava.ptree.TryStatement;
 
 /**
- * <p>Description: </p>
+ * <p>
+ * Description:
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class EFD extends src.mujava.op.util.Mutator
-{
-  public EFD(FileEnvironment file_env,ClassDeclaration cdecl,
-    CompilationUnit comp_unit)
-  {
-	super( file_env, comp_unit );
-  }
+public class EFD extends src.mujava.op.util.Mutator {
+	public EFD(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit) {
+		super(file_env, comp_unit);
+	}
 
-    public void visit( TryStatement p )
-	throws ParseTreeException
-    {
-      CatchList catch_list = p.getCatchList();
-      StatementList finstmts = p.getFinallyBody();
-      if((!catch_list.isEmpty())&&(!finstmts.isEmpty())){
-        outputToFile(p);
-      }
-    }
+	public void visit(TryStatement p) throws ParseTreeException {
+		CatchList catch_list = p.getCatchList();
+		StatementList finstmts = p.getFinallyBody();
+		if ((!catch_list.isEmpty()) && (!finstmts.isEmpty())) {
+			outputToFile(p);
+		}
+	}
 
-   public void outputToFile(TryStatement original){
-      if (comp_unit==null) return;
+	public void outputToFile(TryStatement original) {
+		if (comp_unit == null)
+			return;
 
-      String f_name;
-      num++;
-      f_name = getSourceName(this);
-      String mutant_dir = getMuantID();
+		String f_name;
+		num++;
+		f_name = getSourceName(this);
+		String mutant_dir = getMuantID();
 
-      try {
-		 PrintWriter out = getPrintWriter(f_name);
-		 EFD_Writer writer = new EFD_Writer( mutant_dir,out );
-		 writer.setMutant(original);
-		 comp_unit.accept( writer );
-		 out.flush();  out.close();
-      } catch ( IOException e ) {
-	    System.err.println( "fails to create " + f_name );
-      } catch ( ParseTreeException e ) {
-	    System.err.println( "errors during printing " + f_name );
-	    e.printStackTrace();
-      }
-   }
+		try {
+			PrintWriter out = getPrintWriter(f_name);
+			EFD_Writer writer = new EFD_Writer(mutant_dir, out);
+			writer.setMutant(original);
+			comp_unit.accept(writer);
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			System.err.println("fails to create " + f_name);
+		} catch (ParseTreeException e) {
+			System.err.println("errors during printing " + f_name);
+			e.printStackTrace();
+		}
+	}
 }

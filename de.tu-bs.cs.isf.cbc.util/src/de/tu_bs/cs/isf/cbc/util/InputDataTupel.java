@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An object of this class contains all input data needed to execute a method once.
+ * An object of this class contains all input data needed to execute a method
+ * once.
+ * 
  * @author Fynn
  */
 public class InputDataTupel {
 	private List<InputData> inputParameters;
 	private List<InputData> inputGlobalVars;
-	
+
 	public InputDataTupel() {
 		inputParameters = new ArrayList<InputData>();
 		inputGlobalVars = new ArrayList<InputData>();
@@ -19,58 +21,60 @@ public class InputDataTupel {
 	public void addParameter(InputData toAdd) {
 		inputParameters.add(toAdd);
 	}
-	
+
 	public void addGlobalVar(InputData toAdd) {
 		inputGlobalVars.add(toAdd);
 	}
-	
+
 	public List<String> getParametersValues() {
-		return this.inputParameters.stream().map(p -> p.getDimensions() == 0 ? p.getRep() : p.getArrayValueRep()).toList();
+		return this.inputParameters.stream().map(p -> p.getDimensions() == 0 ? p.getRep() : p.getArrayValueRep())
+				.toList();
 	}
-	
+
 	public List<String> getGlobalVarsValues() {
-		return this.inputGlobalVars.stream().map(v -> v.getDimensions() == 0 ? v.getRep() : v.getArrayValueRep()).toList();
+		return this.inputGlobalVars.stream().map(v -> v.getDimensions() == 0 ? v.getRep() : v.getArrayValueRep())
+				.toList();
 	}
-	
+
 	public String getParametersNameRep() {
 		return getNameRep(true);
 	}
-	
+
 	public String getParameterRep() {
 		return getRep(true);
 	}
-	
+
 	public String getGlobalVarsRep() {
 		return getRep(false);
 	}
-	
+
 	public String getGlobalVarsNameRep() {
 		return getNameRep(false);
 	}
-	
+
 	public List<InputData> getParameters() {
 		return this.inputParameters;
 	}
-	
+
 	public List<String> getParameterNames() {
 		return this.inputParameters.stream().map(p -> p.getName()).toList();
 	}
-	
+
 	public List<String> getGlobalVarNames() {
 		return this.inputGlobalVars.stream().map(v -> v.getName()).toList();
 	}
-	
+
 	public List<InputData> getGlobalVars() {
 		return this.inputGlobalVars;
 	}
-	
+
 	public List<InputData> getAllVars() {
 		final var output = new ArrayList<InputData>();
 		output.addAll(this.inputParameters);
 		output.addAll(this.inputGlobalVars);
 		return output;
 	}
-	
+
 	private String getNameRep(boolean isParameter) {
 		final List<InputData> lst;
 		if (isParameter) {
@@ -90,7 +94,7 @@ public class InputDataTupel {
 		}
 		return rep;
 	}
-	
+
 	private String getRep(boolean isParameter) {
 		final List<InputData> lst;
 		if (isParameter) {

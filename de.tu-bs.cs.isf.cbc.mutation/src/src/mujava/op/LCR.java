@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op;
 
 import openjava.mop.FileEnvironment;
@@ -20,19 +20,18 @@ import openjava.ptree.ClassDeclaration;
 import openjava.ptree.CompilationUnit;
 
 /**
- * <p>Generate LCR (Logical Operator Replacement) mutants -- 
- *    replaces each occurrence of each bitwise logical operator 
- *    (bitwise and - &, bitwise or - |, exclusive or - ^) by each of 
- *    the other operators
+ * <p>
+ * Generate LCR (Logical Operator Replacement) mutants -- replaces each
+ * occurrence of each bitwise logical operator (bitwise and - &, bitwise or - |,
+ * exclusive or - ^) by each of the other operators
  * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class LCR extends src.mujava.op.util.Mutator 
-{
-   public LCR(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit)
-   {
-      super( file_env, comp_unit );
-   }
+public class LCR extends src.mujava.op.util.Mutator {
+	public LCR(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit) {
+		super(file_env, comp_unit);
+	}
 }

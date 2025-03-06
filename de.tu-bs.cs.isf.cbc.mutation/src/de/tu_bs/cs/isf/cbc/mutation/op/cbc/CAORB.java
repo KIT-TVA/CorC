@@ -9,7 +9,7 @@ public class CAORB extends CbCMutationOp {
 	public CAORB() {
 		ops = Arrays.asList("+", "-", "*", "/", "%");
 	}
-	
+
 	@Override
 	public String[] apply(Condition condition) throws MutatorException {
 		return applyOperators(condition, ops);

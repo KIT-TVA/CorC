@@ -16,7 +16,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.tu_bs.cs.isf.cbc.cbcclass.Field;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
@@ -59,42 +58,53 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 		GlobalConditions globalConditions = extractor.getConds();
 		Renaming renaming = extractor.getRenaming();
 		CbCFormula formula = extractor.getFormula();
-		
-		String signatureString = formula.getMethodObj() != null ? formula.getMethodObj().getSignature() : ("public void " + formula.getName().toLowerCase() + " ()");
-		
+
+		String signatureString = formula.getMethodObj() != null
+				? formula.getMethodObj().getSignature()
+				: ("public void " + formula.getName().toLowerCase() + " ()");
+
 		JavaVariable returnVariable = null;
 		int counter = 0;
 		LinkedList<String> localVariables = new LinkedList<String>();
-		for(int i = 0; i < vars.getVariables().size(); i++) {
+		for (int i = 0; i < vars.getVariables().size(); i++) {
 			JavaVariable currentVariable = vars.getVariables().get(i);
-		if(currentVariable.getKind() == VariableKind.RETURN) {
-			counter++;
-			if(!signatureString.substring(0, signatureString.indexOf('(')).contains(currentVariable.getName().replace("non-null", "").trim().split(" ")[0])) {
-				Console.println("Method return type and variable type does not match.");
-				return;
+			if (currentVariable.getKind() == VariableKind.RETURN) {
+				counter++;
+				if (!signatureString.substring(0, signatureString.indexOf('('))
+						.contains(currentVariable.getName().replace("non-null", "").trim().split(" ")[0])) {
+					Console.println("Method return type and variable type does not match.");
+					return;
+				}
+				if (counter > 1) {
+					Console.println("Too much variables of kind RETURN.");
+					return;
+				}
+				returnVariable = currentVariable;
+			} else if (currentVariable.getKind() == VariableKind.LOCAL) {
+				localVariables.add(currentVariable.getName().replace("non-null", ""));
 			}
-			if(counter > 1) {
-				Console.println("Too much variables of kind RETURN.");
-				return;
-			}
-			returnVariable = currentVariable;
-		}else if(currentVariable.getKind() == VariableKind.LOCAL) {
-			localVariables.add(currentVariable.getName().replace("non-null", ""));
 		}
-		}
-		String globalVariables ="";
+		String globalVariables = "";
 		for (Field field : vars.getFields()) {
-			globalVariables += ("\t" + field.getVisibility().getName().toLowerCase() + " /*@spec_public@*/ " + field.getType() + " " + field.getName().replace("non-null ", "") + ";\n");
+			globalVariables += ("\t" + field.getVisibility().getName().toLowerCase() + " /*@spec_public@*/ "
+					+ field.getType() + " " + field.getName().replace("non-null ", "") + ";\n");
 		}
-		
+
 		URI uri = getDiagram().eResource().getURI();
 		String location = FileUtil.getProjectLocation(uri);
-		location += "/code-gen" + File.separator + (formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName()) + ".java";
-		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString, new String[0]);
-		writeFile(location, code, formula.getMethodObj() != null ? formula.getMethodObj().getParentClass().getPackage() : "", formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName(), signatureString, globalVariables);
+		location += "/code-gen" + File.separator
+				+ (formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName())
+				+ ".java";
+		String code = ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming,
+				localVariables, returnVariable, signatureString, new String[0]);
+		writeFile(location, code,
+				formula.getMethodObj() != null ? formula.getMethodObj().getParentClass().getPackage() : "",
+				formula.getClassName().equals("") ? ("Class" + formula.getName()) : formula.getClassName(),
+				signatureString, globalVariables);
 	}
 
-	private void writeFile(String location, String code, String packageName, String className,  String signature, String globalVariables) {
+	private void writeFile(String location, String code, String packageName, String className, String signature,
+			String globalVariables) {
 		StringBuffer newCode = new StringBuffer();
 		newCode.setLength(0);
 		File javaFile = new File(location);
@@ -108,21 +118,20 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 			FileWriter fw = new FileWriter(javaFile);
 			BufferedWriter bw = new BufferedWriter(fw);
 
-			if(newCode.length() == 0) {
+			if (newCode.length() == 0) {
 				if (packageName != null && !packageName.isEmpty()) {
 					bw.write("package " + packageName + "\n\n");
 				}
-				if(globalVariables.isEmpty())
-					bw.write("public class " + className + " {\n\n" + code + "\n}"); 
+				if (globalVariables.isEmpty())
+					bw.write("public class " + className + " {\n\n" + code + "\n}");
 				else {
 					bw.write("public class " + className + " {\n\n" + globalVariables + "\n" + code + "\n}");
 				}
-			}
-			else {
+			} else {
 				newCode.append("\n}");
 				bw.write(newCode.toString());
 			}
-			
+
 			bw.close();
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
 			IPath iLocation = Path.fromOSString(javaFile.getAbsolutePath());
@@ -133,5 +142,5 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-	}	
+	}
 }

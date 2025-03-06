@@ -12,21 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
-
-
+ */
 
 package src.mujava.gui.util;
 
 /**
- * <p>Template containing summary of class mutants generated</p>
+ * <p>
+ * Template containing summary of class mutants generated
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
-public class CMSummaryTableModel extends SummaryTableModel 
-{
-   private static final long serialVersionUID = 201L;
+ */
+public class CMSummaryTableModel extends SummaryTableModel {
+	private static final long serialVersionUID = 201L;
 
-   int getOperatorType() {    return CMO;    }
+	int getOperatorType() {
+		return CMO;
+	}
 }

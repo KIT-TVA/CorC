@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.exception;
 
 import java.io.PrintWriter;
@@ -24,43 +24,42 @@ import openjava.ptree.StatementList;
 import src.mujava.op.util.MutantCodeWriter;
 
 /**
- * <p>Description: </p>
+ * <p>
+ * Description:
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
-public class EHC_Writer extends MutantCodeWriter
-{
-  CatchBlock mutant = null;
-  String exception_name = "";
+public class EHC_Writer extends MutantCodeWriter {
+	CatchBlock mutant = null;
+	String exception_name = "";
 
-  public EHC_Writer( String file_name,PrintWriter out ) {
-	super(file_name,out);
-  }
+	public EHC_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-  public void setMutant(CatchBlock p,String mutated_name){
-    mutant = p;
-    exception_name = mutated_name;
-  }
+	public void setMutant(CatchBlock p, String mutated_name) {
+		mutant = p;
+		exception_name = mutated_name;
+	}
 
-
-  public void visit( CatchBlock p ) throws ParseTreeException
-  {
-    if(isSameObject(p,mutant)){
-        // -------------------------
-        mutated_line = line_num;
-        writeLog(" catch block for " +  p.getParameter().getTypeSpecifier().getName()+ " is deleted.");
-        // -------------------------
-        out.print( " catch " );
-        out.print( "( " );
-        Parameter param = p.getParameter();
-        out.print(exception_name + " " + param.getVariable());
-        out.print( " ) " );
-        StatementList stmts = p.getBody();
-	    writeStatementsBlock( stmts );
-    }else{
-      super.visit(p);
-    }
-  }
+	public void visit(CatchBlock p) throws ParseTreeException {
+		if (isSameObject(p, mutant)) {
+			// -------------------------
+			mutated_line = line_num;
+			writeLog(" catch block for " + p.getParameter().getTypeSpecifier().getName() + " is deleted.");
+			// -------------------------
+			out.print(" catch ");
+			out.print("( ");
+			Parameter param = p.getParameter();
+			out.print(exception_name + " " + param.getVariable());
+			out.print(" ) ");
+			StatementList stmts = p.getBody();
+			writeStatementsBlock(stmts);
+		} else {
+			super.visit(p);
+		}
+	}
 }
-

@@ -9,53 +9,48 @@ import java.io.Serializable;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
 enum Type {
-	BYTE,
-	SHORT,
-	INT,
-	LONG,
-	CHAR,
-	STRING,
-	BOOLEAN
+	BYTE, SHORT, INT, LONG, CHAR, STRING, BOOLEAN
 }
 
 public final class TestValues implements Serializable {
 	private static TestValues instance;
-    private static final long serialVersionUID = 1L;
-    private static final String filePath = System.getProperty("user.dir") + "/testdata.ser";
-    
-    private String byteStr;
-    private String shortStr;
-    private String intStr;
-    private String longStr;
-    private String charStr;
-    private String stringStr;
-    private String booleanStr;
-    
-    public static TestValues get() throws SettingsException {
-    	if (instance == null) {
-    		read();
-    	}
-    	return instance;
-    }
-    
-    public static void read() throws SettingsException {
-        try (FileInputStream fileIn = new FileInputStream(filePath);
-            ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
-        	instance = (TestValues)objectIn.readObject();
-        } catch (Exception e) {
-        	useDefaults();
-            //throw new SettingsException("Cannot read test values from '" + filePath + "'.");
-        }
-    }
-    
-    public static boolean canRead() {
-        try (FileInputStream fileIn = new FileInputStream(filePath);
-                ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
-                return true;
-            } catch (Exception e) {
-                return false;
-            }
-    }
+	private static final long serialVersionUID = 1L;
+	private static final String filePath = System.getProperty("user.dir") + "/testdata.ser";
+
+	private String byteStr;
+	private String shortStr;
+	private String intStr;
+	private String longStr;
+	private String charStr;
+	private String stringStr;
+	private String booleanStr;
+
+	public static TestValues get() throws SettingsException {
+		if (instance == null) {
+			read();
+		}
+		return instance;
+	}
+
+	public static void read() throws SettingsException {
+		try (FileInputStream fileIn = new FileInputStream(filePath);
+				ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
+			instance = (TestValues) objectIn.readObject();
+		} catch (Exception e) {
+			useDefaults();
+			// throw new SettingsException("Cannot read test values from '" + filePath +
+			// "'.");
+		}
+	}
+
+	public static boolean canRead() {
+		try (FileInputStream fileIn = new FileInputStream(filePath);
+				ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 	public static void useDefaults() {
 		instance = new TestValues();
@@ -69,32 +64,32 @@ public final class TestValues implements Serializable {
 		instance.save();
 	}
 
-    private TestValues() {
-    }
-    
-    public void save() {
-        try (FileOutputStream fileOut = new FileOutputStream(filePath);
-            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
-            objectOut.writeObject(instance);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public String[] getValues(String valueStr){
-    	var split = valueStr.split(",");
-    	String[] arr = new String[split.length];
-    	int i = 0;
-    	for (var val : split) {
-    		val = val.trim();
-    		if (val.equals("\\s")) {
-    			val = " ";
-    		}
-    		arr[i] = val;
-    		i++;
-    	}
-    	return arr;
-    }
+	private TestValues() {
+	}
+
+	public void save() {
+		try (FileOutputStream fileOut = new FileOutputStream(filePath);
+				ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
+			objectOut.writeObject(instance);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String[] getValues(String valueStr) {
+		var split = valueStr.split(",");
+		String[] arr = new String[split.length];
+		int i = 0;
+		for (var val : split) {
+			val = val.trim();
+			if (val.equals("\\s")) {
+				val = " ";
+			}
+			arr[i] = val;
+			i++;
+		}
+		return arr;
+	}
 
 	public String getByteStr() {
 		return instance.byteStr;
@@ -111,7 +106,7 @@ public final class TestValues implements Serializable {
 	public void setDefaultBooleanStr() {
 		instance.setBooleanStr("false, true");
 	}
-	
+
 	public void setDefaultByteStr() {
 		instance.setByteStr(Byte.MIN_VALUE + ", -1, 0, 1, " + Byte.MAX_VALUE);
 	}
@@ -203,7 +198,7 @@ public final class TestValues implements Serializable {
 			instance.booleanStr = booleanStr;
 		}
 	}
-	
+
 	private boolean checkBooleanInput(String input) {
 		String[] splitted = input.split("\\,");
 		for (var s : splitted) {
@@ -213,7 +208,7 @@ public final class TestValues implements Serializable {
 		}
 		return true;
 	}
-	
+
 	private boolean checkByteInput(String input) {
 		String[] splitted = input.split("\\,");
 		for (var s : splitted) {

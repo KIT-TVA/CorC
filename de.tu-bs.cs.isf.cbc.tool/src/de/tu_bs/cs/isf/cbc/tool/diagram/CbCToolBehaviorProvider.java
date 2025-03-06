@@ -51,8 +51,8 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 	 */
 	public CbCToolBehaviorProvider(IDiagramTypeProvider diagramTypeProvider) {
 		super(diagramTypeProvider);
-	}	
-	
+	}
+
 	@Override
 	public IContextButtonPadData getContextButtonPad(IPictogramElementContext context) {
 		IContextButtonPadData data = super.getContextButtonPad(context);
@@ -111,7 +111,7 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 		subMenuTest.setDescription("Test features submenu");
 		// display sub-menu hierarchical or flat
 		subMenuTest.setSubmenu(true);
-		
+
 		ContextMenuEntry subMenuVerify = new ContextMenuEntry(null, context);
 		subMenuVerify.setText("Verify");
 		subMenuVerify.setDescription("Verify features submenu");
@@ -142,7 +142,7 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 			}
 		}
 
-		IContextMenuEntry ret[] = new IContextMenuEntry[] { subMenuTest, subMenuVerify, subMenuPrint };
+		IContextMenuEntry ret[] = new IContextMenuEntry[]{subMenuTest, subMenuVerify, subMenuPrint};
 		return ret;
 	}
 
@@ -164,10 +164,10 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 		IFeatureProvider featureProvider = getFeatureProvider();
 		ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
 		for (ICreateFeature cf : createFeatures) {
-			ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry(cf.getCreateName(), cf.getCreateDescription(), cf.getCreateImageId(), cf.getCreateLargeImageId(), cf);
-			if (cf.getCreateName().contains("Variable")
-					|| cf.getCreateName().contains("Condition") || cf.getCreateName().contains("Renam")
-					|| cf.getCreateName().equals("ProductVariant")){
+			ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry(cf.getCreateName(),
+					cf.getCreateDescription(), cf.getCreateImageId(), cf.getCreateLargeImageId(), cf);
+			if (cf.getCreateName().contains("Variable") || cf.getCreateName().contains("Condition")
+					|| cf.getCreateName().contains("Renam") || cf.getCreateName().equals("ProductVariant")) {
 				compartmentOtherEntry.addToolEntry(objectCreationToolEntry);
 			} else if (!cf.getCreateName().contentEquals("RefinementList")) {
 				compartmentStatementEntry.addToolEntry(objectCreationToolEntry);
@@ -198,10 +198,12 @@ public class CbCToolBehaviorProvider extends DefaultToolBehaviorProvider impleme
 		} else if (bo instanceof CbCFormula) {
 			String comment = ((CbCFormula) bo).getComment();
 			CbCFormula domainObject = (CbCFormula) bo;
-			if (domainObject.getMethodObj() != null && domainObject.getMethodObj().getParentClass() != null && domainObject.getMethodObj().getParentClass().getInheritsFrom() != null) {
+			if (domainObject.getMethodObj() != null && domainObject.getMethodObj().getParentClass() != null
+					&& domainObject.getMethodObj().getParentClass().getInheritsFrom() != null) {
 				for (Method m : domainObject.getMethodObj().getParentClass().getInheritsFrom().getMethods()) {
 					if (m.getCbcStartTriple().getName().equals(domainObject.getName())) {
-						comment = "This method has a super implementation. See properties view for more information." + (comment == null ? "" : (" // " + comment));
+						comment = "This method has a super implementation. See properties view for more information."
+								+ (comment == null ? "" : (" // " + comment));
 					}
 				}
 			}

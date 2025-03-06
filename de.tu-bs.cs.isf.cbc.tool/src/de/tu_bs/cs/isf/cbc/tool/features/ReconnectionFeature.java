@@ -22,6 +22,7 @@ import de.tu_bs.cs.isf.lattice.Lattices;
 
 /**
  * Class thats does reconnections
+ * 
  * @author Tobias
  *
  */
@@ -29,7 +30,9 @@ public class ReconnectionFeature extends DefaultReconnectionFeature {
 
 	/**
 	 * Costructor of the class
-	 * @param fp	The FeatureProvider
+	 * 
+	 * @param fp
+	 *            The FeatureProvider
 	 */
 	public ReconnectionFeature(IFeatureProvider fp) {
 		super(fp);
@@ -58,7 +61,7 @@ public class ReconnectionFeature extends DefaultReconnectionFeature {
 			if (sourceDomainObject instanceof AbstractStatement && targetDomainObject instanceof AbstractStatement) {
 				AbstractStatement targetStatement = (AbstractStatement) targetDomainObject;
 				AbstractStatement sourceStatement = (AbstractStatement) sourceDomainObject;
-				
+
 				if (checkLoop(sourceStatement, targetStatement)) {
 					return false;
 				}
@@ -67,10 +70,12 @@ public class ReconnectionFeature extends DefaultReconnectionFeature {
 						return false;
 					}
 					if (sourceStatement.getClass().equals(AbstractStatementImpl.class)) {
-						if (sourceStatement.eContainer() != null && !sourceStatement.eContainer().getClass().equals(AbstractStatementImpl.class)) {
+						if (sourceStatement.eContainer() != null
+								&& !sourceStatement.eContainer().getClass().equals(AbstractStatementImpl.class)) {
 							return true;
 						}
-					} else if (sourceStatement instanceof StrengthWeakStatement && !(sourceAnchor.getParent() instanceof ContainerShape)) {
+					} else if (sourceStatement instanceof StrengthWeakStatement
+							&& !(sourceAnchor.getParent() instanceof ContainerShape)) {
 						return true;
 					}
 				} else {
@@ -88,7 +93,7 @@ public class ReconnectionFeature extends DefaultReconnectionFeature {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void postReconnect(IReconnectionContext context) {
 		Connection connection = context.getConnection();
@@ -106,12 +111,13 @@ public class ReconnectionFeature extends DefaultReconnectionFeature {
 		} else {
 			sourceObject = (AbstractStatement) getBusinessObjectForPictogramElement(sourceAnchor.getParent());
 		}
-		AbstractStatement targetObject = (AbstractStatement) getBusinessObjectForPictogramElement(targetAnchor.getParent());
-		
+		AbstractStatement targetObject = (AbstractStatement) getBusinessObjectForPictogramElement(
+				targetAnchor.getParent());
+
 		sourceObject.setRefinement(targetObject);
 		UpdateConditionsOfChildren.updateRefinedStatement(sourceObject, targetObject);
-		
-		//Start of IFbC
+
+		// Start of IFbC
 		final IProject project = GetProjectUtil.getProjectForDiagram(getDiagram());
 		final Lattice lattice = Lattices.getLatticeForProject(project);
 		if (lattice != null) {
@@ -126,9 +132,12 @@ public class ReconnectionFeature extends DefaultReconnectionFeature {
 
 	/**
 	 * checks if the connection creates a loop in the taxonomy
-	 * @param sourceStatement	the source statement of the connection
-	 * @param targetStatement	the target statement of the connection
-	 * @return	boolean if the connection creates a loop
+	 * 
+	 * @param sourceStatement
+	 *            the source statement of the connection
+	 * @param targetStatement
+	 *            the target statement of the connection
+	 * @return boolean if the connection creates a loop
 	 */
 	private boolean checkLoop(AbstractStatement sourceStatement, AbstractStatement targetStatement) {
 		boolean isParent = false;

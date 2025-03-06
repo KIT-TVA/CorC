@@ -41,6 +41,7 @@ import de.tu_bs.cs.isf.cbc.tool.helper.HighlightHelper;
 
 /**
  * Class that creates the graphical representation of Conditions
+ * 
  * @author Tobias
  *
  */
@@ -57,23 +58,22 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 	private static final String ID_POST_TEXT = "postNameText";
 	private static final String ID_POST_MOD = "postConditionModifiables";
 	private static final String ID_IMAGE_PROVEN = "imageproven";
-	//Headers:
+	// Headers:
 	private static final String ID_VARIANT_HEADER = "variantHeader";
 	private static final String ID_INVARIANT_HEADER = "invariantHeader";
 	private static final String ID_GUARD_HEADER = "guardHeader";
 	private static final String ID_LOOP_HEADER = "loopHeader";
 	private static final String ID_PRE_HEADER = "preHeader";
 	private static final String ID_POST_HEADER = "postHeader";
-	//lines:
+	// lines:
 	private static final String ID_HOR1_SEP = "hor1SEP"; // HOR = horizontal
 	private static final String ID_HOR2_SEP = "hor2SEP";
 	private static final String ID_HOR3_SEP = "hor3SEP";
 	private static final String ID_HOR4_SEP = "hor4SEP";
 	private static final String ID_HOR5_SEP = "hor5SEP";
 	private static final String ID_HOR6_SEP = "hor6SEP";
-	private static final String ID_VER1_SEP = "ver1SEP"; //VER = vertical
+	private static final String ID_VER1_SEP = "ver1SEP"; // VER = vertical
 	private static final String ID_VER2_SEP = "ver2SEP";
-
 
 	/**
 	 * Constructor of the class
@@ -81,12 +81,12 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 	public SmallRepetitionPattern() {
 		super();
 	}
-	
+
 	@Override
 	public String getCreateName() {
 		return "RepetitionStatement";
 	}
-	
+
 	@Override
 	public String getCreateDescription() {
 		return "Create a RepetitionStatement with the loop statement.";
@@ -101,7 +101,7 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 	public boolean canCreate(ICreateContext context) {
 		return context.getTargetContainer() instanceof Diagram;
 	}
-	
+
 	@Override
 	public Object[] create(ICreateContext context) {
 		SmallRepetitionStatement repetitionStatement = CbcmodelFactory.eINSTANCE.createSmallRepetitionStatement();
@@ -118,23 +118,23 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 		Variant variant = CbcmodelFactory.eINSTANCE.createVariant();
 		variant.setName("variant");
 		repetitionStatement.setVariant(variant);
-		
+
 		Condition pre = CbcmodelFactory.eINSTANCE.createCondition();
 		pre.setName("");
 		statement.setPreCondition(pre);
 		Condition post = CbcmodelFactory.eINSTANCE.createCondition();
 		post.setName("");
 		statement.setPostCondition(post);
-		
+
 		Condition preRep = CbcmodelFactory.eINSTANCE.createCondition();
 		preRep.setName("");
 		repetitionStatement.setPreCondition(preRep);
 		Condition postRep = CbcmodelFactory.eINSTANCE.createCondition();
 		postRep.setName("");
 		repetitionStatement.setPostCondition(postRep);
-		
+
 		addGraphicalRepresentation(context, repetitionStatement);
-		return new Object[] { repetitionStatement };
+		return new Object[]{repetitionStatement};
 	}
 
 	@Override
@@ -153,10 +153,10 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 		IGaService gaService = Graphiti.getGaService();
 
 		int width = context.getWidth() <= 0 ? 450 : context.getWidth();
-        int height = context.getHeight() <= 0 ? 350 : context.getHeight();
-        //Font:
-        Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
-        
+		int height = context.getHeight() <= 0 ? 350 : context.getHeight();
+		// Font:
+		Font headerFont = gaService.manageFont(getDiagram(), "Arial", 9, false, true);
+
 		// Main contents area
 		ContainerShape outerContainerShape = peCreateService.createContainerShape(targetDiagram, true);
 		RoundedRectangle mainRectangle = gaService.createRoundedRectangle(outerContainerShape, 20, 20);
@@ -165,54 +165,54 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 		mainRectangle.setForeground(manageColor(IColorConstant.RED));
 		mainRectangle.setLineWidth(2);
 		setId(mainRectangle, ID_MAIN_RECTANGLE);
-		gaService.setLocationAndSize(mainRectangle,
-	            context.getX(), context.getY(), width, height);
+		gaService.setLocationAndSize(mainRectangle, context.getX(), context.getY(), width, height);
 
-        // create link and wire it
-        link(outerContainerShape, addedStatement);
+		// create link and wire it
+		link(outerContainerShape, addedStatement);
 
 		// Statement name
-        Shape textShapeStatement1 = peCreateService.createShape(outerContainerShape, true);
+		Shape textShapeStatement1 = peCreateService.createShape(outerContainerShape, true);
 		MultiText statement1Text = gaService.createMultiText(textShapeStatement1, "");
 		setId(statement1Text, ID_STATEMENT_TEXT);
 		statement1Text.setValue(addedStatement.getLoopStatement().getName());
 		statement1Text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		statement1Text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		
+
 		Shape textShapeCondition = peCreateService.createShape(outerContainerShape, true);
 		MultiText conditionText = gaService.createMultiText(textShapeCondition, "");
 		setId(conditionText, ID_CONDITION_TEXT);
 		conditionText.setValue(addedStatement.getGuard().getName());
 		conditionText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		conditionText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		
+
 		Shape textShapeInvariant = peCreateService.createShape(outerContainerShape, true);
 		MultiText invariantText = gaService.createMultiText(textShapeInvariant, "");
 		setId(invariantText, ID_INVARIANT_TEXT);
 		invariantText.setValue(addedStatement.getInvariant().getName());
 		invariantText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		invariantText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		
+
 		Shape textShapeVariant = peCreateService.createShape(outerContainerShape, true);
 		MultiText variantText = gaService.createMultiText(textShapeVariant, "");
 		setId(variantText, ID_VARIANT_TEXT);
 		variantText.setValue(addedStatement.getVariant().getName());
 		variantText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		variantText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		
+
 		Shape textShapeName = peCreateService.createShape(outerContainerShape, false);
 		MultiText nameText = gaService.createMultiText(textShapeName, "RepetitionStatement DO...OD");
 		setId(nameText, ID_NAME_TEXT);
 		nameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		nameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		nameText.setFont(headerFont);
-		
+
 		Shape pre1Shape = peCreateService.createShape(outerContainerShape, false);
-		MultiText pre1NameText = gaService.createMultiText(pre1Shape, "{" + addedStatement.getLoopStatement().getPreCondition().getName() + "}");
+		MultiText pre1NameText = gaService.createMultiText(pre1Shape,
+				"{" + addedStatement.getLoopStatement().getPreCondition().getName() + "}");
 		setId(pre1NameText, ID_PRE_TEXT);
 		pre1NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		pre1NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		
+
 		Shape textShapePreConditionMod = peCreateService.createShape(outerContainerShape, true);
 		MultiText preConditionTextMod = gaService.createMultiText(textShapePreConditionMod, "");
 		setId(preConditionTextMod, ID_PRE_MOD);
@@ -220,16 +220,18 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 		for (String s : addedStatement.getPreCondition().getModifiables()) {
 			modString += s + ", ";
 		}
-		preConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+		preConditionTextMod.setValue(
+				"modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
 		preConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		preConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 
 		Shape post1Shape = peCreateService.createShape(outerContainerShape, false);
-		MultiText post1NameText = gaService.createMultiText(post1Shape, "{" + addedStatement.getLoopStatement().getPostCondition().getName() + "}");
+		MultiText post1NameText = gaService.createMultiText(post1Shape,
+				"{" + addedStatement.getLoopStatement().getPostCondition().getName() + "}");
 		setId(post1NameText, ID_POST_TEXT);
 		post1NameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		post1NameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		
+
 		Shape textShapePostConditionMod = peCreateService.createShape(outerContainerShape, true);
 		MultiText postConditionTextMod = gaService.createMultiText(textShapePostConditionMod, "");
 		setId(postConditionTextMod, ID_POST_MOD);
@@ -237,88 +239,89 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 		for (String s : addedStatement.getPostCondition().getModifiables()) {
 			modString += s + ", ";
 		}
-		postConditionTextMod.setValue("modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
+		postConditionTextMod.setValue(
+				"modifiable(" + (modString.equals("") ? "" : modString.substring(0, modString.length() - 2)) + ");");
 		postConditionTextMod.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		postConditionTextMod.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-		
+
 		Shape proveShape = peCreateService.createShape(outerContainerShape, false);
 		Image image = gaService.createImage(proveShape, CbCImageProvider.IMG_UNPROVEN);
 		setId(image, ID_IMAGE_PROVEN);
-		//HEADER:
+		// HEADER:
 		Shape variantHeader = peCreateService.createShape(outerContainerShape, false);
 		Text variantNameHeader = gaService.createText(variantHeader, "variant");
 		setId(variantNameHeader, ID_VARIANT_HEADER);
 		variantNameHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		variantNameHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		variantNameHeader.setFont(headerFont);
-		
+
 		Shape invariantHeader = peCreateService.createShape(outerContainerShape, false);
 		Text invariantNameHeader = gaService.createText(invariantHeader, "invariant");
 		setId(invariantNameHeader, ID_INVARIANT_HEADER);
 		invariantNameHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		invariantNameHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		invariantNameHeader.setFont(headerFont);
-		
+
 		Shape guardHeader = peCreateService.createShape(outerContainerShape, false);
 		Text guardNameHeader = gaService.createText(guardHeader, "guard");
 		setId(guardNameHeader, ID_GUARD_HEADER);
 		guardNameHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		guardNameHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		guardNameHeader.setFont(headerFont);
-		
+
 		Shape loopHeader = peCreateService.createShape(outerContainerShape, false);
 		Text loopNameHeader = gaService.createText(loopHeader, "loop statement");
 		setId(loopNameHeader, ID_LOOP_HEADER);
 		loopNameHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		loopNameHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		loopNameHeader.setFont(headerFont);
-		
+
 		Shape postHeader = peCreateService.createShape(outerContainerShape, false);
 		Text postNameHeader = gaService.createText(postHeader, "postcondition");
 		setId(postNameHeader, ID_POST_HEADER);
 		postNameHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		postNameHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		postNameHeader.setFont(headerFont);
-		
+
 		Shape preHeader = peCreateService.createShape(outerContainerShape, false);
 		Text preNameHeader = gaService.createText(preHeader, "precondition");
 		setId(preNameHeader, ID_PRE_HEADER);
 		preNameHeader.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		preNameHeader.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 		preNameHeader.setFont(headerFont);
-		//lines:
+		// lines:
 		Shape ver1Shape = peCreateService.createShape(outerContainerShape, false);
 		Polyline ver1line = gaService.createPolyline(ver1Shape);
 		setId(ver1line, ID_VER1_SEP);
-		
+
 		Shape ver2Shape = peCreateService.createShape(outerContainerShape, false);
 		Polyline ver2line = gaService.createPolyline(ver2Shape);
 		setId(ver2line, ID_VER2_SEP);
-		
+
 		Shape hor1Shape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor1line = gaService.createPolyline(hor1Shape);
 		setId(hor1line, ID_HOR1_SEP);
-		
+
 		Shape hor2Shape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor2line = gaService.createPolyline(hor2Shape);
 		setId(hor2line, ID_HOR2_SEP);
-		
+
 		Shape hor3Shape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor3line = gaService.createPolyline(hor3Shape);
 		setId(hor3line, ID_HOR3_SEP);
-		
+
 		Shape hor4Shape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor4line = gaService.createPolyline(hor4Shape);
 		setId(hor4line, ID_HOR4_SEP);
-		
+
 		Shape hor5Shape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor5line = gaService.createPolyline(hor5Shape);
 		setId(hor5line, ID_HOR5_SEP);
-		
+
 		Shape hor6Shape = peCreateService.createShape(outerContainerShape, false);
 		Polyline hor6line = gaService.createPolyline(hor6Shape);
 		setId(hor6line, ID_HOR6_SEP);
-		
+
 		peCreateService.createChopboxAnchor(textShapeStatement1);
 		peCreateService.createChopboxAnchor(outerContainerShape);
 
@@ -339,7 +342,7 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 	@Override
 	protected boolean layout(IdLayoutContext context, String id) {
 		boolean changesDone = false;
-		
+
 		GraphicsAlgorithm mainRectangle = context.getRootPictogramElement().getGraphicsAlgorithm();
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		int thirdWidth = mainRectangle.getWidth() / 3;
@@ -347,9 +350,13 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 		int sizeHeader = 20;
 		int sizeBlockUpper = ((mainRectangle.getHeight() - sizeName) / 3) - sizeHeader;
 		int sizeBlockLower = ((mainRectangle.getHeight() - sizeName) / 3) * 2 - sizeHeader;
-		int positionFirstLine = mainRectangle.getHeight() - (mainRectangle.getHeight() - sizeName ) + 20; // +20 for some space between Name and Header
-		int positionSecondLine = mainRectangle.getHeight() - ((mainRectangle.getHeight() - sizeName ) / 3) * 2 + 20;
-		
+		int positionFirstLine = mainRectangle.getHeight() - (mainRectangle.getHeight() - sizeName) + 20; // +20 for some
+																											// space
+																											// between
+																											// Name and
+																											// Header
+		int positionSecondLine = mainRectangle.getHeight() - ((mainRectangle.getHeight() - sizeName) / 3) * 2 + 20;
+
 		if (id.equals(ID_NAME_TEXT)) {
 			Graphiti.getGaService().setLocationAndSize(ga, 0, 0, mainRectangle.getWidth(), sizeName);
 			changesDone = true;
@@ -360,141 +367,153 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth, positionFirstLine, thirdWidth, sizeBlockUpper);
 			changesDone = true;
 		} else if (id.equals(ID_VARIANT_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, positionFirstLine, thirdWidth, sizeBlockUpper);
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, positionFirstLine, thirdWidth,
+					sizeBlockUpper);
 			changesDone = true;
 		} else if (id.equals(ID_STATEMENT_TEXT)) {
 			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth, positionSecondLine, thirdWidth, sizeBlockLower);
 			changesDone = true;
 		} else if (id.equals(ID_PRE_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, 0, positionSecondLine + sizeBlockLower/3, thirdWidth, (sizeBlockLower/3)*2);
+			Graphiti.getGaService().setLocationAndSize(ga, 0, positionSecondLine + sizeBlockLower / 3, thirdWidth,
+					(sizeBlockLower / 3) * 2);
 			changesDone = true;
 		} else if (id.equals(ID_PRE_MOD)) {
-			Graphiti.getGaService().setLocationAndSize(ga, 0, positionSecondLine, thirdWidth, sizeBlockLower/3);
+			Graphiti.getGaService().setLocationAndSize(ga, 0, positionSecondLine, thirdWidth, sizeBlockLower / 3);
 			changesDone = true;
 		} else if (id.equals(ID_POST_TEXT)) {
-			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, positionSecondLine + sizeBlockLower/3, thirdWidth, (sizeBlockLower/3)*2);
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, positionSecondLine + sizeBlockLower / 3,
+					thirdWidth, (sizeBlockLower / 3) * 2);
 			changesDone = true;
 		} else if (id.equals(ID_POST_MOD)) {
-			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, positionSecondLine, thirdWidth, sizeBlockLower/3);
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, positionSecondLine, thirdWidth,
+					sizeBlockLower / 3);
 			changesDone = true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			Graphiti.getGaService().setLocationAndSize(ga, mainRectangle.getWidth() - 20, 10, 10, 10);
 			changesDone = true;
-		//HEADERS:
+			// HEADERS:
 		} else if (id.equals(ID_VARIANT_HEADER)) {
-			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, positionFirstLine - sizeHeader, thirdWidth, sizeHeader);
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, positionFirstLine - sizeHeader, thirdWidth,
+					sizeHeader);
 			changesDone = true;
 		} else if (id.equals(ID_INVARIANT_HEADER)) {
 			Graphiti.getGaService().setLocationAndSize(ga, 0, positionFirstLine - sizeHeader, thirdWidth, sizeHeader);
 			changesDone = true;
 		} else if (id.equals(ID_GUARD_HEADER)) {
-			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth, positionFirstLine - sizeHeader, thirdWidth, sizeHeader);
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth, positionFirstLine - sizeHeader, thirdWidth,
+					sizeHeader);
 			changesDone = true;
 		} else if (id.equals(ID_LOOP_HEADER)) {
-			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth, positionSecondLine - sizeHeader, thirdWidth, sizeHeader);
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth, positionSecondLine - sizeHeader, thirdWidth,
+					sizeHeader);
 			changesDone = true;
 		} else if (id.equals(ID_PRE_HEADER)) {
 			Graphiti.getGaService().setLocationAndSize(ga, 0, positionSecondLine - sizeHeader, thirdWidth, sizeHeader);
 			changesDone = true;
 		} else if (id.equals(ID_POST_HEADER)) {
-			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, positionSecondLine - sizeHeader, thirdWidth, sizeHeader);
+			Graphiti.getGaService().setLocationAndSize(ga, thirdWidth * 2, positionSecondLine - sizeHeader, thirdWidth,
+					sizeHeader);
 			changesDone = true;
-		//lines:
+			// lines:
 		} else if (id.equals(ID_HOR1_SEP)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService().createPointList(
-					new int[] { 0, positionFirstLine, mainRectangle.getWidth(), positionFirstLine });
+			List<Point> pointList = Graphiti.getGaService()
+					.createPointList(new int[]{0, positionFirstLine, mainRectangle.getWidth(), positionFirstLine});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR2_SEP)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService().createPointList(
-					new int[] { 0, positionFirstLine -sizeHeader, mainRectangle.getWidth(), positionFirstLine - sizeHeader});
+			List<Point> pointList = Graphiti.getGaService().createPointList(new int[]{0, positionFirstLine - sizeHeader,
+					mainRectangle.getWidth(), positionFirstLine - sizeHeader});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR3_SEP)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService().createPointList(
-					new int[] { 0, positionSecondLine - sizeHeader, mainRectangle.getWidth(), positionSecondLine - sizeHeader});
+			List<Point> pointList = Graphiti.getGaService().createPointList(new int[]{0,
+					positionSecondLine - sizeHeader, mainRectangle.getWidth(), positionSecondLine - sizeHeader});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR4_SEP)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService().createPointList(
-					new int[] { 0, positionSecondLine, mainRectangle.getWidth(), positionSecondLine });
+			List<Point> pointList = Graphiti.getGaService()
+					.createPointList(new int[]{0, positionSecondLine, mainRectangle.getWidth(), positionSecondLine});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR5_SEP)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService().createPointList(
-					new int[] { 0, positionSecondLine + sizeBlockLower/3, thirdWidth, positionSecondLine + sizeBlockLower/3 });
+			List<Point> pointList = Graphiti.getGaService().createPointList(new int[]{0,
+					positionSecondLine + sizeBlockLower / 3, thirdWidth, positionSecondLine + sizeBlockLower / 3});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_HOR6_SEP)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService().createPointList(
-					new int[] { thirdWidth*2, positionSecondLine + sizeBlockLower/3, mainRectangle.getWidth(), positionSecondLine + sizeBlockLower/3 });
+			List<Point> pointList = Graphiti.getGaService()
+					.createPointList(new int[]{thirdWidth * 2, positionSecondLine + sizeBlockLower / 3,
+							mainRectangle.getWidth(), positionSecondLine + sizeBlockLower / 3});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_VER1_SEP)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService().createPointList(
-					new int[] { thirdWidth, positionFirstLine - sizeHeader, thirdWidth, mainRectangle.getHeight() });
+					new int[]{thirdWidth, positionFirstLine - sizeHeader, thirdWidth, mainRectangle.getHeight()});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		} else if (id.equals(ID_VER2_SEP)) {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
-			List<Point> pointList = Graphiti.getGaService().createPointList(
-					new int[] { thirdWidth * 2, positionFirstLine - sizeHeader, thirdWidth * 2, mainRectangle.getHeight() });
+			List<Point> pointList = Graphiti.getGaService().createPointList(new int[]{thirdWidth * 2,
+					positionFirstLine - sizeHeader, thirdWidth * 2, mainRectangle.getHeight()});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
-		} 
+		}
 
 		return changesDone;
 	}
-	
+
 	@Override
 	protected IReason updateNeeded(IdUpdateContext context, String id) {
 		if (id.equals(ID_VARIANT_TEXT)) {
 			MultiText nameText = (MultiText) context.getGraphicsAlgorithm();
 			Variant domainObject = (Variant) context.getDomainObject();
 			if (domainObject.getName() == null || !domainObject.getName().equals(nameText.getValue())) {
-			return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getName() + "'");
+				return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getName() + "'");
 			}
 		} else if (id.equals(ID_MAIN_RECTANGLE)) {
 			RoundedRectangle rectangle = (RoundedRectangle) context.getGraphicsAlgorithm();
 			SmallRepetitionStatement domainObject = (SmallRepetitionStatement) context.getDomainObject();
-			if (checkIsProven(domainObject) &&
-					((rectangle.getForeground() != null && !rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN))) 
-							|| rectangle.getForeground() == null)) {
+			if (checkIsProven(domainObject) && ((rectangle.getForeground() != null
+					&& !rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN)))
+					|| rectangle.getForeground() == null)) {
 				return Reason.createTrueReason("Statement is proven. Expected green color.");
-			} else if (!domainObject.isProven() && domainObject.isTested() &&
-					((rectangle.getForeground() != null && !rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE))) 
+			} else if (!domainObject.isProven() && domainObject.isTested()
+					&& ((rectangle.getForeground() != null
+							&& !rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE)))
 							|| rectangle.getForeground() == null)) {
 				return Reason.createTrueReason("Statement is tested. Expected orange color.");
-			} else if (!checkIsProven(domainObject) && !domainObject.isTested() && 
-					((rectangle.getForeground() != null && (rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN)) || rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE)))) 
+			} else if (!checkIsProven(domainObject) && !domainObject.isTested()
+					&& ((rectangle.getForeground() != null
+							&& (rectangle.getForeground().equals(manageColor(IColorConstant.DARK_GREEN))
+									|| rectangle.getForeground().equals(manageColor(IColorConstant.LIGHT_ORANGE))))
 							|| rectangle.getForeground() == null)) {
 				return Reason.createTrueReason("Statement is not proven. Expected red color.");
-			}  
+			}
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			SmallRepetitionStatement domainObject = (SmallRepetitionStatement) context.getDomainObject();
-			 Image image = (Image) context.getGraphicsAlgorithm();
+			Image image = (Image) context.getGraphicsAlgorithm();
 			if (checkIsProven(domainObject) && image.getId().equals(CbCImageProvider.IMG_UNPROVEN)) {
 				return Reason.createTrueReason("Statement is proven. Expected green color.");
 			} else if (!checkIsProven(domainObject) && image.getId().equals(CbCImageProvider.IMG_PROVEN)) {
 				return Reason.createTrueReason("Statement is not proven. Expected red color.");
-			} 
+			}
 		}
-		if(HighlightHelper.instance.needsInitialHighlightUpdate(context)) {
+		if (HighlightHelper.instance.needsInitialHighlightUpdate(context)) {
 			return Reason.createTrueReason("Element needs to be highlighted.");
 		}
 		return Reason.createFalseReason();
@@ -517,7 +536,7 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 			} else if (domainObject.isTested()) {
 				domainObject.setTested(true);
 				rectangle.setForeground(manageColor(IColorConstant.LIGHT_ORANGE));
-				updateParent(domainObject);		
+				updateParent(domainObject);
 			} else {
 				domainObject.setProven(false);
 				domainObject.setTested(false);
@@ -529,16 +548,16 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 			return true;
 		} else if (id.equals(ID_IMAGE_PROVEN)) {
 			SmallRepetitionStatement domainObject = (SmallRepetitionStatement) context.getDomainObject();
-			 Image image = (Image) context.getGraphicsAlgorithm();
+			Image image = (Image) context.getGraphicsAlgorithm();
 			if (checkIsProven(domainObject)) {
 				image.setId(CbCImageProvider.IMG_PROVEN);
 			} else {
 				image.setId(CbCImageProvider.IMG_UNPROVEN);
-			} 
+			}
 		}
 		return false;
 	}
-		
+
 	private boolean checkIsProven(SmallRepetitionStatement statement) {
 		AbstractStatement loopStatement = statement.getLoopStatement();
 		AbstractStatement firstStatementToCheck = null;
@@ -547,23 +566,24 @@ public class SmallRepetitionPattern extends IdPattern implements IPattern {
 		} else {
 			firstStatementToCheck = loopStatement;
 		}
-		if (firstStatementToCheck.isProven() && statement.isPreProven() && statement.isPostProven() && statement.isVariantProven()) {
+		if (firstStatementToCheck.isProven() && statement.isPreProven() && statement.isPostProven()
+				&& statement.isVariantProven()) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	private void updateParent(AbstractStatement statement) {
-		if(statement.getParent()!= null) {
+		if (statement.getParent() != null) {
 			IPeService pe = Graphiti.getPeService();
 			EObject[] objArray = {statement.getParent()};
-			Object[] obj =  pe.getLinkedPictogramElements(objArray, getDiagram());
+			Object[] obj = pe.getLinkedPictogramElements(objArray, getDiagram());
 			if (obj.length > 0) {
 				Shape pElement = (Shape) obj[0];
-				if (pElement.getContainer() != null) updatePictogramElement(pElement.getContainer());
+				if (pElement.getContainer() != null)
+					updatePictogramElement(pElement.getContainer());
 			}
 		}
 	}
 }
-

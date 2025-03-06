@@ -28,11 +28,12 @@ public class LatticeParseJob extends Job {
 		}
 		final IFile file = latticeFolder.getFile(Lattice.LATTICE_DOT);
 		if (file == null || !file.exists()) {
-			return new Status(IStatus.ERROR, "de.tu_bs.cs.isf.lattice", "No lattice file " + Lattice.LATTICE_DOT + " present.");
+			return new Status(IStatus.ERROR, "de.tu_bs.cs.isf.lattice",
+					"No lattice file " + Lattice.LATTICE_DOT + " present.");
 		}
-		
+
 		Lattices.addLatticeForProject(project, file);
-		
+
 		return Status.OK_STATUS;
 	}
 

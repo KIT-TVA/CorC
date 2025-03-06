@@ -39,21 +39,21 @@ public class GenerateHandler extends AbstractHandler implements IHandler {
 			if (!iFile.getFileExtension().equals("cbcmodel")) {
 				throw new ExecutionException("Select exactly one cbcmodel which should be transformed.");
 			}
-			
+
 			CbcmodelPackage.eINSTANCE.eClass();
 			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 			Map<String, Object> m = reg.getExtensionToFactoryMap();
 			m.put("cbcmodel", new XMIResourceFactoryImpl());
-			
+
 			ResourceSet rs = new ResourceSetImpl();
 			URI uri = URI.createFileURI(iFile.getLocation().toPortableString());
 			Resource oldResource = rs.getResource(uri, true);
 			CbCProblem problem = (CbCProblem) oldResource.getContents().get(0);
 			CbCFormula formula = TraverseFormulaAndTransform.traverseFormulaAndTransform(problem.getCbcformula());
 			problem.setCbcformula(formula);
-			
+
 			uri = uri.trimFileExtension();
-			String lastSegment =  uri.segment(uri.segmentCount() - 1);
+			String lastSegment = uri.segment(uri.segmentCount() - 1);
 			uri = uri.trimSegments(1);
 			uri = uri.appendSegment(lastSegment + "Graphical");
 			uri = uri.appendFileExtension("cbcmodel");
@@ -62,13 +62,13 @@ public class GenerateHandler extends AbstractHandler implements IHandler {
 			if (problem.getJavaVariable() != null)
 				newResource.getContents().add(problem.getJavaVariable());
 			if (problem.getGlobalcondition() != null)
-			newResource.getContents().add(problem.getGlobalcondition());
+				newResource.getContents().add(problem.getGlobalcondition());
 			if (problem.getRenaming() != null)
-			newResource.getContents().add(problem.getRenaming());
-			
+				newResource.getContents().add(problem.getRenaming());
+
 			GenerateDiagramFromModel generator = new GenerateDiagramFromModel();
 			generator.execute(newResource);
-			
+
 			try {
 				newResource.save(Collections.EMPTY_MAP);
 				newResource.setTrackingModification(true);

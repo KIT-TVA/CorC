@@ -27,7 +27,7 @@ public class MergeTree {
 				if (edgeEnds.get(i) == null) {
 					edgeEnds.set(i, new ArrayList<Integer>());
 				}
-				edgeEnds.get(i).add(strLens.get(i) / (2 * strLens.size()) + j * strLens.size()); 
+				edgeEnds.get(i).add(strLens.get(i) / (2 * strLens.size()) + j * strLens.size());
 			}
 			i++;
 		}
@@ -47,8 +47,8 @@ public class MergeTree {
 		for (i = 1; i < this.heights.size(); i++) {
 			int j = 0;
 			for (final var v : this.heights.get(i)) {
-				int position = getParentPosition(v, i-1);
-				int b = edgeEnds.get(i-1).get(position);
+				int position = getParentPosition(v, i - 1);
+				int b = edgeEnds.get(i - 1).get(position);
 				m.put(v, new Edge(b, edgeEnds.get(i).get(j)));
 				j++;
 			}
@@ -57,14 +57,14 @@ public class MergeTree {
 		for (final var v : getDistinctRefinements()) {
 			int h = getHeight(v);
 			for (i = 0; i < h; i++) {
-				//lines.set(i, new HeightString(
+				// lines.set(i, new HeightString(
 			}
 		}
 	}
-	
+
 	private int getHeight(final Vertex v) {
 		int i = -1;
-		
+
 		for (final var h : heights) {
 			for (final var r : h) {
 				if (r.equals(v)) {
@@ -75,7 +75,7 @@ public class MergeTree {
 		}
 		return -1;
 	}
-	
+
 	private List<Vertex> getDistinctRefinements() {
 		final var distinctRefinements = new ArrayList<Vertex>();
 		for (final var h : heights) {
@@ -96,7 +96,7 @@ public class MergeTree {
 		}
 		return -1;
 	}
-	
+
 	private int maxLen(final List<Integer> lengths) {
 		int max = -1;
 		for (var len : lengths) {
@@ -106,7 +106,7 @@ public class MergeTree {
 		}
 		return max;
 	}
-	
+
 	private int maxWordLen(final List<Vertex> height) {
 		int max = -1;
 		for (Vertex v : height) {
@@ -116,7 +116,7 @@ public class MergeTree {
 		}
 		return max;
 	}
-	
+
 	private void constructTreeHeights(final List<Path> paths) {
 		var height = findLeafHeight(paths);
 		for (int h = 0; h < height; h++) {
@@ -130,7 +130,7 @@ public class MergeTree {
 			}
 		}
 	}
-	
+
 	private int findLeafHeight(final List<Path> paths) {
 		int max = -1;
 		for (final var path : paths) {
@@ -140,5 +140,5 @@ public class MergeTree {
 		}
 		return max;
 	}
-	
+
 }

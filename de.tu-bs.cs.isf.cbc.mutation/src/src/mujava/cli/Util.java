@@ -12,9 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
-
+ */
 
 package src.mujava.cli;
 
@@ -34,58 +32,52 @@ import org.apache.commons.io.IOUtils;
  * @version 1.0
  * 
  */
-public class Util
-{
+public class Util {
 	public static int Total = 0;
 	public static boolean debug = false;
-	
-    //all mutants in a class  	
+
+	// all mutants in a class
 	public static Vector mutants = new Vector();
-	//killed mutants in a class
+	// killed mutants in a class
 	public static Vector killed_mutants = new Vector();
-	//live mutants in a class
+	// live mutants in a class
 	public static Vector live_mutants = new Vector();
-	//eq mutants in a class
+	// eq mutants in a class
 	public static Vector eq_mutants = new Vector();
-	
-	public static Map<String, String> finalTestResultsMap =  new HashMap<>();
+
+	public static Map<String, String> finalTestResultsMap = new HashMap<>();
 	public static Map<String, String> finalMutantResultsMap = new HashMap<>();
-	
-	public static void setUpVectors()
-	{
-	    //all mutants in a class  	
-		 mutants = new Vector();
-		//killed mutants in a class
-		 killed_mutants = new Vector();
-		//live mutants in a class
-		 live_mutants = new Vector();
-		//eq mutants in a class
-		 eq_mutants = new Vector();
+
+	public static void setUpVectors() {
+		// all mutants in a class
+		mutants = new Vector();
+		// killed mutants in a class
+		killed_mutants = new Vector();
+		// live mutants in a class
+		live_mutants = new Vector();
+		// eq mutants in a class
+		eq_mutants = new Vector();
 	}
-	
-	public static void setUpMaps()
-	{
+
+	public static void setUpMaps() {
 		finalMutantResultsMap = new HashMap<>();
 		finalMutantResultsMap = new HashMap<>();
 	}
-	
-	public static void Error(String errorMsg)
-	{
-		
+
+	public static void Error(String errorMsg) {
+
 		System.err.println(errorMsg);
 	}
-	
-	public static void DebugPrint(String msg)
-	{
-		if(debug)
+
+	public static void DebugPrint(String msg) {
+		if (debug)
+			System.out.println(msg);
+	}
+
+	public static void Print(String msg) {
 		System.out.println(msg);
 	}
-	
-	public static void Print(String msg)
-	{
-		System.out.println(msg);
-	}
-	
+
 	/*
 	 * load config file
 	 */
@@ -121,7 +113,5 @@ public class Util
 
 		return path;
 	}
-	
-	
-	
+
 }

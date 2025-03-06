@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.exception;
 
 import java.io.PrintWriter;
@@ -20,14 +20,16 @@ import java.io.PrintWriter;
 import src.mujava.op.util.MutantCodeWriter;
 
 /**
- * <p>Description: </p>
+ * <p>
+ * Description:
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
-public class EHI_Writer extends MutantCodeWriter
-{
-  public EHI_Writer( String file_name,PrintWriter out ) {
-	super(file_name,out);
-  }
+public class EHI_Writer extends MutantCodeWriter {
+	public EHI_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 }

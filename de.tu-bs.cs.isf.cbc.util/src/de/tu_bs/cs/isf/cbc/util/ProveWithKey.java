@@ -34,7 +34,6 @@ import de.tu_bs.cs.isf.cbc.cbcclass.Visibility;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelFactory;
-import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionTechnique;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.cbcmodel.GlobalConditions;
@@ -86,7 +85,8 @@ public class ProveWithKey {
 
 	public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler,
 			String[] config, int configNum, String proofType) {
-		this(statement, diagram, monitor, fileHandler, ProveWithKey.SRC_FOLDER, Arrays.asList(config), configNum, proofType);
+		this(statement, diagram, monitor, fileHandler, ProveWithKey.SRC_FOLDER, Arrays.asList(config), configNum,
+				proofType);
 	}
 
 	public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler,
@@ -266,22 +266,22 @@ public class ProveWithKey {
 			String split[] = field.replace("/*@spec_public@*/ ", "").trim().split(" ");
 			int pointer = 1;
 			switch (split[0].toLowerCase()) {
-			case "private":
-				f.setVisibility(Visibility.PRIVATE);
-				break;
-			case "public":
-				f.setVisibility(Visibility.PUBLIC);
-				break;
-			case "protected":
-				f.setVisibility(Visibility.PROTECTED);
-				break;
-			case "package":
-				f.setVisibility(Visibility.PACKAGE);
-				break;
-			default:
-				f.setVisibility(Visibility.PUBLIC);
-				pointer = 0;
-				break;
+				case "private" :
+					f.setVisibility(Visibility.PRIVATE);
+					break;
+				case "public" :
+					f.setVisibility(Visibility.PUBLIC);
+					break;
+				case "protected" :
+					f.setVisibility(Visibility.PROTECTED);
+					break;
+				case "package" :
+					f.setVisibility(Visibility.PACKAGE);
+					break;
+				default :
+					f.setVisibility(Visibility.PUBLIC);
+					pointer = 0;
+					break;
 			}
 			if (Arrays.stream(split).anyMatch("static"::equalsIgnoreCase)) {
 				f.setIsStatic(true);
@@ -389,12 +389,14 @@ public class ProveWithKey {
 				for (Method m : formula.getMethodObj().getParentClass().getInheritsFrom().getMethods()) {
 					if (m.getName().equals(formula.getMethodObj().getName())) {
 						switch (type) {
-						case "pre":
-							return " | (" + Parser.getConditionFromCondition(
-									m.getCbcStartTriple().getStatement().getPreCondition().getName()) + ")";
-						case "post":
-							return " & (" + Parser.getConditionFromCondition(
-									m.getCbcStartTriple().getStatement().getPostCondition().getName()) + ")";
+							case "pre" :
+								return " | (" + Parser.getConditionFromCondition(
+										m.getCbcStartTriple().getStatement().getPreCondition().getName()) + ")";
+							case "post" :
+								return " & ("
+										+ Parser.getConditionFromCondition(
+												m.getCbcStartTriple().getStatement().getPostCondition().getName())
+										+ ")";
 						}
 					}
 				}
@@ -464,26 +466,26 @@ public class ProveWithKey {
 	private static List<String> applyCompositionTechniqueOnModifiables(List<String> modifiables,
 			String modifiableOriginal, CompositionTechnique compTechnique) {
 		switch (compTechnique) {
-		case CONTRACT_OVERRIDING:
-			break;
-		case EXPLICIT_CONTRACTING:
-			modifiables.remove(REGEX_ORIGINAL);
-			for (String var : modifiableOriginal.split(",")) {
-				if (var.equals("\\nothing") && !modifiables.isEmpty()) {
-					break;
+			case CONTRACT_OVERRIDING :
+				break;
+			case EXPLICIT_CONTRACTING :
+				modifiables.remove(REGEX_ORIGINAL);
+				for (String var : modifiableOriginal.split(",")) {
+					if (var.equals("\\nothing") && !modifiables.isEmpty()) {
+						break;
+					}
+					if (var != "" && !modifiables.contains(var)) {
+						modifiables.add(var);
+					}
 				}
-				if (var != "" && !modifiables.contains(var)) {
-					modifiables.add(var);
-				}
-			}
-			break;
-		case CONJUNCTIVE_CONTRACTING:
-			if (!proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN))
-				if (modifiableOriginal.contains("\\nothing") && !modifiables.isEmpty()) {
-					break;
-				}
-			modifiables.addAll(Lists.newArrayList(modifiableOriginal.split(",")));
-			break;
+				break;
+			case CONJUNCTIVE_CONTRACTING :
+				if (!proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN))
+					if (modifiableOriginal.contains("\\nothing") && !modifiables.isEmpty()) {
+						break;
+					}
+				modifiables.addAll(Lists.newArrayList(modifiableOriginal.split(",")));
+				break;
 		}
 		return modifiables;
 	}
@@ -492,43 +494,43 @@ public class ProveWithKey {
 			CompositionTechnique compositionTechnique, boolean keyContent) {
 		String composedCondition = condition;
 		switch (compositionTechnique) {
-		case CONTRACT_OVERRIDING:
-			composedCondition = condition;
-			break;
-		case CONJUNCTIVE_CONTRACTING:
-			if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) && keyContent) {
-				composedCondition = "(" + composedCondition + ") & (original)";
-			} else {
-				if (conditionOriginal != "") {
-					composedCondition = "(" + condition + ") & (" + conditionOriginal + ")";
+			case CONTRACT_OVERRIDING :
+				composedCondition = condition;
+				break;
+			case CONJUNCTIVE_CONTRACTING :
+				if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) && keyContent) {
+					composedCondition = "(" + composedCondition + ") & (original)";
 				} else {
-					composedCondition = condition;
+					if (conditionOriginal != "") {
+						composedCondition = "(" + condition + ") & (" + conditionOriginal + ")";
+					} else {
+						composedCondition = condition;
+					}
 				}
-			}
-			break;
-		case EXPLICIT_CONTRACTING:
-			if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) && keyContent) {
-				composedCondition = composedCondition.replaceAll(REGEX_ORIGINAL_PRE, "original_pre")
-						.replaceAll(REGEX_ORIGINAL_POST, "original_post");
-				if (keyword.equals("requires")) {
-					return composedCondition.replace("original ", "original_pre");
-				} else {
-					return composedCondition.replace("original ", "original_post");
-				}
+				break;
+			case EXPLICIT_CONTRACTING :
+				if (proofType.equals(KeYInteraction.ABSTRACT_PROOF_BEGIN) && keyContent) {
+					composedCondition = composedCondition.replaceAll(REGEX_ORIGINAL_PRE, "original_pre")
+							.replaceAll(REGEX_ORIGINAL_POST, "original_post");
+					if (keyword.equals("requires")) {
+						return composedCondition.replace("original ", "original_pre");
+					} else {
+						return composedCondition.replace("original ", "original_post");
+					}
 
-			}
-			Pattern pattern = null;
-			if (keyword.equals("requires")) {
-				pattern = Pattern.compile(REGEX_ORIGINAL_PRE);
-			} else {
-				pattern = Pattern.compile(REGEX_ORIGINAL_POST);
-			}
-			Matcher matcher = pattern.matcher(condition);
-			if (!matcher.find()) {
-				pattern = Pattern.compile(REGEX_ORIGINAL);
-				matcher = pattern.matcher(condition);
-			}
-			composedCondition = matcher.replaceAll(Matcher.quoteReplacement(conditionOriginal));
+				}
+				Pattern pattern = null;
+				if (keyword.equals("requires")) {
+					pattern = Pattern.compile(REGEX_ORIGINAL_PRE);
+				} else {
+					pattern = Pattern.compile(REGEX_ORIGINAL_POST);
+				}
+				Matcher matcher = pattern.matcher(condition);
+				if (!matcher.find()) {
+					pattern = Pattern.compile(REGEX_ORIGINAL);
+					matcher = pattern.matcher(condition);
+				}
+				composedCondition = matcher.replaceAll(Matcher.quoteReplacement(conditionOriginal));
 		}
 		return composedCondition;
 	}
@@ -1006,7 +1008,8 @@ public class ProveWithKey {
 
 	private static void readPredicates(List<String> config, CbCFormula formula, String filePath) {
 		predicates = new ArrayList<Predicate>();
-		if (config == null) config = new ArrayList<String>();
+		if (config == null)
+			config = new ArrayList<String>();
 		String projectName = getProjectName(formula, filePath);
 		filePath = filePath.substring(0, filePath.indexOf(projectName)) + projectName + "/predicates.def";
 		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
@@ -1094,7 +1097,8 @@ public class ProveWithKey {
 					+ "		\\replacewith (true)\r\n" + "		\\heuristics(simplify)\r\n" + "	};\r\n";
 			rulesString += "\toriginal_post{\r\n" + "		\\find (original_post)\r\n"
 					+ "		\\replacewith (true)\r\n" + "		\\heuristics(simplify)\r\n" + "	};\r\n";
-			predicatesForKeY += predicatesForKeY.length() == 0 ? "original,original_pre,original_post"
+			predicatesForKeY += predicatesForKeY.length() == 0
+					? "original,original_pre,original_post"
 					: ",original,original_pre,original_post";
 		}
 		String output = defString + "}\n\n" + rulesString + "}";
@@ -1111,8 +1115,7 @@ public class ProveWithKey {
 				.replace("\n", "").replace("\r", "");
 		String refinedPost = Parser
 				.getConditionFromCondition(refinements.get(0).getStatement().getPostCondition().getName())
-				.replace("\n", "").replace("\r", "");
-		;
+				.replace("\n", "").replace("\r", "");;
 		for (int i = 1; i < refinements.size(); i++) {
 			refinedPre = applyCompositionTechnique("requires", refinedPre,
 					Parser.getConditionFromCondition(refinements.get(i).getStatement().getPreCondition().getName())

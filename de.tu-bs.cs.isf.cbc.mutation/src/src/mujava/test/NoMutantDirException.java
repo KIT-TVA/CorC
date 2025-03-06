@@ -12,19 +12,25 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
+ */
 
 package src.mujava.test;
 
 /**
- * <p>Description: </p>
+ * <p>
+ * Description:
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
 public class NoMutantDirException extends Exception {
 	private static final long serialVersionUID = 301L;
-  public NoMutantDirException() { super(); }
-  public NoMutantDirException(String s) { super(s); }
+	public NoMutantDirException() {
+		super();
+	}
+	public NoMutantDirException(String s) {
+		super(s);
+	}
 }

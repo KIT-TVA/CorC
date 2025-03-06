@@ -2,6 +2,7 @@ package de.tu_bs.cs.isf.cbc.exceptions;
 
 /**
  * Thrown when an identifier couldn't be found.
+ * 
  * @author Fynn
  */
 public class IdentifierNotFoundException extends Exception {

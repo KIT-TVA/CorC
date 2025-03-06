@@ -25,24 +25,25 @@ import java.util.Date;
 import src.com.beust.jcommander.ParameterException;
 
 /**
- * Converts a String to a Date.
- * TODO Modify to work with all valid ISO 8601 date formats (currently only works with yyyy-MM-dd).
+ * Converts a String to a Date. TODO Modify to work with all valid ISO 8601 date
+ * formats (currently only works with yyyy-MM-dd).
  *
  * @author Angus Smithson
  */
 public class ISO8601DateConverter extends BaseConverter<Date> {
 
-  private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
-  public ISO8601DateConverter(String optionName) {
-    super(optionName);
-  }
+	public ISO8601DateConverter(String optionName) {
+		super(optionName);
+	}
 
-  public Date convert(String value) {
-    try {
-      return DATE_FORMAT.parse(value);
-    } catch (ParseException pe) {
-      throw new ParameterException(getErrorString(value, String.format("an ISO-8601 formatted date (%s)", DATE_FORMAT.toPattern())));
-    }
-  }
+	public Date convert(String value) {
+		try {
+			return DATE_FORMAT.parse(value);
+		} catch (ParseException pe) {
+			throw new ParameterException(
+					getErrorString(value, String.format("an ISO-8601 formatted date (%s)", DATE_FORMAT.toPattern())));
+		}
+	}
 }

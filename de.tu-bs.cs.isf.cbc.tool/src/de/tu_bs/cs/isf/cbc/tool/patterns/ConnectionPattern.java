@@ -32,17 +32,19 @@ import de.tu_bs.cs.isf.lattice.Lattice;
 import de.tu_bs.cs.isf.lattice.Lattices;
 
 /**
- * Class that creates the graphical representation of the parent hierarchy between Algorithms
+ * Class that creates the graphical representation of the parent hierarchy
+ * between Algorithms
+ * 
  * @author Tobias
  *
  */
 public class ConnectionPattern extends AbstractConnectionPattern {
-	
+
 	@Override
 	public String getCreateName() {
 		return "Refinement";
 	}
-	
+
 	@Override
 	public String getCreateDescription() {
 		return "Firsty, select the abstract, then the refined.";
@@ -69,7 +71,7 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 		ConnectionDecorator cd;
 		cd = peCreateService.createConnectionDecorator(connection, false, 1.0, true);
 		createArrow(cd);
-		
+
 		return connection;
 	}
 
@@ -78,7 +80,8 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 		// Defines the start of the connection; allowed are objects that may
 		// contain other objects
 		Object domainObject = getBusinessObjectForPictogramElement(context.getSourcePictogramElement());
-		if (domainObject != null && (domainObject.getClass().equals(SkipStatementImpl.class) || domainObject.getClass().equals(ReturnStatementImpl.class))) {
+		if (domainObject != null && (domainObject.getClass().equals(SkipStatementImpl.class)
+				|| domainObject.getClass().equals(ReturnStatementImpl.class))) {
 			return false;
 		}
 		if (domainObject != null && (domainObject instanceof AbstractStatement)) {
@@ -94,8 +97,10 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 			}
 		}
 		if (domainObject != null && (domainObject instanceof AbstractStatement || domainObject instanceof CbCFormula)) {
-			Object parentContainerObject = getBusinessObjectForPictogramElement(((Shape)context.getSourcePictogramElement()).getContainer());
-			if (parentContainerObject != null && (parentContainerObject.getClass().equals(AbstractStatementImpl.class))) {
+			Object parentContainerObject = getBusinessObjectForPictogramElement(
+					((Shape) context.getSourcePictogramElement()).getContainer());
+			if (parentContainerObject != null
+					&& (parentContainerObject.getClass().equals(AbstractStatementImpl.class))) {
 				return false;
 			}
 			if (!(context.getSourcePictogramElement() instanceof ContainerShape)) {
@@ -110,10 +115,11 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 		PictogramElement sourcePictogramElement = context.getSourcePictogramElement();
 		PictogramElement targetPictogramElement = context.getTargetPictogramElement();
 
-		if (sourcePictogramElement == null || targetPictogramElement == null || targetPictogramElement.equals(getDiagram()) || !(targetPictogramElement instanceof ContainerShape)) {
+		if (sourcePictogramElement == null || targetPictogramElement == null
+				|| targetPictogramElement.equals(getDiagram()) || !(targetPictogramElement instanceof ContainerShape)) {
 			return false;
 		}
-		
+
 		Object sourceDomainObject = getBusinessObjectForPictogramElement(sourcePictogramElement);
 		Object targetDomainObject = getBusinessObjectForPictogramElement(targetPictogramElement);
 
@@ -144,9 +150,12 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 
 	/**
 	 * checks if the connection creates a loop in the taxonomy
-	 * @param sourceStatement	the source statement of the connection
-	 * @param targetStatement	the target statement of the connection
-	 * @return	boolean if the connection creates a loop
+	 * 
+	 * @param sourceStatement
+	 *            the source statement of the connection
+	 * @param targetStatement
+	 *            the target statement of the connection
+	 * @return boolean if the connection creates a loop
 	 */
 	private boolean checkLoop(AbstractStatement sourceStatement, AbstractStatement targetStatement) {
 		boolean isParent = false;
@@ -183,13 +192,13 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 		} else {
 			sourceObject = (AbstractStatement) getBusinessObjectForPictogramElement(sourceAnchor.getParent());
 		}
-		AbstractStatement targetObject = (AbstractStatement) getBusinessObjectForPictogramElement(targetAnchor.getParent());
-		
+		AbstractStatement targetObject = (AbstractStatement) getBusinessObjectForPictogramElement(
+				targetAnchor.getParent());
+
 		sourceObject.setRefinement(targetObject);
 		UpdateConditionsOfChildren.updateRefinedStatement(sourceObject, targetObject);
-		
-		
-		//Start of IFbC
+
+		// Start of IFbC
 		final IProject project = GetProjectUtil.getProjectForDiagram(getDiagram());
 		final Lattice lattice = Lattices.getLatticeForProject(project);
 		if (lattice != null) {
@@ -200,21 +209,23 @@ public class ConnectionPattern extends AbstractConnectionPattern {
 				e.printStackTrace();
 			}
 		}
-		
+
 		AddConnectionContext addContext = new AddConnectionContext(sourceAnchor, targetAnchor);
 		Connection connection = (Connection) getFeatureProvider().addIfPossible(addContext);
 
 		return connection;
 	}
-	
+
 	/**
 	 * Helper method to create an arrow at the end of the connection
-	 * @param gaContainer	the connection decorator
-	 * @return	A polyline that is formed like an arrow
+	 * 
+	 * @param gaContainer
+	 *            the connection decorator
+	 * @return A polyline that is formed like an arrow
 	 */
 	private Polyline createArrow(GraphicsAlgorithmContainer gaContainer) {
 		Polyline polyline = Graphiti.getGaCreateService().createPlainPolyline(gaContainer,
-				new int[] { -15, 10, 0, 0, -15, -10 });
+				new int[]{-15, 10, 0, 0, -15, -10});
 		polyline.setForeground(manageColor(IColorConstant.BLACK));
 		return polyline;
 	}

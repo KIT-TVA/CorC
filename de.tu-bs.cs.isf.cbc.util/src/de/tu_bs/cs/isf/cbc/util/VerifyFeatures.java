@@ -179,7 +179,8 @@ public class VerifyFeatures {
 	public static void checkConfigs(String method, boolean original, String className, boolean cleanFromIrrelevant,
 			String methodOriginal) {
 		String varMClass = method.split("\\.")[0];
-		method = methodOriginal != null ? methodOriginal.split("\\.")[0]
+		method = methodOriginal != null
+				? methodOriginal.split("\\.")[0]
 				: method.contains(".") ? method.split("\\.")[1] : method;
 		// bring features to featuremodel-order
 		for (int i = 0; i < configurations.length; i++) {
@@ -340,63 +341,63 @@ public class VerifyFeatures {
 		configurations = temporary;
 		return;
 	}
-	
+
 	public static boolean isValidConfiguration(Set<String> featureConfig, IProject project) {
 		IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
 		Configuration configuration = new Configuration(new FeatureModelFormula(featureModel));
-		for(String feature : featureConfig) {
+		for (String feature : featureConfig) {
 			configuration.setManual(feature, Selection.SELECTED);
 		}
-		
+
 		CNF cnf = configuration.getFeatureModelFormula().getCNF();
 		AdvancedSatSolver solver = new AdvancedSatSolver(cnf);
 		IVariables vars = cnf.getVariables();
-		
+
 		for (SelectableFeature current : configuration.getFeatures()) {
-			solver.assignmentPush(vars.getVariable(current.getFeature().getName(), current.getSelection() == Selection.SELECTED));
+			solver.assignmentPush(
+					vars.getVariable(current.getFeature().getName(), current.getSelection() == Selection.SELECTED));
 		}
-		
+
 		return solver.hasSolution() == SatResult.TRUE;
 	}
-	
+
 	public static String[] findValidProduct(List<String> callingFeatures, IProject project) {
-			IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
-			Configuration configuration = new Configuration(new FeatureModelFormula(featureModel));
-			for (String feature : callingFeatures) {
-				configuration.setManual(feature, Selection.SELECTED);
-			}
+		IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
+		Configuration configuration = new Configuration(new FeatureModelFormula(featureModel));
+		for (String feature : callingFeatures) {
+			configuration.setManual(feature, Selection.SELECTED);
+		}
 
-			CNF cnf = configuration.getFeatureModelFormula().getCNF();
-			AdvancedSatSolver solver = new AdvancedSatSolver(cnf);
-			IVariables vars = cnf.getVariables();
-			for (SelectableFeature current : configuration.getFeatures()) {
-				if (current.getSelection() != Selection.UNDEFINED) {
-					solver.assignmentPush(
-						vars.getVariable(
-								current.getFeature().getName(), 
-								current.getSelection() == Selection.SELECTED));
-				}
+		CNF cnf = configuration.getFeatureModelFormula().getCNF();
+		AdvancedSatSolver solver = new AdvancedSatSolver(cnf);
+		IVariables vars = cnf.getVariables();
+		for (SelectableFeature current : configuration.getFeatures()) {
+			if (current.getSelection() != Selection.UNDEFINED) {
+				solver.assignmentPush(
+						vars.getVariable(current.getFeature().getName(), current.getSelection() == Selection.SELECTED));
 			}
+		}
 
-			int[] solution = solver.findSolution();
-			if (solution == null) return null;
-			final LiteralSet result = new LiteralSet(solution, Order.INDEX, false);
-			Configuration config = new Configuration(configuration, configuration.getFeatureModelFormula());
-			for (int literal : result.getLiterals()) {
-				SelectableFeature feature = config.getSelectableFeature(vars.getName(literal));
-				if (feature.getSelection() == Selection.UNDEFINED) {
-					config.setManual(feature, literal > 0 ? Selection.SELECTED : Selection.UNSELECTED);
-				}
+		int[] solution = solver.findSolution();
+		if (solution == null)
+			return null;
+		final LiteralSet result = new LiteralSet(solution, Order.INDEX, false);
+		Configuration config = new Configuration(configuration, configuration.getFeatureModelFormula());
+		for (int literal : result.getLiterals()) {
+			SelectableFeature feature = config.getSelectableFeature(vars.getName(literal));
+			if (feature.getSelection() == Selection.UNDEFINED) {
+				config.setManual(feature, literal > 0 ? Selection.SELECTED : Selection.UNSELECTED);
 			}
-			
-			String[] featureConfig = new String[config.getSelectedFeatures().size()];
-			for (int i = 0; i < featureConfig.length; i++) {
-				featureConfig[i] = config.getSelectedFeatures().get(i).getName();
-			}
-			
-			return featureConfig;
+		}
+
+		String[] featureConfig = new String[config.getSelectedFeatures().size()];
+		for (int i = 0; i < featureConfig.length; i++) {
+			featureConfig[i] = config.getSelectedFeatures().get(i).getName();
+		}
+
+		return featureConfig;
 	}
-	
+
 	public static String[] getSolutionForConditions(Set<SelectionInfo> selections, IProject project) {
 		IFeatureModel featureModel = FeatureModelManager.load(Paths.get(project.getLocation() + "/model.xml"));
 		Configuration partialConfig = new Configuration(new FeatureModelFormula(featureModel));
@@ -408,12 +409,10 @@ public class VerifyFeatures {
 		for (SelectableFeature feature : partialConfig.getFeatures()) {
 			if (feature.getSelection() != Selection.UNDEFINED) {
 				solver.assignmentPush(
-					vars.getVariable(
-						feature.getFeature().getName(), 
-						feature.getSelection() == Selection.SELECTED));
+						vars.getVariable(feature.getFeature().getName(), feature.getSelection() == Selection.SELECTED));
 			}
 		}
-									
+
 		int[] solution = solver.findSolution();
 		final LiteralSet result = new LiteralSet(solution, Order.INDEX, false);
 		Configuration config = new Configuration(partialConfig, partialConfig.getFeatureModelFormula());
@@ -428,7 +427,7 @@ public class VerifyFeatures {
 		for (int i = 0; i < featureConfig.length; i++) {
 			featureConfig[i] = config.getSelectedFeatures().get(i).getName();
 		}
-		
+
 		return featureConfig;
 	}
 

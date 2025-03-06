@@ -14,9 +14,9 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractAsynchronousCustomFeature;
 
-
 /**
  * Extended class to override the initializeJob method
+ * 
  * @author Tobias
  *
  */
@@ -24,7 +24,9 @@ public abstract class MyAbstractAsynchronousCustomFeature extends AbstractAsynch
 
 	/**
 	 * Constructor
-	 * @param fp 	the FeatureProvider
+	 * 
+	 * @param fp
+	 *            the FeatureProvider
 	 */
 	public MyAbstractAsynchronousCustomFeature(IFeatureProvider fp) {
 		super(fp);
@@ -62,7 +64,7 @@ public abstract class MyAbstractAsynchronousCustomFeature extends AbstractAsynch
 				editingDomain.getCommandStack().execute(command);
 
 				// Update the dirty state of the diagram
-				//getDiagramBehavior().getDiagramContainer().updateDirtyState();
+				// getDiagramBehavior().getDiagramContainer().updateDirtyState();
 
 				// Callback
 				afterJobExecution();

@@ -49,5 +49,5 @@ public class VerifyVariantWithoutInnerLoopsPartialProofBegin extends MyAbstractA
 		VerifyVariantWithoutInnerLoops feature = new VerifyVariantWithoutInnerLoops(super.getFeatureProvider());
 		feature.setProofType(KeYInteraction.ABSTRACT_PROOF_BEGIN);
 		feature.execute(context, monitor);
-	}		
+	}
 }

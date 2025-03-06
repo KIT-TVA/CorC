@@ -8,9 +8,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 
 public class Lattices {
-	
+
 	private static final Map<String, Lattice> lattices = new ConcurrentHashMap<>();
-	
+
 	public static void addLatticeForProject(final IProject project, IFile file) {
 		Lattice lattice;
 		try {
@@ -19,13 +19,13 @@ public class Lattices {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public static Lattice getLatticeForProject(final IProject project) {
 		return lattices.get(project.getName());
 	}
-	
+
 	public static Lattice getLatticeForProject(final String projectName) {
 		return lattices.get(projectName);
 	}

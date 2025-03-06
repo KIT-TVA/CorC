@@ -22,19 +22,16 @@ import de.tu_bs.cs.isf.cbcclass.tool.features.RenameModelClassInheritanceFeature
 import de.tu_bs.cs.isf.cbcclass.tool.features.RenameStatementFeature;
 import de.tu_bs.cs.isf.cbcclass.tool.features.RenameVariableFeature;
 
-
 public class CbCClassToolBehaviorProvider extends DefaultToolBehaviorProvider implements IToolBehaviorProvider {
 
 	public CbCClassToolBehaviorProvider(IDiagramTypeProvider diagramTypeProvider) {
 		super(diagramTypeProvider);
 
 	}
-	
-	
+
 	@Override
 	public ICustomFeature getDoubleClickFeature(IDoubleClickContext context) {
-	
-		
+
 		ICustomFeature customFeature = new RenameStatementFeature(getFeatureProvider());
 		if (customFeature.canExecute(context)) {
 			return customFeature;
@@ -56,10 +53,9 @@ public class CbCClassToolBehaviorProvider extends DefaultToolBehaviorProvider im
 			return customFeature;
 		}
 
-		
 		return super.getDoubleClickFeature(context);
 	}
-	
+
 	@Override
 	public IPaletteCompartmentEntry[] getPalette() {
 		List<IPaletteCompartmentEntry> ret = new ArrayList<IPaletteCompartmentEntry>();
@@ -77,7 +73,7 @@ public class CbCClassToolBehaviorProvider extends DefaultToolBehaviorProvider im
 		for (ICreateFeature cf : createFeatures) {
 			ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry(cf.getCreateName(),
 					cf.getCreateDescription(), cf.getCreateImageId(), cf.getCreateLargeImageId(), cf);
-			if (cf.getCreateName().contains("Class")){
+			if (cf.getCreateName().contains("Class")) {
 				compartmentObjectEntry.addToolEntry(objectCreationToolEntry);
 			} else if (cf.getCreateName().contentEquals("Refinement")) {
 				compartmentConnectionEntry.addToolEntry(objectCreationToolEntry);

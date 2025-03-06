@@ -26,7 +26,8 @@ public class BelowImplementationFeature extends AbstractCustomFeature {
 	/**
 	 * Constructor of the class
 	 * 
-	 * @param fp The FeatureProvider
+	 * @param fp
+	 *            The FeatureProvider
 	 */
 	public BelowImplementationFeature(IFeatureProvider fp) {
 		super(fp);

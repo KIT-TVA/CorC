@@ -23,28 +23,28 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbcmodelPackage;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 
-public class CbcClassUtil {	
-	
+public class CbcClassUtil {
+
 	public static void saveModelClass(ModelClass modelClass, Diagram d) throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(modelClass);
 	}
-	
+
 	public static void saveField(Field field, Diagram d) throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(field);
 	}
-	
+
 	public static void saveCondition(Condition condition, Diagram d) throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(condition);
 	}
-	
+
 	public static void saveMethod(Method method, Diagram d) throws CoreException, IOException {
 		Resource resource = getResource(d);
 		resource.getContents().add(method);
 	}
-	
+
 	public static Resource getResource(Diagram d) throws CoreException, IOException {
 		URI uri = d.eResource().getURI();
 		uri = uri.trimFragment();
@@ -60,7 +60,7 @@ public class CbcClassUtil {
 		}
 		return rSet.getResource(uri, true);
 	}
-	
+
 	public static CbCFormula readFormula(URI uri) {
 		CbcmodelPackage.eINSTANCE.eClass();
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
@@ -68,7 +68,7 @@ public class CbcClassUtil {
 		m.put("cbcmodel", new XMIResourceFactoryImpl());
 		ResourceSet rs = new ResourceSetImpl();
 		Resource r = rs.getResource(uri, true);
-		for (EObject obj :  r.getContents()) {
+		for (EObject obj : r.getContents()) {
 			if (obj instanceof CbCFormula) {
 				CbCFormula formula = (CbCFormula) obj;
 				return formula;

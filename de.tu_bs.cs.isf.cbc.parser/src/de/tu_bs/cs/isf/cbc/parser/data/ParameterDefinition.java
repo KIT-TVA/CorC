@@ -19,7 +19,8 @@ public class ParameterDefinition {
 		this.type = type;
 	}
 
-	public ParameterDefinition(String name, String securityLevel, MDF mutationModifier, String type, IFbCReferenceEntity optionalEntity) {
+	public ParameterDefinition(String name, String securityLevel, MDF mutationModifier, String type,
+			IFbCReferenceEntity optionalEntity) {
 		super();
 		this.name = name;
 		this.securityLevel = securityLevel;

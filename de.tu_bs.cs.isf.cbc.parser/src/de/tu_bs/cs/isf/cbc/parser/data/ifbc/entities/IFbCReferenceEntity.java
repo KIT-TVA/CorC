@@ -1,11 +1,9 @@
 package de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities;
 
 import de.tu_bs.cs.isf.cbc.parser.annotations.MDF;
-import de.tu_bs.cs.isf.cbc.parser.annotations.MutationModifier;
-import de.tu_bs.cs.isf.cbc.parser.annotations.SecurityLevel;
 
 public class IFbCReferenceEntity implements IFbCEntity {
-	
+
 	private String name;
 	private String securityLevel;
 	private MDF mutationModifier;

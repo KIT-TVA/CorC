@@ -26,11 +26,12 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.Renaming;
 
 /**
  * Class that creates the graphical representation of Methods
+ * 
  * @author Tobias
  *
  */
 public class RenamePattern extends IdPattern implements IPattern {
-	
+
 	private static final String ID_RENAME_FUNCTION = "functionName";
 	private static final String ID_RENAME_TYPE = "functionType";
 	private static final String ID_RENAME_NEW = "newFunctionName";
@@ -41,12 +42,12 @@ public class RenamePattern extends IdPattern implements IPattern {
 	public RenamePattern() {
 		super();
 	}
-	
+
 	@Override
 	public String getCreateName() {
 		return "RenameFunction";
 	}
-	
+
 	@Override
 	public String getCreateDescription() {
 		return "Rename a function.";
@@ -71,7 +72,7 @@ public class RenamePattern extends IdPattern implements IPattern {
 		rename.setNewName("exp");
 		renaming.getRename().add(rename);
 		updatePictogramElement(context.getTargetContainer());
-		return new Object[] { rename };
+		return new Object[]{rename};
 	}
 
 	@Override
@@ -88,61 +89,60 @@ public class RenamePattern extends IdPattern implements IPattern {
 	protected boolean layout(IdLayoutContext context, String id) {
 		return false;
 	}
-	
+
 	public boolean canUpdate(IdUpdateContext context) {
-        Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-        return (bo instanceof Rename);
-    }
- 
-    public IReason updateNeeded(IdUpdateContext context, String id) {
-    	Text nameText = (Text) context.getPictogramElement().getGraphicsAlgorithm();
-		Rename domainObject = (Rename) getBusinessObjectForPictogramElement(context.getPictogramElement());
-    	if (id.equals(ID_RENAME_FUNCTION)) {
-    		if (domainObject.getFunction() == null || !domainObject.getFunction().equals(nameText.getValue())) {
-    			return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getFunction() + "'");
-    		}
-    	} else if (id.equals(ID_RENAME_TYPE)) {
-    		if (domainObject.getType() == null || !domainObject.getType().equals(nameText.getValue())) {
-    			return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getType() + "'");
-    		}
-    	} else if (id.equals(ID_RENAME_NEW)) {
-    		if (domainObject.getNewName() == null || !domainObject.getNewName().equals(nameText.getValue())) {
-    			return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getNewName() + "'");
-    		}
-    	}
-		return Reason.createFalseReason();
-    }
- 
-    public boolean update(IdUpdateContext context, String id) {
-    	Text nameText = (Text) context.getPictogramElement().getGraphicsAlgorithm();
-    	Rename domainObject = (Rename) getBusinessObjectForPictogramElement(context.getPictogramElement());
-    	if (id.equals(ID_RENAME_FUNCTION)) {
-    		nameText.setValue(domainObject.getFunction());
-    	} else if (id.equals(ID_RENAME_TYPE)) {
-    		nameText.setValue(domainObject.getType());
-    	} else if (id.equals(ID_RENAME_NEW)) {
-    		nameText.setValue(domainObject.getNewName());
-    	}
-		
-		return true;
-    }
-    
-    @Override
-	public int getEditingType() {
-	    return TYPE_TEXT;
+		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+		return (bo instanceof Rename);
 	}
-	
+
+	public IReason updateNeeded(IdUpdateContext context, String id) {
+		Text nameText = (Text) context.getPictogramElement().getGraphicsAlgorithm();
+		Rename domainObject = (Rename) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		if (id.equals(ID_RENAME_FUNCTION)) {
+			if (domainObject.getFunction() == null || !domainObject.getFunction().equals(nameText.getValue())) {
+				return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getFunction() + "'");
+			}
+		} else if (id.equals(ID_RENAME_TYPE)) {
+			if (domainObject.getType() == null || !domainObject.getType().equals(nameText.getValue())) {
+				return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getType() + "'");
+			}
+		} else if (id.equals(ID_RENAME_NEW)) {
+			if (domainObject.getNewName() == null || !domainObject.getNewName().equals(nameText.getValue())) {
+				return Reason.createTrueReason("Name differs. Expected: '" + domainObject.getNewName() + "'");
+			}
+		}
+		return Reason.createFalseReason();
+	}
+
+	public boolean update(IdUpdateContext context, String id) {
+		Text nameText = (Text) context.getPictogramElement().getGraphicsAlgorithm();
+		Rename domainObject = (Rename) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		if (id.equals(ID_RENAME_FUNCTION)) {
+			nameText.setValue(domainObject.getFunction());
+		} else if (id.equals(ID_RENAME_TYPE)) {
+			nameText.setValue(domainObject.getType());
+		} else if (id.equals(ID_RENAME_NEW)) {
+			nameText.setValue(domainObject.getNewName());
+		}
+
+		return true;
+	}
+
+	@Override
+	public int getEditingType() {
+		return TYPE_TEXT;
+	}
+
 	@Override
 	public boolean canDirectEdit(IDirectEditingContext context) {
 		Object domainObject = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
-		if (domainObject instanceof Rename && ga instanceof Text 
-				&& (getId(ga).equals(ID_RENAME_FUNCTION) || getId(ga).equals(ID_RENAME_TYPE) || getId(ga).equals(ID_RENAME_NEW))) {
+		if (domainObject instanceof Rename && ga instanceof Text && (getId(ga).equals(ID_RENAME_FUNCTION)
+				|| getId(ga).equals(ID_RENAME_TYPE) || getId(ga).equals(ID_RENAME_NEW))) {
 			return true;
 		}
 		return false;
 	}
-	
 
 	@Override
 	public String getInitialValue(IDirectEditingContext context) {
@@ -177,12 +177,12 @@ public class RenamePattern extends IdPattern implements IPattern {
 		}
 		updatePictogramElement(context.getPictogramElement());
 	}
-	
+
 	@Override
 	public void delete(IDeleteContext context) {
 		Shape shape = (Shape) context.getPictogramElement();
 		ContainerShape container = shape.getContainer();
-		
+
 		Rename rename = (Rename) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (rename.eContainer() != null && rename.eContainer() instanceof Renaming) {
 			int indexToDelete = getIndex(shape.getGraphicsAlgorithm());

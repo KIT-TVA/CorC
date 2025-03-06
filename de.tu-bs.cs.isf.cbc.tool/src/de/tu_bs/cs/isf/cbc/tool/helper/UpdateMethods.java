@@ -82,8 +82,8 @@ public class UpdateMethods {
 			try {
 				for (int x = 0; x < folder.members().length; x++) {
 					if (folder.members()[x].getName().contains(".diagram")) {
-						String[] lastSegments = { affectedOriginalFeatures.get(i), "diagram",
-								folder.members()[x].getName() };
+						String[] lastSegments = {affectedOriginalFeatures.get(i), "diagram",
+								folder.members()[x].getName()};
 						validDiagramURIs.add(uri.trimSegments(uri.segmentCount() - 3).appendSegments(lastSegments));
 					}
 				}

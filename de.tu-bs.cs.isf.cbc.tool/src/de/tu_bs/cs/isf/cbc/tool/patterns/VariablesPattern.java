@@ -105,10 +105,10 @@ public class VariablesPattern extends IdPattern implements IPattern {
 
 		try {
 			Resource resource = CbcModelUtil.getResource(getDiagram());
-			for(EObject c:resource.getContents()){
-				if(c instanceof CbCFormulaImpl) {
+			for (EObject c : resource.getContents()) {
+				if (c instanceof CbCFormulaImpl) {
 					CbCFormula formula = (CbCFormula) c;
-					if(formula.getMethodObj()!= null) {
+					if (formula.getMethodObj() != null) {
 						EList<Field> fields = formula.getMethodObj().getParentClass().getFields();
 						variables.eSet(CbcmodelPackage.eINSTANCE.getJavaVariables_Fields(), fields);
 					}
@@ -120,7 +120,7 @@ public class VariablesPattern extends IdPattern implements IPattern {
 		}
 
 		addGraphicalRepresentation(context, variables);
-		return new Object[] { variables };
+		return new Object[]{variables};
 	}
 
 	@Override
@@ -174,17 +174,28 @@ public class VariablesPattern extends IdPattern implements IPattern {
 	protected boolean layout(IdLayoutContext context, String id) {
 		boolean changesDone = false;
 		GraphicsAlgorithm mainRectangle = context.getRootPictogramElement().getGraphicsAlgorithm();
-		JavaVariables variables = (JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement());
+		JavaVariables variables = (JavaVariables) getBusinessObjectForPictogramElement(
+				context.getRootPictogramElement());
 		EList<Field> inheritedFields = null;
 		if (getDiagram().eResource().getURI().isPlatform()) {
-			String featureName = FeatureUtil.getInstance().getCallingFeature(((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI());
-			String className = FeatureUtil.getInstance().getCallingClass(((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement())).eResource().getURI());
-			Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);
-			if (classResource != null && classResource.getContents().size() > 0 && ((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
-				inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();	
+			String featureName = FeatureUtil.getInstance().getCallingFeature(
+					((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement()))
+							.eResource().getURI());
+			String className = FeatureUtil.getInstance().getCallingClass(
+					((JavaVariables) getBusinessObjectForPictogramElement(context.getRootPictogramElement()))
+							.eResource().getURI());
+			Resource classResource = ClassUtil.getClassModelResource(
+					FileUtil.getProjectLocation(
+							getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")),
+					className, featureName);
+			if (classResource != null && classResource.getContents().size() > 0
+					&& ((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
+				inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();
 			}
 		}
-		int size = variables.getVariables().size() + (variables.getFields() != null ? variables.getFields().size() : 0) + (inheritedFields != null ? inheritedFields.size() : 0) + (variables.getParams() != null ? variables.getParams().size() : 0) ;
+		int size = variables.getVariables().size() + (variables.getFields() != null ? variables.getFields().size() : 0)
+				+ (inheritedFields != null ? inheritedFields.size() : 0)
+				+ (variables.getParams() != null ? variables.getParams().size() : 0);
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		int height = mainRectangle.getHeight();
 		if (size >= 1) {
@@ -202,7 +213,7 @@ public class VariablesPattern extends IdPattern implements IPattern {
 			Polyline polyline = (Polyline) ga;
 			polyline.getPoints().clear();
 			List<Point> pointList = Graphiti.getGaService()
-					.createPointList(new int[] { 0, height, mainRectangle.getWidth(), height });
+					.createPointList(new int[]{0, height, mainRectangle.getWidth(), height});
 			polyline.getPoints().addAll(pointList);
 			changesDone = true;
 		}
@@ -217,19 +228,31 @@ public class VariablesPattern extends IdPattern implements IPattern {
 			EList<Field> fields = ((JavaVariables) context.getDomainObject()).getFields();
 			EList<Parameter> params = ((JavaVariables) context.getDomainObject()).getParams();
 			EList<Field> inheritedFields = null;
-			String className = FeatureUtil.getInstance().getCallingClass(((JavaVariables) context.getDomainObject()).eResource().getURI());
-			String featureName = FeatureUtil.getInstance().getCallingFeature(((JavaVariables) context.getDomainObject()).eResource().getURI());
-			String methodName = getDiagram().eResource().getURI().trimFileExtension().segment(getDiagram().eResource().getURI().segmentCount()-1);
+			String className = FeatureUtil.getInstance()
+					.getCallingClass(((JavaVariables) context.getDomainObject()).eResource().getURI());
+			String featureName = FeatureUtil.getInstance()
+					.getCallingFeature(((JavaVariables) context.getDomainObject()).eResource().getURI());
+			String methodName = getDiagram().eResource().getURI().trimFileExtension()
+					.segment(getDiagram().eResource().getURI().segmentCount() - 1);
 			if (getDiagram().eResource().getURI().isPlatform()) {
-				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);
-				if (classResource != null && classResource.getContents().size() > 0 && ((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
-					inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();	
+				Resource classResource = ClassUtil.getClassModelResource(
+						FileUtil.getProjectLocation(
+								getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")),
+						className, featureName);
+				if (classResource != null && classResource.getContents().size() > 0
+						&& ((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
+					inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();
 				}
 			}
-			// in some cases getFields/getParams do not return fields/params; backup via modelclass
+			// in some cases getFields/getParams do not return fields/params; backup via
+			// modelclass
 			if (fields.size() == 0 || params.size() == 0) {
-				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);				
-				if (classResource != null && classResource.getContents().size() > 0 && classResource.getContents().get(0) instanceof ModelClass) {
+				Resource classResource = ClassUtil.getClassModelResource(
+						FileUtil.getProjectLocation(
+								getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")),
+						className, featureName);
+				if (classResource != null && classResource.getContents().size() > 0
+						&& classResource.getContents().get(0) instanceof ModelClass) {
 					ModelClass mc = (ModelClass) classResource.getContents().get(0);
 					fields = mc.getFields();
 					for (Method m : mc.getMethods()) {
@@ -238,14 +261,16 @@ public class VariablesPattern extends IdPattern implements IPattern {
 							break;
 						}
 					}
-				}			
+				}
 			}
-			
-			int size = variables.size() + fields.size() + params.size() + (inheritedFields != null ? inheritedFields.size() : 0);
+
+			int size = variables.size() + fields.size() + params.size()
+					+ (inheritedFields != null ? inheritedFields.size() : 0);
 			if (containerShape.getChildren().size() - 2 != size) {
-				return Reason.createTrueReason("Number of Variables differ. Expected: " + size + " Actual: " + (containerShape.getChildren().size() - 2));
+				return Reason.createTrueReason("Number of Variables differ. Expected: " + size + " Actual: "
+						+ (containerShape.getChildren().size() - 2));
 			}
-			
+
 			List<Integer> found = new ArrayList<Integer>();
 			EList<Shape> shapes = containerShape.getChildren();
 			for (int i = 2; i < shapes.size(); i++) {
@@ -262,17 +287,20 @@ public class VariablesPattern extends IdPattern implements IPattern {
 							}
 						}
 						if (inheritedFields != null) {
-						for (int k = 0; k < inheritedFields.size(); k++) {
-							Field f = inheritedFields.get(k);
-							if (f.getDisplayedName().equalsIgnoreCase(((Text) obj).getValue().replace(" inherited",""))) {
-								found.add(k + fields.size());
-								break;
+							for (int k = 0; k < inheritedFields.size(); k++) {
+								Field f = inheritedFields.get(k);
+								if (f.getDisplayedName()
+										.equalsIgnoreCase(((Text) obj).getValue().replace(" inherited", ""))) {
+									found.add(k + fields.size());
+									break;
+								}
 							}
-						}
 						}
 						for (int k = 0; k < params.size(); k++) {
 							Parameter p = params.get(k);
-							if ((("PARAM " + p.getType() + " " + p.getName()).equalsIgnoreCase(((Text) obj).getValue()) || ("RETURN " + p.getType() + " " + p.getName()).equalsIgnoreCase(((Text) obj).getValue()))) {
+							if ((("PARAM " + p.getType() + " " + p.getName()).equalsIgnoreCase(((Text) obj).getValue())
+									|| ("RETURN " + p.getType() + " " + p.getName())
+											.equalsIgnoreCase(((Text) obj).getValue()))) {
 								found.add(k + fields.size() + (inheritedFields != null ? inheritedFields.size() : 0));
 								break;
 							}
@@ -281,14 +309,15 @@ public class VariablesPattern extends IdPattern implements IPattern {
 					}
 				}
 			}
-			if (found.size() != (fields.size() + params.size() + (inheritedFields != null ? inheritedFields.size() : 0))) {
+			if (found.size() != (fields.size() + params.size()
+					+ (inheritedFields != null ? inheritedFields.size() : 0))) {
 				return Reason.createTrueReason("Class fields differ from ModelClass.");
-			}	
+			}
 		}
 		updateGraphicsAlgorithmChildren(context.getGraphicsAlgorithm(), context);
 		return Reason.createFalseReason();
 	}
-	
+
 	@Override
 	public boolean update(IdUpdateContext context, String id) {
 		if (id.equals(ID_MAIN_RECTANGLE)) {
@@ -296,20 +325,32 @@ public class VariablesPattern extends IdPattern implements IPattern {
 			EList<Field> fields = ((JavaVariables) context.getDomainObject()).getFields();
 			EList<Parameter> params = ((JavaVariables) context.getDomainObject()).getParams();
 			EList<Field> inheritedFields = null;
-			String className = FeatureUtil.getInstance().getCallingClass(((JavaVariables) context.getDomainObject()).eResource().getURI());
-			String featureName = FeatureUtil.getInstance().getCallingFeature(((JavaVariables) context.getDomainObject()).eResource().getURI());
-			String methodName = getDiagram().eResource().getURI().trimFileExtension().segment(getDiagram().eResource().getURI().segmentCount()-1);
+			String className = FeatureUtil.getInstance()
+					.getCallingClass(((JavaVariables) context.getDomainObject()).eResource().getURI());
+			String featureName = FeatureUtil.getInstance()
+					.getCallingFeature(((JavaVariables) context.getDomainObject()).eResource().getURI());
+			String methodName = getDiagram().eResource().getURI().trimFileExtension()
+					.segment(getDiagram().eResource().getURI().segmentCount() - 1);
 			if (getDiagram().eResource().getURI().isPlatform()) {
-				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);
-				if (classResource != null && classResource.getContents().size() > 0 && ((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
-					inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();	
+				Resource classResource = ClassUtil.getClassModelResource(
+						FileUtil.getProjectLocation(
+								getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")),
+						className, featureName);
+				if (classResource != null && classResource.getContents().size() > 0
+						&& ((ModelClass) classResource.getContents().get(0)).getInheritsFrom() != null) {
+					inheritedFields = ((ModelClass) classResource.getContents().get(0)).getInheritsFrom().getFields();
 				}
 			}
-			
-			// in some cases getFields/getParams do not return fields/params; backup via modelclass
+
+			// in some cases getFields/getParams do not return fields/params; backup via
+			// modelclass
 			if (fields.size() == 0 || params.size() == 0) {
-				Resource classResource = ClassUtil.getClassModelResource(FileUtil.getProjectLocation(getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")), className, featureName);				
-				if (classResource != null && classResource.getContents().size() > 0 && classResource.getContents().get(0) instanceof ModelClass) {
+				Resource classResource = ClassUtil.getClassModelResource(
+						FileUtil.getProjectLocation(
+								getDiagram().eResource().getURI().trimFileExtension().appendFileExtension("cbcmodel")),
+						className, featureName);
+				if (classResource != null && classResource.getContents().size() > 0
+						&& classResource.getContents().get(0) instanceof ModelClass) {
 					ModelClass mc = (ModelClass) classResource.getContents().get(0);
 					fields = mc.getFields();
 					for (Method m : mc.getMethods()) {
@@ -318,14 +359,15 @@ public class VariablesPattern extends IdPattern implements IPattern {
 							break;
 						}
 					}
-				}			
+				}
 			}
-			
+
 			List<Integer> checkedShapes = new ArrayList<>();
 			checkedShapes.add(0);
-			checkedShapes.add(1);			
-			
-			for (int i = 0; i < params.size() + variables.size() + fields.size() + (inheritedFields != null ? inheritedFields.size() : 0); i++) {
+			checkedShapes.add(1);
+
+			for (int i = 0; i < params.size() + variables.size() + fields.size()
+					+ (inheritedFields != null ? inheritedFields.size() : 0); i++) {
 				Parameter param = null;
 				JavaVariable var = null;
 				Field field = null;
@@ -364,21 +406,24 @@ public class VariablesPattern extends IdPattern implements IPattern {
 					ContainerShape container = (ContainerShape) context.getPictogramElement();
 					for (Shape childShape : container.getChildren()) {
 						if (getIndex(childShape.getGraphicsAlgorithm()) >= newIndex) {
-							setIndex(childShape.getGraphicsAlgorithm(), getIndex(childShape.getGraphicsAlgorithm()) + 1);
+							setIndex(childShape.getGraphicsAlgorithm(),
+									getIndex(childShape.getGraphicsAlgorithm()) + 1);
 						}
 					}
-					Shape shapeText = Graphiti.getPeCreateService().createShape((ContainerShape) context.getPictogramElement(), true);
-					Text variableNameText = Graphiti.getGaService().createText(shapeText, (name + (i < (params.size() + variables.size() + fields.size()) ? "" : " inherited")));
+					Shape shapeText = Graphiti.getPeCreateService()
+							.createShape((ContainerShape) context.getPictogramElement(), true);
+					Text variableNameText = Graphiti.getGaService().createText(shapeText,
+							(name + (i < (params.size() + variables.size() + fields.size()) ? "" : " inherited")));
 					setId(variableNameText, ID_VARIABLE_TEXT);
 					setIndex(variableNameText, newIndex);
 					variableNameText.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 					variableNameText.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 					link(shapeText, (param != null ? param : (var != null ? var : field)));
-					checkedShapes.add(shapes.size()-1);
+					checkedShapes.add(shapes.size() - 1);
 				}
 			}
-			
-			//delete shapes that didn't match any param, field or variable
+
+			// delete shapes that didn't match any param, field or variable
 			EList<Shape> shapes = ((ContainerShape) context.getPictogramElement()).getChildren();
 			for (int i = 2; i < shapes.size(); i++) {
 				if (!checkedShapes.contains(i)) {
@@ -386,7 +431,8 @@ public class VariablesPattern extends IdPattern implements IPattern {
 					int indexToDelete = getIndex(shape.getGraphicsAlgorithm());
 					for (Shape childShape : shapes) {
 						if (getIndex(childShape.getGraphicsAlgorithm()) > indexToDelete) {
-							setIndex(childShape.getGraphicsAlgorithm(),	getIndex(childShape.getGraphicsAlgorithm()) - 1);
+							setIndex(childShape.getGraphicsAlgorithm(),
+									getIndex(childShape.getGraphicsAlgorithm()) - 1);
 						}
 					}
 					EcoreUtil.delete(shape.getLink());

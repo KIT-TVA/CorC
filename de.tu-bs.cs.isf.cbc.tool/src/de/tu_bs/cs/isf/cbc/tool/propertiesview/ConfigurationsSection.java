@@ -44,9 +44,9 @@ public class ConfigurationsSection extends GFPropertySection implements ITabbedP
 	private List<String> featureNames = new ArrayList<String>();
 	private List<String> FeatureConfigs = new ArrayList<String>();
 	private String outputFormat = "";
-	
-	private Device device = Display.getCurrent ();
-	private Color white = new Color (device, 255, 255, 255);
+
+	private Device device = Display.getCurrent();
+	private Color white = new Color(device, 255, 255, 255);
 
 	// Defining the UI properties
 	private Label filterLabel;
@@ -58,33 +58,33 @@ public class ConfigurationsSection extends GFPropertySection implements ITabbedP
 
 	private Label outputLabel;
 	private Text outputText;
-	
+
 	private Label noProductLineLabel;
 
 	@Override
 	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
-		
+
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-		
+
 		Composite composite = factory.createFlatFormComposite(parent);
-		
+
 		// Defining GridLayout for properties-view
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		gridLayout.verticalSpacing = 20;
 		composite.setLayout(gridLayout);
-		
+
 		currentFeature = getCurrentFeature();
-		if(currentFeature.contentEquals("")) {
+		if (currentFeature.contentEquals("")) {
 			noProductLineLabel = new Label(composite, SWT.PUSH);
-			noProductLineLabel.setText("This view is only available for diagrams representing a software product line.");
+			noProductLineLabel
+					.setText("This view is only available for diagrams representing a software product line.");
 			noProductLineLabel.setBackground(white);
 			return;
 		}
 		featureModel = new FeatureModel(currentFeature);
 		featureNames = featureModel.getAllFeatureNames();
-
 
 		// filterLabel
 		filterLabel = new Label(composite, SWT.PUSH);
@@ -128,7 +128,7 @@ public class ConfigurationsSection extends GFPropertySection implements ITabbedP
 		outputLabel = new Label(composite, SWT.PUSH);
 		outputLabel.setText("Output: ");
 		outputLabel.setBackground(white);
-		
+
 		// outputText
 		outputText = new Text(composite, SWT.WRAP | SWT.PUSH | SWT.BORDER);
 		GridData outputGridData = new GridData(SWT.FILL, SWT.FILL, true, false);

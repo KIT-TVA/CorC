@@ -8,11 +8,11 @@ import de.kit.tva.lost.models.parser.LostParser;
 import de.kit.tva.lost.models.parser.LostParser.ProgramContext;
 
 public class AbstractCodeView {
-    protected ProgramContext parse(String code) {
-	LostLexer lexer = new LostLexer(CharStreams.fromString(code));
-	CommonTokenStream tokens = new CommonTokenStream(lexer);
-	LostParser parser = new LostParser(tokens);
-	ProgramContext tree = parser.program();
-	return tree;
-    }
+	protected ProgramContext parse(String code) {
+		LostLexer lexer = new LostLexer(CharStreams.fromString(code));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		LostParser parser = new LostParser(tokens);
+		ProgramContext tree = parser.program();
+		return tree;
+	}
 }

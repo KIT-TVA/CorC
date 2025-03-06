@@ -12,14 +12,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
+ */
 
 /**
  * <p>Description: </p>
  * @author Jeff Offutt and Yu-Seung Ma
  * @version 1.0
-  */ 
+  */
 
 package src.mujava.op.util;
 
@@ -27,29 +26,25 @@ import java.io.PrintWriter;
 
 import src.mujava.MutationSystem;
 
+public class TraditionalMutantCodeWriter extends MutantCodeWriter {
 
-public class TraditionalMutantCodeWriter extends MutantCodeWriter{
+	String method_signature = null;
 
-       String method_signature = null;
+	public TraditionalMutantCodeWriter(PrintWriter out) {
+		super(out);
+	}
 
-    public TraditionalMutantCodeWriter( PrintWriter out ) {
-        super(out);
-    }
+	public TraditionalMutantCodeWriter(String mutant_dir, PrintWriter out) {
+		super(mutant_dir, out);
+	}
 
-    public TraditionalMutantCodeWriter( String mutant_dir, PrintWriter out ) {
-        super(mutant_dir,out);
-    }
+	public void setMethodSignature(String str) {
+		method_signature = str;
+	}
 
-    public void setMethodSignature(String str){
-      method_signature = str;
-    }
-
-    protected void writeLog(String changed_content)
-    {
-      CodeChangeLog.writeLog(class_name+ MutationSystem.LOG_IDENTIFIER
-	    + mutated_line+MutationSystem.LOG_IDENTIFIER
-      + method_signature + MutationSystem.LOG_IDENTIFIER
-      +changed_content);
-    }
+	protected void writeLog(String changed_content) {
+		CodeChangeLog.writeLog(class_name + MutationSystem.LOG_IDENTIFIER + mutated_line + MutationSystem.LOG_IDENTIFIER
+				+ method_signature + MutationSystem.LOG_IDENTIFIER + changed_content);
+	}
 
 }

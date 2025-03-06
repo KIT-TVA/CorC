@@ -36,18 +36,18 @@ import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
 public class BasicsSection extends GFPropertySection implements ITabbedPropertyConstants {
 	Display display = Display.getCurrent();// for UI updating of back-process
 	boolean variationalProject = false;
-	
+
 	// Defining the UI properties
 	private Label featureLabel;
 	private Label featureLabelText;
 	private Label blankLabel;
-	
+
 	private Label invariantLabel;
 	private List invariantList;
-	
+
 	private Label fieldLabel;
 	private List fieldList;
-	
+
 	private Label methodLabel;
 	private List methodList;
 
@@ -58,44 +58,44 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 
 		Composite composite = factory.createFlatFormComposite(parent);
-				
+
 		// Defining GridLayout for properties-view
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		gridLayout.verticalSpacing = 10;
 		composite.setLayout(gridLayout);
-		Color white = new Color (device, 255, 255, 255);
-		
+		Color white = new Color(device, 255, 255, 255);
+
 		// featureLabel
 		featureLabel = new Label(composite, SWT.PUSH);
 		featureLabel.setBackground(white);
 		featureLabel.setText("Current Feature: ");
-		
+
 		// featureLabelText
 		featureLabelText = new Label(composite, SWT.PUSH);
 		featureLabelText.setBackground(white);
-	
+
 		// blankLabel
 		blankLabel = new Label(composite, SWT.PUSH);
 		blankLabel.setBackground(white);
 		blankLabel.setForeground(white);
 		blankLabel.setText("blank");
-		
+
 		// invariantLabel
 		invariantLabel = new Label(composite, SWT.PUSH);
 		invariantLabel.setBackground(white);
 		invariantLabel.setText("Invariants from other features' implementation of this class: ");
-		
+
 		// fieldLabel
 		fieldLabel = new Label(composite, SWT.PUSH);
 		fieldLabel.setBackground(white);
 		fieldLabel.setText("Fields from other features' implementation of this class: ");
-				
+
 		// methodLabel
 		methodLabel = new Label(composite, SWT.PUSH);
 		methodLabel.setBackground(white);
 		methodLabel.setText("Methods from other features' implementation of this class: ");
-				
+
 		// invariantLabelText
 		invariantList = new List(composite, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		invariantList.setItems();
@@ -117,18 +117,18 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 				// TODO Auto-generated method stub
 			}
 		});
-		
+
 		// fieldLabelText
 		fieldList = new List(composite, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		fieldList.setItems();
-	    int fieldListHeight = fieldList.getItemHeight() * 8;
+		int fieldListHeight = fieldList.getItemHeight() * 8;
 
-	    Rectangle fieldTrim = fieldList.computeTrim(0, 0, 0, fieldListHeight);
-	    GridData fieldLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
-	    fieldLabelTextGridData.heightHint = fieldTrim.height;
-	    fieldList.setLayoutData(fieldLabelTextGridData);
-	    fieldList.setBackground(white);
-	    fieldList.addSelectionListener(new SelectionListener() {
+		Rectangle fieldTrim = fieldList.computeTrim(0, 0, 0, fieldListHeight);
+		GridData fieldLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		fieldLabelTextGridData.heightHint = fieldTrim.height;
+		fieldList.setLayoutData(fieldLabelTextGridData);
+		fieldList.setBackground(white);
+		fieldList.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
@@ -136,31 +136,31 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub	
+				// TODO Auto-generated method stub
 			}
-		});	
-	    
-	    // methodLabelText
-	 	methodList = new List(composite, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
-	 	methodList.setItems();
-	 	int methodListHeight = methodList.getItemHeight() * 8;
+		});
 
-	 	Rectangle methodTrim = methodList.computeTrim(0, 0, 0, methodListHeight);
-	 	GridData methodLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
-	 	methodLabelTextGridData.heightHint = methodTrim.height;
-	 	methodList.setLayoutData(methodLabelTextGridData);
-	 	methodList.setBackground(white);
-	 	methodList.addSelectionListener(new SelectionListener() {
-	 		@Override
-	 		public void widgetSelected(SelectionEvent e) {
-	 			// TODO Auto-generated method stub
-	 		}
+		// methodLabelText
+		methodList = new List(composite, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
+		methodList.setItems();
+		int methodListHeight = methodList.getItemHeight() * 8;
 
-	 		@Override
-	 		public void widgetDefaultSelected(SelectionEvent e) {
-	 			// TODO Auto-generated method stub	
-	 		}
-	 	});	
+		Rectangle methodTrim = methodList.computeTrim(0, 0, 0, methodListHeight);
+		GridData methodLabelTextGridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		methodLabelTextGridData.heightHint = methodTrim.height;
+		methodList.setLayoutData(methodLabelTextGridData);
+		methodList.setBackground(white);
+		methodList.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+			}
+		});
 	}
 
 	@Override
@@ -171,7 +171,7 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 		if (pe instanceof Diagram) {
 			updateData(pe);
 		}
-	}	
+	}
 
 	public void updateData(Object pe) {
 		display.syncExec(new Runnable() {
@@ -181,37 +181,45 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 				String className = ((Diagram) pe).getName();
 				URI uri = getDiagram().eResource().getURI();
 				IProject project = FileUtil.getProjectFromFileInProject(uri);
-				
+
 				String featureName = uri.segment(3);
 				featureLabelText.setText(featureName);
-				
+
 				int sizeInvariants = 0;
 				int sizeFields = 0;
 				int sizeMethods = 0;
-				
+
 				java.util.List<IFile> classFiles = ClassUtil.getFilesOfType(project, ".cbcclass");
 				for (IFile cbcclassFile : classFiles) {
 					if (cbcclassFile.getName().replace(".cbcclass", "").equals(className)) {
-					String cbcclassPath = project.getLocationURI().toString().substring(6);// + "/" + cbcclassFile.getFullPath().segment(1) + "/" + cbcclassFile.getFullPath().segment(2) + "/" + cbcclassFile.getFullPath().segment(3) + "/" + cbcclassFile.getFullPath().segment(4);	
-					Resource resource = ClassUtil.getClassModelResource(cbcclassPath, className, cbcclassFile.getFullPath().segment(2));
-					if (resource != null) {
-					for (EObject obj: resource.getContents()) {
-						if (obj instanceof ModelClass) {
-							ModelClass mc = (ModelClass) obj;
-							if (mc.getFeature().equals(featureName)) {
-								break;
-							}
-							sizeInvariants += mc.getClassInvariants().size();
-							sizeFields += mc.getFields().size();
-							for (Method m : mc.getMethods()) {
-								sizeMethods++;
+						String cbcclassPath = project.getLocationURI().toString().substring(6);// + "/" +
+																								// cbcclassFile.getFullPath().segment(1)
+																								// + "/" +
+																								// cbcclassFile.getFullPath().segment(2)
+																								// + "/" +
+																								// cbcclassFile.getFullPath().segment(3)
+																								// + "/" +
+																								// cbcclassFile.getFullPath().segment(4);
+						Resource resource = ClassUtil.getClassModelResource(cbcclassPath, className,
+								cbcclassFile.getFullPath().segment(2));
+						if (resource != null) {
+							for (EObject obj : resource.getContents()) {
+								if (obj instanceof ModelClass) {
+									ModelClass mc = (ModelClass) obj;
+									if (mc.getFeature().equals(featureName)) {
+										break;
+									}
+									sizeInvariants += mc.getClassInvariants().size();
+									sizeFields += mc.getFields().size();
+									for (Method m : mc.getMethods()) {
+										sizeMethods++;
+									}
+								}
 							}
 						}
 					}
-					}
-					}
 				}
-				
+
 				String[] invariants = new String[sizeInvariants];
 				int invariantsCounter = 0;
 				String[] fields = new String[sizeFields];
@@ -220,30 +228,34 @@ public class BasicsSection extends GFPropertySection implements ITabbedPropertyC
 				int methodsCounter = 0;
 				for (IFile cbcclassFile : classFiles) {
 					if (cbcclassFile.getName().replace(".cbcclass", "").equals(className)) {
-					String cbcclassPath = project.getLocationURI().toString().substring(6);
-					Resource resource = ClassUtil.getClassModelResource(cbcclassPath, className, cbcclassFile.getFullPath().segment(2));
-					if (resource != null) {
-					for (EObject obj: resource.getContents()) {
-						if (obj instanceof ModelClass) {
-							ModelClass mc = (ModelClass) obj;
-							if (mc.getFeature().equals(featureName)) {
-								break;
-							}
-							EList<Condition> classInvariants = mc.getClassInvariants();
-							for (int i = 0; i < classInvariants.size(); i++){
-								invariants[invariantsCounter++] = classInvariants.get(i).getName() + " (" + mc.getFeature() + ")";
-							}
-							EList<Field> classFields = mc.getFields();
-							for (int i = 0; i < classFields.size(); i++){
-								fields[fieldsCounter++] = classFields.get(i).getDisplayedName() + " (" + mc.getFeature() + ")";
-							}
-							EList<Method> classMethods = mc.getMethods();
-							for (int i = 0; i < classMethods.size(); i++){
-								methods[methodsCounter++] = classMethods.get(i).getSignature()  + " (" + mc.getFeature() + ")";
+						String cbcclassPath = project.getLocationURI().toString().substring(6);
+						Resource resource = ClassUtil.getClassModelResource(cbcclassPath, className,
+								cbcclassFile.getFullPath().segment(2));
+						if (resource != null) {
+							for (EObject obj : resource.getContents()) {
+								if (obj instanceof ModelClass) {
+									ModelClass mc = (ModelClass) obj;
+									if (mc.getFeature().equals(featureName)) {
+										break;
+									}
+									EList<Condition> classInvariants = mc.getClassInvariants();
+									for (int i = 0; i < classInvariants.size(); i++) {
+										invariants[invariantsCounter++] = classInvariants.get(i).getName() + " ("
+												+ mc.getFeature() + ")";
+									}
+									EList<Field> classFields = mc.getFields();
+									for (int i = 0; i < classFields.size(); i++) {
+										fields[fieldsCounter++] = classFields.get(i).getDisplayedName() + " ("
+												+ mc.getFeature() + ")";
+									}
+									EList<Method> classMethods = mc.getMethods();
+									for (int i = 0; i < classMethods.size(); i++) {
+										methods[methodsCounter++] = classMethods.get(i).getSignature() + " ("
+												+ mc.getFeature() + ")";
+									}
+								}
 							}
 						}
-					}
-					}
 					}
 				}
 				invariantList.setItems(invariants);

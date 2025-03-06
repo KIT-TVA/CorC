@@ -9,6 +9,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 
 /**
  * Class to delete a connection
+ * 
  * @author Tobias
  *
  */
@@ -16,7 +17,9 @@ public class DeleteConnectionFeature extends DefaultDeleteFeature {
 
 	/**
 	 * Constructor of the class
-	 * @param fp	The FeatureProvider
+	 * 
+	 * @param fp
+	 *            The FeatureProvider
 	 */
 	public DeleteConnectionFeature(IFeatureProvider fp) {
 		super(fp);
@@ -25,8 +28,10 @@ public class DeleteConnectionFeature extends DefaultDeleteFeature {
 	@Override
 	public void delete(IDeleteContext context) {
 		Connection connection = (Connection) context.getPictogramElement();
-		AbstractStatement parentStatement = (AbstractStatement) getBusinessObjectForPictogramElement(connection.getStart().getParent());
-		AbstractStatement childStatement = (AbstractStatement) getBusinessObjectForPictogramElement(connection.getEnd().getParent());
+		AbstractStatement parentStatement = (AbstractStatement) getBusinessObjectForPictogramElement(
+				connection.getStart().getParent());
+		AbstractStatement childStatement = (AbstractStatement) getBusinessObjectForPictogramElement(
+				connection.getEnd().getParent());
 		super.delete(context);
 		parentStatement.setRefinement(null);
 		childStatement.setParent(null);

@@ -19,29 +19,32 @@ import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
 
 /**
  * Class that to create an intermediate composition statement
+ * 
  * @author Tobias
  *
  */
 public class AboveSelectionFeature extends AbstractCustomFeature {
-    
-    /**
-     * Constructor of the class
-     * @param fp	The FeatureProvider
-     */
-    public AboveSelectionFeature(IFeatureProvider fp) {
-        super(fp);
-    }
-    
-    @Override
-    public String getName() {
-        return "Selection statement above";
-    }
- 
-    @Override
-    public String getDescription() {
-        return "Generates a selection statement above this statement.";
-    }
- 
+
+	/**
+	 * Constructor of the class
+	 * 
+	 * @param fp
+	 *            The FeatureProvider
+	 */
+	public AboveSelectionFeature(IFeatureProvider fp) {
+		super(fp);
+	}
+
+	@Override
+	public String getName() {
+		return "Selection statement above";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Generates a selection statement above this statement.";
+	}
+
 	@Override
 	public boolean canExecute(ICustomContext context) {
 		boolean ret = false;
@@ -54,58 +57,63 @@ public class AboveSelectionFeature extends AbstractCustomFeature {
 		}
 		return ret;
 	}
- 
-    @Override
-    public void execute(ICustomContext context) {
-        PictogramElement[] pes = context.getPictogramElements();
-        if (pes != null && pes.length == 1) {
-            Object bo = getBusinessObjectForPictogramElement(pes[0]);
-            if (bo instanceof AbstractStatement) {
-            	AbstractStatement statement = (AbstractStatement) bo;
-            	AbstractStatement parentStatement = statement.getParent();
-            	CreateContext createContext = new CreateContext();
-            	createContext.setTargetContainer(getDiagram());
-            	ICreateFeature createFeature = getCreateFeature(getFeatureProvider().getCreateFeatures());
-            	Object[] newParents = createFeature.create(createContext);
-            	SelectionStatement newParent = (SelectionStatement) newParents[0];
-            	Shape peStatement = (Shape) getFeatureProvider().getPictogramElementForBusinessObject(statement);
-            	Anchor anchorStatement = peStatement.getAnchors().get(0);
-            	
-            	Shape peOldParentStatement = (Shape) getFeatureProvider().getPictogramElementForBusinessObject(parentStatement);
-            	Anchor anchorOldParent = peOldParentStatement.getAnchors().get(0);
-            	
-            	Shape peNewParentStatement = (Shape) getFeatureProvider().getPictogramElementForBusinessObject(newParent.getCommands().get(0));
-            	Anchor anchorNewParent = peNewParentStatement.getAnchors().get(0);
-            	
-            	ReconnectionContext reconnectionContext = new ReconnectionContext(anchorStatement.getIncomingConnections().get(0), anchorOldParent, anchorNewParent, null);
-            	reconnectionContext.setReconnectType(ReconnectionContext.RECONNECT_SOURCE);
-            	IReconnectionFeature reconnectionFeature = getFeatureProvider().getReconnectionFeature(reconnectionContext);
-            	reconnectionFeature.reconnect(reconnectionContext);
-            	
-            	Shape peNewParentTopStatement = (Shape) getFeatureProvider().getPictogramElementForBusinessObject(newParent);
-            	Anchor anchorNewParentTop = peNewParentTopStatement.getAnchors().get(0);
-            	
-            	CreateConnectionContext connectionContext = new CreateConnectionContext();
-            	connectionContext.setSourceAnchor(anchorOldParent);
-            	connectionContext.setTargetAnchor(anchorNewParentTop);
-            	connectionContext.setSourcePictogramElement(peOldParentStatement);
-            	connectionContext.setTargetPictogramElement(peNewParentTopStatement);
-            	ICreateConnectionFeature connectionFeature = getFeatureProvider().getCreateConnectionFeatures()[0];
-            	connectionFeature.create(connectionContext);
-            	
-                UpdateConditionsOfChildren.updateRefinedStatement(newParent.getParent(), newParent);
-                updatePictogramElement(pes[0]);
-            }
-        }
-    }
-    
-    private ICreateFeature getCreateFeature(ICreateFeature[] features) {
-    	for (ICreateFeature feature : features) {
-    		if (feature.getCreateName().equals("SelectionStatement")) {
-    			return feature;
-    		}
-    	}
+
+	@Override
+	public void execute(ICustomContext context) {
+		PictogramElement[] pes = context.getPictogramElements();
+		if (pes != null && pes.length == 1) {
+			Object bo = getBusinessObjectForPictogramElement(pes[0]);
+			if (bo instanceof AbstractStatement) {
+				AbstractStatement statement = (AbstractStatement) bo;
+				AbstractStatement parentStatement = statement.getParent();
+				CreateContext createContext = new CreateContext();
+				createContext.setTargetContainer(getDiagram());
+				ICreateFeature createFeature = getCreateFeature(getFeatureProvider().getCreateFeatures());
+				Object[] newParents = createFeature.create(createContext);
+				SelectionStatement newParent = (SelectionStatement) newParents[0];
+				Shape peStatement = (Shape) getFeatureProvider().getPictogramElementForBusinessObject(statement);
+				Anchor anchorStatement = peStatement.getAnchors().get(0);
+
+				Shape peOldParentStatement = (Shape) getFeatureProvider()
+						.getPictogramElementForBusinessObject(parentStatement);
+				Anchor anchorOldParent = peOldParentStatement.getAnchors().get(0);
+
+				Shape peNewParentStatement = (Shape) getFeatureProvider()
+						.getPictogramElementForBusinessObject(newParent.getCommands().get(0));
+				Anchor anchorNewParent = peNewParentStatement.getAnchors().get(0);
+
+				ReconnectionContext reconnectionContext = new ReconnectionContext(
+						anchorStatement.getIncomingConnections().get(0), anchorOldParent, anchorNewParent, null);
+				reconnectionContext.setReconnectType(ReconnectionContext.RECONNECT_SOURCE);
+				IReconnectionFeature reconnectionFeature = getFeatureProvider()
+						.getReconnectionFeature(reconnectionContext);
+				reconnectionFeature.reconnect(reconnectionContext);
+
+				Shape peNewParentTopStatement = (Shape) getFeatureProvider()
+						.getPictogramElementForBusinessObject(newParent);
+				Anchor anchorNewParentTop = peNewParentTopStatement.getAnchors().get(0);
+
+				CreateConnectionContext connectionContext = new CreateConnectionContext();
+				connectionContext.setSourceAnchor(anchorOldParent);
+				connectionContext.setTargetAnchor(anchorNewParentTop);
+				connectionContext.setSourcePictogramElement(peOldParentStatement);
+				connectionContext.setTargetPictogramElement(peNewParentTopStatement);
+				ICreateConnectionFeature connectionFeature = getFeatureProvider().getCreateConnectionFeatures()[0];
+				connectionFeature.create(connectionContext);
+
+				UpdateConditionsOfChildren.updateRefinedStatement(newParent.getParent(), newParent);
+				updatePictogramElement(pes[0]);
+			}
+		}
+	}
+
+	private ICreateFeature getCreateFeature(ICreateFeature[] features) {
+		for (ICreateFeature feature : features) {
+			if (feature.getCreateName().equals("SelectionStatement")) {
+				return feature;
+			}
+		}
 		return null;
-    	
-    }
+
+	}
 }

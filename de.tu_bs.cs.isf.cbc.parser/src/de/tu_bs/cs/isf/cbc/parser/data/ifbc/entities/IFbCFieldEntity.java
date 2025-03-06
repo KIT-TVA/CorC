@@ -2,7 +2,6 @@ package de.tu_bs.cs.isf.cbc.parser.data.ifbc.entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import de.tu_bs.cs.isf.cbc.parser.annotations.MDF;

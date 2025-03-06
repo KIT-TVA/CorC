@@ -27,12 +27,12 @@ package src.com.beust.jcommander;
 @SuppressWarnings("serial")
 public class ParameterException extends RuntimeException {
 
-  public ParameterException(Throwable t) {
-    super(t);
-  }
+	public ParameterException(Throwable t) {
+		super(t);
+	}
 
-  public ParameterException(String string) {
-    super(string);
-  }
+	public ParameterException(String string) {
+		super(string);
+	}
 
 }

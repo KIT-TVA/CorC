@@ -173,11 +173,11 @@ public class KeYFileContent {
 					globalConditions.add(cond);
 				}
 			}
-//			for (Condition cond : conds.getConditions()) {
-//				if (!cond.getName().isEmpty()) {
-//					globalConditions.add(cond);
-//				}
-//			}
+			// for (Condition cond : conds.getConditions()) {
+			// if (!cond.getName().isEmpty()) {
+			// globalConditions.add(cond);
+			// }
+			// }
 		}
 	}
 

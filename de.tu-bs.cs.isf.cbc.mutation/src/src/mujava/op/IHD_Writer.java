@@ -12,8 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
+ */
 
 package src.mujava.op;
 
@@ -27,79 +26,74 @@ import openjava.ptree.VariableInitializer;
 import src.mujava.op.util.MutantCodeWriter;
 
 /**
- * <p>Output and log IHD mutants to files </p>
+ * <p>
+ * Output and log IHD mutants to files
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
+public class IHD_Writer extends MutantCodeWriter {
+	FieldDeclaration original = null;
+	FieldDeclaration mutant = null;
 
-public class IHD_Writer extends MutantCodeWriter
-{
-   FieldDeclaration original = null;
-   FieldDeclaration mutant = null;
+	/**
+	 * Set original source code and mutated code
+	 * 
+	 * @param original
+	 * @param mutant
+	 */
+	public void setMutant(FieldDeclaration original, FieldDeclaration mutant) {
+		this.original = original;
+		this.mutant = mutant;
+	}
 
-   /**
-    * Set original source code and mutated code
-    * @param original
-    * @param mutant
-    */
-   public void setMutant(FieldDeclaration original, FieldDeclaration mutant)
-   {
-      this.original = original;
-      this.mutant = mutant;
-   }
+	public IHD_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-   public IHD_Writer( String file_name, PrintWriter out ) 
-   {
-      super(file_name, out);
-   }
+	public void visit(FieldDeclaration p) throws ParseTreeException {
+		if (!(isSameObject(p, original))) {
+			super.visit(p);
+		} else {
+			writeTab();
+			out.print("// ");
 
-   public void visit( FieldDeclaration p ) throws ParseTreeException
-   {
-      if (!(isSameObject(p, original)))
-      {
-         super.visit(p);
-      } 
-      else
-      {
-         writeTab();
-		 out.print("// ");
+			/* ModifierList */
+			ModifierList modifs = p.getModifiers();
+			if (modifs != null) {
+				modifs.accept(this);
+				if (!modifs.isEmptyAsRegular())
+					out.print(" ");
+			}
 
-         /*ModifierList*/
-         ModifierList modifs = p.getModifiers();
-         if (modifs != null) 
-         {
-            modifs.accept( this );
-            if (! modifs.isEmptyAsRegular())  
-               out.print( " " );
-         }
+			/* TypeName */
+			TypeName ts = p.getTypeSpecifier();
+			ts.accept(this);
 
-         /*TypeName*/
-         TypeName ts = p.getTypeSpecifier();
-         ts.accept(this);
+			out.print(" ");
 
-         out.print(" ");
+			/* Variable */
+			String variable = p.getVariable();
+			out.print(variable);
 
-         /*Variable*/
-         String variable = p.getVariable();
-         out.print(variable);
- 
-         /*"=" VariableInitializer*/
-         VariableInitializer initializer = p.getInitializer();
-         if (initializer != null) 
-         {
-            out.print(" = ");
-            initializer.accept(this);
-         }
-         /*";"*/
-         out.print(";");
+			/* "=" VariableInitializer */
+			VariableInitializer initializer = p.getInitializer();
+			if (initializer != null) {
+				out.print(" = ");
+				initializer.accept(this);
+			}
+			/* ";" */
+			out.print(";");
 
-         // -------------------------
-	     mutated_line = line_num;
-	     writeLog(removeNewline(mutant.toString())+" is deleted.");
-	     // -------------------------
+			// -------------------------
+			mutated_line = line_num;
+			writeLog(removeNewline(mutant.toString()) + " is deleted.");
+			// -------------------------
 
-         out.println(); line_num++;
-      }
-   }
+			out.println();
+			line_num++;
+		}
+	}
 }

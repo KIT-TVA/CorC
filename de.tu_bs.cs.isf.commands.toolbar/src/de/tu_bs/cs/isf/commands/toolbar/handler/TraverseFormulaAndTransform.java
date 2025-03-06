@@ -9,12 +9,14 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
 
 /**
- * Class to cast from textual model to graphical model (add AbstractStatements in Composition, Repetition and Selection)
+ * Class to cast from textual model to graphical model (add AbstractStatements
+ * in Composition, Repetition and Selection)
+ * 
  * @author tobias
  *
  */
 public class TraverseFormulaAndTransform {
-	
+
 	private static CbcmodelFactory factory = CbcmodelFactory.eINSTANCE;
 
 	public static CbCFormula traverseFormulaAndTransform(CbCFormula formula) {
@@ -49,7 +51,7 @@ public class TraverseFormulaAndTransform {
 
 	private static void traverseRepetitionStatement(SmallRepetitionStatement repetitionStatement) {
 		AbstractStatement loopStatement = repetitionStatement.getLoopStatement();
-		
+
 		AbstractStatement abstractStatement = factory.createAbstractStatement();
 		abstractStatement.setName("LoopStatement");
 		abstractStatement.setPreCondition(factory.createCondition());
@@ -60,11 +62,11 @@ public class TraverseFormulaAndTransform {
 		abstractStatement.setRefinement(loopStatement);
 		castStatementAndTraverse(loopStatement);
 	}
-	
+
 	private static void traverseSelectionStatement(SelectionStatement selectionStatement) {
 		for (int i = 0; i < selectionStatement.getCommands().size(); i++) {
 			AbstractStatement childStatement = selectionStatement.getCommands().get(i);
-			
+
 			AbstractStatement abstractStatement = factory.createAbstractStatement();
 			abstractStatement.setName("SelectionStatement" + i);
 			abstractStatement.setPreCondition(factory.createCondition());
@@ -76,11 +78,11 @@ public class TraverseFormulaAndTransform {
 			castStatementAndTraverse(childStatement);
 		}
 	}
-	
+
 	private static void traverseCompositionStatement(CompositionStatement compositionStatement) {
 		AbstractStatement firstStatement = compositionStatement.getFirstStatement();
 		AbstractStatement secondStatement = compositionStatement.getSecondStatement();
-		
+
 		AbstractStatement abstractStatement = factory.createAbstractStatement();
 		abstractStatement.setName("FirstStatement");
 		abstractStatement.setPreCondition(factory.createCondition());
@@ -90,7 +92,7 @@ public class TraverseFormulaAndTransform {
 		compositionStatement.setFirstStatement(abstractStatement);
 		abstractStatement.setRefinement(firstStatement);
 		castStatementAndTraverse(firstStatement);
-	
+
 		abstractStatement = factory.createAbstractStatement();
 		abstractStatement.setName("SecondStatement");
 		abstractStatement.setPreCondition(factory.createCondition());
@@ -101,7 +103,7 @@ public class TraverseFormulaAndTransform {
 		abstractStatement.setRefinement(secondStatement);
 		castStatementAndTraverse(secondStatement);
 	}
-	
+
 	private static void traverseStrengthWeakStatement(StrengthWeakStatement statement) {
 		AbstractStatement abstractStatement = factory.createAbstractStatement();
 		abstractStatement.setName(statement.getName());
@@ -113,5 +115,4 @@ public class TraverseFormulaAndTransform {
 		statement.setRefinement(abstractStatement);
 	}
 
-	
 }

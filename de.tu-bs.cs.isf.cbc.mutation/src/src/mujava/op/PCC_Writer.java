@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op;
 
 import java.io.PrintWriter;
@@ -28,60 +28,52 @@ import openjava.ptree.UnaryExpression;
 import src.mujava.op.util.MutantCodeWriter;
 
 /**
- * <p>Output and log PCC mutants to files</p>
+ * <p>
+ * Output and log PCC mutants to files
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
-public class PCC_Writer extends MutantCodeWriter
-{
-   CastExpression original = null;
-   String type = "";
+public class PCC_Writer extends MutantCodeWriter {
+	CastExpression original = null;
+	String type = "";
 
-   /**
-    * Set original source code and mutated code
-    * @param original
-    * @param mutated_type
-    */
-   public void setMutant(CastExpression original, String mutated_type)
-   {
-      this.original = original;
-      this.type = mutated_type;
-   }
+	/**
+	 * Set original source code and mutated code
+	 * 
+	 * @param original
+	 * @param mutated_type
+	 */
+	public void setMutant(CastExpression original, String mutated_type) {
+		this.original = original;
+		this.type = mutated_type;
+	}
 
-   public PCC_Writer( String file_name, PrintWriter out ) 
-   {
-	  super(file_name, out);
-   }
+	public PCC_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-   public void visit( CastExpression p ) throws ParseTreeException
-   {
-      if (isSameObject(p, original))
-      {
-         out.print( "(" + type + ") ");
-         Expression expr = p.getExpression();
-        
-         if (expr instanceof AssignmentExpression
-           || expr instanceof ConditionalExpression
-           || expr instanceof BinaryExpression
-           || expr instanceof InstanceofExpression
-           || expr instanceof UnaryExpression)
-         {
-	        writeParenthesis( expr );
-         } 
-         else 
-         {
-	        expr.accept( this );
-         }
-        
-         // -------------------------------------------------------------
-         mutated_line = line_num;
-         writeLog(removeNewline("(" + p.getTypeSpecifier().getName() + ")  =>  (" + type + ")"));
-         // -------------------------------------------------------------
-      }
-      else
-      {
-         super.visit(p);
-      }
-   }
+	public void visit(CastExpression p) throws ParseTreeException {
+		if (isSameObject(p, original)) {
+			out.print("(" + type + ") ");
+			Expression expr = p.getExpression();
+
+			if (expr instanceof AssignmentExpression || expr instanceof ConditionalExpression
+					|| expr instanceof BinaryExpression || expr instanceof InstanceofExpression
+					|| expr instanceof UnaryExpression) {
+				writeParenthesis(expr);
+			} else {
+				expr.accept(this);
+			}
+
+			// -------------------------------------------------------------
+			mutated_line = line_num;
+			writeLog(removeNewline("(" + p.getTypeSpecifier().getName() + ")  =>  (" + type + ")"));
+			// -------------------------------------------------------------
+		} else {
+			super.visit(p);
+		}
+	}
 }

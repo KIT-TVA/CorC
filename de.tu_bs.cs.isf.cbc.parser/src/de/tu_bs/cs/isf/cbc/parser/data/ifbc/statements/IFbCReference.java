@@ -11,34 +11,31 @@ import de.tu_bs.cs.isf.cbc.parser.exceptions.IFbCException;
 import de.tu_bs.cs.isf.lattice.Lattice;
 
 public class IFbCReference implements IFbCStatement {
-	
+
 	final IFbCReferenceEntity entity;
-	
+
 	public IFbCReference(IFbCReferenceEntity entity) {
 		this.entity = entity;
 	}
 
 	@Override
-	public TypeableResult isTypeable(	final Lattice lattice,
-										final String projectName,
-										final Map<String, List<IFbCReferenceEntity>> elevatedEntities,
-										final Map<String, String> changedTypes,
-										final List<String> usedCapsules,
-										final String optionalGuardSL,
-		                                final Method constructingMethod)
+	public TypeableResult isTypeable(final Lattice lattice, final String projectName,
+			final Map<String, List<IFbCReferenceEntity>> elevatedEntities, final Map<String, String> changedTypes,
+			final List<String> usedCapsules, final String optionalGuardSL, final Method constructingMethod)
 			throws IFbCException {
-		return new TypeableResult(true, "Reference Entity is always typeable", elevatedEntities, changedTypes, usedCapsules);
+		return new TypeableResult(true, "Reference Entity is always typeable", elevatedEntities, changedTypes,
+				usedCapsules);
 	}
 
 	@Override
 	public StatementType getType() {
 		return StatementType.Reference;
 	}
-	
+
 	public String getSecurityLevel() {
 		return entity.getSecurityLevel();
 	}
-	
+
 	public MDF getTypeModifier() {
 		return entity.getMutationModifier();
 	}

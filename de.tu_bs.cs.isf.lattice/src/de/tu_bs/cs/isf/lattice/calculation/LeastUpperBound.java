@@ -13,7 +13,7 @@ public class LeastUpperBound {
 	public static Node leastUpperBound(List<Node> nodes, Lattice lattice) {
 		if (nodes.size() == 1) {
 			return nodes.get(0);
-		} else if (nodes.size() > 1){
+		} else if (nodes.size() > 1) {
 			Node compareNode = nodes.get(0);
 			for (int i = 1; i < nodes.size(); i++) {
 				Node secondNode = nodes.get(i);
@@ -39,16 +39,16 @@ public class LeastUpperBound {
 		}
 		return uppers;
 	}
-	
+
 	public static boolean secondHigherThanFirst(Node node1, Node node2) {
 		Map<Node, Integer> uppers = getUpper(node1);
 		return uppers.keySet().contains(node2);
 	}
-	
+
 	private static void getUpperRecursive(Map<Node, Integer> uppers, Node node, int i) {
 		for (Transition transition : node.getOutgoingTransitions()) {
-			uppers.put(transition.getTarget(), i+1);
-			getUpperRecursive(uppers, transition.getTarget(), i+1);
+			uppers.put(transition.getTarget(), i + 1);
+			getUpperRecursive(uppers, transition.getTarget(), i + 1);
 		}
 	}
 

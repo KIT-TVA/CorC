@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.basic;
 
 import java.io.IOException;
@@ -25,57 +25,54 @@ import openjava.ptree.ParseTreeException;
 import openjava.ptree.UnaryExpression;
 
 /**
- * <p>Generate LOD (Logical Operator Deletion) mutants --
- *    delete each occurrence of bitwise logical operators 
- *    (bitwise and-&, bitwise or-|, exclusive or-^)
+ * <p>
+ * Generate LOD (Logical Operator Deletion) mutants -- delete each occurrence of
+ * bitwise logical operators (bitwise and-&, bitwise or-|, exclusive or-^)
  * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class LOD extends MethodLevelMutator
-{
-   public LOD(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit)
-   {
-      super( file_env, comp_unit );
-   }
+public class LOD extends MethodLevelMutator {
+	public LOD(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit) {
+		super(file_env, comp_unit);
+	}
 
-   public void visit( UnaryExpression p ) throws ParseTreeException
-   {
-      int op = p.getOperator();
-      if ( op == UnaryExpression.BIT_NOT)
-      {
-         outputToFile(p);
-      }
-   }
+	public void visit(UnaryExpression p) throws ParseTreeException {
+		int op = p.getOperator();
+		if (op == UnaryExpression.BIT_NOT) {
+			outputToFile(p);
+		}
+	}
 
-   /**
-    * Output LOD mutants to files
-    * @param original
-    */
-   public void outputToFile(UnaryExpression original)
-   {
-      if (comp_unit == null) 
-    	 return;
-      
-      String f_name;
-      num++;
-      f_name = getSourceName("LOD");
-      String mutant_dir = getMuantID("LOD");
+	/**
+	 * Output LOD mutants to files
+	 * 
+	 * @param original
+	 */
+	public void outputToFile(UnaryExpression original) {
+		if (comp_unit == null)
+			return;
 
-      try 
-      {
-		 PrintWriter out = getPrintWriter(f_name);
-		 LOD_Writer writer = new LOD_Writer(mutant_dir,out);
-		 writer.setMutant(original);
-         writer.setMethodSignature(currentMethodSignature);
-		 comp_unit.accept( writer );
-		 out.flush();  out.close();
-      } catch ( IOException e ) {
-		 System.err.println( "fails to create " + f_name );
-      } catch ( ParseTreeException e ) {
-		 System.err.println( "errors during printing " + f_name );
-		 e.printStackTrace();
-      }
-   }
+		String f_name;
+		num++;
+		f_name = getSourceName("LOD");
+		String mutant_dir = getMuantID("LOD");
+
+		try {
+			PrintWriter out = getPrintWriter(f_name);
+			LOD_Writer writer = new LOD_Writer(mutant_dir, out);
+			writer.setMutant(original);
+			writer.setMethodSignature(currentMethodSignature);
+			comp_unit.accept(writer);
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			System.err.println("fails to create " + f_name);
+		} catch (ParseTreeException e) {
+			System.err.println("errors during printing " + f_name);
+			e.printStackTrace();
+		}
+	}
 }

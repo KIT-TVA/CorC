@@ -1,4 +1,4 @@
- package de.tu_bs.cs.isf.lattice;
+package de.tu_bs.cs.isf.lattice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class Node {
 		this.name = name;
 		this.outgoingTransitions = transitions;
 	}
-	
+
 	public Node(String name) {
 		this.name = name;
 		this.outgoingTransitions = new ArrayList<Transition>();

@@ -21,14 +21,14 @@ public class Initialize_Listener implements org.eclipse.ui.IStartup {
 			@Override
 			public void resourceChanged(IResourceChangeEvent event) {
 				switch (event.getType()) {
-				case IResourceChangeEvent.POST_CHANGE:
-					try {
-						event.getDelta().accept(new ProjectDelta());
-					} catch (CoreException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					break;
+					case IResourceChangeEvent.POST_CHANGE :
+						try {
+							event.getDelta().accept(new ProjectDelta());
+						} catch (CoreException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						break;
 				}
 			}
 		};

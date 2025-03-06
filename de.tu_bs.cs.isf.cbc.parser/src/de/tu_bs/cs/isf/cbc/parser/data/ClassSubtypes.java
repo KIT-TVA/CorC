@@ -25,5 +25,5 @@ public class ClassSubtypes {
 	public String toString() {
 		return "ClassSubtypes [implementedTypes=" + implementedTypes + ", extendedTypes=" + extendedTypes + "]";
 	}
-	
+
 }

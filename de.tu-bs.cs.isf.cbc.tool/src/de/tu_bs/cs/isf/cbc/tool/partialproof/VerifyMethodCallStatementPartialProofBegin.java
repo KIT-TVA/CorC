@@ -16,7 +16,8 @@ public class VerifyMethodCallStatementPartialProofBegin extends MyAbstractAsynch
 	/**
 	 * Constructor of the class
 	 * 
-	 * @param fp The FeatureProvider
+	 * @param fp
+	 *            The FeatureProvider
 	 */
 	public VerifyMethodCallStatementPartialProofBegin(IFeatureProvider fp) {
 		super(fp);

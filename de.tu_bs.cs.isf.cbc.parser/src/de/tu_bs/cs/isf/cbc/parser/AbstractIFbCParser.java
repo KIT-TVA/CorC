@@ -37,12 +37,9 @@ import de.tu_bs.cs.isf.lattice.calculation.LeastUpperBound;
 
 public class AbstractIFbCParser {
 
-	protected static IFbCReferenceEntity parseMethodCallExpr(	final Map<String, IFbCReferenceEntity> diagramVariables,
-																final Map<String, String> changedTypes,
-																final Map<String, JavaClass> javaClassesForProject,
-																final MethodCallExpr methodCallExpr,
-																final String projectName,
-																final Method constructingMethod)
+	protected static IFbCReferenceEntity parseMethodCallExpr(final Map<String, IFbCReferenceEntity> diagramVariables,
+			final Map<String, String> changedTypes, final Map<String, JavaClass> javaClassesForProject,
+			final MethodCallExpr methodCallExpr, final String projectName, final Method constructingMethod)
 			throws IFbCException {
 		final Lattice lattice = Lattices.getLatticeForProject(projectName);
 		final Optional<Expression> scope = methodCallExpr.getScope();
@@ -272,12 +269,14 @@ public class AbstractIFbCParser {
 							entity.getMutationModifier());
 				} else if (argument.isFieldAccessExpr()) {
 					final FieldAccessExpr fieldAccessExpr = argument.asFieldAccessExpr();
-					final IFbCFieldAccessEntity fieldAccessEntity = parseFieldAccessEntity(fieldAccessExpr, diagramVariables, javaClassesForProject);
+					final IFbCFieldAccessEntity fieldAccessEntity = parseFieldAccessEntity(fieldAccessExpr,
+							diagramVariables, javaClassesForProject);
 					if (fieldAccessEntity == null) {
-						throw new IFbCException("Argument " + argument.toString() + " is not a working field access expression.");
+						throw new IFbCException(
+								"Argument " + argument.toString() + " is not a working field access expression.");
 					}
-					return new IFbCDeclassifyEntity(fieldAccessEntity.getType(), fieldAccessEntity.getName(), fieldAccessEntity.getSecurityLevel(),
-							fieldAccessEntity.getCombinedMDF());
+					return new IFbCDeclassifyEntity(fieldAccessEntity.getType(), fieldAccessEntity.getName(),
+							fieldAccessEntity.getSecurityLevel(), fieldAccessEntity.getCombinedMDF());
 				} else {
 					throw new IFbCException("Expression not yet supported in declassify(): " + argument.toString());
 				}
@@ -297,9 +296,8 @@ public class AbstractIFbCParser {
 		}
 	}
 
-	protected static IFbCFieldAssignEntity parseFieldAssignEntity(	final FieldAccessExpr fieldAccessExpr,
-																	final Map<String, IFbCReferenceEntity> diagramVariables,
-																	final Map<String, JavaClass> javaClassesForProject)
+	protected static IFbCFieldAssignEntity parseFieldAssignEntity(final FieldAccessExpr fieldAccessExpr,
+			final Map<String, IFbCReferenceEntity> diagramVariables, final Map<String, JavaClass> javaClassesForProject)
 			throws IFbCException {
 		final List<String> scopeTokens = new LinkedList<>(Arrays.asList(fieldAccessExpr.toString().split("\\.")));
 
@@ -348,26 +346,17 @@ public class AbstractIFbCParser {
 				field.get().getFieldType(), scopes);
 	}
 
-	protected static IFbCMethodEntity parseMethodEntity(final MethodCallExpr methodCallExpr,
-														final JavaClass javaClass,
-														final Map<String, String> changedTypes,
-														final List<IFbCReferenceEntity> scopes,
-														final Map<String, IFbCReferenceEntity> diagramVariables,
-														final Map<String, JavaClass> javaClassesForProject,
-														final String projectName,
-														final Method constructingMethod)
-			throws IFbCException {
+	protected static IFbCMethodEntity parseMethodEntity(final MethodCallExpr methodCallExpr, final JavaClass javaClass,
+			final Map<String, String> changedTypes, final List<IFbCReferenceEntity> scopes,
+			final Map<String, IFbCReferenceEntity> diagramVariables, final Map<String, JavaClass> javaClassesForProject,
+			final String projectName, final Method constructingMethod) throws IFbCException {
 		final Lattice lattice = Lattices.getLatticeForProject(projectName);
 
 		// Get all parameters of method call
 		final List<ParameterDefinition> parameters = new ArrayList<>(methodCallExpr.getArguments().size());
 		for (Expression a : methodCallExpr.getArguments()) {
-			if (!a.isNameExpr() 
-					&& !a.isLiteralExpr() 
-					&& !a.isMethodCallExpr() 
-					&& !a.isFieldAccessExpr() 
-					&& !a.isIntegerLiteralExpr() 
-					&& !a.isUnaryExpr()) {
+			if (!a.isNameExpr() && !a.isLiteralExpr() && !a.isMethodCallExpr() && !a.isFieldAccessExpr()
+					&& !a.isIntegerLiteralExpr() && !a.isUnaryExpr()) {
 				throw new IFbCException(
 						"Argument of method call should be name, literal or method call, got: " + a.toString());
 			}
@@ -402,7 +391,8 @@ public class AbstractIFbCParser {
 				parameters.add(param);
 			} else if (a.isFieldAccessExpr()) {
 				final FieldAccessExpr fieldAccessExpr = a.asFieldAccessExpr();
-				final IFbCFieldAccessEntity fieldAccessEntity = parseFieldAccessEntity(fieldAccessExpr, diagramVariables, javaClassesForProject);
+				final IFbCFieldAccessEntity fieldAccessEntity = parseFieldAccessEntity(fieldAccessExpr,
+						diagramVariables, javaClassesForProject);
 				final ParameterDefinition param = new ParameterDefinition(fieldAccessExpr.getNameAsString(),
 						fieldAccessEntity.getSecurityLevel(), fieldAccessEntity.getMutationModifier(),
 						fieldAccessEntity.getType(), fieldAccessEntity);
@@ -462,9 +452,8 @@ public class AbstractIFbCParser {
 		return "NotSupported";
 	}
 
-	protected static IFbCFieldAccessEntity parseFieldAccessEntity(	final FieldAccessExpr fieldAccessExpr,
-																	final Map<String, IFbCReferenceEntity> diagramVariables,
-																	final Map<String, JavaClass> javaClassesForProject)
+	protected static IFbCFieldAccessEntity parseFieldAccessEntity(final FieldAccessExpr fieldAccessExpr,
+			final Map<String, IFbCReferenceEntity> diagramVariables, final Map<String, JavaClass> javaClassesForProject)
 			throws IFbCException {
 		final List<String> scopeTokens = new LinkedList<>(Arrays.asList(fieldAccessExpr.toString().split("\\.")));
 
@@ -516,11 +505,9 @@ public class AbstractIFbCParser {
 				field.get().getFieldType(), scopes);
 	}
 
-	protected static IFbCNewEntity parseNewEntity(	final ObjectCreationExpr objectCreationExpr,
-													final Map<String, IFbCReferenceEntity> diagramVariables,
-													final Map<String, JavaClass> javaClassesForProject,
-													final Lattice lattice)
-			throws IFbCException {
+	protected static IFbCNewEntity parseNewEntity(final ObjectCreationExpr objectCreationExpr,
+			final Map<String, IFbCReferenceEntity> diagramVariables, final Map<String, JavaClass> javaClassesForProject,
+			final Lattice lattice) throws IFbCException {
 		// Get all parameters of object creation
 		final List<ParameterDefinition> parameters = new ArrayList<>(objectCreationExpr.getArguments().size());
 		for (Expression a : objectCreationExpr.getArguments()) {
@@ -554,13 +541,9 @@ public class AbstractIFbCParser {
 				objectCreationExpr.getTypeAsString(), parameters);
 	}
 
-	static String analyzeSLForBinaryExpression(	final BinaryExpr binaryExpr,
-												final Lattice lattice,
-												final String projectName,
-												final Map<String, IFbCReferenceEntity> diagramVariables,
-												final Map<String, String> changedTypes,
-												final Method constructingMethod)
-			throws IFbCException {
+	static String analyzeSLForBinaryExpression(final BinaryExpr binaryExpr, final Lattice lattice,
+			final String projectName, final Map<String, IFbCReferenceEntity> diagramVariables,
+			final Map<String, String> changedTypes, final Method constructingMethod) throws IFbCException {
 		final Expression left = binaryExpr.getLeft();
 		final Expression right = binaryExpr.getRight();
 
@@ -578,29 +561,25 @@ public class AbstractIFbCParser {
 		}
 		return LeastUpperBound.leastUpperBound(Arrays.asList(leftSlNode, rightSlNode), lattice).getName();
 	}
-	
-	static IFbCBinaryExpression parseBinaryExpression(final BinaryExpr binaryExpr,
-			final Lattice lattice,
-			final String projectName,
-			final Map<String, IFbCReferenceEntity> diagramVariables,
-			final Map<String, String> changedTypes,
-			final Method constructingMethod)
-					throws IFbCException {
+
+	static IFbCBinaryExpression parseBinaryExpression(final BinaryExpr binaryExpr, final Lattice lattice,
+			final String projectName, final Map<String, IFbCReferenceEntity> diagramVariables,
+			final Map<String, String> changedTypes, final Method constructingMethod) throws IFbCException {
 		final Expression left = binaryExpr.getLeft();
 		final Expression right = binaryExpr.getRight();
-		
+
 		final String leftSl = JavaConditionParser.analyzeSLForExpression(left, lattice, projectName, diagramVariables,
-		changedTypes, constructingMethod);
+				changedTypes, constructingMethod);
 		final String rightSl = JavaConditionParser.analyzeSLForExpression(right, lattice, projectName, diagramVariables,
-		changedTypes, constructingMethod);
+				changedTypes, constructingMethod);
 		final Node leftSlNode = lattice.getNodePerName(leftSl);
 		final Node rightSlNode = lattice.getNodePerName(rightSl);
-		
+
 		if (leftSlNode == null || rightSlNode == null) {
 			throw new IFbCException("Could not build lub() of leftSl (" + leftSl + ") and rightSl (" + rightSl
-		+ ") since one or both SLs are not defined in the current lattice for this project. Returning lattice top for safety reasons.");
+					+ ") since one or both SLs are not defined in the current lattice for this project. Returning lattice top for safety reasons.");
 		}
-		
+
 		String sl = LeastUpperBound.leastUpperBound(Arrays.asList(leftSlNode, rightSlNode), lattice).getName();
 		String type = "";
 		if (binaryExpr.getLeft().isNameExpr()) {
@@ -614,34 +593,31 @@ public class AbstractIFbCParser {
 		if (isBoolean(binaryExpr.getOperator())) {
 			type = "boolean";
 		}
-		
+
 		return new IFbCBinaryExpression(binaryExpr.toString(), sl, MDF.IMMUTABLE, type);
-}
+	}
 
 	private static boolean isBoolean(Operator operator) {
-		switch(operator) {
-		case LESS: 
-		case BINARY_AND:
-		case BINARY_OR:
-		case EQUALS:
-		case GREATER:
-		case GREATER_EQUALS:
-		case LESS_EQUALS:
-		case NOT_EQUALS:
-		case OR:
-		case XOR: return true;
-		default:
-			return false;
+		switch (operator) {
+			case LESS :
+			case BINARY_AND :
+			case BINARY_OR :
+			case EQUALS :
+			case GREATER :
+			case GREATER_EQUALS :
+			case LESS_EQUALS :
+			case NOT_EQUALS :
+			case OR :
+			case XOR :
+				return true;
+			default :
+				return false;
 		}
 	}
 
-	static String analyzeSLForExpression(	final Expression expression,
-											final Lattice lattice,
-											final String projectName,
-											final Map<String, IFbCReferenceEntity> diagramVariables,
-											final Map<String, String> changedTypes,
-											final Method constructingMethod)
-			throws IFbCException {
+	static String analyzeSLForExpression(final Expression expression, final Lattice lattice, final String projectName,
+			final Map<String, IFbCReferenceEntity> diagramVariables, final Map<String, String> changedTypes,
+			final Method constructingMethod) throws IFbCException {
 		if (expression.isBinaryExpr()) {
 			return AbstractIFbCParser.analyzeSLForBinaryExpression(expression.asBinaryExpr(), lattice, projectName,
 					diagramVariables, changedTypes, constructingMethod);

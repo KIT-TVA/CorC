@@ -13,26 +13,26 @@ public class UpdateDiagramFeature extends AbstractCustomFeature {
 	public UpdateDiagramFeature(IFeatureProvider fp) {
 		super(fp);
 	}
- 
-    @Override
-    public boolean canExecute(ICustomContext context) {
-        return true;
-    }
- 
-    @Override
-    public boolean isAvailable(IContext context) {
-        return false;
-    }
+
+	@Override
+	public boolean canExecute(ICustomContext context) {
+		return true;
+	}
+
+	@Override
+	public boolean isAvailable(IContext context) {
+		return false;
+	}
 
 	@Override
 	public void execute(ICustomContext context) {
 		updateRecursively(getDiagram());
 	}
-	
+
 	private void updateRecursively(PictogramElement element) {
 		updatePictogramElement(element);
-		if(element instanceof ContainerShape) {
-			for(Shape child : ((ContainerShape) element).getChildren()) {
+		if (element instanceof ContainerShape) {
+			for (Shape child : ((ContainerShape) element).getChildren()) {
 				updateRecursively(child);
 			}
 		}

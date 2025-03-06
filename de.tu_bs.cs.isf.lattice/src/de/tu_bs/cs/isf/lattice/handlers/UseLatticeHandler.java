@@ -14,14 +14,16 @@ import de.tu_bs.cs.isf.lattice.Lattices;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
+ * 
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
 public class UseLatticeHandler extends AbstractHandler {
 
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {	
-		final ISelectionService selectionService = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService();
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		final ISelectionService selectionService = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+				.getSelectionService();
 		final IStructuredSelection selection = (IStructuredSelection) selectionService.getSelection();
 		final IResource firstElement = (IResource) selection.getFirstElement();
 		final IProject project = firstElement.getProject();

@@ -39,12 +39,11 @@ import de.tu_bs.cs.isf.cbc.util.VerifyFeatures;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraph;
 import de.tu_bs.cs.isf.commands.toolbar.handler.proofgraphs.ProofGraphCollection;
 
-public class VerifyMethodCallStatementProofGraphBegin extends MyAbstractAsynchronousCustomFeature{
+public class VerifyMethodCallStatementProofGraphBegin extends MyAbstractAsynchronousCustomFeature {
 
 	public VerifyMethodCallStatementProofGraphBegin(IFeatureProvider fp) {
 		super(fp);
 	}
-
 
 	@Override
 	public String getName() {
@@ -76,13 +75,13 @@ public class VerifyMethodCallStatementProofGraphBegin extends MyAbstractAsynchro
 	public void execute(ICustomContext context, IProgressMonitor monitor) {
 		long startTime = System.nanoTime();
 		PictogramElement[] pes = context.getPictogramElements();
-		
+
 		if (pes != null && pes.length == 1) {
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
 			if (bo instanceof AbstractStatement statement) {
 				URI uri = this.getDiagram().eResource().getURI();
 				FileHandler.instance.deleteFolder(uri, "tests");
-				
+
 				IProject project = FileUtil.getProjectFromFileInProject(uri);
 
 				String callingFeature = FeatureUtil.getInstance().getCallingFeature(uri);
@@ -91,77 +90,83 @@ public class VerifyMethodCallStatementProofGraphBegin extends MyAbstractAsynchro
 				ProofGraphCollection collection;
 				try {
 					collection = ProofGraphCollection.loadFromJson(project.getRawLocation() + "/graph.json");
-				
-				Console.println(String.format("Successfully loaded proof graph for %s:%s", callingFeature, callingMethod), Colors.GREEN);
-				ProofGraph graph = collection.getGraphForMethod(callingMethod);
-				
-				GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(super.getFeatureProvider());
-				
-				List<String> features = List.of(callingFeature);
-				String[] featureConfig = VerifyFeatures.findValidProduct(features, project);
-				
-				Console.println(Arrays.toString(featureConfig));
-				
-				genCode.setProofTypeInfo(0, KeYInteraction.ABSTRACT_PROOF_BEGIN);
 
-				genCode.generate(project.getLocation(), 
-						callingFeature, callingClass, callingMethod, 
-						featureConfig);
+					Console.println(
+							String.format("Successfully loaded proof graph for %s:%s", callingFeature, callingMethod),
+							Colors.GREEN);
+					ProofGraph graph = collection.getGraphForMethod(callingMethod);
 
+					GenerateCodeForVariationalVerification genCode = new GenerateCodeForVariationalVerification(
+							super.getFeatureProvider());
 
-				VerifyStatement verifyStatement = new VerifyStatement(getFeatureProvider());
-				IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
-				DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
-				JavaVariables vars = extractor.getVars();
-				String varM = handleVarM(Parser.extractMethodNameFromStatemtent(statement.getName()), callingClass, vars);
-				String varMParts[] = varM.split("\\.");
-				String[][] variantWrapper = {featureConfig};
-				String variant = verifyStatement.generateVariantsStringFromFeatureConfigs(variantWrapper, callingFeature, varM.contains(".") ? varMParts[0] : callingClass)[0];
-				List<CbCFormula> refinements = verifyStatement.generateCbCFormulasForRefinements(variant, varMParts[1].toLowerCase());
-				List<JavaVariables> refinementVars = verifyStatement.generateJavaVariablesForRefinements(variant, varMParts[1].toLowerCase());
-				ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, fileHandler, featureConfig, 0, KeYInteraction.ABSTRACT_PROOF_BEGIN);
-				boolean proven = prove.proveStatementWithKey(refinements, refinements, refinementVars, false, false, callingMethod, varM, callingClass, true);
+					List<String> features = List.of(callingFeature);
+					String[] featureConfig = VerifyFeatures.findValidProduct(features, project);
 
+					Console.println(Arrays.toString(featureConfig));
 
-				statement.setProven(proven);
-				long endTime = System.nanoTime();
-				long duration = (endTime - startTime) / 1_000_000;
-				startTime = System.nanoTime();
-				RunEvaluationForStatementPP.WHOLE_RUNTIME_START.add(duration + ""); //PG DEBUG
-				Console.println("\nVerification done."); 
-				Console.println("Time needed: " + duration + "ms");
+					genCode.setProofTypeInfo(0, KeYInteraction.ABSTRACT_PROOF_BEGIN);
 
-				String location = fileHandler.getLocationString(getDiagram().eResource().getURI().toPlatformString(true));
-				IProofRepository proofRepo = new FileSystemProofRepository(location + "/proofRepository/");
-				FileNameManager manager = new FileNameManager();
-				String name = manager.getFileName(null, location, statement, "") + ".proof";
-				List<UUID> uuids = features.stream().map(f -> graph.getIdForFeature(f)).toList();
-				
-				String folderName = "";
-				
-				if (features.size() != 1) {
-					folderName += "/";
-					for (String feat : featureConfig) {
-						folderName += feat;
+					genCode.generate(project.getLocation(), callingFeature, callingClass, callingMethod, featureConfig);
+
+					VerifyStatement verifyStatement = new VerifyStatement(getFeatureProvider());
+					IFileUtil fileHandler = new FileUtil(uri.toPlatformString(true));
+					DiagramPartsExtractor extractor = new DiagramPartsExtractor(getDiagram());
+					JavaVariables vars = extractor.getVars();
+					String varM = handleVarM(Parser.extractMethodNameFromStatemtent(statement.getName()), callingClass,
+							vars);
+					String varMParts[] = varM.split("\\.");
+					String[][] variantWrapper = {featureConfig};
+					String variant = verifyStatement.generateVariantsStringFromFeatureConfigs(variantWrapper,
+							callingFeature, varM.contains(".") ? varMParts[0] : callingClass)[0];
+					List<CbCFormula> refinements = verifyStatement.generateCbCFormulasForRefinements(variant,
+							varMParts[1].toLowerCase());
+					List<JavaVariables> refinementVars = verifyStatement.generateJavaVariablesForRefinements(variant,
+							varMParts[1].toLowerCase());
+					ProveWithKey prove = new ProveWithKey(statement, getDiagram(), monitor, fileHandler, featureConfig,
+							0, KeYInteraction.ABSTRACT_PROOF_BEGIN);
+					boolean proven = prove.proveStatementWithKey(refinements, refinements, refinementVars, false, false,
+							callingMethod, varM, callingClass, true);
+
+					statement.setProven(proven);
+					long endTime = System.nanoTime();
+					long duration = (endTime - startTime) / 1_000_000;
+					startTime = System.nanoTime();
+					RunEvaluationForStatementPP.WHOLE_RUNTIME_START.add(duration + ""); // PG DEBUG
+					Console.println("\nVerification done.");
+					Console.println("Time needed: " + duration + "ms");
+
+					String location = fileHandler
+							.getLocationString(getDiagram().eResource().getURI().toPlatformString(true));
+					IProofRepository proofRepo = new FileSystemProofRepository(location + "/proofRepository/");
+					FileNameManager manager = new FileNameManager();
+					String name = manager.getFileName(null, location, statement, "") + ".proof";
+					List<UUID> uuids = features.stream().map(f -> graph.getIdForFeature(f)).toList();
+
+					String folderName = "";
+
+					if (features.size() != 1) {
+						folderName += "/";
+						for (String feat : featureConfig) {
+							folderName += feat;
+						}
+						folderName += "/";
 					}
-					folderName += "/";
-				}
-				
-				proofRepo.savePartialProofForId(features, uuids, location + folderName + name);
 
-			} catch (FileNotFoundException e) {
+					proofRepo.savePartialProofForId(features, uuids, location + folderName + name);
+
+				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-		}
+				}
 			}
 		}
-		
+
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1_000_000;
-		Console.println("\nFile operations done."); 
+		Console.println("\nFile operations done.");
 		Console.println("Time needed: " + duration + "ms");
 	}
-	
+
 	private String handleVarM(String methodCall, String callingClass, JavaVariables vars) {
 		if (!methodCall.contains(".")) { // Call without class reference
 			return callingClass + "." + methodCall;

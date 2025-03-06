@@ -14,7 +14,7 @@ import de.tu_bs.cs.isf.cbc.util.MethodHandler;
 
 public class DummyMethod {
 	private Method method;
-	
+
 	public static DummyMethod createFromSrc(IProject project, String name) throws Exception {
 		var method = CbcclassFactory.eINSTANCE.createMethod();
 		var files = FileUtil.getFiles(project, ".java");
@@ -32,15 +32,15 @@ public class DummyMethod {
 		}
 		throw new MetaClassException("Meta method with name '" + name + "' could not be found.");
 	}
-	
+
 	private DummyMethod(Method method) {
 		this.method = method;
 	}
-	
+
 	public Method get() {
 		return this.method;
 	}
-	
+
 	private static Method createMethodContract(Method method, String contract) {
 		initMethod(method);
 		var preCon = contract.substring(contract.indexOf("requires") + "requires".length(), contract.length());
@@ -51,7 +51,7 @@ public class DummyMethod {
 		method.getCbcStartTriple().getStatement().getPostCondition().setName(postCon);
 		return method;
 	}
-	
+
 	private static void initMethod(Method method) {
 		CbCFormula formula = CbcmodelFactory.eINSTANCE.createCbCFormula();
 		AbstractStatement statement = CbcmodelFactory.eINSTANCE.createAbstractStatement();

@@ -1,6 +1,5 @@
 package de.tu_bs.cs.isf.cbc.statistics.ui;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -17,7 +16,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
@@ -27,19 +25,18 @@ import de.tu_bs.cs.isf.cbc.statistics.StatisticsEntry;
 import de.tu_bs.cs.isf.cbc.util.Console;
 import de.tu_bs.cs.isf.cbc.util.Features;
 
-
 public class StatisticsDialog extends TitleAreaDialog {
-	
+
 	private List<?> paths = null;
 	private int numberOfDiagrams;
 	private boolean isSpl = false;
 	private final List<StatisticsEntry> entries = new LinkedList<StatisticsEntry>();
-	private final List<String> configs = new ArrayList<String>(); 
+	private final List<String> configs = new ArrayList<String>();
 	private HashMap<StatisticsEntry, String> configEntries = new HashMap<StatisticsEntry, String>();
 	private List<IFile> selectedDiagramFiles = new LinkedList<IFile>();
 	private boolean configView = false;
 	private Features features = null;
-	
+
 	public StatisticsDialog(Shell parentShell) {
 		super(parentShell);
 	}
@@ -67,7 +64,7 @@ public class StatisticsDialog extends TitleAreaDialog {
 		Browser browser = new Browser(parent, SWT.NONE);
 		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		browser.setLayoutData(gridData);
-		
+
 		HtmlHandler htmlSite = new HtmlHandler();
 		htmlSite.setConfigView(this.configView);
 		htmlSite.setDiagramPaths(paths);
@@ -92,7 +89,8 @@ public class StatisticsDialog extends TitleAreaDialog {
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		// create OK and Cancel buttons by default
-//		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+		// createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
+		// true);
 		if (this.isSpl && this.configView) {
 			createButton(parent, IDialogConstants.OK_ID, "Show Avg View", true);
 		} else if (this.isSpl && !this.configView) {
@@ -112,10 +110,10 @@ public class StatisticsDialog extends TitleAreaDialog {
 			cancelPressed();
 		}
 	}
-	
+
 	private void showConfigView() {
-		if (configEntries == null || configEntries.isEmpty()
-				|| selectedDiagramFiles == null || selectedDiagramFiles.isEmpty()) {
+		if (configEntries == null || configEntries.isEmpty() || selectedDiagramFiles == null
+				|| selectedDiagramFiles.isEmpty()) {
 			return;
 		}
 		this.toggleConfigView();
@@ -128,26 +126,26 @@ public class StatisticsDialog extends TitleAreaDialog {
 	}
 
 	private void toggleConfigView() {
-		this.configView = !this.configView ;
+		this.configView = !this.configView;
 	}
 
 	private void exportCSV() {
-	    FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
-	    dialog.setFilterNames(new String[] { "CSV Files", "All Files (*.*)" });
-	    dialog.setFilterExtensions(new String[] { "*.csv", "*.*" });
-	    
-	    dialog.setFilterPath(selectedDiagramFiles.get(0).getParent().getFullPath().toFile().getAbsolutePath().toString());
-	    dialog.setFileName("statistics.csv");
-	    
-	    String path = dialog.open();
+		FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
+		dialog.setFilterNames(new String[]{"CSV Files", "All Files (*.*)"});
+		dialog.setFilterExtensions(new String[]{"*.csv", "*.*"});
+
+		dialog.setFilterPath(
+				selectedDiagramFiles.get(0).getParent().getFullPath().toFile().getAbsolutePath().toString());
+		dialog.setFileName("statistics.csv");
+
+		String path = dialog.open();
 		CSVHelper helper = new CSVHelper();
-		
+
 		String errorMessage = helper.generateCSVFile(path, entries);
-		if(errorMessage == null) {
+		if (errorMessage == null) {
 			MessageDialog.openInformation(getShell(), "Success", "The CSV file was successfully exported.");
-		}
-		else {
-			MessageDialog.openError(getShell(), "Error", "The CSV could not be exported:\n\n"+errorMessage);
+		} else {
+			MessageDialog.openError(getShell(), "Error", "The CSV could not be exported:\n\n" + errorMessage);
 		}
 	}
 
@@ -180,8 +178,7 @@ public class StatisticsDialog extends TitleAreaDialog {
 		if (allDiagramFiles.size() < 1) {
 			de.tu_bs.cs.isf.cbc.util.Console.println("No diagram files selected.");
 			return false;
-		}
-		else {
+		} else {
 			for (IFile file : allDiagramFiles) {
 				for (StatisticsEntry entry : StatisticsDatabase.instance.getConfigEntries(file, configName)) {
 					configEntries.put(entry, configName);
@@ -198,8 +195,7 @@ public class StatisticsDialog extends TitleAreaDialog {
 		if (allDiagramFiles.size() < 1) {
 			de.tu_bs.cs.isf.cbc.util.Console.println("No diagram files selected.");
 			return false;
-		}
-		else {
+		} else {
 			for (IFile file : allDiagramFiles) {
 				entries.addAll(StatisticsDatabase.instance.getEntriesRelatedTo(file));
 			}
@@ -209,20 +205,20 @@ public class StatisticsDialog extends TitleAreaDialog {
 		return true;
 	}
 
-//	private boolean multipleDiagrams(List<StatisticsEntry> entries) {
-//
-//		boolean moreThanOne = false;
-//		
-//		for (int i = 0; entries.size() > i; i++) {
-//			String outterDiagramName = entries.get(i).getMapping().getCorcDiagramName();
-//			for (int j= i + 1; entries.size() > j; j++) {
-//				String innerDiagramName = entries.get(j).getMapping().getCorcDiagramName();
-//				if (!outterDiagramName.equals(innerDiagramName)) {
-//					moreThanOne = true;
-//				}
-//			}
-//			
-//		}
-//		return moreThanOne;
-//	}
+	// private boolean multipleDiagrams(List<StatisticsEntry> entries) {
+	//
+	// boolean moreThanOne = false;
+	//
+	// for (int i = 0; entries.size() > i; i++) {
+	// String outterDiagramName = entries.get(i).getMapping().getCorcDiagramName();
+	// for (int j= i + 1; entries.size() > j; j++) {
+	// String innerDiagramName = entries.get(j).getMapping().getCorcDiagramName();
+	// if (!outterDiagramName.equals(innerDiagramName)) {
+	// moreThanOne = true;
+	// }
+	// }
+	//
+	// }
+	// return moreThanOne;
+	// }
 }

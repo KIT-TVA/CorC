@@ -64,13 +64,13 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 			if (!iFile.getFileExtension().equals("xml")) {
 				throw new ExecutionException("Select .xml file of feature configuration.");
 			}
-			
+
 			String dirPath = iFile.getLocation().toString();
 			dirPath = dirPath.substring(0, dirPath.indexOf("/configs/"));
 			dirPath += "/products-gen/" + iFile.getName().replace("." + iFile.getFileExtension(), "");
 			deleteExistingClasses(dirPath);
-			
-			FileUtil fileHandler = new FileUtil("");			
+
+			FileUtil fileHandler = new FileUtil("");
 			List<String> unorderedConfig = new ArrayList<String>();
 			for (String line : fileHandler.readFileInList(iFile.getLocation().toString())) {
 				if (line.contains("\"selected\"")) {
@@ -79,9 +79,11 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 				}
 			}
 
-			IFeatureModel featModel = FeatureModelManager.load(Paths.get(iFile.getLocation().toString().substring(0, iFile.getLocation().toString().indexOf("/configs")) + "/model.xml"));
+			IFeatureModel featModel = FeatureModelManager.load(Paths
+					.get(iFile.getLocation().toString().substring(0, iFile.getLocation().toString().indexOf("/configs"))
+							+ "/model.xml"));
 			List<String> config = featModel.getFeatureOrderList();
-			for (int i = 0; i < config.size();) {	
+			for (int i = 0; i < config.size();) {
 				String feature = config.get(i);
 				if (!unorderedConfig.contains(feature)) {
 					config.remove(feature);
@@ -89,9 +91,10 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 					i++;
 				}
 			}
-			
+
 			String[] path = iFile.getLocation().toString().split("/");
-			IProject project = FileUtil.getProjectLocationS("/" + path[path.length-3] + "/" + path[path.length-2] + "/" + path[path.length-1]);
+			IProject project = FileUtil.getProjectLocationS(
+					"/" + path[path.length - 3] + "/" + path[path.length - 2] + "/" + path[path.length - 1]);
 			List<IFile> classFiles = ClassUtil.getFilesOfType(project, ".cbcclass");
 			List<IFile> modelFiles = ClassUtil.getFilesOfType(project, ".cbcmodel");
 			List<String> otherClasses = new ArrayList<String>();
@@ -100,31 +103,38 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 					String[] classNameParts = cbcclassFile.getFullPath().toString().split("/");
 					String className = classNameParts[classNameParts.length - 1].replace(".cbcclass", "");
 					for (String feature : config) {
-						if (cbcclassFile.getFullPath().toString().endsWith("/" + feature + "/" + className + "/" + className + ".cbcclass") && !otherClasses.contains(className)) {
+						if (cbcclassFile.getFullPath().toString()
+								.endsWith("/" + feature + "/" + className + "/" + className + ".cbcclass")
+								&& !otherClasses.contains(className)) {
 							otherClasses.add(className);
 						}
 					}
 				}
 			}
-			
+
 			for (String className : otherClasses) {
 				String codeFields = "";
 				String codeInvariants = "";
 				String location = dirPath + "/" + className + ".java";
-				String helperLocation = iFile.getLocation().toString().replace("configs/" + path[path.length-1], "src/").replace("products-gen", "src") + className + "_helper.java";
+				String helperLocation = iFile.getLocation().toString()
+						.replace("configs/" + path[path.length - 1], "src/").replace("products-gen", "src") + className
+						+ "_helper.java";
 				String classHeader = "public class " + className + " {\n";
 				boolean alreadyInherited = false;
-				for (int i = config.size()-1; i >= 0; i--) {
+				for (int i = config.size() - 1; i >= 0; i--) {
 					String feature = config.get(i);
 					for (IFile cbcclassFile : classFiles) {
-						if (cbcclassFile.getFullPath().toString().contains(className + ".cbcclass") && cbcclassFile.getFullPath().toString().contains("/features/" + feature)) {
+						if (cbcclassFile.getFullPath().toString().contains(className + ".cbcclass")
+								&& cbcclassFile.getFullPath().toString().contains("/features/" + feature)) {
 							String cbcclassPath = project.getLocationURI().toString().substring(6);
-							Resource resource = ClassUtil.getClassModelResource(cbcclassPath, className, cbcclassFile.getFullPath().segment(2));
+							Resource resource = ClassUtil.getClassModelResource(cbcclassPath, className,
+									cbcclassFile.getFullPath().segment(2));
 							for (EObject obj : resource.getContents()) {
 								if (obj instanceof ModelClass) {
 									ModelClass mc = (ModelClass) obj;
 									if (mc.getInheritsFrom() != null && !alreadyInherited) {
-										classHeader = "public class " + className + " extends " + mc.getInheritsFrom().getName() + " {\n";
+										classHeader = "public class " + className + " extends "
+												+ mc.getInheritsFrom().getName() + " {\n";
 										alreadyInherited = true;
 									}
 									for (Condition c : mc.getClassInvariants()) {
@@ -134,10 +144,16 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 										}
 									}
 									for (Field f : mc.getFields()) {
-										String newField = f.getVisibility().toString().toLowerCase() + (f.getVisibility().equals(Visibility.PRIVATE) ? " /*@spec_public@*/ " : "") + (f.isIsStatic() ? " static " : " ") + f.getType() + " " + f.getName() + ";";
+										String newField = f.getVisibility().toString().toLowerCase()
+												+ (f.getVisibility().equals(Visibility.PRIVATE)
+														? " /*@spec_public@*/ "
+														: "")
+												+ (f.isIsStatic() ? " static " : " ") + f.getType() + " " + f.getName()
+												+ ";";
 										if (!codeFields.contains(newField)) {
 											codeFields += "    " + newField + "\n";
-										} 									}
+										}
+									}
 								}
 							}
 						}
@@ -145,7 +161,7 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 				}
 
 				List<String> methods = new ArrayList<String>();
-				//for (int i = config.size()-1; i >= 0; i--) {
+				// for (int i = config.size()-1; i >= 0; i--) {
 				for (int i = 0; i < config.size(); i++) {
 					String feature = config.get(i);
 					for (IFile methodFile : modelFiles) {
@@ -161,26 +177,33 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 								if (!addedToList && method.replace("\n", "").replace("\t", "").matches(pattern)) {
 									oldVersionOfMethod = method;
 									methods.remove(method);
-									if (newVersionOfMethod.contains("original(") || newVersionOfMethod.contains("original_" + methodName)) {
+									if (newVersionOfMethod.contains("original(")
+											|| newVersionOfMethod.contains("original_" + methodName)) {
 										for (int k = 0; k < methods.size(); k++) {
-											String temp = methods.get(k).replace("original_" + methodName + "(", "original_original_" + methodName + "(");
+											String temp = methods.get(k).replace("original_" + methodName + "(",
+													"original_original_" + methodName + "(");
 											methods.remove(k);
 											methods.add(k, temp);
 										}
-										oldVersionOfMethod = oldVersionOfMethod.replace("original_" + methodName + "(", "original_original_" + methodName + "(");
-										oldVersionOfMethod = oldVersionOfMethod.replace(" " + methodName + "(", " original_" + methodName + "(");
-										newVersionOfMethod = newVersionOfMethod.replace("original(", "original_" + methodName + "(");
-										newVersionOfMethod = applyCompositionTechnqiue(newVersionOfMethod, oldVersionOfMethod, resource);
+										oldVersionOfMethod = oldVersionOfMethod.replace("original_" + methodName + "(",
+												"original_original_" + methodName + "(");
+										oldVersionOfMethod = oldVersionOfMethod.replace(" " + methodName + "(",
+												" original_" + methodName + "(");
+										newVersionOfMethod = newVersionOfMethod.replace("original(",
+												"original_" + methodName + "(");
+										newVersionOfMethod = applyCompositionTechnqiue(newVersionOfMethod,
+												oldVersionOfMethod, resource);
 									}
 									addedToList = true;
 								}
 							}
-							if (!oldVersionOfMethod.equals("")) methods.add(oldVersionOfMethod);
+							if (!oldVersionOfMethod.equals(""))
+								methods.add(oldVersionOfMethod);
 							methods.add(newVersionOfMethod);
 						}
 					}
 				}
-				
+
 				String methodCode = "";
 				for (String otherMethod : methods) {
 					methodCode += "\n" + otherMethod;
@@ -195,20 +218,21 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 						while (!lines.get(i).contains("//begin")) {
 							i++;
 						}
-						for (int j = i + 1; j < lines.size()-1; j++) {
+						for (int j = i + 1; j < lines.size() - 1; j++) {
 							helperCode = helperCode + lines.get(j) + "\n";
-						}		
+						}
 						helperCode = helperCode + "// End of code from " + helperLocation + "\n";
 					}
-				}		
-				writeFile(location, classHeader + codeFields + "\n" + codeInvariants + "\n" + methodCode + helperCode + "}");
+				}
+				writeFile(location,
+						classHeader + codeFields + "\n" + codeInvariants + "\n" + methodCode + helperCode + "}");
 			}
 		}
 		return null;
-	}	
-	
+	}
+
 	private String applyCompositionTechnqiue(String newVersionOfMethod, String oldVersionOfMethod, Resource resource) {
-		CompositionTechnique ct= ((CbCFormula) resource.getContents().get(0)).getCompositionTechnique();
+		CompositionTechnique ct = ((CbCFormula) resource.getContents().get(0)).getCompositionTechnique();
 		String[] oldParts = oldVersionOfMethod.split("\n");
 		String[] newParts = newVersionOfMethod.split("\n");
 		newParts[2] = applyCompositionTechnique(oldParts[2], newParts[2], ct);
@@ -222,18 +246,21 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 
 	private String applyCompositionTechnique(String oldCond, String newCond, CompositionTechnique ct) {
 		switch (ct) {
-		case CONTRACT_OVERRIDING:
-			return newCond;
-		case CONJUNCTIVE_CONTRACTING:
-			if (newCond.contains("@ ensures ")) {
-				return newCond.substring(0, newCond.length()-2) + " & " + oldCond.substring(0, oldCond.length()-2).replace("\t@ ensures", "") + ";";
-			} else {
-				return newCond.substring(0, newCond.length()-2) + " & " + oldCond.substring(0, oldCond.length()-2).replace("\t@ requires", "") + ";";
-			}
-		case EXPLICIT_CONTRACTING:
-			Pattern pattern = Pattern.compile("original");
-			Matcher matcher = pattern.matcher(newCond);
-			return matcher.replaceAll(Matcher.quoteReplacement(oldCond.substring(0, oldCond.length()-2).replace("\t@ requires", "")));
+			case CONTRACT_OVERRIDING :
+				return newCond;
+			case CONJUNCTIVE_CONTRACTING :
+				if (newCond.contains("@ ensures ")) {
+					return newCond.substring(0, newCond.length() - 2) + " & "
+							+ oldCond.substring(0, oldCond.length() - 2).replace("\t@ ensures", "") + ";";
+				} else {
+					return newCond.substring(0, newCond.length() - 2) + " & "
+							+ oldCond.substring(0, oldCond.length() - 2).replace("\t@ requires", "") + ";";
+				}
+			case EXPLICIT_CONTRACTING :
+				Pattern pattern = Pattern.compile("original");
+				Matcher matcher = pattern.matcher(newCond);
+				return matcher.replaceAll(Matcher
+						.quoteReplacement(oldCond.substring(0, oldCond.length() - 2).replace("\t@ requires", "")));
 		}
 		return "";
 	}
@@ -248,7 +275,7 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 			}
 		}
 	}
-	
+
 	public void writeFile(String location, String code) {
 		File javaFile = new File(location);
 		File dir = new File(location.substring(0, location.lastIndexOf("/")));
@@ -272,22 +299,25 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private String generateMethodForClass(Resource res, String methodName) {
 		JavaVariables vars = (JavaVariables) res.getContents().get(1);
 		Renaming renaming = null;
 		CbCFormula formula = (CbCFormula) res.getContents().get(0);
 		GlobalConditions globalConditions = null;
 
-		String signatureString = formula.getMethodObj().getSignature().replaceFirst(formula.getMethodObj().getName(), methodName);
+		String signatureString = formula.getMethodObj().getSignature().replaceFirst(formula.getMethodObj().getName(),
+				methodName);
 		JavaVariable returnVariable = null;
 		int counter = 0;
 		LinkedList<String> localVariables = new LinkedList<String>();
 		for (int i = 0; i < vars.getVariables().size(); i++) {
 			JavaVariable currentVariable = vars.getVariables().get(i);
-			if (currentVariable.getKind() == VariableKind.RETURN || currentVariable.getKind() == VariableKind.RETURNPARAM) {
+			if (currentVariable.getKind() == VariableKind.RETURN
+					|| currentVariable.getKind() == VariableKind.RETURNPARAM) {
 				counter++;
-				if (!signatureString.substring(0, signatureString.indexOf('(')).contains(currentVariable.getName().replace("non-null", "").trim().split(" ")[0])) {
+				if (!signatureString.substring(0, signatureString.indexOf('('))
+						.contains(currentVariable.getName().replace("non-null", "").trim().split(" ")[0])) {
 					Console.println("Method return type and variable type does not match.");
 					return "";
 				}
@@ -311,6 +341,7 @@ public class GenerateProductVariantHandler extends AbstractHandler {
 			localVariables.add(returnVariable.getName().replace("non-null", ""));
 		}
 		globalConditions = null;
-		return ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables, returnVariable, signatureString, new String[0]);
+		return ConstructCodeBlock.constructCodeBlockForExport(formula, globalConditions, renaming, localVariables,
+				returnVariable, signatureString, new String[0]);
 	}
 }

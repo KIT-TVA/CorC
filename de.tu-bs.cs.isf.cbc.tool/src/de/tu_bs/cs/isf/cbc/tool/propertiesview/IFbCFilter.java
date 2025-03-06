@@ -10,19 +10,18 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 
 /**
  * Class to filter for statements
+ * 
  * @author Tobias
  *
  */
 public class IFbCFilter extends AbstractPropertySectionFilter {
 
 	@Override
-    protected boolean accept(PictogramElement pe) {
-        EObject eObject =
-            Graphiti.getLinkService()
-            .getBusinessObjectForLinkedPictogramElement(pe);
-        if (eObject instanceof AbstractStatement || eObject instanceof CbCFormula) {
-            return true;
-        }
-        return false;
-    }
+	protected boolean accept(PictogramElement pe) {
+		EObject eObject = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		if (eObject instanceof AbstractStatement || eObject instanceof CbCFormula) {
+			return true;
+		}
+		return false;
+	}
 }

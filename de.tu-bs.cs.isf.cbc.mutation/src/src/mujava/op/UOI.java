@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op;
 
 import openjava.mop.FileEnvironment;
@@ -20,18 +20,18 @@ import openjava.ptree.ClassDeclaration;
 import openjava.ptree.CompilationUnit;
 
 /**
- * <p>Generate UOI (Unary operator insertion) mutants --
- *    inserts each unary operator (arithmetic +, arithmetic -, conditional !,
- *    logical ~) before each expression of the correct type    
+ * <p>
+ * Generate UOI (Unary operator insertion) mutants -- inserts each unary
+ * operator (arithmetic +, arithmetic -, conditional !, logical ~) before each
+ * expression of the correct type
  * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class UOI extends src.mujava.op.util.Mutator
-{
-   public UOI(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit)
-   {
-      super( file_env, comp_unit );
-   }
+public class UOI extends src.mujava.op.util.Mutator {
+	public UOI(FileEnvironment file_env, ClassDeclaration cdecl, CompilationUnit comp_unit) {
+		super(file_env, comp_unit);
+	}
 }

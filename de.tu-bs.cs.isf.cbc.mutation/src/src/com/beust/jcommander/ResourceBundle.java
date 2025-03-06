@@ -29,10 +29,10 @@ import java.lang.annotation.Target;
  * @author Cedric Beust <cedric@beust.com>
  */
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
-@Target({ TYPE })
+@Target({TYPE})
 public @interface ResourceBundle {
-  /**
-   * The name of the resource bundle to use for this class.
-   */
-  String value();
+	/**
+	 * The name of the resource bundle to use for this class.
+	 */
+	String value();
 }

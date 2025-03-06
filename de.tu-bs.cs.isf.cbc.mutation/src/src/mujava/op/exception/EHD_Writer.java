@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.exception;
 
 import java.io.PrintWriter;
@@ -22,33 +22,33 @@ import openjava.ptree.ParseTreeException;
 import src.mujava.op.util.MutantCodeWriter;
 
 /**
- * <p>Description: </p>
+ * <p>
+ * Description:
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */ 
+ */
 
-public class EHD_Writer extends MutantCodeWriter
-{
-  CatchBlock mutant = null;
+public class EHD_Writer extends MutantCodeWriter {
+	CatchBlock mutant = null;
 
-  public EHD_Writer( String file_name,PrintWriter out ) {
-	super(file_name,out);
-  }
+	public EHD_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-  public void setMutant(CatchBlock p){
-    mutant = p;
-  }
+	public void setMutant(CatchBlock p) {
+		mutant = p;
+	}
 
-
-  public void visit( CatchBlock p ) throws ParseTreeException
-  {
-    if(isSameObject(p,mutant)){
-        // -------------------------
-        mutated_line = line_num;
-        writeLog(" catch block for " +  p.getParameter().getTypeSpecifier().getName()+ " is deleted.");
-        // -------------------------          }else{
-    }else{
-      super.visit(p);
-    }
-  }
+	public void visit(CatchBlock p) throws ParseTreeException {
+		if (isSameObject(p, mutant)) {
+			// -------------------------
+			mutated_line = line_num;
+			writeLog(" catch block for " + p.getParameter().getTypeSpecifier().getName() + " is deleted.");
+			// ------------------------- }else{
+		} else {
+			super.visit(p);
+		}
+	}
 }

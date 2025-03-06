@@ -64,7 +64,7 @@ public class GenerateModelWithoutContract {
 		if (compilationUnit.getChildNodes().isEmpty()) {
 			return;
 		}
-		
+
 		ClassOrInterfaceCollector collector = new ClassOrInterfaceCollector();
 		collector.visit(compilationUnit, null);
 
@@ -106,11 +106,10 @@ public class GenerateModelWithoutContract {
 				m.put("cbcmodel", new XMIResourceFactoryImpl());
 
 				String potentialName = methodDeclaration.getNameAsString();
-				String name = collector.getClassOrInterfaceDeclaration().getNameAsString() + "_" + findName(names, potentialName);
+				String name = collector.getClassOrInterfaceDeclaration().getNameAsString() + "_"
+						+ findName(names, potentialName);
 				ResourceSet rs = new ResourceSetImpl();
 				IPath path = iFile.getLocation().removeLastSegments(1);
-
-			
 
 				// Create Resource and load respective Model Instance
 				Resource r = rs.createResource(URI.createFileURI(path + "\\" + name + ".cbcmodel"));
@@ -167,8 +166,10 @@ public class GenerateModelWithoutContract {
 	 * Determines name for diagram and model. If there are methods with the same
 	 * name, number consecutively.
 	 * 
-	 * @param names   list of already used names
-	 * @param potName name of method
+	 * @param names
+	 *            list of already used names
+	 * @param potName
+	 *            name of method
 	 * @return unique name
 	 */
 	private String findName(List<String> names, String potentialName) {
@@ -207,9 +208,10 @@ public class GenerateModelWithoutContract {
 	 * CompositionStatement and handles rest of the list
 	 * 
 	 * @param r
-	 * @param statements list of statements from java code
-	 * @param parent     the statements from the list should be connected to that
-	 *                   statement
+	 * @param statements
+	 *            list of statements from java code
+	 * @param parent
+	 *            the statements from the list should be connected to that statement
 	 */
 	public void handleListOfStatements(Resource r, EList<Statement> statements, AbstractStatement parent) {
 		if (statements.size() > 1) {
@@ -242,7 +244,8 @@ public class GenerateModelWithoutContract {
 	private void handleStatement(Resource r, Statement statement, AbstractStatement parent) {
 		if (statement.isExpressionStmt()) {
 			if (statement.asExpressionStmt().getExpression().isVariableDeclarationExpr()) {
-				VariableDeclarationExpr variableStmt = statement.asExpressionStmt().getExpression().asVariableDeclarationExpr();
+				VariableDeclarationExpr variableStmt = statement.asExpressionStmt().getExpression()
+						.asVariableDeclarationExpr();
 				NodeList<VariableDeclarator> varDec = variableStmt.getVariables();
 				String text = varDec.get(0).toString();
 				if (text.contains("=")) {
@@ -446,8 +449,7 @@ public class GenerateModelWithoutContract {
 					firstCondition = label.get();
 				}
 			}
-			SelectionStatement selStatement = createMultiSelection(
-					switchVariable + " = " + firstCondition.toString());
+			SelectionStatement selStatement = createMultiSelection(switchVariable + " = " + firstCondition.toString());
 			parent.setRefinement(selStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, selStatement);
 			EList<Statement> switchStmts = new BasicEList<Statement>();
@@ -457,14 +459,15 @@ public class GenerateModelWithoutContract {
 			handleListOfStatements(r, switchStmts, selStatement.getCommands().get(0));
 
 			for (int i = 1; i < switchStmt.getEntries().size(); i++) {
-				if (switchStmt.getEntry(i).getType().equals(SwitchEntry.Type.STATEMENT_GROUP) && switchStmt.getEntry(i).getLabels().isNonEmpty()) {
+				if (switchStmt.getEntry(i).getType().equals(SwitchEntry.Type.STATEMENT_GROUP)
+						&& switchStmt.getEntry(i).getLabels().isNonEmpty()) {
 					SwitchEntry normalCase = switchStmt.getEntry(i);
 					Expression condition = null;
 					Optional<Expression> label = normalCase.getLabels().getFirst();
 					if (label.isPresent()) {
 						condition = label.get();
 					}
-					
+
 					AbstractStatement nextStatement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 					nextStatement.setName("statement");
 					selStatement.getCommands().add(nextStatement);
@@ -514,7 +517,7 @@ public class GenerateModelWithoutContract {
 					handleListOfStatements(r, maybeEmtpySwtichStmt, nextStatement);
 				}
 			}
-		} else if(statement.isEmptyStmt()) {
+		} else if (statement.isEmptyStmt()) {
 			SkipStatement skipStatement = createSkipStatement();
 			parent.setRefinement(skipStatement);
 			UpdateConditionsOfChildren.updateRefinedStatement(parent, skipStatement);

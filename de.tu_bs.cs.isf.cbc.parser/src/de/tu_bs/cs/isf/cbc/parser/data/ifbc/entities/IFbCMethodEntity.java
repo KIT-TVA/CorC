@@ -5,8 +5,6 @@ import java.util.List;
 import de.tu_bs.cs.isf.cbc.parser.annotations.MDF;
 import de.tu_bs.cs.isf.cbc.parser.data.Method;
 import de.tu_bs.cs.isf.cbc.parser.data.ParameterDefinition;
-import de.tu_bs.cs.isf.cbc.parser.data.ifbc.statements.IFbCMethod;
-import de.tu_bs.cs.isf.cbc.parser.data.ifbc.statements.IFbCStatement;
 
 public class IFbCMethodEntity extends IFbCReferenceEntity {
 

@@ -2,6 +2,7 @@ package de.tu_bs.cs.isf.cbc.exceptions;
 
 /**
  * Can be thrown when any exception in class PreConditionSolver occurs.
+ * 
  * @author Fynn
  */
 public class PreConditionSolverException extends Exception {

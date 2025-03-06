@@ -8,7 +8,7 @@ import de.tu_bs.cs.isf.cbc.util.MethodHandler;
 
 public class JavaMethods {
 	final List<MethodHandler> methods = new ArrayList<MethodHandler>();
-	
+
 	public JavaMethods(List<String> codes) {
 		for (var code : codes) {
 			int index = code.indexOf("{");
@@ -24,11 +24,11 @@ public class JavaMethods {
 			}
 		}
 	}
-	
+
 	public List<MethodHandler> getAll() {
 		return this.methods;
 	}
-	
+
 	private String getContract(String code, String signature) {
 		code = code.substring(0, code.indexOf(signature));
 		code = code.substring(code.lastIndexOf("/*@"), code.lastIndexOf("*/") + 2);

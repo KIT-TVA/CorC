@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package src.mujava.op.basic;
 
 import java.io.PrintWriter;
@@ -23,81 +23,74 @@ import openjava.ptree.Variable;
 import src.mujava.op.util.TraditionalMutantCodeWriter;
 
 /**
- * <p>Output and log AOIS mutants to files </p>
+ * <p>
+ * Output and log AOIS mutants to files
+ * </p>
+ * 
  * @author Yu-Seung Ma
  * @version 1.0
-  */
+ */
 
-public class AOIS_Writer extends TraditionalMutantCodeWriter
-{
-   Variable original_var;
-   FieldAccess original_field;
-   String mutant;
+public class AOIS_Writer extends TraditionalMutantCodeWriter {
+	Variable original_var;
+	FieldAccess original_field;
+	String mutant;
 
-   public AOIS_Writer( String file_name, PrintWriter out ) 
-   {
-      super(file_name,out);
-   }
+	public AOIS_Writer(String file_name, PrintWriter out) {
+		super(file_name, out);
+	}
 
-   /**
-    * Set original source code and mutated code
-    * @param exp1
-    * @param mutant
-    */
-   public void setMutant(Variable exp1, String mutant)
-   {
-      original_var = exp1; 
-      this.mutant = mutant;
-   }
+	/**
+	 * Set original source code and mutated code
+	 * 
+	 * @param exp1
+	 * @param mutant
+	 */
+	public void setMutant(Variable exp1, String mutant) {
+		original_var = exp1;
+		this.mutant = mutant;
+	}
 
-   /**
-    * Set original source code and mutated code
-    * @param exp1
-    * @param mutant
-    */
-   public void setMutant(FieldAccess exp1, String mutant)
-   {
-      original_field = exp1;
-      this.mutant = mutant;
-   }
+	/**
+	 * Set original source code and mutated code
+	 * 
+	 * @param exp1
+	 * @param mutant
+	 */
+	public void setMutant(FieldAccess exp1, String mutant) {
+		original_field = exp1;
+		this.mutant = mutant;
+	}
 
-   /**
-    * Log mutated line
-    */
-   public void visit( Variable p ) throws ParseTreeException
-   {
-      if (isSameObject(p, original_var))
-      {
-         out.print(mutant);
-         // -----------------------------------------------------------
-         mutated_line = line_num;
-         String log_str = p.toString() + " => " + mutant;
-         writeLog(removeNewline(log_str));
-         // -------------------------------------------------------------
-      }
-      else
-      {
-         super.visit(p);
-      }
-   }
+	/**
+	 * Log mutated line
+	 */
+	public void visit(Variable p) throws ParseTreeException {
+		if (isSameObject(p, original_var)) {
+			out.print(mutant);
+			// -----------------------------------------------------------
+			mutated_line = line_num;
+			String log_str = p.toString() + " => " + mutant;
+			writeLog(removeNewline(log_str));
+			// -------------------------------------------------------------
+		} else {
+			super.visit(p);
+		}
+	}
 
-   /**
-    * Log mutated line
-    */
-   public void visit( FieldAccess p ) throws ParseTreeException
-   {
-      if (isSameObject(p, original_field))
-      {
-         out.print(mutant);
-         // -----------------------------------------------------------
-         mutated_line = line_num;
-         String log_str = p.toString() + " => " + mutant;
-         writeLog(removeNewline(log_str));
-         // -------------------------------------------------------------
-      }
-      else
-      {
-         super.visit(p);
-      }
-   }
+	/**
+	 * Log mutated line
+	 */
+	public void visit(FieldAccess p) throws ParseTreeException {
+		if (isSameObject(p, original_field)) {
+			out.print(mutant);
+			// -----------------------------------------------------------
+			mutated_line = line_num;
+			String log_str = p.toString() + " => " + mutant;
+			writeLog(removeNewline(log_str));
+			// -------------------------------------------------------------
+		} else {
+			super.visit(p);
+		}
+	}
 }

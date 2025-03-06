@@ -15,36 +15,36 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Parses a post condition given in JavaDL syntax into an AST.
- * Grammar:
- * There are 4 non-terminals: Condition, Predicate, Atom and Math. If a name is wrapped inside brackets '{name}' 
- * then it means that name stands for multiple objects.
+ * Parses a post condition given in JavaDL syntax into an AST. Grammar: There
+ * are 4 non-terminals: Condition, Predicate, Atom and Math. If a name is
+ * wrapped inside brackets '{name}' then it means that name stands for multiple
+ * objects.
  * +===========================================================================================================+
- * + M :-> {ID} {OP} M | {INT} {OP} M | {ID} | {INT}													       +
- * + A :-> (C) | {ID} {REL} M | M {REL} {ID} | {ID} = {BOOL} | {ID} != {BOOL} | !{bool/{ID}} | {bool/{ID}} | M +
- * + P :-> A -> P | A <-> P | A & P | A or P | A {REL} P | A | {KEY_Q}{ID}{ID};(P)	                           +
- * + C :-> P & C | P															                               +
+ * + M :-> {ID} {OP} M | {INT} {OP} M | {ID} | {INT} + + A :-> (C) | {ID} {REL}
+ * M | M {REL} {ID} | {ID} = {BOOL} | {ID} != {BOOL} | !{bool/{ID}} |
+ * {bool/{ID}} | M + + P :-> A -> P | A <-> P | A & P | A or P | A {REL} P | A |
+ * {KEY_Q}{ID}{ID};(P) + + C :-> P & C | P +
  * +===========================================================================================================+
- * {ID} = All idenitifiers + old keyword='{KEY}({ID})', {REL} = {<, <=, =, !=, >=, >}, {OP} = {+, -, *, /, %}, 
- * {BOOL} = {false, true}
- * {KEY_Q} = {forall, exists}
- * Math expression are treated as part of identifiers and are not handled separately.
- * Note:
- * - This parser doesn't support CorC's special words for representing predicates that have the following syntax: 
- * <word> with word being a identifier for some function. If you wish to support this as well
+ * {ID} = All idenitifiers + old keyword='{KEY}({ID})', {REL} = {<, <=, =, !=,
+ * >=, >}, {OP} = {+, -, *, /, %}, {BOOL} = {false, true} {KEY_Q} = {forall,
+ * exists} Math expression are treated as part of identifiers and are not
+ * handled separately. Note: - This parser doesn't support CorC's special words
+ * for representing predicates that have the following syntax: <word> with word
+ * being a identifier for some function. If you wish to support this as well
  * you'll need to add a new rule to the grammar of this parser.
+ * 
  * @author Fynn
  */
 public class ConditionParser {
 	private Tokenizer tokenizer;
 	private Token curToken;
 	private Token nextToken;
-	
+
 	public ConditionParser() {
 		curToken = null;
 		nextToken = null;
 	}
-	
+
 	// TODO: Check this for all possibilities
 	private String removeCorCKeywords(String postCondition) {
 		int start = postCondition.indexOf("<");
@@ -56,12 +56,12 @@ public class ConditionParser {
 		String toCheck = postCondition;
 		String word = null;
 		int len = 0;
-		
+
 		while (start != -1 && end != -1) {
 			if (start >= end) {
 				break;
 			}
-			//check if there is a single word between '<' and '>'
+			// check if there is a single word between '<' and '>'
 			word = toCheck.substring(start + 1, end);
 			len = word.length();
 			word = word.replaceAll("\\W", word);
@@ -70,8 +70,9 @@ public class ConditionParser {
 				if (postCondition.charAt(start + postCondition.length() - toCheck.length() - 1) == '.') {
 					start--;
 				}
-				postCondition = postCondition.substring(0, start + postCondition.length() - toCheck.length()) 
-						+ postCondition.substring(end + 1 + postCondition.length() - toCheck.length(), postCondition.length());
+				postCondition = postCondition.substring(0, start + postCondition.length() - toCheck.length())
+						+ postCondition.substring(end + 1 + postCondition.length() - toCheck.length(),
+								postCondition.length());
 				start = end;
 			}
 			toCheck = toCheck.substring(start + 1, toCheck.length());
@@ -84,7 +85,7 @@ public class ConditionParser {
 		}
 		return postCondition;
 	}
-	
+
 	private String prepareCondition(String postCondition) {
 		// TODO: Implement support for CorC specific keywords of the form '<keyword>'
 		postCondition = removeCorCKeywords(postCondition);
@@ -94,30 +95,30 @@ public class ConditionParser {
 		postCondition = postCondition.replaceAll("\\t", "");
 		return postCondition;
 	}
-	
+
 	public Node parse(String postCondition) throws UnexpectedTokenException {
 		postCondition = prepareCondition(postCondition);
 		tokenizer = new Tokenizer(postCondition);
-		//var allTokens = tokenizer.genTokens();
+		// var allTokens = tokenizer.genTokens();
 		nextToken();
 		nextToken();
 		Node resultTree = parseCondition();
 		if (hasToken()) {
-			return null;		
+			return null;
 		}
 		return resultTree;
 	}
-	
+
 	private boolean hasToken() {
 		return this.nextToken != null;
 	}
-		
+
 	// C :-> P & C | P
 	private Node parseCondition() throws UnexpectedTokenException {
 		var p = parsePredicate();
 		if (curToken == null) {
 			return p;
-			//return p;
+			// return p;
 		} else if (curToken.getType() == TokenType.AND) {
 			nextToken();
 			var c = parseCondition();
@@ -126,7 +127,7 @@ public class ConditionParser {
 			return p;
 		}
 	}
-	
+
 	// P :-> A -> P | A <-> P | A & P | A or P | A {REL} P | A | {KEY_Q}{ID}{ID};(P)
 	private Node parsePredicate() throws UnexpectedTokenException {
 		var a = parseAtom();
@@ -180,16 +181,14 @@ public class ConditionParser {
 			return a;
 		}
 	}
-	
+
 	// M :-> {ID} {OP} M | {INT} {OP} M | {ID} | {INT}
 	private Node parseM() throws UnexpectedTokenException {
 		// TODO: this doesn't account for associativity.
 		OpNode opNode = new OpNode();
 		if (curToken == null) {
 			return null;
-		} else if (curToken.getType() == TokenType.IDENT 
-				|| curToken.getType() == TokenType.NUMBER) 
-		{
+		} else if (curToken.getType() == TokenType.IDENT || curToken.getType() == TokenType.NUMBER) {
 			opNode.addLeft(curToken);
 			if (nextToken == null || nextToken.getType() != TokenType.OP) {
 				if (nextToken != null && nextToken.getValue().startsWith("-") && !nextToken.getValue().contains(">")) {
@@ -199,7 +198,7 @@ public class ConditionParser {
 					var m = parseM();
 					opNode.addRight(m);
 					return opNode;
-					
+
 				} else {
 					var prev = curToken;
 					nextToken();
@@ -228,19 +227,18 @@ public class ConditionParser {
 			var m = parseM();
 			opNode.addRight(m);
 			return opNode;
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
-	
-	// A :-> (C) | {ID} {REL} M | M {REL} {ID} | {ID} = {BOOL} | {ID} != {BOOL} | !{bool/{ID}} | {bool/{ID}} | M
+
+	// A :-> (C) | {ID} {REL} M | M {REL} {ID} | {ID} = {BOOL} | {ID} != {BOOL} |
+	// !{bool/{ID}} | {bool/{ID}} | M
 	private Node parseAtom() throws UnexpectedTokenException {
 		var m = parseM();
 		if (curToken == null) {
 			return m;
-		}
-		else if (curToken.getType() == TokenType.REL) {
+		} else if (curToken.getType() == TokenType.REL) {
 			if (curToken.getValue().equals("!")) {
 				nextToken();
 				var prev = curToken;
@@ -254,8 +252,7 @@ public class ConditionParser {
 			var a = parseAtom();
 			relNode.addBoundaryNode(a);
 			return relNode;
-		} 	
-		else if (curToken.getType() == TokenType.IDENT || curToken.getType() == TokenType.KEY) {
+		} else if (curToken.getType() == TokenType.IDENT || curToken.getType() == TokenType.KEY) {
 			RelNode relNode = new RelNode();
 			if (Arrays.asList("exists", "forall").contains(curToken.getValue())) {
 				return null;
@@ -269,10 +266,8 @@ public class ConditionParser {
 			nextToken();
 			relNode.addRel(curToken.getValue());
 			nextToken();
-			if (curToken.getType() != TokenType.IDENT && 
-					curToken.getType() != TokenType.NUMBER &&
-					curToken.getType() != TokenType.BOOL &&
-					curToken.getType() != TokenType.KEY) {
+			if (curToken.getType() != TokenType.IDENT && curToken.getType() != TokenType.NUMBER
+					&& curToken.getType() != TokenType.BOOL && curToken.getType() != TokenType.KEY) {
 				Console.println("ParserError: Wrong token type.");
 				return null;
 			}
@@ -300,39 +295,44 @@ public class ConditionParser {
 			SingleNode s = new SingleNode(TokenType.BOOL, curToken.getValue());
 			nextToken();
 			return s;
-		}
-		else {
+		} else {
 			return m;
 		}
 	}
-	
+
 	public void nextToken() throws UnexpectedTokenException {
 		curToken = nextToken;
 		nextToken = tokenizer.genNext();
 	}
-	
-	//+++++++++++++++++++++++++++++++++STATIC (OLD) CONDITION PARSING+++++++++++++++++++++++++++++++++
-	
+
+	// +++++++++++++++++++++++++++++++++STATIC (OLD) CONDITION
+	// PARSING+++++++++++++++++++++++++++++++++
+
 	/**
-	 * Returns a string of all preconditions in JavaDL syntax or empty string, when there is no precondition.
+	 * Returns a string of all preconditions in JavaDL syntax or empty string, when
+	 * there is no precondition.
+	 * 
 	 * @param globalConditions
 	 * @param formula
 	 * @return
 	 */
 	public static String parseConditions(final GlobalConditions globalConditions, final Condition preCondition) {
-		// By definition we know that the root formula does contain the strongest precondition,
-		// therefore we only need to parse it's preconditions as any following refinement
+		// By definition we know that the root formula does contain the strongest
+		// precondition,
+		// therefore we only need to parse it's preconditions as any following
+		// refinement
 		// can't have more (=stronger) requirements.
 		var preCon = preCondition.getName().trim();
 		if (preCon.equals("true")) {
 			preCon = "";
 		}
-		// add invariants 
-		List<String> invariants = globalConditions == null ? new ArrayList<String>() : globalConditions.getConditions().stream()
-				.map(c -> c.getName())
-				.toList();
+		// add invariants
+		List<String> invariants = globalConditions == null
+				? new ArrayList<String>()
+				: globalConditions.getConditions().stream().map(c -> c.getName()).toList();
 		String invariantsStr = "";
-		// non-null conditions can be discarded because the generator always generates values for complex data types.
+		// non-null conditions can be discarded because the generator always generates
+		// values for complex data types.
 		final Pattern p = Pattern.compile("[A-Z]\\w*\\.\\w+");
 		int counter = 0;
 		for (int i = 0; i < invariants.size(); i++) {
@@ -341,8 +341,9 @@ public class ConditionParser {
 				String con = invariants.get(i);
 				while (m.find()) {
 					return "";
-					
-					//con = con.substring(0, m.start()) + con.substring(m.start() + m.group(0).indexOf('.') + 1, con.length());
+
+					// con = con.substring(0, m.start()) + con.substring(m.start() +
+					// m.group(0).indexOf('.') + 1, con.length());
 				}
 				if (counter > 0) {
 					invariantsStr += " & " + con;
@@ -352,10 +353,10 @@ public class ConditionParser {
 				counter++;
 			}
 		}
-		//invariantsStr = invariantsStr.replaceAll("this\\.", "");
+		// invariantsStr = invariantsStr.replaceAll("this\\.", "");
 		if (preCon.isEmpty()) {
 			return invariantsStr;
-		} else {	
+		} else {
 			if (invariantsStr.isEmpty()) {
 				return preCon;
 			} else {

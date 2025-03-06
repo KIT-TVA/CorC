@@ -35,28 +35,25 @@ import de.ovgu.featureide.fm.core.base.IFeature;
 import de.ovgu.featureide.fm.core.base.IFeatureModel;
 import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
 import de.ovgu.featureide.fm.core.io.manager.FeatureModelManager;
-import de.tu_bs.cs.isf.cbc.util.ClassHandler;
-import de.tu_bs.cs.isf.cbc.util.CodeHandler;
 import de.tu_bs.cs.isf.cbc.util.Console;
-import de.tu_bs.cs.isf.cbc.util.FileHandler;
 import de.tu_bs.cs.isf.cbc.util.FileUtil;
 import de.tu_bs.cs.isf.cbc.util.GenerateDiagramFromModel;
 import de.tu_bs.cs.isf.cbc.util.consts.MetaNames;
 
-
-public class GenerateMetaProductHandler extends AbstractHandler implements IHandler{
+public class GenerateMetaProductHandler extends AbstractHandler implements IHandler {
 	static {
 		FMCoreLibrary.getInstance().install();
 	}
-	
+
 	private static IFolder FEATURE_FOLDER_SELECTED_BY_USER;
 	private static IProject project;
 	private static URI uriToRootProject;
 	private static ArrayList<MethodStruct> detectedMethods = new ArrayList<>();
 	private static ArrayList<String> uniqueMetaMethodNames = new ArrayList<>();
 	private static ArrayList<MetaMethod> uniqueMetaMethods = new ArrayList<>();
-	private static Map<String, List<String>> alternativeFeatures = new HashMap<String, List<String>>(); //Parent: Features
-	private static String FEATURE_MODEL_FORMULA_CNF = ""; 
+	private static Map<String, List<String>> alternativeFeatures = new HashMap<String, List<String>>(); // Parent:
+																										// Features
+	private static String FEATURE_MODEL_FORMULA_CNF = "";
 	private static ArrayList<IFeature> FEATURES;
 	private static List<String> FEATURE_ORDER;
 	private static String NAME_OF_JAVA_FILE;
@@ -64,21 +61,23 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 	private static Map<String, List<MethodStruct>> methodNameToMethodStructMap = new HashMap<String, List<MethodStruct>>();
 	private static Map<String, List<String>> methodNameToImplementingFeature = new HashMap<String, List<String>>();
 	private static List<MetaClass> metaClasses = new ArrayList<>();
-	
+
 	/*
-	 * Important assumptions: -User triggers execute() by right clicking on folder called 'features' (-> Generate Meta Product)
-							
-	 *	    				  -Project is structured like: <ProjectName>/features/<FeatureName(s)>/diagram/<MethodName>.cbcmodel
-	*/	
+	 * Important assumptions: -User triggers execute() by right clicking on folder
+	 * called 'features' (-> Generate Meta Product)
+	 * 
+	 * -Project is structured like:
+	 * <ProjectName>/features/<FeatureName(s)>/diagram/<MethodName>.cbcmodel
+	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		Console.clear();
 		long start = System.nanoTime();
-		
+
 		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
-		
+
 		if (selection != null && selection instanceof IStructuredSelection) {
-			
+
 			IStructuredSelection strucSelection = (IStructuredSelection) selection;
 			try {
 				FEATURE_FOLDER_SELECTED_BY_USER = (IFolder) strucSelection.getFirstElement();
@@ -87,25 +86,29 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 				Console.println("Please select a 'features'-folder to start generating meta products.");
 				return null;
 			}
-			
-			if(FEATURE_FOLDER_SELECTED_BY_USER == null) {
+
+			if (FEATURE_FOLDER_SELECTED_BY_USER == null) {
 				Console.println("Please select a 'features'-folder to start generating meta products.");
 				return null;
 			}
-		
+
 		}
-		
+
 		project = getProject(FEATURE_FOLDER_SELECTED_BY_USER.getFullPath().toPortableString());
 		Console.println("Generating MetaProduct for " + project.getName() + "...\n");
-		
-		uriToRootProject = URI.createPlatformResourceURI(FEATURE_FOLDER_SELECTED_BY_USER.getFullPath().toPortableString(), true).trimSegments(1);
+
+		uriToRootProject = URI
+				.createPlatformResourceURI(FEATURE_FOLDER_SELECTED_BY_USER.getFullPath().toPortableString(), true)
+				.trimSegments(1);
 		NAME_OF_JAVA_FILE = project.getName();
-		
-		
+
 		getInformationFromFeatureModel();
 
 		var classesToGen = new ArrayList<String>();
-		FileUtil.getCbCClasses(project).stream().map(c -> c.getURI().lastSegment()).forEach(n -> {if(!classesToGen.contains(n.split("\\.")[0])) classesToGen.add(n.split("\\.")[0]);});
+		FileUtil.getCbCClasses(project).stream().map(c -> c.getURI().lastSegment()).forEach(n -> {
+			if (!classesToGen.contains(n.split("\\.")[0]))
+				classesToGen.add(n.split("\\.")[0]);
+		});
 		try {
 			for (var cbcClass : classesToGen) {
 				clearData();
@@ -114,7 +117,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 				metaClass.create();
 				NAME_OF_JAVA_FILE = cbcClass;
 				extractCbCModelFilesFromClass(cbcClass);
-				//printAllDetectedMethods();
+				// printAllDetectedMethods();
 				determineUniqueMethods(metaClass, cbcClass);
 				createUniqueMethodFilesForClass(cbcClass);
 				createAndSaveJavaFilesWithMethodStubsForClass(cbcClass);
@@ -135,7 +138,7 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 	}
 
 	private void createUniqueMethodFilesForClass(String className) throws Exception {
-		for(MetaMethod metaMethod: uniqueMetaMethods) {
+		for (MetaMethod metaMethod : uniqueMetaMethods) {
 			Console.println("Generating diagram for method '" + metaMethod.metaMethodName + "'...");
 			GenerateDiagramFromModel diagramGenerator = new GenerateDiagramFromModel();
 			var metaMethodResource = metaMethod.toResourceObject(className);
@@ -143,34 +146,38 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 			diagramGenerator.execute(metaMethodResource);
 		}
 	}
-	
+
 	private void determineUniqueMethods(MetaClass metaClass, String className) {
 		for (Map.Entry<String, List<MethodStruct>> entry : methodNameToMethodStructMap.entrySet()) {
-			//if(entry.getKey().equals("Push")) {
+			// if(entry.getKey().equals("Push")) {
 			List<String> implementingFeaturesOfMethod = methodNameToImplementingFeature.get(entry.getKey());
 			String nameOfMethod = entry.getKey();
 			List<MethodStruct> listOfMethodStructs = entry.getValue();
-			
-			uniqueMetaMethods.add(new MetaMethod(this.metaClasses, uriToRootProject, metaClass, className, nameOfMethod, listOfMethodStructs, FEATURE_MODEL_FORMULA_CNF, FEATURES, FEATURE_ORDER, implementingFeaturesOfMethod));
-			//}
-			
+
+			uniqueMetaMethods.add(new MetaMethod(this.metaClasses, uriToRootProject, metaClass, className, nameOfMethod,
+					listOfMethodStructs, FEATURE_MODEL_FORMULA_CNF, FEATURES, FEATURE_ORDER,
+					implementingFeaturesOfMethod));
+			// }
+
 		}
 	}
-	
+
 	private void clearData() {
 		detectedMethods = new ArrayList<>();
 		uniqueMetaMethodNames = new ArrayList<>();
 		uniqueMetaMethods = new ArrayList<>();
 		methodNameToMethodStructMap = new HashMap<String, List<MethodStruct>>();
-		methodNameToImplementingFeature = new HashMap<String, List<String>>(); 
+		methodNameToImplementingFeature = new HashMap<String, List<String>>();
 	}
-	
-	private void createAndSaveJavaFilesWithMethodStubsForClass(String className) throws CodeMergeException, IOException, CoreException {
-		String location = project.getLocation().toString() + "/" + MetaNames.FOLDER_NAME + "/" + className + "/" + NAME_OF_JAVA_FILE + ".java";
+
+	private void createAndSaveJavaFilesWithMethodStubsForClass(String className)
+			throws CodeMergeException, IOException, CoreException {
+		String location = project.getLocation().toString() + "/" + MetaNames.FOLDER_NAME + "/" + className + "/"
+				+ NAME_OF_JAVA_FILE + ".java";
 		CodeGenerator gener;
 		List<String> codes = new ArrayList<String>();
-		
-		for(MetaMethod metaMethod: uniqueMetaMethods) {
+
+		for (MetaMethod metaMethod : uniqueMetaMethods) {
 			try {
 				gener = new CodeGenerator(project, metaMethod.getMetaMethodFormula());
 				codes.add(gener.generate());
@@ -178,18 +185,19 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 				e.printStackTrace();
 			}
 		}
-		addHelperCode(codes, className);		
+		addHelperCode(codes, className);
 		var merger = new CodeMerge(codes);
 		var fullCode = merger.get();
 		saveJavaFile(location, fullCode);
 		return;
 	}
-	
+
 	private void addHelperCode(List<String> codes, String className) throws IOException {
 		var files = FileUtil.getJavaFilesFromProject(project);
 		for (var file : files) {
 			if (file.getName().equals(className + "_helper.java")) {
-				var code = Files.lines(Paths.get(file.getLocation().toOSString())).collect(java.util.stream.Collectors.joining(System.lineSeparator()));
+				var code = Files.lines(Paths.get(file.getLocation().toOSString()))
+						.collect(java.util.stream.Collectors.joining(System.lineSeparator()));
 				code = "public class " + className + " " + code.substring(code.indexOf("{"), code.length());
 				codes.add(code);
 			}
@@ -198,66 +206,69 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 
 	private void getInformationFromFeatureModel() {
 		Path pathToModelXML = Paths.get(project.getLocation() + "/model.xml");
-		
-		 if(!Files.exists(pathToModelXML)) {
-			 Console.println("Error: Cannot find model.xml in <ProjectRoot>/model.xml");
-			 return;
-		 } else {
-			 IFeatureModel featModel =  FeatureModelManager.load(pathToModelXML);
-			 
-			 FEATURE_ORDER = featModel.getFeatureOrderList();
-			 FEATURES = new ArrayList<>(featModel.getFeatures());
-			 FeatureModelFormula formula = new FeatureModelFormula(featModel);
-			 
-			 FEATURE_VARIABLES = new String [FEATURES.size()];
-			 for(int i = 0 ; i < FEATURES.size(); i++) {
-				 FEATURE_VARIABLES[i] = MetaVariablesClass.NAME + "." + "FV_" + FEATURES.get(i).toString().toUpperCase();
-			 }
-			 
-			 //Searching for alterantive Feature Group and Store children in Map 'alternativeFeatures'
-			 for(IFeature currentFeature: featModel.getFeatures()) {
-				
-				 if(currentFeature.getStructure().isAlternative()) {
-					 if(!alternativeFeatures.containsKey(currentFeature.getName())) {
-						 alternativeFeatures.put(currentFeature.getName(), new ArrayList<String>());
-						}
-					 for(int i = 0 ; i < currentFeature.getStructure().getChildren().size(); i++) {
-						 alternativeFeatures.get(currentFeature.getName()).add(currentFeature.getStructure().getChildren().get(i).getFeature().getName());
-						 
-					 }
-					 
-				 }
-				 
-			 }
-			 FEATURE_MODEL_FORMULA_CNF = translateCNF(String.valueOf(formula.getCNFNode()));
-		 }
+
+		if (!Files.exists(pathToModelXML)) {
+			Console.println("Error: Cannot find model.xml in <ProjectRoot>/model.xml");
+			return;
+		} else {
+			IFeatureModel featModel = FeatureModelManager.load(pathToModelXML);
+
+			FEATURE_ORDER = featModel.getFeatureOrderList();
+			FEATURES = new ArrayList<>(featModel.getFeatures());
+			FeatureModelFormula formula = new FeatureModelFormula(featModel);
+
+			FEATURE_VARIABLES = new String[FEATURES.size()];
+			for (int i = 0; i < FEATURES.size(); i++) {
+				FEATURE_VARIABLES[i] = MetaVariablesClass.NAME + "." + "FV_" + FEATURES.get(i).toString().toUpperCase();
+			}
+
+			// Searching for alterantive Feature Group and Store children in Map
+			// 'alternativeFeatures'
+			for (IFeature currentFeature : featModel.getFeatures()) {
+
+				if (currentFeature.getStructure().isAlternative()) {
+					if (!alternativeFeatures.containsKey(currentFeature.getName())) {
+						alternativeFeatures.put(currentFeature.getName(), new ArrayList<String>());
+					}
+					for (int i = 0; i < currentFeature.getStructure().getChildren().size(); i++) {
+						alternativeFeatures.get(currentFeature.getName())
+								.add(currentFeature.getStructure().getChildren().get(i).getFeature().getName());
+
+					}
+
+				}
+
+			}
+			FEATURE_MODEL_FORMULA_CNF = translateCNF(String.valueOf(formula.getCNFNode()));
+		}
 	}
-	
+
 	private String translateCNF(String cnf) {
-			 cnf = cnf.toUpperCase();
-			 cnf = cnf.replaceAll("([\\w]+)", "FV_$1");
-			 cnf = cnf.replaceAll("\\b(?<!-)(\\w+)\\b", "$1 = TRUE");
-			 cnf = cnf.replaceAll("-(\\w+)", "$1 = FALSE");
-			 cnf = prefixMetaVars(cnf);
-			 return cnf;
+		cnf = cnf.toUpperCase();
+		cnf = cnf.replaceAll("([\\w]+)", "FV_$1");
+		cnf = cnf.replaceAll("\\b(?<!-)(\\w+)\\b", "$1 = TRUE");
+		cnf = cnf.replaceAll("-(\\w+)", "$1 = FALSE");
+		cnf = prefixMetaVars(cnf);
+		return cnf;
 	}
-	
+
 	private String prefixMetaVars(String cnf) {
 		Pattern p = Pattern.compile("[^\\.]FV\\_");
 		Matcher m = p.matcher(cnf);
 		while (m.find()) {
-			cnf = cnf.substring(0, m.start()+1) + MetaVariablesClass.NAME + "." + cnf.substring(m.start() + 1, cnf.length());
+			cnf = cnf.substring(0, m.start() + 1) + MetaVariablesClass.NAME + "."
+					+ cnf.substring(m.start() + 1, cnf.length());
 			m = p.matcher(cnf);
 		}
 		return cnf;
 	}
-	
+
 	private void printAllDetectedMethods() {
-		for(MethodStruct currentFeature: detectedMethods) {
+		for (MethodStruct currentFeature : detectedMethods) {
 			currentFeature.printFeatureToConsole();
 		}
 	}
-	
+
 	protected static void saveJavaFile(String location, String code) throws IOException, CoreException {
 		File javaFile = new File(location);
 		if (!javaFile.exists()) {
@@ -273,31 +284,32 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 		IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
 		ifile.refreshLocal(0, null);
 	}
-	
+
 	private void extractCbCModelFilesFromClass(String className) {
 		try {
-			for(IResource currentFolderMember : FEATURE_FOLDER_SELECTED_BY_USER.members()) {
+			for (IResource currentFolderMember : FEATURE_FOLDER_SELECTED_BY_USER.members()) {
 				// features/<fn>/
 				IFolder currentfeatureNameSubFolder = (IFolder) currentFolderMember;
 				String currentNameOfFeature = currentfeatureNameSubFolder.getName();
-				for(IResource classFolder: currentfeatureNameSubFolder.members()) {
+				for (IResource classFolder : currentfeatureNameSubFolder.members()) {
 					if (!classFolder.getName().equals(className)) {
 						continue;
 					}
 					// features/<fn>/className/
-					for(IResource currentFileInDiagram: ((IFolder) classFolder).members()) {
-						if(currentFileInDiagram.getFullPath().toPortableString().endsWith("cbcmodel")) {
+					for (IResource currentFileInDiagram : ((IFolder) classFolder).members()) {
+						if (currentFileInDiagram.getFullPath().toPortableString().endsWith("cbcmodel")) {
 							String nameOfCurrentMethod = currentFileInDiagram.getName().split("\\.")[0];
-							if(!uniqueMetaMethodNames.contains(nameOfCurrentMethod)) {
+							if (!uniqueMetaMethodNames.contains(nameOfCurrentMethod)) {
 								uniqueMetaMethodNames.add(nameOfCurrentMethod);
-							}	
-							if(!methodNameToMethodStructMap.containsKey(nameOfCurrentMethod)) {
+							}
+							if (!methodNameToMethodStructMap.containsKey(nameOfCurrentMethod)) {
 								methodNameToMethodStructMap.put(nameOfCurrentMethod, new ArrayList<MethodStruct>());
 							}
-							if(!methodNameToImplementingFeature.containsKey(nameOfCurrentMethod)) {
+							if (!methodNameToImplementingFeature.containsKey(nameOfCurrentMethod)) {
 								methodNameToImplementingFeature.put(nameOfCurrentMethod, new ArrayList<String>());
 							}
-							var newMethod = new MethodStruct(this.NAME_OF_JAVA_FILE, currentNameOfFeature, this.FEATURE_VARIABLES, currentFileInDiagram);
+							var newMethod = new MethodStruct(this.NAME_OF_JAVA_FILE, currentNameOfFeature,
+									this.FEATURE_VARIABLES, currentFileInDiagram);
 							methodNameToMethodStructMap.get(nameOfCurrentMethod).add(newMethod);
 							methodNameToImplementingFeature.get(nameOfCurrentMethod).add(currentNameOfFeature);
 							detectedMethods.add(newMethod);
@@ -312,22 +324,22 @@ public class GenerateMetaProductHandler extends AbstractHandler implements IHand
 	}
 
 	/*
-		param: URI String path in der Form: '/<ProjectName>/features'
-		return: IProject Instanz für <ProjectName>
-	*/
+	 * param: URI String path in der Form: '/<ProjectName>/features' return:
+	 * IProject Instanz für <ProjectName>
+	 */
 	private static IProject getProject(String uri) {
 		IProject thisProject = null;
 		uri = uri.substring(1);
 		int remove_index = uri.indexOf("/");
 		uri = uri.substring(0, remove_index);
 		for (IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-			
+
 			if (p.getName().equals(uri)) {
 				thisProject = p;
 				return thisProject;
 			}
 		}
 		return null;
-		
+
 	}
 }

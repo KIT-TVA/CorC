@@ -57,7 +57,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 	/**
 	 * Constructor of the class
 	 * 
-	 * @param fp The FeatureProvider
+	 * @param fp
+	 *            The FeatureProvider
 	 */
 	public VerifyAllStatements(IFeatureProvider fp) {
 		super(fp);
@@ -215,8 +216,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			JavaVariables vars = extractor.getVars();
 			String uri = diagram.eResource().getURI().toPlatformString(true);
 			if (!isVariational) {
-				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri), new String[] {},
-						0, KeYInteraction.ABSTRACT_PROOF_FULL);
+				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri), new String[]{}, 0,
+						KeYInteraction.ABSTRACT_PROOF_FULL);
 				proven = prove.proveStatementWithKey(returnStatement, false,
 						FeatureUtil.getInstance().getCallingClass(URI.createPlatformResourceURI(uri, true)), false);
 			} else {
@@ -297,8 +298,8 @@ public class VerifyAllStatements extends MyAbstractAsynchronousCustomFeature {
 			DiagramPartsExtractor extractor = new DiagramPartsExtractor(diagram);
 			String uri = diagram.eResource().getURI().toPlatformString(true);
 			if (!isVariational) {
-				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri), new ArrayList<>(), 0,
-						KeYInteraction.ABSTRACT_PROOF_FULL);
+				ProveWithKey prove = new ProveWithKey(statement, diagram, monitor, new FileUtil(uri), new ArrayList<>(),
+						0, KeYInteraction.ABSTRACT_PROOF_FULL);
 				proven = prove.proveStatementWithKey(returnStatement, false,
 						FeatureUtil.getInstance().getCallingClass(URI.createPlatformResourceURI(uri, true)), false);
 			} else {

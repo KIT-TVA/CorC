@@ -10,13 +10,14 @@ import de.tu_bs.cs.isf.cbc.util.FileHandler;
 
 /**
  * Generates all needed data regarding statement testing.
+ * 
  * @author Fynn
  */
 public class TestStatementData implements DiagnosticsData {
 	private final LinkedHashMap<String, List<TimedObject>> configPaths;
 	private final List<TimedObject> paths;
 	private final URI diagramUri;
-	
+
 	public TestStatementData(final URI diagramUri) {
 		this.configPaths = new LinkedHashMap<String, List<TimedObject>>();
 		this.paths = new ArrayList<TimedObject>();
@@ -25,7 +26,7 @@ public class TestStatementData implements DiagnosticsData {
 
 	@Override
 	public boolean isSplData() {
-		return FileHandler.instance.isSPL(diagramUri); 
+		return FileHandler.instance.isSPL(diagramUri);
 	}
 
 	@Override
@@ -69,6 +70,6 @@ public class TestStatementData implements DiagnosticsData {
 
 	@Override
 	public List<String> getConfigNames() {
-		return configPaths.keySet().stream().toList(); 
+		return configPaths.keySet().stream().toList();
 	}
 }

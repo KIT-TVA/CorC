@@ -27,7 +27,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.ReturnStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 
-
 public class InvariantClassPattern extends IdPattern implements IPattern {
 
 	/**
@@ -56,32 +55,32 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 	public boolean canCreate(ICreateContext context) {
 		return getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof ModelClass;
 	}
-	
+
 	@Override
 	public Object[] create(ICreateContext context) {
 		ModelClass modelClass = (ModelClass) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		Condition condition = CbcmodelFactory.eINSTANCE.createCondition();
 		Random random = new Random();
 		condition.setName("condition" + random.nextInt(10000));
-		modelClass.getClassInvariants().add(condition);		
+		modelClass.getClassInvariants().add(condition);
 		updatePictogramElement(context.getTargetContainer());
-		return new Object[] { condition };
+		return new Object[]{condition};
 	}
-	
+
 	@Override
 	public boolean canAdd(IAddContext context) {
 		return super.canAdd(context) && context.getTargetContainer() instanceof Condition;
 	}
-	
+
 	public PictogramElement doAdd(IAddContext context) {
 		return null;
 	}
-	
+
 	@Override
 	protected boolean layout(IdLayoutContext context, String id) {
 		return false;
 	}
-	
+
 	@Override
 	protected IReason updateNeeded(IdUpdateContext context, String id) {
 		if (context.getGraphicsAlgorithm() instanceof MultiText) {
@@ -94,7 +93,7 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 		}
 		return Reason.createFalseReason();
 	}
-	
+
 	@Override
 	protected boolean update(IdUpdateContext context, String id) {
 		if (context.getGraphicsAlgorithm() instanceof MultiText) {
@@ -113,12 +112,12 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public int getEditingType() {
-	    return TYPE_TEXT;
+		return TYPE_TEXT;
 	}
-	
+
 	@Override
 	public boolean canDirectEdit(IDirectEditingContext context) {
 		Object domainObject = getBusinessObjectForPictogramElement(context.getPictogramElement());
@@ -128,13 +127,13 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 		}
 		return false;
 	}
-		
+
 	@Override
 	public String getInitialValue(IDirectEditingContext context) {
 		Condition condition = (Condition) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		return System.getProperty("line.separator") + condition.getName() + System.getProperty("line.separator");
 	}
-	
+
 	@Override
 	public String checkValueValid(String value, IDirectEditingContext context) {
 		if (value == null) {
@@ -153,18 +152,18 @@ public class InvariantClassPattern extends IdPattern implements IPattern {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void setValue(String value, IDirectEditingContext context) {
 		Condition condition = (Condition) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		condition.setName(value.trim());
-		ShapeImpl shape = (ShapeImpl)context.getPictogramElement();
-		TextImpl text = (TextImpl)shape.getGraphicsAlgorithm();
+		ShapeImpl shape = (ShapeImpl) context.getPictogramElement();
+		TextImpl text = (TextImpl) shape.getGraphicsAlgorithm();
 		text.setValue(condition.getName());
 		updatePictogramElement(context.getPictogramElement());
 	}
-		
-	@Override 
+
+	@Override
 	public void delete(IDeleteContext context) {
 		super.delete(context);
 	}

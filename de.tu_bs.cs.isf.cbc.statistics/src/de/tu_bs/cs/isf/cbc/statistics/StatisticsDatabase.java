@@ -22,7 +22,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.SmallRepetitionStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.StrengthWeakStatement;
-import de.tu_bs.cs.isf.cbc.statistics.StatisticsRegistry;
 
 public class StatisticsDatabase {
 
@@ -60,17 +59,18 @@ public class StatisticsDatabase {
 		registry.getEntries().add(entry);
 		saveRegistry();
 	}
-	
+
 	public void saveToDatabase(List<StatisticsEntry> keyData) {
 		for (StatisticsEntry entry : keyData) {
 			updateEntry(entry);
 			saveRegistry();
 		}
 	}
-	
+
 	private void updateEntry(StatisticsEntry entry) {
 		for (int i = 0; i < registry.getEntries().size(); i++) {
-			if (registry.getEntries().get(i).getMapping().getKeyProofProblemHashValue().equals(entry.getMapping().getKeyProofProblemHashValue())) {
+			if (registry.getEntries().get(i).getMapping().getKeyProofProblemHashValue()
+					.equals(entry.getMapping().getKeyProofProblemHashValue())) {
 				registry.getEntries().remove(registry.getEntries().get(i));
 			}
 			registry.getEntries().add(entry);
@@ -89,7 +89,7 @@ public class StatisticsDatabase {
 		// TODO: maybe save more redundant information to make it more robust
 		final List<StatisticsEntry> validDBEntries = new ArrayList<StatisticsEntry>();
 		List<StatisticsEntry> affectedEntriesInDB = new ArrayList<StatisticsEntry>();
-		
+
 		configName = configName.replaceAll(",\\s", "");
 		for (StatisticsEntry entry : registry.getEntries()) {
 			// TODO: replace entryPath with diagram name which is new in statistics model
@@ -101,12 +101,14 @@ public class StatisticsDatabase {
 				continue;
 
 			String filePath = file.getFullPath().toOSString();
-			// first check whether the file is located in the same project/branch as the entry
+			// first check whether the file is located in the same project/branch as the
+			// entry
 			String branch = filePath.substring(0, filePath.lastIndexOf(File.separator));
 			if (!entryPath.contains(branch)) {
 				continue;
 			}
-			final String affectedDiagram = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.indexOf(".diagram"));
+			final String affectedDiagram = filePath.substring(filePath.lastIndexOf(File.separator) + 1,
+					filePath.indexOf(".diagram"));
 
 			if (entryPath.indexOf("prove") == -1) {
 				continue;
@@ -115,7 +117,9 @@ public class StatisticsDatabase {
 			if (entryFolder.chars().filter(c -> c == File.separator.charAt(0)).count() != 2) {
 				continue;
 			}
-			final String entryConfig = entryFolder.substring(entryFolder.indexOf(File.separator) + File.separator.length(), entryFolder.lastIndexOf(File.separator)); 
+			final String entryConfig = entryFolder.substring(
+					entryFolder.indexOf(File.separator) + File.separator.length(),
+					entryFolder.lastIndexOf(File.separator));
 			if (!entryConfig.equals(configName)) {
 				continue;
 			}
@@ -126,7 +130,7 @@ public class StatisticsDatabase {
 		}
 
 		if (!affectedEntriesInDB.isEmpty()) {
-			//affectedEntriesInDB = removeOutdated(affectedEntriesInDB);
+			// affectedEntriesInDB = removeOutdated(affectedEntriesInDB);
 			validDBEntries.addAll(getLatestEntriesWithRedundantID(affectedEntriesInDB));
 		}
 
@@ -149,12 +153,14 @@ public class StatisticsDatabase {
 				continue;
 
 			final String filePath = file.getFullPath().toOSString();
-			// first check whether the file is located in the same project/branch as the entry
+			// first check whether the file is located in the same project/branch as the
+			// entry
 			final String branch = filePath.substring(0, filePath.lastIndexOf(File.separator));
 			if (!entryPath.contains(branch)) {
 				continue;
 			}
-			final String affectedDiagram = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.indexOf(".diagram"));
+			final String affectedDiagram = filePath.substring(filePath.lastIndexOf(File.separator) + 1,
+					filePath.indexOf(".diagram"));
 
 			if (entryPath.indexOf("prove") == -1) {
 				continue;
@@ -163,7 +169,7 @@ public class StatisticsDatabase {
 			if (entryFolder.contains(File.separator)) {
 				entryFolder = entryFolder.substring(0, entryFolder.indexOf(File.separator));
 			}
-			
+
 			if (entryFolder.equals(affectedDiagram)) {
 				affectedEntriesInDB.add(entry);
 			}
@@ -179,11 +185,11 @@ public class StatisticsDatabase {
 	}
 
 	public StatisticsEntry getLastEntrysRelatedToKeyFile(IFile file) {
-		
+
 		List<StatisticsEntry> validDBEntries = new LinkedList<StatisticsEntry>();
 		List<StatisticsEntry> affectedEntriesInDB = new LinkedList<StatisticsEntry>();
-		
-//		System.out.println("File: " + file);
+
+		// System.out.println("File: " + file);
 		for (StatisticsEntry entry : registry.getEntries()) {
 
 			String entryPath;
@@ -198,7 +204,7 @@ public class StatisticsDatabase {
 
 			if (entryPath.equals(filePath)) {
 				affectedEntriesInDB.add(entry);
-//				System.out.println("equal path found");
+				// System.out.println("equal path found");
 			}
 		}
 		if (!affectedEntriesInDB.isEmpty()) {
@@ -206,7 +212,6 @@ public class StatisticsDatabase {
 			validDBEntries.addAll(getLatestEntriesWithRedundantID(affectedEntriesInDB));
 		}
 
-		
 		if (validDBEntries == null || validDBEntries.isEmpty()) {
 			return null;
 		}
@@ -314,7 +319,7 @@ public class StatisticsDatabase {
 		return entries;
 	}
 
-	// TODO: split the string to not check the path 
+	// TODO: split the string to not check the path
 	private StatisticsEntry getLatestVariant(List<StatisticsEntry> oldRepetitionEntries) {
 		StatisticsEntry latestVariant = null;
 		for (StatisticsEntry entry : oldRepetitionEntries) {
@@ -326,7 +331,7 @@ public class StatisticsDatabase {
 		return latestVariant;
 	}
 
-	// TODO: split the string to not check the path 
+	// TODO: split the string to not check the path
 	private StatisticsEntry getLatestPostcondition(List<StatisticsEntry> oldRepetitionEntries) {
 		StatisticsEntry latestPostcondition = null;
 		for (StatisticsEntry entry : oldRepetitionEntries) {
@@ -338,7 +343,7 @@ public class StatisticsDatabase {
 		return latestPostcondition;
 	}
 
-	// TODO: split the string to not check the path 
+	// TODO: split the string to not check the path
 	private StatisticsEntry getLatestPrecondition(List<StatisticsEntry> oldRepetitionEntries) {
 		StatisticsEntry latestPrecondition = null;
 		for (StatisticsEntry entry : oldRepetitionEntries) {
@@ -351,11 +356,11 @@ public class StatisticsDatabase {
 	}
 
 	public String getHashForKeyFile(File keyFile) {
-		
+
 		List<StatisticsEntry> validDBEntries = new LinkedList<StatisticsEntry>();
 		List<StatisticsEntry> affectedEntriesInDB = new LinkedList<StatisticsEntry>();
-		
-//		System.out.println("File: " + keyFile);
+
+		// System.out.println("File: " + keyFile);
 		for (StatisticsEntry entry : registry.getEntries()) {
 
 			String entryPath;
@@ -366,11 +371,11 @@ public class StatisticsDatabase {
 				continue;
 
 			String filePath = keyFile.getPath().toString();
-//			entryPath = entryPath.replace(File.separator, "/");
+			// entryPath = entryPath.replace(File.separator, "/");
 
 			if (entryPath.equals(filePath)) {
 				affectedEntriesInDB.add(entry);
-//				System.out.println("equal path found");
+				// System.out.println("equal path found");
 			}
 		}
 		if (!affectedEntriesInDB.isEmpty()) {
@@ -378,19 +383,18 @@ public class StatisticsDatabase {
 			validDBEntries.addAll(getLatestEntriesWithRedundantID(affectedEntriesInDB));
 		}
 
-		
 		if (validDBEntries == null || validDBEntries.isEmpty()) {
 			return null;
 		}
-		
-		return validDBEntries.get(validDBEntries.size()-1).getMapping().getKeyProofProblemHashValue();
+
+		return validDBEntries.get(validDBEntries.size() - 1).getMapping().getKeyProofProblemHashValue();
 	}
 
 	public List<IFile> getKeYFilesForId(String searchedId) {
 
 		List<StatisticsEntry> validDBEntries = new LinkedList<StatisticsEntry>();
 		List<StatisticsEntry> affectedEntriesInDB = new LinkedList<StatisticsEntry>();
-		
+
 		for (StatisticsEntry entry : registry.getEntries()) {
 
 			String entryId;
@@ -399,8 +403,8 @@ public class StatisticsDatabase {
 
 			} else
 				continue;
-			
-			if (entryId != null) {				
+
+			if (entryId != null) {
 				if (entryId.equals(searchedId)) {
 					affectedEntriesInDB.add(entry);
 				}
@@ -411,7 +415,6 @@ public class StatisticsDatabase {
 			validDBEntries.addAll(getLatestEntriesWithRedundantID(affectedEntriesInDB));
 		}
 
-		
 		if (validDBEntries == null || validDBEntries.isEmpty()) {
 			return null;
 		}
@@ -420,21 +423,18 @@ public class StatisticsDatabase {
 		for (StatisticsEntry entry : validDBEntries) {
 			File file = new File(entry.getMapping().getKeyFilePath());
 			java.net.URI location = file.toURI();
-			IFile[] files = ResourcesPlugin
-			   .getWorkspace()
-			   .getRoot()
-			   .findFilesForLocationURI( location );
+			IFile[] files = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(location);
 			affectedFiles.add(files[0]);
 		}
-		
+
 		return affectedFiles;
-		
+
 	}
 
 	public boolean isKeyFileProven(File file) {
 		List<StatisticsEntry> validDBEntries = new LinkedList<StatisticsEntry>();
 		List<StatisticsEntry> affectedEntriesInDB = new LinkedList<StatisticsEntry>();
-		
+
 		for (StatisticsEntry entry : registry.getEntries()) {
 
 			String entryPath;
@@ -455,19 +455,15 @@ public class StatisticsDatabase {
 			validDBEntries.addAll(getLatestEntriesWithRedundantID(affectedEntriesInDB));
 		}
 
-		
 		if (validDBEntries == null || validDBEntries.isEmpty()) {
 			return false;
 		}
-		
-//		return validDBEntries.get(validDBEntries.size()-1).getMapping().getKeyProofProblemHashValue();
-		if ( validDBEntries.get(validDBEntries.size()-1).getData().isIsProven())
+
+		// return
+		// validDBEntries.get(validDBEntries.size()-1).getMapping().getKeyProofProblemHashValue();
+		if (validDBEntries.get(validDBEntries.size() - 1).getData().isIsProven())
 			return true;
 		return false;
 	}
-
-
-	
-	
 
 }

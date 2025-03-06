@@ -12,8 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
+ */
 
 package src.mujava.cli;
 
@@ -35,14 +34,6 @@ import java.util.Vector;
 
 //import openjava.test.stringPlay.stringPlay;
 
-
-
-
-
-
-
-
-
 import org.apache.commons.io.FileUtils;
 
 import src.com.beust.jcommander.JCommander;
@@ -60,61 +51,50 @@ import src.mujava.test.TestResultCLI;
  * @version 1.0
  */
 /*
- *      Three execution modes:
-
- \item \textit{$-$default }
-
- ``\textit{$-$default}'' defines the default behavior of \textit{runmutes}. Each time it's run, 
- it reads in the result files. 
- For each mutant m, test case t combination, if m is dead or equivalent, t is NOT run on m. 
- If m is live, t is run on m. 
- At the end of execution, the new result will be written out to the same result file with updates.
- E.G. 
- first run, 200 mutants, 100 killed; 
- second run, 200-100 mutants only, 50 killed; 
- third run, 100-50 mutants, etc.
-
- \item \textit{$-$dead }
-
- ``\textit{$-$dead}'' defines the dead mode of \textit{runmutes}.
- Each time it's run, it reads in the result files.
- For each mutant m, test case t combination, if m is dead, or live, t IS run on m. 
- Not run on equivalent mutants.
- This lets us find all the tests that kill m. 
- At the end of execution, the new result will be written out to the same result file with updates.
- E.G. 
- first run, 200 mutants, 100 killed; 
- second run, 200 mutants again; 
- third run, 200, etc.
-
- \item \textit{$-$fresh }
-
- ``\textit{$-$fresh}'' defines the fresh mode of \textit{runmutes}.
- Each time it's run, it does NOT read in the result files.
- After execution, the result files are saved as new files, with the current timestamp.
+ * Three execution modes:
+ * 
+ * \item \textit{$-$default }
+ * 
+ * ``\textit{$-$default}'' defines the default behavior of \textit{runmutes}.
+ * Each time it's run, it reads in the result files. For each mutant m, test
+ * case t combination, if m is dead or equivalent, t is NOT run on m. If m is
+ * live, t is run on m. At the end of execution, the new result will be written
+ * out to the same result file with updates. E.G. first run, 200 mutants, 100
+ * killed; second run, 200-100 mutants only, 50 killed; third run, 100-50
+ * mutants, etc.
+ * 
+ * \item \textit{$-$dead }
+ * 
+ * ``\textit{$-$dead}'' defines the dead mode of \textit{runmutes}. Each time
+ * it's run, it reads in the result files. For each mutant m, test case t
+ * combination, if m is dead, or live, t IS run on m. Not run on equivalent
+ * mutants. This lets us find all the tests that kill m. At the end of
+ * execution, the new result will be written out to the same result file with
+ * updates. E.G. first run, 200 mutants, 100 killed; second run, 200 mutants
+ * again; third run, 200, etc.
+ * 
+ * \item \textit{$-$fresh }
+ * 
+ * ``\textit{$-$fresh}'' defines the fresh mode of \textit{runmutes}. Each time
+ * it's run, it does NOT read in the result files. After execution, the result
+ * files are saved as new files, with the current timestamp.
  * 
  * 
- * Optional parameter "-p":
- * random choose mutants. Should compatible with 3 modes.
+ * Optional parameter "-p": random choose mutants. Should compatible with 3
+ * modes.
  * 
- * -p + default:
- * if p=0.5, total 100 mutants
- * first run, 100*0.5=50 get selected to run, 40 killed;
- * second run, (50-40) *0.5 = 5 get selected to run, 1 killed;
- * third run, (5-1)*0.5=2 get selected to run, etc.
+ * -p + default: if p=0.5, total 100 mutants first run, 100*0.5=50 get selected
+ * to run, 40 killed; second run, (50-40) *0.5 = 5 get selected to run, 1
+ * killed; third run, (5-1)*0.5=2 get selected to run, etc.
  * 
  * 
- * -p + dead:
- * if p=0.5, total 100 mutants
- * first run, 100*0.5=50 get selected to run, 40 killed;
- * second run, another 100*0.5=50 get selected to run, 30 killed;
- * third run, another 100*0.5=50 get selected to run, 35 killed, etc.
+ * -p + dead: if p=0.5, total 100 mutants first run, 100*0.5=50 get selected to
+ * run, 40 killed; second run, another 100*0.5=50 get selected to run, 30
+ * killed; third run, another 100*0.5=50 get selected to run, 35 killed, etc.
  * 
- * -p + fresh:
- * if p=0.5, total 100 mutants
- * first run, 100*0.5=50 get selected to run, 40 killed;
- * second run, another 100*0.5=50 get selected to run, 30 killed;
- * third run, another 100*0.5=50 get selected to run, 35 killed, etc.
+ * -p + fresh: if p=0.5, total 100 mutants first run, 100*0.5=50 get selected to
+ * run, 40 killed; second run, another 100*0.5=50 get selected to run, 30
+ * killed; third run, another 100*0.5=50 get selected to run, 35 killed, etc.
  * 
  */
 
@@ -124,8 +104,8 @@ public class runmutes {
 	public static String muJavaHomePath = new String();
 	public static boolean isSingleTestSet = true;
 	public static boolean runEq = false;
-	
-	//default timeout
+
+	// default timeout
 	private static int timeout_sec = 3000;
 
 	/**
@@ -135,7 +115,7 @@ public class runmutes {
 	public static void main(String[] args) throws Exception {
 		runmutesCom jct = new runmutesCom();
 		// dev only
-		String[] argv = { "-all", "-fresh", "-debug", "testfolder.calTest3", "tool" ,"-timeout", "3" };
+		String[] argv = {"-all", "-fresh", "-debug", "testfolder.calTest3", "tool", "-timeout", "3"};
 
 		JCommander jCommander = new JCommander(jct, args);
 
@@ -145,7 +125,7 @@ public class runmutes {
 		String testSessionName = null;
 
 		muJavaHomePath = Util.loadConfig();
-		
+
 		// get all existing session name
 		File muJavaFolder = new File(muJavaHomePath);
 		// check if the config file has defined the correct folder
@@ -156,9 +136,8 @@ public class runmutes {
 		File[] listOfSessions = muJavaFolder.listFiles();
 		// null checking
 		// check the specified folder has files or not
-		if (listOfSessions==null)
-		{
-			Util.Error("ERROR: no files in the muJava home folder "+muJavaHomePath);
+		if (listOfSessions == null) {
+			Util.Error("ERROR: no files in the muJava home folder " + muJavaHomePath);
 			return;
 		}
 		List<String> fileNameList = new ArrayList<>();
@@ -166,14 +145,12 @@ public class runmutes {
 			fileNameList.add(file.getName());
 		}
 
-		
 		// get testSessionName
 		if (jct.getParameters().size() == 1) {
 			// read all test names
 			testSessionName = jct.getParameters().get(0);
-			
-		}
-		else {
+
+		} else {
 			if (jct.getParameters().size() > 2) {
 				Util.Error("incorrect parameters.");
 				return;
@@ -183,22 +160,18 @@ public class runmutes {
 			testSetName = jct.getParameters().get(0);
 			testSessionName = jct.getParameters().get(1);
 		}
-		
-		
-		
-		
+
 		// check if session is already created
 		if (!fileNameList.contains(testSessionName)) {
 			Util.Error("Session does not exist.");
 			return;
 		}
-		
-		
+
 		// check if debug mode
 		if (jct.isDebug()) {
 			Util.debug = true;
 		}
-		
+
 		// add support for timeout
 		// Lin 05232015
 		if (jct.getTimeout() == -1)
@@ -208,11 +181,11 @@ public class runmutes {
 
 		} else { // if there IS an option for timeout
 			timeout_sec = 1000 * jct.getTimeout();
-			if (timeout_sec <= 0) 
+			if (timeout_sec <= 0)
 				// if not a valid timeout, make it 3000
 				timeout_sec = 3000;
 		}
-		
+
 		// if only one parameter, it must be the session name
 		// then, no testset specified, run all tests in testset folder
 		List<String> testSetList = new ArrayList<>();
@@ -248,11 +221,11 @@ public class runmutes {
 
 			// make sure test file exists
 			File folder = new File(MutationSystem.TESTSET_PATH);
-			
+
 			// file all class files (tests)
-			String[] extensions = new String[] { "class" };		
+			String[] extensions = new String[]{"class"};
 			List<File> testFiles = (List<File>) FileUtils.listFiles(folder, extensions, true);
-			
+
 			File[] listOfFiles = new File[testFiles.size()];
 			for (int i = 0; i < testFiles.size(); i++) {
 				listOfFiles[i] = testFiles.get(i);
@@ -260,17 +233,15 @@ public class runmutes {
 			if (!hasTestFile(listOfFiles, testSetName)) {
 				Util.Error("can't find test file: " + testSetName);
 				return;
-			}			
-			
-		}
+			}
 
+		}
 
 		// get all classes
 		File sessionFolder = new File(MutationSystem.CLASS_PATH);
-		
-		String[] extensions = new String[] { "class" };
+
+		String[] extensions = new String[]{"class"};
 		List<File> files = (List<File>) FileUtils.listFiles(sessionFolder, extensions, true);
-	
 
 		if (jct.getP() > 0 && jct.getP() <= 1)
 			percentage = jct.getP();
@@ -388,7 +359,7 @@ public class runmutes {
 			typeList.add("ODL");
 		}
 
-//		setJMutationStructureAndSession(testSessionName);
+		// setJMutationStructureAndSession(testSessionName);
 		// MutationSystem.recordInheritanceRelation(); // have this line will
 		// mess up things totally, need to check why!!!
 
@@ -410,23 +381,21 @@ public class runmutes {
 
 		String[] types = new String[typeList.size()];
 		types = typeList.toArray(types);
-		
-		
-		
+
 		for (File file : files) {
-			
+
 			// process file names
-			
+
 			// need to be testfolder.cal
 			// get an absolute path
 			String fileFullPath = file.getPath();
 			// trim down system path
-			String intermediatePath = fileFullPath.replace(MutationSystem.CLASS_PATH+"/","");
+			String intermediatePath = fileFullPath.replace(MutationSystem.CLASS_PATH + "/", "");
 			// trim down .java extension
-//			targetClassName = intermediatePath.substring(0, intermediatePath.length() - ".class".length());
-			
-			
-//			targetClassName
+			// targetClassName = intermediatePath.substring(0, intermediatePath.length() -
+			// ".class".length());
+
+			// targetClassName
 
 			if (!intermediatePath.contains(".class")) {
 				continue;
@@ -435,7 +404,7 @@ public class runmutes {
 			if (intermediatePath.contains(".class")) {
 				targetClassName = intermediatePath.substring(0, intermediatePath.length() - ".class".length());
 			}
-			
+
 			// replace / to .
 			String class_name = "";
 			// replace symbols
@@ -450,9 +419,9 @@ public class runmutes {
 			if (isSingleTestSet)
 				runTests(class_name, testSetName, types, percentage, mode);
 			else {
-				
+
 				// NEED TO TEST FOR MULTIPLE TEST FILES
-				
+
 				for (int i = 0; i < testSetList.size(); i++) {
 					runTests(class_name, testSetList.get(i), types, percentage, mode);
 				}
@@ -468,7 +437,7 @@ public class runmutes {
 		if (listOfFiles == null)
 			throw new Exception("invalid test folder");
 		for (File file : listOfFiles) {
-			String fileName = file.getPath().replace(MutationSystem.TESTSET_PATH+"/", "");
+			String fileName = file.getPath().replace(MutationSystem.TESTSET_PATH + "/", "");
 			fileName = fileName.replace("/", ".");
 			if (fileName.equals(testSetName + ".class"))
 				return true;
@@ -486,18 +455,18 @@ public class runmutes {
 		// get all method names
 		File folder = new File(MutationSystem.MUTANT_HOME + "/" + targetClassName + "/" + MutationSystem.TM_DIR_NAME);
 		File[] listOfMethods = folder.listFiles();
-		if(listOfMethods==null)
+		if (listOfMethods == null)
 			return;
 		ArrayList<String> methodNameList = new ArrayList<>();
 
 		for (File method : listOfMethods) {
-			if(method.isDirectory())
+			if (method.isDirectory())
 				methodNameList.add(method.getName());
 		}
 
 		/*
-		 * no result files before, no result to read. fresh mode, no need to
-		 * read anything, but need to create time stamp when output files
+		 * no result files before, no result to read. fresh mode, no need to read
+		 * anything, but need to create time stamp when output files
 		 */
 		if (!methodNameList.contains("mutant_list") || mode.equals("fresh")) {
 			// mode="fresh-default";

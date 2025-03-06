@@ -13,12 +13,9 @@ public class CommentReporterStarter extends AbstractJavaParserExample {
 
 	public static void main(String[] args) throws Exception {
 		CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
-		List<CommentReportEntry> comments = cu.getAllContainedComments()
-				.stream()
-				.map(p -> new CommentReportEntry(p.getClass().getSimpleName(),
-						p.getContent(),
-						p.getRange().get().begin.line,
-						!p.getCommentedNode().isPresent()))
+		List<CommentReportEntry> comments = cu
+				.getAllContainedComments().stream().map(p -> new CommentReportEntry(p.getClass().getSimpleName(),
+						p.getContent(), p.getRange().get().begin.line, !p.getCommentedNode().isPresent()))
 				.collect(Collectors.toList());
 		comments.forEach(System.out::println);
 	}

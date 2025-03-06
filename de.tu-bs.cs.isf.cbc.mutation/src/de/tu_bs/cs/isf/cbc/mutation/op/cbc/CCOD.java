@@ -9,7 +9,7 @@ public class CCOD extends CbCMutationOp {
 	public CCOD() {
 		ops = Arrays.asList("!", OP_REMOVE);
 	}
-	
+
 	@Override
 	public String[] apply(Condition condition) throws MutatorException {
 		return applyOperators(condition, ops);

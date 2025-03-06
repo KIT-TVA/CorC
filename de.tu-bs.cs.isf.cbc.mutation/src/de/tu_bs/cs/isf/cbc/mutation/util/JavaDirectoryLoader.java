@@ -8,33 +8,33 @@ public class JavaDirectoryLoader {
 	public List<File> fileList = new LinkedList<File>();
 	public File parentDir;
 	public String fileEnding = ".java";
-	
+
 	public File[] loadData(String path) {
 		parentDir = new File(path);
 		fileList.add(parentDir);
 		addAllFilesToList();
 		List<File> toRemove = new LinkedList<File>();
-		for(File f: fileList) {
-			if(!f.getName().contains(fileEnding)) {
+		for (File f : fileList) {
+			if (!f.getName().contains(fileEnding)) {
 				toRemove.add(f);
 			}
 		}
 		fileList.removeAll(toRemove);
-		
+
 		File[] files = new File[fileList.size()];
 		for (int i = 0; i < fileList.size(); i++) {
 			files[i] = fileList.get(i);
 		}
-		
+
 		return files;
 	}
 
 	public void addAllFilesToList() {
 		List<File> toRemove = new LinkedList<File>();
 		List<File> toAdd = new LinkedList<File>();
-		for(File f: fileList) {
+		for (File f : fileList) {
 			if (f.isDirectory()) {
-				for (File fnew: f.listFiles()) {
+				for (File fnew : f.listFiles()) {
 					toAdd.add(fnew);
 				}
 				toRemove.add(f);
@@ -44,7 +44,7 @@ public class JavaDirectoryLoader {
 				}
 			}
 		}
-		while(toAdd.size() != 0) {
+		while (toAdd.size() != 0) {
 			fileList.removeAll(toRemove);
 			toRemove.clear();
 			fileList.addAll(toAdd);

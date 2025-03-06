@@ -7,7 +7,7 @@ public class IFbCDeclassifyEntity extends IFbCReferenceEntity {
 	private String parameterName;
 	private String parameterSL;
 	private MDF parameterMDF;
-	
+
 	public IFbCDeclassifyEntity(String type, String parameterName, String parameterSL, MDF parameterMDF) {
 		super("declassify", "declassify", MDF.IMMUTABLE, type);
 		this.parameterName = parameterName;

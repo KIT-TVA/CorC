@@ -29,7 +29,6 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
 
-
 public class ConstructCodeBlock {
 
 	private static boolean handleInnerLoops = true;
@@ -73,47 +72,49 @@ public class ConstructCodeBlock {
 	}
 
 	public static void constructGlobalVariables() throws IOException {
-		/*LinkedList<String> newGlobalVariables = new LinkedList<String>();
-		if(vars != null && !vars.getVariables().isEmpty()) {
-			for(int i = 0; i < vars.getVariables().size(); i++) {
-				if(vars.getVariables().get(i).getKind() == VariableKind.GLOBAL) {
-					newGlobalVariables.add(
-							"\tprivate " + "static " + vars.getVariables().get(i).getName() + "; //" + signature.getMethodSignature());
-				}
-			}
-		}*/	
-		
-		//StringBuffer globalVariables = new StringBuffer();
-		
-       // while(line != null && !line.contains("@")) {//if file exists
-        //	if(!line.contains(signature.getMethodSignature()) && !line.isEmpty()) {
-            	//Iterator<String> itr = newGlobalVariables.iterator();
-        		//globalVariables.append(line);
-        		//globalVariables.append("\n");
-        		//while(itr.hasNext()) {
-        			//String s = itr.next();
-        			//if(s.length() > 2) {
-	        			//if(s.substring(0, line.indexOf(';')).equals(line.substring(0, line.indexOf(';')))) {
-	        				
-	    	        	//	Console.println("**************************************************************************");
-	    	        	//	Console.println("The variable " + s.substring(15, line.indexOf(';')) + " exists already.");
-	       	        	//	Console.println("Implemented from the " + line.substring(line.indexOf(';') + 4, line.indexOf('(')) + " diagram.");
-	    	        	//	Console.println("**************************************************************************");
-	        				
-	    	        	//	newGlobalVariables.remove(s);
-	        			//	break;
-	        			//}
-        			//}
-        	//	}
-     //   	}
-     //   	line = br.readLine();
-    //    }
-        
-	//	if(!newGlobalVariables.isEmpty()) {
-	//		newGlobalVariables.forEach(e -> {globalVariables.append(e + "\n");});
-	//	}
-		
-	//	return globalVariables.toString();
+		/*
+		 * LinkedList<String> newGlobalVariables = new LinkedList<String>(); if(vars !=
+		 * null && !vars.getVariables().isEmpty()) { for(int i = 0; i <
+		 * vars.getVariables().size(); i++) { if(vars.getVariables().get(i).getKind() ==
+		 * VariableKind.GLOBAL) { newGlobalVariables.add( "\tprivate " + "static " +
+		 * vars.getVariables().get(i).getName() + "; //" +
+		 * signature.getMethodSignature()); } } }
+		 */
+
+		// StringBuffer globalVariables = new StringBuffer();
+
+		// while(line != null && !line.contains("@")) {//if file exists
+		// if(!line.contains(signature.getMethodSignature()) && !line.isEmpty()) {
+		// Iterator<String> itr = newGlobalVariables.iterator();
+		// globalVariables.append(line);
+		// globalVariables.append("\n");
+		// while(itr.hasNext()) {
+		// String s = itr.next();
+		// if(s.length() > 2) {
+		// if(s.substring(0, line.indexOf(';')).equals(line.substring(0,
+		// line.indexOf(';')))) {
+
+		// Console.println("**************************************************************************");
+		// Console.println("The variable " + s.substring(15, line.indexOf(';')) + "
+		// exists already.");
+		// Console.println("Implemented from the " + line.substring(line.indexOf(';') +
+		// 4, line.indexOf('(')) + " diagram.");
+		// Console.println("**************************************************************************");
+
+		// newGlobalVariables.remove(s);
+		// break;
+		// }
+		// }
+		// }
+		// }
+		// line = br.readLine();
+		// }
+
+		// if(!newGlobalVariables.isEmpty()) {
+		// newGlobalVariables.forEach(e -> {globalVariables.append(e + "\n");});
+		// }
+
+		// return globalVariables.toString();
 	}
 
 	public static StringBuffer editCodeBlockForExport(String methodCode, File javaFile, String signature, String vars)
@@ -141,10 +142,10 @@ public class ConstructCodeBlock {
 			line = br.readLine();
 		}
 
-//        if(vars.length() > 2) {
-//        	newCode.append(vars);
-//        	newCode.append("\n");
-//        }
+		// if(vars.length() > 2) {
+		// newCode.append(vars);
+		// newCode.append("\n");
+		// }
 
 		while (line != null) {
 			jmlCode = getJmlAnnotations(jmlCode, br);
@@ -414,23 +415,23 @@ public class ConstructCodeBlock {
 		String parameters = "";
 		for (JavaVariable var : vars.getVariables()) {
 			switch (var.getKind()) {
-			case PARAM:
-				if (parameters.equals("")) {
-					parameters += var.getName();
-				} else {
-					parameters += ", " + var.getName();
-				}
-				break;
-			case RETURN:
-				String[] splitNameAndType = var.getName().split(" ");
-				// get type of variable not whole name
-				returnValueType = splitNameAndType[0];
-				// get only the name
-				String returnValueName = splitNameAndType[1];
-				post = post.replaceAll("(?<=\\W)" + returnValueName + "(?=\\W)", "\\\\result");
-				break;
-			default:
-				break;
+				case PARAM :
+					if (parameters.equals("")) {
+						parameters += var.getName();
+					} else {
+						parameters += ", " + var.getName();
+					}
+					break;
+				case RETURN :
+					String[] splitNameAndType = var.getName().split(" ");
+					// get type of variable not whole name
+					returnValueType = splitNameAndType[0];
+					// get only the name
+					String returnValueName = splitNameAndType[1];
+					post = post.replaceAll("(?<=\\W)" + returnValueName + "(?=\\W)", "\\\\result");
+					break;
+				default :
+					break;
 			}
 		}
 		StringBuffer code = new StringBuffer();
@@ -472,7 +473,6 @@ public class ConstructCodeBlock {
 		}
 		return null;
 	}
-		
 
 	public static String constructMethodStubsForExport(CbCFormula formula, Renaming renaming, JavaVariables vars,
 			String feature, String project) {
@@ -502,36 +502,36 @@ public class ConstructCodeBlock {
 		String parameters = "";
 		for (JavaVariable var : vars.getVariables()) {
 			switch (var.getKind()) {
-			case PARAM:
-				if (parameters.equals("")) {
-					parameters += var.getName();
-				} else {
-					parameters += ", " + var.getName();
-				}
-				break;
-			case RETURN:
-				String[] splitNameAndType = var.getName().split(" ");
-				// get type of variable not whole name
-				returnValueType = splitNameAndType[0];
-				// get only the name
-				String returnValueName = splitNameAndType[1];
-				post = post.replaceAll("(?<=\\W)" + returnValueName + "(?=\\W)", "\\\\result");
-				break;
-			case RETURNPARAM:
-				String[] splitNameAndType2 = var.getName().split(" ");
-				// get type of variable not whole name
-				returnValueType = splitNameAndType2[0];
-				// get only the name
-				String returnValueName2 = splitNameAndType2[1];
-				post = post.replaceAll("(?<=\\W)" + returnValueName2 + "(?=\\W)", "\\\\result");
-				if (parameters.equals("")) {
-					parameters += var.getName();
-				} else {
-					parameters += ", " + var.getName();
-				}
-				break;
-			default:
-				break;
+				case PARAM :
+					if (parameters.equals("")) {
+						parameters += var.getName();
+					} else {
+						parameters += ", " + var.getName();
+					}
+					break;
+				case RETURN :
+					String[] splitNameAndType = var.getName().split(" ");
+					// get type of variable not whole name
+					returnValueType = splitNameAndType[0];
+					// get only the name
+					String returnValueName = splitNameAndType[1];
+					post = post.replaceAll("(?<=\\W)" + returnValueName + "(?=\\W)", "\\\\result");
+					break;
+				case RETURNPARAM :
+					String[] splitNameAndType2 = var.getName().split(" ");
+					// get type of variable not whole name
+					returnValueType = splitNameAndType2[0];
+					// get only the name
+					String returnValueName2 = splitNameAndType2[1];
+					post = post.replaceAll("(?<=\\W)" + returnValueName2 + "(?=\\W)", "\\\\result");
+					if (parameters.equals("")) {
+						parameters += var.getName();
+					} else {
+						parameters += ", " + var.getName();
+					}
+					break;
+				default :
+					break;
 			}
 		}
 

@@ -10,4 +10,3 @@ public class LinePair {
 		newLine = n.trim();
 	}
 }
-

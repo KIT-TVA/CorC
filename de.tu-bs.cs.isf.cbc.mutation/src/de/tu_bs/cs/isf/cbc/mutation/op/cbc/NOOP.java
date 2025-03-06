@@ -8,10 +8,10 @@ public class NOOP extends CbCMutationOp {
 	public NOOP() {
 		ops = Arrays.asList("");
 	}
-	
+
 	@Override
 	public String[] apply(Condition condition) {
-		return new String[] {};
+		return new String[]{};
 	}
 
 }

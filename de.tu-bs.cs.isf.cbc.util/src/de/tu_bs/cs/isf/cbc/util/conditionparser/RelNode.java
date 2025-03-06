@@ -5,6 +5,7 @@ import de.tu_bs.cs.isf.cbc.util.TokenType;
 
 /**
  * Contains definition of a relational node.
+ * 
  * @author Fynn
  */
 public class RelNode implements Node {
@@ -12,14 +13,14 @@ public class RelNode implements Node {
 	private Node identifier;
 	private String relVal;
 	private Node boundary;
-	
+
 	public RelNode() {
 		this.type = TokenType.REL;
 		this.identifier = null;
 		this.relVal = null;
 		this.boundary = null;
 	}
-	
+
 	public RelNode(TokenType type, String value, Node left, Node right) {
 		this.identifier = left;
 		this.relVal = value;
@@ -34,7 +35,7 @@ public class RelNode implements Node {
 	public void addIdentifier(Token curToken) {
 		identifier = new SingleNode(curToken.getType(), curToken.getValue());
 	}
-	
+
 	public void addIdentifierNode(Node node) {
 		identifier = node;
 	}
@@ -46,19 +47,19 @@ public class RelNode implements Node {
 	public void addBoundary(Token curToken) {
 		boundary = new SingleNode(curToken.getType(), curToken.getValue());
 	}
-	
+
 	public void addBoundaryNode(Node node) {
 		boundary = node;
 	}
-	
+
 	public Node getLeft() {
 		return identifier;
 	}
-	
+
 	public Node getRight() {
 		return boundary;
 	}
-	
+
 	public String getValue() {
 		return this.relVal;
 	}

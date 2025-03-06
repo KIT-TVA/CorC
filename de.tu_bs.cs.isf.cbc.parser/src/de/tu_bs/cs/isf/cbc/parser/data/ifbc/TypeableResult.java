@@ -43,7 +43,8 @@ public class TypeableResult {
 		return mutationModifier;
 	}
 
-	public TypeableResult(boolean typeable, String message, Map<String, List<IFbCReferenceEntity>> elevatedEntities, Map<String, String> changedTypes, List<String> usedCapsules) {
+	public TypeableResult(boolean typeable, String message, Map<String, List<IFbCReferenceEntity>> elevatedEntities,
+			Map<String, String> changedTypes, List<String> usedCapsules) {
 		super();
 		this.typeable = typeable;
 		this.message = message;
@@ -54,7 +55,8 @@ public class TypeableResult {
 		this.mutationModifier = null;
 	}
 
-	public TypeableResult(boolean typeable, String message, Map<String, List<IFbCReferenceEntity>> elevatedEntities, Map<String, String> changedTypes, List<String> usedCapsules, String securityLevel, MDF mutationModifier) {
+	public TypeableResult(boolean typeable, String message, Map<String, List<IFbCReferenceEntity>> elevatedEntities,
+			Map<String, String> changedTypes, List<String> usedCapsules, String securityLevel, MDF mutationModifier) {
 		super();
 		this.typeable = typeable;
 		this.message = message;

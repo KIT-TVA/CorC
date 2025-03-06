@@ -12,10 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
-
-
+ */
 
 package src.mujava.cli;
 
@@ -23,23 +20,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import src.com.beust.jcommander.Parameter;
- /**
+/**
  * <p>
  * Description: Pre-defined arguments options for markequiv command
  * </p>
  * 
  * @author Lin Deng
- * @version 1.0  
+ * @version 1.0
  */
 class markequivCom {
-	  @Parameter
-	  private List<String> parameters = new ArrayList<String>();
-	 
-	  @Parameter(names = "-name", arity = 1,  description = "Class name")
-	  private String name;
-	  
-	  @Parameter(names = "-mutant", arity = 1,  description = "Mutant name")
-	  private String mutant;
+	@Parameter
+	private List<String> parameters = new ArrayList<String>();
+
+	@Parameter(names = "-name", arity = 1, description = "Class name")
+	private String name;
+
+	@Parameter(names = "-mutant", arity = 1, description = "Mutant name")
+	private String mutant;
 
 	public List<String> getParameters() {
 		return parameters;
@@ -64,8 +61,5 @@ class markequivCom {
 	public void setMutant(String mutant) {
 		this.mutant = mutant;
 	}
-	  
-	  
-	  
-	  
-	}
+
+}

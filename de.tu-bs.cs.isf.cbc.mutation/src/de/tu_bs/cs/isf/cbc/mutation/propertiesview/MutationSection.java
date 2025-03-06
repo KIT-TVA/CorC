@@ -33,58 +33,42 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 	// Defining the logical properties
 	private Composite parent;
 	private TabbedPropertySheetPage tabbedPropertySheetPage;
-	
+
 	private Composite composite;
-	
+
 	private Group cbcGroup;
 	private Group implGroup;
 	private Group contractGroup;
 	private Button generateBtn;
-	
-	
+
 	private Condition selectedCondition;
-	
-	private Device device = Display.getCurrent ();
-	private Color white = new Color (device, 255, 255, 255);
-	
+
+	private Device device = Display.getCurrent();
+	private Color white = new Color(device, 255, 255, 255);
+
 	private final int NUM_GROUPS = 3;
 	// Impl Mutation Operators
-	private final String[] implOperators = new String[] {
-			"AORB | a + b  →  M₁: a - b  M₂: a * b  M₃: a / b",
-			"AORS | i++  →  M₁: i--  M₂: ++i  M₃: --i",
-			"AOIU | a < b  →  M₁: -a < b  M₂: a < -b ...",
-			"ROR | a < b → M₁: a <= b  M₂: a >= b ...",
-			"COR | a || b → M₁: a && b  M₂: a & b ...",
-			"COD | !a → M₁: a",
-			"SOR | a >> b → M₁: a << b  M₂: a >>>> b",
-			"LOR | a | b →  M₁: a & b  M₂: a ^ b",
-			"LOD | ˜a →  M₁: a",
-			"ASRS | a += b → M₁: a -= b  M₂: a *= b ..."
-	};
-	
-	/* Excluded operators:
+	private final String[] implOperators = new String[]{"AORB | a + b  →  M₁: a - b  M₂: a * b  M₃: a / b",
+			"AORS | i++  →  M₁: i--  M₂: ++i  M₃: --i", "AOIU | a < b  →  M₁: -a < b  M₂: a < -b ...",
+			"ROR | a < b → M₁: a <= b  M₂: a >= b ...", "COR | a || b → M₁: a && b  M₂: a & b ...", "COD | !a → M₁: a",
+			"SOR | a >> b → M₁: a << b  M₂: a >>>> b", "LOR | a | b →  M₁: a & b  M₂: a ^ b", "LOD | ˜a →  M₁: a",
+			"ASRS | a += b → M₁: a -= b  M₂: a *= b ..."};
+
+	/*
+	 * Excluded operators:
 	 * 
-			"COI | a → M₁: !a",
-			"LOI | a →  M₁: ˜a",
-			"AODU | -e  →  M₁: e",
-			"AODS | a++  →  M₁: i",
-			"AOIS | a  →  M₁: --a  M₂: ++a  M₃: a++  M₄: a--",
+	 * "COI | a → M₁: !a", "LOI | a →  M₁: ˜a", "AODU | -e  →  M₁: e",
+	 * "AODS | a++  →  M₁: i", "AOIS | a  →  M₁: --a  M₂: ++a  M₃: a++  M₄: a--",
 	 */
-	
+
 	// Contract Mutation Operators
-	private final String[] contractOperators = new String[] {
-			Mutator.getPwRename() + " | ==, >, <, >=, <=, &&, forall",
-			Mutator.getPsRename() + " | >=, <=, !=, >, <, ||, exists"
-	};
-	
+	private final String[] contractOperators = new String[]{Mutator.getPwRename() + " | ==, >, <, >=, <=, &&, forall",
+			Mutator.getPsRename() + " | >=, <=, !=, >, <, ||, exists"};
+
 	// CbC Mutation Operators
-	private final String[] cbcOperators = new String[] {
-			"CAORB | Apply AORB to selected condition.",
-			"CROR | Apply ROR to selected condition.",
-			"CCOR | Apply COR to selected condition.",
-			"CCOD | Apply COD to selected condition.",
-			"CLOR | Apply LOR to selected condition.",
-	};
+	private final String[] cbcOperators = new String[]{"CAORB | Apply AORB to selected condition.",
+			"CROR | Apply ROR to selected condition.", "CCOR | Apply COR to selected condition.",
+			"CCOD | Apply COD to selected condition.", "CLOR | Apply LOR to selected condition.",};
 	// TODO: Adjust Mutator to support more contract mutation operators.
 
 	@Override
@@ -95,23 +79,23 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 		this.parent = parent;
 		this.tabbedPropertySheetPage = tabbedPropertySheetPage;
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-		
+
 		composite = factory.createFlatFormComposite(parent);
-		
+
 		// Defining GridLayout for properties-view
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = NUM_GROUPS;
 		gridLayout.verticalSpacing = 5;
-		
+
 		composite.setLayout(gridLayout);
 		composite.setBackground(new Color(254, 250, 224));
 		composite.setForeground(new Color(212, 163, 115));
-		
+
 		implGroup = createButtonGroup(composite, "Implementation Mutation Operators");
 		for (var implOperator : implOperators) {
 			createCheckbox(implGroup, implOperator);
 		}
-		
+
 		contractGroup = createButtonGroup(composite, "Contract Mutation Operators");
 		for (var contractOperator : contractOperators) {
 			createCheckbox(contractGroup, contractOperator);
@@ -123,34 +107,34 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 		}
 		this.cbcGroup.setLocation(5, 5);
 
-		
 		this.generateBtn = createButton(composite, "Generate Mutants");
-		
+
 		addListener(generateBtn);
 	}
-	
+
 	@Override
 	public void refresh() {
-		//this.cbcGroup.setLocation(5, 5);
+		// this.cbcGroup.setLocation(5, 5);
 		/*
-		CbCDiagramTypeProvider diagramProvider = new CbCDiagramTypeProvider();
-		PictogramElement pe = getSelectedPictogramElement();
-		var bo = diagramProvider.getFeatureProvider().getBusinessObjectForPictogramElement(pe);
-		if(bo instanceof Condition) {
-			this.selectedCondition = (Condition)bo;
-			this.cbcGroup.setVisible(true);
-			this.generateBtn.setLocation(this.cbcGroup.getLocation().x, this.cbcGroup.getLocation().y + this.cbcGroup.getSize().y + 5);
-			this.contractGroup.setVisible(false);
-			this.implGroup.setVisible(false);
-		} else {*/
-			this.generateBtn.setLocation(this.implGroup.getLocation().x, this.implGroup.getLocation().y + this.implGroup.getSize().y + 5);
-			this.selectedCondition = null;
-			this.cbcGroup.setVisible(false);
-			this.contractGroup.setVisible(true);
-			this.implGroup.setVisible(true);
-		//}
+		 * CbCDiagramTypeProvider diagramProvider = new CbCDiagramTypeProvider();
+		 * PictogramElement pe = getSelectedPictogramElement(); var bo =
+		 * diagramProvider.getFeatureProvider().getBusinessObjectForPictogramElement(pe)
+		 * ; if(bo instanceof Condition) { this.selectedCondition = (Condition)bo;
+		 * this.cbcGroup.setVisible(true);
+		 * this.generateBtn.setLocation(this.cbcGroup.getLocation().x,
+		 * this.cbcGroup.getLocation().y + this.cbcGroup.getSize().y + 5);
+		 * this.contractGroup.setVisible(false); this.implGroup.setVisible(false); }
+		 * else {
+		 */
+		this.generateBtn.setLocation(this.implGroup.getLocation().x,
+				this.implGroup.getLocation().y + this.implGroup.getSize().y + 5);
+		this.selectedCondition = null;
+		this.cbcGroup.setVisible(false);
+		this.contractGroup.setVisible(true);
+		this.implGroup.setVisible(true);
+		// }
 	}
-	
+
 	private Group createButtonGroup(Composite parent, String name) {
 		Group buttonGroup = new Group(parent, SWT.PUSH);
 		buttonGroup.setText(name);
@@ -162,7 +146,7 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 		buttonGroup.setForeground(parent.getForeground());
 		return buttonGroup;
 	}
-	
+
 	private Button createCheckbox(Composite buttonGroup, String name) {
 		Button newButton = new Button(buttonGroup, SWT.CHECK);
 		newButton.setText(name);
@@ -171,7 +155,7 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 		buttons.add(newButton);
 		return newButton;
 	}
-	
+
 	private Button createButton(Composite buttonGroup, String name) {
 		Button newButton = new Button(buttonGroup, SWT.PUSH);
 		newButton.setText(name);
@@ -180,7 +164,7 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 		buttons.add(newButton);
 		return newButton;
 	}
-	
+
 	private void addListener(Button btn) {
 		btn.addListener(SWT.Selection, new Listener() {
 			@Override
@@ -195,7 +179,7 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 			}
 		});
 	}
-	
+
 	private void addSelectedOperators(Button btn, List<String> ops) {
 		for (var b : buttons) {
 			if (b.equals(btn)) {
@@ -206,7 +190,7 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 			}
 		}
 	}
-	
+
 	private void generateMutatedDiagrams(List<String> ops) throws Exception {
 		Mutator implMutator = Mutator.get(ops);
 		implMutator.mutate(getDiagram(), null);
@@ -220,4 +204,3 @@ public class MutationSection extends GFPropertySection implements ITabbedPropert
 		return btn.getText().split("\\s\\|")[0];
 	}
 }
-

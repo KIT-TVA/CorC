@@ -135,26 +135,31 @@ public class FileUtil implements IFileUtil {
 				break;
 			}
 		}
-//			if (thisProject.getName().contains("Userstudy")) {
-//			File diagramFile = new File(thisProject.getLocation() + "/" + uriPath);
-//			File diagramFileCopy = new File(thisProject.getLocation() + "/src/saved/ExDia" + proofCounter +  ".diagram");
-//			File cbcFile = new File(thisProject.getLocation() + "/" + uriPath.substring(0, uriPath.indexOf(".")) + ".cbcmodel");
-//			File cbcFileCopy = new File(thisProject.getLocation() + "/src/saved/ExDia" + proofCounter +  ".cbcmodel");
-//			proofCounter++;
-//			try {
-//				IWorkspace workspace = ResourcesPlugin.getWorkspace();
-//				Files.copy(diagramFile.toPath(), diagramFileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);
-//				Files.copy(cbcFile.toPath(), cbcFileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);  
-//				IPath iLocation = Path.fromOSString(diagramFileCopy.getAbsolutePath()); 
-//				IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
-//				ifile.refreshLocal(0, null);
-//				iLocation = Path.fromOSString(cbcFileCopy.getAbsolutePath()); 
-//				ifile = workspace.getRoot().getFileForLocation(iLocation);
-//				ifile.refreshLocal(0, null);
-//			} catch (IOException | CoreException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		// if (thisProject.getName().contains("Userstudy")) {
+		// File diagramFile = new File(thisProject.getLocation() + "/" + uriPath);
+		// File diagramFileCopy = new File(thisProject.getLocation() +
+		// "/src/saved/ExDia" + proofCounter + ".diagram");
+		// File cbcFile = new File(thisProject.getLocation() + "/" +
+		// uriPath.substring(0, uriPath.indexOf(".")) + ".cbcmodel");
+		// File cbcFileCopy = new File(thisProject.getLocation() + "/src/saved/ExDia" +
+		// proofCounter + ".cbcmodel");
+		// proofCounter++;
+		// try {
+		// IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		// Files.copy(diagramFile.toPath(), diagramFileCopy.toPath(),
+		// StandardCopyOption.REPLACE_EXISTING);
+		// Files.copy(cbcFile.toPath(), cbcFileCopy.toPath(),
+		// StandardCopyOption.REPLACE_EXISTING);
+		// IPath iLocation = Path.fromOSString(diagramFileCopy.getAbsolutePath());
+		// IFile ifile = workspace.getRoot().getFileForLocation(iLocation);
+		// ifile.refreshLocal(0, null);
+		// iLocation = Path.fromOSString(cbcFileCopy.getAbsolutePath());
+		// ifile = workspace.getRoot().getFileForLocation(iLocation);
+		// ifile.refreshLocal(0, null);
+		// } catch (IOException | CoreException e) {
+		// e.printStackTrace();
+		// }
+		// }
 		return thisProject;
 	}
 
@@ -205,52 +210,52 @@ public class FileUtil implements IFileUtil {
 			List<String> originalPrePost) {
 		FileNameManager manager = new FileNameManager();
 		String keyFileName = manager.getFileName(problem, location, statement, subProofName);
-		
+
 		File keyFile = new File(location + keyFileName + ".key");
 		File keyHelperFile = null;
 		switch (proofType) {
-		case KeYInteraction.ABSTRACT_PROOF_FULL:
-			keyFileName = manager.getFileName(problem, location, statement, subProofName);
-			keyFile = new File(location + keyFileName + ".key");
-			keyHelperFile = new File(location + "/helper.key");
-			break;
-		case KeYInteraction.ABSTRACT_PROOF_BEGIN:
-			keyFileName = manager.getFileName(problem, location, statement, subProofName);
-			keyFile = new File(location + "/" + keyFileName + ".key");
-			keyHelperFile = new File(location + "/helper.key");
-			if (proofExists) {
-				return keyFile;
-			}
-			break;
-		case KeYInteraction.ABSTRACT_PROOF_COMPLETE:
-			keyFileName = manager.getFileName(problem, location, statement, subProofName);
-			keyFile = new File(location + "/" + keyFileName + ".key");
-			keyHelperFile = new File(location + "/helper.key");
-			String[] split = location.split("/");
-			String proveFolder = split[split.length - 1];
-			var newLoc = location.trim().replace("/" + proveFolder, "");
-			File keyFileBegin = new File(newLoc + "/" + keyFileName + ".proof");
-			List<String> begin = readFileInList(keyFileBegin.toPath().toString());
-			problem = "";
-			for (String line : begin) {
-				if (!line.startsWith(" (builtin \"Use Operation Contract\"")) {
-					problem += line + "\n";
-				} else {
-					problem += "\n ) }";
-					break;
+			case KeYInteraction.ABSTRACT_PROOF_FULL :
+				keyFileName = manager.getFileName(problem, location, statement, subProofName);
+				keyFile = new File(location + keyFileName + ".key");
+				keyHelperFile = new File(location + "/helper.key");
+				break;
+			case KeYInteraction.ABSTRACT_PROOF_BEGIN :
+				keyFileName = manager.getFileName(problem, location, statement, subProofName);
+				keyFile = new File(location + "/" + keyFileName + ".key");
+				keyHelperFile = new File(location + "/helper.key");
+				if (proofExists) {
+					return keyFile;
 				}
-			}
-			if (originalPrePost != null) {
-				problem = problem.replaceAll("original_pre\n", originalPrePost.get(0));
-				problem = problem.replaceAll("original_post\n", originalPrePost.get(1));
-				problem = problem.replaceAll("original_pre ", originalPrePost.get(0));
-				problem = problem.replaceAll("original_post ", originalPrePost.get(1));
-				problem = problem.replaceAll("original_pre\\)", originalPrePost.get(0) + ")");
-				problem = problem.replaceAll("original_post\\)", originalPrePost.get(1) + ")");
+				break;
+			case KeYInteraction.ABSTRACT_PROOF_COMPLETE :
+				keyFileName = manager.getFileName(problem, location, statement, subProofName);
+				keyFile = new File(location + "/" + keyFileName + ".key");
+				keyHelperFile = new File(location + "/helper.key");
+				String[] split = location.split("/");
+				String proveFolder = split[split.length - 1];
+				var newLoc = location.trim().replace("/" + proveFolder, "");
+				File keyFileBegin = new File(newLoc + "/" + keyFileName + ".proof");
+				List<String> begin = readFileInList(keyFileBegin.toPath().toString());
+				problem = "";
+				for (String line : begin) {
+					if (!line.startsWith(" (builtin \"Use Operation Contract\"")) {
+						problem += line + "\n";
+					} else {
+						problem += "\n ) }";
+						break;
+					}
+				}
+				if (originalPrePost != null) {
+					problem = problem.replaceAll("original_pre\n", originalPrePost.get(0));
+					problem = problem.replaceAll("original_post\n", originalPrePost.get(1));
+					problem = problem.replaceAll("original_pre ", originalPrePost.get(0));
+					problem = problem.replaceAll("original_post ", originalPrePost.get(1));
+					problem = problem.replaceAll("original_pre\\)", originalPrePost.get(0) + ")");
+					problem = problem.replaceAll("original_post\\)", originalPrePost.get(1) + ")");
 
-			}
-			override = true;
-			break;
+				}
+				override = true;
+				break;
 		}
 
 		if (!keyFile.exists() || override) {

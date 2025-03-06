@@ -64,8 +64,7 @@ public class NotificationPopup extends AbstractNotificationPopup {
 		for (int i = 0; i < uris.size(); i++) {
 			String curFeature = FeatureUtil.getInstance().getCallingFeature(uris.get(i));
 			String curMethod = FeatureUtil.getInstance().getCallingMethod(uris.get(i));
-			String output = "Feature: " + curFeature + ", Method: "
-					+ curMethod;
+			String output = "Feature: " + curFeature + ", Method: " + curMethod;
 			Button newButton = new Button(buttonGroup, SWT.DEFAULT);
 			newButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			newButton.setText(output);
