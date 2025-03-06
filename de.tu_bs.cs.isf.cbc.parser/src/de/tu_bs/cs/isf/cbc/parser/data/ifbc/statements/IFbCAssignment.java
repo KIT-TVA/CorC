@@ -299,7 +299,7 @@ public class IFbCAssignment extends IFbcAbstractStatement {
 		}
 
 		// SL of target must be higher than SL of value
-		// hier muss value nur lokal angehoben werden über promotion
+		// hier muss value nur lokal angehoben werden Ã¼ber promotion
 		if (LeastUpperBound.secondHigherThanFirst(valueSLNode, targetSLNode)) {
 			return tryLocalValuePromotion(lattice, elevatedEntities, changedTypes, usedCapsules, targetSL,
 					targetTypeScope, valueReturnType, targetSLNode, valueSL, valueMDF);
