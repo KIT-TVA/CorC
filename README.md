@@ -26,6 +26,7 @@ Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archi
     git clone https://github.com/KIT-TVA/CorC.git
     ```
 2. In EMT, select `Open Projects... -> CorC` and check the boxes for the following packages:
+    - `de.kit.tva.lost`
     - `de.tu-bs.cs.isf.cbc.exceptions`
     - `de.tu-bs.cs.isf.cbc.model`
     - `de.tu-bs.cs.isf.cbc.mutation`
