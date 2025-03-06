@@ -49,6 +49,14 @@ Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archi
 
 4. Select any package and run project as `Eclipse Application`.
 
+# Contribution
+1. Create a fork.
+2. Create a new branch with a name that describes your new feature.
+3. Start a pull request.
+
+## Formatting
+We use the default Eclipse formatting style with [spotless](https://github.com/diffplug/spotless/blob/main/plugin-maven/README.md#eclipse-jdt). Run `mvn spotless:apply` to format all src files automatically if needed.
+
 # Examples & Case Study Introduction
 We provide different examples and case studies to explore CorC!
 ## Examples
