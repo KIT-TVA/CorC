@@ -1,7 +1,5 @@
 package de.kit.tva.lost.boot;
 
-import javax.inject.Inject;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
@@ -9,6 +7,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.part.ViewPart;
 
 import de.kit.tva.lost.views.LostUiView;
+import jakarta.inject.Inject;
 
 public class Bootstrap extends ViewPart {
 	public Bootstrap() {

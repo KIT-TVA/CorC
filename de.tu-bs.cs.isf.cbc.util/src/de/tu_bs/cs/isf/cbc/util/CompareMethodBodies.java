@@ -1,10 +1,5 @@
 package de.tu_bs.cs.isf.cbc.util;
 
-//import org.emftext.language.java.containers.CompilationUnit;
-//import org.emftext.language.java.members.ClassMethod;
-//import org.emftext.language.java.members.Constructor;
-//import org.emftext.language.java.members.InterfaceMethod;
-//import org.emftext.language.java.resource.java.util.JavaResourceUtil;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 

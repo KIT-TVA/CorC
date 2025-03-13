@@ -8,7 +8,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.forms,
  junit-jupiter-api;bundle-version="5.10.0",
  junit-platform-commons;bundle-version="1.10.0",
- javax.inject,
  org.eclipse.graphiti.mm,
  org.eclipse.graphiti,
  org.eclipse.core.resources,
@@ -16,7 +15,8 @@ Require-Bundle: org.eclipse.core.runtime,
  de.tu-bs.cs.isf.cbc.model;bundle-version="1.0.0",
  org.eclipse.graphiti.ui,
  de.tu-bs.cs.isf.cbc.tool,
- de.tu_bs.cs.isf.cbc.exceptions;bundle-version="1.0.0"
+ de.tu_bs.cs.isf.cbc.exceptions;bundle-version="1.0.0",
+ jakarta.inject.jakarta.inject-api
 Bundle-RequiredExecutionEnvironment: JavaSE-17,
  JavaSE-16
 Import-Package: org.antlr.v4.runtime;version="4.7.2",

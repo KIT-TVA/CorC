@@ -162,11 +162,6 @@ git@github.com:xtext/maven-xtext-example.git-->
 		    <layout>p2</layout>
 	  	</repository>
 	  	<repository>
-		    <id>key</id>
-		    <url>https://formal.kastel.kit.edu/key/download/releases/2.6/eclipse/</url>
-		    <layout>p2</layout>
-	  	</repository>
-	  	<repository>
 		    <id>graphiti</id>
 		    <url>https://download.eclipse.org/graphiti/updates/0.18.0/</url>
 		    <layout>p2</layout>
@@ -184,11 +179,6 @@ git@github.com:xtext/maven-xtext-example.git-->
 	  	<repository>
 		    <id>mylyn</id>
 		    <url>https://download.eclipse.org/mylyn/snapshots/weekly/</url>
-		    <layout>p2</layout>
-	  	</repository>
-	  	<repository>
-		    <id>jamopp</id>
-		    <url>http://update.jamopp.org/release/</url>
 		    <layout>p2</layout>
 	  	</repository>
 	  	<repository>
