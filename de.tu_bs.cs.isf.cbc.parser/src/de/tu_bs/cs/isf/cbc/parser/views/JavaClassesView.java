@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -33,6 +31,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import de.tu_bs.cs.isf.cbc.parser.JavaClasses;
 import de.tu_bs.cs.isf.cbc.parser.data.JavaClass;
+import jakarta.inject.Inject;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
