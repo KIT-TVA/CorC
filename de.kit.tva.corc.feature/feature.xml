@@ -10,39 +10,11 @@
    </description>
 
    <includes
-         id="de.hentschel.visualdbc.feature"
-         version="0.0.0"/>
-
-   <includes
          id="de.ovgu.featureide"
          version="0.0.0"/>
 
    <includes
          id="de.ovgu.featureide.featuremodeling"
-         version="0.0.0"/>
-
-   <includes
-         id="org.key_project.jmlediting.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.key_project.key4eclipse.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.key_project.monkey.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.key_project.removegenerics.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.key_project.shellutility.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.key_project.stubby.feature"
          version="0.0.0"/>
 
    <includes
@@ -154,40 +126,79 @@
          version="0.0.0"/>
 
    <includes
-         id="antlr4ide.sdk"
+         id="org.eclipse.platform"
          version="0.0.0"/>
 
    <includes
-         id="org.emftext.commons.jdt"
-         version="0.0.0"
-         search-location="self"/>
-
-   <includes
-         id="org.emftext.commons.layout"
+         id="org.eclipse.mylyn.tasks.feature"
          version="0.0.0"/>
 
    <includes
-         id="org.emftext.language.java"
+         id="org.eclipse.mylyn.bugzilla.feature"
          version="0.0.0"/>
 
    <includes
-         id="org.emftext.language.java.jdt"
+         id="org.eclipse.mylyn.builds.feature"
          version="0.0.0"/>
 
-   <plugin
-         id="de.tu-bs.cs.isf.cbc.exceptions"
+   <includes
+         id="org.eclipse.mylyn.context.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.mylyn.egit.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.mylyn.git.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.mylyn.github.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.mylyn.ide.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.mylyn.jdt.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.mylyn.jenkins.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.mylyn.monitor.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.mylyn.pde.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.mylyn.reviews.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.mylyn.tasks.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.mylyn.team.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.mylyn.versions.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.mylyn.wikitext.feature"
          version="0.0.0"/>
 
    <plugin
          id="de.tu-bs.cs.isf.cbc.model"
-         version="0.0.0"/>
-
-   <plugin
-         id="de.tu-bs.cs.isf.cbc.model.edit"
-         version="0.0.0"/>
-
-   <plugin
-         id="de.tu-bs.cs.isf.cbc.model.editor"
          version="0.0.0"/>
 
    <plugin
@@ -219,14 +230,6 @@
          version="0.0.0"/>
 
    <plugin
-         id="de.tu_bs.cs.isf.cbc.statistics.edit"
-         version="0.0.0"/>
-
-   <plugin
-         id="de.tu_bs.cs.isf.cbc.statistics.editor"
-         version="0.0.0"/>
-
-   <plugin
          id="de.tu_bs.cs.isf.cbc.statistics.ui"
          version="0.0.0"/>
 
@@ -240,6 +243,14 @@
 
    <plugin
          id="de.kit.tva.lost"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu-bs.cs.isf.cbc.proofrepository"
+         version="0.0.0"/>
+
+   <plugin
+         id="de.tu_bs.cs.isf.cbc.exceptions"
          version="0.0.0"/>
 
 </feature>

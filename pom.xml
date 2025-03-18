@@ -33,8 +33,7 @@ git@github.com:xtext/maven-xtext-example.git-->
 	</modules>
 
 	<properties>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.release>21</maven.compiler.release>
 	 	<tycho-version>4.0.10</tycho-version>
 	 	<xtext-version>2.31.0</xtext-version>
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -127,7 +126,7 @@ git@github.com:xtext/maven-xtext-example.git-->
 		        <version>${tycho-version}</version>
 		        <configuration>
 		        <!-- Optional set the Java version you are using-->
-		        <executionEnvironment>JavaSE-17</executionEnvironment>
+		        <executionEnvironment>JavaSE-21</executionEnvironment>
 		        	<target>
 						<file>
 							${project.basedir}/../targetplatform.target
@@ -183,7 +182,7 @@ git@github.com:xtext/maven-xtext-example.git-->
 	  	</repository>
 	  	<repository>
 		  	<id>justj</id>
-		  	<url>https://download.eclipse.org/justj/jres/17/updates/release/latest/</url>
+		  	<url>https://download.eclipse.org/justj/jres/21/updates/release/21.0.6</url>
 		  	<layout>p2</layout>
 	  	</repository>
 	  	<repository>

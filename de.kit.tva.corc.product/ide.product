@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="CorC" uid="corc" id="de.kit.tva.lost.corc" application="org.eclipse.ui.ide.workbench" version="1.0.0" type="mixed" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="CorC" uid="corc" id="de.kit.tva.lost.corc" application="org.eclipse.ui.ide.workbench" version="1.0.0" type="features" includeLaunchers="true" includeJRE="true" autoIncludeRequirements="true">
 
 
    <configIni use="default">
@@ -14,7 +14,6 @@
 
    <windowImages/>
 
-
    <launcher>
       <win useIco="false">
          <bmp/>
@@ -23,7 +22,7 @@
 
 
    <vm>
-      <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17</windows>
+      <windows include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21</windows>
    </vm>
 
 
