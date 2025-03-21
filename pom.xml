@@ -15,26 +15,8 @@ git@github.com:xtext/maven-xtext-example.git-->
   	<version>0.0.1-SNAPSHOT</version>
   	<packaging>pom</packaging>
 
-  	<modules>
-	    <module>de.tu-bs.cs.isf.cbc.model</module>
-			<module>de.tu-bs.cs.isf.cbc.mutation</module>
-			<module>de.tu-bs.cs.isf.cbc.exceptions</module>
-	    <module>de.tu-bs.cs.isf.cbc.tool</module>
-	    <module>de.tu-bs.cs.isf.cbc.util</module>
-	    <module>de.tu-bs.cs.isf.cbcclass.tool</module>
-	    <module>de.tu-bs.cs.isf.wizards</module>
-	    <module>de.tu_bs.cs.isf.cbc.statistics</module>
-	    <module>de.tu_bs.cs.isf.cbc.statistics.ui</module>
-	    <module>de.tu_bs.cs.isf.commands.toolbar</module>
-	    <module>de.tu_bs.cs.isf.cbc.parser</module>
-	    <module>de.tu_bs.cs.isf.lattice</module>
-	    <module>de.kit.tva.lost</module>
-			<module>de.tu-bs.cs.isf.cbc.proofrepository</module>
-	</modules>
-
 	<properties>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.release>21</maven.compiler.release>
 	 	<tycho-version>4.0.10</tycho-version>
 	 	<xtext-version>2.31.0</xtext-version>
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -86,7 +68,7 @@ git@github.com:xtext/maven-xtext-example.git-->
 			          		<goals>
 					            <goal>compile</goal>
 					            <goal>xtend-install-debug-info</goal>
-					            <goal>testCompile</goal>
+					            <!--<goal>testCompile</goal>-->
 					            <goal>xtend-test-install-debug-info</goal>
 			          		</goals>
 			        	</execution>
@@ -114,7 +96,16 @@ git@github.com:xtext/maven-xtext-example.git-->
 		        <artifactId>tycho-maven-plugin</artifactId>
 		        <version>${tycho-version}</version>
 		        <extensions>true</extensions>
-	      	</plugin>
+						<executions>
+              <execution>
+                <phase>package</phase>
+                <id>package-feature</id>
+                    <configuration>
+                        <finalName>${project.artifactId}_${unqualifiedVersion}.${buildQualifier}</finalName>
+                    </configuration>
+            </execution>
+						</executions>
+				</plugin>
 
 	        <!--<plugin>
 	            <artifactId>maven-failsafe-plugin</artifactId>
@@ -127,7 +118,7 @@ git@github.com:xtext/maven-xtext-example.git-->
 		        <version>${tycho-version}</version>
 		        <configuration>
 		        <!-- Optional set the Java version you are using-->
-		        <executionEnvironment>JavaSE-17</executionEnvironment>
+		        <executionEnvironment>JavaSE-21</executionEnvironment>
 		        	<target>
 						<file>
 							${project.basedir}/../targetplatform.target
@@ -183,7 +174,7 @@ git@github.com:xtext/maven-xtext-example.git-->
 	  	</repository>
 	  	<repository>
 		  	<id>justj</id>
-		  	<url>https://download.eclipse.org/justj/jres/17/updates/release/latest/</url>
+		  	<url>https://download.eclipse.org/justj/jres/25/updates/nightly/latest</url>
 		  	<layout>p2</layout>
 	  	</repository>
 	  	<repository>
@@ -265,4 +256,22 @@ git@github.com:xtext/maven-xtext-example.git-->
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+
+  	<modules>
+	    <module>de.tu-bs.cs.isf.cbc.model</module>
+			<module>de.tu-bs.cs.isf.cbc.mutation</module>
+			<module>de.tu-bs.cs.isf.cbc.exceptions</module>
+	    <module>de.tu-bs.cs.isf.cbc.tool</module>
+	    <module>de.tu-bs.cs.isf.cbc.util</module>
+	    <module>de.tu-bs.cs.isf.cbcclass.tool</module>
+	    <module>de.tu-bs.cs.isf.wizards</module>
+	    <module>de.tu_bs.cs.isf.cbc.statistics</module>
+	    <module>de.tu_bs.cs.isf.cbc.statistics.ui</module>
+	    <module>de.tu_bs.cs.isf.commands.toolbar</module>
+	    <module>de.tu_bs.cs.isf.cbc.parser</module>
+	    <module>de.tu_bs.cs.isf.lattice</module>
+	    <module>de.kit.tva.lost</module>
+			<module>de.tu-bs.cs.isf.cbc.proofrepository</module>
+	</modules>
+
 </project>

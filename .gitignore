@@ -145,3 +145,6 @@ local.properties
 
 ### Class files
 *.class
+
+# Build properties
+build.properties
