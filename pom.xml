@@ -158,13 +158,8 @@ git@github.com:xtext/maven-xtext-example.git-->
 		    <layout>p2</layout>
 	  	</repository>
 	  	<repository>
-	    	<id>emftext</id>
-		    <url>http://update.emftext.org/release/</url>
-		    <layout>p2</layout>
-	  	</repository>
-	  	<repository>
 		    <id>featureIDE</id>
-		    <url>http://featureide.cs.ovgu.de/update/v3/</url>
+		    <url>https://featureide.cs.ovgu.de/update/v3/</url>
 		    <layout>p2</layout>
 	  	</repository>
 	  	<repository>
