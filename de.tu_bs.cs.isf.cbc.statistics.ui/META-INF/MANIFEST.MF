@@ -4,8 +4,7 @@ Bundle-Name: Ui
 Bundle-SymbolicName: de.tu_bs.cs.isf.cbc.statistics.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: de.tu.bs.cs.isf.cbc.statistics.ui
-Bundle-RequiredExecutionEnvironment: JavaSE-17,
- JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: de.tu_bs.cs.isf.cbc.statistics,
  org.eclipse.ui,
  org.eclipse.core.resources,

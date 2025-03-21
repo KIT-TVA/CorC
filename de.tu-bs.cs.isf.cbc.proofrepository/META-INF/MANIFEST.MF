@@ -3,8 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ProofRepository
 Bundle-SymbolicName: de.tu-bs.cs.isf.cbc.proofrepository;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-16,
- JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.graphiti,
  org.eclipse.graphiti.examples.common,
  org.eclipse.graphiti.ui,

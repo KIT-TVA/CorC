@@ -3,8 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Lattice
 Bundle-SymbolicName: de.tu_bs.cs.isf.lattice;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-17,
- JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: de.tu_bs.cs.isf.lattice,
  de.tu_bs.cs.isf.lattice.builder,
  de.tu_bs.cs.isf.lattice.calculation

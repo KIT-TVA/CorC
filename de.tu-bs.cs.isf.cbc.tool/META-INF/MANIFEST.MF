@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Tool
 Bundle-SymbolicName: de.tu-bs.cs.isf.cbc.tool;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.graphiti,
  org.eclipse.graphiti.examples.common,
  org.eclipse.graphiti.ui,

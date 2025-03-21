@@ -7,8 +7,7 @@ Bundle-Activator: de.tu_bs.cs.isf.cbc.parser.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  jakarta.inject.jakarta.inject-api
-Bundle-RequiredExecutionEnvironment: JavaSE-17,
- JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: de.tu_bs.cs.isf.cbc.parser
 Bundle-ActivationPolicy: lazy
 Import-Package: de.tu_bs.cs.isf.cbc.cbcmodel,
