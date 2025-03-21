@@ -6,9 +6,9 @@ Learn more about CorC and the underlying concepts in the [wiki](https://github.c
 
 # Getting Started
 ## Java Version
-Install [**JDK 16**](https://www.oracle.com/java/technologies/javase/jdk16-archive-downloads.html). CorC may not work out of the box with newer versions.
+Install [**JDK 21**](https://www.oracle.com/java/technologies/downloads/#java21). CorC may not work out of the box with newer versions.
 ## Eclipse Modelling Tools
-- Install [Eclipse Modelling Tools (EMT)](https://www.eclipse.org/downloads/packages/release/2023-09/r/eclipse-modeling-tools) (Version 2023-09). 
+- Install [Eclipse Modelling Tools (EMT)](https://www.eclipse.org/downloads/packages/release/2024-03/r/eclipse-modeling-tools) (Version 2024-03). 
 - Get the latest release of [Z3](https://github.com/Z3Prover/z3/releases) and add the `*/z3-[cur-version]-[x64/x32]-win/bin` folder to the environment variable [PATH](https://www.wikihow.com/Change-the-PATH-Environment-Variable-on-Windows)
 
 ## EMT Plugins
