@@ -17,8 +17,7 @@ Require-Bundle: org.eclipse.core.runtime,
  de.tu-bs.cs.isf.cbc.tool,
  de.tu_bs.cs.isf.cbc.exceptions;bundle-version="1.0.0",
  jakarta.inject.jakarta.inject-api
-Bundle-RequiredExecutionEnvironment: JavaSE-17,
- JavaSE-16
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Import-Package: org.antlr.v4.runtime;version="4.7.2",
  org.antlr.v4.runtime.atn;version="4.7.2",
  org.antlr.v4.runtime.dfa;version="4.7.2",
