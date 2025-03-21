@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Mail">
+  <fields type="String" name="content"/>
+  <fields type="boolean" name="isEncrypted"/>
+</cbcclass:ModelClass>

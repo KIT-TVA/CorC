@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="forward" comment="" className="Client" methodName="forward">
+    <statement name="statement">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement">
+        <firstStatement name="statement1">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:MethodStatement" name="decrypt(mail);">
+            <postCondition name="intermediateCond"/>
+            <preCondition name="receiver != null &amp; mail != null"/>
+          </refinement>
+          <postCondition name="intermediateCond"/>
+          <preCondition name="receiver != null &amp; mail != null"/>
+        </firstStatement>
+        <secondStatement name="statement2">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement">
+            <firstStatement name="statement1">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:MethodStatement" name="addToInbox(mail);">
+                <postCondition name="intermediateCond"/>
+                <preCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="intermediateCond"/>
+              <preCondition name="intermediateCond"/>
+            </firstStatement>
+            <secondStatement name="statement2">
+              <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:MethodStatement" name="send(receiver, mail);">
+                <postCondition name="true"/>
+                <preCondition name="intermediateCond"/>
+              </refinement>
+              <postCondition name="true"/>
+              <preCondition name="intermediateCond"/>
+            </secondStatement>
+            <intermediateCondition name="intermediateCond"/>
+          </refinement>
+          <postCondition name="true"/>
+          <preCondition name="intermediateCond"/>
+        </secondStatement>
+        <intermediateCondition name="intermediateCond"/>
+      </refinement>
+      <postCondition name="true"/>
+      <preCondition name="receiver != null &amp; mail != null"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="Client.cbcclass#//@methods.2"/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
+</xmi:XMI>

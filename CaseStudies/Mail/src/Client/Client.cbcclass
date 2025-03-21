@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="Client">
+  <methods cbcDiagramURI="decrypt.diagram" name="decrypt" returnType="void">
+    <cbcStartTriple href="decrypt.cbcmodel#/0"/>
+    <parameters type="Mail" name="mail"/>
+  </methods>
+  <methods cbcDiagramURI="addToInbox.diagram" name="addToInbox" returnType="void">
+    <cbcStartTriple href="addToInbox.cbcmodel#/0"/>
+    <parameters type="Mail" name="mail"/>
+  </methods>
+  <methods cbcDiagramURI="forward.diagram" name="forward" returnType="void">
+    <cbcStartTriple href="forward.cbcmodel#/0"/>
+    <parameters type="Client" name="receiver"/>
+    <parameters type="Mail" name="mail"/>
+  </methods>
+</cbcclass:ModelClass>
