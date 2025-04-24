@@ -9,6 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.ResourcesPlugin;
+
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
@@ -315,9 +318,12 @@ public class ConstructCodeBlock {
 
 	private static void readPredicates(FileUtil fileHandler, String[] config, CbCFormula formula) {
 		predicates = new ArrayList<Predicate>();
-		String filePath = formula.eResource().getURI().toString();
+		String filePath = formula.eResource().getURI().path();
 		String projectName = getProjectName(formula, fileHandler, filePath);
-		filePath = filePath.substring(6, filePath.indexOf(projectName)) + projectName + "/predicates.def";
+		if (projectName.contains("/")) {
+			projectName = projectName.substring(projectName.lastIndexOf("/")+1, projectName.length());
+		}
+		filePath = "./" + filePath.substring(10, filePath.indexOf(projectName)) + projectName + "/predicates.def";
 		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
 		for (Predicate p : readPredicates) {
 			Predicate currentP = new Predicate(p.getSignature(true));
@@ -931,7 +937,11 @@ public class ConstructCodeBlock {
 	public static String useRenamingCondition(String toRename) {
 		if (renaming != null) {
 			for (Rename rename : renaming.getRename()) {
-				toRename = toRename.replaceAll(rename.getNewName(), rename.getFunction());
+				if (rename.getFunction().contains(".")) {
+					toRename = toRename.replaceAll(rename.getNewName(), rename.getFunction());
+				} else {
+					toRename = toRename.replaceAll(rename.getNewName(), "\\\\dl_" + rename.getFunction());
+				}
 			}
 		}
 		return toRename;

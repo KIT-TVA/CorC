@@ -1,0 +1,14 @@
++-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+
+\predicates {
+	app(int[] A, int begin, int end, int search); //default:default
+	\replacewith (\exists int q; (q >= begin & q < end & A[q]=search))
+	maxi(int[] A, int begin, int end, int max); //default:default
+	\replacewith (\forall int q; ((q >= begin & q < end) -> A[max]>=A[q]))
+	sort(int[] A, int begin, int end, int max); //default:default
+	\replacewith (\forall int q; ((q >= 1 & q < A.length) -> A[q-1]<=A[q]))
+	s(int[] A, int wb, int wt, int bb); //default:default
+	\replacewith (c(A,0,wb,0) & c(A,wb,wt,1) & c(A,bb,A.length,2) & 0<=wb & wb<=wt & wt<=bb & bb<=A.length)
+	c(int[] A, int l, int h, int s); //default:default
+	\replacewith ((\forall int q; ((q >= l & q < h) -> A[q]=s)))
+}
++-+-+-+-+-+-+-DO NOT CHANGE THIS FILE MANUALLY - PLEASE USE PREDICATE MANAGEMENT WIZARD-+-+-+-+-+-+-+

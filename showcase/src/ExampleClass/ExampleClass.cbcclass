@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cbcclass:ModelClass xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cbcclass="http://www.example.org/cbcclass" name="ExampleClass">
+  <methods cbcDiagramURI="linearSearch.diagram" name="linearSearch" returnType="void">
+    <cbcStartTriple href="linearSearch.cbcmodel#/0"/>
+    <parameters type="int[]" name="A"/>
+    <parameters type="int" name="x"/>
+    <parameters type="int" name="i"/>
+  </methods>
+  <methods cbcDiagramURI="logarithm.diagram" name="logarithm" returnType="void">
+    <cbcStartTriple href="logarithm.cbcmodel#/0"/>
+    <parameters type="int" name="N"/>
+    <parameters type="int" name="n"/>
+    <parameters type="int" name="l"/>
+  </methods>
+  <methods cbcDiagramURI="factorial.diagram" name="factorial" returnType="void">
+    <cbcStartTriple href="factorial.cbcmodel#/0"/>
+    <parameters type="int" name="n"/>
+    <parameters type="int" name="f"/>
+  </methods>
+</cbcclass:ModelClass>

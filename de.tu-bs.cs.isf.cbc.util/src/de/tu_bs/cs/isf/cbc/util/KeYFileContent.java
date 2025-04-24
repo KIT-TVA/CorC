@@ -325,7 +325,7 @@ public class KeYFileContent {
 
 	private String getKeyHeader(Map<String, OldReplacement> oldReplacements) {
 		return MessageFormat.format(
-				"\\javaSource \"{0}\";\n" + "\\include \"{1}\";\n" + "\\programVariables '{'\n" + "{2}"
+				 "\\include \"{1}\";\n" + "\\javaSource \"{0}\";\n" + "\\programVariables '{'\n" + "{2}"
 						+ "Heap heapAtPre;\n" + "'}'",
 				location + srcFolder, helper, getProgramVariablesString(oldReplacements));
 	}

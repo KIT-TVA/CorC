@@ -58,11 +58,20 @@ public class GenerateCodeFromModel extends MyAbstractAsynchronousCustomFeature {
 		GlobalConditions globalConditions = extractor.getConds();
 		Renaming renaming = extractor.getRenaming();
 		CbCFormula formula = extractor.getFormula();
-
 		String signatureString = formula.getMethodObj() != null
 				? formula.getMethodObj().getSignature()
 				: ("public void " + formula.getName().toLowerCase() + " ()");
-
+		var tmls = formula.getMethodObj();
+		String params = "(";
+		boolean hasParam = false;
+		for (var p : vars.getParams()) {
+			params += p.getType() + " " + p.getName() + ", ";
+			hasParam = true;
+		}
+		if (hasParam) {
+		params = params.substring(0, params.length() - 2) + ")";
+		}
+		signatureString = "public " + formula.getMethodObj().getReturnType() + " " + formula.getName() + params;
 		JavaVariable returnVariable = null;
 		int counter = 0;
 		LinkedList<String> localVariables = new LinkedList<String>();

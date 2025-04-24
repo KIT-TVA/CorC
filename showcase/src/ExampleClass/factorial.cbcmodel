@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="factorial" comment="" className="ExampleClass" methodName="factorial">
+    <statement name="statement">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SelectionStatement" name="selectionStatement">
+        <guards name="n = 0"/>
+        <guards name="n = 1"/>
+        <guards name="n >= 2"/>
+        <commands name="statement">
+          <refinement name="f = 1;">
+            <postCondition name="f = frac(n)">
+              <modifiables>f</modifiables>
+            </postCondition>
+            <preCondition name="(n >= 0) &amp; (n = 0)"/>
+          </refinement>
+          <postCondition name="f = frac(n)">
+            <modifiables>f</modifiables>
+          </postCondition>
+          <preCondition name="(n >= 0) &amp; (n = 0)"/>
+        </commands>
+        <commands name="statement">
+          <refinement name="f = 1;">
+            <postCondition name="f = frac(n)">
+              <modifiables>f</modifiables>
+            </postCondition>
+            <preCondition name="(n >= 0) &amp; (n = 1)"/>
+          </refinement>
+          <postCondition name="f = frac(n)">
+            <modifiables>f</modifiables>
+          </postCondition>
+          <preCondition name="(n >= 0) &amp; (n = 1)"/>
+        </commands>
+        <commands name="statement">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:MethodStatement" name="f = n*frac(n-1);">
+            <postCondition name="f = frac(n)">
+              <modifiables>f</modifiables>
+            </postCondition>
+            <preCondition name="(n >= 0) &amp; (n >= 2)"/>
+          </refinement>
+          <postCondition name="f = frac(n)">
+            <modifiables>f</modifiables>
+          </postCondition>
+          <preCondition name="(n >= 0) &amp; (n >= 2)"/>
+        </commands>
+      </refinement>
+      <postCondition name="f = frac(n)">
+        <modifiables>f</modifiables>
+      </postCondition>
+      <preCondition name="n >= 0"/>
+    </statement>
+    <preCondition name="pre"/>
+    <postCondition name="post"/>
+    <methodObj href="ExampleClass.cbcclass#//@methods.2"/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:JavaVariables/>
+  <de.tu-bs.cs.isf.cbc.cbcmodel:Renaming>
+    <rename type="int" function="Helper.factorial" newName="frac"/>
+  </de.tu-bs.cs.isf.cbc.cbcmodel:Renaming>
+</xmi:XMI>
