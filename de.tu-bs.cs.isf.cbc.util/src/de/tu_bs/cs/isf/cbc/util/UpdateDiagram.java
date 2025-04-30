@@ -3,8 +3,6 @@ package de.tu_bs.cs.isf.cbc.util;
 import java.io.IOException;
 import java.util.Collections;
 
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IUpdateFeature;

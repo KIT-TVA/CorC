@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:de.tu-bs.cs.isf.cbc.cbcmodel="http://www.example.org/cbcmodel">
-  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="linearSearch" comment="" className="ExampleClass" methodName="linearSearch">
+  <de.tu-bs.cs.isf.cbc.cbcmodel:CbCFormula name="linearSearch" proven="true" comment="" className="ExampleClass" methodName="linearSearch">
     <statement name="statement" id="c4f2c739-0cfa-4c67-8daa-0c6520577807">
-      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" id="83e98505-c080-4d60-a32d-106541ee636b">
+      <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:CompositionStatement" name="compositionStatement" proven="true" id="83e98505-c080-4d60-a32d-106541ee636b" tested="true">
         <firstStatement name="statement1" id="e1fcef87-3300-4b4b-b9fd-a96dcd2bf438">
-          <refinement name="i = A.length;" proven="true" id="7bb14f09-c24e-4068-86be-fe0169d8fcd2" codeRepresentation="i = A.length;&#xA;">
-            <postCondition name="i = A.length">
+          <refinement name="i = A.length - 1;" proven="true" id="7bb14f09-c24e-4068-86be-fe0169d8fcd2" codeRepresentation="i = A.length;&#xA;">
+            <postCondition name="i = A.length - 1">
               <modifiables>i</modifiables>
             </postCondition>
             <preCondition name="appears(A, x, 0, A.length)"/>
           </refinement>
-          <postCondition name="i = A.length">
+          <postCondition name="i = A.length - 1">
             <modifiables>i</modifiables>
           </postCondition>
           <preCondition name="appears(A, x, 0, A.length)"/>
         </firstStatement>
         <secondStatement name="statement2" id="bdacf04a-3a0b-4a22-a2a8-63f69e3fc8f3">
-          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SmallRepetitionStatement" name="repetitionStatement" id="061bea32-51be-42fb-8f0f-a10686becab1" preProven="true" postProven="true">
+          <refinement xsi:type="de.tu-bs.cs.isf.cbc.cbcmodel:SmallRepetitionStatement" name="repetitionStatement" proven="true" id="061bea32-51be-42fb-8f0f-a10686becab1" tested="true" variantProven="true" preProven="true" postProven="true">
             <postCondition name="A[i] = x">
               <modifiables>i</modifiables>
             </postCondition>
-            <preCondition name="i = A.length">
+            <preCondition name="i = A.length - 1">
               <modifiables>i</modifiables>
             </preCondition>
             <loopStatement name="loop" id="26be4126-663a-4c98-a357-3eb7dd878c60">
-              <refinement name="i = i - 1;" id="131a8dd0-d8d1-4c8e-8b69-f13aa29d2e2a" codeRepresentation="i = i - 1;&#xA;">
+              <refinement name="i = i - 1;" proven="true" id="131a8dd0-d8d1-4c8e-8b69-f13aa29d2e2a" codeRepresentation="i = i - 1;&#xA;">
                 <postCondition name="!appears(A, x, i+1, A.length)">
                   <modifiables>i</modifiables>
                 </postCondition>
@@ -46,11 +46,11 @@
           <postCondition name="A[i] = x">
             <modifiables>i</modifiables>
           </postCondition>
-          <preCondition name="i = A.length">
+          <preCondition name="i = A.length - 1">
             <modifiables>i</modifiables>
           </preCondition>
         </secondStatement>
-        <intermediateCondition name="i = A.length">
+        <intermediateCondition name="i = A.length - 1">
           <modifiables>i</modifiables>
         </intermediateCondition>
       </refinement>

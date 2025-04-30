@@ -560,7 +560,7 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 		return code;
 	}
 
-	private boolean compile(final List<String> dependencies, final String className, final String methodName,
+	private boolean compile(List<String> dependencies, String className, String methodName,
 			final TestAndAssertionGenerator generator)
 			throws TestAndAssertionGeneratorException, TestStatementException {
 		var pathOfPlugins = System.getProperty("osgi.syspath");
@@ -590,7 +590,9 @@ public class TestStatement extends MyAbstractAsynchronousCustomFeature {
 			if (contained)
 				continue;
 			var code = ClassHandler.classExists(projectPath, fileName);
-			dependencies.add(code);
+			if (!code.isEmpty()) {
+				dependencies.add(code);
+			}
 		}
 	}
 
