@@ -1021,7 +1021,7 @@ public class GenerateModelFromCode {
 					handleListOfStatements(r, selBlock, assertStatements, selStatement.getCommands().get(0));
 				}
 				int i = 1;
-				while (ifStat.getElseStmt().isPresent() && ifStat.getElseStmt().get().isIfStmt()) {
+				while (i < selStatement.getCommands().size() && ifStat.getElseStmt().isPresent() && ifStat.getElseStmt().get().isIfStmt()) {
 					IfStmt nextCondition = elseStat.get().asIfStmt();
 					AbstractStatement nextStatement = CbcmodelFactory.eINSTANCE.createAbstractStatement();
 					nextStatement.setName("statement");

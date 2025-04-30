@@ -100,8 +100,7 @@ public class GenerateDiagramFromModel {
 					+ uri.toString().replace("platform:/resource/", ""));
 			IPath iLocation = Path.fromOSString(fullUri.toFileString());
 			IFile ifile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(iLocation);
-			// ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE,
-			// null);
+			ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
 			ifile.getParent().refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (IOException e) {
 			e.printStackTrace();
