@@ -57,6 +57,7 @@ public class MethodStruct {
 			}
 		}
 
+		printFeatureToConsole();
 	}
 
 	private AbstractStatement searchVarCall(AbstractStatement statement) {

@@ -134,7 +134,7 @@ public class MetaMethod {
 		int cur = this.listOfMethods.size() - 1;
 		Condition condition = this.listOfMethods.get(cur).preCondition;
 		Condition metaCondition = CbcmodelFactory.eINSTANCE.createCondition();
-		metaCondition.setName(condition.getName());
+		metaCondition.setName(condition.getName().replaceAll("\\\\original_pre", "original"));
 		metaCondition.getModifiables().addAll(condition.getModifiables());
 		String curFeature = this.listOfMethods.get(cur).nameOfFeature.toUpperCase();
 		if (cur == 0) {
@@ -146,6 +146,8 @@ public class MetaMethod {
 				+ metaCondition.getName() + "))" + " & " + "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature
 				+ " = FALSE" + " -> (original))");
 		while (metaCondition.getName().contains("original")) {
+			metaCondition.setName(metaCondition.getName().replaceAll("\\\\original_pre", "original"));
+			metaCondition.setName(metaCondition.getName().replaceAll("\\\\original_post", "original"));
 			cur--;
 			curFeature = this.listOfMethods.get(cur).nameOfFeature.toUpperCase();
 			var oriCondition = this.listOfMethods.get(cur).preCondition.getName();
@@ -168,7 +170,7 @@ public class MetaMethod {
 		int cur = this.listOfMethods.size() - 1;
 		Condition condition = this.listOfMethods.get(cur).postCondition;
 		Condition metaCondition = CbcmodelFactory.eINSTANCE.createCondition();
-		metaCondition.setName(condition.getName());
+		metaCondition.setName(condition.getName().replaceAll("\\\\original_post", "original"));
 		metaCondition.getModifiables().addAll(condition.getModifiables());
 		String curFeature = this.listOfMethods.get(cur).nameOfFeature.toUpperCase();
 		if (cur == 0) {
@@ -180,6 +182,8 @@ public class MetaMethod {
 				+ metaCondition.getName() + "))" + " & " + "(" + MetaVariablesClass.NAME + "." + "FV_" + curFeature
 				+ " = FALSE" + " -> (original))");
 		while (metaCondition.getName().contains("original")) {
+			metaCondition.setName(metaCondition.getName().replaceAll("\\\\original_pre", "original"));
+			metaCondition.setName(metaCondition.getName().replaceAll("\\\\original_post", "original"));
 			cur--;
 			curFeature = this.listOfMethods.get(cur).nameOfFeature.toUpperCase();
 			var oriCondition = this.listOfMethods.get(cur).postCondition.getName();

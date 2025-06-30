@@ -67,7 +67,7 @@ public class KeYFileContent {
 	boolean abstractProof = false;
 
 	public KeYFileContent(String location) {
-		this.location = location;
+		setLocation(location);
 
 		programVariables = CbcmodelFactory.eINSTANCE.createJavaVariables();
 		globalConditions = new ArrayList<>();
@@ -84,6 +84,7 @@ public class KeYFileContent {
 	}
 
 	public void setLocation(String location) {
+		location = location.replaceAll("\\\\", "/");
 		this.location = location;
 	}
 
@@ -327,11 +328,11 @@ public class KeYFileContent {
 		return MessageFormat.format(
 				"\\javaSource \"{0}\";\n" + "\\include \"{1}\";\n" + "\\programVariables '{'\n" + "{2}"
 						+ "Heap heapAtPre;\n" + "'}'",
-				location + srcFolder, helper, getProgramVariablesString(oldReplacements));
+				location + '/' + srcFolder, helper, getProgramVariablesString(oldReplacements));
 	}
 
 	private String getKeyProblem(Map<String, OldReplacement> oldReplacements) {
-		return MessageFormat.format("\\problem '{'({0}) -> '{'" + "{1}" + "'}'",
+		return MessageFormat.format("\n\\problem '{'({0}) -> '{'" + "{1}" + "'}'",
 				KeYFunctionReplacer.getInstance().replaceIn(getPreConditionsString(oldReplacements)),
 				getAssignmentString(oldReplacements));
 	}

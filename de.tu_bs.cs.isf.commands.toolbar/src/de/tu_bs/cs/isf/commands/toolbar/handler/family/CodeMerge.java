@@ -2,6 +2,7 @@ package de.tu_bs.cs.isf.commands.toolbar.handler.family;
 
 import java.util.List;
 
+import de.tu_bs.cs.isf.cbc.util.ClassHandler;
 import de.tu_bs.cs.isf.cbc.util.CodeHandler;
 
 public class CodeMerge {
@@ -23,11 +24,29 @@ public class CodeMerge {
 	private void merge() throws CodeMergeException {
 		removeCodeClassLayers();
 		addMergedClassLayer();
-		String header = mergeHeaders();
+		String header = classDefs();//mergeHeaders();
 		String methods = mergeMethods();
 		mergedCode += header + methods + "}";
 		mergedCode = CodeHandler.removeAllTabs(mergedCode);
 		mergedCode = CodeHandler.indentCode(mergedCode, 0);
+	}
+	
+	private String classDefs() {
+		String code = codes.get(0);
+		code = code.substring(0, nextMethod(code));
+		return code;
+	}
+	
+	private int nextMethod(String code) {
+		var lines = code.split("\\n");
+		int i = 0;
+		int ccount = 0;
+		for (var line : lines) {
+			if (line.contains("{")) break;
+			ccount += line.length() + 1;
+			i++;
+		}
+		return ccount;
 	}
 
 	private void removeCodeClassLayers() throws CodeMergeException {

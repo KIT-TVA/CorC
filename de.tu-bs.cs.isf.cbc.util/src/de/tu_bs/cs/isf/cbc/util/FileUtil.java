@@ -178,13 +178,16 @@ public class FileUtil implements IFileUtil {
 
 	public static IProject getProjectFromFileInProject(URI uri) {
 		uri = uri.trimFragment();
-		String uriPath = uri.toPlatformString(true);
+		var uriPath = uri.toPlatformString(true) == null ? uri.toFileString() : uri.toPlatformString(true);
 		if (uriPath == null) {
 			uriPath = uri.toString();
+			uriPath = uriPath.replaceAll("\\\\", "/");
+			uriPath = uriPath.substring(uriPath.indexOf("CaseStudies") + "CaseStudies".length());
 		}
 		uriPath = uriPath.substring(1, uriPath.length());
 		int positionOfSlash = uriPath.indexOf('/') + 1;
 		uriPath = uriPath.substring(positionOfSlash, uriPath.length());
+		
 		IProject thisProject = null;
 		for (IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 			if (p.getFile(new Path(uriPath)).exists()) {
@@ -409,9 +412,8 @@ public class FileUtil implements IFileUtil {
 		resourceURI = resourceSet.getURIConverter().normalize(resourceURI);
 		return resourceURI;
 	}
-
-	public List<Predicate> readPredicates(String filePath) {
-		File predicateFile = new File(filePath);
+	
+	public List<Predicate> readPredicates(File predicateFile) {
 		ArrayList<Predicate> readPredicates = new ArrayList<>();
 
 		if (predicateFile.exists()) {
@@ -437,6 +439,11 @@ public class FileUtil implements IFileUtil {
 			}
 		}
 		return readPredicates;
+	}
+
+	public List<Predicate> readPredicates(String filePath) {
+		File predicateFile = new File(filePath);
+		return readPredicates(predicateFile);
 	}
 
 	private ArrayList<String> readFile(String path) {

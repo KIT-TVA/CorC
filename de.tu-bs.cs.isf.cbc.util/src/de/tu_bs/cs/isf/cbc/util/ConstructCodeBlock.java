@@ -9,6 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.emf.common.util.URI;
+
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CbCFormula;
 import de.tu_bs.cs.isf.cbc.cbcmodel.CompositionStatement;
@@ -28,6 +31,7 @@ import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SelectionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SkipStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.SmallRepetitionStatementImpl;
 import de.tu_bs.cs.isf.cbc.cbcmodel.impl.StrengthWeakStatementImpl;
+import de.tu_bs.cs.isf.cbc.util.consts.MetaNames;
 
 public class ConstructCodeBlock {
 
@@ -307,18 +311,26 @@ public class ConstructCodeBlock {
 		if (nonSplProject != -1) {
 			return filePath.substring(0, filePath.indexOf("src") - 1);
 		} else {
-			String[] splitUri = formula.eResource().getURI().toString().split("/features/");
-			projectName = splitUri[0].split("/")[splitUri[0].split("/").length - 1];
+			var uri = formula.eResource().getURI().toPlatformString(false);
+			if (uri.contains(MetaNames.FOLDER_NAME)) {
+				projectName = uri.substring(uri.indexOf(MetaNames.FOLDER_NAME) + MetaNames.FOLDER_NAME.length() + 1, uri.length());
+				projectName = projectName.substring(0, projectName.indexOf('/'));
+			} else {
+				String[] splitUri = formula.eResource().getURI().toPlatformString(false).split("/features/");
+				projectName = splitUri[0].split("/")[splitUri[0].split("/").length - 1];
+			}
 			return projectName;
 		}
 	}
 
-	private static void readPredicates(FileUtil fileHandler, String[] config, CbCFormula formula) {
+	public static void readPredicates(FileUtil fileHandler, String[] config, CbCFormula formula) {
+		if (config == null) config = new String[0];
 		predicates = new ArrayList<Predicate>();
-		String filePath = formula.eResource().getURI().toString();
-		String projectName = getProjectName(formula, fileHandler, filePath);
-		filePath = filePath.substring(6, filePath.indexOf(projectName)) + projectName + "/predicates.def";
-		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
+		var fileStr = formula.eResource().getURI().toPlatformString(true) == null ? formula.eResource().getURI().toFileString() : formula.eResource().getURI().toPlatformString(true);
+		IProject project = FileUtil.getProjectFromFileInProject(URI.createURI(fileStr));
+		var predicateFile = FileUtil.getFilesFromProject(project, ".def").get(0);
+		var predicateFileConverted = predicateFile.getLocation().toFile();
+		List<Predicate> readPredicates = fileHandler.readPredicates(predicateFileConverted);
 		for (Predicate p : readPredicates) {
 			Predicate currentP = new Predicate(p.getSignature(true));
 			for (int i = 0; i < p.definitions.size(); i++) {

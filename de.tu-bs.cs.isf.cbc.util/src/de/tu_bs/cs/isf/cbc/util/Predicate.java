@@ -95,10 +95,10 @@ public class Predicate {
 					}
 				}
 			}
-			if (freeIn.endsWith(", "))
-				freeIn = freeIn.substring(0, freeIn.length() - 2);
-			freeIn += ")\n";
 		}
+		if (freeIn.endsWith(", "))
+			freeIn = freeIn.substring(0, freeIn.length() - 2);
+		freeIn += ")\n";
 		output += freeIn.contains("notFreeIn") ? freeIn : "";
 		String replaceString = "";
 		for (PredicateDefinition def : definitions) {

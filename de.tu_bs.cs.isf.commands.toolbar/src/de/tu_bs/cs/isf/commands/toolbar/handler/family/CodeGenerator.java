@@ -81,13 +81,14 @@ public class CodeGenerator {
 	}
 
 	private String generateMethodStub(String code) {
-		String jmlContract = generateJmlContract();
-		code += jmlContract + "\n";
+		/*String jmlContract = generateJmlContract();
+		code += jmlContract + "\n";*/
 		code += formula.getMethodObj().getSignature() + " {}\n\n";
 		return code;
 	}
 
 	private String generateJmlContract() {
+		ConstructCodeBlock.readPredicates(new FileUtil(formula.eResource().getURI().toPlatformString(true)), null, formula);
 		String preCondition = ConstructCodeBlock.createConditionJMLString(
 				formula.getStatement().getPreCondition().getName(), null, Parser.KEYWORD_JML_PRE);
 		String postCondition = ConstructCodeBlock.createConditionJMLString(

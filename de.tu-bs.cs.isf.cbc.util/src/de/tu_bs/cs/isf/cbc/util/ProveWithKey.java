@@ -82,6 +82,7 @@ public class ProveWithKey {
 	private static String predicatesForKeY = "";
 	private static int configNum;
 	private static boolean noResolve = false;
+	private boolean isMetaProof = false;
 
 	public ProveWithKey(AbstractStatement statement, Diagram diagram, IProgressMonitor monitor, IFileUtil fileHandler,
 			String[] config, int configNum, String proofType) {
@@ -121,6 +122,7 @@ public class ProveWithKey {
 			String className = uri.substring(0, uri.lastIndexOf("/"));
 			className = className.substring(className.lastIndexOf("/") + 1, className.length());
 			this.sourceFolder = MetaNames.FOLDER_NAME; /* + "/" + className; */
+			this.isMetaProof = true;
 		} else {
 			this.sourceFolder = srcFolder;
 		}
@@ -1000,8 +1002,8 @@ public class ProveWithKey {
 		if (nonSplProject != -1) {
 			return filePath.substring(0, filePath.indexOf("src") - 1);
 		} else {
-			String[] splitUri = formula.eResource().getURI().toString().split("/features/");
-			projectName = splitUri[0].split("/")[splitUri[0].split("/").length - 1];
+			String platformResource = formula.eResource().getURI().toString();
+			projectName = platformResource.split("/")[2]; // platform:/resource/[project]
 			return projectName;
 		}
 	}
@@ -1011,6 +1013,10 @@ public class ProveWithKey {
 		if (config == null)
 			config = new ArrayList<String>();
 		String projectName = getProjectName(formula, filePath);
+		if (filePath.indexOf(projectName) == -1) {
+			Console.printWarn("Couldn't get the project name for formula '" + formula.getName() + "'.");
+			return;
+		}
 		filePath = filePath.substring(0, filePath.indexOf(projectName)) + projectName + "/predicates.def";
 		List<Predicate> readPredicates = fileHandler.readPredicates(filePath);
 		for (Predicate p : readPredicates) {
