@@ -5,8 +5,7 @@ Bundle-SymbolicName: de.tu_bs.cs.isf.cbc.parser;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: de.tu_bs.cs.isf.cbc.parser.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- javax.inject
+ org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: de.tu_bs.cs.isf.cbc.parser
 Bundle-ActivationPolicy: lazy
@@ -16,7 +15,8 @@ Import-Package: de.tu_bs.cs.isf.cbc.cbcmodel,
  de.tu_bs.cs.isf.lattice,
  de.tu_bs.cs.isf.lattice.builder,
  de.tu_bs.cs.isf.lattice.calculation,
- org.eclipse.core.resources
+ org.eclipse.core.resources,
+ org.key_project.util.lookup
 Bundle-ClassPath: lib/java-symbol-solver-core-0.6.3.jar,
  lib/javaparser-core-3.15.11.jar,
  .
