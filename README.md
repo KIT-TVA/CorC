@@ -82,6 +82,15 @@ The IntegerList implements a list of integers with add and sort operations.
 - **IntegerListOO** Object-oriented implementation with class structure and CbC-Classes. Non-SPL implementation.
 
 # Common Issues
+**Problem:** Multiple errors resulting from forbidden references or undefined types.
+
+**Solution:** In Eclipse Modelling Tools: 
+1.	Preferences -> Java -> Compiler -> Errors/Warnings -> Deprecated and restricted API: Set Forbidden References to ‘Warning’.
+2.	Preferences -> Java -> Installed JREs: Select the correct JDK21 folder on your system and set the checkmark.
+3.	Preferences -> Java -> Installed JREs -> Execution Environment: Select JavaSE-21 and check the ‚jre [perfect match]‘ box.
+4.	Clean and rebuild all projects via `Project -> Clean...`.
+
+---
 
 **Problem:** EMT gets stuck while trying to generate a model.
 
