@@ -27,7 +27,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
-import api.GPTAccess;
+import api.GrokAccess;
 import de.tu_bs.cs.isf.cbc.cbcmodel.AbstractStatement;
 import de.tu_bs.cs.isf.cbc.cbcmodel.Condition;
 import de.tu_bs.cs.isf.cbc.tool.diagram.CbCDiagramTypeProvider;
@@ -116,7 +116,7 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 	    aiTextGridData.horizontalSpan = 2;
 	    aiTextGridData.widthHint = 500;
 	    aiTextGridData.heightHint = 80;
-	    aiText.setText("GPT's response.");
+	    aiText.setText("Grok's response.");
 	    aiText.setLayoutData(aiTextGridData);
 	    aiText.setBackground(white);
 
@@ -173,11 +173,11 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 	    questionResponseText.setBackground(white);
 
 	    // === Button Listeners ===
-	    generateButton.addListener(SWT.Selection, event -> sendGPTRequest(codeText.getText(), aiText, false, false));
+	    generateButton.addListener(SWT.Selection, event -> sendGrokRequest(codeText.getText(), aiText, false, false));
 
 	    rightAnswerButton.addListener(SWT.Selection, event -> {
 	        boolean includeSpecification = specificationCheckbox.getSelection();
-	        sendGPTRequest(questionText.getText(), questionResponseText, includeSpecification, true);
+	        sendGrokRequest(questionText.getText(), questionResponseText, includeSpecification, true);
 	    });
 	}
 
@@ -190,7 +190,7 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 	 * @param includeSpec      Whether to include the previous AI response (for follow-ups).
 	 * @param isFollowUp       If the request is a follow-up or a new question.
 	 */
-	private void sendGPTRequest(String inputText, StyledText outputField, boolean includeSpec, boolean isFollowUp) {
+	private void sendGrokRequest(String inputText, StyledText outputField, boolean includeSpec, boolean isFollowUp) {
 	    String prompt;
 
 	    if (isFollowUp && includeSpec) {
@@ -207,7 +207,7 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 	        prompt = "In one sentence explain the following formal specification: " + inputText;
 	    }
 
-	    GPTAccess gptAccess = new GPTAccess();
+	    GrokAccess grokAccess = new GrokAccess();
 	    TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(bo);
 
 	    domain.getCommandStack().execute(new RecordingCommand(domain) {
@@ -226,7 +226,7 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 	                        .replace("∀", "\\forall") // Preserve universal quantifier
 	                        .replace("∃", "\\exists"); // Preserve existential quantifier
 
-	                String response = gptAccess.getResponse(safePrompt);
+	                String response = grokAccess.getResponse(safePrompt);
 
 	                // Extract AI response
 	                Pattern pattern = Pattern.compile("\"content\":\\s*\"(.*?)\"");
@@ -237,7 +237,7 @@ public class AIAssistantSection extends GFPropertySection implements ITabbedProp
 	                }
 	            } catch (Exception ex) {
 	                ex.printStackTrace();
-	                outputField.setText("Error communicating with GPT.");
+	                outputField.setText("Error communicating with Grok.");
 	            }
 	        }
 	    });
