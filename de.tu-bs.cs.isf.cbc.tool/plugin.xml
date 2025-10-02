@@ -162,7 +162,7 @@
         <propertySection
               afterSection="Testing"
               class="de.tu_bs.cs.isf.cbc.tool.propertiesview.AIAssistantSection"
-              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilter"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterCodeReader"
               id="AIAssistant"
               tab="AIAssistant">
         </propertySection>
