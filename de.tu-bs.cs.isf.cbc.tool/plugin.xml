@@ -89,9 +89,14 @@
           label="Variables">
     </propertyTab>
     <propertyTab
-         category="Graphiti"
-         id="AIAssistant"
-         label="AIAssistant">
+          category="Graphiti"
+          id="cbc.tab.grok"
+          label="Specification Generation">
+    </propertyTab>
+    <propertyTab
+          category="Graphiti"
+          id="cbc.tab.gpt"
+          label="Specification Explanation">
     </propertyTab>
    </propertyTabs>
 </extension>
@@ -160,11 +165,16 @@
               tab="Variables">
         </propertySection>
         <propertySection
-              afterSection="Testing"
-              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.AIAssistantSection"
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.GrokAssistantSection"
               filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterCodeReader"
-              id="AIAssistant"
-              tab="AIAssistant">
+              id="cbc.section.grok.assistant"
+              tab="cbc.tab.grok">
+        </propertySection>
+        <propertySection
+              class="de.tu_bs.cs.isf.cbc.tool.propertiesview.GPTAssistantSection"
+              filter="de.tu_bs.cs.isf.cbc.tool.propertiesview.PictogramFilterCodeReader"
+              id="cbc.section.gpt.assistant"
+              tab="cbc.tab.gpt">
         </propertySection>
     </propertySections>
 </extension>

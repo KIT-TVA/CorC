@@ -38,7 +38,7 @@ import de.tu_bs.cs.isf.cbc.util.UpdateConditionsOfChildren;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 
-public class AIAssistantSection extends GFPropertySection implements ITabbedPropertyConstants{
+public class GPTAssistantSection extends GFPropertySection implements ITabbedPropertyConstants{
 	final List<Button> buttons = new ArrayList<Button>();
 	// Defining the logical properties
 	private Composite parent;

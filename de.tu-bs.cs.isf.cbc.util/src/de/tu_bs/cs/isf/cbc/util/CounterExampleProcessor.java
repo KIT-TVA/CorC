@@ -6,18 +6,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import api.GPTAccess;
+import api.GrokAccess;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariable;
 import de.tu_bs.cs.isf.cbc.cbcmodel.JavaVariables;
 import de.tu_bs.cs.isf.cbc.exceptions.SettingsException;
 
 public class CounterExampleProcessor {
 
-    private final GPTAccess gptAccess;
+    private final GrokAccess gptAccess;
 
     // Constructor to initialize GPTAccess
     public CounterExampleProcessor() {
-        this.gptAccess = new GPTAccess();
+        this.gptAccess = new GrokAccess();
     }
 
     /**
